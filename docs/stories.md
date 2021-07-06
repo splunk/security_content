@@ -12,7 +12,7 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Email, Network_Resolution, Web
+- **Datamodel**: Email, Web
 - **ATT&CK**: 
 - **Last Updated**: 2017-12-19
 
@@ -20,8 +20,6 @@ Detect and investigate activity that may indicate that an adversary is using fau
   <summary>details</summary>
 
 #### Detection Profile
-
-* [Monitor DNS For Brand Abuse](detections.md#monitor-dns-for-brand-abuse)
 
 * [Monitor Email For Brand Abuse](detections.md#monitor-email-for-brand-abuse)
 
@@ -34,8 +32,6 @@ Detect and investigate activity that may indicate that an adversary is using fau
 | ----------- | ----------- |--------------|
 
 #### Kill Chain Phase
-
-* Actions on Objectives
 
 * Delivery
 
@@ -97,8 +93,8 @@ _version_: 1
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Change_Analysis, Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1189](https://attack.mitre.org/techniques/T1189/)
+- **Datamodel**: Network_Resolution
+- **ATT&CK**: [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2017-09-14
 
 <details>
@@ -106,11 +102,7 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 
 #### Detection Profile
 
-* [Detect USB device insertion](detections.md#detect-usb-device-insertion)
-
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
-
-* [Detection of DNS Tunnels](detections.md#detection-of-dns-tunnels)
 
 
 #### ATT&CK
@@ -118,15 +110,12 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1189 | Drive-by Compromise | Initial Access |
-| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 #### Kill Chain Phase
 
 * Actions on Objectives
 
 * Command and Control
-
-* Installation
 
 
 #### Reference
@@ -136,52 +125,6 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 * https://www.sans.org/reading-room/whitepapers/dns/splunk-detect-dns-tunneling-37022
 
 * https://umbrella.cisco.com/blog/2013/04/15/on-the-trail-of-malicious-dynamic-dns-domains/
-
-
-_version_: 1
-</details>
-
----
-
-### Host Redirection
-Detect evidence of tactics used to redirect traffic from a host to a destination other than the one intended--potentially one that is part of an adversary's attack infrastructure. An example is redirecting communications regarding patches and updates or misleading users into visiting a malicious website.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
-- **Last Updated**: 2017-09-14
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Clients Connecting to Multiple DNS Servers](detections.md#clients-connecting-to-multiple-dns-servers)
-
-* [DNS Query Requests Resolved by Unauthorized DNS Servers](detections.md#dns-query-requests-resolved-by-unauthorized-dns-servers)
-
-* [Windows hosts file modification](detections.md#windows-hosts-file-modification)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1071.004 | DNS | Command and Control |
-| T1095 | Non-Application Layer Protocol | Command and Control |
-| T1189 | Drive-by Compromise | Initial Access |
-| T1071.001 | Web Protocols | Command and Control |
-
-#### Kill Chain Phase
-
-* Command and Control
-
-
-#### Reference
-
-* https://blog.malwarebytes.com/cybercrime/2016/09/hosts-file-hijacks/
 
 
 _version_: 1
@@ -201,8 +144,6 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
   <summary>details</summary>
 
 #### Detection Profile
-
-* [Processes created by netsh](detections.md#processes-created-by-netsh)
 
 * [Processes launching netsh](detections.md#processes-launching-netsh)
 
@@ -225,50 +166,6 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
 * https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html
 
 * http://blog.jpcert.or.jp/2016/01/windows-commands-abused-by-attackers.html
-
-
-_version_: 1
-</details>
-
----
-
-### Web Fraud Detection
-Monitor your environment for activity consistent with common attack techniques bad actors use when attempting to compromise web servers or other web-related assets.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1078](https://attack.mitre.org/techniques/T1078/), [T1136](https://attack.mitre.org/techniques/T1136/)
-- **Last Updated**: 2018-10-08
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Web Fraud - Account Harvesting](detections.md#web-fraud---account-harvesting)
-
-* [Web Fraud - Anomalous User Clickspeed](detections.md#web-fraud---anomalous-user-clickspeed)
-
-* [Web Fraud - Password Sharing Across Accounts](detections.md#web-fraud---password-sharing-across-accounts)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1136 | Create Account | Persistence |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Reference
-
-* https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
-
-* https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
 
 
 _version_: 1
@@ -362,7 +259,7 @@ Adversaries may abuse BITS jobs to persistently execute or clean up after malici
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 
 #### Kill Chain Phase
 
@@ -478,20 +375,20 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | T1059.003 | Windows Command Shell | Execution |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
-| T1071.002 | File Transfer Protocols | Command and Control |
+| T1071.002 | File Transfer Protocols | Command And Control |
 | T1218.010 | Regsvr32 | Defense Evasion |
 | T1218.005 | Mshta | Defense Evasion |
 | T1569.002 | Service Execution | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
 | T1218.011 | Rundll32 | Defense Evasion |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1203 | Exploitation for Client Execution | Execution |
 | T1505.003 | Web Shell | Persistence |
 | T1127.001 | MSBuild | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 | T1018 | Remote System Discovery | Discovery |
 
 #### Kill Chain Phase
@@ -550,8 +447,6 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 
 * [Hosts receiving high volume of network traffic from email server](detections.md#hosts-receiving-high-volume-of-network-traffic-from-email-server)
 
-* [Suspicious writes to System Volume Information](detections.md#suspicious-writes-to-system-volume-information)
-
 * [Suspicious writes to windows Recycle Bin](detections.md#suspicious-writes-to-windows-recycle-bin)
 
 
@@ -598,25 +493,17 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 
 #### Detection Profile
 
-* [Clients Connecting to Multiple DNS Servers](detections.md#clients-connecting-to-multiple-dns-servers)
-
 * [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
 
 * [DNS Query Length Outliers - MLTK](detections.md#dns-query-length-outliers---mltk)
 
 * [DNS Query Length With High Standard Deviation](detections.md#dns-query-length-with-high-standard-deviation)
 
-* [DNS Query Requests Resolved by Unauthorized DNS Servers](detections.md#dns-query-requests-resolved-by-unauthorized-dns-servers)
-
 * [Detect Large Outbound ICMP Packets](detections.md#detect-large-outbound-icmp-packets)
-
-* [Detect Long DNS TXT Record Response](detections.md#detect-long-dns-txt-record-response)
 
 * [Detect Spike in blocked Outbound Traffic from your AWS](detections.md#detect-spike-in-blocked-outbound-traffic-from-your-aws)
 
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
-
-* [Detection of DNS Tunnels](detections.md#detection-of-dns-tunnels)
 
 * [Excessive DNS Failures](detections.md#excessive-dns-failures)
 
@@ -637,12 +524,16 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1071.004 | DNS | Command and Control |
-| T1095 | Non-Application Layer Protocol | Command and Control |
+| T1071.004 | DNS | Command And Control |
+| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| T1095 | Non-Application Layer Protocol | Command And Control |
+| T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
-| T1071.001 | Web Protocols | Command and Control |
+| T1114.001 | Local Email Collection | Collection |
+| T1114 | Email Collection | Collection |
+| T1114.003 | Email Forwarding Rule | Collection |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -662,49 +553,6 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 * https://attack.mitre.org/wiki/Command_and_Control
 
 * https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
-
-
-_version_: 1
-</details>
-
----
-
-### Common Phishing Frameworks
-Detect DNS and web requests to fake websites generated by the EvilGinx2 toolkit. These websites are designed to fool unwitting users who have clicked on a malicious link in a phishing email. 
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1566.003](https://attack.mitre.org/techniques/T1566.003/)
-- **Last Updated**: 2019-04-29
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Detect DNS requests to Phishing Sites leveraging EvilGinx2](detections.md#detect-dns-requests-to-phishing-sites-leveraging-evilginx2)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1566.003 | Spearphishing via Service | Initial Access |
-
-#### Kill Chain Phase
-
-* Command and Control
-
-* Delivery
-
-
-#### Reference
-
-* https://github.com/kgretzky/evilginx2
-
-* https://attack.mitre.org/techniques/T1192/
-
-* https://breakdev.org/evilginx-advanced-phishing-with-two-factor-authentication-bypass/
 
 
 _version_: 1
@@ -789,8 +637,6 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#set-default-powershell-execution-policy-to-unrestricted-or-bypass)
 
-* [Unsigned Image Loaded by LSASS](detections.md#unsigned-image-loaded-by-lsass)
-
 
 #### ATT&CK
 
@@ -799,12 +645,12 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | T1003.001 | LSASS Memory | Credential Access |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1554 | Compromise Client Software Binary | Persistence |
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 | T1558 | Steal or Forge Kerberos Tickets | Credential Access |
@@ -844,19 +690,13 @@ Secure your environment against DNS hijacks with searches that help you detect a
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
-- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/), [T1189](https://attack.mitre.org/techniques/T1189/)
+- **ATT&CK**: [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
-
-* [Clients Connecting to Multiple DNS Servers](detections.md#clients-connecting-to-multiple-dns-servers)
-
-* [DNS Query Requests Resolved by Unauthorized DNS Servers](detections.md#dns-query-requests-resolved-by-unauthorized-dns-servers)
-
-* [DNS record changed](detections.md#dns-record-changed)
 
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
 
@@ -865,12 +705,7 @@ Secure your environment against DNS hijacks with searches that help you detect a
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1071.004 | DNS | Command and Control |
-| T1095 | Non-Application Layer Protocol | Command and Control |
 | T1189 | Drive-by Compromise | Initial Access |
-| T1071.001 | Web Protocols | Command and Control |
 
 #### Kill Chain Phase
 
@@ -899,8 +734,8 @@ _version_: 1
 The stealing of data by an adversary.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
-- **ATT&CK**: [T1041](https://attack.mitre.org/techniques/T1041/), [T1114](https://attack.mitre.org/techniques/T1114/), [T1114.001](https://attack.mitre.org/techniques/T1114.001/), [T1114.003](https://attack.mitre.org/techniques/T1114.003/)
+- **Datamodel**: Endpoint, Network_Traffic
+- **ATT&CK**: [T1041](https://attack.mitre.org/techniques/T1041/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1114](https://attack.mitre.org/techniques/T1114/), [T1114.001](https://attack.mitre.org/techniques/T1114.001/), [T1114.003](https://attack.mitre.org/techniques/T1114.003/)
 - **Last Updated**: 2020-10-21
 
 <details>
@@ -908,9 +743,15 @@ The stealing of data by an adversary.
 
 #### Detection Profile
 
+* [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
+
 * [Detect SNICat SNI Exfiltration](detections.md#detect-snicat-sni-exfiltration)
 
+* [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
+
 * [Mailsniper Invoke functions](detections.md#mailsniper-invoke-functions)
+
+* [Multiple Archive Files Http Post Traffic](detections.md#multiple-archive-files-http-post-traffic)
 
 * [O365 PST export alert](detections.md#o365-pst-export-alert)
 
@@ -918,21 +759,31 @@ The stealing of data by an adversary.
 
 * [O365 Suspicious User Email Forwarding](detections.md#o365-suspicious-user-email-forwarding)
 
+* [Plain HTTP POST Exfiltrated Data](detections.md#plain-http-post-exfiltrated-data)
+
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+| T1071.004 | DNS | Command And Control |
+| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
+| T1189 | Drive-by Compromise | Initial Access |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
 * Actions on Objective
 
 * Actions on Objectives
+
+* Exfiltration
 
 * Exploitation
 
@@ -1300,7 +1151,7 @@ Adversaries may transfer tools or other files from an external system into a com
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1003 | OS Credential Dumping | Credential Access |
 | T1021 | Remote Services | Lateral Movement |
 | T1113 | Screen Capture | Collection |
@@ -1308,11 +1159,15 @@ Adversaries may transfer tools or other files from an external system into a com
 | T1563 | Remote Service Session Hijacking | Lateral Movement |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
+| T1027.005 | Indicator Removal from Tools | Defense Evasion |
+| T1140 | Deobfuscate/Decode Files or Information | Defense Evasion |
+| T1592 | Gather Victim Host Information | Reconnaissance |
+| T1562 | Impair Defenses | Defense Evasion |
 
 #### Kill Chain Phase
 
@@ -1398,7 +1253,7 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1021](https://attack.mitre.org/techniques/T1021/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1113](https://attack.mitre.org/techniques/T1113/), [T1123](https://attack.mitre.org/techniques/T1123/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1563](https://attack.mitre.org/techniques/T1563/), [T1569](https://attack.mitre.org/techniques/T1569/)
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1021](https://attack.mitre.org/techniques/T1021/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1027.005](https://attack.mitre.org/techniques/T1027.005/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1113](https://attack.mitre.org/techniques/T1113/), [T1123](https://attack.mitre.org/techniques/T1123/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1140](https://attack.mitre.org/techniques/T1140/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1562](https://attack.mitre.org/techniques/T1562/), [T1563](https://attack.mitre.org/techniques/T1563/), [T1569](https://attack.mitre.org/techniques/T1569/), [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2017-08-23
 
 <details>
@@ -1418,6 +1273,10 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * [Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals](detections.md#credential-extraction-via-get-addbaccount-module-present-in-powersploit-and-dsinternals)
 
+* [Detect Empire with PowerShell Script Block Logging](detections.md#detect-empire-with-powershell-script-block-logging)
+
+* [Detect Mimikatz With PowerShell Script Block Logging](detections.md#detect-mimikatz-with-powershell-script-block-logging)
+
 * [Illegal Access To User Content via PowerSploit modules](detections.md#illegal-access-to-user-content-via-powersploit-modules)
 
 * [Illegal Privilege Elevation and Persistence via PowerSploit modules](detections.md#illegal-privilege-elevation-and-persistence-via-powersploit-modules)
@@ -1428,11 +1287,31 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * [Malicious PowerShell Process - Encoded Command](detections.md#malicious-powershell-process---encoded-command)
 
-* [Malicious PowerShell Process - Multiple Suspicious Command-Line Arguments](detections.md#malicious-powershell-process---multiple-suspicious-command-line-arguments)
-
 * [Malicious PowerShell Process With Obfuscation Techniques](detections.md#malicious-powershell-process-with-obfuscation-techniques)
 
+* [PowerShell Domain Enumeration](detections.md#powershell-domain-enumeration)
+
+* [PowerShell Loading DotNET into Memory via System Reflection Assembly](detections.md#powershell-loading-dotnet-into-memory-via-system-reflection-assembly)
+
+* [Powershell Creating Thread Mutex](detections.md#powershell-creating-thread-mutex)
+
+* [Powershell Fileless Process Injection via GetProcAddress](detections.md#powershell-fileless-process-injection-via-getprocaddress)
+
+* [Powershell Fileless Script Contains Base64 Encoded Content](detections.md#powershell-fileless-script-contains-base64-encoded-content)
+
+* [Powershell Processing Stream Of Data](detections.md#powershell-processing-stream-of-data)
+
+* [Powershell Using memory As Backing Store](detections.md#powershell-using-memory-as-backing-store)
+
+* [Recon AVProduct Through Pwh or WMI](detections.md#recon-avproduct-through-pwh-or-wmi)
+
+* [Recon Using WMI Class](detections.md#recon-using-wmi-class)
+
 * [Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#set-default-powershell-execution-policy-to-unrestricted-or-bypass)
+
+* [Unloading AMSI via Reflection](detections.md#unloading-amsi-via-reflection)
+
+* [WMI Recon Running Process Or Services](detections.md#wmi-recon-running-process-or-services)
 
 
 #### ATT&CK
@@ -1441,7 +1320,7 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1003 | OS Credential Dumping | Credential Access |
 | T1021 | Remote Services | Lateral Movement |
 | T1113 | Screen Capture | Collection |
@@ -1449,11 +1328,15 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 | T1563 | Remote Service Session Hijacking | Lateral Movement |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
+| T1027.005 | Indicator Removal from Tools | Defense Evasion |
+| T1140 | Deobfuscate/Decode Files or Information | Defense Evasion |
+| T1592 | Gather Victim Host Information | Reconnaissance |
+| T1562 | Impair Defenses | Defense Evasion |
 
 #### Kill Chain Phase
 
@@ -1465,6 +1348,10 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * Installation
 
+* Privilege Escalation
+
+* Reconnaissance
+
 
 #### Reference
 
@@ -1473,7 +1360,7 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 * https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 
 
-_version_: 4
+_version_: 5
 </details>
 
 ---
@@ -1490,8 +1377,6 @@ Adversaries may rename legitimate system utilities to try to evade security mech
   <summary>details</summary>
 
 #### Detection Profile
-
-* [Execution of File With Spaces Before Extension](detections.md#execution-of-file-with-spaces-before-extension)
 
 * [Execution of File with Multiple Extensions](detections.md#execution-of-file-with-multiple-extensions)
 
@@ -1513,7 +1398,6 @@ Adversaries may rename legitimate system utilities to try to evade security mech
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1036.003 | Rename System Utilities | Defense Evasion |
-| T1546.001 | Change Default File Association | Persistence, Privilege Escalation |
 | T1127.001 | MSBuild | Defense Evasion |
 | T1218.011 | Rundll32 | Defense Evasion |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
@@ -1625,20 +1509,20 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 | T1059.003 | Windows Command Shell | Execution |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
-| T1071.002 | File Transfer Protocols | Command and Control |
+| T1071.002 | File Transfer Protocols | Command And Control |
 | T1218.010 | Regsvr32 | Defense Evasion |
 | T1218.005 | Mshta | Defense Evasion |
 | T1569.002 | Service Execution | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
 | T1218.011 | Rundll32 | Defense Evasion |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1203 | Exploitation for Client Execution | Execution |
 | T1505.003 | Web Shell | Persistence |
 | T1127.001 | MSBuild | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 | T1018 | Remote System Discovery | Discovery |
 
 #### Kill Chain Phase
@@ -1675,15 +1559,13 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/)
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/)
 - **Last Updated**: 2020-01-22
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
-
-* [First time seen command line argument](detections.md#first-time-seen-command-line-argument)
 
 * [Malicious PowerShell Process - Connect To Internet With Hidden Window](detections.md#malicious-powershell-process---connect-to-internet-with-hidden-window)
 
@@ -1699,7 +1581,6 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1059.001 | PowerShell | Execution |
-| T1059.003 | Windows Command Shell | Execution |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
@@ -1786,7 +1667,7 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1543.001 | Launch Agent | Persistence, Privilege Escalation |
 | T1074 | Data Staged | Collection |
 
@@ -1883,7 +1764,7 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/)
 - **Last Updated**: 2020-02-03
 
 <details>
@@ -1894,8 +1775,6 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 * [Detect Prohibited Applications Spawning cmd exe](detections.md#detect-prohibited-applications-spawning-cmd-exe)
 
 * [Detect Use of cmd exe to Launch Script Interpreters](detections.md#detect-use-of-cmd-exe-to-launch-script-interpreters)
-
-* [First time seen command line argument](detections.md#first-time-seen-command-line-argument)
 
 * [System Processes Run From Unexpected Locations](detections.md#system-processes-run-from-unexpected-locations)
 
@@ -1911,14 +1790,11 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 | T1059.003 | Windows Command Shell | Execution |
 | T1059 | Command and Scripting Interpreter | Execution |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1059.001 | PowerShell | Execution |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 
 #### Kill Chain Phase
 
 * Actions on Objectives
-
-* Command and Control
 
 * Exploitation
 
@@ -1997,21 +1873,13 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 
 #### Detection Profile
 
-* [Clients Connecting to Multiple DNS Servers](detections.md#clients-connecting-to-multiple-dns-servers)
-
 * [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
 
 * [DNS Query Length Outliers - MLTK](detections.md#dns-query-length-outliers---mltk)
 
 * [DNS Query Length With High Standard Deviation](detections.md#dns-query-length-with-high-standard-deviation)
 
-* [DNS Query Requests Resolved by Unauthorized DNS Servers](detections.md#dns-query-requests-resolved-by-unauthorized-dns-servers)
-
-* [Detect Long DNS TXT Record Response](detections.md#detect-long-dns-txt-record-response)
-
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
-
-* [Detection of DNS Tunnels](detections.md#detection-of-dns-tunnels)
 
 * [Excessive DNS Failures](detections.md#excessive-dns-failures)
 
@@ -2022,12 +1890,16 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1071.004 | DNS | Command and Control |
-| T1095 | Non-Application Layer Protocol | Command and Control |
+| T1071.004 | DNS | Command And Control |
+| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| T1095 | Non-Application Layer Protocol | Command And Control |
+| T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
-| T1071.001 | Web Protocols | Command and Control |
+| T1114.001 | Local Email Collection | Collection |
+| T1114 | Email Collection | Collection |
+| T1114.003 | Email Forwarding Rule | Collection |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -2056,8 +1928,8 @@ _version_: 1
 Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Email, UEBA
-- **ATT&CK**: [T1566](https://attack.mitre.org/techniques/T1566/), [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **Datamodel**: Email
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
 - **Last Updated**: 2020-01-27
 
 <details>
@@ -2069,8 +1941,6 @@ Email remains one of the primary means for attackers to gain an initial foothold
 
 * [Monitor Email For Brand Abuse](detections.md#monitor-email-for-brand-abuse)
 
-* [Suspicious Email - UBA Anomaly](detections.md#suspicious-email---uba-anomaly)
-
 * [Suspicious Email Attachment Extensions](detections.md#suspicious-email-attachment-extensions)
 
 
@@ -2078,7 +1948,6 @@ Email remains one of the primary means for attackers to gain an initial foothold
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1566 | Phishing | Initial Access |
 | T1566.001 | Spearphishing Attachment | Initial Access |
 
 #### Kill Chain Phase
@@ -2184,7 +2053,7 @@ Monitor your Okta environment for suspicious activities. Due to the Covid outbre
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.001 | Default Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.001 | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -2371,6 +2240,8 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 
 #### Detection Profile
 
+* [Detect WMI Event Subscription Persistence](detections.md#detect-wmi-event-subscription-persistence)
+
 * [Process Execution via WMI](detections.md#process-execution-via-wmi)
 
 * [Remote Process Instantiation via WMI](detections.md#remote-process-instantiation-via-wmi)
@@ -2390,12 +2261,14 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1546.003 | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
 | T1047 | Windows Management Instrumentation | Execution |
-| T1546.003 | Windows Management Instrumentation Event Subscription | Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
 
 * Actions on Objectives
+
+* Exploitation
 
 
 #### Reference
@@ -2415,7 +2288,7 @@ Monitor and detect registry changes initiated from remote locations, which can b
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1546.001](https://attack.mitre.org/techniques/T1546.001/), [T1546.011](https://attack.mitre.org/techniques/T1546.011/), [T1546.012](https://attack.mitre.org/techniques/T1546.012/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1547.010](https://attack.mitre.org/techniques/T1547.010/), [T1548.002](https://attack.mitre.org/techniques/T1548.002/), [T1564.001](https://attack.mitre.org/techniques/T1564.001/)
+- **ATT&CK**: [T1546.011](https://attack.mitre.org/techniques/T1546.011/), [T1546.012](https://attack.mitre.org/techniques/T1546.012/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1547.010](https://attack.mitre.org/techniques/T1547.010/), [T1548.002](https://attack.mitre.org/techniques/T1548.002/)
 - **Last Updated**: 2018-05-31
 
 <details>
@@ -2427,30 +2300,22 @@ Monitor and detect registry changes initiated from remote locations, which can b
 
 * [Monitor Registry Keys for Print Monitors](detections.md#monitor-registry-keys-for-print-monitors)
 
-* [Reg exe used to hide files directories via registry keys](detections.md#reg-exe-used-to-hide-files-directories-via-registry-keys)
-
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
 * [Registry Keys Used For Privilege Escalation](detections.md#registry-keys-used-for-privilege-escalation)
 
 * [Registry Keys for Creating SHIM Databases](detections.md#registry-keys-for-creating-shim-databases)
 
-* [Remote Registry Key modifications](detections.md#remote-registry-key-modifications)
-
-* [Suspicious Changes to File Associations](detections.md#suspicious-changes-to-file-associations)
-
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 | T1547.010 | Port Monitors | Persistence, Privilege Escalation |
-| T1564.001 | Hidden Files and Directories | Defense Evasion |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
-| T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
-| T1546.011 | Application Shimming | Persistence, Privilege Escalation |
-| T1546.001 | Change Default File Association | Persistence, Privilege Escalation |
+| T1546.012 | Image File Execution Options Injection | Privilege Escalation, Persistence |
+| T1546.011 | Application Shimming | Privilege Escalation, Persistence |
 
 #### Kill Chain Phase
 
@@ -2494,7 +2359,6 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 | T1059.003 | Windows Command Shell | Execution |
 | T1059 | Command and Scripting Interpreter | Execution |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
-| T1059.001 | PowerShell | Execution |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 
 #### Kill Chain Phase
@@ -2692,13 +2556,11 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 
 * [Eventvwr UAC Bypass](detections.md#eventvwr-uac-bypass)
 
+* [Excessive number of service control start as disabled](detections.md#excessive-number-of-service-control-start-as-disabled)
+
 * [FodHelper UAC Bypass](detections.md#fodhelper-uac-bypass)
 
 * [Hiding Files And Directories With Attrib exe](detections.md#hiding-files-and-directories-with-attrib-exe)
-
-* [Reg exe used to hide files directories via registry keys](detections.md#reg-exe-used-to-hide-files-directories-via-registry-keys)
-
-* [Remote Registry Key modifications](detections.md#remote-registry-key-modifications)
 
 * [SLUI RunAs Elevated](detections.md#slui-runas-elevated)
 
@@ -2717,7 +2579,7 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 | ----------- | ----------- |--------------|
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
 | T1564.001 | Hidden Files and Directories | Defense Evasion |
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 | T1112 | Modify Registry | Defense Evasion |
 | T1222.001 | Windows File and Directory Permissions Modification | Defense Evasion |
 | T1036 | Masquerading | Defense Evasion |
@@ -2791,7 +2653,7 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1087 | Account Discovery | Discovery |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
 | T1199 | Trusted Relationship | Initial Access |
@@ -2815,7 +2677,7 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1547 | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-| T1574 | Hijack Execution Flow | Defense Evasion, Persistence, Privilege Escalation |
+| T1574 | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
 | T1589.001 | Credentials | Reconnaissance |
 | T1590.001 | Domain Properties | Reconnaissance |
 | T1590.003 | Network Trust Dependencies | Reconnaissance |
@@ -2859,9 +2721,15 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 
 * [Illegal Deletion of Logs via Mimikatz modules](detections.md#illegal-deletion-of-logs-via-mimikatz-modules)
 
+* [Suspicious Event Log Service Behavior](detections.md#suspicious-event-log-service-behavior)
+
 * [Suspicious wevtutil Usage](detections.md#suspicious-wevtutil-usage)
 
 * [USN Journal Deletion](detections.md#usn-journal-deletion)
+
+* [WevtUtil Usage To Clear Logs](detections.md#wevtutil-usage-to-clear-logs)
+
+* [Wevtutil Usage To Disable Logs](detections.md#wevtutil-usage-to-disable-logs)
 
 * [Windows Event Log Cleared](detections.md#windows-event-log-cleared)
 
@@ -2877,6 +2745,8 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 #### Kill Chain Phase
 
 * Actions on Objectives
+
+* Exploitation
 
 
 #### Reference
@@ -2898,7 +2768,7 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1207](https://attack.mitre.org/techniques/T1207/), [T1222.001](https://attack.mitre.org/techniques/T1222.001/), [T1484](https://attack.mitre.org/techniques/T1484/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1546.011](https://attack.mitre.org/techniques/T1546.011/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1547.010](https://attack.mitre.org/techniques/T1547.010/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1564.001](https://attack.mitre.org/techniques/T1564.001/), [T1574.009](https://attack.mitre.org/techniques/T1574.009/), [T1574.011](https://attack.mitre.org/techniques/T1574.011/), [T1585](https://attack.mitre.org/techniques/T1585/)
+- **ATT&CK**: [T1053](https://attack.mitre.org/techniques/T1053/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1207](https://attack.mitre.org/techniques/T1207/), [T1222.001](https://attack.mitre.org/techniques/T1222.001/), [T1484](https://attack.mitre.org/techniques/T1484/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1546.011](https://attack.mitre.org/techniques/T1546.011/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1547.010](https://attack.mitre.org/techniques/T1547.010/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1574.009](https://attack.mitre.org/techniques/T1574.009/), [T1574.011](https://attack.mitre.org/techniques/T1574.011/), [T1585](https://attack.mitre.org/techniques/T1585/)
 - **Last Updated**: 2018-05-31
 
 <details>
@@ -2926,13 +2796,9 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 * [Reg exe Manipulating Windows Services Registry Keys](detections.md#reg-exe-manipulating-windows-services-registry-keys)
 
-* [Reg exe used to hide files directories via registry keys](detections.md#reg-exe-used-to-hide-files-directories-via-registry-keys)
-
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
 * [Registry Keys for Creating SHIM Databases](detections.md#registry-keys-for-creating-shim-databases)
-
-* [Remote Registry Key modifications](detections.md#remote-registry-key-modifications)
 
 * [Sc exe Manipulating Windows Services](detections.md#sc-exe-manipulating-windows-services)
 
@@ -2963,21 +2829,20 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1574.009 | Path Interception by Unquoted Path | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.009 | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion |
 | T1222.001 | Windows File and Directory Permissions Modification | Defense Evasion |
 | T1585 | Establish Accounts | Resource Development |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
 | T1207 | Rogue Domain Controller | Defense Evasion |
 | T1484 | Domain Policy Modification | Defense Evasion, Privilege Escalation |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1547.010 | Port Monitors | Persistence, Privilege Escalation |
-| T1574.011 | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
-| T1564.001 | Hidden Files and Directories | Defense Evasion |
+| T1574.011 | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
-| T1546.011 | Application Shimming | Persistence, Privilege Escalation |
+| T1546.011 | Application Shimming | Privilege Escalation, Persistence |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
@@ -3016,7 +2881,7 @@ Monitor for and investigate activities that may be associated with a Windows pri
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1546.008](https://attack.mitre.org/techniques/T1546.008/), [T1546.012](https://attack.mitre.org/techniques/T1546.012/), [T1548](https://attack.mitre.org/techniques/T1548/)
+- **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1546.008](https://attack.mitre.org/techniques/T1546.008/), [T1546.012](https://attack.mitre.org/techniques/T1546.012/), [T1548](https://attack.mitre.org/techniques/T1548/)
 - **Last Updated**: 2020-02-04
 
 <details>
@@ -3034,8 +2899,6 @@ Monitor for and investigate activities that may be associated with a Windows pri
 
 * [Registry Keys Used For Privilege Escalation](detections.md#registry-keys-used-for-privilege-escalation)
 
-* [Uncommon Processes On Endpoint](detections.md#uncommon-processes-on-endpoint)
-
 
 #### ATT&CK
 
@@ -3043,12 +2906,11 @@ Monitor for and investigate activities that may be associated with a Windows pri
 | ----------- | ----------- |--------------|
 | T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 | T1134 | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-| T1548 | Abuse Elevation Control Mechanism | Defense Evasion, Privilege Escalation |
-| T1546.008 | Accessibility Features | Persistence, Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+| T1546.008 | Accessibility Features | Privilege Escalation, Persistence |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1098 | Account Manipulation | Persistence |
-| T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
-| T1204.002 | Malicious File | Execution |
+| T1546.012 | Image File Execution Options Injection | Privilege Escalation, Persistence |
 
 #### Kill Chain Phase
 
@@ -3106,82 +2968,6 @@ Keep a careful inventory of every asset on your network to make it easier to det
 #### Reference
 
 * https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/
-
-
-_version_: 1
-</details>
-
----
-
-### Monitor Backup Solution
-Address common concerns when monitoring your backup processes. These searches can help you reduce risks from ransomware, device theft, or denial of physical access to a host by backing up data on endpoints.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: 
-- **Last Updated**: 2017-09-12
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Extended Period Without Successful Netbackup Backups](detections.md#extended-period-without-successful-netbackup-backups)
-
-* [Unsuccessful Netbackup backups](detections.md#unsuccessful-netbackup-backups)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-
-#### Kill Chain Phase
-
-
-#### Reference
-
-* https://www.carbonblack.com/2016/03/04/tracking-locky-ransomware-using-carbon-black/
-
-
-_version_: 1
-</details>
-
----
-
-### Monitor for Unauthorized Software
-Identify and investigate prohibited/unauthorized software or processes that may be concealing malicious behavior within your environment. 
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
-- **ATT&CK**: 
-- **Last Updated**: 2017-09-15
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Prohibited Software On Endpoint](detections.md#prohibited-software-on-endpoint)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-* Command and Control
-
-* Installation
-
-
-#### Reference
-
-* https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/
 
 
 _version_: 1
@@ -3260,7 +3046,7 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 | T1021 | Remote Services | Lateral Movement |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -3317,8 +3103,8 @@ Validate the security configuration of network infrastructure and verify that on
 | ----------- | ----------- |--------------|
 | T1200 | Hardware Additions | Initial Access |
 | T1498 | Network Denial of Service | Impact |
-| T1557.002 | ARP Cache Poisoning | Collection, Credential Access |
-| T1557 | Man-in-the-Middle | Collection, Credential Access |
+| T1557.002 | ARP Cache Poisoning | Credential Access, Collection |
+| T1557 | Man-in-the-Middle | Credential Access, Collection |
 | T1542.005 | TFTP Boot | Defense Evasion, Persistence |
 | T1020.001 | Traffic Duplication | Exfiltration |
 
@@ -3417,7 +3203,7 @@ Track when a user assumes an IAM role in another AWS account to obtain cross-acc
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1550 | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
 #### Kill Chain Phase
@@ -3428,54 +3214,6 @@ Track when a user assumes an IAM role in another AWS account to obtain cross-acc
 #### Reference
 
 * https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/
-
-
-_version_: 1
-</details>
-
----
-
-### AWS Cryptomining
-Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or EC2 instances started by previously unseen users are just a few examples of potentially malicious behavior.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1535](https://attack.mitre.org/techniques/T1535/)
-- **Last Updated**: 2018-03-08
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Abnormally High AWS Instances Launched by User](detections.md#abnormally-high-aws-instances-launched-by-user)
-
-* [Abnormally High AWS Instances Launched by User - MLTK](detections.md#abnormally-high-aws-instances-launched-by-user---mltk)
-
-* [EC2 Instance Started In Previously Unseen Region](detections.md#ec2-instance-started-in-previously-unseen-region)
-
-* [EC2 Instance Started With Previously Unseen AMI](detections.md#ec2-instance-started-with-previously-unseen-ami)
-
-* [EC2 Instance Started With Previously Unseen Instance Type](detections.md#ec2-instance-started-with-previously-unseen-instance-type)
-
-* [EC2 Instance Started With Previously Unseen User](detections.md#ec2-instance-started-with-previously-unseen-user)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
-| T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Reference
-
-* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
 
 
 _version_: 1
@@ -3519,7 +3257,7 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1136.003 | Cloud Account | Persistence |
 | T1580 | Cloud Infrastructure Discovery | Discovery |
 | T1110 | Brute Force | Credential Access |
@@ -3563,8 +3301,6 @@ Monitor your AWS network infrastructure for bad configurations and malicious act
 * [AWS Network Access Control List Created with All Open Ports](detections.md#aws-network-access-control-list-created-with-all-open-ports)
 
 * [AWS Network Access Control List Deleted](detections.md#aws-network-access-control-list-deleted)
-
-* [Detect Spike in Network ACL Activity](detections.md#detect-spike-in-network-acl-activity)
 
 * [Detect Spike in blocked Outbound Traffic from your AWS](detections.md#detect-spike-in-blocked-outbound-traffic-from-your-aws)
 
@@ -3630,53 +3366,12 @@ _version_: 1
 
 ---
 
-### AWS Suspicious Provisioning Activities
-Monitor your AWS provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your network.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1535](https://attack.mitre.org/techniques/T1535/)
-- **Last Updated**: 2018-03-16
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [AWS Cloud Provisioning From Previously Unseen City](detections.md#aws-cloud-provisioning-from-previously-unseen-city)
-
-* [AWS Cloud Provisioning From Previously Unseen Country](detections.md#aws-cloud-provisioning-from-previously-unseen-country)
-
-* [AWS Cloud Provisioning From Previously Unseen IP Address](detections.md#aws-cloud-provisioning-from-previously-unseen-ip-address)
-
-* [AWS Cloud Provisioning From Previously Unseen Region](detections.md#aws-cloud-provisioning-from-previously-unseen-region)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
-
-#### Kill Chain Phase
-
-
-#### Reference
-
-* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-
-
-_version_: 1
-</details>
-
----
-
 ### AWS User Monitoring
 Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it's critical to enable governance within your environment.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1526](https://attack.mitre.org/techniques/T1526/)
+- **ATT&CK**: [T1526](https://attack.mitre.org/techniques/T1526/)
 - **Last Updated**: 2018-03-12
 
 <details>
@@ -3686,23 +3381,12 @@ Detect and investigate dormant user accounts for your AWS environment that have 
 
 * [AWS Excessive Security Scanning](detections.md#aws-excessive-security-scanning)
 
-* [Detect API activity from users without MFA](detections.md#detect-api-activity-from-users-without-mfa)
-
-* [Detect AWS API Activities From Unapproved Accounts](detections.md#detect-aws-api-activities-from-unapproved-accounts)
-
-* [Detect Spike in AWS API Activity](detections.md#detect-spike-in-aws-api-activity)
-
-* [Detect Spike in Security Group Activity](detections.md#detect-spike-in-security-group-activity)
-
-* [Detect new API calls from user roles](detections.md#detect-new-api-calls-from-user-roles)
-
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1526 | Cloud Service Discovery | Discovery |
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
 
@@ -3749,7 +3433,7 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
 
 #### Kill Chain Phase
@@ -3788,8 +3472,6 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 
 * [Detect Mimikatz Using Loaded Images](detections.md#detect-mimikatz-using-loaded-images)
 
-* [Detect Mimikatz Via PowerShell And EventCode 4703](detections.md#detect-mimikatz-via-powershell-and-eventcode-4703)
-
 * [Detect Rare Executables](detections.md#detect-rare-executables)
 
 * [O365 Add App Role Assignment Grant User](detections.md#o365-add-app-role-assignment-grant-user)
@@ -3807,11 +3489,11 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | T1003.001 | LSASS Memory | Credential Access |
 | T1136.003 | Cloud Account | Persistence |
 | T1556 | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
-| T1546.012 | Image File Execution Options Injection | Persistence, Privilege Escalation |
+| T1546.012 | Image File Execution Options Injection | Privilege Escalation, Persistence |
 
 #### Kill Chain Phase
 
@@ -3851,8 +3533,6 @@ Use the searches in this story to monitor your Kubernetes registry repositories 
 
 #### Detection Profile
 
-* [GCP GCR container uploaded](detections.md#gcp-gcr-container-uploaded)
-
 * [New container uploaded to AWS ECR](detections.md#new-container-uploaded-to-aws-ecr)
 
 
@@ -3888,20 +3568,14 @@ Track when a user assumes an IAM role in another GCP account to obtain cross-acc
 
 #### Detection Profile
 
-* [GCP Detect accounts with high risk roles by project](detections.md#gcp-detect-accounts-with-high-risk-roles-by-project)
-
 * [GCP Detect gcploit framework](detections.md#gcp-detect-gcploit-framework)
-
-* [GCP Detect high risk permissions by resource and account](detections.md#gcp-detect-high-risk-permissions-by-resource-and-account)
-
-* [gcp detect oauth token abuse](detections.md#gcp-detect-oauth-token-abuse)
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -3936,12 +3610,6 @@ This story addresses detection against Kubernetes cluster fingerprint scan and a
 * [Amazon EKS Kubernetes cluster scan detection](detections.md#amazon-eks-kubernetes-cluster-scan-detection)
 
 * [GCP Kubernetes cluster pod scan detection](detections.md#gcp-kubernetes-cluster-pod-scan-detection)
-
-* [GCP Kubernetes cluster scan detection](detections.md#gcp-kubernetes-cluster-scan-detection)
-
-* [Kubernetes Azure pod scan fingerprint](detections.md#kubernetes-azure-pod-scan-fingerprint)
-
-* [Kubernetes Azure scan fingerprint](detections.md#kubernetes-azure-scan-fingerprint)
 
 
 #### ATT&CK
@@ -3978,75 +3646,7 @@ This story addresses detection and response of accounts acccesing Kubernetes clu
 
 #### Detection Profile
 
-* [AWS EKS Kubernetes cluster sensitive object access](detections.md#aws-eks-kubernetes-cluster-sensitive-object-access)
-
-* [Kubernetes AWS detect service accounts forbidden failure access](detections.md#kubernetes-aws-detect-service-accounts-forbidden-failure-access)
-
 * [Kubernetes AWS detect suspicious kubectl calls](detections.md#kubernetes-aws-detect-suspicious-kubectl-calls)
-
-* [Kubernetes Azure detect sensitive object access](detections.md#kubernetes-azure-detect-sensitive-object-access)
-
-* [Kubernetes Azure detect service accounts forbidden failure access](detections.md#kubernetes-azure-detect-service-accounts-forbidden-failure-access)
-
-* [Kubernetes Azure detect suspicious kubectl calls](detections.md#kubernetes-azure-detect-suspicious-kubectl-calls)
-
-* [Kubernetes GCP detect sensitive object access](detections.md#kubernetes-gcp-detect-sensitive-object-access)
-
-* [Kubernetes GCP detect service accounts forbidden failure access](detections.md#kubernetes-gcp-detect-service-accounts-forbidden-failure-access)
-
-* [Kubernetes GCP detect suspicious kubectl calls](detections.md#kubernetes-gcp-detect-suspicious-kubectl-calls)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-
-#### Kill Chain Phase
-
-* Lateral Movement
-
-
-#### Reference
-
-* https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html
-
-
-_version_: 1
-</details>
-
----
-
-### Kubernetes Sensitive Role Activity
-This story addresses detection and response around Sensitive Role usage within a Kubernetes clusters against cluster resources and namespaces.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: 
-- **Last Updated**: 2020-05-20
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Kubernetes AWS detect RBAC authorization by account](detections.md#kubernetes-aws-detect-rbac-authorization-by-account)
-
-* [Kubernetes AWS detect most active service accounts by pod](detections.md#kubernetes-aws-detect-most-active-service-accounts-by-pod)
-
-* [Kubernetes AWS detect sensitive role access](detections.md#kubernetes-aws-detect-sensitive-role-access)
-
-* [Kubernetes Azure detect RBAC authorization by account](detections.md#kubernetes-azure-detect-rbac-authorization-by-account)
-
-* [Kubernetes Azure detect most active service accounts by pod namespace](detections.md#kubernetes-azure-detect-most-active-service-accounts-by-pod-namespace)
-
-* [Kubernetes Azure detect sensitive role access](detections.md#kubernetes-azure-detect-sensitive-role-access)
-
-* [Kubernetes GCP detect RBAC authorizations by account](detections.md#kubernetes-gcp-detect-rbac-authorizations-by-account)
-
-* [Kubernetes GCP detect most active service accounts by pod](detections.md#kubernetes-gcp-detect-most-active-service-accounts-by-pod)
-
-* [Kubernetes GCP detect sensitive role access](detections.md#kubernetes-gcp-detect-sensitive-role-access)
 
 
 #### ATT&CK
@@ -4139,60 +3739,12 @@ _version_: 1
 
 ---
 
-### Suspicious AWS EC2 Activities
-Use the searches in this Analytic Story to monitor your AWS EC2 instances for evidence of anomalous activity and suspicious behaviors, such as EC2 instances that originate from unusual locations or those launched by previously unseen users (among others). Included investigative searches will help you probe more deeply, when the information warrants it.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1535](https://attack.mitre.org/techniques/T1535/)
-- **Last Updated**: 2018-02-09
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Abnormally High AWS Instances Launched by User](detections.md#abnormally-high-aws-instances-launched-by-user)
-
-* [Abnormally High AWS Instances Launched by User - MLTK](detections.md#abnormally-high-aws-instances-launched-by-user---mltk)
-
-* [Abnormally High AWS Instances Terminated by User](detections.md#abnormally-high-aws-instances-terminated-by-user)
-
-* [Abnormally High AWS Instances Terminated by User - MLTK](detections.md#abnormally-high-aws-instances-terminated-by-user---mltk)
-
-* [EC2 Instance Started In Previously Unseen Region](detections.md#ec2-instance-started-in-previously-unseen-region)
-
-* [EC2 Instance Started With Previously Unseen User](detections.md#ec2-instance-started-with-previously-unseen-user)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
-| T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Reference
-
-* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
-
-
-_version_: 1
-</details>
-
----
-
 ### Suspicious AWS Login Activities
 Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. 
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1535](https://attack.mitre.org/techniques/T1535/)
+- **ATT&CK**: [T1535](https://attack.mitre.org/techniques/T1535/)
 - **Last Updated**: 2019-05-01
 
 <details>
@@ -4206,15 +3758,12 @@ Monitor your AWS authentication events using your CloudTrail logs. Searches with
 
 * [Detect AWS Console Login by User from New Region](detections.md#detect-aws-console-login-by-user-from-new-region)
 
-* [Detect new user AWS Console Login](detections.md#detect-new-user-aws-console-login)
-
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
 
@@ -4343,7 +3892,6 @@ Monitor your cloud authentication events. Searches within this Analytic Story le
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
 
@@ -4386,7 +3934,7 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -4429,7 +3977,7 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -4471,8 +4019,8 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1580 | Cloud Infrastructure Discovery | Discovery |
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
-| T1078 | Valid Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| T1078 | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Kill Chain Phase
 
@@ -4534,34 +4082,68 @@ _version_: 1
 
 ---
 
-### Unusual AWS EC2 Modifications
-Identify unusual changes to your AWS EC2 instances that may indicate malicious activity. Modifications to your EC2 instances by previously unseen users is an example of an activity that may warrant further investigation.
+</details>
+
+## Lateral Movement
+<details>
+  <summary>details</summary>
+
+### PrintNightmare CVE-2021-34527
+The following analytic story identifies behaviors related PrintNightmare, or CVE-2021-34527 previously known as (CVE-2021-1675), to gain privilege escalation on the vulnerable machine.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
-- **Last Updated**: 2018-04-09
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1547.012](https://attack.mitre.org/techniques/T1547.012/)
+- **Last Updated**: 2021-07-01
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
 
-* [EC2 Instance Modified With Previously Unseen User](detections.md#ec2-instance-modified-with-previously-unseen-user)
+* [Print Spooler Adding A Printer Driver](detections.md#print-spooler-adding-a-printer-driver)
+
+* [Print Spooler Failed to Load a Plug-in](detections.md#print-spooler-failed-to-load-a-plug-in)
+
+* [Rundll32 with no Command Line Arguments with Network](detections.md#rundll32-with-no-command-line-arguments-with-network)
+
+* [Spoolsv Spawning Rundll32](detections.md#spoolsv-spawning-rundll32)
+
+* [Spoolsv Suspicious Loaded Modules](detections.md#spoolsv-suspicious-loaded-modules)
+
+* [Spoolsv Suspicious Process Access](detections.md#spoolsv-suspicious-process-access)
+
+* [Spoolsv Writing a DLL](detections.md#spoolsv-writing-a-dll)
+
+* [Spoolsv Writing a DLL - Sysmon](detections.md#spoolsv-writing-a-dll---sysmon)
+
+* [Suspicious Rundll32 no Command Line Arguments](detections.md#suspicious-rundll32-no-command-line-arguments)
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.004 | Cloud Accounts | Defense Evasion, Initial Access, Persistence, Privilege Escalation |
+| T1547.012 | Print Processors | Persistence, Privilege Escalation |
+| T1218.011 | Rundll32 | Defense Evasion |
+| T1068 | Exploitation for Privilege Escalation | Privilege Escalation |
 
 #### Kill Chain Phase
+
+* Actions on Objectives
+
+* Exploitation
 
 
 #### Reference
 
-* https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf
+* https://github.com/cube0x0/CVE-2021-1675/
+
+* https://blog.truesec.com/2021/06/30/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available/
+
+* https://blog.truesec.com/2021/06/30/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675/
+
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 
 
 _version_: 1
@@ -4610,7 +4192,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Resize ShadowStorage volume](detections.md#resize-shadowstorage-volume)
 
+* [Suspicious Event Log Service Behavior](detections.md#suspicious-event-log-service-behavior)
+
 * [Suspicious wevtutil Usage](detections.md#suspicious-wevtutil-usage)
+
+* [WevtUtil Usage To Clear Logs](detections.md#wevtutil-usage-to-clear-logs)
 
 * [Windows Event Log Cleared](detections.md#windows-event-log-cleared)
 
@@ -4667,8 +4253,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 #### Detection Profile
 
-* [Osquery pack - ColdRoot detection](detections.md#osquery-pack---coldroot-detection)
-
 * [Processes Tapping Keyboard Events](detections.md#processes-tapping-keyboard-events)
 
 
@@ -4680,8 +4264,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 #### Kill Chain Phase
 
 * Command and Control
-
-* Installation
 
 
 #### Reference
@@ -4703,7 +4285,7 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint, Network_Traffic
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/), [T1071.002](https://attack.mitre.org/techniques/T1071.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1136.001](https://attack.mitre.org/techniques/T1136.001/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1562.004](https://attack.mitre.org/techniques/T1562.004/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1071.002](https://attack.mitre.org/techniques/T1071.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1136.001](https://attack.mitre.org/techniques/T1136.001/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1562.004](https://attack.mitre.org/techniques/T1562.004/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
 - **Last Updated**: 2020-01-22
 
 <details>
@@ -4720,8 +4302,6 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 * [Detect PsExec With accepteula Flag](detections.md#detect-psexec-with-accepteula-flag)
 
 * [Detect Renamed PSExec](detections.md#detect-renamed-psexec)
-
-* [First time seen command line argument](detections.md#first-time-seen-command-line-argument)
 
 * [Malicious PowerShell Process - Execution Policy Bypass](detections.md#malicious-powershell-process---execution-policy-bypass)
 
@@ -4747,11 +4327,10 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.001 | Local Account | Persistence |
-| T1071.002 | File Transfer Protocols | Command and Control |
+| T1071.002 | File Transfer Protocols | Command And Control |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1569.002 | Service Execution | Execution |
 | T1059.001 | PowerShell | Execution |
-| T1059.003 | Windows Command Shell | Execution |
 | T1562.004 | Disable or Modify System Firewall | Defense Evasion |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
@@ -4836,7 +4415,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ----------- | ----------- |--------------|
 | T1003.002 | Security Account Manager | Credential Access |
 | T1197 | BITS Jobs | Defense Evasion, Persistence |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1218.003 | CMSTP | Defense Evasion |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1490 | Inhibit System Recovery | Impact |
@@ -4845,7 +4424,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1020 | Automated Exfiltration | Exfiltration |
 | T1569.002 | Service Execution | Execution |
 | T1486 | Data Encrypted for Impact | Impact |
-| T1548.002 | Bypass User Account Control | Defense Evasion, Privilege Escalation |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 #### Kill Chain Phase
 
@@ -4878,8 +4457,8 @@ _version_: 1
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint, Network_Resolution, Web
-- **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1189](https://attack.mitre.org/techniques/T1189/)
+- **Datamodel**: Endpoint, Network_Resolution
+- **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/), [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2018-09-06
 
 <details>
@@ -4891,8 +4470,6 @@ Detect and investigate hosts in your environment that may be communicating with 
 
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
 
-* [Detect web traffic to dynamic domain providers](detections.md#detect-web-traffic-to-dynamic-domain-providers)
-
 * [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
 
 
@@ -4901,8 +4478,15 @@ Detect and investigate hosts in your environment that may be communicating with 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+| T1071.004 | DNS | Command And Control |
+| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| T1095 | Non-Application Layer Protocol | Command And Control |
+| T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
-| T1071.001 | Web Protocols | Command and Control |
+| T1114.001 | Local Email Collection | Collection |
+| T1114 | Email Collection | Collection |
+| T1114.003 | Email Forwarding Rule | Collection |
+| T1071.001 | Web Protocols | Command And Control |
 
 #### Kill Chain Phase
 
@@ -4949,8 +4533,6 @@ Detect rarely used executables, specific registry paths that may confer malware 
 * [Detection of tools built by NirSoft](detections.md#detection-of-tools-built-by-nirsoft)
 
 * [Email Attachments With Lots Of Spaces](detections.md#email-attachments-with-lots-of-spaces)
-
-* [Prohibited Software On Endpoint](detections.md#prohibited-software-on-endpoint)
 
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
@@ -5003,7 +4585,7 @@ Monitor for and investigate activities, including the creation or deletion of hi
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint, Network_Resolution, Network_Traffic
-- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/), [T1070.005](https://attack.mitre.org/techniques/T1070.005/), [T1071.002](https://attack.mitre.org/techniques/T1071.002/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
+- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1070.005](https://attack.mitre.org/techniques/T1070.005/), [T1071.002](https://attack.mitre.org/techniques/T1071.002/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
 - **Last Updated**: 2020-01-22
 
 <details>
@@ -5019,8 +4601,6 @@ Monitor for and investigate activities, including the creation or deletion of hi
 
 * [Detect Outbound SMB Traffic](detections.md#detect-outbound-smb-traffic)
 
-* [First time seen command line argument](detections.md#first-time-seen-command-line-argument)
-
 * [Remote Desktop Network Traffic](detections.md#remote-desktop-network-traffic)
 
 * [Remote Desktop Process Running On System](detections.md#remote-desktop-process-running-on-system)
@@ -5029,19 +4609,15 @@ Monitor for and investigate activities, including the creation or deletion of hi
 
 * [SMB Traffic Spike - MLTK](detections.md#smb-traffic-spike---mltk)
 
-* [Suspicious File Write](detections.md#suspicious-file-write)
-
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1070.005 | Network Share Connection Removal | Defense Evasion |
-| T1071.004 | DNS | Command and Control |
+| T1071.004 | DNS | Command And Control |
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-| T1071.002 | File Transfer Protocols | Command and Control |
-| T1059.001 | PowerShell | Execution |
-| T1059.003 | Windows Command Shell | Execution |
+| T1071.002 | File Transfer Protocols | Command And Control |
 | T1021.001 | Remote Desktop Protocol | Lateral Movement |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 
@@ -5069,7 +4645,7 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1059.003](https://attack.mitre.org/techniques/T1059.003/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
 - **Last Updated**: 2020-01-22
 
 <details>
@@ -5079,8 +4655,6 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 
 * [First Time Seen Running Windows Service](detections.md#first-time-seen-running-windows-service)
 
-* [First time seen command line argument](detections.md#first-time-seen-command-line-argument)
-
 * [Sc exe Manipulating Windows Services](detections.md#sc-exe-manipulating-windows-services)
 
 
@@ -5089,19 +4663,15 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1569.002 | Service Execution | Execution |
-| T1059.001 | PowerShell | Execution |
-| T1059.003 | Windows Command Shell | Execution |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
-| T1574.011 | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.011 | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
 
 * Actions on Objectives
-
-* Command and Control
 
 * Installation
 
@@ -5123,7 +4693,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint, Network_Traffic
-- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1069.001](https://attack.mitre.org/techniques/T1069.001/), [T1069.002](https://attack.mitre.org/techniques/T1069.002/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1087.001](https://attack.mitre.org/techniques/T1087.001/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/)
+- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1069.001](https://attack.mitre.org/techniques/T1069.001/), [T1069.002](https://attack.mitre.org/techniques/T1069.002/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1070.004](https://attack.mitre.org/techniques/T1070.004/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1087.001](https://attack.mitre.org/techniques/T1087.001/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1222](https://attack.mitre.org/techniques/T1222/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2020-02-04
 
 <details>
@@ -5131,9 +4701,13 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 #### Detection Profile
 
+* [Allow Operation with Consent Admin](detections.md#allow-operation-with-consent-admin)
+
 * [BCDEdit Failure Recovery Modification](detections.md#bcdedit-failure-recovery-modification)
 
 * [CMLUA Or CMSTPLUA UAC Bypass](detections.md#cmlua-or-cmstplua-uac-bypass)
+
+* [Clear Unallocated Sector Using Cipher App](detections.md#clear-unallocated-sector-using-cipher-app)
 
 * [Common Ransomware Extensions](detections.md#common-ransomware-extensions)
 
@@ -5155,11 +4729,19 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Detect SharpHound Usage](detections.md#detect-sharphound-usage)
 
+* [Disable Logs Using WevtUtil](detections.md#disable-logs-using-wevtutil)
+
 * [Known Services Killed by Ransomware](detections.md#known-services-killed-by-ransomware)
 
 * [Modification Of Wallpaper](detections.md#modification-of-wallpaper)
 
+* [Permission Modification using Takeown App](detections.md#permission-modification-using-takeown-app)
+
+* [Prevent Automatic Repair Mode using Bcdedit](detections.md#prevent-automatic-repair-mode-using-bcdedit)
+
 * [Prohibited Network Traffic Allowed](detections.md#prohibited-network-traffic-allowed)
+
+* [Recon AVProduct Through Pwh or WMI](detections.md#recon-avproduct-through-pwh-or-wmi)
 
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
@@ -5173,11 +4755,13 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [SMB Traffic Spike - MLTK](detections.md#smb-traffic-spike---mltk)
 
-* [Scheduled tasks used in BadRabbit ransomware](detections.md#scheduled-tasks-used-in-badrabbit-ransomware)
-
 * [Schtasks used for forcing a reboot](detections.md#schtasks-used-for-forcing-a-reboot)
 
 * [Spike in File Writes](detections.md#spike-in-file-writes)
+
+* [Start Up During Safe Mode Boot](detections.md#start-up-during-safe-mode-boot)
+
+* [Suspicious Event Log Service Behavior](detections.md#suspicious-event-log-service-behavior)
 
 * [Suspicious Scheduled Task from Public Directory](detections.md#suspicious-scheduled-task-from-public-directory)
 
@@ -5197,6 +4781,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Wbemprox COM Object Execution](detections.md#wbemprox-com-object-execution)
 
+* [WevtUtil Usage To Clear Logs](detections.md#wevtutil-usage-to-clear-logs)
+
+* [Wevtutil Usage To Disable Logs](detections.md#wevtutil-usage-to-disable-logs)
+
 * [WinEvent Scheduled Task Created Within Public Path](detections.md#winevent-scheduled-task-created-within-public-path)
 
 * [WinEvent Scheduled Task Created to Spawn Shell](detections.md#winevent-scheduled-task-created-to-spawn-shell)
@@ -5208,8 +4796,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1490 | Inhibit System Recovery | Impact |
 | T1218.003 | CMSTP | Defense Evasion |
+| T1070.004 | File Deletion | Defense Evasion |
 | T1485 | Data Destruction | Impact |
 | T1204 | User Execution | Execution |
 | T1020 | Automated Exfiltration | Exfiltration |
@@ -5218,22 +4808,19 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1482 | Domain Trust Discovery | Discovery |
 | T1069.002 | Domain Groups | Discovery |
 | T1069.001 | Local Groups | Discovery |
+| T1070.001 | Clear Windows Event Logs | Defense Evasion |
 | T1491 | Defacement | Impact |
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+| T1592 | Gather Victim Host Information | Reconnaissance |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
-| T1021.001 | Remote Desktop Protocol | Lateral Movement |
 | T1047 | Windows Management Instrumentation | Execution |
 | T1112 | Modify Registry | Defense Evasion |
-| T1486 | Data Encrypted for Impact | Impact |
-| T1059.003 | Windows Command Shell | Execution |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
-| T1070.001 | Clear Windows Event Logs | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
-| T1071.001 | Web Protocols | Command and Control |
+| T1071.001 | Web Protocols | Command And Control |
 | T1070 | Indicator Removal on Host | Defense Evasion |
-| T1562.001 | Disable or Modify Tools | Defense Evasion |
-| T1489 | Service Stop | Impact |
 
 #### Kill Chain Phase
 
@@ -5399,37 +4986,18 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Windows Security Account Manager Stopped](detections.md#windows-security-account-manager-stopped)
 
-* [Windows connhost exe started forcefully](detections.md#windows-connhost-exe-started-forcefully)
-
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1490 | Inhibit System Recovery | Impact |
-| T1218.003 | CMSTP | Defense Evasion |
 | T1485 | Data Destruction | Impact |
-| T1204 | User Execution | Execution |
-| T1020 | Automated Exfiltration | Exfiltration |
-| T1087.002 | Domain Account | Discovery |
-| T1087.001 | Local Account | Discovery |
 | T1482 | Domain Trust Discovery | Discovery |
-| T1069.002 | Domain Groups | Discovery |
-| T1069.001 | Local Groups | Discovery |
-| T1491 | Defacement | Impact |
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
-| T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 | T1021.001 | Remote Desktop Protocol | Lateral Movement |
-| T1047 | Windows Management Instrumentation | Execution |
-| T1112 | Modify Registry | Defense Evasion |
 | T1486 | Data Encrypted for Impact | Impact |
 | T1059.003 | Windows Command Shell | Execution |
-| T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
-| T1070.001 | Clear Windows Event Logs | Defense Evasion |
-| T1036.003 | Rename System Utilities | Defense Evasion |
-| T1071.001 | Web Protocols | Command and Control |
-| T1070 | Indicator Removal on Host | Defense Evasion |
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
 | T1489 | Service Stop | Impact |
 
@@ -5493,8 +5061,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [File with Samsam Extension](detections.md#file-with-samsam-extension)
 
-* [Prohibited Software On Endpoint](detections.md#prohibited-software-on-endpoint)
-
 * [Remote Desktop Network Bruteforce](detections.md#remote-desktop-network-bruteforce)
 
 * [Remote Desktop Network Traffic](detections.md#remote-desktop-network-traffic)
@@ -5520,8 +5086,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 #### Kill Chain Phase
 
 * Actions on Objectives
-
-* Command and Control
 
 * Delivery
 
@@ -5633,7 +5197,7 @@ Quickly identify systems running new or unusual processes in your environment th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1016](https://attack.mitre.org/techniques/T1016/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1072](https://attack.mitre.org/techniques/T1072/), [T1117](https://attack.mitre.org/techniques/T1117/), [T1190](https://attack.mitre.org/techniques/T1190/), [T1202](https://attack.mitre.org/techniques/T1202/), [T1203](https://attack.mitre.org/techniques/T1203/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1016](https://attack.mitre.org/techniques/T1016/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1072](https://attack.mitre.org/techniques/T1072/), [T1117](https://attack.mitre.org/techniques/T1117/), [T1190](https://attack.mitre.org/techniques/T1190/), [T1202](https://attack.mitre.org/techniques/T1202/), [T1203](https://attack.mitre.org/techniques/T1203/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
 - **Last Updated**: 2020-02-04
 
 <details>
@@ -5665,8 +5229,6 @@ Quickly identify systems running new or unusual processes in your environment th
 
 * [System Processes Run From Unexpected Locations](detections.md#system-processes-run-from-unexpected-locations)
 
-* [Uncommon Processes On Endpoint](detections.md#uncommon-processes-on-endpoint)
-
 * [Unusually Long Command Line](detections.md#unusually-long-command-line)
 
 * [Unusually Long Command Line - MLTK](detections.md#unusually-long-command-line---mltk)
@@ -5681,14 +5243,13 @@ Quickly identify systems running new or unusual processes in your environment th
 | T1003 | OS Credential Dumping | Credential Access |
 | T1016 | System Network Configuration Discovery | Discovery |
 | T1059 | Command and Scripting Interpreter | Execution |
-|  |  |  |
+| T1117 | Regsvr32 |  |
 | T1202 | Indirect Command Execution | Defense Evasion |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1203 | Exploitation for Client Execution | Execution |
 | T1072 | Software Deployment Tools | Execution, Lateral Movement |
 | T1218.011 | Rundll32 | Defense Evasion |
 | T1036.003 | Rename System Utilities | Defense Evasion |
-| T1204.002 | Malicious File | Execution |
 | T1190 | Exploit Public-Facing Application | Initial Access |
 
 #### Kill Chain Phase
@@ -5725,7 +5286,7 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1546.001](https://attack.mitre.org/techniques/T1546.001/)
+- **ATT&CK**: [T1036.003](https://attack.mitre.org/techniques/T1036.003/)
 - **Last Updated**: 2018-01-26
 
 <details>
@@ -5733,11 +5294,7 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 
 #### Detection Profile
 
-* [Execution of File With Spaces Before Extension](detections.md#execution-of-file-with-spaces-before-extension)
-
 * [Execution of File with Multiple Extensions](detections.md#execution-of-file-with-multiple-extensions)
-
-* [Suspicious Changes to File Associations](detections.md#suspicious-changes-to-file-associations)
 
 
 #### ATT&CK
@@ -5745,7 +5302,6 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1036.003 | Rename System Utilities | Defense Evasion |
-| T1546.001 | Change Default File Association | Persistence, Privilege Escalation |
 | T1127.001 | MSBuild | Defense Evasion |
 | T1218.011 | Rundll32 | Defense Evasion |
 | T1127 | Trusted Developer Utilities Proxy Execution | Defense Evasion |
@@ -5797,12 +5353,10 @@ Windows services are often used by attackers for persistence and the ability to 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1569.002 | Service Execution | Execution |
-| T1059.001 | PowerShell | Execution |
-| T1059.003 | Windows Command Shell | Execution |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
 | T1106 | Native API | Execution |
 | T1569 | System Services | Execution |
-| T1574.011 | Services Registry Permissions Weakness | Defense Evasion, Persistence, Privilege Escalation |
+| T1574.011 | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 
 #### Kill Chain Phase
@@ -5839,6 +5393,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Deleting Of Net Users](detections.md#deleting-of-net-users)
 
+* [Deny Permission using Cacls Utility](detections.md#deny-permission-using-cacls-utility)
+
 * [Disable Windows App Hotkeys](detections.md#disable-windows-app-hotkeys)
 
 * [Disabling Net User Account](detections.md#disabling-net-user-account)
@@ -5859,6 +5415,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Executables Or Script Creation In Suspicious Path](detections.md#executables-or-script-creation-in-suspicious-path)
 
+* [Grant Permission Using Cacls Utility](detections.md#grant-permission-using-cacls-utility)
+
 * [Hide User Account From Sign-In Screen](detections.md#hide-user-account-from-sign-in-screen)
 
 * [ICACLS Grant Command](detections.md#icacls-grant-command)
@@ -5866,6 +5424,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Icacls Deny Command](detections.md#icacls-deny-command)
 
 * [Modify ACL permission To Files Or Folder](detections.md#modify-acl-permission-to-files-or-folder)
+
+* [Modify ACLs Permission Of Files Or Folders](detections.md#modify-acls-permission-of-files-or-folders)
 
 * [Process Kill Base On File Path](detections.md#process-kill-base-on-file-path)
 
@@ -5883,11 +5443,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1531 | Account Access Removal | Impact |
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
-| T1105 | Ingress Tool Transfer | Command and Control |
+| T1105 | Ingress Tool Transfer | Command And Control |
 | T1087 | Account Discovery | Discovery |
 | T1489 | Service Stop | Impact |
-| T1222 | File and Directory Permissions Modification | Defense Evasion |
 | T1036 | Masquerading | Defense Evasion |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
@@ -5999,118 +5559,6 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 #### Reference
 
 * http://www.deependresearch.org/2016/04/jboss-exploits-view-from-victim.html
-
-
-_version_: 1
-</details>
-
----
-
-### Spectre And Meltdown Vulnerabilities
-Assess and mitigate your systems' vulnerability to Spectre and Meltdown exploitation with the searches in this Analytic Story.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Vulnerabilities
-- **ATT&CK**: 
-- **Last Updated**: 2018-01-08
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Spectre and Meltdown Vulnerable Systems](detections.md#spectre-and-meltdown-vulnerable-systems)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-
-#### Kill Chain Phase
-
-
-#### Reference
-
-* https://meltdownattack.com/
-
-
-_version_: 1
-</details>
-
----
-
-### Splunk Enterprise Vulnerability
-Keeping your Splunk deployment up to date is critical and may help you reduce the risk of CVE-2016-4859, an open-redirection vulnerability within some older versions of Splunk Enterprise. The detection search will help ensure that users are being properly authenticated and not being redirected to malicious domains.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: 
-- **Last Updated**: 2017-09-19
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Open Redirect in Splunk Web](detections.md#open-redirect-in-splunk-web)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-
-#### Kill Chain Phase
-
-* Delivery
-
-
-#### Reference
-
-* http://www.splunk.com/view/SP-CAAAPQ6#announce
-
-* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2016-4859
-
-
-_version_: 1
-</details>
-
----
-
-### Splunk Enterprise Vulnerability CVE-2018-11409
-Reduce the risk of CVE-2018-11409, an information disclosure vulnerability within some older versions of Splunk Enterprise, with searches designed to help ensure that your Splunk system does not leak information to authenticated users.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: 
-- **Last Updated**: 2018-06-14
-
-<details>
-  <summary>details</summary>
-
-#### Detection Profile
-
-* [Splunk Enterprise Information Disclosure](detections.md#splunk-enterprise-information-disclosure)
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-
-#### Kill Chain Phase
-
-* Delivery
-
-
-#### Reference
-
-* https://nvd.nist.gov/vuln/detail/CVE-2018-11409
-
-* https://www.splunk.com/view/SP-CAAAP5E#VulnerabilityDescriptionsandRatings
-
-* https://www.exploit-db.com/exploits/44865/
 
 
 _version_: 1

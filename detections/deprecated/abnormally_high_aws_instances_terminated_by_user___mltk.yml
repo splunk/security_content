@@ -5,15 +5,15 @@ date: '2020-07-21'
 author: Jason Brewer, Splunk
 type: batch
 datamodel: []
-description: This search looks for CloudTrail events where a user successfully terminates
-  an abnormally high number of instances. This search is deprecated and have been
-  translated to use the latest Change Datamodel.
+description: This search looks for AWS CloudTrail events where a user successfully
+  terminates an abnormally high number of instances. This search is deprecated and
+  have been translated to use the latest Change Datamodel.
 search: '`cloudtrail` eventName=TerminateInstances errorCode=success `abnormally_high_aws_instances_terminated_by_user___mltk_filter`
   | bucket span=10m _time  | stats count as instances_terminated by _time src_user  |
   apply ec2_excessive_terminateinstances_v1  | rename "IsOutlier(instances_terminated)"
   as isOutlier  | where isOutlier=1'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. The threshold value should be tuned to your environment.
 known_false_positives: Many service accounts configured within an AWS infrastructure
   are known to exhibit this behavior. Please adjust the threshold values and filter

@@ -4,25 +4,32 @@ version: 1
 date: '2021-06-14'
 author: Teoderick Contreras, Splunk
 type: batch
-datamodel:
-- Endpoint
-description: This seearch is to detect a suspicious powershell/wmi query to recon
-  running process and running services. This technique is commonly seen in malware
-  and apt attack to mapped all running security application or services on the compromised
-  machine.
+datamodel: []
+description: The following analytic identifies suspicious PowerShell script execution
+  via EventCode 4104, where WMI is performing an event query looking for running processes
+  or running services. This technique is commonly found in malware and APT events
+  where the adversary will map all running security applications or services on the
+  compromised machine. During triage, review parallel processes within the same timeframe.
+  Review the full script block to identify other related artifacts.
 search: '`powershell` EventCode=4104 Message= "*SELECT*" AND (Message="*Win32_Process*"
   OR Message="*Win32_Service*") | stats count min(_time) as firstTime max(_time) as
   lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `wmi_recon_running_process_or_services_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the powershell logs from your endpoints. make sure you enable needed registry
-  to monitor this event.
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: network administrator may used this command for checking purposes
 references:
 - https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/
+- https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
+- https://github.com/trustedsec/SysmonCommunityGuide/blob/master/WMI-events.md
+- https://in.security/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
 tags:
   analytic_story:
   - Malicious PowerShell
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
   kill_chain_phases:
   - Reconnaissance
   mitre_attack_id:
@@ -38,6 +45,3 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
