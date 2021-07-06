@@ -52,14 +52,14 @@ tags:
   - user
   - parent_process_id
   security_domain: endpoint
-  impact: 50
+  impact: 70
   confidence: 100
   # (impact * confidence)/100
-  risk_score: 50
+  risk_score: 70
   context:
   - Source:Endpoint
-  - Stage:Execution
-  message: "$parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in spearphishing attacks."
+  - Stage:Initial Access
+  message: "$parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in spearphishing attacks"
   observable:
   - name: dest
     type: Endpoint

@@ -47,3 +47,24 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  impact: 70
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: "The Windows Security Account Manager (SAM) was stopped via cli by $user$ on $dest$ by this command: $processs$"
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Target
