@@ -426,6 +426,36 @@ jobs:
             cd security-content
             aws s3 cp bin/reporting s3://security-content/reporting --recursive --exclude "*" --include "*.svg"
 
+  detection-testing:
+    executor: content-executor
+    steps:
+      - run:
+          name: checkout repo
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "" ]; then
+                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            else
+                git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+            fi
+      - run: *apt-install
+      - run:
+          name: install python dependencies
+          command: |
+            cd security-content
+            rm -rf venv
+            virtualenv --python=/usr/bin/python3 --clear venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+      - run:
+          name: run detection testing
+          no_output_timeout: 120m
+          command: |
+            cd security-content/automated_detection_testing/ci/python_ci_code
+            virtualenv --python=/usr/bin/python3 --clear venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+            python main.py -b ${CIRCLE_BRANCH}
+
 
 workflows:
   version: 2.1
@@ -451,12 +481,22 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - detection-testing:
+        # build always
+          requires:
+            - validate-content
+            - build-sources
+            - build-package
+          filters:
+            tags:
+              only: /.*/
       - run-appinspect:
         # build always
           requires:
             - validate-content
             - build-sources
             - build-package
+            - detection-testing
           filters:
             tags:
               only: /^v.*/
@@ -467,6 +507,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
+            - detection-testing
             - run-appinspect
           filters:
             tags:
@@ -479,6 +520,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
+            - detection-testing
             - run-appinspect
             - create-report
           filters:
@@ -492,6 +534,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
+            - detection-testing
             - run-appinspect
             - create-report
             - update-sources-github
@@ -506,6 +549,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
+            - detection-testing
             - run-appinspect
             - create-report
             - update-sources-github
@@ -521,6 +565,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
+            - detection-testing
             - run-appinspect
             - create-report
             - update-sources-github
