@@ -6,7 +6,7 @@ atomicwrites==1.4.0
 attackcti==0.3.4.3
 attrs==21.2.0
 azure-common==1.1.27
-azure-core==1.14.0
+azure-core==1.16.0
 azure-identity==1.6.0
 azure-mgmt-compute==20.0.0
 azure-mgmt-core==1.2.1
@@ -24,7 +24,7 @@ contextlib2==0.6.0.post1
 Deprecated==1.2.12
 dnspython==2.1.0
 docutils==0.17.1
-execnet==1.8.0
+execnet==1.9.0
 gitdb==4.0.5
 GitPython==3.1.17
 identify==2.2.4
