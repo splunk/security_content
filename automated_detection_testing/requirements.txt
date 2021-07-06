@@ -26,7 +26,7 @@ dnspython==2.1.0
 docutils==0.17.1
 execnet==1.8.0
 gitdb==4.0.5
-GitPython==3.1.17
+GitPython==3.1.18
 identify==2.2.4
 idna==2.8
 importlib-metadata==4.0.1
@@ -44,7 +44,7 @@ path==15.1.2
 path.py==12.5.0
 pexpect==4.8.0
 pluggy==0.13.1
-pre-commit==2.12.1
+pre-commit==2.13.0
 protobuf==3.17.0
 psutil==5.8.0
 ptyprocess==0.7.0
