@@ -30,7 +30,7 @@ MarkupSafe==2.0.0
 more-itertools==8.7.0
 msgpack==1.0.2
 nodeenv==1.6.0
-packaging==20.9
+packaging==21.0
 pathlib2==2.3.5
 pendulum==1.2.5
 pep517==0.10.0
@@ -42,7 +42,7 @@ pyfiglet==0.8.post1
 Pygments==2.9.0
 PyInquirer==1.0.3
 pyparsing==2.4.7
-pyrsistent==0.17.3
+pyrsistent==0.18.0
 python-dateutil==2.8.1
 pytoml==0.1.21
 pytz==2021.1
