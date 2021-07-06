@@ -1,5 +1,5 @@
 import boto3
-
+import uuid
 
 
 
@@ -37,6 +37,18 @@ def get_splunk_instance(region, key_name):
                         return instance
 
     return {}
+
+
+def dynamo_db_nothing_to_test(region, uuid_test, time):
+    uuid_var = str(uuid.uuid4())
+    resource = boto3.resource('dynamodb', region_name=region)
+    table = resource.Table("dt-results")
+    response = table.put_item(Item= {
+        'uuid': uuid_var, 
+        'uuid_test': uuid_test,
+        'time': time,
+        'status': 'nothing to test'
+    })  
 
 
 def add_detection_results_in_dynamo_db(region, uuid, uuid_test, detection, detection_path, time):
