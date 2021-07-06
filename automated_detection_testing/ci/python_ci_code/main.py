@@ -44,6 +44,7 @@ def main(args):
             }
         )        
 
+
         test_done = True
         for item in response['Items']:
             if item['status']['S'] == 'nothing to test':
