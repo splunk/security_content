@@ -54,6 +54,54 @@ def test_baseline_search(splunk_host, splunk_password, search, pass_condition, b
         return test_results
 
 
+def run_modified_splunk_search(splunk_host, splunk_password, search1, search2, detection_name, detection_file, earliest_time, latest_time):
+    try:
+        service = client.connect(
+            host=splunk_host,
+            port=8089,
+            username='admin',
+            password=splunk_password
+        )
+    except Exception as e:
+        print("Unable to connect to Splunk instance: " + str(e))
+        return 1, {}
+
+    if not search1.startswith('|'):
+        search1 = 'search ' + search1
+
+    if not search2.startswith('|'):
+        search2 = 'search ' + search2
+
+    kwargs = {"dispatch.earliest_time": "-1d",
+              "dispatch.latest_time": "now"}
+
+    try:
+        job = service.jobs.export(search1, **kwargs)
+    except Exception as e:
+        print("Unable to execute detection: " + str(e))
+        return 1, {}
+
+    reader = results.ResultsReader(job)
+    results_search_malicious = []
+    for result in reader:
+        if isinstance(result, dict):
+            results_search_malicious.append(result)
+
+    try:
+        job = service.jobs.export(search2, **kwargs)
+    except Exception as e:
+        print("Unable to execute detection: " + str(e))
+        return 1, {}
+
+    reader = results.ResultsReader(job)
+    results_search_not_malicious = []
+    for result in reader:
+        if isinstance(result, dict):
+            results_search_not_malicious.append(result)
+
+    return results_search_malicious, results_search_not_malicious
+
+
 def test_detection_search(splunk_host, splunk_password, search, pass_condition, detection_name, detection_file, earliest_time, latest_time):
     try:
         service = client.connect(
@@ -118,7 +166,7 @@ def delete_attack_data(splunk_host, splunk_password):
     splunk_search = 'search index=test* | delete'
 
     kwargs = {"exec_mode": "blocking",
-              "dispatch.earliest_time": "-1d",
+              "dispatch.earliest_time": "-360d",
               "dispatch.latest_time": "now"}
 
     try:

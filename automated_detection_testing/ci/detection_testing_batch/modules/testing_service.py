@@ -9,6 +9,7 @@ import requests
 from modules.DataManipulation import DataManipulation
 from modules import splunk_sdk, aws_service
 
+
 def prepare_detection_testing(ssh_key_name, private_key, splunk_ip, splunk_password):
     with open(ssh_key_name, 'w') as file :
         file.write(private_key)
