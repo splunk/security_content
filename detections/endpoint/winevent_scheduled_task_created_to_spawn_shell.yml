@@ -64,3 +64,22 @@ tags:
   - Description
   - Command
   security_domain: endpoint
+  impact: 70
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 70
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Persistence
+  - Stage:Privilege Escalation
+  message: "A windows scheduled task was created (task name=$Task_Name$) on $dest$ by the following command: $Command$"
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Command
+    type: Command
+    role:
+    - Target
