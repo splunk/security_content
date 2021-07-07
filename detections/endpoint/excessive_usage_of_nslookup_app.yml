@@ -46,10 +46,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
+  - Computer
+  - process_name
+  - EventCode
   security_domain: endpoint

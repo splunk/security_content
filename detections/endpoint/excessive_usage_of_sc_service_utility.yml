@@ -1,0 +1,46 @@
+name: Excessive Usage Of SC Service Utility
+id: cb6b339e-d4c6-11eb-a026-acde48001122
+version: 1
+date: '2021-06-24'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious excessive usage of sc.exe in a
+  host machine. This technique was seen in several ransomware , xmrig and other malware
+  to create, modify, delete or disable a service may related to security application
+  or to gain privilege escalation.
+search: '`sysmon` EventCode = 1 process_name = "sc.exe" |  bucket _time span=15m |
+  stats values(process) as process count as numScExe by Computer, _time |  eventstats
+  avg(numScExe) as avgScExe, stdev(numScExe) as stdScExe, count as numSlots by Computer
+  |  eval upperThreshold=(avgScExe + stdScExe *3) |  eval isOutlier=if(avgScExe >
+  5 and avgScExe >= upperThreshold, 1, 0) |  search isOutlier=1 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `excessive_usage_of_sc_service_utility_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed taskkill.exe may be used.
+known_false_positives: excessive execution of sc.exe is quite suspicious since it
+  can modify or execute app in high privilege permission.
+references:
+- https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+tags:
+  analytic_story:
+  - Ransomware
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1569.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - process_name
+  - process
+  security_domain: endpoint
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
