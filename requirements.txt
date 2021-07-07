@@ -64,7 +64,7 @@ termcolor==1.1.0
 toml==0.10.2
 typing==3.7.4.3
 tzlocal==2.1
-urllib3==1.26.5
+urllib3==1.26.6
 virtualenv==20.4.6
 wcwidth==0.2.5
 webencodings==0.5.1
