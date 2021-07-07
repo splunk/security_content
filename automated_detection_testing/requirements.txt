@@ -6,7 +6,7 @@ atomicwrites==1.4.0
 attackcti==0.3.4.3
 attrs==21.2.0
 azure-common==1.1.27
-azure-core==1.14.0
+azure-core==1.16.0
 azure-identity==1.6.0
 azure-mgmt-compute==20.0.0
 azure-mgmt-core==1.2.1
@@ -70,7 +70,7 @@ splunk-sdk==1.6.15
 tabulate==0.8.9
 termcolor==1.1.0
 toml==0.10.2
-urllib3==1.26.5
+urllib3==1.26.6
 virtualenv==20.4.6
 wcwidth==0.2.5
 wget==3.2
