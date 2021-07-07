@@ -70,7 +70,9 @@ tags:
   risk_score: 70
   context:
   - Source:Endpoint
-  - Stage:Execution,Persistence,Privilege Escalation
+  - Stage:Execution
+  - Stage:Persistence
+  - Stage:Privilege Escalation
   message: "A windows scheduled task was created (task name=$Task_Name$) on $dest$ by the following command: $Command$"
   observable:
   - name: dest
