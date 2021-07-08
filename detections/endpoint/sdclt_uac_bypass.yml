@@ -1,0 +1,55 @@
+name: Sdclt UAC Bypass
+id: d71efbf6-da63-11eb-8c6e-acde48001122
+version: 1
+date: '2021-07-01'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious sdclt.exe process where it execute a child process. 
+  This technique is commonly seen when attacker try to bypassed UAC by using sdclt.exe application by modifying some registry 
+  that sdclt.exe tries to open or query with payload file path on it to be executed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=sdclt.exe Process.process_name != null
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id 
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `sdclt_uac_bypass_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited to no false positives are expected.
+references:
+- https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/
+- https://github.com/hfiref0x/UACME
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1548.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest 
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id 
+  security_domain: endpoint
+  impact: 70
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 
+  context:
+  message: 
+  observable:
+  
