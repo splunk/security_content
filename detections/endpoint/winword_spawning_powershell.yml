@@ -1,7 +1,7 @@
 name: Winword Spawning PowerShell
 id: b2c950b8-9be2-11eb-8658-acde48001122
 version: 1
-date: '2021-04-12'
+date: '2021-07-09'
 author: Michael Haag, Splunk
 type: batch
 datamodel:
