@@ -6,23 +6,25 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious loaded unsigned dll by MMC.exe application.
-  This technique is commonly seen in attacker that tries to bypassed UAC feature or gain privilege escalation. 
-  This is done by modifying some CLSID registry that will trigger the mmc.exe to load the dll path 
-search: '`sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false Company != "Microsoft Corporation"
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed ProcessId OriginalFileName Computer EventCode Company
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+description: This search is to detect a suspicious loaded unsigned dll by MMC.exe
+  application. This technique is commonly seen in attacker that tries to bypassed
+  UAC feature or gain privilege escalation. This is done by modifying some CLSID registry
+  that will trigger the mmc.exe to load the dll path
+search: '`sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false
+  Company != "Microsoft Corporation" | stats count min(_time) as firstTime max(_time)
+  as lastTime by Image ImageLoaded Signed ProcessId OriginalFileName Computer EventCode
+  Company | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `uac_bypass_mmc_load_unsigned_dll_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
   are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: unknown. all of the dll loaded by mmc.exe is microsoft signed dll.
+known_false_positives: unknown. all of the dll loaded by mmc.exe is microsoft signed
+  dll.
 references:
 - https://offsec.almond.consulting/UAC-bypass-dotnet.html
 tags:
   analytic_story:
-  -  Windows Defense Evasion Tactics
+  - Windows Defense Evasion Tactics
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -39,12 +41,11 @@ tags:
   - ProcessId
   - OriginalFileName
   - Computer
-  - EventCode 
+  - EventCode
   - Company
   security_domain: endpoint
   impact: 70
-  confidence: 90 
-  # (impact * confidence)/100
+  confidence: 90
   risk_score: 63
   context:
   - Source:Endpoint
@@ -52,10 +53,13 @@ tags:
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
   - Scope:Incoming
-  message: Suspicious unsigned $ImageLoaded$ loaded by $Image$ on endpoint $Computer$ with EventCode $EventCode$
+  message: Suspicious unsigned $ImageLoaded$ loaded by $Image$ on endpoint $Computer$
+    with EventCode $EventCode$
   observable:
   - name: Computer
     type: Hostname
     role:
     - Victim
-  
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
