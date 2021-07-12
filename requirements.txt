@@ -18,7 +18,7 @@ fire==0.3.1
 gitdb==4.0.5
 html5lib==1.1
 humanfriendly==9.1
-identify==2.2.4
+identify==2.2.10
 idna==2.10
 importlib-metadata==4.0.1
 importlib-resources==5.2.0
