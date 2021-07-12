@@ -8,7 +8,8 @@ datamodel:
 - Endpoint
 description: 'The following analytic identifies new printer drivers being load by
   utilizing the Windows PrintService operational logs, EventCode 316. This was identified
-  during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
+  during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare.
+  \
 
   Within the proof of concept code, the following event will occur - "Printer driver
   1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll,
@@ -33,12 +34,27 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
+  automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Persistence,
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: Suspicious print driver was loaded on endpoint $ComputerName$.
   mitre_attack_id:
   - T1547.012
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,20 +65,5 @@ tags:
   - EventCode
   - ComputerName
   - Message
-  security_domain: endpoint
-  impact: 80
-  confidence: 90
   risk_score: 72
-  context:
-  - Source:Endpoint
-  - Stage:Persistence, 
-  - Stage:Privilege Escalation
-  - Stage:Defense Evasion
-  - Scope:Incoming
-  message: Suspicious print driver was loaded on endpoint $ComputerName$.
-  observable:
-  - name: ComputerName
-    type: Endpoint
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

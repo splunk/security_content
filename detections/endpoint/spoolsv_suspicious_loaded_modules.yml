@@ -11,8 +11,9 @@ description: This search is to detect suspicious loading of dll in specific path
   made by spoolsv.exe after the exploitation.
 search: '`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*"
   ImageLoaded = "*.dll" | stats dc(ImageLoaded) as countImgloaded values(ImageLoaded)
-  as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer process_id EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `spoolsv_suspicious_loaded_modules_filter`'
+  as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer
+  process_id EventCode | where countImgloaded >= 3 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `spoolsv_suspicious_loaded_modules_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
   are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
@@ -22,31 +23,22 @@ references:
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1547.012
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Image
-  - Computer
-  - EventCode
-  - ImageLoaded
-  security_domain: endpoint
-  impact: 80
+  automated_detection_testing: passed
   confidence: 90
-  risk_score: 72
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
   - Scope:Local
-  message: $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$ on endpoint $Computer$.
-    This behavior is suspicious and related to PrintNightmare.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: $Image$ with process id $process_id$ has loaded a driver from $ImageLoaded$
+    on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare.
+  mitre_attack_id:
+  - T1547.012
   observable:
   - name: Computer
     type: Endpoint
@@ -61,6 +53,15 @@ tags:
     type: File
     role:
     - Other
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - Computer
+  - EventCode
+  - ImageLoaded
+  risk_score: 72
+  security_domain: endpoint

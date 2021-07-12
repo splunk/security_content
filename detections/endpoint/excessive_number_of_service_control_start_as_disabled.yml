@@ -13,12 +13,12 @@ description: This detection targets behaviors observed when threat actors have u
   we see both an excessive number of sc.exe processes launched with specific commandline
   arguments to disable the start of certain services.
 search: '| tstats `security_content_summariesonly` distinct_count(Processes.process)
-  as distinct_cmdlines values(Processes.process_id) as process_ids min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-  WHERE Processes.process_name = "sc.exe" AND Processes.process="*start= disabled*"
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.parent_process_id,
-  _time span=30m | where distinct_cmdlines >= 8
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `excessive_number_of_service_control_start_as_disabled_filter`'
+  as distinct_cmdlines values(Processes.process_id) as process_ids min(_time) as firstTime
+  max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process_name
+  = "sc.exe" AND Processes.process="*start= disabled*" by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.parent_process_id, _time
+  span=30m | where distinct_cmdlines >= 8 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `excessive_number_of_service_control_start_as_disabled_filter`'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must be ingesting
   logs with both the process name and command line from your endpoints. The complete
@@ -34,6 +34,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  automated_detection_testing: passed
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
   kill_chain_phases:
@@ -46,12 +47,11 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process 
-  - Processes.process_name 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
   - Processes.process
-  - Processes.process_id 
+  - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
-  automated_detection_testing: passed
