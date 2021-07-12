@@ -19,12 +19,17 @@ def main(args):
     parser = argparse.ArgumentParser(description="CI Detection Testing")
     parser.add_argument("-b", "--branch", required=True, help="security content branch")
     parser.add_argument("-u", "--uuid", required=True, help="uuid for detection test")
+    parser.add_argument("-pr", "--pr-number", required=False, help="Pull Request Number")
 
     args = parser.parse_args()
     branch = args.branch
     uuid_test = args.uuid
+    pr_number = args.pr_number
 
-    github_service = GithubService(branch)
+    if pr_number:
+        github_service = GithubService(branch, pr_number)
+    else:
+        github_service = GithubService(branch)
     test_files = github_service.get_changed_test_files()
     if len(test_files) == 0:
         print("No new detections to test.")
