@@ -22,6 +22,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: unknown
 references:
 - https://github.com/hfiref0x/UACME
+- https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
 tags:
   analytic_story:
   - UPDATE_STORY_NAME
@@ -43,7 +44,7 @@ tags:
   - Registry.dest 
   security_domain: endpoint
   impact: 70
-  confidence: 85
+  confidence: 80
   # (impact * confidence)/100
   risk_score: 
   context:
