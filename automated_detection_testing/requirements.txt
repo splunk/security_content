@@ -27,7 +27,7 @@ docutils==0.17.1
 execnet==1.9.0
 gitdb==4.0.5
 GitPython==3.1.18
-identify==2.2.4
+identify==2.2.10
 idna==2.8
 importlib-metadata==4.6.1
 Jinja2==3.0.0
