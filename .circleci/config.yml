@@ -430,6 +430,12 @@ jobs:
     executor: content-executor
     steps:
       - run:
+          name: check for remote fork
+          command: |
+            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
+                circleci-agent step halt
+            fi
+      - run:
           name: checkout repo
           command: |
             if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
