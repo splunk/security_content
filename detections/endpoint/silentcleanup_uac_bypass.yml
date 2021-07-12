@@ -25,9 +25,7 @@ references:
 - https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
-  dataset:
-  - UPDATE_DATASET_URL
+  - Windows Defense Evasion Tactics
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -44,10 +42,19 @@ tags:
   - Registry.dest 
   security_domain: endpoint
   impact: 70
-  confidence: 80
+  confidence: 90
   # (impact * confidence)/100
-  risk_score: 
+  risk_score: 63
   context:
-  message: 
+  - Source:Endpoint
+  - Stage:Persistence,
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
+  message: Suspicious modification of registry $Registry.registry_path$ with possible payload path $Registry.registry_value_name$ in $Registry.dest$
   observable:
+  - name: Registry.dest
+    type: Hostname
+    role:
+    - Victim
   

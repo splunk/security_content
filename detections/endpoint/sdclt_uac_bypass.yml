@@ -44,10 +44,19 @@ tags:
   - Registry.dest
   security_domain: endpoint
   impact: 70
-  confidence: 80
+  confidence: 90
   # (impact * confidence)/100
-  risk_score: 
+  risk_score: 63
   context:
-  message: 
+  - Source:Endpoint
+  - Stage:Persistence,
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
+  message: Suspicious modification of registry $Registry.registry_path$ with possible payload path $Registry.registry_value_name$ in $Registry.dest$
   observable:
+  - name: Registry.dest
+    type: Hostname
+    role:
+    - Victim
   
