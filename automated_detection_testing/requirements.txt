@@ -15,7 +15,7 @@ azure-mgmt-resource==17.0.0
 bcrypt==3.2.0
 boto3==1.17.104
 botocore==1.20.105
-certifi==2020.12.5
+certifi==2020.5.30
 cffi==1.14.5
 cfgv==3.3.0
 chardet==4.0.0
