@@ -18,4 +18,4 @@ OutlookAddressBookView.exe,ESCU - This process was identified as malicious by DH
 mailpv.exe,ESCU - This process was identified by DHS Alert TA18-201A and attackers use this tool is a password-recovery tool that reveals the passwords and other account details from various email clients.
 NLBrute.exe,ESCU - This process was identified in the SamSam Ransomware Campaign and attackers use this tool to brute force RDP instances with a range of commonly used passwords.
 selfdel.exe,ESCU - This executable was delivered in the SamSam Ransomware Campain and the attackers levereged this binary to delete its malicilous activities.
-SilverBullet.exe, ESCU - This executable was discovered in our monitoring of honey pots that abuses an open source software for scanning and connecting to hosts all over the entire Internet.
+SilverBullet.exe, ESCU - Malware was discovered in our monitoring of honey pots that abuses this open source software for scanning and connecting to hosts.
