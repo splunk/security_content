@@ -1,7 +1,7 @@
 name: Winword Spawning PowerShell
 id: b2c950b8-9be2-11eb-8658-acde48001122
 version: 1
-date: '2021-07-09'
+date: '2021-04-12'
 author: Michael Haag, Splunk
 type: batch
 datamodel:
@@ -52,3 +52,24 @@ tags:
   - user
   - parent_process_id
   security_domain: endpoint
+  impact: 70
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 70
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  message: "$parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in spearphishing attacks"
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Target
