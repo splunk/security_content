@@ -1,0 +1,12 @@
+name: Print Spooler Adding A Printer Driver Unit Test
+tests:
+- name: Print Spooler Adding A Printer Driver
+  file: endpoint/print_spooler_adding_a_printer_driver.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-printservice_operational.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
+    source: WinEventLog:Microsoft-Windows-PrintService/Operational
+    sourcetype: WinEventLog

@@ -18,10 +18,10 @@ search: '`cloudtrail` eventName=ConsoleLogin | rename userIdentity.arn as user |
   where userStatus ="First Time Logging into AWS Console"  | `detect_new_user_aws_console_login_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
-  inputs. Run the "Previously seen users in AWS CloudTrail" support search only once to
-  create a baseline of previously seen IAM users within the last 30 days. Run "Update
-  previously seen users in AWS CloudTrail" hourly (or more frequently depending on how
-  often you run the detection searches) to refresh the baselines.
+  inputs. Run the "Previously seen users in AWS CloudTrail" support search only once
+  to create a baseline of previously seen IAM users within the last 30 days. Run "Update
+  previously seen users in AWS CloudTrail" hourly (or more frequently depending on
+  how often you run the detection searches) to refresh the baselines.
 known_false_positives: When a legitimate new user logins for the first time, this
   activity will be detected. Check how old the account is and verify that the user
   activity is legitimate.

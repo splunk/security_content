@@ -308,6 +308,83 @@ def custom_jinja2_enrichment_filter(string, object):
 
     return customized_string
 
+def add_annotations(detection):
+    # used for upstream processing of risk scoring annotations in ECSU
+    # this is not currently compatible with newer instances of ESCU (6.3.0+)
+    # we are duplicating the code block above for now and just changing variable names to make future
+    # changes to this data structure separate from the mappings generation
+    # @todo expose the JSON data structure for newer risk type
+
+    annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story', 'observable', 'context', 'impact', 'confidence']
+    savedsearch_annotations = {}
+    for key in annotation_keys:
+        if key == 'mitre_attack':
+            if 'mitre_attack_id' in detection['tags']:
+                savedsearch_annotations[key] = detection['tags']['mitre_attack_id']
+        else:
+            if key in detection['tags']:
+                savedsearch_annotations[key] = detection['tags'][key]
+    detection['savedsearch_annotations'] = savedsearch_annotations
+
+    return detection
+
+def add_rba(detection):
+
+    # removed since this is causing a duplicate bug in ES 6.4+
+    # if 'risk_object' in detection['tags']:
+    #     detection['risk_object'] = detection['tags']['risk_object']
+    # if 'risk_object_type' in detection['tags']:
+    #    detection['risk_object_type'] = detection['tags']['risk_object_type']
+    if 'risk_score' in detection['tags']:
+        detection['risk_score'] = detection['tags']['risk_score']
+
+    # grab risk message
+    if 'message' in detection['tags']:
+        detection['risk_message'] = detection['tags']['message']
+
+    risk_objects = []
+    risk_object_user_types = {'user', 'username', 'email address'}
+    risk_object_system_types = {'device', 'endpoint', 'hostname', 'ip address'}
+    if 'observable' in detection['tags']:
+        # go through each obervable
+        for entity in detection['tags']['observable']:
+            risk_object = dict()
+
+            # determine if is a user type
+            if entity['type'].lower() in risk_object_user_types:
+                risk_object['risk_object_type'] = 'user'
+                detection['risk_object_type'] = 'user'
+                for r in entity['role']:
+                    if 'attacker' == r.lower():
+                        # if the role is an attacker this entity is also a threat object
+                        risk_object['threat_object_field'] = entity['name']
+                        risk_object['threat_object_type'] = entity['type'].lower()
+                        risk_objects.append(risk_object)
+
+            # determine if is a system type
+            elif entity['type'].lower() in risk_object_system_types:
+                risk_object['risk_object_type'] = 'system'
+                detection['risk_object_type'] = 'system'
+                for r in entity['role']:
+                    if 'attacker' == r.lower():
+                        # if the role is an attacker this entity is also a threat object
+                        risk_object['threat_object_field'] = entity['name']
+                        risk_object['threat_object_type'] = entity['type'].lower()
+                        risk_objects.append(risk_object)
+
+            # if is not a system or user, it is a threat object
+            else:
+                risk_object['threat_object_field'] = entity['name']
+                risk_object['threat_object_type'] = entity['type'].lower()
+                risk_objects.append(risk_object)
+                continue
+
+            detection['risk_object'] = entity['name']
+            risk_object['risk_object_field'] = entity['name']
+            risk_object['risk_score'] = detection['risk_score']
+            risk_objects.append(risk_object)
+    detection['risk'] = risk_objects
+    return detection
 
 def prepare_detections(detections, deployments, OUTPUT_PATH):
     for detection in detections:
@@ -333,30 +410,14 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
                     mappings[key] = detection['tags'][key]
         detection['mappings'] = mappings
 
-        # used for upstream processing of risk scoring annotations in ECSU
-        # this is not currently compatible with newer instances of ESCU (6.3.0+)
-        # we are duplicating the code block above for now and just changing variable names to make future
-        # changes to this data structure separate from the mappings generation
-        # @todo expose the JSON data structure for newer risk type
-        annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story']
-        savedsearch_annotations = {}
-        for key in annotation_keys:
-            if key == 'mitre_attack':
-                if 'mitre_attack_id' in detection['tags']:
-                    savedsearch_annotations[key] = detection['tags']['mitre_attack_id']
-            else:
-                if key in detection['tags']:
-                    savedsearch_annotations[key] = detection['tags'][key]
-        detection['savedsearch_annotations'] = savedsearch_annotations
+        detection = add_annotations(detection)
+        detection = add_rba(detection)
 
-        if 'risk_object' in detection['tags']:
-            detection['risk_object'] = detection['tags']['risk_object']
-        if 'risk_object_type' in detection['tags']:
-            detection['risk_object_type'] = detection['tags']['risk_object_type']
-        if 'risk_score' in detection['tags']:
-            detection['risk_score'] = detection['tags']['risk_score']
+        # add additional metadata
         if 'product' in detection['tags']:
             detection['product'] = detection['tags']['product']
+
+        # turn all SAAWS detections
         if (OUTPUT_PATH) == 'dist/saaws':
             detection['disabled'] = 'false'
 

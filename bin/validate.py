@@ -160,23 +160,23 @@ def validate_standard_fields(object, uuids):
         if 'product' not in object['tags']:
             errors.append("ERROR: a `product` tag is required for object: %s" % object['name'])
 
-        # check risk score values
         for k,v in object['tags'].items():
 
+            if k == 'impact':
+                if not isinstance(v, int):
+                    errors.append("ERROR: impact not integer value for object: %s" % v)
+                    
+            if k == 'confidence':
+                if not isinstance(v, int):
+                    errors.append("ERROR: confidence not integer value for object: %s" % v)
             if k == 'risk_score':
                 if not isinstance(v, int):
                     errors.append("ERROR: risk_score not integer value for object: %s" % v)
-            risk_object_type = ["user","system", "other"]
 
-            if k == 'risk_object_type':
-                if v not in risk_object_type:
-                    errors.append("ERROR: risk_object_type can only contain user, system, other: %s" % v)
-
-            if k == 'risk_object':
-                try:
-                    v.encode('ascii')
-                except UnicodeEncodeError:
-                    errors.append("ERROR: risk_object not ascii for object: %s" % v)
+        if 'impact' in object['tags'] and 'confidence' in object['tags']:
+            calculated_risk_score = int(((object['tags']['impact'])*(object['tags']['confidence']))/100)
+            if calculated_risk_score != object['tags']['risk_score']:
+                errors.append("ERROR: risk_score not calulated correctly and it should be set as: %s" % calculated_risk_score)
 
     return errors, uuids
 
