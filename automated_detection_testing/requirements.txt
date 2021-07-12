@@ -14,8 +14,8 @@ azure-mgmt-network==19.0.0
 azure-mgmt-resource==17.0.0
 bcrypt==3.2.0
 boto3==1.17.104
-botocore==1.20.74
-certifi==2021.5.30
+botocore==1.20.105
+certifi==2020.5.30
 cffi==1.14.5
 cfgv==3.3.0
 chardet==4.0.0
@@ -29,7 +29,7 @@ gitdb==4.0.5
 GitPython==3.1.18
 identify==2.2.4
 idna==2.8
-importlib-metadata==4.0.1
+importlib-metadata==4.6.1
 Jinja2==3.0.0
 jmespath==0.10.0
 lockfile==0.12.2
