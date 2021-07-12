@@ -61,8 +61,8 @@ tags:
   - Processes.user
   security_domain: endpoint
   impact: 40
-  confidence: 28
-  risk_score: 49
+  confidence: 70
+  risk_score: 28
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
