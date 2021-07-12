@@ -15,9 +15,11 @@ SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
 class GithubService:
 
-    def __init__(self, security_content_branch):
+    def __init__(self, security_content_branch, PR_number = None):
         self.security_content_branch = security_content_branch
         self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
+        if PR_number:
+            os.system('cd security_content && git fetch origin refs/pull/' + PR_number + '/head:' + security_content_branch + ' && cd ..')
         self.security_content_repo_obj.git.checkout(security_content_branch)
 
     def clone_project(self, url, project, branch):
