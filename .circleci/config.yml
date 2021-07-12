@@ -459,7 +459,11 @@ jobs:
             virtualenv --python=/usr/bin/python3 --clear venv
             source venv/bin/activate
             pip install -q -r requirements.txt
-            python main.py -b ${CIRCLE_BRANCH}
+            if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
+                python main.py -b ${CIRCLE_BRANCH}
+            else
+                python main.py -b ${CIRCLE_BRANCH} -pr ${CIRCLE_PR_NUMBER}
+            fi
 
 
 workflows:
