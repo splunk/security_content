@@ -1,6 +1,6 @@
 name: UAC Bypass MMC Load Unsigned Dll Unit Test
 tests:
-- name: UAC Bypass MMC Load Unsigned Dll 
+- name: UAC Bypass MMC Load Unsigned Dll
   file: endpoint/uac_bypass_mmc_load_unsigned_dll.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
