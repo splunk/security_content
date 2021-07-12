@@ -460,9 +460,9 @@ jobs:
             source venv/bin/activate
             pip install -q -r requirements.txt
             if [[ ! -z "${CIRCLE_PULL_REQUEST}" &&  ! -z "${CIRCLE_PR_NUMBER}" ]]; then
-                python main.py -b ${CIRCLE_BRANCH}
-            else
                 python main.py -b ${CIRCLE_BRANCH} -pr ${CIRCLE_PR_NUMBER}
+            else
+                python main.py -b ${CIRCLE_BRANCH}
             fi
 
 
