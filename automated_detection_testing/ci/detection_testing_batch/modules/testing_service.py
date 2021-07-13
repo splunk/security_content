@@ -77,10 +77,9 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
 
         replay_attack_dataset(splunk_ip, splunk_password, ssh_key_name, folder_name, 'test' + str(test_index), attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
 
-    time.sleep(60)
+    time.sleep(200)
 
     result_test = {}
-
     test = test_file_obj['tests'][0]
 
     if 'baselines' in test:
