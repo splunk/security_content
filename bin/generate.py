@@ -629,7 +629,14 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
     objects = get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
 
-   
+    try:
+        if VERBOSE:
+            print("generating Mitre lookups")
+        generate_mitre_lookup(OUTPUT_PATH)
+    except Exception as e:
+        print('Error: ' + str(e))
+        print("WARNING: Generation of Mitre lookup failed.")
+
     lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
     lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
     lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
