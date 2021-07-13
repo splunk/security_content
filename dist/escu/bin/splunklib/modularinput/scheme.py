@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from __future__ import absolute_import
 try:
     import xml.etree.cElementTree as ET
 except ImportError:
@@ -54,7 +55,7 @@ class Scheme(object):
     def to_xml(self):
         """Creates an ``ET.Element`` representing self, then returns it.
 
-        :returns root, an ``ET.Element`` representing this scheme.
+        :returns: an ``ET.Element`` representing this scheme.
         """
         root = ET.Element("scheme")
 
