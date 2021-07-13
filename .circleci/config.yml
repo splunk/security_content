@@ -504,7 +504,7 @@ workflows:
             - build-package
           filters:
             tags:
-              only: /.*/
+              only: /^v.*/
             branches:
               ignore: /.*/
 
