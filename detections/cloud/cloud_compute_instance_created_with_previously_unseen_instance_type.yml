@@ -49,10 +49,10 @@ tags:
   - All_Changes.action
   - All_Changes.Instance_Changes.instance_type
   - All_Changes.user
-  impact: 30
+  impact: 50
   confidence: 60
   # (impact * confidence)/100
-  risk_score: 18
+  risk_score: 36
   context:
   - Source:Cloud Data
   - Scope:External
