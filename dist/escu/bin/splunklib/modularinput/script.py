@@ -12,14 +12,16 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from __future__ import absolute_import
 from abc import ABCMeta, abstractmethod
-from urlparse import urlsplit
+from splunklib.six.moves.urllib.parse import urlsplit
 import sys
 
 from ..client import Service
 from .event_writer import EventWriter
 from .input_definition import InputDefinition
 from .validation_definition import ValidationDefinition
+from splunklib import six
 
 try:
     import xml.etree.cElementTree as ET
@@ -27,7 +29,7 @@ except ImportError:
     import xml.etree.ElementTree as ET
 
 
-class Script(object):
+class Script(six.with_metaclass(ABCMeta, object)):
     """An abstract base class for implementing modular inputs.
 
     Subclasses should override ``get_scheme``, ``stream_events``,
@@ -37,7 +39,6 @@ class Script(object):
     The ``run`` function is used to run modular inputs; it typically should
     not be overridden.
     """
-    __metaclass__ = ABCMeta
 
     def __init__(self):
         self._input_definition = None
@@ -101,10 +102,10 @@ class Script(object):
                 err_string = "ERROR Invalid arguments to modular input script:" + ' '.join(
                     args)
                 event_writer._err.write(err_string)
+                return 1
 
         except Exception as e:
-            err_string = EventWriter.ERROR + str(e.message)
-            event_writer._err.write(err_string)
+            event_writer.log(EventWriter.ERROR, str(e))
             return 1
 
     @property
@@ -116,9 +117,9 @@ class Script(object):
         available as soon as the :code:`Script.stream_events` method is
         called.
 
-        :return: :class:splunklib.client.Service. A value of None is returned,
-        if you call this method before the :code:`Script.stream_events` method
-        is called.
+        :return: :class:`splunklib.client.Service`. A value of None is returned,
+            if you call this method before the :code:`Script.stream_events` method
+            is called.
 
         """
         if self._service is not None:
