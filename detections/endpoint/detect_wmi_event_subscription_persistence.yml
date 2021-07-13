@@ -12,15 +12,10 @@ description: 'The following analytic identifies the use of WMI Event Subscriptio
   (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges. This analytic
   is restricted by commonly added process execution and a path. If the volume is low
   enough, remove the values and flag on any new subscriptions.
-
-  All event subscriptions have three components \
-
-  1. Filter - WQL Query for the events we want. EventID = 19 \
-
-  1. Consumer - An action to take upon triggering the filter. EventID = 20 \
-
-  1. Binding - Registers a filter to a consumer. EventID = 21 \
-
+  All event subscriptions have three components
+  Filter - WQL Query for the events we want. EventID equals 19
+  Consumer - An action to take upon triggering the filter. EventID equals 20
+  Binding - Registers a filter to a consumer. EventID equals 21
   Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding.
   It may be pertinent to review all 3 to identify the flow of execution. In addition,
   EventCode 4104 may assist with any other PowerShell script usage that registered
