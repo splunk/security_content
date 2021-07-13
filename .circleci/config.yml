@@ -505,13 +505,14 @@ workflows:
           filters:
             tags:
               only: /.*/
+            branches:
+              ignore: /^v.*/
       - run-appinspect:
         # build always
           requires:
             - validate-content
             - build-sources
-            - build-package
-        
+            - build-package       
           filters:
             tags:
               only: /^v.*/
