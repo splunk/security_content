@@ -14,6 +14,7 @@ from jinja2 import Environment, FileSystemLoader
 import re
 from attackcti import attack_client
 import csv
+import shutil
 
 
 def load_objects(file_path, VERBOSE, REPO_PATH):
@@ -45,6 +46,16 @@ def load_file(file_path):
             sys.exit("ERROR: reading {0}".format(file_path))
     return file
 
+def generate_lookup_files(lookups, TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH):
+    sorted_lookups = sorted(lookups, key=lambda i: i['name'])
+    utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
+    for i in sorted_lookups:
+        for k,v in i.items():
+            if k == 'filename':
+                lookup_file = REPO_PATH +'/lookups/'+ v
+                dist_lookup_dir = OUTPUT_PATH +'/lookups'
+                shutil.copy(lookup_file,dist_lookup_dir)
+    return sorted_lookups
 
 def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     sorted_lookups = sorted(lookups, key=lambda i: i['name'])
@@ -625,9 +636,10 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     except Exception as e:
         print('Error: ' + str(e))
         print("WARNING: Generation of Mitre lookup failed.")
-
+        
     lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
     lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
+    lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
 
     detection_path = generate_savedsearches_conf(objects["detections"], objects["response_tasks"], objects["baselines"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
 
