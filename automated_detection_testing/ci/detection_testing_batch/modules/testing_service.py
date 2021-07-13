@@ -80,7 +80,6 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
     time.sleep(200)
 
     result_test = {}
-
     test = test_file_obj['tests'][0]
 
     if 'baselines' in test:
