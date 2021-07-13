@@ -16,7 +16,8 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from itertools import imap
+from splunklib import six
+from splunklib.six.moves import map as imap
 
 from .decorators import ConfigurationSetting
 from .search_command import SearchCommand
@@ -113,10 +114,10 @@ class EventingCommand(SearchCommand):
 
             ''')
 
-        type = ConfigurationSetting(readonly=True, value='eventing', doc='''
+        type = ConfigurationSetting(readonly=True, value='events', doc='''
             Command type
 
-            Fixed: :const:`'eventing'`.
+            Fixed: :const:`'events'`.
 
             Supported by: SCP 2
 
@@ -135,8 +136,14 @@ class EventingCommand(SearchCommand):
                 raise AttributeError('No EventingCommand.transform override')
             SearchCommand.ConfigurationSettings.fix_up(command)
 
+        # TODO: Stop looking like a dictionary because we don't obey the semantics
+        # N.B.: Does not use Python 2 dict copy semantics
         def iteritems(self):
             iteritems = SearchCommand.ConfigurationSettings.iteritems(self)
-            return imap(lambda (name, value): (name, 'events' if name == 'type' else value), iteritems)
+            return imap(lambda name_value: (name_value[0], 'events' if name_value[0] == 'type' else name_value[1]), iteritems)
+
+        # N.B.: Does not use Python 3 dict view semantics
+        if not six.PY2:
+            items = iteritems
 
         # endregion
