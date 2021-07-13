@@ -511,7 +511,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
-            - detection-testing
+        
           filters:
             tags:
               only: /^v.*/
@@ -522,7 +522,6 @@ workflows:
             - validate-content
             - build-sources
             - build-package
-            - detection-testing
             - run-appinspect
           filters:
             tags:
@@ -535,7 +534,6 @@ workflows:
             - validate-content
             - build-sources
             - build-package
-            - detection-testing
             - run-appinspect
             - create-report
           filters:
@@ -549,7 +547,6 @@ workflows:
             - validate-content
             - build-sources
             - build-package
-            - detection-testing
             - run-appinspect
             - create-report
             - update-sources-github
@@ -564,7 +561,6 @@ workflows:
             - validate-content
             - build-sources
             - build-package
-            - detection-testing
             - run-appinspect
             - create-report
             - update-sources-github
@@ -580,7 +576,6 @@ workflows:
             - validate-content
             - build-sources
             - build-package
-            - detection-testing
             - run-appinspect
             - create-report
             - update-sources-github
