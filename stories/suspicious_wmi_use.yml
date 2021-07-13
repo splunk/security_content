@@ -14,12 +14,10 @@ narrative: 'WMI is a Microsoft infrastructure for management data and operations
   to manage both local and remote Windows systems. Attackers are increasingly turning
   to WMI abuse in their efforts to conduct nefarious tasks, such as reconnaissance,
   detection of antivirus and virtual machines, code execution, lateral movement, persistence,
-  and data exfiltration. \
-
+  and data exfiltration. 
   The detection searches included in this Analytic Story are used to look for suspicious
   use of WMI commands that attackers may leverage to interact with remote systems.
-  The searches specifically look for the use of WMI to run processes on remote systems.\
-
+  The searches specifically look for the use of WMI to run processes on remote systems.
   In the event that unauthorized WMI execution occurs, it will be important for analysts
   and investigators to determine the context of the event. These details may provide
   insights related to how WMI was used and to what end.'
