@@ -61,7 +61,7 @@ tags:
   - Stage: Initial Access, Execution
   message: Wermgr.exe process connecting IP location web services on $ComputerName
   observable:
-    - name: ComputerName
+  - name: ComputerName
     type: Endpoint
     role:
     - Victim

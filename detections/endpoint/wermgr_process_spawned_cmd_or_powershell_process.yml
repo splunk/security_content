@@ -56,9 +56,9 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution
-  message: Wermgr.exe spawning supicious process on $dest
+  message: Wermgr.exe spawning suspicious processes on $dest
   observable:
-    - name: dest
+  - name: dest
     type: Endpoint
     role:
     - Victim
