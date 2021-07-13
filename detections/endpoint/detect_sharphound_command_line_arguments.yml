@@ -61,9 +61,9 @@ tags:
   confidence: 80
   risk_score: 24
   context:
-  - Source: Endpoint
-  - Stage: Discovery
-  message: Possible SharpHound command-Line arguments identified on $dest
+  - Source:Endpoint
+  - Stage:Discovery
+  message: Possible SharpHound command-Line arguments identified on $dest$
   observable:
   - name: dest
     type: Endpoint

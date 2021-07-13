@@ -56,9 +56,11 @@ tags:
   confidence: 50
   risk_score: 35
   context:
-  - Source: Endpoint
-  - Stage: Initial Access, Execution, Defense Evasion
-  message: cmd.exe launching script interpreters on $dest
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: cmd.exe launching script interpreters on $dest$
   observable:
   - name: dest
     type: Endpoint

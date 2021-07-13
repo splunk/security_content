@@ -29,7 +29,6 @@ tags:
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
-  - T1569.001
   - T1569.002
   product:
   - Splunk Enterprise
@@ -43,3 +42,20 @@ tags:
   - Service_Name
   - Service_Start_Type
   security_domain: endpoint
+  impact: 70
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  message: A service $Service_File_Name$ was created from a non-standard path using $Service_Name$, potentially leading to a privilege escalation.
+  observable:
+  - name: Service_File_Name
+    type: Other
+    role:
+    - Other
+  - name: Service_Name
+    type: Other
+    role:
+    - Other

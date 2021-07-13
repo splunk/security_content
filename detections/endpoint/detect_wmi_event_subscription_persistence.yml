@@ -59,9 +59,10 @@ tags:
   confidence: 90
   risk_score: 63
   context:
-  - Source: Endpoint
-  - Stage: Persistence, Privilege Escalation
-  message: Possible malicious WMI Subscription created on $dest
+  - Source:Endpoint
+  - Stage:Persistence
+  - Stage:Privilege Escalation
+  message: Possible malicious WMI Subscription created on $dest$
   observable:
   - name: dest
     type: Endpoint

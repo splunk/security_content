@@ -63,6 +63,27 @@ tags:
   - Processes.process
   - Processes.dest
   - Processes.user
-  - Processes.parent_process
+  - Processes.parent_process_name
   - Processes.process_id
   security_domain: endpoint
+  impact: 80
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: $process_name$ has been identified using Infotech Storage Handlers to load a specific file within a CHM on $dest$ under user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
