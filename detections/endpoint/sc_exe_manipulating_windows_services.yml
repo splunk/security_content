@@ -60,9 +60,9 @@ tags:
   - Processes.user
   security_domain: endpoint
   impact: 70 
-  confidence: 85  
+  confidence: 80  
   # (impact * confidence)/100
-  risk_score: 59.5 
+  risk_score: 56 
   context:
   - source:endpoint
   - stage: Persistence
