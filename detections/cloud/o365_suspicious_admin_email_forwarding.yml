@@ -51,8 +51,7 @@ tags:
   - Scope:External
   - Outcome:Allowed
   - Stage:Exfiltration
-  message: User $user$ has configured a forwarding rule for multiple
-  mailboxes to the same destination $ForwardingAddress$
+  message: User $user$ has configured a forwarding rule for multiple mailboxes to the same destination $ForwardingAddress$
   observable:
   - name: user
     type: User
