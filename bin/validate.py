@@ -176,7 +176,8 @@ def validate_standard_fields(object, uuids):
         if 'impact' in object['tags'] and 'confidence' in object['tags']:
             calculated_risk_score = int(((object['tags']['impact'])*(object['tags']['confidence']))/100)
             if calculated_risk_score != object['tags']['risk_score']:
-                errors.append("ERROR: risk_score not calulated correctly and it should be set as: %s" % calculated_risk_score)
+                
+                errors.append('ERROR: risk_score not calulated correctly in {0} and it should be set as:: {1}'.format(object['name'], calculated_risk_score))
 
     return errors, uuids
 

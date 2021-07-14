@@ -52,7 +52,7 @@ tags:
   impact: 50
   confidence: 60
   # (impact * confidence)/100
-  risk_score: 36
+  risk_score: 30
   context:
   - Source:Cloud Data
   - Scope:External

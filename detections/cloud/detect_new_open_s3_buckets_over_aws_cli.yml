@@ -67,9 +67,7 @@ tags:
   - Scope:External
   - Outcome:Allowed
   - Stage:Execution
-  message: User $user$ has created an open/public bucket $bucketName$ using AWS CLI with the following permissions- $requestParameters.accessControlList.x-amz-grant-read$
-  $requestParameters.accessControlList.x-amz-grant-read-acp$ $requestParameters.accessControlList.x-amz-grant-write$
-  $requestParameters.accessControlList.x-amz-grant-write-acp$ $requestParameters.accessControlList.x-amz-grant-full-control$
+  message: User $user$ has created an open/public bucket $bucketName$ using AWS CLI with the following permissions - $requestParameters.accessControlList.x-amz-grant-read$ $requestParameters.accessControlList.x-amz-grant-read-acp$ $requestParameters.accessControlList.x-amz-grant-write$ $requestParameters.accessControlList.x-amz-grant-write-acp$ $requestParameters.accessControlList.x-amz-grant-full-control$
   observable:
   - name: userName
     type: User
