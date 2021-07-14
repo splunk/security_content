@@ -1295,6 +1295,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * [Powershell Creating Thread Mutex](detections.md#powershell-creating-thread-mutex)
 
+* [Powershell Enable SMB1Protocol Feature](detections.md#powershell-enable-smb1protocol-feature)
+
 * [Powershell Fileless Process Injection via GetProcAddress](detections.md#powershell-fileless-process-injection-via-getprocaddress)
 
 * [Powershell Fileless Script Contains Base64 Encoded Content](detections.md#powershell-fileless-script-contains-base64-encoded-content)
@@ -4162,7 +4164,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1486](https://attack.mitre.org/techniques/T1486/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1569.001](https://attack.mitre.org/techniques/T1569.001/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1486](https://attack.mitre.org/techniques/T1486/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1569.001](https://attack.mitre.org/techniques/T1569.001/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
 - **Last Updated**: 2021-03-17
 
 <details>
@@ -4192,6 +4194,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Resize ShadowStorage volume](detections.md#resize-shadowstorage-volume)
 
+* [Resize Shadowstorage Volume](detections.md#resize-shadowstorage-volume)
+
 * [Suspicious Event Log Service Behavior](detections.md#suspicious-event-log-service-behavior)
 
 * [Suspicious wevtutil Usage](detections.md#suspicious-wevtutil-usage)
@@ -4213,6 +4217,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1490 | Inhibit System Recovery | Impact |
 | T1486 | Data Encrypted for Impact | Impact |
 | T1003.002 | Security Account Manager | Credential Access |
+| T1489 | Service Stop | Impact |
 | T1070.001 | Clear Windows Event Logs | Defense Evasion |
 
 #### Kill Chain Phase
@@ -4693,7 +4698,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint, Network_Traffic
-- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1069.001](https://attack.mitre.org/techniques/T1069.001/), [T1069.002](https://attack.mitre.org/techniques/T1069.002/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1070.004](https://attack.mitre.org/techniques/T1070.004/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1087.001](https://attack.mitre.org/techniques/T1087.001/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1222](https://attack.mitre.org/techniques/T1222/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1592](https://attack.mitre.org/techniques/T1592/)
+- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1027.005](https://attack.mitre.org/techniques/T1027.005/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1059.005](https://attack.mitre.org/techniques/T1059.005/), [T1069.001](https://attack.mitre.org/techniques/T1069.001/), [T1069.002](https://attack.mitre.org/techniques/T1069.002/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1070.004](https://attack.mitre.org/techniques/T1070.004/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1087.001](https://attack.mitre.org/techniques/T1087.001/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1222](https://attack.mitre.org/techniques/T1222/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1531](https://attack.mitre.org/techniques/T1531/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1562.007](https://attack.mitre.org/techniques/T1562.007/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/), [T1574.002](https://attack.mitre.org/techniques/T1574.002/), [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2020-02-04
 
 <details>
@@ -4701,7 +4706,15 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 #### Detection Profile
 
+* [Allow File And Printing Sharing In Firewall](detections.md#allow-file-and-printing-sharing-in-firewall)
+
+* [Allow Network Discovery In Firewall](detections.md#allow-network-discovery-in-firewall)
+
 * [Allow Operation with Consent Admin](detections.md#allow-operation-with-consent-admin)
+
+* [Attempt To Disable Services](detections.md#attempt-to-disable-services)
+
+* [Attempt To delete Services](detections.md#attempt-to-delete-services)
 
 * [BCDEdit Failure Recovery Modification](detections.md#bcdedit-failure-recovery-modification)
 
@@ -4714,6 +4727,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Common Ransomware Notes](detections.md#common-ransomware-notes)
 
 * [Conti Common Exec parameter](detections.md#conti-common-exec-parameter)
+
+* [Delete A Net User](detections.md#delete-a-net-user)
 
 * [Delete ShadowCopy With PowerShell](detections.md#delete-shadowcopy-with-powershell)
 
@@ -4729,13 +4744,37 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Detect SharpHound Usage](detections.md#detect-sharphound-usage)
 
+* [Disable AMSI Through Registry](detections.md#disable-amsi-through-registry)
+
+* [Disable ETW Through Registry](detections.md#disable-etw-through-registry)
+
 * [Disable Logs Using WevtUtil](detections.md#disable-logs-using-wevtutil)
+
+* [Disable Net User Account](detections.md#disable-net-user-account)
+
+* [Disable Windows Behavior Monitoring](detections.md#disable-windows-behavior-monitoring)
+
+* [Excessive Service Stop Attempt](detections.md#excessive-service-stop-attempt)
+
+* [Excessive Usage Of Net App](detections.md#excessive-usage-of-net-app)
+
+* [Excessive Usage Of SC Service Utility](detections.md#excessive-usage-of-sc-service-utility)
+
+* [Execute Javascript With Jscript COM CLSID](detections.md#execute-javascript-with-jscript-com-clsid)
+
+* [ICACLS Grant Command](detections.md#icacls-grant-command)
 
 * [Known Services Killed by Ransomware](detections.md#known-services-killed-by-ransomware)
 
 * [Modification Of Wallpaper](detections.md#modification-of-wallpaper)
 
+* [Msmpeng Application DLL Side Loading](detections.md#msmpeng-application-dll-side-loading)
+
 * [Permission Modification using Takeown App](detections.md#permission-modification-using-takeown-app)
+
+* [Powershell Disable Security Monitoring](detections.md#powershell-disable-security-monitoring)
+
+* [Powershell Enable SMB1Protocol Feature](detections.md#powershell-enable-smb1protocol-feature)
 
 * [Prevent Automatic Repair Mode using Bcdedit](detections.md#prevent-automatic-repair-mode-using-bcdedit)
 
@@ -4743,9 +4782,13 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Recon AVProduct Through Pwh or WMI](detections.md#recon-avproduct-through-pwh-or-wmi)
 
+* [Recursive Delete of Directory In Batch CMD](detections.md#recursive-delete-of-directory-in-batch-cmd)
+
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
 * [Remote Process Instantiation via WMI](detections.md#remote-process-instantiation-via-wmi)
+
+* [Resize Shadowstorage Volume](detections.md#resize-shadowstorage-volume)
 
 * [Revil Common Exec Parameter](detections.md#revil-common-exec-parameter)
 
@@ -4796,7 +4839,9 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1562.007 | Disable or Modify Cloud Firewall | Defense Evasion |
 | T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+| T1489 | Service Stop | Impact |
 | T1490 | Inhibit System Recovery | Impact |
 | T1218.003 | CMSTP | Defense Evasion |
 | T1070.004 | File Deletion | Defense Evasion |
@@ -4808,9 +4853,15 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1482 | Domain Trust Discovery | Discovery |
 | T1069.002 | Domain Groups | Discovery |
 | T1069.001 | Local Groups | Discovery |
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
 | T1070.001 | Clear Windows Event Logs | Defense Evasion |
-| T1491 | Defacement | Impact |
+| T1531 | Account Access Removal | Impact |
+| T1569.002 | Service Execution | Execution |
+| T1059.005 | Visual Basic | Execution |
 | T1222 | File and Directory Permissions Modification | Defense Evasion |
+| T1491 | Defacement | Impact |
+| T1574.002 | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
+| T1027.005 | Indicator Removal from Tools | Defense Evasion |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1592 | Gather Victim Host Information | Reconnaissance |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
@@ -4897,7 +4948,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/)
+- **ATT&CK**: [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1562.007](https://attack.mitre.org/techniques/T1562.007/), [T1574.002](https://attack.mitre.org/techniques/T1574.002/)
 - **Last Updated**: 2021-06-04
 
 <details>
@@ -4905,9 +4956,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 #### Detection Profile
 
+* [Allow Network Discovery In Firewall](detections.md#allow-network-discovery-in-firewall)
+
 * [Delete ShadowCopy With PowerShell](detections.md#delete-shadowcopy-with-powershell)
 
+* [Disable Windows Behavior Monitoring](detections.md#disable-windows-behavior-monitoring)
+
 * [Modification Of Wallpaper](detections.md#modification-of-wallpaper)
+
+* [Msmpeng Application DLL Side Loading](detections.md#msmpeng-application-dll-side-loading)
+
+* [Powershell Disable Security Monitoring](detections.md#powershell-disable-security-monitoring)
 
 * [Revil Common Exec Parameter](detections.md#revil-common-exec-parameter)
 
@@ -4920,8 +4979,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1562.007 | Disable or Modify Cloud Firewall | Defense Evasion |
 | T1490 | Inhibit System Recovery | Impact |
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
 | T1491 | Defacement | Impact |
+| T1574.002 | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
 | T1204 | User Execution | Execution |
 | T1112 | Modify Registry | Defense Evasion |
 | T1218.003 | CMSTP | Defense Evasion |
@@ -5391,9 +5453,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 #### Detection Profile
 
+* [Attempt To Disable Services](detections.md#attempt-to-disable-services)
+
+* [Attempt To delete Services](detections.md#attempt-to-delete-services)
+
+* [Delete A Net User](detections.md#delete-a-net-user)
+
 * [Deleting Of Net Users](detections.md#deleting-of-net-users)
 
 * [Deny Permission using Cacls Utility](detections.md#deny-permission-using-cacls-utility)
+
+* [Disable Net User Account](detections.md#disable-net-user-account)
 
 * [Disable Windows App Hotkeys](detections.md#disable-windows-app-hotkeys)
 
@@ -5442,12 +5512,12 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1489 | Service Stop | Impact |
 | T1531 | Account Access Removal | Impact |
 | T1222 | File and Directory Permissions Modification | Defense Evasion |
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
 | T1105 | Ingress Tool Transfer | Command And Control |
 | T1087 | Account Discovery | Discovery |
-| T1489 | Service Stop | Impact |
 | T1036 | Masquerading | Defense Evasion |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |

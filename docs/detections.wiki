@@ -6767,6 +6767,95 @@ admin or power user may used this series of command.
 
 ----
 
+===Allow file and printing sharing in firewall===
+This search is to detect a suspicious modification of firewall to allow file and printer sharing. This technique was seen in ransomware to be able to discover more machine connected to the compromised host to encrypt more files
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562/007/ T1562.007]
+* '''Last Updated''': 2021-06-23
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe Processes.process= "*firewall*" Processes.process= "*group=\"File and Printer Sharing\"*"  Processes.process="*enable=Yes*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `allow_file_and_printing_sharing_in_firewall_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+* Processes.parent_process_name
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1562.007
+| Disable or Modify Cloud Firewall
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network admin may modify this firewall feature that may cause this rule to be triggered.
+
+====Reference====
+
+
+* https://kb.fortinet.com/kb/documentLink.do?externalID=FD52469
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Allow inbound traffic by firewall rule registry===
 This analytic detects a potential suspicious modification of firewall rule registry allowing inbound traffic in specific port with public profile. This technique was seen in some attacker want to have a remote access to a machine by allowing the traffic in firewall rule.
 
@@ -6925,6 +7014,97 @@ administrator may allow inbound traffic in certain network or machine.
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Allow network discovery in firewall===
+This search is to detect a suspicious modification to the firewall to allow network discovery on a machine. This technique was seen in couple of ransomware (revil, reddot) to discover other machine connected to the compromised host to encrypt more files.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562/007/ T1562.007]
+* '''Last Updated''': 2021-06-23
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe Processes.process= "*firewall*" Processes.process= "*group=\"Network Discovery\"*"  Processes.process="*enable*" Processes.process="*Yes*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `allow_network_discovery_in_firewall_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+* Processes.parent_process_name
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1562.007
+| Disable or Modify Cloud Firewall
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network admin may modify this firewall feature that may cause this rule to be triggered.
+
+====Reference====
+
+
+* https://kb.fortinet.com/kb/documentLink.do?externalID=FD52469
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
 
 
 ''version'': 1
@@ -7708,6 +7888,94 @@ There may be legitimate reasons for administrators to add a certificate to the u
 
 ----
 
+===Attempt to disable services===
+This analytic will identify suspicious series of command-line to disable several services. This technique is seen where the adversary attempts to disable security app services or other malware services to complete the objective on the compromised system.
+
+* '''Product''': Splunk Behavioral Analytics
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''Last Updated''': 2021-06-18
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| from read_ssa_enriched_events() 
+| eval _datamodels=ucast(map_get(input_event, "_datamodels"), "collection<string>", []), body={} 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%disabled%") AND like(cmd_line, "%config%") AND process_name="sc.exe" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+
+====Required field====
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1489
+| Service Stop
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Attempt to stop security service===
 This search looks for attempts to stop security-related services on the endpoint.
 
@@ -7784,6 +8052,91 @@ None identified. Attempts to disable security-related services should be identif
 
 
 ''version'': 3
+</div>
+</div>
+
+----
+
+===Attempt to delete services===
+This analytic identifies suspicious series of attempt to kill multiple services on a system using either `net.exe` or `sc.exe`. This technique is use by adversaries to terminate security services or other related services to continue there objective and evade detections.
+
+* '''Product''': Splunk Behavioral Analytics
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''Last Updated''': 2021-06-18
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%delete%") AND process_name = "sc.exe" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+
+====Required field====
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1489
+| Service Stop
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log
+
+
+''version'': 1
 </div>
 </div>
 
@@ -11326,6 +11679,91 @@ Limited false positives. If there is a true false positive, filter based on comm
 
 ----
 
+===Delete a net user===
+This analytic will detect a suspicious net.exe/net1.exe command-line to delete a user on a system. This technique may be use by an administrator for legitimate purposes, however this behavior has been used in the wild to impair some user or deleting adversaries tracks created during its lateral movement additional systems. During triage, review parallel processes for additional behavior. Identify any other user accounts created before or after.
+
+* '''Product''': Splunk Behavioral Analytics
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''Last Updated''': 2021-06-21
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%/delete%") AND (process_name="net1.exe" OR process_name="net.exe") 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+o successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+
+====Required field====
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1489
+| Service Stop
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+System administrators or scripts may delete user accounts via this technique. Filter as needed.
+
+====Reference====
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Delete shadowcopy with powershell===
 This following analytic detects PowerShell command to delete shadow copy using the WMIC PowerShell module. This technique was seen used by a recent adversary to deploy DarkSide Ransomware where it executed a child process of PowerShell to execute a hex encoded command to delete shadow copy. This hex encoded command was able to be decrypted by PowerShell log.
 
@@ -11338,7 +11776,7 @@ This following analytic detects PowerShell command to delete shadow copy using t
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>`powershell` EventCode=4104 Message= "*ShadowCopy*" Message = "*Delete*" 
+<search>`powershell` EventCode=4104 Message= "*ShadowCopy*" (Message = "*Delete*" OR Message = "*Remove*") 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -15978,11 +16416,11 @@ Some legitimate applications may exhibit this behavior.
 ----
 
 ===Detect wmi event subscription persistence===
-The following analytic identifies the use of WMI Event Subscription to establish persistence or perform privilege escalation.  WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges. This analytic is restricted by commonly added process execution and a path. If the volume is low enough, remove the values and flag on any new subscriptions.
+The following analytic identifies the use of WMI Event Subscription to establish persistence or perform privilege escalation.  WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges. This analytic is restricted by commonly added process execution and a path. If the volume is low enough, remove the values and flag on any new subscriptions.\
 All event subscriptions have three components \
-1. Filter - WQL Query for the events we want. EventID = 19 \
-1. Consumer - An action to take upon triggering the filter. EventID = 20 \
-1. Binding - Registers a filter to a consumer. EventID = 21 \
+1. Filter - WQL Query for the events we want. EventID equals 19 \
+1. Consumer - An action to take upon triggering the filter. EventID equals 20 \
+1. Binding - Registers a filter to a consumer. EventID equals 21 \
 Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding. It may be pertinent to review all 3 to identify the flow of execution. In addition, EventCode 4104 may assist with any other PowerShell script usage that registered the subscription.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -16400,6 +16838,170 @@ While legitimate, these NirSoft tools are prone to abuse. You should verfiy that
 
 ----
 
+===Disable amsi through registry===
+this search is to identify modification in registry to disable AMSI windows feature to evade detections. This technique was seen in several ransomware, RAT and even APT to impaire defenses of the compromise machine and to be able to execute payload with minimal alert as much as possible.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562/001/ T1562.001]
+* '''Last Updated''': 2021-06-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable" Registry.registry_value_name = "DWORD (0x00000000)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `disable_amsi_through_registry_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+====Required field====
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network operator may disable this feature of windows but not so common.
+
+====Reference====
+
+
+* https://blog.f-secure.com/hunting-for-amsi-bypasses/
+
+* https://gist.github.com/rxwx/8955e5abf18dc258fd6b43a3a7f4dbf9
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Disable etw through registry===
+this search is to identify modification in registry to disable ETW windows feature to evade detections. This technique was seen in several ransomware, RAT and even APT to impaire defenses of the compromise machine and to be able to execute payload with minimal alert as much as possible.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562/001/ T1562.001]
+* '''Last Updated''': 2021-06-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\.NETFramework\\ETWEnabled" Registry.registry_value_name = "DWORD (0x00000000)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `disable_etw_through_registry_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+====Required field====
+
+* _time
+
+* Registry.registry_key_name
+
+* Registry.registry_path
+
+* Registry.user
+
+* Registry.dest
+
+* Registry.registry_value_name
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network operator may disable this feature of windows but not so common.
+
+====Reference====
+
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Disable logs using wevtutil===
 This search is to detect execution of wevtutil.exe to disable logs. This technique was seen in several ransomware to disable the event logs to evade alerts and detections.
 
@@ -16479,6 +17081,91 @@ network operator may disable audit event logs for debugging purposes.
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Disable net user account===
+This analytic will identify a suspicious command-line that disables a user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt availability of such users to do their malicious act.
+
+* '''Product''': Splunk Behavioral Analytics
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''Last Updated''': 2021-06-21
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%/active:no%") AND (process_name="net1.exe" OR process_name="net.exe") 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe/net1.exe may be used.
+
+====Required field====
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1489
+| Service Stop
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network operator may use this approach to quickly disable an account but not a common practice.
+
+====Reference====
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log
 
 
 ''version'': 1
@@ -16753,7 +17440,7 @@ This search is to identifies a modification in registry to disable the windows d
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableBehaviorMonitoring" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableScanOnRealtimeEnable" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableBehaviorMonitoring" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableScanOnRealtimeEnable" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableRealtimeMonitoring" OR Registry.registry_path= "*\\Real-Time Protection\\DisableIntrusionPreventionSystem" OR Registry.registry_path= "*\\Real-Time Protection\\DisableIOAVProtection" OR Registry.registry_path= "*\\Real-Time Protection\\DisableScriptScanning" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -16762,6 +17449,10 @@ This search is to identifies a modification in registry to disable the windows d
 ====Associated Analytic Story====
 
 * [[Documentation:ESSOC:stories:UseCase#Windows_Defense_Evasion_Tactics|Windows Defense Evasion Tactics]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
 
 
 ====How To Implement====
@@ -18545,7 +19236,7 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "net.exe" OR  Processes.process_name = "sc.exe" OR  Processes.process_name = "net1.exe" AND Processes.process="*stop*" OR Processes.process="*/delete*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m 
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "net.exe" OR  Processes.process_name = "sc.exe" OR  Processes.process_name = "net1.exe" AND Processes.process="*stop*" OR Processes.process="*delete*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user _time span=1m 
 | where count >=5 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
@@ -18555,6 +19246,8 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 ====Associated Analytic Story====
 
 * [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
 
 
 ====How To Implement====
@@ -18724,6 +19417,8 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 
 * [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
 
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
 
 ====How To Implement====
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
@@ -18776,6 +19471,87 @@ unknown. Filter as needed. Modify the time span as needed.
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Excessive usage of sc service utility===
+This search is to detect a suspicious excessive usage of sc.exe in a host machine. This technique was seen in several ransomware , xmrig and other malware to create, modify, delete or disable a service may related to security application or to gain privilege escalation.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1569/002/ T1569.002]
+* '''Last Updated''': 2021-06-24
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`sysmon` EventCode = 1 process_name = "sc.exe" 
+|  bucket _time span=15m 
+| stats values(process) as process count as numScExe by Computer, _time 
+|  eventstats avg(numScExe) as avgScExe, stdev(numScExe) as stdScExe, count as numSlots by Computer 
+|  eval upperThreshold=(avgScExe + stdScExe *3) 
+|  eval isOutlier=if(avgScExe > 5 and avgScExe >= upperThreshold, 1, 0) 
+|  search isOutlier=1 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `excessive_usage_of_sc_service_utility_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed taskkill.exe may be used.
+
+====Required field====
+
+* _time
+
+* EventCode
+
+* process_name
+
+* process
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1569.002
+| Service Execution
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+excessive execution of sc.exe is quite suspicious since it can modify or execute app in high privilege permission.
+
+====Reference====
+
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
 
 
 ''version'': 1
@@ -18909,17 +19685,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * _time
 
-* Processes.dest
+* Computer
 
-* Processes.user
+* process_name
 
-* Processes.parent_process
-
-* Processes.process_name
-
-* Processes.process
-
-* Processes.process_id
+* EventCode
 
 
 
@@ -19288,6 +20058,91 @@ Administrators may allow creation of script or exe in the paths specified. Filte
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Execute javascript with jscript com clsid===
+This analytic will identify suspicious process of cscript.exe where it tries to execute javascript using jscript.encode CLSID (COM OBJ). This technique was seen in ransomware (reddot ransomware) where it execute javascript with this com object with combination of amsi disabling technique.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059/005/ T1059.005]
+* '''Last Updated''': 2021-06-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cscript.exe" Processes.process="*-e:{F414C262-6AC0-11CF-B6D1-00AA00BBBB58}*" by Processes.parent_process_name Processes.process_name Processes.process Processes.parent_process Processes.process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `execute_javascript_with_jscript_com_clsid_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+
+====Required field====
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.parent_process
+
+* Processes.process_id
+
+* Processes.dest
+
+* Processes.user
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059.005
+| Visual Basic
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
 
 
 ''version'': 1
@@ -20402,6 +21257,8 @@ This analytic identifies potential adversaries that modify the security permissi
 ====Associated Analytic Story====
 
 * [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
 
 
 ====How To Implement====
@@ -22549,6 +23406,89 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 
 
 ====Test Dataset====
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Msmpeng application dll side loading===
+This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in non default windows defender folder. This technique was seen couple days ago with revil ransomware in Kaseya Supply chain. The approach is to drop an old version of msmpeng.exe to load the actual payload name as mspvc.dll which will load the revil ransomware to the compromise machine
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1574/002/ T1574.002]
+* '''Last Updated''': 2021-07-05
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = "msmpeng.exe" OR Filesystem.file_name = "mpsvc.dll")  AND Filesystem.file_path != "*\\Program Files\\windows defender\\*" by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `msmpeng_application_dll_side_loading_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+
+====Required field====
+
+* _time
+
+* Filesystem.file_create_time
+
+* Filesystem.process_id
+
+* Filesystem.file_name
+
+* Filesystem.user
+
+* Filesystem.file_path
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1574.002
+| DLL Side-Loading
+| Persistence, Privilege Escalation, Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+quite minimal false positive expected.
+
+====Reference====
+
+
+* https://community.sophos.com/b/security-blog/posts/active-ransomware-attack-on-kaseya-customers
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log
 
 
 ''version'': 1
@@ -24835,6 +25775,173 @@ powershell developer may used this function in their script for instance checkin
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Powershell disable security monitoring===
+This search is to identifies a modification in registry to disable the windows denfender real time behavior monitoring. This event or technique is commonly seen in RAT, bot, or Trojan to disable AV to evade detections.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562/001/ T1562.001]
+* '''Last Updated''': 2021-07-05
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("powershell.exe", "pwsh.exe", "sqlps.exe", "sqltoolsps.exe") Processes.process="*set-mppreference*" AND Processes.process IN ("*disablerealtimemonitoring*","*disableioavprotection*","*disableintrusionpreventionsystem*","*disablescriptscanning*","*disableblockatfirstseen*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `powershell_disable_security_monitoring_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Revil_Ransomware|Revil Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+Limited false positives. However, tune based on scripts that may perform this action.
+
+====Reference====
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-15---tamper-with-windows-defender-atp-powershell
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/pwh_defender_disabling/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Powershell enable smb1protocol feature===
+This search is to detect a suspicious enabling of smb1protocol through "powershell.exe". This technique was seen in some ransomware (like reddot) where it enable smb share to do the lateral movement and encrypt other files within the compromise network system.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1027/005/ T1027.005]
+* '''Last Updated''': 2021-06-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`powershell` EventCode=4104 Message = "*Enable-WindowsOptionalFeature*" Message = "*SMB1Protocol*" 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `powershell_enable_smb1protocol_feature_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Malicious_PowerShell|Malicious PowerShell]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
+
+====Required field====
+
+* _time
+
+* EventCode
+
+* Message
+
+* ComputerName
+
+* User
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1027.005
+| Indicator Removal from Tools
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network operator may enable or disable this windows feature.
+
+====Reference====
+
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-powershell.log
 
 
 ''version'': 1
@@ -27804,6 +28911,91 @@ None identified.
 
 ----
 
+===Recursive delete of directory in batch cmd===
+This search is to detect a suspicious commandline designed to delete files or directory recursive using batch command. This technique was seen in ransomware (reddot) where it it tries to delete the files in recycle bin to impaire user from recovering deleted files.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1070/004/ T1070.004]
+* '''Last Updated''': 2021-06-22
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe Processes.process=*/c*  Processes.process=* rd * Processes.process="*/s*" Processes.process="*/q*" by Processes.user Processes.process_name Processes.parent_process_name Processes.parent_process Processes.process Processes.process_id Processes.dest 
+|`drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `recursive_delete_of_directory_in_batch_cmd_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.parent_process
+
+* Processes.process_id
+
+* Processes.dest
+
+* Processes.user
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1070.004
+| File Deletion
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network operator may use this batch command to delete recursively a directory or files within directory
+
+====Reference====
+
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Reg exe manipulating windows services registry keys===
 The search looks for reg.exe modifying registry keys that define Windows services and their configurations.
 
@@ -28456,6 +29648,93 @@ network admin can resize the shadowstorage for valid purposes.
 
 ----
 
+===Resize shadowstorage volume===
+The following analytics identifies the resizing of shadowstorage by ransomware malware to avoid the shadow volumes being made again. this technique is an alternative by ransomware attacker than deleting the shadowstorage which is known alert in defensive team. one example of ransomware that use this technique is CLOP ransomware where it drops a .bat file that will resize the shadowstorage to minimum size as much as possible
+
+* '''Product''': Splunk Behavioral Analytics
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1489/ T1489]
+* '''Last Updated''': 2021-06-21
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%resize%") AND like(cmd_line, "%shadowstorage%") AND like(cmd_line, "%maxsize%") AND process_name="vssadmin.exe" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| into write_ssa_detected_events();</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Clop_Ransomware|Clop Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* dest_device_id
+
+* process_name
+
+* parent_process_name
+
+* process_path
+
+* dest_user_id
+
+* process
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1489
+| Service Stop
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network admin can resize the shadowstorage for valid purposes.
+
+====Reference====
+
+
+* https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+
+* https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Revil common exec parameter===
 This analytic identifies suspicious commandline parameter that are commonly used by REVIL ransomware to encrypts the compromise machine.
 
@@ -28560,7 +29839,7 @@ This analytic identifies suspicious modification in registry entry to keep some 
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*" AND (Registry.registry_value_name = "\.*" OR Registry.registry_value_name = "Binary Data") by Registry.registry_value_name Registry.dest Registry.user 
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*" OR Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*") AND (Registry.registry_value_name = "\.*" OR Registry.registry_value_name = "Binary Data") by Registry.registry_value_name Registry.dest Registry.user 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 
@@ -34980,7 +36259,7 @@ Although unlikely, administrators may use event subscriptions for legitimate pur
 ----
 
 ===Wmi permanent event subscription - sysmon===
-This analytic looks for the creation of WMI permanent event subscriptions. The following analytic identifies the use of WMI Event Subscription to establish persistence or perform privilege escalation.  WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges. This analytic is restricted by commonly added process execution and a path. If the volume is low enough, remove the values and flag on any new subscriptions.
+This analytic looks for the creation of WMI permanent event subscriptions. The following analytic identifies the use of WMI Event Subscription to establish persistence or perform privilege escalation.  WMI can be used to install event filters, providers, consumers, and bindings that execute code when a defined event occurs. WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe) and thus may result in elevated SYSTEM privileges. This analytic is restricted by commonly added process execution and a path. If the volume is low enough, remove the values and flag on any new subscriptions.\
 All event subscriptions have three components \
 1. Filter - WQL Query for the events we want. EventID = 19 \
 1. Consumer - An action to take upon triggering the filter. EventID = 20 \
@@ -39696,7 +40975,7 @@ There might be false positives associted with this detection since items like ar
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-07-02 15:57:11.009427 UTC''
+# On Date: 2021-07-13 23:18:19.885161 UTC''
 # Author: Splunk Security Research''
 # Contact: research@splunk.com''
 #############

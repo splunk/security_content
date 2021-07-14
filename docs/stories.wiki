@@ -1744,6 +1744,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * [[Documentation:ESSOC:detections:Detections#Powershell_creating_thread_mutex|Powershell Creating Thread Mutex]]
 
+* [[Documentation:ESSOC:detections:Detections#Powershell_enable_smb1protocol_feature|Powershell Enable SMB1Protocol Feature]]
+
 * [[Documentation:ESSOC:detections:Detections#Powershell_fileless_process_injection_via_getprocaddress|Powershell Fileless Process Injection via GetProcAddress]]
 
 * [[Documentation:ESSOC:detections:Detections#Powershell_fileless_script_contains_base64_encoded_content|Powershell Fileless Script Contains Base64 Encoded Content]]
@@ -5468,7 +5470,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1569.001/ T1569.001], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1070.001/ T1070.001]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1569.001/ T1569.001], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1489/ T1489], [https://attack.mitre.org/techniques/T1070.001/ T1070.001]
 * '''Last Updated''': 2021-03-17
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -5497,6 +5499,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Ransomware_notes_bulk_creation|Ransomware Notes bulk creation]]
 
 * [[Documentation:ESSOC:detections:Detections#Resize_shadowstorage_volume|Resize ShadowStorage volume]]
+
+* [[Documentation:ESSOC:detections:Detections#Resize_shadowstorage_volume|Resize Shadowstorage Volume]]
 
 * [[Documentation:ESSOC:detections:Detections#Suspicious_event_log_service_behavior|Suspicious Event Log Service Behavior]]
 
@@ -5545,6 +5549,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1003.002
 | Security Account Manager
 | Credential Access
+|-
+| T1489
+| Service Stop
+| Impact
 |-
 | T1070.001
 | Clear Windows Event Logs
@@ -6209,7 +6217,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint, Network_Traffic
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1070.004/ T1070.004], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1087.001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069.002/ T1069.002], [https://attack.mitre.org/techniques/T1069.001/ T1069.001], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1222/ T1222], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1592/ T1592], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562.007/ T1562.007], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1489/ T1489], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1070.004/ T1070.004], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1087.001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069.002/ T1069.002], [https://attack.mitre.org/techniques/T1069.001/ T1069.001], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1531/ T1531], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1059.005/ T1059.005], [https://attack.mitre.org/techniques/T1222/ T1222], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1574.002/ T1574.002], [https://attack.mitre.org/techniques/T1027.005/ T1027.005], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1592/ T1592], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070]
 * '''Last Updated''': 2020-02-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -6217,7 +6225,15 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Allow_file_and_printing_sharing_in_firewall|Allow File And Printing Sharing In Firewall]]
+
+* [[Documentation:ESSOC:detections:Detections#Allow_network_discovery_in_firewall|Allow Network Discovery In Firewall]]
+
 * [[Documentation:ESSOC:detections:Detections#Allow_operation_with_consent_admin|Allow Operation with Consent Admin]]
+
+* [[Documentation:ESSOC:detections:Detections#Attempt_to_disable_services|Attempt To Disable Services]]
+
+* [[Documentation:ESSOC:detections:Detections#Attempt_to_delete_services|Attempt To delete Services]]
 
 * [[Documentation:ESSOC:detections:Detections#Bcdedit_failure_recovery_modification|BCDEdit Failure Recovery Modification]]
 
@@ -6230,6 +6246,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Common_ransomware_notes|Common Ransomware Notes]]
 
 * [[Documentation:ESSOC:detections:Detections#Conti_common_exec_parameter|Conti Common Exec parameter]]
+
+* [[Documentation:ESSOC:detections:Detections#Delete_a_net_user|Delete A Net User]]
 
 * [[Documentation:ESSOC:detections:Detections#Delete_shadowcopy_with_powershell|Delete ShadowCopy With PowerShell]]
 
@@ -6245,13 +6263,37 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Detect_sharphound_usage|Detect SharpHound Usage]]
 
+* [[Documentation:ESSOC:detections:Detections#Disable_amsi_through_registry|Disable AMSI Through Registry]]
+
+* [[Documentation:ESSOC:detections:Detections#Disable_etw_through_registry|Disable ETW Through Registry]]
+
 * [[Documentation:ESSOC:detections:Detections#Disable_logs_using_wevtutil|Disable Logs Using WevtUtil]]
+
+* [[Documentation:ESSOC:detections:Detections#Disable_net_user_account|Disable Net User Account]]
+
+* [[Documentation:ESSOC:detections:Detections#Disable_windows_behavior_monitoring|Disable Windows Behavior Monitoring]]
+
+* [[Documentation:ESSOC:detections:Detections#Excessive_service_stop_attempt|Excessive Service Stop Attempt]]
+
+* [[Documentation:ESSOC:detections:Detections#Excessive_usage_of_net_app|Excessive Usage Of Net App]]
+
+* [[Documentation:ESSOC:detections:Detections#Excessive_usage_of_sc_service_utility|Excessive Usage Of SC Service Utility]]
+
+* [[Documentation:ESSOC:detections:Detections#Execute_javascript_with_jscript_com_clsid|Execute Javascript With Jscript COM CLSID]]
+
+* [[Documentation:ESSOC:detections:Detections#Icacls_grant_command|ICACLS Grant Command]]
 
 * [[Documentation:ESSOC:detections:Detections#Known_services_killed_by_ransomware|Known Services Killed by Ransomware]]
 
 * [[Documentation:ESSOC:detections:Detections#Modification_of_wallpaper|Modification Of Wallpaper]]
 
+* [[Documentation:ESSOC:detections:Detections#Msmpeng_application_dll_side_loading|Msmpeng Application DLL Side Loading]]
+
 * [[Documentation:ESSOC:detections:Detections#Permission_modification_using_takeown_app|Permission Modification using Takeown App]]
+
+* [[Documentation:ESSOC:detections:Detections#Powershell_disable_security_monitoring|Powershell Disable Security Monitoring]]
+
+* [[Documentation:ESSOC:detections:Detections#Powershell_enable_smb1protocol_feature|Powershell Enable SMB1Protocol Feature]]
 
 * [[Documentation:ESSOC:detections:Detections#Prevent_automatic_repair_mode_using_bcdedit|Prevent Automatic Repair Mode using Bcdedit]]
 
@@ -6259,9 +6301,13 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Recon_avproduct_through_pwh_or_wmi|Recon AVProduct Through Pwh or WMI]]
 
+* [[Documentation:ESSOC:detections:Detections#Recursive_delete_of_directory_in_batch_cmd|Recursive Delete of Directory In Batch CMD]]
+
 * [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
 
 * [[Documentation:ESSOC:detections:Detections#Remote_process_instantiation_via_wmi|Remote Process Instantiation via WMI]]
+
+* [[Documentation:ESSOC:detections:Detections#Resize_shadowstorage_volume|Resize Shadowstorage Volume]]
 
 * [[Documentation:ESSOC:detections:Detections#Revil_common_exec_parameter|Revil Common Exec Parameter]]
 
@@ -6315,9 +6361,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 ! Technique
 ! Tactic
 |-
+| T1562.007
+| Disable or Modify Cloud Firewall
+| Defense Evasion
+|-
 | T1548
 | Abuse Elevation Control Mechanism
 | Privilege Escalation, Defense Evasion
+|-
+| T1489
+| Service Stop
+| Impact
 |-
 | T1490
 | Inhibit System Recovery
@@ -6363,16 +6417,40 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | Local Groups
 | Discovery
 |-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|-
 | T1070.001
 | Clear Windows Event Logs
+| Defense Evasion
+|-
+| T1531
+| Account Access Removal
+| Impact
+|-
+| T1569.002
+| Service Execution
+| Execution
+|-
+| T1059.005
+| Visual Basic
+| Execution
+|-
+| T1222
+| File and Directory Permissions Modification
 | Defense Evasion
 |-
 | T1491
 | Defacement
 | Impact
 |-
-| T1222
-| File and Directory Permissions Modification
+| T1574.002
+| DLL Side-Loading
+| Persistence, Privilege Escalation, Defense Evasion
+|-
+| T1027.005
+| Indicator Removal from Tools
 | Defense Evasion
 |-
 | T1048
@@ -6501,7 +6579,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1218.003/ T1218.003]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1562.007/ T1562.007], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1574.002/ T1574.002], [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1218.003/ T1218.003]
 * '''Last Updated''': 2021-06-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -6509,9 +6587,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Allow_network_discovery_in_firewall|Allow Network Discovery In Firewall]]
+
 * [[Documentation:ESSOC:detections:Detections#Delete_shadowcopy_with_powershell|Delete ShadowCopy With PowerShell]]
 
+* [[Documentation:ESSOC:detections:Detections#Disable_windows_behavior_monitoring|Disable Windows Behavior Monitoring]]
+
 * [[Documentation:ESSOC:detections:Detections#Modification_of_wallpaper|Modification Of Wallpaper]]
+
+* [[Documentation:ESSOC:detections:Detections#Msmpeng_application_dll_side_loading|Msmpeng Application DLL Side Loading]]
+
+* [[Documentation:ESSOC:detections:Detections#Powershell_disable_security_monitoring|Powershell Disable Security Monitoring]]
 
 * [[Documentation:ESSOC:detections:Detections#Revil_common_exec_parameter|Revil Common Exec Parameter]]
 
@@ -6527,13 +6613,25 @@ Leverage searches that allow you to detect and investigate unusual activities th
 ! Technique
 ! Tactic
 |-
+| T1562.007
+| Disable or Modify Cloud Firewall
+| Defense Evasion
+|-
 | T1490
 | Inhibit System Recovery
 | Impact
 |-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|-
 | T1491
 | Defacement
 | Impact
+|-
+| T1574.002
+| DLL Side-Loading
+| Persistence, Privilege Escalation, Defense Evasion
 |-
 | T1204
 | User Execution
@@ -7184,7 +7282,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1531/ T1531], [https://attack.mitre.org/techniques/T1222/ T1222], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1105/ T1105], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1489/ T1489], [https://attack.mitre.org/techniques/T1036/ T1036], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1543/ T1543]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1489/ T1489], [https://attack.mitre.org/techniques/T1531/ T1531], [https://attack.mitre.org/techniques/T1222/ T1222], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1105/ T1105], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1036/ T1036], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1543/ T1543]
 * '''Last Updated''': 2021-05-07
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -7192,9 +7290,17 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Attempt_to_disable_services|Attempt To Disable Services]]
+
+* [[Documentation:ESSOC:detections:Detections#Attempt_to_delete_services|Attempt To delete Services]]
+
+* [[Documentation:ESSOC:detections:Detections#Delete_a_net_user|Delete A Net User]]
+
 * [[Documentation:ESSOC:detections:Detections#Deleting_of_net_users|Deleting Of Net Users]]
 
 * [[Documentation:ESSOC:detections:Detections#Deny_permission_using_cacls_utility|Deny Permission using Cacls Utility]]
+
+* [[Documentation:ESSOC:detections:Detections#Disable_net_user_account|Disable Net User Account]]
 
 * [[Documentation:ESSOC:detections:Detections#Disable_windows_app_hotkeys|Disable Windows App Hotkeys]]
 
@@ -7246,6 +7352,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 ! Technique
 ! Tactic
 |-
+| T1489
+| Service Stop
+| Impact
+|-
 | T1531
 | Account Access Removal
 | Impact
@@ -7265,10 +7375,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1087
 | Account Discovery
 | Discovery
-|-
-| T1489
-| Service Stop
-| Impact
 |-
 | T1036
 | Masquerading
@@ -7423,7 +7529,7 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-07-02 15:57:11.500371 UTC
+# On Date: 2021-07-13 23:18:20.194549 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############
