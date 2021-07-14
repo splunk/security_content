@@ -55,7 +55,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution
-  message: Unusually long command line $Processes.process_name$ on $dest
+  message: Unusually long command line $Processes.process_name$ on $dest$
   observable:
   - name: dest
     type: Endpoint
