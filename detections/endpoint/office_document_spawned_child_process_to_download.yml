@@ -56,7 +56,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution
-  message: Office document spawning suspicious child process on $dest
+  message: Office document spawning suspicious child process on $dest$
   observable:
   - name: dest
     type: Endpoint

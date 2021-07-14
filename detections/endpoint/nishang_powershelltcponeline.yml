@@ -61,7 +61,7 @@ tags:
   - Source: Endpoint
   - Stage: Execution
   - Stage: Command and Control
-  message: Possible Nishang Invoke-PowerShellTCPOneLine behavior on $dest
+  message: Possible Nishang Invoke-PowerShellTCPOneLine behavior on $dest$
   observable:
   - name: dest
     type: Endpoint

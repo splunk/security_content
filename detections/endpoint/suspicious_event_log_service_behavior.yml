@@ -62,7 +62,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: The Windows Event Log Service shutdown on $ComputerName
+  message: The Windows Event Log Service shutdown on $ComputerName$
   observable:
   - name: ComputerName
     type: Endpoint

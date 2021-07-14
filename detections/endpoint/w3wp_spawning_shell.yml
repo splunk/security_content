@@ -56,7 +56,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Initial Access, Execution
-  message: Possible Web Shell execution on $dest
+  message: Possible Web Shell execution on $dest$
   observable:
   - name: dest
     type: Endpoint

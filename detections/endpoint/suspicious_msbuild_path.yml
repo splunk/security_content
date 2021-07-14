@@ -65,7 +65,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Initial Access, Execution, Defense Evasion
-  message: Msbuild.exe ran from an uncommon path on $dest execyted by $user 
+  message: Msbuild.exe ran from an uncommon path on $dest$ execyted by $user 
   observable:
   - name: dest
     type: Endpoint

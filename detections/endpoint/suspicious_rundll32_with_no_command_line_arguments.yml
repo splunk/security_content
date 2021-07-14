@@ -66,7 +66,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Initial Access, Execution, Defense Evasion
-  message: Suspicious rundll32.exe process with no command line arguments executed on $dest by $user 
+  message: Suspicious rundll32.exe process with no command line arguments executed on $dest$ by $user 
   observable:
   - name: dest
     type: Endpoint

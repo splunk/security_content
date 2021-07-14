@@ -58,7 +58,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: Possible Web Shell execution on $dest
+  message: System backups deletion on $dest$
   observable:
   - name: dest
     type: Endpoint

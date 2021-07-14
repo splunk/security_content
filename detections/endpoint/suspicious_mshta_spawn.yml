@@ -60,7 +60,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution, Defense Evasion
-  message: mshta.exe spawned by wmiprvse.exe on $dest
+  message: mshta.exe spawned by wmiprvse.exe on $dest$
   observable:
   - name: dest
     type: Endpoint

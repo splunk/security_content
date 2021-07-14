@@ -55,7 +55,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution
-  message: Office application spawning rundll32.exe
+  message: Office application spawning rundll32.exe on $dest$
   observable:
   - name: dest
     type: Endpoint

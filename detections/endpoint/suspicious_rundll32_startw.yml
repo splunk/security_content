@@ -70,7 +70,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Initial Access, Execution, Defense Evasion
-  message: rundll32.exe running with suspicious parameters on $dest
+  message: rundll32.exe running with suspicious parameters on $dest$
   observable:
   - name: dest
     type: Endpoint

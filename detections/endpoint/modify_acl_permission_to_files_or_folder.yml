@@ -56,7 +56,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: Suspicious ACL permission modification on $dest
+  message: Suspicious ACL permission modification on $dest$
   observable:
   - name: dest
     type: Endpoint

@@ -57,7 +57,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Initial Access, Execution, Defense Evasion
-  message: Suspicious microsoft.workflow.compiler.exe process ran on $dest by $user 
+  message: Suspicious microsoft.workflow.compiler.exe process ran on $dest$ by $user$
   observable:
   - name: dest
     type: Endpoint

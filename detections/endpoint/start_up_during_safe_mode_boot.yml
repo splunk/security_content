@@ -51,4 +51,4 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Persistence
-  message: Safeboot registry $Registry.registry_path was added or modified with a new value $Registry.registry_value_name
+  message: Safeboot registry $Registry.registry_path was added or modified with a new value $Registry.registry_value_name$

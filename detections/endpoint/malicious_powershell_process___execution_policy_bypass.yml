@@ -67,7 +67,7 @@ tags:
   - Stage: Initial Access
   - Stage: Execution
   - Stage: Defense Evasion
-  message: PowerShell local execution policy bypass attempt on $dest
+  message: PowerShell local execution policy bypass attempt on $dest$
   observable:
   - name: dest
     type: Endpoint

@@ -59,7 +59,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Initial Access, Execution
-  message: Wermgr.exe process connecting IP location web services on $ComputerName
+  message: Wermgr.exe process connecting IP location web services on $ComputerName$
   observable:
   - name: ComputerName
     type: Endpoint

@@ -64,7 +64,7 @@ tags:
   - Stage: Execution
   - Stage: Persistence
   - Stage: Privilege Escalation
-  message: 
+  message: New print monitor added on $dest$
   observable:
   - name: dest
     type: Endpoint

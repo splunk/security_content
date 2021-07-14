@@ -72,7 +72,7 @@ tags:
   - Source: Endpoint
   - Stage: Initial Access
   - Stage: Privilege Escalation
-  message: Potential NTLM based password spraying attack from $Source_Workstation
+  message: Potential NTLM based password spraying attack from $Source_Workstation$
   observable:
   - name: Source_Workstation
     type: Endpoint

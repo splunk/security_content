@@ -67,7 +67,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Discovery
-  message: Domain trust discovery execution on $dest
+  message: Domain trust discovery execution on $dest$
   observable:
   - name: dest
     type: Endpoint

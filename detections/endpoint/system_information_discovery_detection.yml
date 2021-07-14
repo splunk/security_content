@@ -55,7 +55,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Recon, Discovery
-  message: Potential system information discovery behavior on $dest by $User
+  message: Potential system information discovery behavior on $dest$ by $User$
   observable:
   - name: dest
     type: Endpoint

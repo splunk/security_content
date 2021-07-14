@@ -59,7 +59,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution, Initial Access
-  message: mshta.exe spawned by wmiprvse.exe on $dest
+  message: Suspicioues process $Processes.process_path.file_path$ running from suspicious location
   observable:
   - name: dest
     type: Endpoint

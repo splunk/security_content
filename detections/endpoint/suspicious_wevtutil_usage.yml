@@ -66,7 +66,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: Wevtutil.exe being used to clear Event Logs on $dest by $user 
+  message: Wevtutil.exe being used to clear Event Logs on $dest$ by $user$ 
   observable:
   - name: dest
     type: Endpoint

@@ -61,9 +61,9 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution, Defense Evasion
-  message: Possible CVE-2021-26857 exploitation on $dest
+  message: Possible AMSI Unloading via Reflection using PowerShell on $ComputerName$
   observable:
-  - name: $dest
+  - name: ComputerName
     type: Endpoint
     role:
     - Victim

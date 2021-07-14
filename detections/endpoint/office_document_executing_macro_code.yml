@@ -57,7 +57,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution
-  message: Office document executing a macro on $dest
+  message: Office document executing a macro on $dest$
   observable:
   - name: dest
     type: Endpoint

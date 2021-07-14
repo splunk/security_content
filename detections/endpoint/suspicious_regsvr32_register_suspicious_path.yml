@@ -63,11 +63,11 @@ tags:
   security_domain: endpoint
   impact: 70
   confidence: 50
-  risk_score: 49
+  risk_score: 35
   context:
   - Source: Endpoint
   - Stage: Execution, Initial Access
-  message: Suspicious $Processes.process_path.file_path process running with an uncommon parent process $Processes.parent_process_name
+  message: Suspicious $Processes.process_path.file_path$ process potentially loading malicious code
   observable:
   - name: dest
     type: Endpoint

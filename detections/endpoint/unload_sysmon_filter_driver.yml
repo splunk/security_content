@@ -58,7 +58,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: Possible Sysmon filter driver unloading on $dest
+  message: Possible Sysmon filter driver unloading on $dest$
   observable:
   - name: dest
     type: Endpoint

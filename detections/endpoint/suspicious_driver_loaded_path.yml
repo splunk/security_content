@@ -56,7 +56,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution, Defense Evasion
-  message: Suspicious driver $ImageLoaded on $Computer
+  message: Suspicious driver $ImageLoaded$ on $Computer$
   observable:
   - name: Computer
     type: Endpoint

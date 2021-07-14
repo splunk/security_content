@@ -55,7 +55,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: Suspicious COM Object Execution on $Computer
+  message: Suspicious COM Object Execution on $Computer$
   observable:
   - name: Computer
     type: Endpoint

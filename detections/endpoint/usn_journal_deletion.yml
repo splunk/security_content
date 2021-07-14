@@ -64,7 +64,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: Possible USN journal deletion on $dest
+  message: Possible USN journal deletion on $dest$
   observable:
   - name: dest
     type: Endpoint

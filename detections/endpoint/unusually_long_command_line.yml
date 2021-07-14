@@ -54,8 +54,8 @@ tags:
   risk_score: 42
   context:
   - Source: Endpoint
-  - Stage: Defense Evasion
-  message: Unusually long command line $ on $dest
+  - Stage: Execution
+  message: Unusually long command line $Processes.process_name$ on $dest
   observable:
   - name: dest
     type: Endpoint

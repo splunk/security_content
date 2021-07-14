@@ -53,7 +53,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution
-  message: Wermgr.exe writing executable files on $dest
+  message: Wermgr.exe writing executable files on $dest$
   observable:
   - name: dest
     type: Endpoint

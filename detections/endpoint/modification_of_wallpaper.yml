@@ -55,7 +55,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution
-  message: Wallpaper modification on $dest
+  message: Wallpaper modification on $dest$
   observable:
   - name: dest
     type: Endpoint

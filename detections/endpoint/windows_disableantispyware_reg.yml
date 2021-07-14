@@ -61,7 +61,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: Windows DisableAntiSpyware registry key set to 'disabled' on $dest
+  message: Windows DisableAntiSpyware registry key set to 'disabled' on $dest$
   observable:
   - name: dest
     type: Endpoint

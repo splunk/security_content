@@ -62,7 +62,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Execution, Defense Evasion
-  message: Suspicious msbuild.exe process executed on $dest by $user 
+  message: Suspicious msbuild.exe process executed on $dest$ by $user$
   observable:
   - name: dest
     type: Endpoint

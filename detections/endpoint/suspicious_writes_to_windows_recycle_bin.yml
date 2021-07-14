@@ -58,7 +58,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Defense Evasion
-  message: Suspicious writes to windows Recycle Bin on $dest by suspicious process Processes.process_name
+  message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
   observable:
   - name: dest
     type: Endpoint

@@ -64,7 +64,7 @@ tags:
   - Stage: Initial Access
   - Stage: Execution
   - Stage: Defense Evasion
-  message: Powershell.exe running potentially malicious encodede commands on $dest
+  message: Powershell.exe running potentially malicious encodede commands on $dest$
   observable:
   - name: dest
     type: Endpoint

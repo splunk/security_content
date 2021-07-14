@@ -65,7 +65,7 @@ tags:
   - Stage: Initial Access
   - Stage: Execution
   - Stage: Defense Evasion
-  message: Powershell.exe running with potential obfuscated arguments on $dest
+  message: Powershell.exe running with potential obfuscated arguments on $dest$
   observable:
   - name: dest
     type: Endpoint

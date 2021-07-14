@@ -70,7 +70,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Initial Access, Execution
-  message: System process running from unexpected location on $dest
+  message: System process running from unexpected location on $dest$
   observable:
   - name: dest
     type: Endpoint
