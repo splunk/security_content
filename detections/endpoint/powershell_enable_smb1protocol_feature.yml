@@ -24,6 +24,9 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - Ransomware
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-powershell.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -39,6 +42,3 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-powershell.log
