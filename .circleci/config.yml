@@ -577,17 +577,17 @@ workflows:
             branches:
               ignore: /.*/
     
-    detection-testing:
-      jobs:
-        - hold:
-            type: approval
-            filters:
-              tags:
-                only: /^v.*/           
-        - detection-testing:
-          # build always
-            requires:
-              - hold     
-            filters:
-              tags:
-                only: /^v.*/        
+  detection-testing:
+    jobs:
+      - hold:
+          type: approval
+          filters:
+            tags:
+              only: /^v.*/           
+      - detection-testing:
+        # build always
+          requires:
+            - hold     
+          filters:
+            tags:
+              only: /^v.*/        
