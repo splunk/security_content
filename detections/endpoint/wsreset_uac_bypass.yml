@@ -48,7 +48,7 @@ tags:
   risk_score: 63
   context:
   - Source:Endpoint
-  - Stage:Persistence,
+  - Stage:Persistence
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
   - Scope:Incoming
