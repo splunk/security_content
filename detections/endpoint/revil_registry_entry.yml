@@ -13,10 +13,11 @@ description: This analytic identifies suspicious modification in registry entry 
   notes file name in the compromised host.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*" OR Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*")
-  AND (Registry.registry_value_name = "\.*" OR Registry.registry_value_name = "Binary
-  Data") by Registry.registry_value_name Registry.dest Registry.user | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `revil_registry_entry_filter`'
+  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*"
+  OR Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*") AND (Registry.registry_value_name
+  = "\.*" OR Registry.registry_value_name = "Binary Data") by Registry.registry_value_name
+  Registry.dest Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+  | `drop_dm_object_name(Registry)` | `revil_registry_entry_filter`'
 how_to_implement: to successfully implement this search, you need to be ingesting
   logs with the Image, TargetObject registry key, registry Details from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
