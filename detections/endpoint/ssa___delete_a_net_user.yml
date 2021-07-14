@@ -12,17 +12,21 @@ description: This analytic will detect a suspicious net.exe/net1.exe command-lin
   user or deleting adversaries tracks created during its lateral movement additional
   systems. During triage, review parallel processes for additional behavior. Identify
   any other user accounts created before or after.
-search: '| from read_ssa_enriched_events()
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), 
-  process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
-  | where cmd_line IS NOT NULL AND like(cmd_line, "%/delete%") AND (process_name="net1.exe" OR process_name="net.exe") 
-  | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), 
-  body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path])
-  | into write_ssa_detected_events();'
-how_to_implement: o successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
+search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
+  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
+  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
+  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
+  null) | where cmd_line IS NOT NULL AND like(cmd_line, "%/delete%") AND (process_name="net1.exe"
+  OR process_name="net.exe") | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
+  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
+  "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name,
+  "parent_process_name", parent_process_name, "process_path", process_path]) | into
+  write_ssa_detected_events();'
+how_to_implement: o successfully implement this search, you need to be ingesting logs
+  with the process name, parent process, and command-line executions from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  Tune and filter known instances where renamed net.exe may be used.
 known_false_positives: System administrators or scripts may delete user accounts via
   this technique. Filter as needed.
 references:
