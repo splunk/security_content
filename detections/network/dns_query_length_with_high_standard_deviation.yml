@@ -10,7 +10,7 @@ description: This search allows you to identify DNS requests and compute the sta
   deviation on the length of the names being resolved, then filter on two times the
   standard deviation to show you those queries that are unusually large for your environment.
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  by DNS.query |  `drop_dm_object_name("DNS")` | eval query_length = len(query) |
+  by $DNS.query$  |  `drop_dm_object_name("DNS")` | eval query_length = len(query) |
   table query query_length record_type count | eventstats stdev(query_length) AS stdev
   avg(query_length) AS avg p50(query_length) AS p50| where query_length>(avg+stdev*2)
   | eval z_score=(query_length-avg)/stdev | `dns_query_length_with_high_standard_deviation_filter` '
@@ -46,3 +46,20 @@ tags:
   - _time
   - DNS.query
   security_domain: network
+  impact: 70
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  -  Stage:Exfiltration
+  message: A dns query $DNS.query$ with 2 time standard deviation of name len of the dns query in host  $host$
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  - name: DNS.query
+    type: dnsquery
+    role:
+    - Attacker
