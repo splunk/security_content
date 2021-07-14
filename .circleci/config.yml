@@ -501,10 +501,10 @@ workflows:
           requires:
             - validate-content
             - build-sources
-            - build-package
+            - build-package     
           filters:
             tags:
-              only: /.*/
+              only: /^v.*/
       - run-appinspect:
         # build always
           requires:
@@ -580,7 +580,7 @@ workflows:
             - validate-content
             - build-sources
             - build-package
-            - detection-testing
+            - detection-testing        
             - run-appinspect
             - create-report
             - update-sources-github

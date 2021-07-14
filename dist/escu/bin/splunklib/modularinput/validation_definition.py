@@ -13,6 +13,7 @@
 # under the License.
 
 
+from __future__ import absolute_import
 try:
     import xml.etree.cElementTree as ET
 except ImportError as ie:
@@ -27,7 +28,7 @@ class ValidationDefinition(object):
 
     **Example**::
 
-    ``v = ValidationDefinition()``
+        v = ValidationDefinition()
 
     """
     def __init__(self):
@@ -45,23 +46,25 @@ class ValidationDefinition(object):
 
         The XML typically will look like this:
 
-        ``<items>``
-        ``   <server_host>myHost</server_host>``
-        ``     <server_uri>https://127.0.0.1:8089</server_uri>``
-        ``     <session_key>123102983109283019283</session_key>``
-        ``     <checkpoint_dir>/opt/splunk/var/lib/splunk/modinputs</checkpoint_dir>``
-        ``     <item name="myScheme">``
-        ``       <param name="param1">value1</param>``
-        ``       <param_list name="param2">``
-        ``         <value>value2</value>``
-        ``         <value>value3</value>``
-        ``         <value>value4</value>``
-        ``       </param_list>``
-        ``     </item>``
-        ``</items>``
+        ..  code-block:: xml
+
+            <items>
+               <server_host>myHost</server_host>
+                 <server_uri>https://127.0.0.1:8089</server_uri>
+                 <session_key>123102983109283019283</session_key>
+                 <checkpoint_dir>/opt/splunk/var/lib/splunk/modinputs</checkpoint_dir>
+                 <item name="myScheme">
+                   <param name="param1">value1</param>
+                   <param_list name="param2">
+                     <value>value2</value>
+                     <value>value3</value>
+                     <value>value4</value>
+                   </param_list>
+                 </item>
+            </items>
 
         :param stream: ``Stream`` containing XML to parse.
-        :return definition: A ``ValidationDefinition`` object.
+        :return: A ``ValidationDefinition`` object.
 
         """
 
