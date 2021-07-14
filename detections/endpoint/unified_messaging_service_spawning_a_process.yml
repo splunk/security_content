@@ -64,7 +64,7 @@ tags:
   - Stage: Initial Access, Execution
   message: Possible CVE-2021-26857 exploitation on $dest$
   observable:
-  - name: $dest
+  - name: dest
     type: Endpoint
     role:
     - Victim

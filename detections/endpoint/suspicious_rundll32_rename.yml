@@ -65,7 +65,7 @@ tags:
   context:
   - Source: Endpoint
   - Stage: Initial Access, Execution, Defense Evasion
-  message: Suspicious renamed rundll32.exe binary ran on $dest$ by $user
+  message: Suspicious renamed rundll32.exe binary ran on $dest$ by $user$
   observable:
   - name: dest
     type: Endpoint
