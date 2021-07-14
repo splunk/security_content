@@ -67,7 +67,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
-  message: The process $process_name$ was spawned by $parent_image$ without any command-line arguements on $dest$ by $user$.
+  message: The process $process_name$ was spawned by $parent_image$ without any command-line arguments on $dest$ by $user$.
   observable:
   - name: user
     type: User

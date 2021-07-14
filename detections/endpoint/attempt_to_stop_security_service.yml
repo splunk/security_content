@@ -11,7 +11,7 @@ description: This search looks for attempts to stop security-related services on
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where (Processes.process_name = net.exe OR  Processes.process_name = sc.exe) Processes.process="*
-  stop *" Processes.dest Processes.user Processes.parent_process Processes.process_name
+  stop *" by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   |lookup security_services_lookup service as process OUTPUTNEW category, description

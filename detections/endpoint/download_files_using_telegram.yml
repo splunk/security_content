@@ -47,3 +47,20 @@ tags:
   - TargetFilename
   - Hash
   security_domain: endpoint
+  impact: 70
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Suspicious files were downloaded with the Telegram application on $dest$ by $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
