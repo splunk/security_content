@@ -505,8 +505,6 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-            branches:
-              ignore: /.*/
       - run-appinspect:
         # build always
           requires:
