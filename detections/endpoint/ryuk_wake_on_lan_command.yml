@@ -55,3 +55,20 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  impact: 70 
+  confidence: 95  
+  # (impact * confidence)/100
+  risk_score: 66.5 
+  context:
+  - source:endpoint
+  - stage: Execution
+  message: A process $Processes.process_name$ with wake on LAN commandline $Processes.process$ in host $Processes.dest$ 
+  observable:
+  - name: Processes.dest
+    type: Hostname
+    role:
+    - Victim
+  - name: Processes.user
+    type: user
+    role:
+    - Victim

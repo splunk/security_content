@@ -48,3 +48,20 @@ tags:
   - Image
   - user
   security_domain: endpoint
+  impact: 90 
+  confidence: 90  
+  # (impact * confidence)/100
+  risk_score: 81 
+  context:
+  - source:endpoint
+  - stage: Impact
+  message: A high frequency file creation of $file_name$ in different file path in host $Computer$ 
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim

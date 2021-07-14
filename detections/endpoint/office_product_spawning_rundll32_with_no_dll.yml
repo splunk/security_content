@@ -55,3 +55,20 @@ tags:
   - user
   - parent_process_id
   security_domain: endpoint
+  impact: 70 
+  confidence: 90  
+  # (impact * confidence)/100
+  risk_score: 63 
+  context:
+  - source:endpoint
+  - stage: recon
+  message: office parent process $Processes.parent_process_name$ will execute a suspicious child process $Processes.process_name$ with process id $Processes.process_id$ and no dll commandline $Processes.process$ in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: process name 
+    role:
+    - Attacker

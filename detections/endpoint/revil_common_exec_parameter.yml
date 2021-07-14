@@ -50,3 +50,20 @@ tags:
   - Processes.process_id
   - Processes.process_guid
   security_domain: endpoint
+  impact: 60 
+  confidence: 90  
+  # (impact * confidence)/100
+  risk_score: 54 
+  context:
+  - source:endpoint
+  - stage: Execution
+  message: A process $Processes.process_name$ with commandline $Processes.process$ related to revil ransomware in host Processes.dest 
+  observable:
+  - name: Processes.dest
+    type: Hostname
+    role:
+    - Victim
+  - name: Processes.user
+    type: user
+    role:
+    - Victim

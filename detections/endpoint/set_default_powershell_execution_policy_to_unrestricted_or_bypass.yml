@@ -53,3 +53,20 @@ tags:
   - Registry.registry_value_name
   - Registry.dest
   security_domain: endpoint
+  impact: 60 
+  confidence: 80  
+  # (impact * confidence)/100
+  risk_score: 48 
+  context:
+  - source:endpoint
+  - stage: Execution
+  message: A registry modification in $Registry.registry_path$ with reg key $Registry.registry_key_name$ and reg value $Registry.registry_value_name$ in host $Registry.dest$ 
+  observable:
+  - name: Registry.dest
+    type: Hostname
+    role:
+    - Victim
+  - name: Registry.registry_path
+    type: RegistryPath
+    role:
+    - Others

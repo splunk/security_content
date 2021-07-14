@@ -53,3 +53,20 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  impact: 80 
+  confidence: 90  
+  # (impact * confidence)/100
+  risk_score: 72 
+  context:
+  - source:endpoint
+  - stage: Impact
+  message: A process $Processes.parent_process_name$ attempt to resize shadow copy with commandline $Processes.process$ in host $Processes.dest$ 
+  observable:
+  - name: Processes.dest
+    type: Hostname
+    role:
+    - Victim
+  - name: Processes.user
+    type: user
+    role:
+    - Victim
