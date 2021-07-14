@@ -57,9 +57,9 @@ tags:
   - Arguments
   security_domain: endpoint
   impact: 70 
-  confidence: 95  
+  confidence: 100 
   # (impact * confidence)/100
-  risk_score: 66.5 
+  risk_score: 70
   context:
   - source:endpoint
   - stage: Defense Evasion
