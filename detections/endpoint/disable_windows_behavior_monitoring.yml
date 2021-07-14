@@ -10,15 +10,15 @@ description: This search is to identifies a modification in registry to disable 
   windows denfender real time behavior monitoring. This event or technique is commonly
   seen in RAT, bot, or Trojan to disable AV to evade detections.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where 
-  Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableBehaviorMonitoring" OR 
-  Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection" OR 
-  Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableScanOnRealtimeEnable" OR 
-  Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableRealtimeMonitoring" OR
-  Registry.registry_path= "*\\Real-Time Protection\\DisableIntrusionPreventionSystem" OR 
-  Registry.registry_path= "*\\Real-Time Protection\\DisableIOAVProtection" OR 
-  Registry.registry_path= "*\\Real-Time Protection\\DisableScriptScanning" 
-  Registry.registry_value_name = "DWORD (0x00000001)"
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows
+  Defender\\Real-Time Protection\\DisableBehaviorMonitoring" OR Registry.registry_path=
+  "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection"
+  OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time
+  Protection\\DisableScanOnRealtimeEnable" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows
+  Defender\\Real-Time Protection\\DisableRealtimeMonitoring" OR Registry.registry_path=
+  "*\\Real-Time Protection\\DisableIntrusionPreventionSystem" OR Registry.registry_path=
+  "*\\Real-Time Protection\\DisableIOAVProtection" OR Registry.registry_path= "*\\Real-Time
+  Protection\\DisableScriptScanning" Registry.registry_value_name = "DWORD (0x00000001)"
   by Registry.registry_path Registry.registry_key_name Registry.registry_value_name
   Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `disable_windows_behavior_monitoring_filter`'

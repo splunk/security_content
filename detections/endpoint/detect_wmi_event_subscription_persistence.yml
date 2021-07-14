@@ -20,7 +20,7 @@ description: 'The following analytic identifies the use of WMI Event Subscriptio
   1. Consumer - An action to take upon triggering the filter. EventID equals 20 \
 
   1. Binding - Registers a filter to a consumer. EventID equals 21 \
-  
+
   Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding.
   It may be pertinent to review all 3 to identify the flow of execution. In addition,
   EventCode 4104 may assist with any other PowerShell script usage that registered
