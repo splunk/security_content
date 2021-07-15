@@ -16,7 +16,7 @@ description: This search looks for events where `PsExec.exe` is run with the `ac
   within the command line.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.process=*psexec* Processes.process=*accepteula* Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  where Processes.process=*psexec* Processes.process=*accepteula* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`|
   `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_psexec_with_accepteula_flag_filter`'
 how_to_implement: You must be ingesting data that records process activity from your
@@ -57,10 +57,14 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.process
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
   - Processes.parent_process_id
   security_domain: endpoint
   impact: 50

@@ -52,10 +52,14 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.process
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
   - Processes.parent_process_id
   security_domain: endpoint
   impact: 80
