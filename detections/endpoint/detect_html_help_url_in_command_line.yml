@@ -68,7 +68,7 @@ tags:
   impact: 90
   confidence: 100
   # (impact * confidence)/100
-  risk_score: 80
+  risk_score: 90
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
