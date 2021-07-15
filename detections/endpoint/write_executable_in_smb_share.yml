@@ -47,3 +47,16 @@ tags:
   - src_port
   - Source_Address
   security_domain: endpoint
+  impact: 70
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 70
+  context:
+  - Source:Endpoint
+  - Stage:Lateral Movement
+  message: "$user$ dropped or created an executable file in known sensitive SMB share.  Share name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$"
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
