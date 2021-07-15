@@ -57,13 +57,13 @@ tags:
   - stage: Execution
   - Persistence
   - Privilege Escalation
-  message: A schedule task process $Processes.process_name$ with force reboot commandline $Processes.process$ in host $Processes.dest$ 
+  message: A schedule task process $process_name$ with force reboot commandline $process$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

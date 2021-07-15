@@ -62,13 +62,13 @@ tags:
   context:
   - source:endpoint
   - stage: Execution
-  message: A process $Processes.process_name$ with wake on LAN commandline $Processes.process$ in host $Processes.dest$ 
+  message: A process $process_name$ with wake on LAN commandline $process$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

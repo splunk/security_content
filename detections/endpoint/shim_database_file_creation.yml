@@ -57,13 +57,13 @@ tags:
   - source:endpoint
   - stage: Privilege Escalation
   - Persistence
-  message: A process that possibly write shim database in $Filesystem.file_path$ in host $Filesystem.dest$ 
+  message: A process that possibly write shim database in $file_path$ in host $dest$ 
   observable:
-  - name: Filesystem.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Filesystem.file_path
+  - name: file_path
     type: file path
     role:
     - Others

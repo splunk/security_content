@@ -62,7 +62,7 @@ tags:
   context:
   - source:endpoint
   - stage: recon
-  message: office parent process $Processes.parent_process_name$ will execute a suspicious child process $Processes.process_name$ with process id $Processes.process_id$ and no dll commandline $Processes.process$ in host $dest$ 
+  message: office parent process $parent_process_name$ will execute a suspicious child process $process_name$ with process id $process_id$ and no dll commandline $process$ in host $dest$ 
   observable:
   - name: dest
     type: Hostname

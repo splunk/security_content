@@ -59,13 +59,13 @@ tags:
   context:
   - source:endpoint
   - stage: Privilege Escalation
-  message: A slui process $Processes.parent_process_name$ spawning child process $Processes.process_name$ in host $Processes.dest$ 
+  message: A slui process $parent_process_name$ spawning child process $process_name$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

@@ -51,13 +51,13 @@ tags:
   context:
   - source:endpoint
   - stage: Impact
-  message: A creation of ryuk test file $Filesystem.file_path$ in host $Filesystem.dest$ 
+  message: A creation of ryuk test file $file_path$ in host $dest$ 
   observable:
-  - name: Filesystem.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Filesystem.user
+  - name: user
     type: user
     role:
     - Victim

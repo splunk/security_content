@@ -56,13 +56,13 @@ tags:
   context:
   - source:endpoint
   - stage: Execution
-  message: A suspicious process $Processes.process_name$ with single letter in host $Processes.dest$ 
+  message: A suspicious process $process_name$ with single letter in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

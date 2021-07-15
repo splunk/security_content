@@ -62,13 +62,13 @@ tags:
   context:
   - source:endpoint
   - stage: Execution
-  message: A wmic.exe process $Processes.process$ contain process spawn commandline $Processes.process$ in host $Processes.dest$ 
+  message: A wmic.exe process $process$ contain process spawn commandline $process$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

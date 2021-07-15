@@ -65,7 +65,7 @@ tags:
   - source:endpoint
   - stage: Privilege Escalation
   - Defense Evasion
-  message: A service process $Processes.parent_process_name$ with process path $Processes.process_path$ in host $Processes.dest$ 
+  message: A service process $parent_process_name$ with process path $process_path$ in host $dest$ 
   observable:
   - name: Processes.dest
     type: Hostname

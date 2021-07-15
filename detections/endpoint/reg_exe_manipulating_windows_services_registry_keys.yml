@@ -69,13 +69,13 @@ tags:
   - stage: Persistence
   - Privilege Escalation
   - Defense Evasion
-  message: A reg.exe process $Processes.process_name$ with commandline $Processes.process$ in host $Processes.dest$ 
+  message: A reg.exe process $process_name$ with commandline $process$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

@@ -60,13 +60,13 @@ tags:
   context:
   - source:endpoint
   - stage: Impact
-  message: A process $Processes.parent_process_name$ attempt to resize shadow copy with commandline $Processes.process$ in host $Processes.dest$ 
+  message: A process $parent_process_name$ attempt to resize shadow copy with commandline $process$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

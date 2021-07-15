@@ -61,13 +61,13 @@ tags:
   context:
   - source:endpoint
   - stage: Execution
-  message: A remote instance execution of wmic.exe that will spawn $Processes.parent_process_name$ in host Processes.dest 
+  message: A remote instance execution of wmic.exe that will spawn $parent_process_name$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

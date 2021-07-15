@@ -53,13 +53,13 @@ tags:
   context:
   - source:endpoint
   - stage: Persistence
-  message: A user account created or delete shortly in host $All_Changes.dest$ 
+  message: A user account created or delete shortly in host $dest$ 
   observable:
-  - name: All_Changes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: All_Changes.user
+  - name: user
     type: user
     role:
     - Victim

@@ -60,13 +60,13 @@ tags:
   context:
   - source:endpoint
   - stage: recon
-  message: office parent process $Processes.parent_process_name$ will execute a suspicious child process $Processes.process_name$ with process id $Processes.process_id$ in host $dest$ 
+  message: office parent process $parent_process_name$ will execute a suspicious child process $process_name$ with process id $process_id$ in host $dest$ 
   observable:
   - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.process_name
+  - name: process_name
     type: process_name
     role:
     - Attacker

@@ -67,13 +67,13 @@ tags:
   - source:endpoint
   - stage: Persistence
   - Privilege Escalation
-  message: A sc process $Processes.process_name$ with commandline $Processes.process$ to create of configure services in host $Processes.dest$ 
+  message: A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: user
     role:
     - Victim

@@ -87,13 +87,13 @@ tags:
   context:
   - source:endpoint
   - stage: Initial Access
-  message: A dns query $DNS.query$ from your infra connecting to suspicious domain in host  $host$ 
+  message: A dns query $query$ from your infra connecting to suspicious domain in host  $host$ 
   observable:
   - name: host
     type: Hostname
     role:
     - Victim
-  - name: DNS.query
+  - name: query
     type: dnsquery
     role:
     - Attacker

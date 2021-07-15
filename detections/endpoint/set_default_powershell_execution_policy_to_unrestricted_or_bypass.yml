@@ -60,13 +60,13 @@ tags:
   context:
   - source:endpoint
   - stage: Execution
-  message: A registry modification in $Registry.registry_path$ with reg key $Registry.registry_key_name$ and reg value $Registry.registry_value_name$ in host $Registry.dest$ 
+  message: A registry modification in $registry_path$ with reg key $registry_key_name$ and reg value $registry_value_name$ in host $dest$ 
   observable:
-  - name: Registry.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Registry.registry_path
+  - name: registry_path
     type: RegistryPath
     role:
     - Others

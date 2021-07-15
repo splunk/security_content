@@ -53,13 +53,13 @@ tags:
   context:
   - Source:Endpoint
   -  Stage:Exfiltration
-  message: A dns query $DNS.query$ with 2 time standard deviation of name len of the dns query in host  $host$
+  message: A dns query $query$ with 2 time standard deviation of name len of the dns query in host  $host$
   observable:
   - name: host
     type: Hostname
     role:
     - Victim
-  - name: DNS.query
+  - name: query
     type: dnsquery
     role:
     - Attacker

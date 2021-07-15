@@ -51,17 +51,17 @@ tags:
   impact: 70 
   confidence: 80  
   # (impact * confidence)/100
-  risk_score: 56 
+  risk_score: 56
   context:
   - source:endpoint
   - stage: Defense Evasion
-  message: A suspicious of execution of $Processes.process_name$ with process id $Processes.process_id$ and commandline $Processes.process$ to modify permission of directory or files in host $Processes.dest$ 
+  message: A suspicious of execution of $process_name$ with process id $process_id$ and commandline $process$ to modify permission of directory or files in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
-    type: user
+  - name: process_name
+    type: process name
     role:
-    - Victim
+    - Attacker

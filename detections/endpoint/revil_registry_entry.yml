@@ -55,13 +55,13 @@ tags:
   context:
   - source:endpoint
   - stage: Defense Evasion
-  message: A registry entry $Registry.registry_path$ with registry value $Registry.registry_value_name$ and $Registry.registry_value_name$ related to revil ransomware in host $Registry.dest$ 
+  message: A registry entry $registry_path$ with registry value $registry_value_name$ and $registry_value_name$ related to revil ransomware in host $dest$ 
   observable:
-  - name: Registry.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Registry.user
+  - name: user
     type: user
     role:
     - Victim

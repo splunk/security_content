@@ -53,13 +53,13 @@ tags:
   context:
   - source:endpoint
   - stage: Impact
-  message: A samsam ransomware test file creation in $Filesystem.file_path$ in host $Filesystem.dest$ 
+  message: A samsam ransomware test file creation in $file_path$ in host $dest$ 
   observable:
-  - name: Filesystem.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Filesystem.user
+  - name: user
     type: user
     role:
     - Victim

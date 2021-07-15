@@ -65,9 +65,9 @@ tags:
   context:
   - source:endpoint
   - stage: Defense Evasion
-  message: A rundll32 process $Processes.process_name$ with no commandline argument like this process commandline $Processes.process$ in host $Processes.dest$ 
+  message: A rundll32 process $process_name$ with no commandline argument like this process commandline $process$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim

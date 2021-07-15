@@ -56,13 +56,13 @@ tags:
   - source:endpoint
   - stage: Privilege Escalation
   - Persistence
-  message: A registry activity in $Registry.registry_path$ related to shim modication in host $Registry.dest$ 
+  message: A registry activity in $registry_path$ related to shim modication in host $dest$ 
   observable:
-  - name: Registry.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Registry.user
+  - name: user
     type: user
     role:
     - Victim

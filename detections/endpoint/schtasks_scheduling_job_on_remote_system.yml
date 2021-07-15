@@ -60,7 +60,7 @@ tags:
   - stage:  Execution
   - Persistence
   - Privilege Escalation
-  message: A schedule task process $Processes.process_name$ with remote job commandline $Processes.process$ in host $Processes.dest$ 
+  message: A schedule task process $process_name$ with remote job commandline $process$ in host $dest$ 
   observable:
   - name: Processes.dest
     type: Hostname

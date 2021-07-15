@@ -61,13 +61,13 @@ tags:
   context:
   - source:endpoint
   - stage: Privilege Escalation
-  message: A slui process $Processes.process_name$ with elevated commandline $Processes.process$ in host $Processes.dest$ 
+  message: A slui process $process_name$ with elevated commandline $process$ in host $dest$ 
   observable:
-  - name: Processes.dest
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: Processes.user
+  - name: user
     type: Hostname
     role:
     - Victim
