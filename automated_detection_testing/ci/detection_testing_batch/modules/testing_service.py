@@ -51,7 +51,12 @@ def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_
 
 
 def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test, uuid_var):
-    test_file_obj = load_file("security_content/" + test_file[2:])
+    try:
+        test_file_obj = load_file("security_content/" + test_file[2:])
+    except Exception as e:
+        print('Error: ' + str(e))
+        return
+    
     if not test_file_obj:
         return
     #print(test_file_obj)
@@ -77,10 +82,9 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
 
         replay_attack_dataset(splunk_ip, splunk_password, ssh_key_name, folder_name, 'test' + str(test_index), attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
 
-    time.sleep(60)
+    time.sleep(200)
 
     result_test = {}
-
     test = test_file_obj['tests'][0]
 
     if 'baselines' in test:

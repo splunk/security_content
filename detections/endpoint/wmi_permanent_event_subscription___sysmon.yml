@@ -12,7 +12,7 @@ description: 'This analytic looks for the creation of WMI permanent event subscr
   WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe)
   and thus may result in elevated SYSTEM privileges. This analytic is restricted by
   commonly added process execution and a path. If the volume is low enough, remove
-  the values and flag on any new subscriptions.
+  the values and flag on any new subscriptions.\
 
   All event subscriptions have three components \
 

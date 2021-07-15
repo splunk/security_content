@@ -10,9 +10,11 @@ def main(args):
 
     parser = argparse.ArgumentParser(description="Detection Testing Execution")
     parser.add_argument("-b", "--branch", required=True, help="security content branch")
+    parser.add_argument("-pr", "--pr-number", required=False, help="Pull Request Number")
 
     args = parser.parse_args()
     branch = args.branch
+    pr_number = args.pr_number
 
     # vars
     max_waiting_time = 7200
@@ -23,14 +25,26 @@ def main(args):
 
     # start aws batch job
     client = boto3.client("batch", region_name="eu-central-1")
-    response = client.submit_job(
-        jobName='detection_testing',
-        jobQueue='detection_testing_execution_queue',
-        jobDefinition='detection_testing_execution:2',
-        containerOverrides={
-            'command': ['-b', branch, '-u', uuid_test]
-        }
-    )
+
+    if pr_number:
+        response = client.submit_job(
+            jobName='detection_testing',
+            jobQueue='detection_testing_execution_queue',
+            jobDefinition='detection_testing_execution:2',
+            containerOverrides={
+                'command': ['-b', branch, '-u', uuid_test, '-pr', pr_number]
+            }
+        )
+    else:
+        response = client.submit_job(
+            jobName='detection_testing',
+            jobQueue='detection_testing_execution_queue',
+            jobDefinition='detection_testing_execution:2',
+            containerOverrides={
+                'command': ['-b', branch, '-u', uuid_test]
+            }
+        )
+
 
     while max_waiting_time > current_waiting_time:
 

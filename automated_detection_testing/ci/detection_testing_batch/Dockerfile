@@ -5,6 +5,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
 RUN apt-get install -y python3-dev git python-dev unzip python3-pip awscli
 RUN apt-get install -y python-gitdb
 RUN apt-get install -y wget unzip
+RUN apt-get install -y git
 
 ADD . /app
 
