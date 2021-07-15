@@ -69,7 +69,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Execution
-  message: Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously been seen on host $dest$
+  message: Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously on host $dest$
   observable:
   - name: user
     type: User
@@ -82,6 +82,6 @@ tags:
   - name: process_name
     type: Process Name
     role:
-    - Other
+    - Attacker
     - Child Process
 

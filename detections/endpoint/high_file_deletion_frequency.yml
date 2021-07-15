@@ -46,3 +46,25 @@ tags:
   - ProcessID
   - _time
   security_domain: endpoint
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: High frequency file deletion activity detected on host $dest$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: Image
+    type: Process
+    role:
+    - Attacker
+    - Child Process
