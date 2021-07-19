@@ -3,7 +3,7 @@ id: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 version: 3
 date: '2021-01-14'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: Malicious actors often abuse legitimate Dynamic DNS services to host

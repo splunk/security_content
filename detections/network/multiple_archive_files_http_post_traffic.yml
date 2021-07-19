@@ -3,7 +3,7 @@ id: 4477f3ea-a28f-11eb-b762-acde48001122
 version: 1
 date: '2021-04-21'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Traffic
 description: This search is designed to detect high frequency of archive files data

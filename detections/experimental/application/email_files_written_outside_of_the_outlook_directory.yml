@@ -3,7 +3,7 @@ id: ee18ed37-0802-4268-9435-b3b91aaa18xx
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The search looks at the change-analysis data model and detects email
