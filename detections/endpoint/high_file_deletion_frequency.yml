@@ -53,7 +53,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Execution
-  message: High frequency file deletion activity detected on host $dest$
+  message: High frequency file deletion activity detected on host $Computer$
   observable:
   - name: user
     type: User
@@ -63,8 +63,7 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: Image
-    type: Process
+  - name: deleted_files
+    type: File Name
     role:
-    - Attacker
-    - Child Process
+    - Target
