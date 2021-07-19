@@ -48,3 +48,24 @@ tags:
   - Registry.dest
   - Registry.registry_value_name
   security_domain: endpoint
+  impact: 40
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 40
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: "$Registry.user$ on $Registry.dest$ modified registry key $Registry.registry_key_name$ to disable run application in window start menu"
+  observable:
+  - name: Registry.dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Registry.use
+    type: User
+    role:
+    - Victim
+  - name: Registry.registry_key_name
+    type: Other
+    role:
+    - Target
