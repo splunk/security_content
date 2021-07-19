@@ -171,7 +171,8 @@ class SSADetectionTesting:
                 LOGGER.info(
                     f"Search didn't return any results. Retrying in {WAIT_CYCLE}s, max execution time left {self.max_execution_time}s")
 
-        assert len(results) > 0, "Search job didn't return any results"
+        if not results:
+            LOGGER.warning("Search job didn't return any results")
 
         LOGGER.info('Received %s result(s)', len(results))
         test_passed = assert_results(pass_condition, results)

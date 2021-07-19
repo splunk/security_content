@@ -2,7 +2,7 @@ name: Detect Kerberoasting - SSA Unit test
 tests:
   - name: Detect kerberoasting
     file: endpoint/ssa___detect_kerberoasting.yml 
-    pass_condition: '@count_gt(0)'
+    pass_condition: '@count_eq(0)'
     description: Test detection of kerberoasting
     attack_data:
       - file_name: windows-security.log
