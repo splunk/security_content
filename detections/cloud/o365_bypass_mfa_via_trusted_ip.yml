@@ -14,7 +14,7 @@ search: '`o365_management_activity` signature="Set Company Information." Modifie
   | eval ip_addresses_old=if(isnotnull(ip_addresses_old),ip_addresses_old,"0") | mvexpand
   ip_addresses_new_added | where isnull(mvfind(ip_addresses_old,ip_addresses_new_added))
   |stats count min(_time) as firstTime max(_time) as lastTime values(ip_addresses_old)
-  as ip_addresses_old by user ip_addresses_new_added signature vendor_account
+  as ip_addresses_old by user ip_addresses_new_added signature Workload vendor_account
   status user_id action | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `o365_bypass_mfa_via_trusted_ip_filter`'
 how_to_implement: You must install Splunk Microsoft Office 365 add-on. This search
