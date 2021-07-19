@@ -45,3 +45,20 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
+  impact: 30
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 30
+  context:
+  - Source:Endpoint
+  - Stage:Recon
+  message: "Suspicious powerShell script execution by $user$ on $ComputerName$ via EventCode 4104, where WMI is performing an event query looking for running processes or running services"
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
