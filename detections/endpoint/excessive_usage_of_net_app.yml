@@ -3,7 +3,7 @@ id: 45e52536-ae42-11eb-b5c6-acde48001122
 version: 1
 date: '2021-05-06'
 author: Teoderick Contreras, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic identifies excessive usage of `net.exe` or `net1.exe` within

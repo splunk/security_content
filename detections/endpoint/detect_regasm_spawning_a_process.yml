@@ -3,7 +3,7 @@ id: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
 version: 1
 date: '2021-02-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies regasm.exe spawning a process. This

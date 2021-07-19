@@ -3,7 +3,7 @@ id: f1c07594-a141-11eb-8407-acde48001122
 version: 1
 date: '2021-04-19'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies DLLHost.exe with no command line arguments

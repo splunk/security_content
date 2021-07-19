@@ -3,7 +3,7 @@ id: 6dca1124-b3ec-11eb-9328-acde48001122
 version: 1
 date: '2021-05-13'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies the usage of `rclone.exe`, renamed,
   being used to exfiltrate data to a remote destination. RClone has been used by multiple

@@ -3,7 +3,7 @@ id: a51bfe1a-94f0-48cc-b4e4-16a110145893
 version: 1
 date: '2021-06-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for execution of commonly used attacker tools on an

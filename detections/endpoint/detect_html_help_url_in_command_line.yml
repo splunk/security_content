@@ -3,7 +3,7 @@ id: 8c5835b9-39d9-438b-817c-95f14c69a31e
 version: 1
 date: '2021-02-11'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled

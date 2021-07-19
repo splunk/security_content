@@ -3,7 +3,7 @@ id: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
 version: 3
 date: '2021-01-26'
 author: Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search looks for a spike in number of of AWS security Hub alerts
   for an EC2 instance in 4 hours intervals

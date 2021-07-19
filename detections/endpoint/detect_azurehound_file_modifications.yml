@@ -3,7 +3,7 @@ id: 1c34549e-c31b-11eb-996b-acde48001122
 version: 1
 date: '2021-06-01'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic is similar to SharpHound file modifications, but

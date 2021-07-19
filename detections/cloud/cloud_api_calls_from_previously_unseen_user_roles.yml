@@ -3,7 +3,7 @@ id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
 version: 1
 date: '2020-09-04'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search looks for new commands from each user role.

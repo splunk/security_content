@@ -3,7 +3,7 @@ id: f6a26b7b-7e80-4963-a9a8-d836e7534ebd
 version: 1
 date: '2018-06-14'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search allows you to look for evidence of exploitation for CVE-2018-11409,
   a Splunk Enterprise Information Disclosure Bug.

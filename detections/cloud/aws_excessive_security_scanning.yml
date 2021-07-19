@@ -3,7 +3,7 @@ id: 1fdd164a-def8-4762-83a9-9ffe24e74d5a
 version: 1
 date: '2021-04-13'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for AWS CloudTrail events and analyse the amount of
   eventNames which starts with Describe by a single user. This indicates that this

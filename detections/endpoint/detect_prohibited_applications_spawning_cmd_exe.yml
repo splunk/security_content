@@ -3,7 +3,7 @@ id: dcfd6b40-42f9-469d-a433-2e53f7486664
 version: 5
 date: '2020-11-10'
 author: Bhavin Patel, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Endpoint
 description: This search looks for executions of cmd.exe spawned by a process that

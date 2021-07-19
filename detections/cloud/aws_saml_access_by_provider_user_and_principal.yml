@@ -3,7 +3,7 @@ id: bbe23980-6019-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-26'
 author: Rod Soto, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search provides specific SAML access from specific Service Provider,
   user and targeted principal at AWS. This search provides specific information to

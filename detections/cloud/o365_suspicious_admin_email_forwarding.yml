@@ -3,7 +3,7 @@ id: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 version: 1
 date: '2020-12-16'
 author: Patrick Bareiss, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search detects when an admin configured a forwarding rule for multiple
   mailboxes to the same destination.

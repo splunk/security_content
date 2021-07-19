@@ -3,7 +3,7 @@ id: b25d2973-303e-47c8-bacd-52b61604c6a7
 version: 1
 date: '2020-12-15'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects the assignment of rights to accesss content from
   another mailbox. This is usually only assigned to a service account.

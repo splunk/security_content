@@ -3,7 +3,7 @@ id: d441364c-349c-453b-b55f-12eccab67cf9
 version: 1
 date: '2020-12-16'
 author: Rod Soto, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search detects when an excessive number of authentication failures
   occur this search also includes attempts against MFA prompt codes

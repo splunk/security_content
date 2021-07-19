@@ -3,7 +3,7 @@ id: 415b4306-8bfb-11eb-85c4-acde48001122
 version: 1
 date: '2021-03-23'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: Certutil.exe may download a file from a remote destination using `-urlcache`.

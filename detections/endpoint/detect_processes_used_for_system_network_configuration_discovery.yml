@@ -3,7 +3,7 @@ id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 version: 2
 date: '2020-11-10'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for fast execution of processes used for system network

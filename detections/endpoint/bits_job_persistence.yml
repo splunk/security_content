@@ -3,7 +3,7 @@ id: e97a5ffe-90bf-11eb-928a-acde48001122
 version: 1
 date: '2021-03-29'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following query identifies Microsoft Background Intelligent Transfer

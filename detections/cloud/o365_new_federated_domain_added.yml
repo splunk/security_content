@@ -3,7 +3,7 @@ id: e155876a-6048-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-26'
 author: Rod Soto, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects the addition of a new Federated domain.
 search: '`o365_management_activity` Workload=Exchange Operation="Add-FederatedDomain"

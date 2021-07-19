@@ -3,7 +3,7 @@ id: bc477b57-5c21-4ab6-9c33-668772e7f114
 version: 1
 date: '2021-02-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies regsvcs.exe spawning a process. This

@@ -3,7 +3,7 @@ id: 23587b6a-c479-11eb-b671-acde48001122
 version: 1
 date: '2021-06-03'
 author: Michael Hart, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic will identify suspicious series of process executions.  We

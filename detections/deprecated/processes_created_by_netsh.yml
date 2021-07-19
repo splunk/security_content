@@ -3,7 +3,7 @@ id: b89919ed-fe5f-492c-b139-95dbb162041e
 version: 5
 date: '2020-11-23'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for processes launching netsh.exe to execute various

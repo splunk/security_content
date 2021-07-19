@@ -3,7 +3,7 @@ id: 3742ebfe-64c2-11eb-ae93-0242ac130002
 version: 1
 date: '2021-02-01'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'Detect procdump.exe dumping the lsass process. This query looks for

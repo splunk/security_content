@@ -3,7 +3,7 @@ id: 3e1f1568-9633-11eb-a69c-acde48001122
 version: 1
 date: '2021-04-05'
 author: Michael Haag, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: The following detection identifies excessive AccessDenied events within
   an hour timeframe. It is possible that an access key to AWS may have been stolen

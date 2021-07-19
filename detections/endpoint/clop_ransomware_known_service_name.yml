@@ -3,7 +3,7 @@ id: 07e08a12-870c-11eb-b5f9-acde48001122
 version: 1
 date: '2021-03-17'
 author: Teoderick Contreras
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This detection is to identify the common service name created by the

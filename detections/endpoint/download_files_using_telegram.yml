@@ -3,7 +3,7 @@ id: 58194e28-ae5e-11eb-8912-acde48001122
 version: 1
 date: '2021-05-06'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic will identify a suspicious download by the Telegram

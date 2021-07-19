@@ -3,7 +3,7 @@ id: 5a8a2a72-8322-11eb-9ee9-acde48001122
 version: 1
 date: '2021-03-17'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytics are designed to identifies some CLOP ransomware

@@ -3,7 +3,7 @@ id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 version: 1
 date: '2021-01-11'
 author: Rod Soto, Patrick Bareiss Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search provides detection of users with KMS keys performing encryption
   specifically against S3 buckets.

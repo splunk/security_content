@@ -3,7 +3,7 @@ id: 62fed254-513b-460e-953d-79771493a9f3
 version: 1
 date: '2021-02-11'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies a renamed instance of hh.exe (HTML
   Help) executing a Compiled HTML Help (CHM). This particular technique will load

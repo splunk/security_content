@@ -3,7 +3,7 @@ id: 723b861a-92eb-11eb-93b8-acde48001122
 version: 1
 date: '2021-04-01'
 author: Michael Haag, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This detection identifies failure attempts to delete groups. We want
   to identify when a group is attempting to be deleted, but either access is denied,

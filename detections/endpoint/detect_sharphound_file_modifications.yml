@@ -3,7 +3,7 @@ id: 42b4b438-beed-11eb-ba1d-acde48001122
 version: 1
 date: '2021-05-27'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: SharpHound is used as a reconnaissance collector, ingestor, for BloodHound.

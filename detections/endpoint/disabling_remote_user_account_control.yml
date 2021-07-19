@@ -3,7 +3,7 @@ id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
 version: 4
 date: '2020-11-18'
 author: David Dorsey, Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The search looks for modifications to registry keys that control the
   enforcement of Windows User Account Control (UAC).

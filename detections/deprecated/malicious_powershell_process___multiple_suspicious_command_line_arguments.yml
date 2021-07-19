@@ -3,7 +3,7 @@ id: 2cdb91d2-542c-497f-b252-be495e71f38c
 version: 6
 date: '2021-01-19'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for PowerShell processes started with a base64 encoded

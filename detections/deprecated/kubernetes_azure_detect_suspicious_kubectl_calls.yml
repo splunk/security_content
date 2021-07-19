@@ -3,7 +3,7 @@ id: 4b6d1ba8-0000-4cec-87e6-6cbbd71651b5
 version: 1
 date: '2020-05-26'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides information on rare Kubectl calls with IP, verb
   namespace and object access context

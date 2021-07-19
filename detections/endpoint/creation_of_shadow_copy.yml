@@ -3,7 +3,7 @@ id: eb120f5f-b879-4a63-97c1-93352b5df844
 version: 1
 date: '2019-12-10'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: Monitor for signs that Vssadmin or Wmic has been used to create a shadow

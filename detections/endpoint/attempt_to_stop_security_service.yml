@@ -3,7 +3,7 @@ id: c8e349c6-b97c-486e-8949-bd7bcd1f3910
 version: 3
 date: '2020-07-21'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for attempts to stop security-related services on the

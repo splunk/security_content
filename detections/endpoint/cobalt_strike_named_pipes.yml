@@ -3,7 +3,7 @@ id: 5876d429-0240-4709-8b93-ea8330b411b5
 version: 1
 date: '2021-02-22'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: 'The following analytic identifies the use of default or publicly known
   named pipes used with Cobalt Strike. A named pipe is a named, one-way or duplex

@@ -3,7 +3,7 @@ id: 47af7d20-0607-4079-97d7-7a29af58b54e
 version: 1
 date: '2020-05-26'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides information on Kubernetes RBAC authorizations by
   accounts, this search can be modified by adding rare or top to see both extremes

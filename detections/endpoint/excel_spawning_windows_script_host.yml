@@ -3,7 +3,7 @@ id: 57fe880a-9be3-11eb-9bf3-acde48001122
 version: 1
 date: '2021-04-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following detection identifies Microsoft Excel spawning Windows Script

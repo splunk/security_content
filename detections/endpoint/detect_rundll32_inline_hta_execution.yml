@@ -3,7 +3,7 @@ id: 91c79f14-5b41-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-20'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies "rundll32.exe" execution with inline
