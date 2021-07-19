@@ -51,3 +51,24 @@ tags:
   - Registry.user
   - Registry.action
   security_domain: endpoint
+  impact: 40
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 40
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: "$Registry.user$ on $Registry.dest$ modified registry key=$Registry.registry_key_name$ that controls the enforcement of Windows User Account Control (UAC)"
+  observable:
+  - name: Registry.dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Registry.user
+    type: User
+    role:
+    - Victim
+  - name: Registry.registry_key_name
+    type: Other
+    role:
+    - Target
