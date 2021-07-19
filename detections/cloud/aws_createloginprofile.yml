@@ -1,7 +1,7 @@
 name: AWS CreateLoginProfile
 id: 2a9b80d3-6340-4345-11ad-212bf444d111
-version: 1
-date: '2021-03-02'
+version: 2
+date: '2021-07-19'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
@@ -10,9 +10,9 @@ description: This search looks for AWS CloudTrail events where a user A(victim A
   B from the same src_ip as user B. This correlated event can be indicative of privilege
   escalation since both events happened from the same src_ip
 search: '`cloudtrail` eventName = CreateLoginProfile | rename requestParameters.userName
-  as new_login_profile | table src_ip eventName new_login_profile userName | join
+  as new_login_profile | table src_ip eventName new_login_profile userIdentity.userName  | join
   new_login_profile src_ip [| search `cloudtrail` eventName = ConsoleLogin | rename
-  userName as new_login_profile | stats count values(eventName) min(_time) as firstTime
+  userIdentity.userName  as new_login_profile | stats count values(eventName) min(_time) as firstTime
   max(_time) as lastTime by eventSource aws_account_id errorCode userAgent eventID
   awsRegion userIdentity.principalId user_arn new_login_profile src_ip | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`] | `aws_createloginprofile_filter`'
