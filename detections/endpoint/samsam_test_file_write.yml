@@ -3,7 +3,7 @@ id: 493a879d-519d-428f-8f57-a06a0fdc107e
 version: 1
 date: '2018-12-14'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The search looks for a file named "test.txt" written to the windows system

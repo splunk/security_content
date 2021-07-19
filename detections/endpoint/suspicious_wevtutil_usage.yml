@@ -3,7 +3,7 @@ id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
 version: 3
 date: '2020-07-22'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The wevtutil.exe application is the windows event log utility. This searches

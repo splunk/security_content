@@ -3,7 +3,7 @@ id: 63422f8e-766c-468f-8133-2ba6795e263b
 version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules that discover
   accounts, groups and policies that can be accessed or taken over.

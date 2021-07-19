@@ -3,7 +3,7 @@ id: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 version: 3
 date: '2020-12-08'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for shim database files being written to default directories.
   The sdbinst.exe application is used to install shim database files (.sdb). According

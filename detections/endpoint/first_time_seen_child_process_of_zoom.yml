@@ -3,7 +3,7 @@ id: e91bd102-d630-4e76-ab73-7e3ba22c5961
 version: 1
 date: '2020-05-20'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This search looks for child processes spawned by zoom.exe or zoom.us

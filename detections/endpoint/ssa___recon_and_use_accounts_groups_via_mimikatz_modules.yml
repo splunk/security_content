@@ -3,7 +3,7 @@ id: 1bce67aa-3fc4-4886-9089-67f0bfebbef6
 version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of Mimikatz modules for discovery of accounts
   and groups and access to them.

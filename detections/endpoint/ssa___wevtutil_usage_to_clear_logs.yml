@@ -3,7 +3,7 @@ id: 5438113c-cdd9-11eb-93b8-acde48001122
 version: 1
 date: '2021-06-15'
 author: Teoderick Contreras, Splunk
-type: streaming
+type: TTP
 datamodel:
 - Endpoint
 description: The wevtutil.exe application is the windows event log utility. This searches

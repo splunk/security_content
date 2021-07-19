@@ -3,7 +3,7 @@ id: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
 version: 4
 date: '2021-01-19'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for PowerShell processes launched with arguments that

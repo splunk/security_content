@@ -3,7 +3,7 @@ id: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
 version: 3
 date: '2020-12-08'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for process names that consist only of a single letter.

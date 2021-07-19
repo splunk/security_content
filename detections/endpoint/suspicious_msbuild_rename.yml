@@ -3,7 +3,7 @@ id: 4006adac-5937-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies renamed instances of msbuild.exe executing.
   Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and

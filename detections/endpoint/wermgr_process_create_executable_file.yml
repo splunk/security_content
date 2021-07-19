@@ -3,7 +3,7 @@ id: ab3bcce0-a105-11eb-973c-acde48001122
 version: 1
 date: '2021-04-19'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this search is designed to detect potential malicious wermgr.exe process

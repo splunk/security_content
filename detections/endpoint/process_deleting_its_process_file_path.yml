@@ -3,7 +3,7 @@ id: f7eda4bc-871c-11eb-b110-acde48001122
 version: 1
 date: '2021-03-17'
 author: Teoderick Contreras
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This detection is to identify a suspicious process that tries to delete

@@ -3,7 +3,7 @@ id: 3a91a212-98a9-11eb-b86a-acde48001122
 version: 1
 date: '2021-04-08'
 author: Mauricio Velazco, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: 'The following analytic identifies one source endpoint failing to authenticate

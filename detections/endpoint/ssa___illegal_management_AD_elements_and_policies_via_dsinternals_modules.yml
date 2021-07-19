@@ -4,7 +4,7 @@ id: a587ca9f-c138-47b4-ba51-699f319b8cc5
 version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of DSInternals modules for illegal management
   of Active Directoty elements and policies.

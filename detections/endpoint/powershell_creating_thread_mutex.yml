@@ -3,7 +3,7 @@ id: 637557ec-ca08-11eb-bd0a-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104 that is using the `mutex` function. This function is commonly

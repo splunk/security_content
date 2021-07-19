@@ -3,7 +3,7 @@ id: f1126df0-7bd5-11eb-988f-acde48001122
 version: 1
 date: '2021-03-02'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This detection identifies Microsoft Exchange Server's Unified Messaging

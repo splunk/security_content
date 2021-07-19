@@ -3,7 +3,7 @@ id: 5d9c6eee-988c-11eb-8253-acde48001122
 version: 1
 date: '2021-04-08'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: 'The following query utilizes Windows Security EventCode 4698, `A scheduled
   task was created`, to identify suspicious tasks registered on Windows either via

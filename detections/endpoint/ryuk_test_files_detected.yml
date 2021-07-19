@@ -3,7 +3,7 @@ id: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 version: 1
 date: '2020-11-06'
 author: Rod Soto, Jose Hernandez, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The search looks for files that contain the key word *Ryuk* under any
   folder in the C drive, which is consistent with Ryuk propagation.

@@ -3,7 +3,7 @@ id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
 version: 4
 date: '2020-07-21'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for flags passed to schtasks.exe on the command-line

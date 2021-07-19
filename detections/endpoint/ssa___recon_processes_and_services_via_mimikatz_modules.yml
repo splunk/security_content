@@ -3,7 +3,7 @@ id: 0243d37c-57c1-4182-bfd1-39b212255fc8
 version: 1
 date: '2020-11-06'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of Mimikatz modules for discovery and access
   to services and processes.

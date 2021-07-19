@@ -3,7 +3,7 @@ id: 23150a40-9301-4195-b802-5bb4f43067fb
 version: 2
 date: '2021-03-02'
 author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The search looks for the Registry Key DisableAntiSpyware set to disable.

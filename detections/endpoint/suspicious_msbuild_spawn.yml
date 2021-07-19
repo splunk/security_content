@@ -3,7 +3,7 @@ id: a115fba6-5514-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies wmiprvse.exe spawning msbuild.exe.

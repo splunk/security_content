@@ -3,7 +3,7 @@ id: e451bd16-e4c5-4109-8eb1-c4c6ecf048b4
 version: 1
 date: '2021-02-09'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies rundll32.exe with no command line arguments.
   It is unusual for rundll32.exe to execute with no command line arguments present.

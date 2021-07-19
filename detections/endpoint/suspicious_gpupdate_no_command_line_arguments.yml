@@ -3,7 +3,7 @@ id: f308490a-473a-40ef-ae64-dd7a6eba284a
 version: 1
 date: '2021-02-23'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies gpupdate.exe with no command line arguments.
   It is unusual for gpupdate.exe to execute with no command line arguments present.

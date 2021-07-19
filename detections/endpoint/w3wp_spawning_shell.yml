@@ -3,7 +3,7 @@ id: 0f03423c-7c6a-11eb-bc47-acde48001122
 version: 1
 date: '2021-03-03'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from

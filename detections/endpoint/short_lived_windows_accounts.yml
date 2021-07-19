@@ -3,7 +3,7 @@ id: b25f6f62-0782-43c1-b403-083231ffd97d
 version: 2
 date: '2020-07-06'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Change
 description: This search detects accounts that were created and deleted in a short

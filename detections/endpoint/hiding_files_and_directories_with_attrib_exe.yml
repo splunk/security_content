@@ -3,7 +3,7 @@ id: c77162d3-f93c-45cc-80c8-22f6b5264g9f
 version: 4
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: Attackers leverage an existing Windows binary, attrib.exe, to mark specific

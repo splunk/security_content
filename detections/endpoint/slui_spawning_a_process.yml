@@ -3,7 +3,7 @@ id: 879c4330-b3e0-11eb-b1b1-acde48001122
 version: 1
 date: '2021-05-13'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies the Microsoft Software Licensing User

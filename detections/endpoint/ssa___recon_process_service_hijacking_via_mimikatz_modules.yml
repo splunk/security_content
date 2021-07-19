@@ -3,7 +3,7 @@ id: fc5c1cbd-7494-4314-aad2-458d6fd4fada
 version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of Mimikatz modules for discovery of process
   or service hijacking opportunities via Microsoft Detours compatibility. Microsoft

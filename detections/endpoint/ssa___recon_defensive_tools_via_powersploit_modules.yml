@@ -3,7 +3,7 @@ id: 24b4e659-63a2-4e7b-89ac-87dd659c7110
 version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of PowerSploit modules for assessment of
   presence of defensive tools.

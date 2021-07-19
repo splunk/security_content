@@ -3,7 +3,7 @@ id: 9d911ce0-c3be-11eb-b177-acde48001122
 version: 1
 date: '2021-06-02'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this search is designed to detect potential malicious process loading

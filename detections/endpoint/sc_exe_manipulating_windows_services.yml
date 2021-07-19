@@ -3,7 +3,7 @@ id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 version: 4
 date: '2020-07-21'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for arguments to sc.exe indicating the creation or

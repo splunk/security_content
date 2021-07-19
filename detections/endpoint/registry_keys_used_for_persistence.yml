@@ -3,7 +3,7 @@ id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
 version: 5
 date: '2020-11-27'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The search looks for modifications to registry keys that can be used

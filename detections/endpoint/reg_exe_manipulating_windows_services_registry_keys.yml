@@ -3,7 +3,7 @@ id: 8470d755-0c13-45b3-bd63-387a373c10cf
 version: 5
 date: '2020-11-26'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The search looks for reg.exe modifying registry keys that define Windows

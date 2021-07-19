@@ -3,7 +3,7 @@ id: 7742aa92-c9d9-11eb-bbfc-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious bcdedit.exe execution to ignore

@@ -3,7 +3,7 @@ id: cf090c78-bcc6-11eb-8529-0242ac130003
 version: 1
 date: '2021-05-20'
 author: Peter Gael, Splunk; Ignacio Bermudez Corrales, Splunk
-type: streaming
+type: Anomaly
 datamodel: []
 description: An attacker may use LOLBAS tools spawned from vulnerable applications
   not typically used by system administrators. This search leverages the Splunk Streaming

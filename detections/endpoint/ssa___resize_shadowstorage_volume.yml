@@ -3,7 +3,7 @@ id: dbc30554-d27e-11eb-9e5e-acde48001122
 version: 1
 date: '2021-06-21'
 author: Teoderick Contreras, Splunk
-type: streaming
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytics identifies the resizing of shadowstorage by ransomware

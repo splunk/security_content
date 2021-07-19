@@ -3,7 +3,7 @@ id: 523c2684-a101-11eb-916b-acde48001122
 version: 1
 date: '2021-04-19'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following query utilizes Windows Security EventCode 4698, `A scheduled

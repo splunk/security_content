@@ -3,7 +3,7 @@ id: 9319dda5-73f2-4d43-a85a-67ce961bddb7
 version: 1
 date: '2021-02-04'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies rundll32.exe executing a DLL function

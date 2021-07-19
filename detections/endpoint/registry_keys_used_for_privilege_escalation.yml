@@ -3,7 +3,7 @@ id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
 version: 4
 date: '2020-11-27'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for modifications to registry keys that can be used
   to elevate privileges. The registry keys under "Image File Execution Options" are

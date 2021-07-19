@@ -3,7 +3,7 @@ id: 5cc67381-44fa-4111-8a37-7a230943f027
 version: 3
 date: '2020-10-16'
 author: Jose Hernandez, Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects a potential kerberoasting attack via service principal
   name requests

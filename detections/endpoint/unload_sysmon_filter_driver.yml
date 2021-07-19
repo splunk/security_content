@@ -3,7 +3,7 @@ id: c77162d3-f93c-45cc-80c8-22f665664g9f
 version: 3
 date: '2020-07-22'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: Attackers often disable security tools to avoid detection. This search

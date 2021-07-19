@@ -3,7 +3,7 @@ id: 0e910e5b-309d-4bc3-8af2-0030c02aa353
 version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules that enable illegal
   control of services and processes, such as installing or spoofing of malicious services,

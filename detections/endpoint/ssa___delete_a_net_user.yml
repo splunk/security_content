@@ -3,7 +3,7 @@ id: 8776d79c-d26e-11eb-9a56-acde48001122
 version: 1
 date: '2021-06-21'
 author: Teoderick Contreras, Splunk
-type: streaming
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic will detect a suspicious net.exe/net1.exe command-line

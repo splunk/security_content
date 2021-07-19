@@ -3,7 +3,7 @@ id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
 version: 6
 date: '2020-07-06'
 author: Rico Valdez, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic utilizes Windows Security Event ID 1102 or System
   log event 104 to identify when a Windows event log is cleared. Note that this analytic
