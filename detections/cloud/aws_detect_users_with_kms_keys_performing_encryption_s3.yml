@@ -43,7 +43,23 @@ tags:
   - requestParameters.key
   - userAgent
   - region
-  risk_object: user
-  risk_object_type: user
-  risk_score: 25
+  impact: 30
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 15
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $user$ with KMS keys is performing encryption, against S3 buckets on these files $dest_file$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: dest_file
+    type: File
+    role:
+    - Target
   security_domain: threat
