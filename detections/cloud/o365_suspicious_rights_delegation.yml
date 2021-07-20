@@ -41,7 +41,19 @@ tags:
   - _time
   - Operation
   - Parameters
-  risk_object: user
-  risk_object_type: user
-  risk_score: 20
+  impact: 80
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 48
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Exfiltration
+  - Stage:Execution
+  message: User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$ that allow access to sensitive 
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   security_domain: threat

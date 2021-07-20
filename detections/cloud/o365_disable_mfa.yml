@@ -42,7 +42,24 @@ tags:
   - signature
   - dest
   - ResultStatus
-  risk_object: dest
-  risk_object_type: system
-  risk_score: 20
+  impact: 80
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 64
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: User $user$ has executed an operation $Operation$ for this destination $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User 
+    role:
+    - Attacker
   security_domain: threat

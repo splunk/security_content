@@ -52,7 +52,24 @@ tags:
   - status
   - user_id
   - action
-  risk_object: user
-  risk_object_type: user
-  risk_score: 20
+  impact: 70
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 42
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a list of trusted IPs to bypass MFA 
+  observable:
+  - name: ip_addresses_new_added
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_id
+    type: User
+    role:
+    - Attacker
   security_domain: threat

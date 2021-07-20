@@ -49,7 +49,24 @@ tags:
   - OriginatingServer
   - UserId
   - UserKey
-  risk_object: UserId
-  risk_object_type: user
-  risk_score: 20
+  impact: 80
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 64
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: User $UserId$ has added a new federated domaain $Parameters.Value$ for $OrganizationName$
+  observable:
+  - name: OrganizationName
+    type: Other
+    role:
+    - Victim
+  - name: UserId
+    type: User 
+    role:
+    - Victim
   security_domain: threat

@@ -42,7 +42,24 @@ tags:
   - ActorIpAddress
   - UserAgent
   - UserId
-  risk_object: user
-  risk_object_type: user
-  risk_score: 20
+  impact: 80
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 64
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Initial Access
+  message: User $UserId$ has caused excessive number of SSO logon errors from $ActorIpAddress$ using UserAgent $UserAgent$.
+  observable:
+  - name: ActorIpAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: UserId
+    type: User 
+    role:
+    - Victim
   security_domain: threat
