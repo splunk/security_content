@@ -1,6 +1,6 @@
 name: System Process Running from Unexpected Location
 id: 28179107-099a-464a-94d3-08301e6c055f
-version: 2
+version: 3
 date: '2020-08-25'
 author: Ignacio Bermudez Corrales, Splunk
 type: streaming
@@ -224,8 +224,9 @@ search: ' $ssa_input = | from read_ssa_enriched_events() | eval device=ucast(map
   OR process_name="xcopy.exe" OR process_name="xpsrchvw.exe" OR process_name="xwizard.exe";
 
   | from $cond_1 | union $cond_2 | union $cond_3 | union $cond_4 | union $cond_5 |
-  union $cond_6 | where process_path NOT LIKE "%\\windows\\system32%" AND process_path
-  NOT LIKE "%\\windows\\syswow64%" | eval start_time=timestamp, end_time=timestamp,
+  union $cond_6 | where match_regex(process_path, /(?i)\\windows\\system32/)=false
+  AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false
+  | eval start_time=timestamp, end_time=timestamp,
   entities=mvappend(device, user), body=create_map(["process_path", process_path,
   "process_name", process_name]) | into write_ssa_detected_events();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.

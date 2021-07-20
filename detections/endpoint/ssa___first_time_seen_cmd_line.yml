@@ -1,6 +1,6 @@
 name: First time seen command line argument
 id: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
-version: 2
+version: 3
 date: 2021-2-1
 author: Ignacio Bermudez Corrales, Splunk
 type: streaming
@@ -19,7 +19,7 @@ search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map
   */ cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"),
   /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm,
   /\d+/, "N") | where process_name="cmd.exe" AND match_regex(ucast(cmd_line, "string",
-  ""), /.* \/[cC] .*/)=true | select cmd_line, cmd_line_norm, timestamp, dest_device_id,
+  ""), /.* \/[cC] .*/)=true | select process_name, cmd_line, cmd_line_norm, timestamp, dest_device_id,
   dest_user_id | first_time_event input_columns=["cmd_line_norm"] | where first_time_cmd_line_norm
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id,
   dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name])
