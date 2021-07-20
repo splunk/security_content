@@ -32,12 +32,28 @@ references:
 tags:
   analytic_story:
   - XMRig
+  confidence: 70
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: A cacls process $process_name$ with commandline $cmd_line$ try to deny
+    a permission of a file or directory in host $dest_device_id$
   mitre_attack_id:
   - T1222
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -48,21 +64,5 @@ tags:
   - process_path
   - dest_user_id
   - process
+  risk_score: 35
   security_domain: endpoint
-  impact: 50 
-  confidence: 70  
-  # (impact * confidence)/100
-  risk_score: 35 
-  context:
-  - source:endpoint
-  - stage: Defense Evasion
-  message: A cacls process $process_name$ with commandline $cmd_line$ try to deny a permission of a file or directory in host $dest_device_id$ 
-  observable:
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: dest_user_id
-    type: user
-    role:
-    - Victim

@@ -38,37 +38,22 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  - Privilege Escalation
-  mitre_attack_id:
-  - T1112
-  - T1548.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 90
   confidence: 90
-  # (impact * confidence)/100
-  risk_score: 81
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
-  message: Suspcious registy keys added by process fodhelper.exe (process_id- $process_id), with a parent_process of $parent_process_name$ that has been executed on $dest$ by $user$.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+  impact: 90
+  kill_chain_phases:
+  - Exploitation
+  - Privilege Escalation
+  message: Suspcious registy keys added by process fodhelper.exe (process_id- $process_id),
+    with a parent_process of $parent_process_name$ that has been executed on $dest$
+    by $user$.
+  mitre_attack_id:
+  - T1112
+  - T1548.002
   observable:
   - name: user
     type: User
@@ -83,3 +68,19 @@ tags:
     role:
     - Parent Process
     - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 81
+  security_domain: endpoint

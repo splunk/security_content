@@ -56,3 +56,17 @@ tags:
   - Registry.user
   - Registry.registry_value_name
   security_domain: endpoint
+  impact: 80
+  confidence: 80
+  risk_score: 64
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Persistence
+  - Stage:Privilege Escalation
+  message: New print monitor added on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

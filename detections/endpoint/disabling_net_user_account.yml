@@ -29,33 +29,19 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1531
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process_name
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_id
-  - Processes.parent_process
-  security_domain: endpoint
-  impact: 40
   confidence: 100
-  # (impact * confidence)/100
-  risk_score: 40
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
-  message: "$Processes.user$ on $Processes.dest$ used a suspicious command ($Processes.process_name$) that disabled a user account using the net.exe utility native to Windows"
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 40
+  kill_chain_phases:
+  - Exploitation
+  message: $Processes.user$ on $Processes.dest$ used a suspicious command ($Processes.process_name$)
+    that disabled a user account using the net.exe utility native to Windows
+  mitre_attack_id:
+  - T1531
   observable:
   - name: Processes.dest
     type: Endpoint
@@ -69,3 +55,17 @@ tags:
     type: Process
     role:
     - Target
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_id
+  - Processes.parent_process
+  risk_score: 40
+  security_domain: endpoint

@@ -31,31 +31,20 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1562.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.registry_value_name
-  - Registry.dest Registry.user
-  security_domain: endpoint
-  impact: 90
   confidence: 80
-  # (impact * confidence)/100
-  risk_score: 72
   context:
   - Source:Endpoint
-  - Stage:Execution 
-  message: Suspicious registry modification ($registry_value_name$) which is used go hide a user account on the Windows Login screen detected on $dest$ executed by $user$ 
+  - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+  impact: 90
+  kill_chain_phases:
+  - Exploitation
+  message: Suspicious registry modification ($registry_value_name$) which is used
+    go hide a user account on the Windows Login screen detected on $dest$ executed
+    by $user$
+  mitre_attack_id:
+  - T1562.001
   observable:
   - name: user
     type: User
@@ -69,3 +58,15 @@ tags:
     type: Other
     role:
     - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.dest Registry.user
+  risk_score: 72
+  security_domain: endpoint

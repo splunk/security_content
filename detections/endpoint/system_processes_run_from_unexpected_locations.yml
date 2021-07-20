@@ -64,3 +64,20 @@ tags:
   - Processes.parent_process_name
   - Processes.process_hash
   security_domain: endpoint
+  impact: 70
+  confidence: 70
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  message: System process running from unexpected location on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_name
+    type: Process
+    role:
+    - Attacker
