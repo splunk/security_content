@@ -45,3 +45,26 @@ tags:
   - Processes.process
   - Processes.process_id
   security_domain: endpoint
+  impact: 40
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 28
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Excessive usage  of taskkill.exe with process id $process_id$ (more than 10 within 1m) has been detected on $dest$ with a parent process of $parent_process_name$. 
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Parent Process
+    - Attacker
+

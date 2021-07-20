@@ -47,3 +47,16 @@ tags:
   - service
   - service_id
   security_domain: endpoint
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  message: Potential kerberoasting attack via service principal name requests detected on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

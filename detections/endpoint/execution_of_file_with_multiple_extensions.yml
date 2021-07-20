@@ -51,3 +51,26 @@ tags:
   - Processes.user
   - Processes.parent_process
   security_domain: endpoint
+  impact: 80
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: process $process$ have double extensions in the file name is executed on $dest$ by $user$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Parent Process
+    - Attacker
+

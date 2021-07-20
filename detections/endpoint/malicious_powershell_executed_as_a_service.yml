@@ -47,3 +47,20 @@ tags:
   - Service_Account
   - user
   security_domain: endpoint
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $Service_File_Name$ by $user$ on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim

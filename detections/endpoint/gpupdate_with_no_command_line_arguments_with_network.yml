@@ -53,3 +53,31 @@ tags:
   - dest_port
   - process_path
   security_domain: endpoint
+  impact: 90
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 81
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Command And Control
+  message: Process gpupdate.exe  with parent_process $parent_process_name$ is executed on $dest$ by user $user$, followed by an outbound network connection to $connection_to_CNC$ on port $dest_port$. This behaviour is seen with cobaltstrike.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Parent Process
+    - Attacker
+  - name: connection_to_CNC
+    type: IP Address
+    role:
+    - Other
+

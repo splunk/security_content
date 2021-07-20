@@ -42,3 +42,20 @@ tags:
   - _time
   - ProcessID
   security_domain: endpoint
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: High frequency process termination (more than 15 processes within 3s) detected on host $Computer$
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: proc_terminated
+    type: Process
+    role:
+    - Target

@@ -48,3 +48,24 @@ tags:
   - Registry.registry_value_name
   - Registry.dest Registry.user
   security_domain: endpoint
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Execution 
+  message: Suspicious registry modification ($registry_value_name$) which is used go hide a user account on the Windows Login screen detected on $dest$ executed by $user$ 
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: registry_value_name
+    type: Other
+    role:
+    - Attacker

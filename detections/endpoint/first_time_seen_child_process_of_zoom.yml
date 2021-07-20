@@ -62,3 +62,26 @@ tags:
   - Processes.process_id
   - Processes.dest
   security_domain: endpoint
+  impact: 80
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 64
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously on host $dest$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_name
+    type: Process Name
+    role:
+    - Attacker
+    - Child Process
+

@@ -61,3 +61,25 @@ tags:
   - Processes.parent_process_name
   - Processes.dest
   security_domain: endpoint
+  impact: 90
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 81
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Command And Control
+  message: PowerShell processes $process$ started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet on host $dest$ executed by user $user$.
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Attacker
