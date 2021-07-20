@@ -52,3 +52,20 @@ tags:
   - Filesystem.file_name
   - Filesystem.dest
   security_domain: endpoint
+  impact: 80 
+  confidence: 90  
+  # (impact * confidence)/100
+  risk_score: 72 
+  context:
+  - source:endpoint
+  - stage: privilege escalation
+  message: A suspicious file modification or replace in $file_path$  in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_path
+    type: file_path
+    role:
+    - Attacker

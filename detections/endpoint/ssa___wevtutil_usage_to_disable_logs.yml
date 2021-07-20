@@ -50,3 +50,20 @@ tags:
   - dest_user_id
   - process
   security_domain: endpoint
+  impact: 70 
+  confidence: 90  
+  # (impact * confidence)/100
+  risk_score: 63 
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A wevtutil process $process_name$ with commandline $cmd_line$ to disable event logs in host $dest_device_id$ 
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: user
+    role:
+    - Victim

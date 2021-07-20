@@ -55,3 +55,20 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  impact: 70 
+  confidence: 70  
+  # (impact * confidence)/100
+  risk_score: 49 
+  context:
+  - source:endpoint
+  - stage: Execution
+  message: A wmic.exe process $process$ contain process spawn commandline $process$ in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
