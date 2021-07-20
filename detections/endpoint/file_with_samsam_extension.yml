@@ -47,3 +47,25 @@ tags:
   - Filesystem.file_path
   - Filesystem.file_name
   security_domain: endpoint
+  impact: 100
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 90
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: File writes $file_name$ with extensions consistent with a SamSam ransomware attack seen on $dest$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: file_name
+    type: File Name
+    role:
+    - Other
+    - Attacker
