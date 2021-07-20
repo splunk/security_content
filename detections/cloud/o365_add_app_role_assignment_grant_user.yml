@@ -46,7 +46,27 @@ tags:
   - ActorIpAddress
   - dest
   - ResultStatus
-  risk_object: dest
-  risk_object_type: system
-  risk_score: 20
+  impact: 30
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 18
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $Actor.ID$ has created a new federation setting on $dest$ from IP Address $ActorIpAddress$
+  observable:
+  - name: ActorIpAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: Actor.ID
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   security_domain: threat

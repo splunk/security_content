@@ -49,7 +49,23 @@ tags:
   - ModifiedProperties{}.NewValue
   - Target{}.ID
   - ActorIpAddress
-  risk_object: ActorIpAddress
-  risk_object_type: system
-  risk_score: 20
+  impact: 70
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 42
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $Actor.ID$ created a new federation setting on $Target.ID$ and added service principal credentials from IP Address $ActorIpAddress$
+  observable:
+  - name: ActorIpAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: Target.ID
+    type: Endpoint
+    role:
+    - Victim
   security_domain: threat
