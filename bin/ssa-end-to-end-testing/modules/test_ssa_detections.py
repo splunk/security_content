@@ -6,6 +6,7 @@ import sys
 from http import HTTPStatus
 from modules.streams_service_api_helper import DSPApi
 from modules.utils import check_source_sink, manipulate_spl, read_spl, read_data
+from ssa_test import assert_results
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
@@ -67,7 +68,8 @@ class SSADetectionTesting:
         file_path_attack_data = test_obj["attack_data_file_path"]
 
         test_results = self.ssa_detection_test(test_obj["detection_obj"]["search"], file_path_attack_data,
-                                               "SSA Smoke Test " + test_obj["test_obj"]["name"])
+                                               "SSA Smoke Test " + test_obj["test_obj"]["name"],
+                                               test_obj['test_obj']['tests'][0]['pass_condition'])
 
         return test_results
 
@@ -110,7 +112,7 @@ class SSADetectionTesting:
                 else:
                     LOGGER.warning("Found and deleted an old pipeline: %s", pipeline['name'])
 
-    def ssa_detection_test_main(self, spl, source, test_name):
+    def ssa_detection_test_main(self, spl, source, test_name, pass_condition):
         self.execution_passed = True
 
         self.wait_time(SLEEP_TIME_CREATE_INDEX)
@@ -169,7 +171,12 @@ class SSADetectionTesting:
                 LOGGER.info(
                     f"Search didn't return any results. Retrying in {WAIT_CYCLE}s, max execution time left {self.max_execution_time}s")
 
-        assert len(results) > 0, "Search job didn't return any results"
+        if not results:
+            LOGGER.warning("Search job didn't return any results")
+
+        LOGGER.info('Received %s result(s)', len(results))
+        test_passed = assert_results(pass_condition, results)
+        assert test_passed, f"Pass condition {pass_condition} not satisfied"
 
         msg = f"Detection test successful for {test_name}"
         LOGGER.info(msg)
@@ -197,10 +204,10 @@ class SSADetectionTesting:
         else:
             LOGGER.info("Testing successfully cleaned up")
 
-    def ssa_detection_test(self, spl, source, test_name):
+    def ssa_detection_test(self, spl, source, test_name, pass_condition='@count_gt(0)'):
         self.ssa_detection_test_init()
         try:
-            test_result = self.ssa_detection_test_main(spl, source, test_name)
+            test_result = self.ssa_detection_test_main(spl, source, test_name, pass_condition)
             self.ssa_detection_test_teardown()
             return test_result
         except AssertionError as e:
