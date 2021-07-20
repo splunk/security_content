@@ -1,7 +1,7 @@
 name: Detect New Open S3 buckets
 id: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
-version: 2
-date: '2021-01-12'
+version: 3
+date: '2021-07-19'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 type: batch
 datamodel: []
@@ -13,7 +13,7 @@ search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex 
   | spath input=grantees output=permission path=Permission | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers")
   | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL") |
   rename requestParameters.bucketName AS bucketName | stats count min(_time) as firstTime
-  max(_time) as lastTime by userName userIdentity.principalId userAgent uri permission
+  max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent uri permission
   bucketName | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `detect_new_open_s3_buckets_filter` '
 how_to_implement: You must install the AWS App for Splunk.
@@ -67,7 +67,7 @@ tags:
   - eventSource
   - eventName
   - requestParameters.bucketName
-  - userName
+  - userIdentity.userName
   - userIdentity.principalId
   - userAgent
   - uri
