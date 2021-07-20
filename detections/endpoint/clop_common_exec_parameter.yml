@@ -17,13 +17,12 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   values(Processes.parent_process_name) as parent_process values(Processes.process_name)
   count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name != "*temp.dat*" Processes.process = "*runrun*" OR Processes.process
-  = "*temp.dat*" by Processes.parent_process_name Processes.process_name Processes.process
-  Processes.dest Processes.user Processes.process_id Processes.process_guid | `drop_dm_object_name(Processes)`
+  = "*temp.dat*" by Processes.dest Processes.user Processes.parent_process Processes.process_name
+    Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `clop_common_exec_parameter_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Operators can execute third party tools using these parameters.
 references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
@@ -43,11 +42,41 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Processes.process
-  - Processes.parent_process_name
   - _time
-  - Processes.process_name
   - Processes.dest
   - Processes.user
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   security_domain: endpoint
+  impact: 100
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 100
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting using arguments to execute its main code or feature of its code related to Clop ransomware.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process

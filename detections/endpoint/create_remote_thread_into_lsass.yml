@@ -48,4 +48,22 @@ tags:
   - EventCode
   - TargetImage
   - TargetProcessId
+  - dest
   security_domain: endpoint
+  impact: 90
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 81
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  message: A process has created a remote thread into $TargetImage$ on $dest$. This behavior is indicative of credential dumping and should be investigated.
+  observable:
+  - name: TargetImage
+    type: Other
+    role:
+    - Other
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

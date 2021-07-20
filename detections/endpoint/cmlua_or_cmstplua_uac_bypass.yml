@@ -46,3 +46,24 @@ tags:
   - Signed
   - ProcessId
   security_domain: endpoint
+  impact: 80
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $Computer$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: ImageLoaded
+    type: Other
+    role:
+    - Other

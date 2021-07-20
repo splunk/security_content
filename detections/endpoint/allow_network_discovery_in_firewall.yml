@@ -45,10 +45,10 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process
   - Processes.process_name
   - Processes.process
   - Processes.process_id
+  - Processes.parent_process  
   - Processes.parent_process_id
   - Processes.parent_process_name
   security_domain: endpoint
