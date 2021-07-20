@@ -47,3 +47,26 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  impact: 40
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 28
+  context:
+  - Source:Endpoint
+  - Scope:Local
+  - Stage:Execution
+  message: Excessive usage of net1.exe or net.exe within 1m, with command line $process$ has been detected on $dest$ by $user$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_name
+    type: Process Name
+    role:
+    - Process
+    - Attacker
