@@ -7,8 +7,7 @@ type: batch
 datamodel:
 - Authentication
 description: This search looks for AssumeRole events where an IAM role in a different
-  account is requested for the first time.  This search is deprecated and have been
-  translated to use the latest Authentication Datamodel.
+  account is requested for the first time.
 search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user
   Authentication.src Authentication.user_role | `drop_dm_object_name(Authentication)`
@@ -57,7 +56,24 @@ tags:
   - Authentication.user
   - Authentication.user_role
   - Authentication.src
-  risk_object: user
-  risk_object_type: user
+  impact: 30
+  confidence: 50
+  # (impact * confidence)/100
   risk_score: 15
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: AWS account $requestingAccountId$ is trying to access resource from some other account $requestedAccountId$, for the first time.
+  observable:
+  - name: requestingAccountId
+    type: Other
+    role:
+    - Attacker
+  - name: requestedAccountId
+    type: Other
+    role:
+    - Victim
+
   security_domain: network
