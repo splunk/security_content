@@ -59,3 +59,21 @@ tags:
   - Processes.parent_process
   - Processes.user
   security_domain: endpoint
+  impact: 70
+  confidence: 70
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

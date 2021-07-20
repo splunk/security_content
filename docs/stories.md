@@ -5097,13 +5097,15 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint, Network_Traffic, Web
-- **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1082](https://attack.mitre.org/techniques/T1082/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1486](https://attack.mitre.org/techniques/T1486/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1021.001](https://attack.mitre.org/techniques/T1021.001/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1036.005](https://attack.mitre.org/techniques/T1036.005/), [T1082](https://attack.mitre.org/techniques/T1082/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1486](https://attack.mitre.org/techniques/T1486/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/), [T1595](https://attack.mitre.org/techniques/T1595/)
 - **Last Updated**: 2018-12-13
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Attacker Tools On Endpoint](detections.md#attacker-tools-on-endpoint)
 
 * [Batch File Write to System32](detections.md#batch-file-write-to-system32)
 
@@ -5136,18 +5138,42 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1036.005 | Match Legitimate Name or Location | Defense Evasion |
+| T1595 | Active Scanning | Reconnaissance |
+| T1003 | OS Credential Dumping | Credential Access |
+| T1489 | Service Stop | Impact |
 | T1204.002 | Malicious File | Execution |
 | T1485 | Data Destruction | Impact |
+| T1531 | Account Access Removal | Impact |
 | T1490 | Inhibit System Recovery | Impact |
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1569.002 | Service Execution | Execution |
 | T1082 | System Information Discovery | Discovery |
+| T1016 | System Network Configuration Discovery | Discovery |
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+| T1105 | Ingress Tool Transfer | Command And Control |
+| T1087 | Account Discovery | Discovery |
+| T1036 | Masquerading | Defense Evasion |
+| T1059 | Command and Scripting Interpreter | Execution |
+| T1117 | Regsvr32 |  |
+| T1202 | Indirect Command Execution | Defense Evasion |
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1203 | Exploitation for Client Execution | Execution |
+| T1072 | Software Deployment Tools | Execution, Lateral Movement |
 | T1021.001 | Remote Desktop Protocol | Lateral Movement |
+| T1218.011 | Rundll32 | Defense Evasion |
 | T1486 | Data Encrypted for Impact | Impact |
+| T1543.003 | Windows Service | Persistence, Privilege Escalation |
+| T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
+| T1036.003 | Rename System Utilities | Defense Evasion |
+| T1190 | Exploit Public-Facing Application | Initial Access |
 
 #### Kill Chain Phase
 
 * Actions on Objectives
+
+* Command and Control
 
 * Delivery
 
@@ -5259,13 +5285,15 @@ Quickly identify systems running new or unusual processes in your environment th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1016](https://attack.mitre.org/techniques/T1016/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1072](https://attack.mitre.org/techniques/T1072/), [T1117](https://attack.mitre.org/techniques/T1117/), [T1190](https://attack.mitre.org/techniques/T1190/), [T1202](https://attack.mitre.org/techniques/T1202/), [T1203](https://attack.mitre.org/techniques/T1203/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/)
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1016](https://attack.mitre.org/techniques/T1016/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1036.005](https://attack.mitre.org/techniques/T1036.005/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1072](https://attack.mitre.org/techniques/T1072/), [T1117](https://attack.mitre.org/techniques/T1117/), [T1190](https://attack.mitre.org/techniques/T1190/), [T1202](https://attack.mitre.org/techniques/T1202/), [T1203](https://attack.mitre.org/techniques/T1203/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1595](https://attack.mitre.org/techniques/T1595/)
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Attacker Tools On Endpoint](detections.md#attacker-tools-on-endpoint)
 
 * [Credential Extraction indicative of FGDump and CacheDump with s option](detections.md#credential-extraction-indicative-of-fgdump-and-cachedump-with-s-option)
 
@@ -5302,15 +5330,34 @@ Quickly identify systems running new or unusual processes in your environment th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1036.005 | Match Legitimate Name or Location | Defense Evasion |
+| T1595 | Active Scanning | Reconnaissance |
 | T1003 | OS Credential Dumping | Credential Access |
+| T1489 | Service Stop | Impact |
+| T1204.002 | Malicious File | Execution |
+| T1485 | Data Destruction | Impact |
+| T1531 | Account Access Removal | Impact |
+| T1490 | Inhibit System Recovery | Impact |
+| T1222 | File and Directory Permissions Modification | Defense Evasion |
+| T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+| T1569.002 | Service Execution | Execution |
+| T1082 | System Information Discovery | Discovery |
 | T1016 | System Network Configuration Discovery | Discovery |
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+| T1105 | Ingress Tool Transfer | Command And Control |
+| T1087 | Account Discovery | Discovery |
+| T1036 | Masquerading | Defense Evasion |
 | T1059 | Command and Scripting Interpreter | Execution |
 | T1117 | Regsvr32 |  |
 | T1202 | Indirect Command Execution | Defense Evasion |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1203 | Exploitation for Client Execution | Execution |
 | T1072 | Software Deployment Tools | Execution, Lateral Movement |
+| T1021.001 | Remote Desktop Protocol | Lateral Movement |
 | T1218.011 | Rundll32 | Defense Evasion |
+| T1486 | Data Encrypted for Impact | Impact |
+| T1543.003 | Windows Service | Persistence, Privilege Escalation |
+| T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 | T1190 | Exploit Public-Facing Application | Initial Access |
 
@@ -5445,13 +5492,15 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1036](https://attack.mitre.org/techniques/T1036/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1105](https://attack.mitre.org/techniques/T1105/), [T1222](https://attack.mitre.org/techniques/T1222/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1531](https://attack.mitre.org/techniques/T1531/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/)
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1036](https://attack.mitre.org/techniques/T1036/), [T1036.005](https://attack.mitre.org/techniques/T1036.005/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1105](https://attack.mitre.org/techniques/T1105/), [T1222](https://attack.mitre.org/techniques/T1222/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1531](https://attack.mitre.org/techniques/T1531/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1595](https://attack.mitre.org/techniques/T1595/)
 - **Last Updated**: 2021-05-07
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Attacker Tools On Endpoint](detections.md#attacker-tools-on-endpoint)
 
 * [Attempt To Disable Services](detections.md#attempt-to-disable-services)
 
@@ -5512,20 +5561,46 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1036.005 | Match Legitimate Name or Location | Defense Evasion |
+| T1595 | Active Scanning | Reconnaissance |
+| T1003 | OS Credential Dumping | Credential Access |
 | T1489 | Service Stop | Impact |
+| T1204.002 | Malicious File | Execution |
+| T1485 | Data Destruction | Impact |
 | T1531 | Account Access Removal | Impact |
+| T1490 | Inhibit System Recovery | Impact |
 | T1222 | File and Directory Permissions Modification | Defense Evasion |
+| T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+| T1569.002 | Service Execution | Execution |
+| T1082 | System Information Discovery | Discovery |
+| T1016 | System Network Configuration Discovery | Discovery |
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
 | T1105 | Ingress Tool Transfer | Command And Control |
 | T1087 | Account Discovery | Discovery |
 | T1036 | Masquerading | Defense Evasion |
+| T1059 | Command and Scripting Interpreter | Execution |
+| T1117 | Regsvr32 |  |
+| T1202 | Indirect Command Execution | Defense Evasion |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1203 | Exploitation for Client Execution | Execution |
+| T1072 | Software Deployment Tools | Execution, Lateral Movement |
+| T1021.001 | Remote Desktop Protocol | Lateral Movement |
+| T1218.011 | Rundll32 | Defense Evasion |
+| T1486 | Data Encrypted for Impact | Impact |
 | T1543.003 | Windows Service | Persistence, Privilege Escalation |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
+| T1036.003 | Rename System Utilities | Defense Evasion |
+| T1190 | Exploit Public-Facing Application | Initial Access |
 
 #### Kill Chain Phase
 
+* Actions on Objectives
+
+* Command and Control
+
 * Exploitation
+
+* Installation
 
 
 #### Reference
