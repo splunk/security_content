@@ -54,3 +54,24 @@ tags:
   - process_id
   - file_create_time
   security_domain: endpoint
+  impact: 70
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 63
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  message: A file - $file_name$ was written to disk that is related to AzureHound, a AzureAD enumeration utility, has occurred on endpoint $dest$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_name
+    type: File Name
+    role:
+    - Victim

@@ -53,3 +53,24 @@ tags:
   - Filesystem.user
   - Filesystem.file_path
   security_domain: endpoint
+  impact: 70
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 63
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: A file - $file_name$ was written to system32 has occurred on endpoint $dest$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_name
+    type: File Name
+    role:
+    - Victim

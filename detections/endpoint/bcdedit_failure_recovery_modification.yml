@@ -20,7 +20,7 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
   data model in the Processes node. Tune based on parent process names.
 known_false_positives: Administrators may modify the boot configuration.
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-4---windows---disable-windows-recovery-console-repair
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md#atomic-test-4---windows---disable-windows-recovery-console-repair
 tags:
   analytic_story:
   - Ryuk Ransomware
@@ -49,3 +49,28 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  impact: 100
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Impact
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting disable the ability to recover the endpoint.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
