@@ -51,7 +51,23 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.userName
-  risk_object: src_ip
-  risk_object_type: system
-  risk_score: 20
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Privilege Escalation
+  message: User $user_arn$ is attempting to create a login profile for $requestParameters.userName$ and did a console login from this IP $src_ip$
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
   security_domain: network
