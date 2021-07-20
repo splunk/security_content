@@ -46,3 +46,20 @@ tags:
   - Processes.process
   - Processes.process_id
   security_domain: endpoint
+  impact: 70 
+  confidence: 80  
+  # (impact * confidence)/100
+  risk_score: 56 
+  context:
+  - source:endpoint
+  - stage:  Defense Evasion
+  message: A process $process_name$ attempt to kill process by its file path using commandline $process$ in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
