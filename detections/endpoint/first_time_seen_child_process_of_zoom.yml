@@ -38,38 +38,23 @@ tags:
   cis20:
   - CIS 3
   - CIS 8
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us
+    which has not been previously on host $dest$
   mitre_attack_id:
   - T1068
   nist:
   - PR.PT
   - DE.CM
   - PR.IP
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.parent_process_name
-  - Processes.parent_process_id
-  - Processes.process_name
-  - Processes.process
-  - Processes.parent_process_name
-  - Processes.process_id
-  - Processes.dest
-  security_domain: endpoint
-  impact: 80
-  confidence: 80
-  # (impact * confidence)/100
-  risk_score: 64
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  message: Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously on host $dest$
   observable:
   - name: user
     type: User
@@ -84,4 +69,18 @@ tags:
     role:
     - Attacker
     - Child Process
-
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.parent_process_id
+  - Processes.process_name
+  - Processes.process
+  - Processes.parent_process_name
+  - Processes.process_id
+  - Processes.dest
+  risk_score: 64
+  security_domain: endpoint

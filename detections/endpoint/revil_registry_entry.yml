@@ -30,12 +30,28 @@ tags:
   - Ransomware
   - Revil Ransomware
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Exploitation
+  message: A registry entry $registry_path$ with registry value $registry_value_name$
+    and $registry_value_name$ related to revil ransomware in host $dest$
   mitre_attack_id:
   - T1112
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,21 +63,5 @@ tags:
   - Registry.registry_value_name
   - Registry.registry_path
   - Registry.registry_key_name
+  risk_score: 60
   security_domain: endpoint
-  impact: 60 
-  confidence: 100  
-  # (impact * confidence)/100
-  risk_score: 60 
-  context:
-  - source:endpoint
-  - stage: Defense Evasion
-  message: A registry entry $registry_path$ with registry value $registry_value_name$ and $registry_value_name$ related to revil ransomware in host $dest$ 
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: user
-    type: user
-    role:
-    - Victim

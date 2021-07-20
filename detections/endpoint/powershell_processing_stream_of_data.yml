@@ -29,12 +29,29 @@ tags:
   analytic_story:
   - Malicious PowerShell
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: A suspicious powershell script contains stream command in $Message$ commonly
+    for processing compressed or to decompressed binary file with EventCode $EventCode$
+    in host $ComputerName$
   mitre_attack_id:
   - T1059.001
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,21 +63,5 @@ tags:
   - ComputerName
   - User
   - Score
+  risk_score: 40
   security_domain: endpoint
-  impact: 50 
-  confidence: 80  
-  # (impact * confidence)/100
-  risk_score: 40 
-  context:
-  - source:endpoint
-  - stage: Defense Evasion
-  message: A suspicious powershell script contains stream command in $Message$ commonly for processing compressed or to decompressed binary file with EventCode $EventCode$ in host $ComputerName$ 
-  observable:
-  - name: ComputerName
-    type: Hostname
-    role:
-    - Victim
-  - name: User
-    type: User
-    role:
-    - Victim

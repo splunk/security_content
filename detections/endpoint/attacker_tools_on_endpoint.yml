@@ -31,16 +31,19 @@ tags:
   - SamSam Ransomware
   - Unusual Processes
   asset_type: Endpoint
-  mitre_attack_id:
-  - T1036.005
-  - T1595
-  - T1003
+  automated_detection_testing: passed
   cis20:
   - CIS 2
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log
   kill_chain_phases:
   - Installation
   - Command and Control
   - Actions on Objectives
+  mitre_attack_id:
+  - T1036.005
+  - T1595
+  - T1003
   nist:
   - ID.AM
   - PR.DS
@@ -54,6 +57,3 @@ tags:
   - Processes.process_name
   - Processes.parent_process_name
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log

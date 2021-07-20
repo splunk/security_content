@@ -54,3 +54,16 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  impact: 70
+  confidence: 60
+  risk_score: 42
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Command and Control
+  message: Possible Nishang Invoke-PowerShellTCPOneLine behavior on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

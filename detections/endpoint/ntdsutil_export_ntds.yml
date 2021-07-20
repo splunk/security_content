@@ -65,3 +65,15 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  impact: 100
+  confidence: 50
+  risk_score: 50
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  message: Active Directory NTDS export on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

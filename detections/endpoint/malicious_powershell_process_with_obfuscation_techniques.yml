@@ -57,3 +57,17 @@ tags:
   - Processes.parent_process_name
   - Processes.dest
   security_domain: endpoint
+  impact: 70
+  confidence: 60
+  risk_score: 42
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: Powershell.exe running with potential obfuscated arguments on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
