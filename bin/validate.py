@@ -73,7 +73,7 @@ def validate_objects(REPO_PATH, objects, verbose):
     for lookup in objects['lookups']:
         errors = errors + validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
-    objects_array = objects['stories'] + objects['detections'] + objects['baselines'] + objects['response_tasks'] + objects['responses']
+    objects_array = objects['stories'] + objects['detections'] + objects['response_tasks'] + objects['responses']
     for object in objects_array:
         validation_errors, uuids = validate_standard_fields(object, uuids)
         errors = errors + validation_errors
@@ -82,9 +82,6 @@ def validate_objects(REPO_PATH, objects, verbose):
         if not 'Splunk Behavioral Analytics' in object['tags']['product']:
             errors = errors + validate_detection_search(object, objects['macros'])
             errors = errors + validate_fields(object)
-
-    for object in objects['baselines']:
-        errors = errors + validate_baseline_search(object, objects['macros'])
 
     for object in objects['tests']:
         errors = errors + validate_tests(REPO_PATH, object)
@@ -187,37 +184,14 @@ def validate_standard_fields(object, uuids):
 def validate_detection_search(object, macros):
     errors = []
 
-    if not '_filter' in object['search']:
-        errors.append("ERROR: Missing filter for detection: " + object['name'])
+    if not object['type'] == "Baseline":
+        if not '_filter' in object['search']:
+            errors.append("ERROR: Missing filter for detection: " + object['name'])
 
     filter_macro = re.search("([a-z0-9_]*_filter)", object['search'])
 
     if filter_macro and filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter') and "input_filter" not in filter_macro.group(1):
         errors.append("ERROR: filter for detection: " + object['name'] + " needs to use the name of the detection in lowercase and the special characters needs to be converted into _ .")
-
-    if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
-        if not 'index=_internal' in object['search']:
-            errors.append("ERROR: Use source macro instead of eventtype, sourcetype, source or index in detection: " + object['name'])
-
-    macros_found = re.findall('\`([^\s]+)`',object['search'])
-    macros_filtered = []
-    for macro in macros_found:
-        if not '_filter' in macro and not 'security_content_ctime' in macro and not 'drop_dm_object_name' in macro and not 'cim_' in macro and not 'get_' in macro:
-            macros_filtered.append(macro)
-
-    for macro in macros_filtered:
-        found_macro = False
-        for macro_obj in macros:
-            if macro_obj['name'] == macro:
-                found_macro = True
-
-        if not found_macro:
-            errors.append("ERROR: macro definition for " + macro + " can't be found for detection " + object['name'])
-
-    return errors
-
-def validate_baseline_search(object, macros):
-    errors = []
 
     if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
         if not 'index=_internal' in object['search']:
@@ -267,7 +241,7 @@ def validate_tests(REPO_PATH, object):
 
 def main(REPO_PATH, verbose):
 
-    validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments', 'tests']
+    validation_objects = ['macros','lookups','stories','detections','response_tasks','responses','deployments', 'tests']
 
     objects = {}
     schema_error = False
