@@ -185,6 +185,7 @@
     "id",
     "version",
     "date",
+    "datamodel",
     "description",
     "type",
     "author",
