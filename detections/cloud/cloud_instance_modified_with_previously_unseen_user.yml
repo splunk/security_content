@@ -51,7 +51,23 @@ tags:
   - All_Changes.change_type
   - All_Changes.status
   - All_Changes.user
-  risk_object: user
-  risk_object_type: user
-  risk_score: 10
-  security_domain: endpoint
+  impact: 70
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 42
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $user$ is modifying an instance $dest$ for the first time. 
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  security_domain: threat
