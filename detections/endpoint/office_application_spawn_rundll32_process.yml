@@ -51,7 +51,7 @@ tags:
   security_domain: endpoint
   impact: 70
   confidence: 90
-  risk_score: 50
+  risk_score: 63
   context:
   - Source:Endpoint
   - Stage:Execution
