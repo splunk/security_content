@@ -48,3 +48,20 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
+  impact: 75 
+  confidence: 80  
+  # (impact * confidence)/100
+  risk_score: 60 
+  context:
+  - source:endpoint
+  - stage: Reconnaissance
+  message: A suspicious powershell script contains host recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ 
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

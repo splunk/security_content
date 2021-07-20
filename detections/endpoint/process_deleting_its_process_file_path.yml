@@ -51,3 +51,20 @@ tags:
   - result
   - _time
   security_domain: endpoint
+  impact: 60 
+  confidence: 100  
+  # (impact * confidence)/100
+  risk_score: 60 
+  context:
+  - source:endpoint
+  - stage: Credential Access
+  message: A process $Image$ tries to delete its process path in commandline $cmdline$ as part of defense evasion in host $Computer$ 
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim

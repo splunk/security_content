@@ -49,3 +49,20 @@ tags:
   - Processes.user
   - Processes.dest
   security_domain: endpoint
+  impact: 60 
+  confidence: 60  
+  # (impact * confidence)/100
+  risk_score: 36 
+  context:
+  - source:endpoint
+  - stage: Execution
+  message: A wmic.exe process $process_name$ taht execute script in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
