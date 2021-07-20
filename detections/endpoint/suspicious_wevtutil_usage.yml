@@ -60,3 +60,19 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  impact: 40
+  confidence: 70
+  risk_score: 28
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Wevtutil.exe being used to clear Event Logs on $dest$ by $user$ 
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

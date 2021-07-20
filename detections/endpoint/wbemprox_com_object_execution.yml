@@ -49,3 +49,15 @@ tags:
   - Hashes
   - IMPHASH
   security_domain: endpoint
+  impact: 70
+  confidence: 50
+  risk_score: 35
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Suspicious COM Object Execution on $Computer$
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim

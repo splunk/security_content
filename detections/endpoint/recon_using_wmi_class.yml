@@ -31,12 +31,28 @@ tags:
   analytic_story:
   - Malicious PowerShell
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - source:endpoint
+  - stage: Reconnaissance
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+  impact: 75
   kill_chain_phases:
   - Reconnaissance
+  message: A suspicious powershell script contains host recon command in $Message$
+    with EventCode $EventCode$ in host $ComputerName$
   mitre_attack_id:
   - T1592
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,21 +63,5 @@ tags:
   - Message
   - ComputerName
   - User
+  risk_score: 60
   security_domain: endpoint
-  impact: 75 
-  confidence: 80  
-  # (impact * confidence)/100
-  risk_score: 60 
-  context:
-  - source:endpoint
-  - stage: Reconnaissance
-  message: A suspicious powershell script contains host recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ 
-  observable:
-  - name: ComputerName
-    type: Hostname
-    role:
-    - Victim
-  - name: User
-    type: User
-    role:
-    - Victim

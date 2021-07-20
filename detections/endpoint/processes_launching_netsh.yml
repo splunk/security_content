@@ -32,15 +32,31 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 70
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.004/atomic_red_team/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Actions on Objectives
+  message: A process $process_name$ that tries to execute netsh commandline $process$
+    in host $dest$
   mitre_attack_id:
   - T1562.004
   nist:
   - PR.PT
   - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -53,21 +69,5 @@ tags:
   - Processes.process_name
   - Processes.user
   - Processes.dest
+  risk_score: 42
   security_domain: endpoint
-  impact: 60 
-  confidence: 70  
-  # (impact * confidence)/100
-  risk_score: 42 
-  context:
-  - source:endpoint
-  - stage: Defense Evasion
-  message: A process $process_name$ that tries to execute netsh commandline $process$ in host $dest$ 
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: user
-    type: user
-    role:
-    - Victim

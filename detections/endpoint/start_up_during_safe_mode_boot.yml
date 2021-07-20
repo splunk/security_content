@@ -45,3 +45,10 @@ tags:
   - Registry.registry_value_name
   - Registry.dest
   security_domain: endpoint
+  impact: 60
+  confidence: 70
+  risk_score: 42
+  context:
+  - Source:Endpoint
+  - Stage:Persistence
+  message: Safeboot registry $Registry.registry_path$ was added or modified with a new value $Registry.registry_value_name$
