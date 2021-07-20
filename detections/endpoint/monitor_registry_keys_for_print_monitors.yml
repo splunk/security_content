@@ -33,16 +33,29 @@ tags:
   cis20:
   - CIS 8
   - CIS 5
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Persistence
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.010/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: New print monitor added on $dest$
   mitre_attack_id:
   - T1547.010
   nist:
   - PR.PT
   - DE.CM
   - PR.AC
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -55,18 +68,5 @@ tags:
   - Registry.registry_key_name
   - Registry.user
   - Registry.registry_value_name
-  security_domain: endpoint
-  impact: 80
-  confidence: 80
   risk_score: 64
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  - Stage:Persistence
-  - Stage:Privilege Escalation
-  message: New print monitor added on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint

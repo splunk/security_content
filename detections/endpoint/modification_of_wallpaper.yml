@@ -28,12 +28,23 @@ tags:
   - Ransomware
   - Revil Ransomware
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Exploitation
+  message: Wallpaper modification on $dest$
   mitre_attack_id:
   - T1491
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,17 +59,5 @@ tags:
   - process_guid
   - process_id
   - user_id
-  security_domain: endpoint
-  impact: 60
-  confidence: 90
   risk_score: 54
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  message: Wallpaper modification on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  
+  security_domain: endpoint

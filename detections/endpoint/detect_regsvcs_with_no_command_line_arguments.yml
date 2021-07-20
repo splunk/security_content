@@ -34,41 +34,22 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: The process $process_name$ was spawned by $parent_image$ without any command-line
+    arguments on $dest$ by $user$.
   mitre_attack_id:
   - T1218.009
   nist:
   - PR.PT
   - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - EventID
-  - process_name
-  - OriginalFileName
-  - CommandLine
-  - dest
-  - User
-  - ParentImage
-  - ParentCommandLine
-  - OriginalFileName
-  - process_path
-  - Computer
-  security_domain: endpoint
-  impact: 70
-  confidence: 70
-  # (impact * confidence)/100
-  risk_score: 49
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: The process $process_name$ was spawned by $parent_image$ without any command-line arguments on $dest$ by $user$.
   observable:
   - name: user
     type: User
@@ -86,3 +67,22 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - process_name
+  - OriginalFileName
+  - CommandLine
+  - dest
+  - User
+  - ParentImage
+  - ParentCommandLine
+  - OriginalFileName
+  - process_path
+  - Computer
+  risk_score: 49
+  security_domain: endpoint

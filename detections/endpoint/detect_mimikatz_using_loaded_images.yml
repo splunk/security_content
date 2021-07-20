@@ -35,35 +35,22 @@ tags:
   cis20:
   - CIS 6
   - CIS 8
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: A process, $Image$, has loaded $ImageLoaded$ that are typically related
+    to credential dumping on $Computer$. Review for further details.
   mitre_attack_id:
   - T1003.001
   nist:
   - DE.AE
   - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - EventCode
-  - ImageLoaded
-  - ProcessId
-  - Computer
-  - Image
-  security_domain: endpoint
-  impact: 80
-  confidence: 80
-  # (impact * confidence)/100
-  risk_score: 64
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  message: A process, $Image$, has loaded $ImageLoaded$ that are typically related to credential dumping on $Computer$. Review for further details.
   observable:
   - name: user
     type: User
@@ -81,3 +68,16 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ImageLoaded
+  - ProcessId
+  - Computer
+  - Image
+  risk_score: 64
+  security_domain: endpoint
