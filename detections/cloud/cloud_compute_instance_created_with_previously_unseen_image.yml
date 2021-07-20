@@ -49,7 +49,23 @@ tags:
   - All_Changes.action
   - All_Changes.Instance_Changes.image_id
   - All_Changes.user
-  risk_object: user
-  risk_object_type: user
-  risk_score: 20
-  security_domain: endpoint
+  impact: 60
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 36
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $user$ is creating an instance $dest$ with an image that has not been previously seen. 
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  security_domain: threat
