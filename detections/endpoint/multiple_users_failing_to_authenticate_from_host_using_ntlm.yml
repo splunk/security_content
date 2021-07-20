@@ -65,3 +65,16 @@ tags:
   - Logon_Account
   - Source_Workstation
   security_domain: endpoint
+  impact: 70
+  confidence: 70
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Privilege Escalation
+  message: Potential NTLM based password spraying attack from $Source_Workstation$
+  observable:
+  - name: Source_Workstation
+    type: Endpoint
+    role:
+    - Victim

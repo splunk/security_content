@@ -57,3 +57,15 @@ tags:
   - ProcessGuid
   - _time
   security_domain: endpoint
+  impact: 70
+  confidence: 70
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: Office document creating a schedule task on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

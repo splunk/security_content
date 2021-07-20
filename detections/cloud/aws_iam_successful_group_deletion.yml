@@ -11,8 +11,8 @@ description: The following query uses IAM events to track the success of a group
   users, new groups and so forth. Inversely, review failed attempts in a similar manner.
 search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success
   (userAgent!=*.amazonaws.com) | stats count min(_time) as firstTime max(_time) as
-  lastTime values(requestParameters.groupName) as group_deleted by src eventName eventSource errorCode
-  user_agent awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)`
+  lastTime values(requestParameters.groupName) as group_deleted by src eventName eventSource
+  errorCode user_agent awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `aws_iam_successful_group_deletion_filter`'
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
   this data. The search requires AWS Cloudtrail logs.
@@ -27,33 +27,21 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/aws_iam_successful_group_deletion.json
-  kill_chain_phases:
-  - Actions on Objectives
-  mitre_attack_id:
-  - T1069.003
-  - T1098
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  - Splunk Security Analytics for AWS
-  required_fields:
-  - _time
-  - eventName
-  - userAgent
-  - errorCode
-  - requestParameters.groupName
-  impact: 10
   confidence: 50
-  # (impact * confidence)/100
-  risk_score: 5
   context:
   - Source:Cloud Data
   - Scope:External
   - Stage:Execution
-  message: User $user_arn$ has sucessfully deleted mulitple groups $group_deleted$ from $src$
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/aws_iam_successful_group_deletion.json
+  impact: 10
+  kill_chain_phases:
+  - Actions on Objectives
+  message: User $user_arn$ has sucessfully deleted mulitple groups $group_deleted$
+    from $src$
+  mitre_attack_id:
+  - T1069.003
+  - T1098
   observable:
   - name: src
     type: IP Address
@@ -67,4 +55,16 @@ tags:
     type: User
     role:
     - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Splunk Security Analytics for AWS
+  required_fields:
+  - _time
+  - eventName
+  - userAgent
+  - errorCode
+  - requestParameters.groupName
+  risk_score: 5
   security_domain: cloud
