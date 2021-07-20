@@ -26,7 +26,8 @@ search: '`powershell` EventCode=4104 Message IN ("*[system.reflection.assembly]:
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: False positives should be limited as day to day scripts do not use this method.
+known_false_positives: False positives should be limited as day to day scripts do
+  not use this method.
 references:
 - https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly?view=net-5.0
 - https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.

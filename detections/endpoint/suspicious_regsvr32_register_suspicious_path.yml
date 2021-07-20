@@ -38,14 +38,31 @@ tags:
   cis20:
   - CIS 8
   - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Initial Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: Suspicious $Processes.process_path.file_path$ process potentially loading
+    malicious code
   mitre_attack_id:
   - T1218.010
   nist:
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_path.file_path
+    type: File Name
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -60,21 +77,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 70
-  confidence: 50
   risk_score: 35
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  - Stage:Initial Access
-  message: Suspicious $Processes.process_path.file_path$ process potentially loading malicious code
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: Processes.process_path.file_path
-    type: File Name
-    role:
-    - Attacker
+  security_domain: endpoint

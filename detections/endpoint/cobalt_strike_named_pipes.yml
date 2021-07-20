@@ -46,36 +46,22 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: An instance of $process_name$ was identified on endpoint $Computer$ by
+    user $user$ accessing known suspicious named pipes related to Cobalt Strike.
   mitre_attack_id:
   - T1055
   nist:
   - PR.PT
   - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - EventID
-  - PipeName
-  - Computer
-  - process_name
-  - process_path
-  - process_id
-  security_domain: endpoint
-  impact: 80
-  confidence: 90
-  # (impact * confidence)/100
-  risk_score: 72
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: An instance of $process_name$ was identified on endpoint $Computer$ by user $user$ accessing known suspicious named pipes related to Cobalt Strike.
   observable:
   - name: user
     type: User
@@ -89,3 +75,17 @@ tags:
     type: Process
     role:
     - Parent Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - PipeName
+  - Computer
+  - process_name
+  - process_path
+  - process_id
+  risk_score: 72
+  security_domain: endpoint
