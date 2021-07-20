@@ -46,7 +46,23 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.policyArn
-  risk_object: src
-  risk_object_type: system
-  risk_score: 20
+  impact: 20
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 10
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Execution
+  - Other:Policy Violation
+  message: User $user_arn$ has deleted AWS Policies from IP address $src$ by executing the following command $eventName$
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
   security_domain: access
