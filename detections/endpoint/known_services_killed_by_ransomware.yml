@@ -44,3 +44,20 @@ tags:
   - dest
   - Type
   security_domain: endpoint
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: Known services $Message$ terminated by a potential ransomware on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Message
+    type: Other
+    role:
+    - Other

@@ -43,3 +43,21 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Exfiltration
+  message: mailsniper.ps1 functions $Message$ executed on a $ComputerName$ by user $user$.
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+
