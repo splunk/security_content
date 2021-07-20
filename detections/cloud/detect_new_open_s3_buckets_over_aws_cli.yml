@@ -1,7 +1,7 @@
 name: Detect New Open S3 Buckets over AWS CLI
 id: 39c61d09-8b30-4154-922b-2d0a694ecc22
-version: 1
-date: '2021-01-12'
+version: 2
+date: '2021-07-19'
 author: Patrick Bareiss, Splunk
 type: batch
 datamodel: []
@@ -13,7 +13,7 @@ search: '`cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl OR r
   IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control
   IN ("*AuthenticatedUsers","*AllUsers") | rename requestParameters.bucketName AS
   bucketName | fillnull | stats count min(_time) as firstTime max(_time) as lastTime
-  by userName userIdentity.principalId userAgent bucketName requestParameters.accessControlList.x-amz-grant-read
+  by userIdentity.userName userIdentity.principalId userAgent bucketName requestParameters.accessControlList.x-amz-grant-read
   requestParameters.accessControlList.x-amz-grant-read-acp requestParameters.accessControlList.x-amz-grant-write
   requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_new_open_s3_buckets_over_aws_cli_filter` '
@@ -74,7 +74,7 @@ tags:
   - requestParameters.accessControlList.x-amz-grant-write-acp
   - requestParameters.accessControlList.x-amz-grant-full-control
   - requestParameters.bucketName
-  - userName
+  - userIdentity.userName
   - userIdentity.principalId
   - userAgent
   - bucketName
