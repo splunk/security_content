@@ -5,8 +5,8 @@ date: '2021-01-11'
 author: Rod Soto, Patrick Bareiss Splunk
 type: batch
 datamodel: []
-description: This search provides detection of KMS keys which action kms:Encrypt is
-  accessible for everyone (also outside of your organization). This is an identicator
+description: This search provides detection of KMS keys where action kms:Encrypt is
+  accessible for everyone (also outside of your organization). This is an indicator
   that your account is compromised and the attacker uses the encryption key to compromise
   another company.
 search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath input=requestParameters.policy
@@ -47,7 +47,19 @@ tags:
   - awsRegion
   - requestParameters.policy
   - userIdentity.principalId
-  risk_object: userIdentity.principalId
-  risk_object_type: user
-  risk_score: 20
+  impact: 50
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 25
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: AWS account is potentially compromised and user $userIdentity.principalId$ is trying to compromise other accounts.
+  observable:
+  - name: userIdentity.principalId
+    type: User
+    role:
+    - Attacker
   security_domain: threat

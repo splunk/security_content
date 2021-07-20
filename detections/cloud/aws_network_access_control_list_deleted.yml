@@ -49,7 +49,22 @@ tags:
   - userIdentity.principalId
   - src
   - userAgent
-  risk_object: userName
-  risk_object_type: user
+  impact: 10
+  confidence: 50
+  # (impact * confidence)/100
   risk_score: 5
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Execution
+  message: User $user_arn$ from $src$ has sucessfully deleted network ACLs entry (eventName= $eventName$), such that the instance is accessible from anywhere
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
   security_domain: network
