@@ -54,7 +54,23 @@ tags:
   - userAgent
   - uri
   - permission
-  risk_object: src
-  risk_object_type: system
-  risk_score: 20
-  security_domain: network
+  impact: 60
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 48
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $user$ has created an open/public bucket $bucketName$ with the following permissions $permission$
+  observable:
+  - name: userName
+    type: User
+    role:
+    - Attacker
+  - name: bucketName
+    type: Other
+    role:
+    - Victim
+  security_domain: threat
