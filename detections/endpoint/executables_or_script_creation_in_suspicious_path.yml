@@ -35,33 +35,19 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1036
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Filesystem.file_path
-  - Filesystem.file_create_time
-  - Filesystem.process_id
-  - Filesystem.file_name
-  - Filesystem.user
-  security_domain: endpoint
-  impact: 80
   confidence: 70
-  # (impact * confidence)/100
-  risk_score: 56
   context:
   - Source:Endpoint
   - Stage:Execution
-
-  message: Suspicious executable or scripts with file name $file_name$, $file_path$ and process_id $process_id$ executed in suspicious file path in Windows by $user$
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: Suspicious executable or scripts with file name $file_name$, $file_path$
+    and process_id $process_id$ executed in suspicious file path in Windows by $user$
+  mitre_attack_id:
+  - T1036
   observable:
   - name: user
     type: User
@@ -76,3 +62,16 @@ tags:
     role:
     - Other
     - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_path
+  - Filesystem.file_create_time
+  - Filesystem.process_id
+  - Filesystem.file_name
+  - Filesystem.user
+  risk_score: 56
+  security_domain: endpoint

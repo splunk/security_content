@@ -31,13 +31,31 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Cloud Data
+  - Scope:Inbound
+  - Stage:Credential Access
+  - Other:Policy Violation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_assume_role_policy_brute_force/aws_iam_assume_role_policy_brute_force.json
+  impact: 40
   kill_chain_phases:
   - Reconnaissance
+  message: User $user_arn$ has caused multiple failures with errorCode $errorCode$,
+    which potentially means adversary is attempting to identify a role name.
   mitre_attack_id:
   - T1580
   - T1110
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,24 +67,5 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.policyName
-  impact: 40
-  confidence: 70
-  # (impact * confidence)/100
   risk_score: 28
-  context:
-  - Source:Cloud Data
-  - Scope:Inbound
-  - Stage:Credential Access
-  - Other:Policy Violation
-  message: User $user_arn$ has caused multiple failures with errorCode $errorCode$, which potentially means adversary is attempting to identify a role name.
-  observable:
-  - name: src
-    type: IP Address
-    role:
-    - Attacker
-  - name: user_arn
-    type: User
-    role:
-    - Victim
-
   security_domain: access

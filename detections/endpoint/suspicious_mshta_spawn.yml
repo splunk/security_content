@@ -54,3 +54,16 @@ tags:
   - Processes.parent_process
   - Processes.user
   security_domain: endpoint
+  impact: 70
+  confidence: 60
+  risk_score: 42
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: mshta.exe spawned by wmiprvse.exe on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
