@@ -1,6 +1,7 @@
 attrs==20.3.0
 certifi==2020.12.5
 chardet==4.0.0
+coloredlogs==14.0
 gitdb==4.0.5
 GitPython==3.1.14
 idna==2.10
@@ -17,6 +18,7 @@ pytz==2021.1
 PyYAML==5.4.1
 requests==2.25.1
 six==1.15.0
+sly==0.4
 smmap==3.0.5
 toml==0.10.2
 u-msgpack-python==2.7.1
