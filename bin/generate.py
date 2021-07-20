@@ -88,15 +88,13 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     return output_path
 
-def generate_savedsearches_conf(detections, response_tasks, baselines, deployments, TEMPLATE_PATH, OUTPUT_PATH):
+def generate_savedsearches_conf(detections, response_tasks, deployments, TEMPLATE_PATH, OUTPUT_PATH):
     '''
     @param detections: input list of individual YAML detections in detections/ directory
     @param response_tasks:
-    @param baselines:
     @param deployments:
     @return: the savedsearches.conf file located in package/default/
     '''
-
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
@@ -105,14 +103,14 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
     output_path = path.join(OUTPUT_PATH, 'default/savedsearches.conf')
-    output = template.render(detections=detections, baselines=baselines, response_tasks=response_tasks, time=utc_time)
+    output = template.render(detections=detections, response_tasks=response_tasks, time=utc_time)
     with open(output_path, 'w') as f:
         output = output.encode('ascii', 'ignore').decode('ascii')
         f.write(output)
 
     return output_path
 
-def generate_analytic_story_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
+def generate_analytic_story_conf(stories, detections, response_tasks, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
@@ -125,7 +123,7 @@ def generate_analytic_story_conf(stories, detections, response_tasks, baselines,
 
     return output_path
 
-def generate_use_case_library_conf(stories, detections, response_tasks, baselines, TEMPLATE_PATH, OUTPUT_PATH):
+def generate_use_case_library_conf(stories, detections, response_tasks, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
@@ -134,7 +132,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     output_path = path.join(OUTPUT_PATH, 'default/use_case_library.conf')
     output = template.render(stories=stories, detections=detections,
                              response_tasks=response_tasks,
-                             baselines=baselines, time=utc_time)
+                             time=utc_time)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
 
@@ -202,7 +200,6 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
 
     return workbench_panel_objects
 
-
 def parse_data_models_from_search(search):
     match = re.search(r'from\sdatamodel\s?=\s?([^\s.]*)', search)
     if match is not None:
@@ -223,7 +220,6 @@ def parse_author_company(story):
         match_company = match_company.group(1)
 
     return match_author, match_company
-
 
 def get_deployments(object, deployments):
     matched_deployments = []
@@ -297,11 +293,9 @@ def map_baselines_to_stories(baselines):
         if 'tags' in baseline:
             if 'analytic_story' in baseline['tags']:
                 for story in baseline['tags']['analytic_story']:
-                    if 'type' in baseline.keys():
-                        if baseline['type'] == 'batch':
-                            baseline_name = str('ESCU - ' + baseline['name'])
-                    else:
-                        baseline_name = str('ESCU - ' + baseline['name'])
+                    if 'Splunk Behavioral Analytics' in baseline['tags']['product']:
+                        continue
+                    baseline_name = str('ESCU - ' + baseline['name'])
                     if not (story in sto_bas):
                         sto_bas[story] = {baseline_name}
                     else:
@@ -434,19 +428,6 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
 
     return detections
 
-def prepare_baselines(baselines, deployments, OUTPUT_PATH):
-    for baseline in baselines:
-        data_model = parse_data_models_from_search(baseline['search'])
-        if data_model:
-            baseline['data_model'] = data_model
-        if (OUTPUT_PATH) == 'dist/saaws':
-            baseline['disabled'] = 'false'
-
-        matched_deployment = get_deployments(baseline, deployments)
-        baseline['deployment'] = matched_deployment
-
-    return baselines
-
 def prepare_response_tasks(response_tasks):
     for response_task in response_tasks:
         if 'search' in response_task:
@@ -456,7 +437,7 @@ def prepare_response_tasks(response_tasks):
 
     return response_tasks
 
-def prepare_stories(stories, detections, response_tasks, baselines):
+def prepare_stories(stories, detections, response_tasks):
     # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases, nists
     sto_to_data_models = {}
     sto_to_mitre_attack_ids = {}
@@ -464,14 +445,15 @@ def prepare_stories(stories, detections, response_tasks, baselines):
     sto_to_ciss = {}
     sto_to_nists = {}
     sto_to_det = {}
+
+    baselines = [object for object in detections  if 'Baseline' in object['type']]
+
     for detection in detections:
+        if detection['type'] == 'Baseline':
+            continue
         if 'analytic_story' in detection['tags']:
             for story in detection['tags']['analytic_story']:
-                if 'type' in detection.keys():
-                    if detection['type'] == 'batch':
-                        rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
-                else:
-                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+                rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
 
                 if story in sto_to_det.keys():
                     sto_to_det[story].add(rule_name)
@@ -552,7 +534,6 @@ def prepare_stories(stories, detections, response_tasks, baselines):
 
     return stories
 
-
 def generate_mitre_lookup(OUTPUT_PATH):
 
     csv_mitre_rows = [["mitre_id", "technique", "tactics", "groups"]]
@@ -585,7 +566,6 @@ def import_objects(VERBOSE, REPO_PATH):
         "stories": load_objects("stories/*.yml", VERBOSE, REPO_PATH),
         "macros": load_objects("macros/*.yml", VERBOSE, REPO_PATH),
         "lookups": load_objects("lookups/*.yml", VERBOSE, REPO_PATH),
-        "baselines": load_objects("baselines/*.yml", VERBOSE, REPO_PATH),
         "responses": load_objects("responses/*.yml", VERBOSE, REPO_PATH),
         "response_tasks": load_objects("response_tasks/*.yml", VERBOSE, REPO_PATH),
         "deployments": load_objects("deployments/*.yml", VERBOSE, REPO_PATH),
@@ -599,22 +579,19 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
     if PRODUCT == "SAAWS":
         objects["detections"]  = [object for object in objects["detections"]  if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         objects["stories"] = [object for object in objects["stories"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
-        objects["baselines"] = [object for object in objects["baselines"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         objects["response_tasks"] = [object for object in objects["response_tasks"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
 
     # only use ESCU detections to the configurations
-    objects["detections"] = sorted(filter(lambda d: d['type'].lower() == 'batch', objects["detections"]), key=lambda d: d['name'])
+    objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
     # only use ESCU stories to the configuration
     objects["stories"] = sorted(filter(lambda s: s['type'].lower() == 'batch', objects["stories"]), key=lambda s: s['name'])
 
     objects["response_tasks"] = sorted(objects["response_tasks"], key=lambda i: i['name'])
-    objects["baselines"] = sorted(objects["baselines"], key=lambda b: b['name'])
     objects["macros"] = sorted(objects["macros"], key=lambda m: m['name'])
 
     objects["detections"] = prepare_detections(objects["detections"], objects["deployments"], OUTPUT_PATH)
-    objects["baselines"] = prepare_baselines(objects["baselines"], objects["deployments"], OUTPUT_PATH)
     objects["response_tasks"] = prepare_response_tasks(objects["response_tasks"])
-    objects["stories"] = prepare_stories(objects["stories"], objects["detections"], objects["response_tasks"], objects["baselines"])
+    objects["stories"] = prepare_stories(objects["stories"], objects["detections"], objects["response_tasks"])
 
     return objects
 
@@ -641,11 +618,11 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
     lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
 
-    detection_path = generate_savedsearches_conf(objects["detections"], objects["response_tasks"], objects["baselines"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
+    detection_path = generate_savedsearches_conf(objects["detections"], objects["response_tasks"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
 
-    story_path = generate_analytic_story_conf(objects["stories"], objects["detections"], objects["response_tasks"], objects["baselines"], TEMPLATE_PATH, OUTPUT_PATH)
+    story_path = generate_analytic_story_conf(objects["stories"], objects["detections"], objects["response_tasks"], TEMPLATE_PATH, OUTPUT_PATH)
 
-    use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], objects["response_tasks"], objects["baselines"], TEMPLATE_PATH, OUTPUT_PATH)
+    use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], objects["response_tasks"], TEMPLATE_PATH, OUTPUT_PATH)
 
     macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
 
@@ -662,7 +639,6 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
         print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
         print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
         print("{0} response tasks have been successfully written to {1}".format(len(objects["response_tasks"]), detection_path))
-        print("{0} baselines have been successfully written to {1}".format(len(objects["baselines"]), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
         print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
         print("security content generation completed..")

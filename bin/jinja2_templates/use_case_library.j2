@@ -62,22 +62,3 @@ latest_time_offset = 0
 {% endfor %}
 ### END RESPONSE TASKS ###
 
-### BASELINES ###
-{% for baseline in baselines %}
-[savedsearch://ESCU - {{ baseline.name }}]
-type = support
-explanation = {{ baseline.description }}
-{% if baseline.how_to_implement is defined %}
-how_to_implement = {{ baseline.how_to_implement }}
-{% else %}
-how_to_implement = none
-{% endif %}
-{% if baseline.known_false_positives is defined %}
-known_false_positives = {{ baseline.known_false_positives }}
-{% else %}
-known_false_positives = not defined
-{% endif %}
-providing_technologies = none
-
-{% endfor %}
-### END ESCU BASELINES ###

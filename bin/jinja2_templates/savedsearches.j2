@@ -12,7 +12,9 @@
 action.escu = 0
 action.escu.enabled = 1
 description = {{ detection.description }}
+{% if detection.mappings is defined %}
 action.escu.mappings = {{ detection.mappings | tojson }}
+{% endif %}
 {% if detection.data_model is defined %}
 action.escu.data_models = [{{ detection.data_model | tojson }}]
 {% else %}
@@ -32,8 +34,13 @@ action.escu.known_false_positives = None
 action.escu.creation_date = {{ detection.date }}
 action.escu.modification_date = {{ detection.date }}
 action.escu.confidence = high
+{% if detection.type == "Baseline" %}
+action.escu.full_search_name = ESCU - {{ detection.name }}
+action.escu.search_type = support
+{% else %}
 action.escu.full_search_name = ESCU - {{ detection.name }} - Rule
 action.escu.search_type = detection
+{% endif %}
 {% if detection.product is defined %}
 action.escu.product = {{ detection.product | tojson }}
 {% endif %}
@@ -104,56 +111,6 @@ search = {{ detection.search }}
 
 {% endfor %}
 ### END ESCU DETECTIONS ###
-
-
-### ESCU BASELINES ###
-
-{% for baseline in baselines %}
-[ESCU - {{ baseline.name }}]
-action.escu = 0
-action.escu.enabled = 1
-action.escu.search_type = support
-action.escu.full_search_name = ESCU - {{ baseline.name }}
-description = {{ baseline.description }}
-action.escu.creation_date = {{ baseline.date }}
-action.escu.modification_date = {{ baseline.date }}
-{% if baseline.tags.analytic_story is defined %}
-action.escu.analytic_story = {{ baseline.tags.analytic_story | tojson }}
-{% else %}
-action.escu.analytic_story = []
-{% endif %}
-{% if baseline.data_model is defined %}
-action.escu.data_models = [{{ baseline.data_model | tojson }}]
-{% else %}
-action.escu.data_models = []
-{% endif %}
-cron_schedule = {{ baseline.deployment.scheduling.cron_schedule }}
-enableSched = 1
-dispatch.earliest_time = {{ baseline.deployment.scheduling.earliest_time }}
-dispatch.latest_time = {{ baseline.deployment.scheduling.latest_time }}
-{% if baseline.deployment.scheduling.schedule_window is defined %}
-schedule_window = {{ baseline.deployment.scheduling.schedule_window }}
-{% endif %}
-{% if baseline.providing_technologies is defined %}
-action.escu.providing_technologies = {{ baseline.providing_technologies | tojson }}
-{% else %}
-action.escu.providing_technologies = []
-{% endif %}
-action.escu.eli5 = {{ baseline.description }}
-{% if baseline.how_to_implement is defined %}
-action.escu.how_to_implement = {{ baseline.how_to_implement }}
-{% else %}
-action.escu.how_to_implement = none
-{% endif %}
-{% if baseline.disabled is defined %}
-disabled = false
-{% else %}
-disabled = true
-{% endif %}
-is_visible = false
-search = {{ baseline.search }}
-
-{% endfor %}
 
 
 ### ESCU RESPONSE TASKS ###
