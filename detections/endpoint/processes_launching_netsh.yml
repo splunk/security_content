@@ -54,3 +54,20 @@ tags:
   - Processes.user
   - Processes.dest
   security_domain: endpoint
+  impact: 60 
+  confidence: 70  
+  # (impact * confidence)/100
+  risk_score: 42 
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A process $process_name$ that tries to execute netsh commandline $process$ in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim

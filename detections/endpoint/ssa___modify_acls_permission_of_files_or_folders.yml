@@ -52,3 +52,20 @@ tags:
   - dest_user_id
   - process
   security_domain: endpoint
+  impact: 50 
+  confidence: 70  
+  # (impact * confidence)/100
+  risk_score: 35 
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A cacls process $process_name$ with commandline $cmd_line$ try to modify a permission of a file or directory in host $dest_device_id$ 
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: user
+    role:
+    - Victim
