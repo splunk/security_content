@@ -73,3 +73,22 @@ tags:
   - Consumer
   - Filter
   security_domain: endpoint
+  impact: 30
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 30
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  message: "User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter: $filter$. Consumer: $Consumer$.  EventCode: $EventCode$"
+  observable:
+  - name: host
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+

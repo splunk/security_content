@@ -47,3 +47,24 @@ tags:
   - Registry.dest
   - Registry.registry_value_nam
   security_domain: endpoint
+  impact: 40
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 40
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: "$Registry.user$ on $Registry.dest$ modified registry keyname=$Registry.registry_key_name$ to disable the smartscreen protection of windows machine"
+  observable:
+  - name: Registry.dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Registry.use
+    type: User
+    role:
+    - Victim
+  - name: Registry.registry_key_name
+    type: Other
+    role:
+    - Target

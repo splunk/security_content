@@ -48,3 +48,24 @@ tags:
   - Processes.process_id
   - Processes.parent_process
   security_domain: endpoint
+  impact: 40
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 40
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: "$Processes.user$ on $Processes.dest$ used a suspicious command ($Processes.process_name$) that disabled a user account using the net.exe utility native to Windows"
+  observable:
+  - name: Processes.dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.user
+    type: User
+    role:
+    - Victim
+  - name: Processes.process_name
+    type: Process
+    role:
+    - Target

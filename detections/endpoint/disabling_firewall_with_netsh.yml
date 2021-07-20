@@ -50,3 +50,24 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  impact: 40
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 40
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: "$Processes.user$ on $Processes.dest$ used the netsh application in a suspicious manner to disable the firewall"
+  observable:
+  - name: Processes.dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.user
+    type: User
+    role:
+    - Victim
+  - name: Processes.process
+    type: Process
+    role:
+    - Target
