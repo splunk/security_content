@@ -6,9 +6,9 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect a potential privilege escalation attempt to
-  do malicious task. This registry modification is designed to  allows the Consent
-  Admin to perform an operation that requires elevation without consent or credentials.
+description: This analytic identifies a potential privilege escalation attempt to
+  perform malicious task. This registry modification is designed to allow the `Consent
+  Admin` to perform an operation that requires elevation without consent or credentials.
   We also found this in some attacker to gain privilege escalation to the compromise
   machine.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -48,3 +48,20 @@ tags:
   - Registry.registry_value_name
   - Registry.dest
   security_domain: endpoint
+  impact: 50
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 25
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  message: Suspicious registry modification was performed on endpoint $dest$ by user $user$. This behavior is indicative of privilege escalation.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

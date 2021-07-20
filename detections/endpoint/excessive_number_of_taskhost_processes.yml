@@ -50,3 +50,20 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  impact: 80
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: An excessive amount of $process_name$ was executed on $dest$ indicative of suspicious behavior.
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process

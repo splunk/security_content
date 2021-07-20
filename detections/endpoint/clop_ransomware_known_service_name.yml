@@ -44,3 +44,28 @@ tags:
   - OriginalFileName
   - process_path
   security_domain: endpoint
+  impact: 100
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 100
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ executing known Clop Ransomware service names.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process

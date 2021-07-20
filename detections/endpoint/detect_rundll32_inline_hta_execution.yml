@@ -59,3 +59,17 @@ tags:
   - Processes.parent_process_name
   - Processes.parent_process
   security_domain: endpoint
+  impact: 70
+  confidence: 80
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: Suspicious rundll32.exe inline HTA execution on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

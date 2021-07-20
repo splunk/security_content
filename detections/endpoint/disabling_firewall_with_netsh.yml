@@ -71,3 +71,20 @@ tags:
   - Processes.parent_process_id
   risk_score: 40
   security_domain: endpoint
+  impact: 50
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 25
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: The Windows Firewall was disabled on $dest$ by $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

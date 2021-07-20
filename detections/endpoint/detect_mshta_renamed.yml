@@ -55,3 +55,28 @@ tags:
   - process_path
   - CommandLine
   security_domain: endpoint
+  impact: 80
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$. 
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process

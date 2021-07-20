@@ -55,3 +55,15 @@ tags:
   - Registry.dest
   - Registry.registry_value_name
   security_domain: endpoint
+  impact: 40
+  confidence: 100
+  risk_score: 40
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
+  message: Windows Defender real time behavior monitoring disabled on $dest
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

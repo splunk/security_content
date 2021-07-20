@@ -48,4 +48,22 @@ tags:
   - Group_Name
   - member_id
   - dest
+  - user
   security_domain: access
+  impact: 60
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 42
+  context:
+  - Source:Endpoint
+  - Stage:Persistence
+  message: A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
