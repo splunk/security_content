@@ -63,3 +63,16 @@ tags:
   - Account_Name
   - Client_Address
   security_domain: endpoint
+  impact: 70
+  confidence: 70
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Privilege Escalation
+  message: Potential Kerberos based password spraying attack from $Client_Address$
+  observable:
+  - name: Client_Address
+    type: Endpoint
+    role:
+    - Victim

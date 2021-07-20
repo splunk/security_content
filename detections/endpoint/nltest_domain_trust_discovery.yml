@@ -61,3 +61,15 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  impact: 30
+  confidence: 50
+  risk_score: 15
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  message: Domain trust discovery execution on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

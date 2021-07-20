@@ -2,7 +2,7 @@ name: Malicious PowerShell Process - Execution Policy Bypass
 id: 9be56c82-b1cc-4318-87eb-d138afaaca39
 version: 4
 date: '2020-07-21'
-author: Rico Valdez, Splunk
+author: Rico Valdez, Mauricio Velazco, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -59,3 +59,17 @@ tags:
   - Processes.user
   - Processes.dest
   security_domain: endpoint
+  impact: 70
+  confidence: 60
+  risk_score: 42
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: PowerShell local execution policy bypass attempt on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
