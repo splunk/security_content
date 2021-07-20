@@ -46,7 +46,26 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.groupName
-  risk_object: src
-  risk_object_type: system
-  risk_score: 20
-  security_domain: identity
+  impact: 10
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 5
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Execution
+  message: User $user_arn$ has had mulitple failures while attempting to delete groups from $src$
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
+  - name: group_name
+    type: User
+    role:
+    - Victim
+  security_domain: cloud
