@@ -66,7 +66,27 @@ tags:
   - All_Changes.user
   - All_Changes.object
   - All_Changes.command
-  risk_object: user
-  risk_object_type: user
-  risk_score: 5
-  security_domain: endpoint
+  impact: 70
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 42
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $user$ is starting or creating an instance $object$ for the first time in region $Region$ from IP address $src$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: object
+    type: Endpoint
+    role:
+    - Victim
+  security_domain: threat
