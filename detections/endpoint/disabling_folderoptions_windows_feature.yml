@@ -27,34 +27,22 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: $Registry.user$ on $Registry.dest modified registry key name=$Registry.registry_key_name$
+    to disable the folder options feature of windows to show hidden files, file extensions,
+    etc
   mitre_attack_id:
   - T1562.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.user
-  - Registry.dest
-  - Registry.registry_value_name
-  security_domain: endpoint
-  impact: 40
-  confidence: 100
-  # (impact * confidence)/100
-  risk_score: 40
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: "$Registry.user$ on $Registry.dest modified registry key name=$Registry.registry_key_name$ to disable the folder options feature of windows to show hidden files, file extensions, etc"
   observable:
   - name: Registry.dest
     type: Endpoint
@@ -68,3 +56,16 @@ tags:
     type: Other
     role:
     - Target
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  risk_score: 40
+  security_domain: endpoint

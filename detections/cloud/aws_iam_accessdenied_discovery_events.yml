@@ -26,12 +26,30 @@ tags:
   analytic_story:
   - Suspicious Cloud User Activities
   automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Blocked
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
+  impact: 20
   kill_chain_phases:
   - Reconnaissance
+  message: User $userIdentity.arn$ is seen to perform excessive number of discovery
+    related api calls- $failures$, within an hour where the access was denied.
   mitre_attack_id:
   - T1580
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: userIdentity.arn
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,24 +64,5 @@ tags:
   - userIdentity.type
   risk_object: src_ip
   risk_object_type: system
-  risk_score: 25
-  impact: 20
-  confidence: 50
-  # (impact * confidence)/100
   risk_score: 10
-  context: 
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Blocked
-  - Stage:Discovery
-  message: User $userIdentity.arn$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied. 
-  observable:
-  - name: src_ip
-    type: IP Address
-    role:
-    - Attacker
-  - name: userIdentity.arn
-    type: User
-    role:
-    - Attacker
   security_domain: access

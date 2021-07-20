@@ -34,12 +34,25 @@ tags:
   - Command and Control
   - Data Exfiltration
   automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Scope:Local
+  - Stage:Exfiltration
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: Excessive usage of nslookup.exe has been detected on $Computer$. This detection
+    is triggered as as it violates the dynamic threshold
   mitre_attack_id:
   - T1048
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,18 +62,5 @@ tags:
   - Computer
   - process_name
   - EventCode
-  security_domain: endpoint
-  impact: 40
-  confidence: 70
-  # (impact * confidence)/100
   risk_score: 28
-  context:
-  - Source:Endpoint
-  - Scope:Local
-  - Stage:Exfiltration
-  message: Excessive usage of nslookup.exe has been detected on $Computer$. This detection is triggered as as it violates the dynamic threshold
-  observable:
-  - name: Computer
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint
