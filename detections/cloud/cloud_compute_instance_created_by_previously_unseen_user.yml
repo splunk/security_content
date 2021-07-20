@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created By Previously Unseen User
 id: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
-version: 1
-date: '2020-08-21'
+version: 2
+date: '2021-07-13'
 author: Rico Valdez, Splunk
 type: batch
 datamodel:
@@ -48,7 +48,24 @@ tags:
   - All_Changes.action
   - All_Changes.user
   - All_Changes.vendor_region
-  risk_object: user
-  risk_object_type: user
-  risk_score: 20
-  security_domain: endpoint
+  impact: 30
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 18
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Recon
+  - Stage:Execution
+  message: User $user$ is creating a new instance $dest$ for the first time 
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  security_domain: threat
