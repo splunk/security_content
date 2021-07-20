@@ -42,7 +42,23 @@ tags:
   - _time
   - Operation
   - Parameters
-  risk_object: ForwardingSmtpAddress
-  risk_object_type: system
-  risk_score: 20
+  impact: 80
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 48
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Exfiltration
+  - Stage:Execution
+  message: User $user$ configured multiple users $src_user$ with a count of $count_src_user$, a forwarding rule to same destination $ForwardingSmtpAddress$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: ForwardingSmtpAddress
+    type: Email Address
+    role:
+    - Other
   security_domain: threat

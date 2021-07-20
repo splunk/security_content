@@ -6,7 +6,7 @@ author: Teoderick Contreras, Stanislav Miskovic, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect potential DNS exfiltration using nslookup application.
+description: This search is to detect potential DNS exfiltration using nslookup application.
   This technique are seen in couple of malware and APT group to exfiltrated collected
   data in a infected machine or infected network. This detection is looking for unique
   use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are
@@ -50,3 +50,17 @@ tags:
   - process_name
   - EventCode
   security_domain: endpoint
+  impact: 40
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 28
+  context:
+  - Source:Endpoint
+  - Scope:Local
+  - Stage:Exfiltration
+  message: Excessive usage of nslookup.exe has been detected on $Computer$. This detection is triggered as as it violates the dynamic threshold
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
