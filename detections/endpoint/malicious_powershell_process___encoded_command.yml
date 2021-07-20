@@ -60,10 +60,10 @@ tags:
   confidence: 50
   risk_score: 35
   context:
-  - Source: Endpoint
-  - Stage: Initial Access
-  - Stage: Execution
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
   message: Powershell.exe running potentially malicious encodede commands on $dest$
   observable:
   - name: dest

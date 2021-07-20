@@ -68,8 +68,9 @@ tags:
   confidence: 70
   risk_score: 49
   context:
-  - Source: Endpoint
-  - Stage: Initial Access, Execution
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
   message: System process running from unexpected location on $dest$
   observable:
   - name: dest

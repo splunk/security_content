@@ -53,8 +53,8 @@ tags:
   confidence: 60
   risk_score: 42
   context:
-  - Source: Endpoint
-  - Stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   message: Unusually long command line $Processes.process_name$ on $dest$
   observable:
   - name: dest

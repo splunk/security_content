@@ -53,8 +53,9 @@ tags:
   confidence: 50
   risk_score: 15
   context:
-  - Source: Endpoint
-  - Stage: Recon, Discovery
+  - Source:Endpoint
+  - Stage:Recon
+  - Stage:Discovery
   message: Potential system information discovery behavior on $dest$ by $User$
   observable:
   - name: dest

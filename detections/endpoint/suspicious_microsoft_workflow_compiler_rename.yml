@@ -63,8 +63,10 @@ tags:
   confidence: 90
   risk_score: 63
   context:
-  - Source: Endpoint
-  - Stage: Initial Access, Execution, Defense Evasion
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
   message: Suspicious renamed microsoft.workflow.compiler.exe binary ran on $dest$ by $user$
   observable:
   - name: dest

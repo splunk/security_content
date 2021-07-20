@@ -59,8 +59,8 @@ tags:
   confidence: 80
   risk_score: 24
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: Windows DisableAntiSpyware registry key set to 'disabled' on $dest$
   observable:
   - name: dest

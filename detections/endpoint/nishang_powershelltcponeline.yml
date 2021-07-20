@@ -58,9 +58,9 @@ tags:
   confidence: 60
   risk_score: 42
   context:
-  - Source: Endpoint
-  - Stage: Execution
-  - Stage: Command and Control
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Command and Control
   message: Possible Nishang Invoke-PowerShellTCPOneLine behavior on $dest$
   observable:
   - name: dest

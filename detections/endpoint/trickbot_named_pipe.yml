@@ -48,8 +48,9 @@ tags:
   confidence: 60
   risk_score: 42
   context:
-  - Source: Endpoint
-  - Stage: Initial Access, Execution
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
   message: Possible Trickbot namedpipe created on $Computer$ by $Image$
   observable:
   - name: Computer

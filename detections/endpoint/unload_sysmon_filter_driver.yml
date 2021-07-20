@@ -56,8 +56,8 @@ tags:
   confidence: 90
   risk_score: 45
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: Possible Sysmon filter driver unloading on $dest$
   observable:
   - name: dest

@@ -55,8 +55,10 @@ tags:
   confidence: 70
   risk_score: 49
   context:
-  - Source: Endpoint
-  - Stage: Initial Access, Execution, Defense Evasion
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
   message: Suspicious gpupdate.exe process with no command line arguments executed on $dest$ by $user$ 
   observable:
   - name: dest

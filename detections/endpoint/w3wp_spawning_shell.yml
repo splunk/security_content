@@ -54,8 +54,9 @@ tags:
   confidence: 80
   risk_score: 56
   context:
-  - Source: Endpoint
-  - Stage: Initial Access, Execution
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
   message: Possible Web Shell execution on $dest$
   observable:
   - name: dest

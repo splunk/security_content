@@ -65,8 +65,8 @@ tags:
   confidence: 50
   risk_score: 15
   context:
-  - Source: Endpoint
-  - Stage: Discovery
+  - Source:Endpoint
+  - Stage:Discovery
   message: Domain trust discovery execution on $dest$
   observable:
   - name: dest

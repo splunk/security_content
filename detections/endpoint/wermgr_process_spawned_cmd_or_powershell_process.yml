@@ -54,8 +54,8 @@ tags:
   confidence: 80
   risk_score: 56
   context:
-  - Source: Endpoint
-  - Stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   message: Wermgr.exe spawning suspicious processes on $dest$
   observable:
   - name: dest

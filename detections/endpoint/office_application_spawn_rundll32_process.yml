@@ -53,8 +53,8 @@ tags:
   confidence: 90
   risk_score: 50
   context:
-  - Source: Endpoint
-  - Stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   message: Office application spawning rundll32.exe on $dest$
   observable:
   - name: dest

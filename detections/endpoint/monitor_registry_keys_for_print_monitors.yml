@@ -60,10 +60,10 @@ tags:
   confidence: 80
   risk_score: 64
   context:
-  - Source: Endpoint
-  - Stage: Execution
-  - Stage: Persistence
-  - Stage: Privilege Escalation
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Persistence
+  - Stage:Privilege Escalation
   message: New print monitor added on $dest$
   observable:
   - name: dest

@@ -65,8 +65,9 @@ tags:
   confidence: 50
   risk_score: 35
   context:
-  - Source: Endpoint
-  - Stage: Execution, Initial Access
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Initial Access
   message: Suspicious $Processes.process_path.file_path$ process potentially loading malicious code
   observable:
   - name: dest

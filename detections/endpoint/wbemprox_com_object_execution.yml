@@ -53,8 +53,8 @@ tags:
   confidence: 50
   risk_score: 35
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: Suspicious COM Object Execution on $Computer$
   observable:
   - name: Computer

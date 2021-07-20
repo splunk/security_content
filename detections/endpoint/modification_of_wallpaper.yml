@@ -53,8 +53,8 @@ tags:
   confidence: 90
   risk_score: 54
   context:
-  - Source: Endpoint
-  - Stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   message: Wallpaper modification on $dest$
   observable:
   - name: dest

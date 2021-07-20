@@ -61,10 +61,10 @@ tags:
   confidence: 60
   risk_score: 42
   context:
-  - Source: Endpoint
-  - Stage: Initial Access
-  - Stage: Execution
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
   message: Powershell.exe running with potential obfuscated arguments on $dest$
   observable:
   - name: dest

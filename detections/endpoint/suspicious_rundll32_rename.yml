@@ -63,8 +63,10 @@ tags:
   confidence: 90
   risk_score: 63
   context:
-  - Source: Endpoint
-  - Stage: Initial Access, Execution, Defense Evasion
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Initial Access
+  - Stage:Defense Evasion
   message: Suspicious renamed rundll32.exe binary ran on $dest$ by $user$
   observable:
   - name: dest

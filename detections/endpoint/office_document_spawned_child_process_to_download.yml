@@ -54,8 +54,8 @@ tags:
   confidence: 50
   risk_score: 35
   context:
-  - Source: Endpoint
-  - Stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   message: Office document spawning suspicious child process on $dest$
   observable:
   - name: dest

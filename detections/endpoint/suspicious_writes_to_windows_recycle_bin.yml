@@ -56,8 +56,8 @@ tags:
   confidence: 70
   risk_score: 28
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
   observable:
   - name: dest

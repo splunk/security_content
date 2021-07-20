@@ -69,8 +69,8 @@ tags:
   confidence: 50
   risk_score: 50
   context:
-  - Source: Endpoint
-  - Stage: Credential Access
+  - Source:Endpoint
+  - Stage:Credential Access
   message: Active Directory NTDS export on $dest$
   observable:
   - name: dest

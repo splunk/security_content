@@ -62,8 +62,8 @@ tags:
   confidence: 90
   risk_score: 45
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: Possible USN journal deletion on $dest$
   observable:
   - name: dest

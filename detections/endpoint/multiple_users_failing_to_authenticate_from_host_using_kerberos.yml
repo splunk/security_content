@@ -67,9 +67,9 @@ tags:
   confidence: 70
   risk_score: 49
   context:
-  - Source: Endpoint
-  - Stage: Initial Access
-  - Stage: Privilege Escalation
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Privilege Escalation
   message: Potential Kerberos based password spraying attack from $Client_Address$
   observable:
   - name: Client_Address

@@ -59,8 +59,9 @@ tags:
   confidence: 70
   risk_score: 49
   context:
-  - Source: Endpoint
-  - Stage: Execution, Defense Evasion
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Defense Evasion
   message: Possible AMSI Unloading via Reflection using PowerShell on $ComputerName$
   observable:
   - name: ComputerName

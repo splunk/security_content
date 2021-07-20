@@ -60,8 +60,8 @@ tags:
   confidence: 30
   risk_score: 9
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: The Windows Event Log Service shutdown on $ComputerName$
   observable:
   - name: ComputerName

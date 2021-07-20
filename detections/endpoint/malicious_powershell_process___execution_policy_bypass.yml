@@ -63,10 +63,10 @@ tags:
   confidence: 60
   risk_score: 42
   context:
-  - Source: Endpoint
-  - Stage: Initial Access
-  - Stage: Execution
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
   message: PowerShell local execution policy bypass attempt on $dest$
   observable:
   - name: dest

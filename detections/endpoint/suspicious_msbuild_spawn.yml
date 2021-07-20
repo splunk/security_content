@@ -60,8 +60,9 @@ tags:
   confidence: 60
   risk_score: 42
   context:
-  - Source: Endpoint
-  - Stage: Execution, Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  - Stage:Execution
   message: Suspicious msbuild.exe process executed on $dest$ by $user$
   observable:
   - name: dest

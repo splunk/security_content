@@ -56,8 +56,8 @@ tags:
   confidence: 50
   risk_score: 15
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: System backups deletion on $dest$
   observable:
   - name: dest
