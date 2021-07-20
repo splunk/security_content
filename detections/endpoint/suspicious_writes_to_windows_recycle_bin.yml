@@ -52,3 +52,19 @@ tags:
   - Processes.process_id
   - Processes.dest
   security_domain: endpoint
+  impact: 40
+  confidence: 70
+  risk_score: 28
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_name
+    type: Process
+    role:
+    - Attacker

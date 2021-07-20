@@ -56,3 +56,15 @@ tags:
   - EventCode
   - dest
   security_domain: endpoint
+  impact: 30
+  confidence: 30
+  risk_score: 9
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: The Windows Event Log Service shutdown on $ComputerName$
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim

@@ -55,3 +55,15 @@ tags:
   - Registry.user
   - Registry.registry_path
   security_domain: endpoint
+  impact: 30
+  confidence: 80
+  risk_score: 24
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Windows DisableAntiSpyware registry key set to 'disabled' on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

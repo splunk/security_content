@@ -58,3 +58,15 @@ tags:
   - Processes.parent_process_name
   - Processes.dest
   security_domain: endpoint
+  impact: 50
+  confidence: 90
+  risk_score: 45
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Possible USN journal deletion on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
