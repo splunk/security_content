@@ -57,7 +57,27 @@ tags:
   - userName
   - userIdentity.principalId
   - userAgent
-  risk_object: userName
-  risk_object_type: user
-  risk_score: 10
+  impact: 60
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 48
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: User $user_arn$ has created network ACLs with all the ports open to a specified CIDR $requestParameters.cidrBlock$
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: userName
+    type: User
+    role:
+    - Victim
+  - name: requestParameters.cidrBlock
+    type: IP Address
+    role:
+    - Victim
   security_domain: network

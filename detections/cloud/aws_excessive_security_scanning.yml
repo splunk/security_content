@@ -49,5 +49,23 @@ tags:
   - userIdentity.arn
   risk_object: src
   risk_object_type: system
-  risk_score: 20
+  risk_score: 25
+  impact: 30
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 18
+  context:
+  - Source:Cloud Data
+  - Scope:Inbound
+  - Stage:Recon
+  message: user $user$ has excessive number of api calls $dc_events$ from these IP addresses $src$, violating the threshold of 50,  using the following commands $command$.
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user
+    type: User
+    role:
+    - Attacker
   security_domain: network
