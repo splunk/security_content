@@ -56,4 +56,22 @@ tags:
   - bytes_out
   - archive_hdr1
   - archive_hdr2
+  - form_data
   security_domain: network
+  impact: 50 
+  confidence: 50  
+  # (impact * confidence)/100
+  risk_score: 25 
+  context:
+  - Source:Endpoint
+  -  Stage:Exfiltration
+  message: A http post $http_method$ sending packet with possible archive bytes header 4form_data$ in uri path $uri_path$ 
+  observable:
+  - name: uri_path
+    type: UriPath
+    role:
+    - Attacker
+  - name: form_data
+    type: formdata
+    role:
+    - Attacker

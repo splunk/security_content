@@ -46,3 +46,20 @@ tags:
   - _time
   - DNS.query
   security_domain: network
+  impact: 70
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  -  Stage:Exfiltration
+  message: A dns query $query$ with 2 time standard deviation of name len of the dns query in host  $host$
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  - name: query
+    type: dnsquery
+    role:
+    - Attacker
