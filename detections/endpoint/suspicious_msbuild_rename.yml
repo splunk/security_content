@@ -58,3 +58,21 @@ tags:
   - process_path
   - CommandLine
   security_domain: endpoint
+  impact: 70
+  confidence: 90
+  risk_score: 63
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: Suspicious renamed msbuild.exe binary ran on $dest$ by $user$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

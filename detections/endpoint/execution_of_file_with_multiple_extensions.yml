@@ -30,35 +30,23 @@ tags:
   cis20:
   - CIS 3
   - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: process $process$ have double extensions in the file name is executed on
+    $dest$ by $user$
   mitre_attack_id:
   - T1036.003
   nist:
   - DE.CM
   - PR.PT
   - PR.IP
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  security_domain: endpoint
-  impact: 80
-  confidence: 70
-  # (impact * confidence)/100
-  risk_score: 56
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: process $process$ have double extensions in the file name is executed on $dest$ by $user$
   observable:
   - name: user
     type: User
@@ -73,4 +61,15 @@ tags:
     role:
     - Parent Process
     - Attacker
-
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  risk_score: 56
+  security_domain: endpoint

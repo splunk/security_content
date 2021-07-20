@@ -36,12 +36,28 @@ tags:
   - Command and Control
   - Data Exfiltration
   automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Exfiltration
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log
+  impact: 50
   kill_chain_phases:
   - Exfiltration
+  message: A http post $http_method$ sending packet with possible archive bytes header
+    4form_data$ in uri path $uri_path$
   mitre_attack_id:
   - T1048.003
+  observable:
+  - name: uri_path
+    type: UriPath
+    role:
+    - Attacker
+  - name: form_data
+    type: formdata
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -57,21 +73,5 @@ tags:
   - archive_hdr1
   - archive_hdr2
   - form_data
+  risk_score: 25
   security_domain: network
-  impact: 50 
-  confidence: 50  
-  # (impact * confidence)/100
-  risk_score: 25 
-  context:
-  - Source:Endpoint
-  -  Stage:Exfiltration
-  message: A http post $http_method$ sending packet with possible archive bytes header 4form_data$ in uri path $uri_path$ 
-  observable:
-  - name: uri_path
-    type: UriPath
-    role:
-    - Attacker
-  - name: form_data
-    type: formdata
-    role:
-    - Attacker

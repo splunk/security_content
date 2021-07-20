@@ -49,3 +49,16 @@ tags:
   - process_id
   - user_id
   security_domain: endpoint
+  impact: 60
+  confidence: 90
+  risk_score: 54
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: Wallpaper modification on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  

@@ -50,3 +50,15 @@ tags:
   - Processes.process
   - Processes.process_id
   security_domain: endpoint
+  impact: 40
+  confidence: 80
+  risk_score: 32
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: Suspicious ACL permission modification on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
