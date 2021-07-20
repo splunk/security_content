@@ -42,7 +42,24 @@ tags:
   - UserAgent
   - src_ip
   - user
-  risk_object: user
-  risk_object_type: user
-  risk_score: 20
+  impact: 80
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 64
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Initial Access
+  message: User $user$ has caused excessive number of authentication failures from $src_ip$ using UserAgent $UserAgent$.
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: user
+    type: User 
+    role:
+    - Victim
   security_domain: threat

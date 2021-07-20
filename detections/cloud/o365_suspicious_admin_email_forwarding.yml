@@ -42,7 +42,19 @@ tags:
   - _time
   - Operation
   - Parameters
-  risk_object: src_user
-  risk_object_type: system
-  risk_score: 20
+  impact: 80
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 48
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Exfiltration
+  message: User $user$ has configured a forwarding rule for multiple mailboxes to the same destination $ForwardingAddress$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   security_domain: threat
