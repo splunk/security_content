@@ -51,7 +51,20 @@ tags:
   - All_Changes.status
   - All_Changes.command
   - All_Changes.object
-  risk_object: user
-  risk_object_type: user
-  risk_score: 25
-  security_domain: endpoint
+  impact: 60
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 36
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Recon
+  - Stage:Execution
+  message: User $user$ of type AssumedRole attempting to execute new API calls $command$ that have not been seen before
+  observable:
+  - name: user
+    type: user
+    role:
+    - Attacker
+  security_domain: threat

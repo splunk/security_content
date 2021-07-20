@@ -54,7 +54,23 @@ tags:
   - All_Changes.action
   - All_Changes.vendor_region
   - All_Changes.user
-  risk_object: user
-  risk_object_type: user
-  risk_score: 20
-  security_domain: network
+  impact: 70
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 42
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $user$ is creating an instance $dest$ in a new region for the first time 
+  observable:
+  - name: user
+    type: user
+    role:
+    - Attacker
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  security_domain: threat

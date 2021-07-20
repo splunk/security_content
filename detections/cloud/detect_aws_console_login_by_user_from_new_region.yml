@@ -61,7 +61,19 @@ tags:
   - Authentication.signature
   - Authentication.user
   - Authentication.src
-  risk_object: user
-  risk_object_type: user
-  risk_score: 5
-  security_domain: network
+  impact: 60
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 36
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  message: User $user$ is logging into the AWS console from Region $Region$ for the first time
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  security_domain: threat
