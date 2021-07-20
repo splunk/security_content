@@ -92,8 +92,8 @@ def validate_objects(REPO_PATH, objects, verbose):
 def validate_fields(object):
     errors = []
 
-    # if object['type'] not in ['TTP', 'Anomaly', 'Hunting', 'Baseline', 'Investigation', 'Correlation']:
-    #     errors.append('ERROR: invalid type [TTP, Anomaly, Hunting, Baseline, Investigation, Correlation] for object: %s' % object['name'])
+    if object['type'] not in ['TTP', 'Anomaly', 'Hunting', 'Baseline', 'Investigation', 'Correlation']:
+        errors.append('ERROR: invalid type [TTP, Anomaly, Hunting, Baseline, Investigation, Correlation] for object: %s' % object['name'])
 
     if 'tags' in object:
 

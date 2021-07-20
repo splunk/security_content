@@ -3,7 +3,7 @@ id: 8bbb7d58-b360-11eb-ba21-acde48001122
 version: 1
 date: '2021-05-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies the use of `reg.exe` exporting Windows
