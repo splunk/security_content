@@ -6,8 +6,8 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect suspicious powershell command to allow inbound
-  traffic in specific local port with public profile. This technique was seen in some
+description: The following analytic identifies suspicious PowerShell command to allow inbound
+  traffic inbound to a specific local port within the public profile. This technique was seen in some
   attacker want to have a remote access to a machine by allowing the traffic in firewall
   rule.
 search: '`powershell` EventCode=4104 Message = "*firewall*" Message = "*Public*" Message
@@ -42,3 +42,20 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
+  impact: 10
+  confidence: 30
+  # (impact * confidence)/100
+  risk_score: 3
+  context:
+  - Source:Endpoint
+  - Stage:Lateral Movement
+  message: Suspicious firewall modification detected on endpoint $ComputerName$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim

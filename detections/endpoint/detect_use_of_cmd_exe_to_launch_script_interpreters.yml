@@ -2,7 +2,7 @@ name: Detect Use of cmd exe to Launch Script Interpreters
 id: b89919ed-fe5f-492c-b139-95dbb162039e
 version: 4
 date: '2020-07-21'
-author: Bhavin Patel, Splunk
+author: Bhavin Patel, Mauricio Velazco, Splunk
 type: batch
 datamodel:
 - Endpoint
@@ -52,3 +52,17 @@ tags:
   - Processes.user
   - Processes.dest
   security_domain: endpoint
+  impact: 70
+  confidence: 50
+  risk_score: 35
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
+  - Stage:Defense Evasion
+  message: cmd.exe launching script interpreters on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

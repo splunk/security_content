@@ -56,3 +56,28 @@ tags:
   - Computer
   - Image
   security_domain: endpoint
+  impact: 80
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 64
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  message: A process, $Image$, has loaded $ImageLoaded$ that are typically related to credential dumping on $Computer$. Review for further details.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: ImageLoaded
+    type: Parent Process
+    role:
+    - Other
+  - name: Image
+    type: Process
+    role:
+    - Child Process

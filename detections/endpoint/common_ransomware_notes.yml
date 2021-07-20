@@ -51,3 +51,25 @@ tags:
   - Filesystem.file_path
   - Filesystem.file_name
   security_domain: endpoint
+  impact: 90
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 90
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  Consequence: Data Destruction
+  message: A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware note file and should be reviewed immediately.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_name
+    type: File Name
+    role:
+    - Victim

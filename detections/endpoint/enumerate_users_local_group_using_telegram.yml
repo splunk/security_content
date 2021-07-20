@@ -47,3 +47,20 @@ tags:
   - Security_ID
   - Message
   security_domain: endpoint
+  impact: 80
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: The Telegram application has been identified enumerating local groups on $ComputerName$ by $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim

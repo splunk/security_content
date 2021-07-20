@@ -69,3 +69,28 @@ tags:
   - Processes.parent_process
   risk_score: 40
   security_domain: endpoint
+  impact: 70
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 42
+  context:
+  - Source:Endpoint
+  - Stage:Persistence
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified disabling a user account on endpoint $dest$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
