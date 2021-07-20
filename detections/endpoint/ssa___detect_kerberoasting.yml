@@ -1,6 +1,6 @@
 name: Detect Kerberoasting
 id: dabdd6d7-3e10-42be-8711-4e124f7a3850
-version: 1
+version: 2
 date: '2020-10-21'
 author: Xiao Lin, Splunk
 type: streaming
@@ -12,7 +12,8 @@ search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_
   "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"),
   ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event,
   "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",
-  null), dest_device_id=ucast(map_get(input_event, "dest_device_id") | where EventCode="4769"
+  null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+  | where EventCode="4769"
   AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" | first_time_event
   input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"]
   | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID
