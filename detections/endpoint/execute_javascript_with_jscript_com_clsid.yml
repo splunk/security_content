@@ -46,3 +46,29 @@ tags:
   - Processes.dest
   - Processes.user
   security_domain: endpoint
+  impact: 80
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: Suspicious process of cscript.exe with a parent process $parent_process_name$ where it tries to execute javascript using jscript.encode CLSID (COM OBJ), detected on $dest$ by $user$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_id
+    type: Process
+    role:
+    - Attacker
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Parent Process
+    - Attacker
