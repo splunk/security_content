@@ -68,3 +68,24 @@ tags:
   - process_path
   - process_id
   security_domain: endpoint
+  impact: 80
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: An instance of $process_name$ was identified on endpoint $Computer$ by user $user$ accessing known suspicious named pipes related to Cobalt Strike.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Parent Process

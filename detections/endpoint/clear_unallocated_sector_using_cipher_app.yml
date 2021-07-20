@@ -6,8 +6,8 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: this search is to detect execution of cipher.exe to clear the unallocated
-  sectors of a specific disk. This technique was seen in some ransomwareto make it
+description: this search is to detect execution of `cipher.exe` to clear the unallocated
+  sectors of a specific disk. This technique was seen in some ransomware to make it
   impossible to forensically recover deleted files.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cipher.exe"
@@ -15,13 +15,13 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process Processes.dest Processes.user Processes.process_id
   Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `clear_unallocated_sector_using_cipher_app_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: administrator may execute this app to manage disk
 references:
-- https://unit42.paloaltonetworks.com/vatet-pyxie-defray777/3/
+  - https://unit42.paloaltonetworks.com/vatet-pyxie-defray777/3/
+  - https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/sophoslabs-ransomware-behavior-report.pdf
 tags:
   analytic_story:
   - Ransomware
@@ -38,12 +38,40 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
   - Processes.dest
   - Processes.user
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
   - Processes.process_id
-  - Processes.process_guid
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   security_domain: endpoint
+  impact: 100
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 90
+  context:
+  - Source:Endpoint
+  - Stage:Impact
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to clear the unallocated sectors of a specific disk.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process

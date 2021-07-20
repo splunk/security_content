@@ -17,8 +17,8 @@ description: The following analytic identifies rundll32.exe loading syssetup.dll
   files are on disk.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
-  Processes.process=*syssetup* by Processes.user Processes.process_name Processes.process
-  Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  Processes.process=*syssetup* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `detect_rundll32_application_control_bypass___syssetup_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -53,8 +53,36 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.process
-  - Processes.process_name
-  - Processes.user
   - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
   security_domain: endpoint
+  impact: 80
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: An instance of $parent_process_name$ spawning $process_name$ loading syssetup.dll by calling the LaunchINFSection function on the command line was identified on endpoint $dest$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process

@@ -50,3 +50,28 @@ tags:
   - CommandLine
   - dest
   security_domain: endpoint
+  impact: 30
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 27
+  context:
+  - Source:Endpoint
+  - Stage:Collection
+  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. 
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
