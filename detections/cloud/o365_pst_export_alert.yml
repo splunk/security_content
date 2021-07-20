@@ -43,7 +43,19 @@ tags:
   - Severity
   - AlertEntityId
   - Operation
-  risk_object: Source
-  risk_object_type: system
-  risk_score: 20
+  impact: 80
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 48
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Exfiltration
+  message: User $Source$ has exported a PST file from the search using this operation- $Operation$ with a severity of $Severity$
+  observable:
+  - name: Source
+    type: User
+    role:
+    - Attacker
   security_domain: threat
