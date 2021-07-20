@@ -46,3 +46,20 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
+  impact: 50 
+  confidence: 80  
+  # (impact * confidence)/100
+  risk_score: 40 
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A suspicious powershell script contains Thread Mutex in $Message$ with EventCode $EventCode$ in host $ComputerName$ 
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

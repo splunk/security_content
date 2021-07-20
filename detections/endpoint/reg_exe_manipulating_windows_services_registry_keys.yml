@@ -60,3 +60,22 @@ tags:
   - Processes.process_id
   - Processes.dest
   security_domain: endpoint
+  impact: 75 
+  confidence: 60  
+  # (impact * confidence)/100
+  risk_score: 45 
+  context:
+  - source:endpoint
+  - stage: Persistence
+  - Privilege Escalation
+  - Defense Evasion
+  message: A reg.exe process $process_name$ with commandline $process$ in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim

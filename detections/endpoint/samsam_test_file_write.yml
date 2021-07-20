@@ -46,3 +46,20 @@ tags:
   - Filesystem.file_name
   - Filesystem.file_path
   security_domain: endpoint
+  impact: 60 
+  confidence: 20  
+  # (impact * confidence)/100
+  risk_score: 12 
+  context:
+  - source:endpoint
+  - stage: Impact
+  message: A samsam ransomware test file creation in $file_path$ in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim

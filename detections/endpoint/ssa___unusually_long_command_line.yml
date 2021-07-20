@@ -52,3 +52,20 @@ tags:
   - process
   risk_severity: low
   security_domain: endpoint
+  impact: 30 
+  confidence: 40  
+  # (impact * confidence)/100
+  risk_score: 12 
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A  process $process_name$ with a long commandline $cmd_line$ executed in host $dest_device_id$ 
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: dest_user_id
+    type: user
+    role:
+    - Victim

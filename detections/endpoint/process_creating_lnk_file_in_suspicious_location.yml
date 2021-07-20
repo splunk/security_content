@@ -60,3 +60,20 @@ tags:
   - Filesystem.file_hash
   - Filesystem.user
   security_domain: network
+  impact: 70 
+  confidence: 90  
+  # (impact * confidence)/100
+  risk_score: 63 
+  context:
+  - source:endpoint
+  - stage: Initial Access
+  message: A process $process_name$ that launching .lnk file in $file_path$ in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim

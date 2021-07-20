@@ -52,3 +52,20 @@ tags:
   - User
   - EventCode
   security_domain: endpoint
+  impact: 60 
+  confidence: 70  
+  # (impact * confidence)/100
+  risk_score: 42 
+  context:
+  - source:endpoint
+  - stage: recon
+  message: A suspicious powershell script contains domain enumeration command in $Message$ with EventCode $EventCode$ in host $ComputerName$ 
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

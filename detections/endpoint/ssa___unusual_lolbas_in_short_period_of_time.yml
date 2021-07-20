@@ -71,3 +71,20 @@ tags:
   - process_name
   risk_severity: low
   security_domain: endpoint
+  impact: 50 
+  confidence: 50  
+  # (impact * confidence)/100
+  risk_score: 25 
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A system process $process_name$ with commandline $cmd_line$ spawn iin short period of time in host $dest_device_id$ 
+  observable:
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: processname
+    role:
+    - Others

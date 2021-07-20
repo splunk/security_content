@@ -53,3 +53,21 @@ tags:
   - Registry.dest
   - Registry.user
   security_domain: endpoint
+  impact: 80 
+  confidence: 95  
+  # (impact * confidence)/100
+  risk_score: 76 
+  context:
+  - source:endpoint
+  - stage: Persistence
+  - Privilege Escalation
+  message: A registry activity in $registry_path$ related to privilege escalation in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim

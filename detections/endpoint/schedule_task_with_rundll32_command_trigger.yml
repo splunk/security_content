@@ -56,3 +56,20 @@ tags:
   - Hidden
   - Arguments
   security_domain: endpoint
+  impact: 70 
+  confidence: 100 
+  # (impact * confidence)/100
+  risk_score: 70
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A schedule task process commandline rundll32 arguments $Arguments$ in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: Arguments
+    type: Arguments
+    role:
+    - Attacker

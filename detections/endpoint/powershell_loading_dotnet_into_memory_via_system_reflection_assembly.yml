@@ -55,3 +55,20 @@ tags:
   - User
   - EventCode
   security_domain: endpoint
+  impact: 70 
+  confidence: 80  
+  # (impact * confidence)/100
+  risk_score: 56 
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A suspicious powershell script contains reflective class assembly  command in $Message$ to load .net code in memory with EventCode $EventCode$ in host $ComputerName$ 
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

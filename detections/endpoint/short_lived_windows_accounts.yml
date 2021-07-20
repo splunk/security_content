@@ -46,3 +46,20 @@ tags:
   - All_Changes.user
   - All_Changes.dest
   security_domain: access
+  impact: 70 
+  confidence: 90  
+  # (impact * confidence)/100
+  risk_score: 63 
+  context:
+  - source:endpoint
+  - stage: Persistence
+  message: A user account created or delete shortly in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim

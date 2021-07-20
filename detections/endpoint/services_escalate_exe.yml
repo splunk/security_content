@@ -57,3 +57,21 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  impact: 80 
+  confidence: 95  
+  # (impact * confidence)/100
+  risk_score: 76 
+  context:
+  - source:endpoint
+  - stage: Privilege Escalation
+  - Defense Evasion
+  message: A service process $parent_process_name$ with process path $process_path$ in host $dest$ 
+  observable:
+  - name: Processes.dest
+    type: Hostname
+    role:
+    - Victim
+  - name: Processes.user
+    type: user
+    role:
+    - Victim
