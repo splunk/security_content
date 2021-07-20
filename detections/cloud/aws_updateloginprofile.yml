@@ -49,7 +49,18 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.userName
-  risk_object: src
-  risk_object_type: system
-  risk_score: 20
-  security_domain: network
+  impact: 50
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 30
+  message: From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for updating the existing login profile, potentially giving user $user_arn$ more access privilleges 
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
+  security_domain: threat

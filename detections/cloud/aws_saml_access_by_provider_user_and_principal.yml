@@ -51,7 +51,24 @@ tags:
   - responseElements.issuer
   - sourceIPAddress
   - userAgent
-  risk_object: recipientAccountId
-  risk_object_type: other
-  risk_score: 25
+  impact: 80
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 64
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Credential Access
+  - Stage:Privilege Escalation
+  message: From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for account ID $recipientAccountId$
+  observable:
+  - name: sourceIPAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: recipientAccountId
+    type: Other
+    role:
+    - Victim
+    - Target
   security_domain: threat

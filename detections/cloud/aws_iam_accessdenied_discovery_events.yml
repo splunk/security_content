@@ -46,5 +46,24 @@ tags:
   - userIdentity.type
   risk_object: src_ip
   risk_object_type: system
-  risk_score: 20
+  risk_score: 25
+  impact: 20
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 10
+  context: 
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Blocked
+  - Stage:Discovery
+  message: User $userIdentity.arn$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied. 
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  - name: userIdentity.arn
+    type: User
+    role:
+    - Attacker
   security_domain: access

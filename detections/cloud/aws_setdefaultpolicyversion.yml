@@ -52,7 +52,23 @@ tags:
   - errorCode
   - requestParameters.userName
   - eventSource
-  risk_object: src
-  risk_object_type: system
-  risk_score: 20
-  security_domain: network
+  impact: 50
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 30
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Credential Access
+  - Stage:Privilege Escalation
+  message: From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for updating the the default policy version
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
+  security_domain: threat

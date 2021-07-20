@@ -49,7 +49,24 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.policyName
-  risk_object: src
-  risk_object_type: system
-  risk_score: 20
+  impact: 40
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 28
+  context:
+  - Source:Cloud Data
+  - Scope:Inbound
+  - Stage:Credential Access
+  - Other:Policy Violation
+  message: User $user_arn$ has caused multiple failures with errorCode $errorCode$, which potentially means adversary is attempting to identify a role name.
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
+
   security_domain: access
