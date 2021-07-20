@@ -49,7 +49,23 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.userName
-  risk_object: src
-  risk_object_type: system
-  risk_score: 20
+  impact: 70
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 63
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Privilege Escalation
+  message: User $user_arn$ is attempting to create access keys for $requestParameters.userName$ from this IP $src$
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
   security_domain: network
