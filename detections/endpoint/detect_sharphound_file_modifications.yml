@@ -65,3 +65,19 @@ tags:
   - process_id
   - file_create_time
   security_domain: endpoint
+  impact: 30
+  confidence: 80
+  risk_score: 24
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  message: Potential SharpHound file modifications identified on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

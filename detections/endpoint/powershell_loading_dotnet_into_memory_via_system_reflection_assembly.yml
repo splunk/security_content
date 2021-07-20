@@ -19,14 +19,14 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   During triage, review parallel processes using an EDR product or 4688 events. It
   will be important to understand the timeline of events around this activity. Review
   the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 Message="*[system.reflection.assembly]::load(*"
+search: '`powershell` EventCode=4104 Message IN ("*[system.reflection.assembly]::load(*","*[reflection.assembly]*")
   | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName
   User EventCode Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `powershell_loading_dotnet_into_memory_via_system_reflection_assembly_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: False positives will be limited to
+known_false_positives: False positives should be limited as day to day scripts do not use this method.
 references:
 - https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly?view=net-5.0
 - https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.

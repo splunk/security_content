@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: batch
 datamodel: []
 description: Detect the hands on keyboard behavior of Windows Task Manager creating
-  a prcoess dump of lsass.exe. Upon this behavior occurring, a file write/modification
+  a process dump of lsass.exe. Upon this behavior occurring, a file write/modification
   will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp,
   cannot be renamed, however if the dump occurs more than once, it will be named lsass
   (2).dmp.
@@ -54,3 +54,28 @@ tags:
   - Computer
   - object_category
   security_domain: endpoint
+  impact: 80
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  message: $process_name$ was identified on endpoint $Computer$ writing $TargetFilename$ to disk. This behavior is related to dumping credentials via Task Manager.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: TargetFilename
+    type: File Name
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process

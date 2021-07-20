@@ -44,3 +44,20 @@ tags:
   - nodename
   - All_Changes.user
   security_domain: access
+  impact: 60
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 36
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  message: Multiple accounts have been locked out. Review $nodename$ and $result$ related to $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: result
+    type: Other
+    role:
+    - Victim

@@ -48,3 +48,10 @@ tags:
   - Registry.registry_value_name
   - Registry.dest Registry.user
   security_domain: endpoint
+  impact: 40
+  confidence: 100
+  risk_score: 40
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
+  message: Disabled 'Windows App Hotkeys'
