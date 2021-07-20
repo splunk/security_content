@@ -3,9 +3,9 @@ id: bc760ca6-8336-11eb-bcbb-acde48001122
 version: 1
 date: '2021-03-12'
 author: Teoderick Contreras
-type: batch
+type: TTP
 datamodel:
-- TTP
+- Endpoint
 description: The following analytics identifies the resizing of shadowstorage by ransomware
   malware to avoid the shadow volumes being made again. this technique is an alternative
   by ransomware attacker than deleting the shadowstorage which is known alert in defensive
