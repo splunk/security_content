@@ -53,3 +53,24 @@ tags:
   - Filesystem.file_hash
   - Filesystem.user
   security_domain: endpoint
+  impact: 90
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 81
+  context:
+  - Source:Endpoint
+  - Stage:Exploitation
+  message: A file - $file_name$ was written to disk that is related to IIS exploitation previously performed by HAFNIUM. Review further file modifications on endpoint $dest$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_name
+    type: File Name
+    role:
+    - Victim

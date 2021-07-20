@@ -45,3 +45,20 @@ tags:
   - ComputerName
   - User
   security_domain: endpoint
+  impact: 90
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 81
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: An attempt to delete ShadowCopy was performed using PowerShell on $ComputerName$ by $User$.
+  observable:
+  - name: User
+    type: User
+    role:
+    - Victim
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim

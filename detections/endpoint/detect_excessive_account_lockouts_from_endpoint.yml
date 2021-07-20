@@ -56,3 +56,20 @@ tags:
   - All_Changes.result
   - All_Changes.dest
   security_domain: access
+  impact: 60
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 36
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  message: Multiple accounts have been locked out. Review $dest$ and results related to $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

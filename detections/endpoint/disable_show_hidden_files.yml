@@ -2,12 +2,12 @@ name: Disable Show Hidden Files
 id: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
 version: 1
 date: '2021-03-31'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following search is to idetifies a modification in registry to prevent
-  the user seeing all the files with hidden attributes. This event or techniques are
+description: The following analytic is to identify a modification in the Windows registry to prevent
+  users from seeing all the files with hidden attributes. This event or techniques are
   known on some worm and trojan spy malware that will drop hidden files on the infected
   machine.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -50,3 +50,10 @@ tags:
   - Registry.dest
   - Registry.registry_value_nam
   security_domain: endpoint
+  impact: 40
+  confidence: 100
+  risk_score: 40
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
+  message: Disabled 'Show Hidden Files'

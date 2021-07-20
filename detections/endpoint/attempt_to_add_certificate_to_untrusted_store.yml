@@ -9,8 +9,8 @@ datamodel:
 description: Attempt To Add Certificate To Untrusted Store
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
   as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=*certutil*
-  (Processes.process=*-addstore*) by Processes.parent_process Processes.process_name
-  Processes.user | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  (Processes.process=*-addstore*) by Processes.dest Processes.user Processes.parent_process Processes.process_name
+    Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `attempt_to_add_certificate_to_untrusted_store_filter`'
 how_to_implement: You must be ingesting data that records process activity from your
   hosts to populate the Endpoint data model in the Processes node. You must also be
@@ -20,7 +20,8 @@ how_to_implement: You must be ingesting data that records process activity from 
 known_false_positives: There may be legitimate reasons for administrators to add a
   certificate to the untrusted certificate store. In such cases, this will typically
   be done on a large number of systems.
-references: []
+references: 
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md
 tags:
   analytic_story:
   - Disabling Security Tools
@@ -47,8 +48,37 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.process
-  - Processes.process_name
-  - Processes.parent_process
+  - Processes.dest
   - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.parent_process
+  - Processes.process_id
+  - Processes.parent_process_id
   security_domain: endpoint
+  impact: 70
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 35
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified attempting to add a certificate to the store on endpoint $dest$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
