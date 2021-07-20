@@ -53,3 +53,26 @@ tags:
   - Filesystem.file_name
   - Filesystem.user
   security_domain: endpoint
+  impact: 80
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+
+  message: Suspicious executable or scripts with file name $file_name$, $file_path$ and process_id $process_id$ executed in suspicious file path in Windows by $user$
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_id
+    type: Process
+    role:
+    - Attacker
+  - name: file_name
+    type: File Name
+    role:
+    - Other
+    - Attacker

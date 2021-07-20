@@ -51,3 +51,26 @@ tags:
   - Processes.user
   - Processes.dest
   security_domain: endpoint
+  impact: 90
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion 
+  - Stage:Persistence
+  message: Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: parent_process
+    type: Other
+    role:
+    - Attacker
+    - Parent Process
