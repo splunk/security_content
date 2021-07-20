@@ -54,3 +54,21 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
+  impact: 70
+  confidence: 50
+  risk_score: 35
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Initial Access
+  - Stage:Defense Evasion
+  message: Suspicious scheduled task registered on $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim

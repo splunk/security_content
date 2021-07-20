@@ -25,12 +25,28 @@ tags:
   analytic_story:
   - Clop Ransomware
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: High frequency process termination (more than 15 processes within 3s) detected
+    on host $Computer$
   mitre_attack_id:
   - T1486
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: proc_terminated
+    type: Process
+    role:
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -41,21 +57,5 @@ tags:
   - Computer
   - _time
   - ProcessID
-  security_domain: endpoint
-  impact: 90
-  confidence: 80
-  # (impact * confidence)/100
   risk_score: 72
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  message: High frequency process termination (more than 15 processes within 3s) detected on host $Computer$
-  observable:
-  - name: Computer
-    type: Endpoint
-    role:
-    - Victim
-  - name: proc_terminated
-    type: Process
-    role:
-    - Target
+  security_domain: endpoint

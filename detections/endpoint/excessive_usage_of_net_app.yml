@@ -28,34 +28,20 @@ tags:
   - XMRig
   - Ransomware
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1531
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.parent_process_name
-  - Processes.dest
-  - Processes.user
-  security_domain: endpoint
-  impact: 40
   confidence: 70
-  # (impact * confidence)/100
-  risk_score: 28
   context:
   - Source:Endpoint
   - Scope:Local
   - Stage:Execution
-  message: Excessive usage of net1.exe or net.exe within 1m, with command line $process$ has been detected on $dest$ by $user$
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 40
+  kill_chain_phases:
+  - Exploitation
+  message: Excessive usage of net1.exe or net.exe within 1m, with command line $process$
+    has been detected on $dest$ by $user$
+  mitre_attack_id:
+  - T1531
   observable:
   - name: user
     type: User
@@ -70,3 +56,17 @@ tags:
     role:
     - Process
     - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process
+  - Processes.process_id
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.user
+  risk_score: 28
+  security_domain: endpoint

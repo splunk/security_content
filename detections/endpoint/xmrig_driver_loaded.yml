@@ -23,12 +23,28 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - source:endpoint
+  - stage: Privilege Escalation
+  - Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: A driver $ImageLoaded$ related to xmrig crytominer loaded in host $Computer$
   mitre_attack_id:
   - T1543.003
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: ImageLoaded
+    type: ImageLoaded
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -41,22 +57,5 @@ tags:
   - IMPHASH
   - Signature
   - Signed
+  risk_score: 80
   security_domain: endpoint
-  impact: 80 
-  confidence: 100  
-  # (impact * confidence)/100
-  risk_score: 80 
-  context:
-  - source:endpoint
-  - stage: Privilege Escalation
-  - Persistence
-  message: A driver $ImageLoaded$ related to xmrig crytominer loaded in host $Computer$ 
-  observable:
-  - name: Computer
-    type: Hostname
-    role:
-    - Victim
-  - name: ImageLoaded
-    type: ImageLoaded
-    role:
-    - Attacker

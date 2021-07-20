@@ -171,6 +171,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Cloud API Calls From Previously Unseen User Roles](#cloud-api-calls-from-previously-unseen-user-roles)
 
 
@@ -1217,6 +1219,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Assessment of Credential Strength via DSInternals modules](#assessment-of-credential-strength-via-dsinternals-modules)
+
+
+
+- [Attacker Tools On Endpoint](#attacker-tools-on-endpoint)
 
 
 
@@ -3011,6 +3017,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [DNS Query Length Outliers - MLTK](#dns-query-length-outliers---mltk)
 
 
@@ -3859,6 +3867,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Application
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -5101,6 +5111,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Detect F5 TMUI RCE CVE-2020-5902](#detect-f5-tmui-rce-cve-2020-5902)
 
 
@@ -6085,7 +6097,7 @@ _version_: 1
 ---
 
 ### AWS Cross Account Activity From Previously Unseen Account
-This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.  This search is deprecated and have been translated to use the latest Authentication Datamodel.
+This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
@@ -6157,7 +6169,7 @@ _version_: 1
 ---
 
 ### AWS Detect Users creating keys with encrypt policy without MFA
-This search provides detection of KMS keys which action kms:Encrypt is accessible for everyone (also outside of your organization). This is an identicator that your account is compromised and the attacker uses the encryption key to compromise another company.
+This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -6720,7 +6732,7 @@ The following query uses IAM events to track the success of a group being delete
 #### Search
 ```
 `cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success (userAgent!=*.amazonaws.com) 
-| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) by src eventName eventSource errorCode user_agent awsRegion userIdentity.principalId user_arn 
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) as group_deleted by src eventName eventSource errorCode user_agent awsRegion userIdentity.principalId user_arn 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `aws_iam_successful_group_deletion_filter`
@@ -8825,6 +8837,88 @@ _version_: 1
 
 ---
 
+### Attacker Tools On Endpoint
+This search looks for execution of commonly used attacker tools on an endpoint.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1036.005](https://attack.mitre.org/techniques/T1036/005/), [T1595](https://attack.mitre.org/techniques/T1595/), [T1003](https://attack.mitre.org/techniques/T1003/)
+- **Last Updated**: 2021-06-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.user!=unknown by Processes.dest Processes.user Processes.process_name Processes.process 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `drop_dm_object_name(Processes)` 
+| lookup attacker_tools attacker_tool_names AS process_name OUTPUT description 
+| search description=* 
+| `attacker_tools_on_endpoint_filter`
+```
+#### Associated Analytic Story
+
+* Monitor for Unauthorized Software
+
+* XMRig
+
+* SamSam Ransomware
+
+* Unusual Processes
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is usually generated via logs that report process tracking in your Windows audit settings.
+
+#### Required field
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process_name
+
+* Processes.parent_process_name
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1036.005 | Match Legitimate Name or Location | Defense Evasion |
+| T1595 | Active Scanning | Reconnaissance |
+| T1003 | OS Credential Dumping | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Installation
+
+* Command and Control
+
+* Actions on Objectives
+
+
+#### Known False Positives
+Some administrator activity can be potentially triggered, please add those users to the filter macro.
+
+#### Reference
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Attempt To Add Certificate To Untrusted Store
 Attempt To Add Certificate To Untrusted Store
 
@@ -10476,7 +10570,7 @@ This search looks for cloud compute instances created by users who have not crea
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
 - **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
-- **Last Updated**: 2020-08-21
+- **Last Updated**: 2021-07-13
 
 <details>
   <summary>details</summary>
@@ -10538,7 +10632,7 @@ It's possible that a user will start to create compute instances for the first t
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -15741,7 +15835,7 @@ This search detects a potential kerberoasting attack via service principal name 
 ```
  
 | from read_ssa_enriched_events() 
-| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id") 
+| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
 | where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" 
 | first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"] 
 | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID 
@@ -15798,7 +15892,7 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 #### Test Dataset
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -23469,7 +23563,7 @@ _version_: 1
 ---
 
 ### Excessive Usage of NSLOOKUP App
-this search is to detect potential DNS exfiltration using nslookup application. This technique are seen in couple of malware and APT group to exfiltrated collected data in a infected machine or infected network. This detection is looking for unique use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are commonly used by attacker and also the retry parameter which is designed to query C2 DNS multiple tries.
+This search is to detect potential DNS exfiltration using nslookup application. This technique are seen in couple of malware and APT group to exfiltrated collected data in a infected machine or infected network. This detection is looking for unique use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are commonly used by attacker and also the retry parameter which is designed to query C2 DNS multiple tries.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -24338,7 +24432,7 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 |$)+)/, "\\PATH"), /* replaces " \\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s
 |$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\d+/, "N") 
 | where process_name="cmd.exe" AND match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true 
-| select cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id 
+| select process_name, cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id 
 | first_time_event input_columns=["cmd_line_norm"] 
 | where first_time_cmd_line_norm 
 | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
@@ -24391,7 +24485,7 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 #### Test Dataset
 
 
-_version_: 2
+_version_: 3
 </details>
 
 ---
@@ -27469,7 +27563,7 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 | rename window_end as timestamp 
 | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device" window=2419200000L 
 | where label AND quantile>0.99 
-| eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body=create_map(["process_name", process_name]) 
+| eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body=create_map(["lolbas_counter", lolbas_counter]) 
 | into write_null();
 ```
 #### Associated Analytic Story
@@ -27517,7 +27611,7 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 #### Test Dataset
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -27651,6 +27745,8 @@ To successfully implement this search, you need to be ingesting logs with the st
 * archive_hdr1
 
 * archive_hdr2
+
+* form_data
 
 
 
@@ -35497,6 +35593,8 @@ To successfully implement this search you need to be ingesting information on pr
 
 * process_path
 
+* Processes.dest
+
 
 
 #### ATT&CK
@@ -36914,7 +37012,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Processes.parent_process
 
-* Processes.dest Processes.user
+* Processes.dest
+
+* Processes.user
 
 * Processes.process_id
 
@@ -40790,7 +40890,7 @@ $cond_6 =
 | union $cond_4 
 | union $cond_5 
 | union $cond_6 
-| where process_path NOT LIKE "%\\windows\\system32%" AND process_path NOT LIKE "%\\windows\\syswow64%" 
+| where match_regex(process_path, /(?i)\\windows\\system32/)=false AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false 
 | eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["process_path", process_path, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
@@ -40841,7 +40941,7 @@ None
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
 
 
-_version_: 2
+_version_: 3
 </details>
 
 ---
