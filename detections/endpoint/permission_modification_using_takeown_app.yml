@@ -48,3 +48,20 @@ tags:
   - Processes.process_id
   - Processes.process_guid
   security_domain: endpoint
+  impact: 70 
+  confidence: 80  
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
+  message: A suspicious of execution of $process_name$ with process id $process_id$ and commandline $process$ to modify permission of directory or files in host $dest$ 
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: process name
+    role:
+    - Attacker
