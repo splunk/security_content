@@ -1,6 +1,6 @@
 name: More than usual number of LOLBAS applications in short time period
 id: 59c0dd70-169c-4900-9a1f-bfcf13302f93
-version: 1
+version: 2
 date: '2020-08-25'
 author: Ignacio Bermudez Corrales, Splunk
 type: streaming
@@ -40,8 +40,8 @@ search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_ev
   device,span(timestamp, 300s) | eval lolbas_counter=lolbas_counter*1.0 | rename window_end
   as timestamp | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device"
   window=2419200000L | where label AND quantile>0.99 | eval start_time = window_start,
-  end_time = timestamp, entities = mvappend(device), body=create_map(["process_name",
-  process_name]) | into write_null();'
+  end_time = timestamp, entities = mvappend(device), body=create_map(["lolbas_counter",
+  lolbas_counter]) | into write_null();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: 'Some administrative tasks may involve multiple use of LOLBAS
   applications in a short period of time. This might trigger false positives at the
