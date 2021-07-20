@@ -8,8 +8,8 @@ datamodel:
 - Endpoint
 description: This analytic detects a potential suspicious modification of firewall
   rule registry allowing inbound traffic in specific port with public profile. This
-  technique was seen in some attacker want to have a remote access to a machine by
-  allowing the traffic in firewall rule.
+  technique was identified when an adversary wants to grant remote access to a machine by
+  allowing the traffic in a firewall rule.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"
   Registry.registry_value_name = "*|Action=Allow|*" Registry.registry_value_name =
@@ -47,3 +47,20 @@ tags:
   - Registry.dest
   - Registry.user
   security_domain: endpoint
+  impact: 10
+  confidence: 30
+  # (impact * confidence)/100
+  risk_score: 3
+  context:
+  - Source:Endpoint
+  - Stage:Lateral Movement
+  message: Suspicious firewall modifications were detected via the registry on endpoint $dest$ by user $user$. 
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

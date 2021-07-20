@@ -68,3 +68,20 @@ tags:
   - Registry.registry_value_name
   risk_score: 40
   security_domain: endpoint
+  impact: 70
+  confidence: 60
+  # (impact * confidence)/100
+  risk_score: 42
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: The Windows Task Manager was disabled on $dest$ by $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim

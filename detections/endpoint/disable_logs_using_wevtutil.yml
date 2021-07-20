@@ -48,3 +48,15 @@ tags:
   - Processes.process_id
   - Processes.process_guid
   security_domain: endpoint
+  impact: 30
+  confidence: 80
+  risk_score: 24
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
+  message: WevtUtil.exe used to disable Event Logging on $dest
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
