@@ -5,8 +5,8 @@ date: '2018-05-17'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for AWS CloudTrail events where a user logged into the
-  AWS account, is making API calls and has not enabled Multi Factor authentication.
+description: This search looks for AWS CloudTrail events where a user logged into
+  the AWS account, is making API calls and has not enabled Multi Factor authentication.
   Multi factor authentication adds a layer of security by forcing the users to type
   a unique authentication code from an approved authentication device when they access
   AWS websites or services. AWS Best Practices recommend that you enable MFA for privileged

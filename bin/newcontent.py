@@ -219,7 +219,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     output_path = path.join(security_content_path, 'detections/' + detection_kind + '/' + detection_file_name + '.yml')
     output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
     author=answers['detection_author'], name=answers['detection_name'],
-    description='UPDATE_DESCRIPTION', how_to_implement='UPDATE_HOW_TO_IMPLEMENT', known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
+    description='|\n\tUPDATE_DESCRIPTION\n\tWHAT IS THIS?\n\tWHAT DOES IT LOOK LIKE?\n\tHOW DO YOU TRIAGE IT?', how_to_implement='UPDATE_HOW_TO_IMPLEMENT', known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
     references='',datamodels=answers['datamodels'],
     search= answers['detection_search'] + ' | `' + detection_file_name + '_filter`',
     type=answers['detection_type'], analytic_story_name='UPDATE_STORY_NAME', mitre_attack_id=mitre_attack_id,
@@ -413,7 +413,7 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
         output_path = path.join(security_content_path, 'detections/endpoint/' + detection_name)
         output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
         author='UPDATE_AUTHOR', name=getpass.getuser().capitalize() + ' ' + type.capitalize(),
-        description='UPDATE_DESCRIPTION',
+        description='|\n\tUPDATE_DESCRIPTION\n\tWHAT IS THIS?\n\tWHAT DOES IT LOOK LIKE?\n\tHOW DO YOU TRIAGE IT?',
         how_to_implement='UPDATE_HOW_TO_IMPLENT',
         known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
         references=['https://html5zombo.com/'],

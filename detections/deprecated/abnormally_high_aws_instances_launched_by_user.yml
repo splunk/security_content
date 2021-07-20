@@ -5,9 +5,9 @@ date: '2020-07-21'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: This search looks for AWS CloudTrail events where a user successfully launches
-  an abnormally high number of instances. This search is deprecated and have been
-  translated to use the latest Change Datamodel
+description: This search looks for AWS CloudTrail events where a user successfully
+  launches an abnormally high number of instances. This search is deprecated and have
+  been translated to use the latest Change Datamodel
 search: '`cloudtrail` eventName=RunInstances errorCode=success | bucket span=10m _time
   | stats count AS instances_launched by _time userName | eventstats avg(instances_launched)
   as total_launched_avg, stdev(instances_launched) as total_launched_stdev | eval

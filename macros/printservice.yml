@@ -1,0 +1,4 @@
+definition: source="wineventlog:microsoft-windows-printservice/operational" OR sourcetype="WinEventLog:Microsoft-Windows-PrintService/Admin"
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: printservice

@@ -29,12 +29,33 @@ tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
+  impact: 10
   kill_chain_phases:
   - Actions on Objectives
+  message: User $user_arn$ has had mulitple failures while attempting to delete groups
+    from $src$
   mitre_attack_id:
   - T1098
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: user_arn
+    type: User
+    role:
+    - Victim
+  - name: group_name
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,7 +67,5 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.groupName
-  risk_object: src
-  risk_object_type: system
-  risk_score: 20
-  security_domain: identity
+  risk_score: 5
+  security_domain: cloud
