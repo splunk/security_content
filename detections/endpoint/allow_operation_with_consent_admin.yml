@@ -31,12 +31,28 @@ tags:
   analytic_story:
   - Ransomware
   automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: Suspicious registry modification was performed on endpoint $dest$ by user
+    $user$. This behavior is indicative of privilege escalation.
   mitre_attack_id:
   - T1548
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,21 +63,5 @@ tags:
   - Registry.registry_key_name
   - Registry.registry_value_name
   - Registry.dest
-  security_domain: endpoint
-  impact: 50
-  confidence: 50
-  # (impact * confidence)/100
   risk_score: 25
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  message: Suspicious registry modification was performed on endpoint $dest$ by user $user$. This behavior is indicative of privilege escalation.
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
+  security_domain: endpoint

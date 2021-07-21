@@ -43,14 +43,25 @@ tags:
   cis20:
   - CIS 8
   - CIS 16
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
+  impact: 100
   kill_chain_phases:
   - Actions on Objectives
+  message: Active Directory NTDS export on $dest$
   mitre_attack_id:
   - T1003.003
   nist:
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -64,16 +75,5 @@ tags:
   - Processes.parent_process
   - Processes.process_id
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 100
-  confidence: 50
   risk_score: 50
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  message: Active Directory NTDS export on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint

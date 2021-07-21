@@ -35,12 +35,28 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: An excessive amount of $process_name$ was executed on $dest$ attempting
+    to disable services.
   mitre_attack_id:
   - T1562.001
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -54,21 +70,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
-  # (impact * confidence)/100
   risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: An excessive amount of $process_name$ was executed on $dest$ attempting to disable services.
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
+  security_domain: endpoint

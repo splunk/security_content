@@ -31,12 +31,23 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: Suspicious ACL permission modification on $dest$
   mitre_attack_id:
   - T1222
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,16 +60,5 @@ tags:
   - Processes.user
   - Processes.process
   - Processes.process_id
-  security_domain: endpoint
-  impact: 40
-  confidence: 80
   risk_score: 32
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: Suspicious ACL permission modification on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint

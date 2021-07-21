@@ -30,41 +30,22 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.005/atomic_red_team/windows-sysmon.log
+  impact: 50
   kill_chain_phases:
   - Actions on Objectives
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ enumerating Windows file shares.
   mitre_attack_id:
   - T1070.005
   nist:
   - PR.PT
   - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
-  - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 50
-  confidence: 50
-  # (impact * confidence)/100
-  risk_score: 25
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ enumerating Windows file shares.
   observable:
   - name: user
     type: User
@@ -82,3 +63,22 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 25
+  security_domain: endpoint

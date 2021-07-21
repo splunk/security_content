@@ -35,14 +35,25 @@ tags:
   - Ransomware
   - Revil Ransomware
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: Windows Defender real time behavior monitoring disabled on $dest
   mitre_attack_id:
   - T1562.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -54,16 +65,5 @@ tags:
   - Registry.user
   - Registry.dest
   - Registry.registry_value_name
-  security_domain: endpoint
-  impact: 40
-  confidence: 100
   risk_score: 40
-  context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
-  message: Windows Defender real time behavior monitoring disabled on $dest
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint

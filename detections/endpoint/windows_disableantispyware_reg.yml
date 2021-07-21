@@ -34,15 +34,26 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Delivery
+  message: Windows DisableAntiSpyware registry key set to 'disabled' on $dest$
   mitre_attack_id:
   - T1562.001
   nist:
   - PR.PT
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -54,16 +65,5 @@ tags:
   - Registry.dest
   - Registry.user
   - Registry.registry_path
-  security_domain: endpoint
-  impact: 30
-  confidence: 80
   risk_score: 24
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: Windows DisableAntiSpyware registry key set to 'disabled' on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint

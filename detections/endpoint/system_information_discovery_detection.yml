@@ -30,14 +30,30 @@ tags:
   cis20:
   - CIS 6
   - CIS 8
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Recon
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/atomic_red_team/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Actions on Objectives
+  message: Potential system information discovery behavior on $dest$ by $User$
   mitre_attack_id:
   - T1082
   nist:
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,21 +64,5 @@ tags:
   - Processes.user
   - Processes.process_name
   - Processes.dest
-  security_domain: endpoint
-  impact: 30
-  confidence: 50
   risk_score: 15
-  context:
-  - Source:Endpoint
-  - Stage:Recon
-  - Stage:Discovery
-  message: Potential system information discovery behavior on $dest$ by $User$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: User
-    type: User
-    role:
-    - Attacker
+  security_domain: endpoint
