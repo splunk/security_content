@@ -365,22 +365,40 @@ jobs:
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
       - run: *apt-install
+      - run:
+          name: install python dependencies
+          command: |
+            cd security-content
+            rm -rf venv
+            virtualenv --python=/usr/bin/python3 --clear venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+      - save_cache:
+          key: virtualenv
+          paths:
+            - "/security-content/venv"
+      - run:
+          name: create baseline folder
+          command: |
+            cd security-content
+            source venv/bin/activate
+            python bin/create_baseline_folder.py   
       - aws-cli/setup:
           profile-name: default
       - run:
           name: update api sources
           command: |
             cd security-content
-            aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
-            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
-            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
-            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
-            aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
-            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
-            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
-            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
-            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
-            aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+            aws s3 rm s3://security-content-tmp --recursive --exclude "*" --include "*.yml"
+            aws s3 cp stories s3://security-content-tmp/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content-tmp/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content-tmp/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp response_tasks s3://security-content-tmp/response_tasks --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content-tmp/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content-tmp/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content-tmp/lookups --recursive --exclude "*" --include "*.csv"
+            aws s3 cp macros s3://security-content-tmp/macros --recursive --exclude "*" --include "*.yml"
+            aws s3 cp deployments s3://security-content-tmp/deployments --recursive --exclude "*" --include "*.yml"
       - run:
           name: security content api smoke test
           command: |
@@ -574,8 +592,6 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-            branches:
-              ignore: /.*/
     
   detection-testing:
     jobs:
