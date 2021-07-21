@@ -27,12 +27,23 @@ tags:
   analytic_story:
   - Ransomware
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Exploitation
+  message: WevtUtil.exe used to disable Event Logging on $dest
   mitre_attack_id:
   - T1070.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,16 +58,5 @@ tags:
   - Processes.user
   - Processes.process_id
   - Processes.process_guid
-  security_domain: endpoint
-  impact: 30
-  confidence: 80
   risk_score: 24
-  context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
-  message: WevtUtil.exe used to disable Event Logging on $dest
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint

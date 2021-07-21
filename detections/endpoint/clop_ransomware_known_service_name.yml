@@ -25,33 +25,19 @@ tags:
   analytic_story:
   - Clop Ransomware
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
-  kill_chain_phases:
-  - Privilege Escalation
-  mitre_attack_id:
-  - T1543
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - EventCode
-  - cmdline
-  - _time
-  - parent_process_name
-  - process_name
-  - OriginalFileName
-  - process_path
-  security_domain: endpoint
-  impact: 100
   confidence: 100
-  # (impact * confidence)/100
-  risk_score: 100
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ executing known Clop Ransomware service names.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
+  impact: 100
+  kill_chain_phases:
+  - Privilege Escalation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ executing known Clop Ransomware service names.
+  mitre_attack_id:
+  - T1543
   observable:
   - name: user
     type: User
@@ -69,3 +55,17 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - EventCode
+  - cmdline
+  - _time
+  - parent_process_name
+  - process_name
+  - OriginalFileName
+  - process_path
+  risk_score: 100
+  security_domain: endpoint

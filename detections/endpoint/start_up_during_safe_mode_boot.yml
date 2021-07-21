@@ -28,10 +28,17 @@ tags:
   analytic_story:
   - Ransomware
   automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Exploitation
+  message: Safeboot registry $Registry.registry_path$ was added or modified with a
+    new value $Registry.registry_value_name$
   mitre_attack_id:
   - T1547.001
   product:
@@ -44,11 +51,5 @@ tags:
   - Registry.registry_key_name
   - Registry.registry_value_name
   - Registry.dest
-  security_domain: endpoint
-  impact: 60
-  confidence: 70
   risk_score: 42
-  context:
-  - Source:Endpoint
-  - Stage:Persistence
-  message: Safeboot registry $Registry.registry_path$ was added or modified with a new value $Registry.registry_value_name$
+  security_domain: endpoint

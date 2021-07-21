@@ -35,10 +35,16 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 6
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Actions on Objectives
+  message: Wevtutil.exe being used to clear Event Logs on $dest$ by $user$
   mitre_attack_id:
   - T1070.001
   nist:
@@ -48,6 +54,15 @@ tags:
   - PR.AC
   - PR.AT
   - DE.AE
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -59,20 +74,5 @@ tags:
   - Processes.parent_process_name
   - Processes.dest
   - Processes.user
-  security_domain: endpoint
-  impact: 40
-  confidence: 70
   risk_score: 28
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: Wevtutil.exe being used to clear Event Logs on $dest$ by $user$ 
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: User
-    type: User
-    role:
-    - Victim
+  security_domain: endpoint

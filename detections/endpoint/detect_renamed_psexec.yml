@@ -34,37 +34,21 @@ tags:
   - DarkSide Ransomware
   - Lateral Movement
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Collection
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Exploitation
   - Lateral Movement
   - Execution
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
   - T1569.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - User
-  - parent_process_name
-  - process_name
-  - OriginalFileName
-  - process_path
-  - CommandLine
-  - Product
-  security_domain: endpoint
-  impact: 30
-  confidence: 90
-  # (impact * confidence)/100
-  risk_score: 27
-  context:
-  - Source:Endpoint
-  - Stage:Collection
-  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. 
   observable:
   - name: user
     type: User
@@ -82,3 +66,19 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - User
+  - parent_process_name
+  - process_name
+  - OriginalFileName
+  - process_path
+  - CommandLine
+  - Product
+  risk_score: 27
+  security_domain: endpoint

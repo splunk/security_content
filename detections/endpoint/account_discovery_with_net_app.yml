@@ -33,12 +33,31 @@ tags:
   analytic_story:
   - Trickbot
   automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+  impact: 10
   kill_chain_phases:
   - Reconnaissance
+  message: Suspicious $process_name$ usage detected on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1087.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process_name
+    type: Process Name
+    role:
+    - Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -53,25 +72,5 @@ tags:
   - Processes.process_guid
   - Processes.dest
   - Processes.user
-  security_domain: endpoint
-  impact: 10
-  confidence: 50
-  # (impact * confidence)/100
   risk_score: 5
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  message: Suspicious $process_name$ usage detected on endpoint $dest$ by user $user$.
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: process_name
-    type: Process Name
-    role:
-    - Process
+  security_domain: endpoint

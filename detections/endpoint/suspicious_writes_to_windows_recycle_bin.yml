@@ -30,12 +30,27 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
+  impact: 40
+  message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
   mitre_attack_id:
   - T1036
   nist:
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_name
+    type: Process
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -51,20 +66,5 @@ tags:
   - Processes.parent_process_name
   - Processes.process_id
   - Processes.dest
-  security_domain: endpoint
-  impact: 40
-  confidence: 70
   risk_score: 28
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: Suspicious writes to windows Recycle Bin process $Processes.process_name$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: Processes.process_name
-    type: Process
-    role:
-    - Attacker
+  security_domain: endpoint
