@@ -43,16 +43,31 @@ tags:
   - Discovery Techniques
   - Ransomware
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Reconnaissance
+  message: Potential SharpHound file modifications identified on $dest$
   mitre_attack_id:
   - T1087.002
   - T1087.001
   - T1482
   - T1069.002
   - T1069.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -64,20 +79,5 @@ tags:
   - file_name
   - process_id
   - file_create_time
-  security_domain: endpoint
-  impact: 30
-  confidence: 80
   risk_score: 24
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  message: Potential SharpHound file modifications identified on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: User
-    type: User
-    role:
-    - Victim
+  security_domain: endpoint

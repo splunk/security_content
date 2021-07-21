@@ -37,37 +37,22 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: An instance of $process_name$ contacting a remote destination was identified
+    on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$.
   mitre_attack_id:
   - T1218.009
   nist:
   - PR.PT
   - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - EventID
-  - dest_ip
-  - process_name
-  - Computer
-  - User
-  - src_ip
-  - dest_host
-  security_domain: Endpoint
-  impact: 80
-  confidence: 100
-  # (impact * confidence)/100
-  risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: An instance of $process_name$ contacting a remote destination was identified on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$.
   observable:
   - name: user
     type: User
@@ -81,3 +66,18 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - dest_ip
+  - process_name
+  - Computer
+  - User
+  - src_ip
+  - dest_host
+  risk_score: 80
+  security_domain: Endpoint

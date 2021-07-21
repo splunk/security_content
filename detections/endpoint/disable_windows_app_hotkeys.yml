@@ -31,10 +31,16 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: Disabled 'Windows App Hotkeys'
   mitre_attack_id:
   - T1562.001
   product:
@@ -47,11 +53,5 @@ tags:
   - Registry.registry_path
   - Registry.registry_value_name
   - Registry.dest Registry.user
-  security_domain: endpoint
-  impact: 40
-  confidence: 100
   risk_score: 40
-  context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
-  message: Disabled 'Windows App Hotkeys'
+  security_domain: endpoint

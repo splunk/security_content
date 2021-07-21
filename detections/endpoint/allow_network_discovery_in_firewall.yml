@@ -48,7 +48,7 @@ tags:
   - Processes.process_name
   - Processes.process
   - Processes.process_id
-  - Processes.parent_process  
+  - Processes.parent_process
   - Processes.parent_process_id
   - Processes.parent_process_name
   security_domain: endpoint
