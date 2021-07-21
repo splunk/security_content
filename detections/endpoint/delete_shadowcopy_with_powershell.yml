@@ -28,12 +28,28 @@ tags:
   - Ransomware
   - Revil Ransomware
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-powershell.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: An attempt to delete ShadowCopy was performed using PowerShell on $ComputerName$
+    by $User$.
   mitre_attack_id:
   - T1490
+  observable:
+  - name: User
+    type: User
+    role:
+    - Victim
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -44,21 +60,5 @@ tags:
   - Message
   - ComputerName
   - User
-  security_domain: endpoint
-  impact: 90
-  confidence: 90
-  # (impact * confidence)/100
   risk_score: 81
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  message: An attempt to delete ShadowCopy was performed using PowerShell on $ComputerName$ by $User$.
-  observable:
-  - name: User
-    type: User
-    role:
-    - Victim
-  - name: ComputerName
-    type: Hostname
-    role:
-    - Victim
+  security_domain: endpoint

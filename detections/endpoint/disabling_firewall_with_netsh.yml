@@ -27,7 +27,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
-  confidence: 100
+  confidence: 50
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
@@ -35,26 +35,21 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
-  impact: 40
+  impact: 50
   kill_chain_phases:
   - Exploitation
-  message: $Processes.user$ on $Processes.dest$ used the netsh application in a suspicious
-    manner to disable the firewall
+  message: The Windows Firewall was disabled on $dest$ by $user$.
   mitre_attack_id:
   - T1562.001
   observable:
-  - name: Processes.dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: Processes.user
+  - name: user
     type: User
     role:
     - Victim
-  - name: Processes.process
-    type: Process
+  - name: dest
+    type: Hostname
     role:
-    - Target
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -69,22 +64,5 @@ tags:
   - Processes.process_name
   - Processes.process_id
   - Processes.parent_process_id
-  risk_score: 40
-  security_domain: endpoint
-  impact: 50
-  confidence: 50
-  # (impact * confidence)/100
   risk_score: 25
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: The Windows Firewall was disabled on $dest$ by $user$.
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
+  security_domain: endpoint

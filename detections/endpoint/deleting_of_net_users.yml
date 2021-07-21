@@ -31,38 +31,19 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1531
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
-  - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 50
   confidence: 50
-  # (impact * confidence)/100
-  risk_score: 25
   context:
   - Source:Endpoint
   - Stage:Persistence
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to delete accounts.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to delete accounts.
+  mitre_attack_id:
+  - T1531
   observable:
   - name: user
     type: User
@@ -80,3 +61,22 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 25
+  security_domain: endpoint

@@ -27,31 +27,20 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 16
+  confidence: 60
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log
+  impact: 60
+  message: Multiple accounts have been locked out. Review $nodename$ and $result$
+    related to $user$.
   mitre_attack_id:
   - T1078.003
   nist:
   - PR.IP
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - All_Changes.result
-  - nodename
-  - All_Changes.user
-  security_domain: access
-  impact: 60
-  confidence: 60
-  # (impact * confidence)/100
-  risk_score: 36
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  message: Multiple accounts have been locked out. Review $nodename$ and $result$ related to $user$.
   observable:
   - name: user
     type: User
@@ -61,3 +50,14 @@ tags:
     type: Other
     role:
     - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - All_Changes.result
+  - nodename
+  - All_Changes.user
+  risk_score: 36
+  security_domain: access

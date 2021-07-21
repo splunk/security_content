@@ -1,0 +1,64 @@
+name: Sdclt UAC Bypass
+id: d71efbf6-da63-11eb-8c6e-acde48001122
+version: 1
+date: '2021-07-01'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious sdclt.exe registry modification. 
+  This technique is commonly seen when attacker try to bypassed UAC by using sdclt.exe application by modifying some registry 
+  that sdclt.exe tries to open or query with payload file path on it to be executed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") 
+  (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "IsolatedCommand")
+  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `sdclt_uac_bypass_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Limited to no false positives are expected.
+references:
+- https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/
+- https://github.com/hfiref0x/UACME
+- https://www.cyborgsecurity.com/cyborg_labs/threat-hunt-deep-dives-user-account-control-bypass-via-registry-modification/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1548.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
+  security_domain: endpoint
+  impact: 70
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 63
+  context:
+  - Source:Endpoint
+  - Stage:Persistence,
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
+  message: Suspicious modification of registry $registry_path$ with possible payload path $registry_value_name$ in $dest$
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  

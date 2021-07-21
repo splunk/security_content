@@ -29,36 +29,20 @@ tags:
   analytic_story:
   - Collection and Staging
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  - Exfiltration
-  mitre_attack_id:
-  - T1560.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - dest
-  - User
-  - parent_process_name
-  - process_name
-  - OriginalFileName
-  - process_path
-  - CommandLine
-  - Product
-  security_domain: endpoint
-  impact: 30
   confidence: 90
-  # (impact * confidence)/100
-  risk_score: 27
   context:
   - Source:Endpoint
   - Stage:Collection
-  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. 
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+  impact: 30
+  kill_chain_phases:
+  - Exploitation
+  - Exfiltration
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$ by $user$.
+  mitre_attack_id:
+  - T1560.001
   observable:
   - name: user
     type: User
@@ -76,3 +60,19 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - User
+  - parent_process_name
+  - process_name
+  - OriginalFileName
+  - process_path
+  - CommandLine
+  - Product
+  risk_score: 27
+  security_domain: endpoint

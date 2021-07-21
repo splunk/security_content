@@ -35,10 +35,16 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 6
+  confidence: 30
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log
+  impact: 30
   kill_chain_phases:
   - Actions on Objectives
+  message: The Windows Event Log Service shutdown on $ComputerName$
   mitre_attack_id:
   - T1070.001
   nist:
@@ -47,6 +53,11 @@ tags:
   - PR.AC
   - PR.AT
   - DE.AE
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -55,16 +66,5 @@ tags:
   - _time
   - EventCode
   - dest
-  security_domain: endpoint
-  impact: 30
-  confidence: 30
   risk_score: 9
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: The Windows Event Log Service shutdown on $ComputerName$
-  observable:
-  - name: ComputerName
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint

@@ -28,40 +28,22 @@ tags:
   analytic_story:
   - Cobalt Strike
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  - Privilege Escalation
-  mitre_attack_id:
-  - T1059.003
-  - T1543.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
-  - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 80
   confidence: 80
-  # (impact * confidence)/100
-  risk_score: 64
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ potentially performing privilege escalation using named pipes related to Cobalt Strike and other frameworks.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  - Privilege Escalation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ potentially performing privilege escalation
+    using named pipes related to Cobalt Strike and other frameworks.
+  mitre_attack_id:
+  - T1059.003
+  - T1543.003
   observable:
   - name: user
     type: User
@@ -79,3 +61,22 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 64
+  security_domain: endpoint

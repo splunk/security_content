@@ -34,34 +34,20 @@ tags:
   - DarkSide Ransomware
   - Ransomware
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
-  kill_chain_phases:
-  - Exfiltration
-  mitre_attack_id:
-  - T1020
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 50
   confidence: 70
-  # (impact * confidence)/100
-  risk_score: 35
   context:
   - Source:Endpoint
   - Stage:Exfiltration
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to connect to a remote cloud service to move files or folders.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
+  impact: 50
+  kill_chain_phases:
+  - Exfiltration
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to connect to a remote cloud service
+    to move files or folders.
+  mitre_attack_id:
+  - T1020
   observable:
   - name: user
     type: User
@@ -79,3 +65,18 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 35
+  security_domain: endpoint

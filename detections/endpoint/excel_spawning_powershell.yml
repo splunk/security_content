@@ -31,33 +31,19 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1003.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - process_name
-  - process_id
-  - parent_process_name
-  - dest
-  - user
-  - parent_process_id
-  security_domain: endpoint
-  impact: 80
   confidence: 100
-  # (impact * confidence)/100
-  risk_score: 80
   context:
   - Source:Endpoint
   - Stage:Execution
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$, indicating potential suspicious macro execution.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$, indicating potential suspicious macro execution.
+  mitre_attack_id:
+  - T1003.002
   observable:
   - name: user
     type: User
@@ -75,3 +61,17 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - process_name
+  - process_id
+  - parent_process_name
+  - dest
+  - user
+  - parent_process_id
+  risk_score: 80
+  security_domain: endpoint
