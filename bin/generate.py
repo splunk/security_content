@@ -584,7 +584,7 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
     # only use ESCU detections to the configurations
     objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
     # only use ESCU stories to the configuration
-    objects["stories"] = sorted(filter(lambda s: s['type'].lower() == 'batch', objects["stories"]), key=lambda s: s['name'])
+    objects["stories"] = sorted(filter(lambda s: not 'Splunk Behavioral Analytics' in s['tags']['product'], objects["stories"]), key=lambda s: s['name'])
 
     objects["response_tasks"] = sorted(objects["response_tasks"], key=lambda i: i['name'])
     objects["macros"] = sorted(objects["macros"], key=lambda m: m['name'])
