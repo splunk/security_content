@@ -6,11 +6,11 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search identifies modification of registry to disable the
-  regedit or registry tools of the windows operating system. Since registry tool is a
-  swiss knife in analyzing registry, malware such as RAT or trojan Spy disable this
-  application to prevent the removal of their registry entry such as persistence,
-  file less components and defense evasion.
+description: This search identifies modification of registry to disable the regedit
+  or registry tools of the windows operating system. Since registry tool is a swiss
+  knife in analyzing registry, malware such as RAT or trojan Spy disable this application
+  to prevent the removal of their registry entry such as persistence, file less components
+  and defense evasion.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools"
   Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name
@@ -27,12 +27,18 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: Disabled Registry Tools
   mitre_attack_id:
   - T1562.001
   product:
@@ -46,11 +52,5 @@ tags:
   - Registry.user
   - Registry.dest
   - Registry.registry_value_name
-  security_domain: endpoint
-  impact: 40
-  confidence: 100
   risk_score: 40
-  context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
-  message: Disabled Registry Tools
+  security_domain: endpoint

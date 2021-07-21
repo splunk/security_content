@@ -37,35 +37,21 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$, attempting to dump lsass.exe.
   mitre_attack_id:
   - T1003.001
   nist:
   - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - OriginalFileName
-  - process_name
-  - EventID
-  - CommandLine
-  - Computer
-  - parent_process_name
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
-  # (impact * confidence)/100
-  risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$, attempting to dump lsass.exe.
   observable:
   - name: dest
     type: Hostname
@@ -79,3 +65,17 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - OriginalFileName
+  - process_name
+  - EventID
+  - CommandLine
+  - Computer
+  - parent_process_name
+  risk_score: 80
+  security_domain: endpoint

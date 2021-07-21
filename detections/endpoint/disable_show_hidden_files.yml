@@ -6,10 +6,10 @@ author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: The following analytic is to identify a modification in the Windows registry to prevent
-  users from seeing all the files with hidden attributes. This event or techniques are
-  known on some worm and trojan spy malware that will drop hidden files on the infected
-  machine.
+description: The following analytic is to identify a modification in the Windows registry
+  to prevent users from seeing all the files with hidden attributes. This event or
+  techniques are known on some worm and trojan spy malware that will drop hidden files
+  on the infected machine.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden"
   OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\HideFileExt"
@@ -29,12 +29,18 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source: Endpoint
+  - Stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: Disabled 'Show Hidden Files'
   mitre_attack_id:
   - T1564.001
   - T1562.001
@@ -49,11 +55,5 @@ tags:
   - Registry.user
   - Registry.dest
   - Registry.registry_value_nam
-  security_domain: endpoint
-  impact: 40
-  confidence: 100
   risk_score: 40
-  context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
-  message: Disabled 'Show Hidden Files'
+  security_domain: endpoint

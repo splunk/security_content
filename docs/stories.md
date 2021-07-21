@@ -4164,7 +4164,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1486](https://attack.mitre.org/techniques/T1486/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1569.001](https://attack.mitre.org/techniques/T1569.001/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003.002/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1486](https://attack.mitre.org/techniques/T1486/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
 - **Last Updated**: 2021-03-17
 
 <details>
@@ -4212,7 +4212,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1204 | User Execution | Execution |
 | T1543 | Create or Modify System Process | Persistence, Privilege Escalation |
 | T1485 | Data Destruction | Impact |
-| T1569.001 | Launchctl | Execution |
 | T1569.002 | Service Execution | Execution |
 | T1490 | Inhibit System Recovery | Impact |
 | T1486 | Data Encrypted for Impact | Impact |
@@ -5266,6 +5265,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * Installation
 
 * Lateral Movement
+
+* Reconnaissance
 
 
 #### Reference

@@ -25,7 +25,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
-  confidence: 100
+  confidence: 50
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
@@ -33,26 +33,21 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
-  impact: 40
+  impact: 50
   kill_chain_phases:
   - Exploitation
-  message: $Registry.user$ on $Registry.dest$ modified registry keyname=$Registry.registry_key_name$
-    to disable to disable the control panel window on a windows machine
+  message: The Windows Control Panel was disabled on $dest$ by $user$.
   mitre_attack_id:
   - T1562.001
   observable:
-  - name: Registry.dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: Registry.user
+  - name: user
     type: User
     role:
     - Victim
-  - name: Registry.registry_key_name
-    type: Other
+  - name: dest
+    type: Hostname
     role:
-    - Target
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -64,22 +59,5 @@ tags:
   - Registry.user
   - Registry.dest
   - Registry.registry_value_name
-  risk_score: 40
-  security_domain: endpoint
-  impact: 50
-  confidence: 50
-  # (impact * confidence)/100
   risk_score: 25
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: The Windows Control Panel was disabled on $dest$ by $user$.
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
+  security_domain: endpoint

@@ -33,16 +33,33 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  - Stage:Execution
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Exploitation
+  message: Suspicious renamed msbuild.exe binary ran on $dest$ by $user$
   mitre_attack_id:
   - T1127.001
   - T1036.003
   nist:
   - PR.PT
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -57,22 +74,5 @@ tags:
   - parent_process_name
   - process_path
   - CommandLine
-  security_domain: endpoint
-  impact: 70
-  confidence: 90
   risk_score: 63
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  - Stage:Execution
-  - Stage:Defense Evasion
-  message: Suspicious renamed msbuild.exe binary ran on $dest$ by $user$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: User
-    type: User
-    role:
-    - Victim
+  security_domain: endpoint

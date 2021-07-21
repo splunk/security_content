@@ -28,14 +28,30 @@ tags:
   cis20:
   - CIS 8
   - CIS 16
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  impact: 90
   kill_chain_phases:
   - Actions on Objectives
+  message: A process has created a remote thread into $TargetImage$ on $dest$. This
+    behavior is indicative of credential dumping and should be investigated.
   mitre_attack_id:
   - T1003.001
   nist:
   - DE.CM
+  observable:
+  - name: TargetImage
+    type: Other
+    role:
+    - Other
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,21 +65,5 @@ tags:
   - TargetImage
   - TargetProcessId
   - dest
-  security_domain: endpoint
-  impact: 90
-  confidence: 90
-  # (impact * confidence)/100
   risk_score: 81
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  message: A process has created a remote thread into $TargetImage$ on $dest$. This behavior is indicative of credential dumping and should be investigated.
-  observable:
-  - name: TargetImage
-    type: Other
-    role:
-    - Other
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
+  security_domain: endpoint
