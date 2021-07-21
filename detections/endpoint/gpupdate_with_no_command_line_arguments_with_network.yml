@@ -34,34 +34,21 @@ tags:
   analytic_story:
   - Cobalt Strike
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1055
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - EventID
-  - process_name
-  - process_id
-  - parent_process_name
-  - dest_port
-  - process_path
-  security_domain: endpoint
-  impact: 90
   confidence: 90
-  # (impact * confidence)/100
-  risk_score: 81
   context:
   - Source:Endpoint
   - Stage:Execution
   - Stage:Command And Control
-  message: Process gpupdate.exe  with parent_process $parent_process_name$ is executed on $dest$ by user $user$, followed by an outbound network connection to $connection_to_CNC$ on port $dest_port$. This behaviour is seen with cobaltstrike.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  impact: 90
+  kill_chain_phases:
+  - Exploitation
+  message: Process gpupdate.exe  with parent_process $parent_process_name$ is executed
+    on $dest$ by user $user$, followed by an outbound network connection to $connection_to_CNC$
+    on port $dest_port$. This behaviour is seen with cobaltstrike.
+  mitre_attack_id:
+  - T1055
   observable:
   - name: user
     type: User
@@ -80,4 +67,17 @@ tags:
     type: IP Address
     role:
     - Other
-
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - process_name
+  - process_id
+  - parent_process_name
+  - dest_port
+  - process_path
+  risk_score: 81
+  security_domain: endpoint

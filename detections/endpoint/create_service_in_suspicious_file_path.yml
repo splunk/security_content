@@ -24,13 +24,28 @@ tags:
   analytic_story:
   - Clop Ransomware
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
+  impact: 70
   kill_chain_phases:
   - Privilege Escalation
+  message: A service $Service_File_Name$ was created from a non-standard path using
+    $Service_Name$, potentially leading to a privilege escalation.
   mitre_attack_id:
-  - T1569.001
   - T1569.002
+  observable:
+  - name: Service_File_Name
+    type: Other
+    role:
+    - Other
+  - name: Service_Name
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -42,4 +57,5 @@ tags:
   - _time
   - Service_Name
   - Service_Start_Type
+  risk_score: 56
   security_domain: endpoint

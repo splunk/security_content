@@ -28,14 +28,39 @@ tags:
   analytic_story:
   - Cobalt Strike
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
   - Privilege Escalation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ potentially performing privilege escalation
+    using named pipes related to Cobalt Strike and other frameworks.
   mitre_attack_id:
   - T1059.003
   - T1543.003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -44,9 +69,14 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
+  - Processes.parent_process_name
   - Processes.parent_process
+  - Processes.original_file_name
   - Processes.process_name
   - Processes.process
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
   - Processes.parent_process_id
+  risk_score: 64
   security_domain: endpoint

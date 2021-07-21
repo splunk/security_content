@@ -31,12 +31,30 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 1
+  confidence: 60
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Recon
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  impact: 30
+  message: User $user$ is creating a new instance $dest$ for the first time
   mitre_attack_id:
   - T1078.004
   nist:
   - ID.AM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -48,24 +66,5 @@ tags:
   - All_Changes.action
   - All_Changes.user
   - All_Changes.vendor_region
-  impact: 30
-  confidence: 60
-  # (impact * confidence)/100
   risk_score: 18
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Recon
-  - Stage:Execution
-  message: User $user$ is creating a new instance $dest$ for the first time 
-  observable:
-  - name: user
-    type: User
-    role:
-    - Attacker
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
   security_domain: threat

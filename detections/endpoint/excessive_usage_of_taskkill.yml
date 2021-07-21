@@ -26,33 +26,19 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1562.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.dest
-  - Processes.user
-  - Processes.process
-  - Processes.process_id
-  security_domain: endpoint
-  impact: 40
   confidence: 70
-  # (impact * confidence)/100
-  risk_score: 28
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
-  message: Excessive usage  of taskkill.exe with process id $process_id$ (more than 10 within 1m) has been detected on $dest$ with a parent process of $parent_process_name$. 
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 40
+  kill_chain_phases:
+  - Exploitation
+  message: Excessive usage  of taskkill.exe with process id $process_id$ (more than
+    10 within 1m) has been detected on $dest$ with a parent process of $parent_process_name$.
+  mitre_attack_id:
+  - T1562.001
   observable:
   - name: dest
     type: Endpoint
@@ -67,4 +53,17 @@ tags:
     role:
     - Parent Process
     - Attacker
-
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.dest
+  - Processes.user
+  - Processes.process
+  - Processes.process_id
+  risk_score: 28
+  security_domain: endpoint

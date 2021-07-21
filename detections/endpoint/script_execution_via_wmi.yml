@@ -28,10 +28,16 @@ tags:
   cis20:
   - CIS 3
   - CIS 5
+  confidence: 60
+  context:
+  - source:endpoint
+  - stage: Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/execution_scrcons/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Actions on Objectives
+  message: A wmic.exe process $process_name$ taht execute script in host $dest$
   mitre_attack_id:
   - T1047
   nist:
@@ -39,24 +45,6 @@ tags:
   - PR.AT
   - PR.AC
   - PR.IP
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.process_name
-  - Processes.user
-  - Processes.dest
-  security_domain: endpoint
-  impact: 60 
-  confidence: 60  
-  # (impact * confidence)/100
-  risk_score: 36 
-  context:
-  - source:endpoint
-  - stage: Execution
-  message: A wmic.exe process $process_name$ taht execute script in host $dest$ 
   observable:
   - name: dest
     type: Hostname
@@ -66,3 +54,14 @@ tags:
     type: user
     role:
     - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.process_name
+  - Processes.user
+  - Processes.dest
+  risk_score: 36
+  security_domain: endpoint

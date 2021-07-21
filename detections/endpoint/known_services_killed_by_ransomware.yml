@@ -27,12 +27,27 @@ tags:
   analytic_story:
   - Ransomware
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: Known services $Message$ terminated by a potential ransomware on $dest$
   mitre_attack_id:
   - T1490
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Message
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -43,21 +58,5 @@ tags:
   - Message
   - dest
   - Type
-  security_domain: endpoint
-  impact: 90
-  confidence: 80
-  # (impact * confidence)/100
   risk_score: 72
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  message: Known services $Message$ terminated by a potential ransomware on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: Message
-    type: Other
-    role:
-    - Other
+  security_domain: endpoint

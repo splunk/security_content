@@ -29,32 +29,20 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/samsam_extension/windows-sysmon.log
-  kill_chain_phases:
-  - Installation
-  nist:
-  - PR.PT
-  - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Filesystem.user
-  - Filesystem.dest
-  - Filesystem.file_path
-  - Filesystem.file_name
-  security_domain: endpoint
-  impact: 100
   confidence: 90
-  # (impact * confidence)/100
-  risk_score: 90
   context:
   - Source:Endpoint
   - Stage:Execution
-  message: File writes $file_name$ with extensions consistent with a SamSam ransomware attack seen on $dest$
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/samsam_extension/windows-sysmon.log
+  impact: 100
+  kill_chain_phases:
+  - Installation
+  message: File writes $file_name$ with extensions consistent with a SamSam ransomware
+    attack seen on $dest$
+  nist:
+  - PR.PT
+  - DE.CM
   observable:
   - name: user
     type: User
@@ -69,3 +57,15 @@ tags:
     role:
     - Other
     - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.user
+  - Filesystem.dest
+  - Filesystem.file_path
+  - Filesystem.file_name
+  risk_score: 90
+  security_domain: endpoint

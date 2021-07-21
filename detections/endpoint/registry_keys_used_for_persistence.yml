@@ -40,16 +40,32 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 95
+  context:
+  - source:endpoint
+  - stage: Persistence
+  - Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: A registry activity in $registry_path$ related to persistence in host $dest$
   mitre_attack_id:
   - T1547.001
   nist:
   - PR.PT
   - DE.CM
   - DE.AE
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -60,22 +76,5 @@ tags:
   - Registry.registry_path
   - Registry.dest
   - Registry.user
+  risk_score: 76
   security_domain: endpoint
-  impact: 80 
-  confidence: 95  
-  # (impact * confidence)/100
-  risk_score: 76 
-  context:
-  - source:endpoint
-  - stage: Persistence
-  - Privilege Escalation
-  message: A registry activity in $registry_path$ related to persistence in host $dest$ 
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: user
-    type: user
-    role:
-    - Victim

@@ -29,12 +29,28 @@ tags:
   - Ransomware
   - Revil Ransomware
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - source:endpoint
+  - stage: Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Exploitation
+  message: A process $process_name$ with commandline $process$ related to revil ransomware
+    in host $dest$
   mitre_attack_id:
   - T1204
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,21 +65,5 @@ tags:
   - Processes.user
   - Processes.process_id
   - Processes.process_guid
+  risk_score: 54
   security_domain: endpoint
-  impact: 60 
-  confidence: 90  
-  # (impact * confidence)/100
-  risk_score: 54 
-  context:
-  - source:endpoint
-  - stage: Execution
-  message: A process $process_name$ with commandline $process$ related to revil ransomware in host $dest$ 
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: user
-    type: user
-    role:
-    - Victim

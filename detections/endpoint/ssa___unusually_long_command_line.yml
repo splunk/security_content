@@ -37,29 +37,18 @@ tags:
   - Unusual Processes
   cis20:
   - CIS 8
-  kill_chain_phases:
-  - Actions on Objectives
-  nist:
-  - PR.PT
-  - DE.CM
-  product:
-  - Splunk Behavioral Analytics
-  required_fields:
-  - process_name
-  - _time
-  - dest_device_id
-  - dest_user_id
-  - process
-  risk_severity: low
-  security_domain: endpoint
-  impact: 30 
-  confidence: 40  
-  # (impact * confidence)/100
-  risk_score: 12 
+  confidence: 40
   context:
   - source:endpoint
   - stage: Defense Evasion
-  message: A  process $process_name$ with a long commandline $cmd_line$ executed in host $dest_device_id$ 
+  impact: 30
+  kill_chain_phases:
+  - Actions on Objectives
+  message: A  process $process_name$ with a long commandline $cmd_line$ executed in
+    host $dest_device_id$
+  nist:
+  - PR.PT
+  - DE.CM
   observable:
   - name: dest_device_id
     type: Hostname
@@ -69,3 +58,14 @@ tags:
     type: user
     role:
     - Victim
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - process_name
+  - _time
+  - dest_device_id
+  - dest_user_id
+  - process
+  risk_score: 12
+  risk_severity: low
+  security_domain: endpoint

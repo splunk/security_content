@@ -28,10 +28,28 @@ tags:
   - Cloud Federated Credential Abuse
   asset_type: AWS Federated Account
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json
+  impact: 80
+  message: User $userIdentity.principalId$ from IP address $sourceIPAddress$ has trigged
+    an event $eventName$ to update the SAML provider to $requestParameters.sAMLProviderArn$
   mitre_attack_id:
   - T1078
+  observable:
+  - name: sourceIPAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: userIdentity.principalId
+    type: User
+    role:
+    - Victim
+    - Target
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -46,23 +64,5 @@ tags:
   - sourceIPAddress
   - userIdentity.accessKeyId
   - userIdentity.principalId
-  impact: 80
-  confidence: 80
-  # (impact * confidence)/100
   risk_score: 64
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Stage:Credential Access
-  message: User $userIdentity.principalId$ from IP address $sourceIPAddress$ has trigged an event $eventName$ to update the SAML provider to $requestParameters.sAMLProviderArn$
-  observable:
-  - name: sourceIPAddress
-    type: IP Address
-    role:
-    - Attacker
-  - name: userIdentity.principalId
-    type: User
-    role:
-    - Victim
-    - Target
   security_domain: threat

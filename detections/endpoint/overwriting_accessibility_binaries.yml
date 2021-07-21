@@ -32,15 +32,30 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 90
+  context:
+  - source:endpoint
+  - stage: privilege escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.008/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: A suspicious file modification or replace in $file_path$  in host $dest$
   mitre_attack_id:
   - T1546.008
   nist:
   - PR.PT
   - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_path
+    type: file_path
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -51,21 +66,5 @@ tags:
   - Filesystem.file_path
   - Filesystem.file_name
   - Filesystem.dest
+  risk_score: 72
   security_domain: endpoint
-  impact: 80 
-  confidence: 90  
-  # (impact * confidence)/100
-  risk_score: 72 
-  context:
-  - source:endpoint
-  - stage: privilege escalation
-  message: A suspicious file modification or replace in $file_path$  in host $dest$ 
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: file_path
-    type: file_path
-    role:
-    - Attacker

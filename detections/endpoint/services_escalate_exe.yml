@@ -36,13 +36,30 @@ tags:
   analytic_story:
   - Cobalt Strike
   automated_detection_testing: passed
+  confidence: 95
+  context:
+  - source:endpoint
+  - stage: Privilege Escalation
+  - Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
   - Privilege Escalation
+  message: A service process $parent_process_name$ with process path $process_path$
+    in host $dest$
   mitre_attack_id:
   - T1548
+  observable:
+  - name: Processes.dest
+    type: Hostname
+    role:
+    - Victim
+  - name: Processes.user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -56,22 +73,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
+  risk_score: 76
   security_domain: endpoint
-  impact: 80 
-  confidence: 95  
-  # (impact * confidence)/100
-  risk_score: 76 
-  context:
-  - source:endpoint
-  - stage: Privilege Escalation
-  - Defense Evasion
-  message: A service process $parent_process_name$ with process path $process_path$ in host $dest$ 
-  observable:
-  - name: Processes.dest
-    type: Hostname
-    role:
-    - Victim
-  - name: Processes.user
-    type: user
-    role:
-    - Victim

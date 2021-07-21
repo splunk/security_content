@@ -26,12 +26,28 @@ tags:
   analytic_story:
   - Data Exfiltration
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Exfiltration
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: mailsniper.ps1 functions $Message$ executed on a $ComputerName$ by user
+    $user$.
   mitre_attack_id:
   - T1114.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -42,22 +58,5 @@ tags:
   - Message
   - ComputerName
   - User
-  security_domain: endpoint
-  impact: 90
-  confidence: 80
-  # (impact * confidence)/100
   risk_score: 72
-  context:
-  - Source:Endpoint
-  - Stage:Exfiltration
-  message: mailsniper.ps1 functions $Message$ executed on a $ComputerName$ by user $user$.
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User
-    role:
-    - Victim
-
+  security_domain: endpoint

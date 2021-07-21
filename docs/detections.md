@@ -171,6 +171,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Cloud API Calls From Previously Unseen User Roles](#cloud-api-calls-from-previously-unseen-user-roles)
 
 
@@ -1217,6 +1219,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Assessment of Credential Strength via DSInternals modules](#assessment-of-credential-strength-via-dsinternals-modules)
+
+
+
+- [Attacker Tools On Endpoint](#attacker-tools-on-endpoint)
 
 
 
@@ -3011,6 +3017,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [DNS Query Length Outliers - MLTK](#dns-query-length-outliers---mltk)
 
 
@@ -3859,6 +3867,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Application
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -5101,6 +5111,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Detect F5 TMUI RCE CVE-2020-5902](#detect-f5-tmui-rce-cve-2020-5902)
 
 
@@ -5934,7 +5946,7 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
-- **Last Updated**: 2021-03-02
+- **Last Updated**: 2021-07-19
 
 <details>
   <summary>details</summary>
@@ -5942,7 +5954,7 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 #### Search
 ```
 `cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com errorCode = success
-| search userName!=requestParameters.userName  
+| search userIdentity.userName!=requestParameters.userName  
 |  stats count min(_time) as firstTime max(_time) as lastTime  by requestParameters.userName src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
@@ -5999,7 +6011,7 @@ While this search has no known false positives, it is possible that an AWS admin
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createaccesskey/aws_cloudtrail_events.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -6010,7 +6022,7 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
-- **Last Updated**: 2021-03-02
+- **Last Updated**: 2021-07-19
 
 <details>
   <summary>details</summary>
@@ -6019,10 +6031,10 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 ```
 `cloudtrail` eventName = CreateLoginProfile 
 | rename requestParameters.userName as new_login_profile 
-| table src_ip eventName new_login_profile userName 
+| table src_ip eventName new_login_profile userIdentity.userName  
 | join new_login_profile src_ip [
 | search `cloudtrail` eventName = ConsoleLogin 
-| rename userName as new_login_profile 
+| rename userIdentity.userName  as new_login_profile 
 | stats count values(eventName) min(_time) as firstTime max(_time) as lastTime by eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn new_login_profile src_ip 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`] 
@@ -6079,13 +6091,13 @@ While this search has no known false positives, it is possible that an AWS admin
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
 
 ### AWS Cross Account Activity From Previously Unseen Account
-This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.  This search is deprecated and have been translated to use the latest Authentication Datamodel.
+This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Authentication
@@ -6157,7 +6169,7 @@ _version_: 1
 ---
 
 ### AWS Detect Users creating keys with encrypt policy without MFA
-This search provides detection of KMS keys which action kms:Encrypt is accessible for everyone (also outside of your organization). This is an identicator that your account is compromised and the attacker uses the encryption key to compromise another company.
+This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -6720,7 +6732,7 @@ The following query uses IAM events to track the success of a group being delete
 #### Search
 ```
 `cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success (userAgent!=*.amazonaws.com) 
-| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) by src eventName eventSource errorCode user_agent awsRegion userIdentity.principalId user_arn 
+| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) as group_deleted by src eventName eventSource errorCode user_agent awsRegion userIdentity.principalId user_arn 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `aws_iam_successful_group_deletion_filter`
@@ -7192,7 +7204,7 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1136.003](https://attack.mitre.org/techniques/T1136/003/)
-- **Last Updated**: 2021-03-02
+- **Last Updated**: 2021-07-19
 
 <details>
   <summary>details</summary>
@@ -7200,8 +7212,8 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 #### Search
 ```
 `cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazonaws.com errorCode = success
-| search userName!=requestParameters.userName  
-|  stats count min(_time) as firstTime max(_time) as lastTime  by requestParameters.userName src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userName user_arn 
+| search userIdentity.userName!=requestParameters.userName  
+|  stats count min(_time) as firstTime max(_time) as lastTime  by requestParameters.userName src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.userName user_arn 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
 |`aws_updateloginprofile_filter`
@@ -7257,7 +7269,7 @@ While this search has no known false positives, it is possible that an AWS admin
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -7724,7 +7736,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Reconnaissance
 
 
 #### Known False Positives
@@ -7834,7 +7846,7 @@ _version_: 1
 ---
 
 ### Allow Inbound Traffic By Firewall Rule Registry
-This analytic detects a potential suspicious modification of firewall rule registry allowing inbound traffic in specific port with public profile. This technique was seen in some attacker want to have a remote access to a machine by allowing the traffic in firewall rule.
+This analytic detects a potential suspicious modification of firewall rule registry allowing inbound traffic in specific port with public profile. This technique was identified when an adversary wants to grant remote access to a machine by allowing the traffic in a firewall rule.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -7917,7 +7929,7 @@ _version_: 1
 ---
 
 ### Allow Inbound Traffic In Firewall Rule
-This search is to detect suspicious powershell command to allow inbound traffic in specific local port with public profile. This technique was seen in some attacker want to have a remote access to a machine by allowing the traffic in firewall rule.
+The following analytic identifies suspicious PowerShell command to allow inbound traffic inbound to a specific local port within the public profile. This technique was seen in some attacker want to have a remote access to a machine by allowing the traffic in firewall rule.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -8027,13 +8039,13 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.user
 
-* Processes.parent_process
-
 * Processes.process_name
 
 * Processes.process
 
 * Processes.process_id
+
+* Processes.parent_process
 
 * Processes.parent_process_id
 
@@ -8076,7 +8088,7 @@ _version_: 1
 ---
 
 ### Allow Operation with Consent Admin
-this search is to detect a potential privilege escalation attempt to do malicious task. This registry modification is designed to  allows the Consent Admin to perform an operation that requires elevation without consent or credentials. We also found this in some attacker to gain privilege escalation to the compromise machine.
+This analytic identifies a potential privilege escalation attempt to perform malicious task. This registry modification is designed to allow the `Consent Admin` to perform an operation that requires elevation without consent or credentials. We also found this in some attacker to gain privilege escalation to the compromise machine.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -8355,9 +8367,11 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.user
 
-* Processes.parent_process
+* Processes.parent_process_name
 
 * Processes.process_name
+
+* Processes.parent_process
 
 * Processes.process_id
 
@@ -8443,9 +8457,11 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.user
 
-* Processes.parent_process
+* Processes.parent_process_name
 
 * Processes.process_name
+
+* Processes.parent_process
 
 * Processes.process_id
 
@@ -8533,9 +8549,11 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.user
 
-* Processes.parent_process
+* Processes.parent_process_name
 
 * Processes.process_name
+
+* Processes.parent_process
 
 * Processes.process_id
 
@@ -8825,6 +8843,88 @@ _version_: 1
 
 ---
 
+### Attacker Tools On Endpoint
+This search looks for execution of commonly used attacker tools on an endpoint.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1036.005](https://attack.mitre.org/techniques/T1036/005/), [T1595](https://attack.mitre.org/techniques/T1595/), [T1003](https://attack.mitre.org/techniques/T1003/)
+- **Last Updated**: 2021-06-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown Processes.user!=unknown by Processes.dest Processes.user Processes.process_name Processes.process 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `drop_dm_object_name(Processes)` 
+| lookup attacker_tools attacker_tool_names AS process_name OUTPUT description 
+| search description=* 
+| `attacker_tools_on_endpoint_filter`
+```
+#### Associated Analytic Story
+
+* Monitor for Unauthorized Software
+
+* XMRig
+
+* SamSam Ransomware
+
+* Unusual Processes
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is usually generated via logs that report process tracking in your Windows audit settings.
+
+#### Required field
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.process_name
+
+* Processes.parent_process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1036.005 | Match Legitimate Name or Location | Defense Evasion |
+| T1595 | Active Scanning | Reconnaissance |
+| T1003 | OS Credential Dumping | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Installation
+
+* Command and Control
+
+* Actions on Objectives
+
+
+#### Known False Positives
+Some administrator activity can be potentially triggered, please add those users to the filter macro.
+
+#### Reference
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Attempt To Add Certificate To Untrusted Store
 Attempt To Add Certificate To Untrusted Store
 
@@ -8839,7 +8939,7 @@ Attempt To Add Certificate To Untrusted Store
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=*certutil* (Processes.process=*-addstore*) by Processes.parent_process Processes.process_name Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=*certutil* (Processes.process=*-addstore*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name("Processes")` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -8857,13 +8957,21 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * _time
 
-* Processes.process
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
 
 * Processes.process_name
 
+* Processes.process
+
 * Processes.parent_process
 
-* Processes.user
+* Processes.process_id
+
+* Processes.parent_process_id
 
 
 
@@ -8885,6 +8993,10 @@ You must be ingesting data that records process activity from your hosts to popu
 There may be legitimate reasons for administrators to add a certificate to the untrusted certificate store. In such cases, this will typically be done on a large number of systems.
 
 #### Reference
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1553.004/T1553.004.md
+
 
 
 #### Test Dataset
@@ -8994,7 +9106,7 @@ This search looks for attempts to stop security-related services on the endpoint
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = net.exe OR  Processes.process_name = sc.exe) Processes.process="* stop *" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = net.exe OR  Processes.process_name = sc.exe) Processes.process="* stop *" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -9016,13 +9128,19 @@ You must be ingesting data that records the file-system activity from your hosts
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
 * Processes.process_name
 
 * Processes.process
 
-* Processes.dest
+* Processes.process_id
 
-* Processes.user
+* Processes.parent_process_id
 
 
 
@@ -9044,6 +9162,10 @@ You must be ingesting data that records the file-system activity from your hosts
 None identified. Attempts to disable security-related services should be identified and understood.
 
 #### Reference
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1562.001/T1562.001.md#atomic-test-14---disable-arbitrary-security-windows-service
+
 
 
 #### Test Dataset
@@ -9150,7 +9272,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=reg.exe OR Processes.process_name=cmd.exe) Processes.process=*save* (Processes.process=*HKEY_LOCAL_MACHINE\\Security* OR Processes.process=*HKEY_LOCAL_MACHINE\\SAM* OR Processes.process=*HKEY_LOCAL_MACHINE\\System* OR Processes.process=*HKLM\\Security* OR Processes.process=*HKLM\\System* OR Processes.process=*HKLM\\SAM*) by Processes.user Processes.process_name Processes.process Processes.dest Processes.process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=reg.exe OR Processes.process_name=cmd.exe) Processes.process=*save* (Processes.process=*HKEY_LOCAL_MACHINE\\Security* OR Processes.process=*HKEY_LOCAL_MACHINE\\SAM* OR Processes.process=*HKEY_LOCAL_MACHINE\\System* OR Processes.process=*HKLM\\Security* OR Processes.process=*HKLM\\System* OR Processes.process=*HKLM\\SAM*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -9170,11 +9292,19 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
 * Processes.process_name
 
 * Processes.process
 
-* Processes.dest
+* Processes.process_id
+
+* Processes.parent_process_id
 
 
 
@@ -9194,6 +9324,10 @@ You must be ingesting endpoint data that tracks process activity, including pare
 None identified.
 
 #### Reference
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md#atomic-test-1---registry-dump-of-sam-creds-and-secrets
+
 
 
 #### Test Dataset
@@ -9390,15 +9524,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.parent_process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
-* Processes.dest
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -9476,15 +9622,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.parent_process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
-* Processes.dest
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -9635,13 +9793,21 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
+
+* Processes.original_file_name
 
 * Processes.process_name
 
 * Processes.process
 
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
 
 * Processes.parent_process_id
 
@@ -9799,15 +9965,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.parent_process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
-* Processes.dest
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -9881,15 +10059,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.parent_process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
-* Processes.dest
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -9963,15 +10153,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.parent_process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
-* Processes.dest
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -10027,7 +10229,7 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe Processes.process = "* -exportPFX *" by Processes.parent_process Processes.process_name Processes.process Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe Processes.process = "* -exportPFX *" Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
 | `drop_dm_object_name("Processes")` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -10041,19 +10243,33 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 
 
 #### How To Implement
-
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
 
 * _time
 
-* Processes.process
+* Processes.dest
 
-* Processes.process_name
+* Processes.user
+
+* Processes.parent_process_name
 
 * Processes.parent_process
 
-* Processes.user
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -10154,7 +10370,7 @@ _version_: 3
 ---
 
 ### Clear Unallocated Sector Using Cipher App
-this search is to detect execution of cipher.exe to clear the unallocated sectors of a specific disk. This technique was seen in some ransomwareto make it impossible to forensically recover deleted files.
+this search is to detect execution of `cipher.exe` to clear the unallocated sectors of a specific disk. This technique was seen in some ransomware to make it impossible to forensically recover deleted files.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -10179,27 +10395,33 @@ this search is to detect execution of cipher.exe to clear the unallocated sector
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
 * Processes.parent_process_name
 
 * Processes.parent_process
+
+* Processes.original_file_name
 
 * Processes.process_name
 
 * Processes.process
 
-* Processes.dest
-
-* Processes.user
-
 * Processes.process_id
 
-* Processes.process_guid
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -10222,6 +10444,8 @@ administrator may execute this app to manage disk
 
 
 * https://unit42.paloaltonetworks.com/vatet-pyxie-defray777/3/
+
+* https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/sophoslabs-ransomware-behavior-report.pdf
 
 
 
@@ -10249,7 +10473,7 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as cmdline values(Processes.parent_process_name) as parent_process values(Processes.process_name) count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name != "*temp.dat*" Processes.process = "*runrun*" OR Processes.process = "*temp.dat*" by Processes.parent_process_name Processes.process_name Processes.process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| tstats `security_content_summariesonly` values(Processes.process) as cmdline values(Processes.parent_process_name) as parent_process values(Processes.process_name) count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name != "*temp.dat*" Processes.process = "*runrun*" OR Processes.process = "*temp.dat*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -10261,23 +10485,33 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
 
-* Processes.process
-
-* Processes.parent_process_name
-
 * _time
-
-* Processes.process_name
 
 * Processes.dest
 
 * Processes.user
 
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -10476,7 +10710,7 @@ This search looks for cloud compute instances created by users who have not crea
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
 - **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078/004/)
-- **Last Updated**: 2020-08-21
+- **Last Updated**: 2021-07-13
 
 <details>
   <summary>details</summary>
@@ -10538,7 +10772,7 @@ It's possible that a user will start to create compute instances for the first t
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -11435,19 +11669,27 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * _time
 
-* Processes.process_name
+* Processes.dest
 
-* Processes.process
+* Processes.user
 
 * Processes.parent_process_name
 
 * Processes.parent_process
 
-* Processes.dest Processes.user
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
 
 * Processes.process_id
 
-* Processes.process_guid
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -11527,6 +11769,8 @@ This search needs Sysmon Logs with a Sysmon configuration, which includes EventC
 
 * TargetProcessId
 
+* dest
+
 
 
 #### ATT&CK
@@ -11566,7 +11810,7 @@ This detection is to identify a creation of "user mode service" where the servic
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1569.001](https://attack.mitre.org/techniques/T1569/001/), [T1569.002](https://attack.mitre.org/techniques/T1569/002/)
+- **ATT&CK**: [T1569.002](https://attack.mitre.org/techniques/T1569/002/)
 - **Last Updated**: 2021-03-12
 
 <details>
@@ -11608,7 +11852,6 @@ To successfully implement this search, you need to be ingesting logs with the Se
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1569.001 | Launchctl | Execution |
 | T1569.002 | Service Execution | Execution |
 
 
@@ -11671,15 +11914,27 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * _time
 
+* Processes.dest
+
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
+
+* Processes.original_file_name
 
 * Processes.process_name
 
 * Processes.process
 
-* Processes.dest
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -11748,15 +12003,27 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * _time
 
+* Processes.dest
+
 * Processes.user
+
+* Processes.parent_process_name
 
 * Processes.parent_process
 
-* Processs.process_name
+* Processes.original_file_name
+
+* Processes.process_name
 
 * Processes.process
 
-* Processes.dest
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -11824,17 +12091,25 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * _time
 
-* Processes.process_name
-
-* Processes.process
-
 * Processes.dest
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
 
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
 
 * Processes.parent_process_id
 
@@ -11904,13 +12179,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
 * Processes.process_name
 
 * Processes.process
 
-* Processes.user
+* Processes.process_id
 
-* Processes.dest
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -11947,7 +12236,7 @@ _version_: 1
 ---
 
 ### Creation of lsass Dump with Taskmgr
-Detect the hands on keyboard behavior of Windows Task Manager creating a prcoess dump of lsass.exe. Upon this behavior occurring, a file write/modification will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp, cannot be renamed, however if the dump occurs more than once, it will be named lsass (2).dmp.
+Detect the hands on keyboard behavior of Windows Task Manager creating a process dump of lsass.exe. Upon this behavior occurring, a file write/modification will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp, cannot be renamed, however if the dump occurs more than once, it will be named lsass (2).dmp.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -12058,17 +12347,25 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * _time
 
-* Processes.process_name
-
-* Processes.process
-
 * Processes.dest
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
 
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
 
 * Processes.parent_process_id
 
@@ -12138,17 +12435,25 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * _time
 
-* Processes.process_name
-
-* Processes.process
-
 * Processes.dest
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
 
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
 
 * Processes.parent_process_id
 
@@ -13082,13 +13387,23 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
+
+* Processes.original_file_name
 
 * Processes.process_name
 
 * Processes.process
 
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -13321,13 +13636,19 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
 * Processes.process_name
 
 * Processes.process
 
-* Processes.user
+* Processes.process_id
 
-* Processes.dest
+* Processes.parent_process_id
 
 
 
@@ -13560,17 +13881,27 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * _time
 
-* Processes.process_name
-
 * Processes.dest
 
 * Processes.user
 
 * Processes.parent_process_name
 
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
 * Processes.process_id
 
-* Processes.parent_process
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -13644,17 +13975,27 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * _time
 
-* Processes.process
-
-* Processes.parent_process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
 * Processes.parent_process_name
 
-* Processes.dest
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -14258,13 +14599,21 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
+
+* Processes.original_file_name
 
 * Processes.process_name
 
 * Processes.process
 
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
 
 * Processes.parent_process_id
 
@@ -14807,7 +15156,7 @@ _version_: 1
 ---
 
 ### Detect Empire with PowerShell Script Block Logging
-The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
+The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable on critical endpoints or all. \
 This analytic identifies the common PowerShell stager used by PowerShell-Empire. Each stager that may use PowerShell all uses the same pattern. The initial HTTP will be base64 encoded and use `system.net.webclient`. Note that some obfuscation may evade the analytic. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
@@ -15384,19 +15733,25 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.parent_process_name
-
 * Processes.dest
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
+
+* Processes.original_file_name
 
 * Processes.process_name
 
 * Processes.process
 
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
 
 * Processes.parent_process_id
 
@@ -15474,17 +15829,25 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process_name
-
-* Processes.process
-
 * Processes.dest
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
 
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
 
 * Processes.parent_process_id
 
@@ -15564,17 +15927,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process_name
-
-* Processes.process
-
 * Processes.dest
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
 
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -15741,7 +16114,7 @@ This search detects a potential kerberoasting attack via service principal name 
 ```
  
 | from read_ssa_enriched_events() 
-| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id") 
+| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
 | where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" 
 | first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"] 
 | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID 
@@ -15798,7 +16171,7 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 #### Test Dataset
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -15910,15 +16283,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.parent_process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
-* Processes.dest
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -16167,6 +16552,8 @@ You must be ingesting Windows event logs using the Splunk Windows TA and collect
 
 * dest
 
+* user
+
 
 
 #### ATT&CK
@@ -16354,7 +16741,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1530](https://attack.mitre.org/techniques/T1530/)
-- **Last Updated**: 2021-01-12
+- **Last Updated**: 2021-07-19
 
 <details>
   <summary>details</summary>
@@ -16364,7 +16751,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 `cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers","*AllUsers") 
 | rename requestParameters.bucketName AS bucketName 
 | fillnull 
-| stats count min(_time) as firstTime max(_time) as lastTime by userName userIdentity.principalId userAgent bucketName requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control 
+| stats count min(_time) as firstTime max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent bucketName requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `detect_new_open_s3_buckets_over_aws_cli_filter` 
@@ -16395,7 +16782,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 * requestParameters.bucketName
 
-* userName
+* userIdentity.userName
 
 * userIdentity.principalId
 
@@ -16428,7 +16815,7 @@ While this search has no known false positives, it is possible that an AWS admin
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -16439,7 +16826,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1530](https://attack.mitre.org/techniques/T1530/)
-- **Last Updated**: 2021-01-12
+- **Last Updated**: 2021-07-19
 
 <details>
   <summary>details</summary>
@@ -16456,7 +16843,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers") 
 | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL") 
 | rename requestParameters.bucketName AS bucketName 
-| stats count min(_time) as firstTime max(_time) as lastTime by userName userIdentity.principalId userAgent uri permission bucketName 
+| stats count min(_time) as firstTime max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent uri permission bucketName 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `detect_new_open_s3_buckets_filter` 
@@ -16479,7 +16866,7 @@ You must install the AWS App for Splunk.
 
 * requestParameters.bucketName
 
-* userName
+* userIdentity.userName
 
 * userIdentity.principalId
 
@@ -16514,7 +16901,7 @@ While this search has no known false positives, it is possible that an AWS admin
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
 
 
-_version_: 2
+_version_: 3
 </details>
 
 ---
@@ -16803,15 +17190,27 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * _time
 
-* Processes.parent_process_name
+* Processes.dest
 
 * Processes.user
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
 
 * Processes.process_name
 
 * Processes.process
 
-* Processes.dest
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -16974,15 +17373,27 @@ You must be ingesting data that records process activity from your hosts and pop
 
 * _time
 
-* Processes.process
-
-* Processes.process_name
-
-* Processes.parent_process_name
-
 * Processes.dest
 
 * Processes.user
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -17108,7 +17519,7 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process=*psexec* Processes.process=*accepteula* by Processes.process_name Processes.dest  Processes.parent_process_name 
+| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process=*psexec* Processes.process=*accepteula* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)`
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -17134,13 +17545,27 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * _time
 
-* Processes.process
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
 
 * Processes.process_name
 
-* Processes.dest
+* Processes.process
 
-* Processes.parent_process_name
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -17894,17 +18319,25 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * _time
 
-* Processes.process_name
-
-* Processes.process
-
 * Processes.dest
 
 * Processes.user
 
+* Processes.parent_process_name
+
 * Processes.parent_process
 
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
 * Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
 
 * Processes.parent_process_id
 
@@ -18381,7 +18814,7 @@ The following analytic identifies rundll32.exe loading advpack.dll and ieadvpack
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*advpack* by Processes.user Processes.process_name Processes.process Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*advpack* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -18399,13 +18832,19 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
 * Processes.process_name
 
 * Processes.process
 
-* Processes.user
+* Processes.process_id
 
-* Processes.dest
+* Processes.parent_process_id
 
 
 
@@ -18463,7 +18902,7 @@ The following analytic identifies rundll32.exe loading setupapi.dll and iesetupa
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*setupapi* by Processes.user Processes.process_name Processes.process Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*setupapi* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -18481,13 +18920,19 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
-* Processes.dest
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
 
 
 
@@ -18545,7 +18990,7 @@ The following analytic identifies rundll32.exe loading syssetup.dll by calling t
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*syssetup* by Processes.user Processes.process_name Processes.process Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*syssetup* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -18563,13 +19008,19 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.process_name
+* Processes.dest
 
 * Processes.user
 
-* Processes.dest
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
 
 
 
@@ -20260,17 +20711,27 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.process
-
-* Processes.parent_process
+* Processes.dest
 
 * Processes.user
 
-* Processes.process_name
-
 * Processes.parent_process_name
 
-* Processes.dest
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -20430,15 +20891,27 @@ You must be ingesting data that records registry activity from your hosts to pop
 
 * _time
 
-* Processes.process
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
 
 * Processes.parent_process
 
-* Processes.dest
+* Processes.original_file_name
 
 * Processes.process_name
 
-* Processes.user
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 
@@ -20861,7 +21334,7 @@ _version_: 1
 ---
 
 ### Disable Registry Tool
-This search is to identifies modification of registry to disable the regedit or registry tools of windows operating system. Since registry tool is a swiss knife in analyzing registry, malware such as RAT or trojan Spy disable this application to prevent the removal of their registry entry such as persistence, file less components and defense evasion.
+This search identifies modification of registry to disable the regedit or registry tools of the windows operating system. Since registry tool is a swiss knife in analyzing registry, malware such as RAT or trojan Spy disable this application to prevent the removal of their registry entry such as persistence, file less components and defense evasion.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -20941,7 +21414,7 @@ _version_: 1
 ---
 
 ### Disable Show Hidden Files
-The following search is to idetifies a modification in registry to prevent the user seeing all the files with hidden attributes. This event or techniques are known on some worm and trojan spy malware that will drop hidden files on the infected machine.
+The following analytic is to identify a modification in the Windows registry to prevent users from seeing all the files with hidden attributes. This event or techniques are known on some worm and trojan spy malware that will drop hidden files on the infected machine.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -22094,13 +22567,19 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
 * Processes.process_name
 
 * Processes.process
 
-* Processes.user
+* Processes.process_id
 
-* Processes.dest
+* Processes.parent_process_id
 
 
 
@@ -22173,13 +22652,19 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
 * Processes.process_name
 
 * Processes.process
 
-* Processes.user
+* Processes.process_id
 
-* Processes.dest
+* Processes.parent_process_id
 
 
 
@@ -23469,7 +23954,7 @@ _version_: 1
 ---
 
 ### Excessive Usage of NSLOOKUP App
-this search is to detect potential DNS exfiltration using nslookup application. This technique are seen in couple of malware and APT group to exfiltrated collected data in a infected machine or infected network. This detection is looking for unique use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are commonly used by attacker and also the retry parameter which is designed to query C2 DNS multiple tries.
+This search is to detect potential DNS exfiltration using nslookup application. This technique are seen in couple of malware and APT group to exfiltrated collected data in a infected machine or infected network. This detection is looking for unique use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are commonly used by attacker and also the retry parameter which is designed to query C2 DNS multiple tries.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -24338,7 +24823,7 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 |$)+)/, "\\PATH"), /* replaces " \\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s
 |$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\d+/, "N") 
 | where process_name="cmd.exe" AND match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true 
-| select cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id 
+| select process_name, cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id 
 | first_time_event input_columns=["cmd_line_norm"] 
 | where first_time_cmd_line_norm 
 | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
@@ -24391,7 +24876,7 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 #### Test Dataset
 
 
-_version_: 2
+_version_: 3
 </details>
 
 ---
@@ -27469,7 +27954,7 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 | rename window_end as timestamp 
 | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device" window=2419200000L 
 | where label AND quantile>0.99 
-| eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body=create_map(["process_name", process_name]) 
+| eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body=create_map(["lolbas_counter", lolbas_counter]) 
 | into write_null();
 ```
 #### Associated Analytic Story
@@ -27517,7 +28002,7 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 #### Test Dataset
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -27651,6 +28136,8 @@ To successfully implement this search, you need to be ingesting logs with the st
 * archive_hdr1
 
 * archive_hdr2
+
+* form_data
 
 
 
@@ -29004,7 +29491,7 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562/007/)
-- **Last Updated**: 2021-01-12
+- **Last Updated**: 2021-07-19
 
 <details>
   <summary>details</summary>
@@ -29017,7 +29504,7 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 | eval ip_addresses_old=if(isnotnull(ip_addresses_old),ip_addresses_old,"0") 
 | mvexpand ip_addresses_new_added 
 | where isnull(mvfind(ip_addresses_old,ip_addresses_new_added)) 
-|stats count min(_time) as firstTime max(_time) as lastTime values(ip_addresses_old) as ip_addresses_old by user ip_addresses_new_added signature vendor_product vendor_account status user_id action 
+|stats count min(_time) as firstTime max(_time) as lastTime values(ip_addresses_old) as ip_addresses_old by user ip_addresses_new_added signature Workload vendor_account status user_id action 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
 | `o365_bypass_mfa_via_trusted_ip_filter`
@@ -29043,8 +29530,6 @@ You must install Splunk Microsoft Office 365 add-on. This search works with o365
 * ModifiedProperties{}.OldValue
 
 * user
-
-* vendor_product
 
 * vendor_account
 
@@ -29085,7 +29570,7 @@ Unless it is a special case, it is uncommon to continually update Trusted IPs to
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/o365_bypass_mfa_via_trusted_ip/o365_bypass_mfa_via_trusted_ip.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -31024,7 +31509,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### Search
 ```
-`powershell` EventCode=4104 Message="*[system.reflection.assembly]::load(*" 
+`powershell` EventCode=4104 Message IN ("*[system.reflection.assembly]::load(*","*[reflection.assembly]*") 
 | stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -31067,7 +31552,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 
 
 #### Known False Positives
-False positives will be limited to
+False positives should be limited as day to day scripts do not use this method.
 
 #### Reference
 
@@ -35497,6 +35982,8 @@ To successfully implement this search you need to be ingesting information on pr
 
 * process_path
 
+* Processes.dest
+
 
 
 #### ATT&CK
@@ -36914,7 +37401,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Processes.parent_process
 
-* Processes.dest Processes.user
+* Processes.dest
+
+* Processes.user
 
 * Processes.process_id
 
@@ -38516,7 +39005,7 @@ This analytic will detect suspicious driver loaded paths. This technique is comm
 #### Search
 ```
 `sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*", "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) 
-|  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature Signed 
+|  stats  min(_time) as firstTime max(_time) as lastTime count by Computer ImageLoaded Hashes IMPHASH Signature Signed 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `suspicious_driver_loaded_path_filter`
@@ -40790,7 +41279,7 @@ $cond_6 =
 | union $cond_4 
 | union $cond_5 
 | union $cond_6 
-| where process_path NOT LIKE "%\\windows\\system32%" AND process_path NOT LIKE "%\\windows\\syswow64%" 
+| where match_regex(process_path, /(?i)\\windows\\system32/)=false AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false 
 | eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["process_path", process_path, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
@@ -40841,7 +41330,7 @@ None
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log
 
 
-_version_: 2
+_version_: 3
 </details>
 
 ---

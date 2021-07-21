@@ -31,16 +31,30 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 13
+  confidence: 70
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: User $user$ created a policy version that allows them to access any resource
+    in their account
   mitre_attack_id:
   - T1078.004
   nist:
   - PR.DS
   - PR.AC
   - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -52,19 +66,5 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.userName
-  impact: 70
-  confidence: 70
-  # (impact * confidence)/100
-  risk_score: 49 
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Privilege Escalation
-  message: User $user$ created a policy version that allows them to access any resource in their account
-  observable:
-  - name: user
-    type: User
-    role:
-    - Attacker
+  risk_score: 49
   security_domain: network

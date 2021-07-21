@@ -26,14 +26,26 @@ tags:
   cis20:
   - CIS 8
   - CIS 16
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-security.log
+  impact: 90
   kill_chain_phases:
   - Actions on Objectives
+  message: Potential kerberoasting attack via service principal name requests detected
+    on $dest$
   mitre_attack_id:
   - T1558.003
   nist:
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,17 +58,5 @@ tags:
   - dest
   - service
   - service_id
-  security_domain: endpoint
-  impact: 90
-  confidence: 80
-  # (impact * confidence)/100
   risk_score: 72
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  message: Potential kerberoasting attack via service principal name requests detected on $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
+  security_domain: endpoint

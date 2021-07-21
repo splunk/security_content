@@ -47,10 +47,18 @@ tags:
   cis20:
   - CIS 3
   - CIS 5
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Actions on Objectives
+  message: 'User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter:
+    $filter$. Consumer: $Consumer$.  EventCode: $EventCode$'
   mitre_attack_id:
   - T1546.003
   nist:
@@ -58,6 +66,15 @@ tags:
   - PR.AT
   - PR.AC
   - PR.IP
+  observable:
+  - name: host
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -72,23 +89,5 @@ tags:
   - Query
   - Consumer
   - Filter
-  security_domain: endpoint
-  impact: 30
-  confidence: 100
-  # (impact * confidence)/100
   risk_score: 30
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  message: "User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter: $filter$. Consumer: $Consumer$.  EventCode: $EventCode$"
-  observable:
-  - name: host
-    type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User
-    role:
-    - Victim
-
+  security_domain: endpoint

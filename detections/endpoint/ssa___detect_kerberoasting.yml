@@ -13,9 +13,8 @@ search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_
   ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event,
   "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string",
   null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
-  | where EventCode="4769"
-  AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" | first_time_event
-  input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"]
+  | where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17"
+  | first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"]
   | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID
   | eval start_time=_time, end_time=_time, body=create_map(["EventCode", EventCode,
   "ServiceName", ServiceName, "TicketOptions", TicketOptions, "TicketEncryptionType",

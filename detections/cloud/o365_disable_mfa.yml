@@ -22,12 +22,31 @@ tags:
   - Office 365 Detections
   asset_type: Office 365
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
+  impact: 80
   kill_chain_phases:
   - Actions on Objective
+  message: User $user$ has executed an operation $Operation$ for this destination
+    $dest$
   mitre_attack_id:
   - T1556
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -42,24 +61,5 @@ tags:
   - signature
   - dest
   - ResultStatus
-  impact: 80
-  confidence: 80
-  # (impact * confidence)/100
   risk_score: 64
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  - Stage:Defense Evasion
-  message: User $user$ has executed an operation $Operation$ for this destination $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User 
-    role:
-    - Attacker
   security_domain: threat

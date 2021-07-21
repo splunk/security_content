@@ -26,12 +26,34 @@ tags:
   - Cloud Federated Credential Abuse
   asset_type: Office 365
   automated_detection_testing: passed
+  confidence: 60
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json
+  impact: 30
   kill_chain_phases:
   - Actions on Objective
+  message: User $Actor.ID$ has created a new federation setting on $dest$ from IP
+    Address $ActorIpAddress$
   mitre_attack_id:
   - T1136.003
+  observable:
+  - name: ActorIpAddress
+    type: IP Address
+    role:
+    - Attacker
+  - name: Actor.ID
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -46,27 +68,5 @@ tags:
   - ActorIpAddress
   - dest
   - ResultStatus
-  impact: 30
-  confidence: 60
-  # (impact * confidence)/100
   risk_score: 18
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  message: User $Actor.ID$ has created a new federation setting on $dest$ from IP Address $ActorIpAddress$
-  observable:
-  - name: ActorIpAddress
-    type: IP Address
-    role:
-    - Attacker
-  - name: Actor.ID
-    type: User
-    role:
-    - Attacker
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
   security_domain: threat

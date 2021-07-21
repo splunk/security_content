@@ -25,10 +25,28 @@ tags:
   - Ransomware Cloud
   asset_type: S3 Bucket
   automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
+  impact: 30
+  message: User $user$ with KMS keys is performing encryption, against S3 buckets
+    on these files $dest_file$
   mitre_attack_id:
   - T1486
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
+  - name: dest_file
+    type: File
+    role:
+    - Target
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -43,23 +61,5 @@ tags:
   - requestParameters.key
   - userAgent
   - region
-  impact: 30
-  confidence: 50
-  # (impact * confidence)/100
   risk_score: 15
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  message: User $user$ with KMS keys is performing encryption, against S3 buckets on these files $dest_file$
-  observable:
-  - name: user
-    type: User
-    role:
-    - Attacker
-  - name: dest_file
-    type: File
-    role:
-    - Target
   security_domain: threat

@@ -23,15 +23,29 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 16
+  confidence: 60
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Exfiltration
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$
+    that allow access to sensitive
   mitre_attack_id:
   - T1114.002
   nist:
   - DE.DP
   - DE.AE
+  observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -41,19 +55,5 @@ tags:
   - _time
   - Operation
   - Parameters
-  impact: 80
-  confidence: 60
-  # (impact * confidence)/100
   risk_score: 48
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Stage:Exfiltration
-  - Stage:Execution
-  message: User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$ that allow access to sensitive 
-  observable:
-  - name: user
-    type: User
-    role:
-    - Attacker
   security_domain: threat

@@ -30,35 +30,20 @@ tags:
   - DarkSide Ransomware
   - Credential Dumping
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1003.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 80
   confidence: 70
-  # (impact * confidence)/100
-  risk_score: 56
   context:
   - Source:Endpoint
   - Stage:Credential Access
   - Stage:Execution
-  message: Suspicious use of `reg.exe` exporting Windows Registry hives containing credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: Suspicious use of `reg.exe` exporting Windows Registry hives containing
+    credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$
+  mitre_attack_id:
+  - T1003.002
   observable:
   - name: user
     type: User
@@ -73,3 +58,18 @@ tags:
     role:
     - Parent Process
     - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 56
+  security_domain: endpoint

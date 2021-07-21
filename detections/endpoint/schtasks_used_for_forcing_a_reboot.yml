@@ -28,14 +28,32 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 3
+  confidence: 80
+  context:
+  - source:endpoint
+  - stage: Execution
+  - Persistence
+  - Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_shutdown/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: A schedule task process $process_name$ with force reboot commandline $process$
+    in host $dest$
   mitre_attack_id:
   - T1053.005
   nist:
   - PR.IP
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,23 +65,5 @@ tags:
   - Processes.parent_process_name
   - Processes.dest
   - Processes.user
+  risk_score: 56
   security_domain: endpoint
-  impact: 70 
-  confidence: 80  
-  # (impact * confidence)/100
-  risk_score: 56 
-  context:
-  - source:endpoint
-  - stage: Execution
-  - Persistence
-  - Privilege Escalation
-  message: A schedule task process $process_name$ with force reboot commandline $process$ in host $dest$ 
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: user
-    type: user
-    role:
-    - Victim
