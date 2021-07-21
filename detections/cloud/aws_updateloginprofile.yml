@@ -10,9 +10,9 @@ description: This search looks for AWS CloudTrail events where a user A who has 
   another user B . Attackers have been know to use this technique for Privilege Escalation
   in case new victim(user B) has more permissions than old victim(user B)
 search: '`cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazonaws.com
-  errorCode = success| search userIdentity.userName!=requestParameters.userName  |  stats count
-  min(_time) as firstTime max(_time) as lastTime  by requestParameters.userName src
-  eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.userName
+  errorCode = success| search userIdentity.userName!=requestParameters.userName  |  stats
+  count min(_time) as firstTime max(_time) as lastTime  by requestParameters.userName
+  src eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.userName
   user_arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`aws_updateloginprofile_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.

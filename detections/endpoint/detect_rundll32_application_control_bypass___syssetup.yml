@@ -17,9 +17,10 @@ description: The following analytic identifies rundll32.exe loading syssetup.dll
   files are on disk.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
-  Processes.process=*syssetup* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `detect_rundll32_application_control_bypass___syssetup_filter`'
+  Processes.process=*syssetup* by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `detect_rundll32_application_control_bypass___syssetup_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -38,37 +39,23 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: An instance of $parent_process_name$ spawning $process_name$ loading syssetup.dll
+    by calling the LaunchINFSection function on the command line was identified on
+    endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1218.011
   nist:
   - PR.PT
   - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
-  # (impact * confidence)/100
-  risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: An instance of $parent_process_name$ spawning $process_name$ loading syssetup.dll by calling the LaunchINFSection function on the command line was identified on endpoint $dest$ by user $user$.
   observable:
   - name: user
     type: User
@@ -86,3 +73,18 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  risk_score: 80
+  security_domain: endpoint

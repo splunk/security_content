@@ -32,32 +32,19 @@ tags:
   - DarkSide Ransomware
   - Ransomware
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
-  kill_chain_phases:
-  - Exfiltration
-  mitre_attack_id:
-  - T1020
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - OriginalFileName
-  - process_name
-  - process_path
-  - CommandLine
-  - dest
-  security_domain: endpoint
-  impact: 30
   confidence: 90
-  # (impact * confidence)/100
-  risk_score: 27
   context:
   - Source:Endpoint
   - Stage:Collection
-  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. 
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
+  impact: 30
+  kill_chain_phases:
+  - Exfiltration
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$ by $user$.
+  mitre_attack_id:
+  - T1020
   observable:
   - name: user
     type: User
@@ -75,3 +62,16 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - OriginalFileName
+  - process_name
+  - process_path
+  - CommandLine
+  - dest
+  risk_score: 27
+  security_domain: endpoint

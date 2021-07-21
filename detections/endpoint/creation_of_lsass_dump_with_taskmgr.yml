@@ -34,34 +34,21 @@ tags:
   cis20:
   - CIS 6
   - CIS 8
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: $process_name$ was identified on endpoint $Computer$ writing $TargetFilename$
+    to disk. This behavior is related to dumping credentials via Task Manager.
   mitre_attack_id:
   - T1003.001
   nist:
   - DE.CM
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - EventID
-  - process_name
-  - TargetFilename
-  - Computer
-  - object_category
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
-  # (impact * confidence)/100
-  risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  message: $process_name$ was identified on endpoint $Computer$ writing $TargetFilename$ to disk. This behavior is related to dumping credentials via Task Manager.
   observable:
   - name: user
     type: User
@@ -79,3 +66,16 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventID
+  - process_name
+  - TargetFilename
+  - Computer
+  - object_category
+  risk_score: 80
+  security_domain: endpoint

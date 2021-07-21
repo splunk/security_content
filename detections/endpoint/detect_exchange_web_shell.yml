@@ -35,32 +35,20 @@ tags:
   analytic_story:
   - HAFNIUM Group
   automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1505.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Filesystem.file_path
-  - Filesystem.process_id
-  - Filesystem.file_name
-  - Filesystem.file_hash
-  - Filesystem.user
-  security_domain: endpoint
-  impact: 90
   confidence: 90
-  # (impact * confidence)/100
-  risk_score: 81
   context:
   - Source:Endpoint
   - Stage:Exploitation
-  message: A file - $file_name$ was written to disk that is related to IIS exploitation previously performed by HAFNIUM. Review further file modifications on endpoint $dest$ by user $user$.
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
+  impact: 90
+  kill_chain_phases:
+  - Exploitation
+  message: A file - $file_name$ was written to disk that is related to IIS exploitation
+    previously performed by HAFNIUM. Review further file modifications on endpoint
+    $dest$ by user $user$.
+  mitre_attack_id:
+  - T1505.003
   observable:
   - name: user
     type: User
@@ -74,3 +62,16 @@ tags:
     type: File Name
     role:
     - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.file_path
+  - Filesystem.process_id
+  - Filesystem.file_name
+  - Filesystem.file_hash
+  - Filesystem.user
+  risk_score: 81
+  security_domain: endpoint
