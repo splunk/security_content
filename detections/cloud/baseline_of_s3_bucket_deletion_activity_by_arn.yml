@@ -24,6 +24,8 @@ tags:
   - Suspicious AWS S3 Activities
   detections:
   - Detect Spike in S3 Bucket deletion
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

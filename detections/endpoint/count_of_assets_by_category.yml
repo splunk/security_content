@@ -21,6 +21,8 @@ tags:
   - Asset Tracking
   detections:
   - Detect Unauthorized Assets by MAC address
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

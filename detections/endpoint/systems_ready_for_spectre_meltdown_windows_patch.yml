@@ -26,6 +26,8 @@ tags:
   - Spectre And Meltdown Vulnerabilities
   detections:
   - Spectre and Meltdown Vulnerable Systems
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

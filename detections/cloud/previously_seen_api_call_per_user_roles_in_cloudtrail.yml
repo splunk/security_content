@@ -24,6 +24,8 @@ tags:
   - AWS User Monitoring
   detections:
   - Detect new API calls from user roles
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

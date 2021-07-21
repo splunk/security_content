@@ -37,6 +37,8 @@ tags:
   detections:
   - Detect Prohibited Applications Spawning cmd.exe
   - Unusually Long Command Line - MLTK
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

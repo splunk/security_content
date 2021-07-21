@@ -43,6 +43,8 @@ tags:
   detections:
   - Processes launching netsh
   - SMB Traffic Spike - MLTK
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

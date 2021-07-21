@@ -19,6 +19,8 @@ tags:
   - Monitor Backup Solution
   detections:
   - Unsuccessful Netbackup backups
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

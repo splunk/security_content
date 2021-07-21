@@ -186,6 +186,9 @@ def validate_detection_search(object, macros):
     if not object['type'] == "Baseline":
         if not '_filter' in object['search']:
             errors.append("ERROR: Missing filter for detection: " + object['name'])
+    else:
+        if not 'deployments' in object['tags']:
+            errors.append("ERROR: Baseline need a ccorresponsing deployments: " + object['name'])
 
     filter_macro = re.search("([a-z0-9_]*_filter)", object['search'])
 

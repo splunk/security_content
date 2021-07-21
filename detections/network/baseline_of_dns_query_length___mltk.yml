@@ -32,6 +32,8 @@ tags:
   - Suspicious DNS Traffic
   detections:
   - DNS Query Length Outliers - MLTK
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

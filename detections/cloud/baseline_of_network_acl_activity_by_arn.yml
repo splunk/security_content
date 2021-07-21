@@ -25,6 +25,8 @@ tags:
   - AWS Network ACL Activity
   detections:
   - Detect Spike in Network ACL Activity
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

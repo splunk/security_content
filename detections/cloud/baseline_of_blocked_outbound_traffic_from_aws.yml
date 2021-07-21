@@ -30,6 +30,8 @@ tags:
   - Suspicious AWS Traffic
   detections:
   - Detect Spike in blocked Outbound Traffic from your AWS
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

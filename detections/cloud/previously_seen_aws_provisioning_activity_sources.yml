@@ -25,6 +25,8 @@ tags:
   - AWS Cloud Provisioning From Previously Unseen City
   - AWS Cloud Provisioning From Previously Unseen Country
   - AWS Cloud Provisioning From Previously Unseen Region
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -29,6 +29,8 @@ tags:
   - DNS Hijacking
   detections:
   - DNS record changed
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

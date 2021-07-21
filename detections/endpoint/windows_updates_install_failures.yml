@@ -19,6 +19,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  deployments:
+  - Daily Cache Updates
   required_fields:
   - _time
   - Updates.vendor_product

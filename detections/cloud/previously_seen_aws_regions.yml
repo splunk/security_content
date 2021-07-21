@@ -22,6 +22,8 @@ tags:
   - Suspicious AWS EC2 Activities
   detections:
   - EC2 Instance Started In Previously Unseen Region
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

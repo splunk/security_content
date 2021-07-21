@@ -24,6 +24,8 @@ tags:
   - AWS Cross Account Activity
   detections:
   - AWS Cross Account Activity From Previously Unseen Account
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

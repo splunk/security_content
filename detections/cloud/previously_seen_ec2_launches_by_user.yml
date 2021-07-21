@@ -21,6 +21,8 @@ tags:
   - Suspicious AWS EC2 Activities
   detections:
   - EC2 Instance Started With Previously Unseen User
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

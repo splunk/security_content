@@ -35,6 +35,8 @@ tags:
   - Suspicious AWS EC2 Activities
   detections:
   - Abnormally High AWS Instances Launched by User - MLTK
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

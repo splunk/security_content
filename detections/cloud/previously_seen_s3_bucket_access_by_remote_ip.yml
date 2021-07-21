@@ -23,6 +23,8 @@ tags:
   - Suspicious AWS S3 Activities
   detections:
   - Detect S3 access from a new IP
+  deployments:
+  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
