@@ -122,8 +122,9 @@ def validate_standard_fields(object, uuids):
     else:
         uuids.append(object['id'])
 
-    if (object['type']) == 'batch' and len(object['name']) > 75:
-        errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
+    if 'products' in object['tags']: 
+        if (not 'Splunk Behavioral Analytics' in object['tags']['products']) and len(object['name']) > 75:
+            errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
 
     # if object['name'].endswith(" "):
     #     errors.append(
