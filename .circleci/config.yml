@@ -11,7 +11,7 @@
 
 version: 2.1
 orbs:
-  aws-cli: circleci/aws-cli@0.1.19
+  aws-cli: circleci/aws-cli@2.0.3
 
 dependencies:
   cache_directories:
