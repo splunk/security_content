@@ -12,7 +12,7 @@ description: The following analtyic identifies renamed instances of `WinRAR.exe`
   In this instance, we are using `OriginalFileName` from Sysmon to determine if the
   process is WinRAR. During triage, validate additional metadata from the binary that
   this is `WinRAR`. Review parallel processes and file modifications.
-search: '`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe
+search: '`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe process_name!=winrar.exe
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
   parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product
   | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
