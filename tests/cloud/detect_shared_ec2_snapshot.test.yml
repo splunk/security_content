@@ -1,0 +1,13 @@
+name: Detect shared ec2 snapshot Unit Test
+tests:
+- name: Detect shared ec2 snapshot
+  file: cloud/detect_shared_ec2_snapshot.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-7d'
+  latest_time: 'now'
+  attack_data:
+  - file_name: aws_cloudtrail_events.json
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
+    sourcetype: aws:cloudtrail
+    source: aws_cloudtrail
+    update_timestamp: True

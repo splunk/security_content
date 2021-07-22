@@ -1,0 +1,72 @@
+name: Detect shared ec2 snapshot
+id: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
+version: 2
+date: '2021-07-20'
+author: Bhavin Patel, Splunk
+type: batch
+datamodel: []
+description: The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions
+  are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot. 
+search: '`cloudtrail` eventName=ModifySnapshotAttribute | rename requestParameters.createVolumePermission.add.items{}.userId
+  as requested_account_id | search requested_account_id != NULL | eval match=if(requested_account_id==aws_account_id,"Match","No
+  Match") | table _time user_arn src_ip requestParameters.attributeType requested_account_id
+  aws_account_id match vendor_region user_agent | where match = "No Match" | `detect_shared_ec2_snapshot_filter` '
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with AWS CloudTrail logs.
+known_false_positives: It is possible that an AWS admin has legitimately shared a
+  snapshot with others for  a specific purpose.
+references:
+- https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+tags:
+  analytic_story:
+  - Suspicious Cloud Instance Activities
+  - Data Exfiltration
+  asset_type: EC2 Snapshot
+  cis20:
+  - CIS 13
+  kill_chain_phases:
+  - Actions on Objectives
+  mitre_attack_id:
+  - T1537
+  nist:
+  - PR.DS
+  - PR.AC
+  - DE.CM
+  product:
+  - Splunk Security Analytics for AWS
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - user_arn
+  - src_ip
+  - requestParameters.attributeType
+  - aws_account_id
+  - vendor_region
+  - user_agent
+  impact: 60
+  confidence: 80
+  risk_score: 48
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Exfiltration
+  message: AWS EC2 snapshot from account $aws_account_id$ is shared with $requested_account_id$
+    by user $user_arn$ from $src_ip$
+  observable:
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  security_domain: threat
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
