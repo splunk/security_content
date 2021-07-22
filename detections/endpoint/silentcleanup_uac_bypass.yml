@@ -1,0 +1,62 @@
+name: SilentCleanup UAC Bypass
+id: 56d7cfcc-da63-11eb-92d4-acde48001122
+version: 1
+date: '2021-07-01'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious modification of registry that may related to UAC bypassed.
+  This registry will be trigger once the attacker abuse the silentcleanup task schedule to gain high privilege execution that will bypass User control account.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where Registry.registry_path= "*\\Environment\\windir" Registry.registry_value_name = "*.exe*"
+  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `silentcleanup_uac_bypass_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: unknown
+references:
+- https://github.com/hfiref0x/UACME
+- https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1548.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest 
+  security_domain: endpoint
+  impact: 70
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 63
+  context:
+  - Source:Endpoint
+  - Stage:Persistence,
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
+  message: Suspicious modification of registry $registry_path$ with possible payload path $registry_value_name$ in $dest$
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  

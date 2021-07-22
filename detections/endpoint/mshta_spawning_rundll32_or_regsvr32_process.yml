@@ -1,0 +1,64 @@
+name: Mshta spawning Rundll32 OR Regsvr32 Process
+id: 4aa5d062-e893-11eb-9eb2-acde48001122
+version: 1
+date: '2021-07-19'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious mshta.exe process that spawn rundll32 or regsvr32 child process.
+  This technique was seen in several malware nowadays like trickbot to load its initial .dll stage loader to execute and download the 
+  the actual trickbot payload.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
+  where Processes.parent_process_name = "mshta.exe"  (Processes.process_name=rundll32.exe OR Processes.process_name=regsvr32.exe) by
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid
+  Processes.user Processes.dest 
+  | `drop_dm_object_name("Processes")` 
+  | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` 
+  | `mshta_spawning_rundll32_or_regsvr32_process_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed mshta.exe may be used.
+known_false_positives: limitted. this anomaly behavior is not commonly seen in clean host.
+references:
+- https://twitter.com/cyb3rops/status/1416050325870587910?s=21
+tags:
+  analytic_story:
+  - Trickbot
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - parent_process 
+  - process_name 
+  - process 
+  - process_id 
+  - process_guid
+  security_domain: endpoint
+  impact: 70
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 56
+  context: 
+  - source:endpoint
+  - stage: executions
+  message: a mshta parent process $parent_process_name$ spawn child process $process_name$ in host $dest$
+  observable:
+    - name: dest
+      type: Hostname
+      role:
+      - Victim
+    - name: user
+      type: user
+      role:
+      - Victim 
