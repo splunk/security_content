@@ -1,4 +1,4 @@
-definition: sourcetype=wineventlog OR source=WinEventLog:Microsoft-Windows-PowerShell/Operational
+definition: (source=WinEventLog:Microsoft-Windows-PowerShell/Operational OR source="XmlWinEventLog:Microsoft-Windows-PowerShell/Operational")
 description: customer specific splunk configurations(eg- index, source, sourcetype).
   Replace the macro definition with configurations for your Splunk Environmnent.
 name: powershell

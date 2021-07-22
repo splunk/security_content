@@ -1,0 +1,12 @@
+name: Detect Copy of ShadowCopy with Script Block Logging Unit Test
+tests:
+- name: Detect Copy of ShadowCopy with Script Block Logging
+  file: endpoint/detect_copy_of_shadowcopy_with_script_block_logging.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/hivenightmare/windows-powershell.log
+    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: wineventlog
