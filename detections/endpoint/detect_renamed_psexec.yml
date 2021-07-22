@@ -12,7 +12,7 @@ description: The following analytic identifies renamed instances of `PsExec.exe`
   In this instance, we are using `OriginalFileName` from Sysmon to identify `PsExec`
   usage. During triage, validate this is the legitimate version of `PsExec` by review
   the PE metadata. In addition, review parallel processes for further suspicious behavior.
-search: '`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe) |
+search: '`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe process_name!=PsExec64.exe) |
   stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name,
   process_name, OriginalFileName, process_path, CommandLine Product | rename Computer
   as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
