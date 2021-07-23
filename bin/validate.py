@@ -184,12 +184,12 @@ def validate_standard_fields(object, uuids):
 def validate_detection_search(object, macros):
     errors = []
 
-    if not object['type'] == "Baseline":
+    if not (object['type'] == "Baseline" or object['type'] == "Investigation"):
         if not '_filter' in object['search']:
             errors.append("ERROR: Missing filter for detection: " + object['name'])
-    else:
+    elif object['type'] == "Baseline":
         if not 'deployments' in object['tags']:
-            errors.append("ERROR: Baseline need a ccorresponsing deployments: " + object['name'])
+            errors.append("ERROR: Baseline need a corresponsing deployments: " + object['name'])
 
     filter_macro = re.search("([a-z0-9_]*_filter)", object['search'])
 
