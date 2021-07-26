@@ -570,7 +570,6 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
     if PRODUCT == "SAAWS":
         objects["detections"]  = [object for object in objects["detections"]  if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         objects["stories"] = [object for object in objects["stories"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
-        objects["response_tasks"] = [object for object in objects["response_tasks"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
 
     # only use ESCU detections to the configurations
     objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
