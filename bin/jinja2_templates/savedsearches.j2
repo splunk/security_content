@@ -162,37 +162,39 @@ search = {{ detection.search }}
 
 ### ESCU RESPONSE TASKS ###
 
-{% for response_task in response_tasks %}
-{% if response_task.search is defined %}
-[ESCU - {{ response_task.name }} - Response Task]
+{% for detection in detections %}
+{% if (detection.type == 'Investigation') %}
+{% if detection.search is defined %}
+[ESCU - {{ detection.name }} - Response Task]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = investigative
-action.escu.full_search_name = ESCU - {{ response_task.name }} - Response Task
-description = {{ response_task.description }}
-action.escu.creation_date = {{ response_task.date }}
-action.escu.modification_date = {{ response_task.date }}
-{% if response_task.tags is defined %}
-action.escu.analytic_story = {{ response_task.tags.analytic_story | tojson }}
+action.escu.full_search_name = ESCU - {{ detection.name }} - Response Task
+description = {{ detection.description }}
+action.escu.creation_date = {{ detection.date }}
+action.escu.modification_date = {{ detection.date }}
+{% if detection.tags is defined %}
+action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
 {% else %}
 action.escu.analytic_story = []
 {% endif %}
 action.escu.earliest_time_offset = 3600
 action.escu.latest_time_offset = 86400
 action.escu.providing_technologies = []
-{% if response_task.data_model is defined %}
-action.escu.data_models = [{{ response_task.data_model | tojson}}]
+{% if detection.data_model is defined %}
+action.escu.data_models = [{{ detection.data_model | tojson}}]
 {% else %}
 action.escu.data_models = []
 {% endif %}
-action.escu.eli5 = {{ response_task.description }}
+action.escu.eli5 = {{ detection.description }}
 action.escu.how_to_implement = none
 action.escu.known_false_positives = None at this time
 disabled = true
 schedule_window = auto
 is_visible = false
-search = {{ response_task.search }}
+search = {{ detection.search }}
 
+{% endif %}
 {% endif %}
 {% endfor %}
 

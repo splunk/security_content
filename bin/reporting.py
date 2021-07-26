@@ -54,7 +54,7 @@ def main(args):
     counter_detection=0
 
     for detection in detections:
-        if detection['type'] != 'Baseline':
+        if detection['type'] != 'Baseline' and detection['type'] != 'Investigation':
             counter_detection=counter_detection+1
 
     for test in tests:
