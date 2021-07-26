@@ -172,6 +172,7 @@ class DSPApi:
             "name": f"ssa_smoke_test_pipeline_helper_{set_test_id}",
             "description": "ssa_test_pipeline_description",
             "bypassValidation": "true",
+            "labels": {"app": "ba"},
             "data": upl
         }
         response = requests.post(self.return_api_endpoint(PIPELINES_ENDPOINT), json=data, headers=headers)
@@ -180,6 +181,8 @@ class DSPApi:
             pipeline_id = response_body.get("id")
             #LOGGER.info(f"Pipeline {pipeline_id} successfully created")
             return pipeline_id
+        else:
+            LOGGER.error(f"Failed to create pipeline: %s", response.text)
 
 
     def create_pipeline_from_spl(self, spl):
