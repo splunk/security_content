@@ -66,7 +66,7 @@ requests-ntlm==1.1.0
 s3transfer==0.4.2
 six==1.16.0
 smmap==3.0.5
-splunk-sdk==1.6.15
+splunk-sdk==1.6.16
 tabulate==0.8.9
 termcolor==1.1.0
 toml==0.10.2
