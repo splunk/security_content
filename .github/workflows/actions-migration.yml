@@ -22,7 +22,10 @@ jobs:
       #Previous config chose which branch/tag to operate on. 
       #I think Github is smart enough to choose based on whether it's a pull request or push + other info?
       - name: Check out the repository code 
-        uses: actions/checkout@v2  
+        uses: actions/checkout@v2
+        with:
+          repository: splunk/security-content #check out https://github.com/mitre/cti.git, defaults to HEAD
+          path: "~/security-content/"
       
 
       - uses: actions/setup-python@v2
@@ -43,10 +46,9 @@ jobs:
           echo "This is the version of Python that we are running under:"
           which python
           which python3
-          echo "Do the pip upgrade that we are used to"
+          echo "Upgrade pip as suggested" #github log still complains that the version is out of date...
           sudo python3 -m pip install --upgrade pip
-          echo "Do the suggested pip upgrade from the actions output"
-          /opt/hostedtoolcache/Python/3.9.5/x64/bin/python -m pip install --upgrade pip
+          
 
 
       #TODO: CircleCI save_cache equivalent    
