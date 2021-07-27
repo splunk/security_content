@@ -12,7 +12,7 @@ ENV SCSENV=${SCSENV}
 
 RUN mkdir /deployer && \
     apt-get update && \
-    apt-get install -y bash tar curl && \
+    apt-get install -y bash tar curl
 
 RUN curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl && chmod +x /usr/local/bin/kubectl
 RUN curl -L https://github.com/splunk/qbec/releases/download/${QBEC_VERSION}/qbec-linux-amd64.tar.gz -o /root/qbec.tar.gz && tar -xvzf /root/qbec.tar.gz -C /usr/local/bin/
