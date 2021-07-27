@@ -59,13 +59,9 @@ jobs:
           echo "Current directory"
           pwd
           echo "Current directory listing"
+          cd security-content-TEST
+          echo "Inside of the test directory"
           ls -lah
-          cd ..
-          echo "Directory after going up one directory..."
-          pwd
-          echo "Contents after going up one directory..."
-          ls -lah
-          cd security-content
           rm -rf venv
           virtualenv --python=/usr/bin/python3 --clear venv
           source venv/bin/activate
