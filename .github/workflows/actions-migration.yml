@@ -60,10 +60,10 @@ jobs:
           pwd
           echo "Current directory listing"
           ls -lah
-          cd ~/ 
-          echo "Directory after going home"
+          cd ..
+          echo "Directory after going up one directory..."
           pwd
-          echo "Contents after going home"
+          echo "Contents after going up one directory..."
           ls -lah
           cd security-content
           rm -rf venv
