@@ -40,7 +40,7 @@ jobs:
           sudo apt update -qq
           sudo apt install jq -qq
           #Upgrade to the latest pip so that Github Actions doesn't complain 
-          python -m pip install --upgrade pip
+          #sudo python3 -m pip install --upgrade pip
 
       #TODO: CircleCI save_cache equivalent    
       
@@ -50,7 +50,7 @@ jobs:
           rm -rf venv
           virtualenv --python=/usr/bin/python3 --clear venv
           source venv/bin/activate
-          sudo pip install -q -r requirements.txt
+          sudo python3 -m pip install -q -r requirements.txt
 
       - name: run validate  
         run: | 
