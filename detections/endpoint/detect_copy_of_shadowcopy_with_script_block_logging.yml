@@ -1,0 +1,64 @@
+name: Detect Copy of ShadowCopy with Script Block Logging
+id: 9251299c-ea5b-11eb-a8de-acde48001122
+version: 1
+date: '2021-07-21'
+author: Michael Haag, Splunk
+type: batch
+datamodel: []
+description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify suspicious PowerShell execution. Script Block Logging captures the command
+  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
+  to Windows event logs. Dependent upon volume, enable no critical endpoints or all. 
+  \
+
+  This analytic identifies `copy` or `[System.IO.File]::Copy` being used to capture the SAM, SYSTEM or SECURITY hives identified in
+  script block. This will catch the most basic use cases for credentials being taken for offline cracking. \
+
+  During triage, review parallel processes using an EDR product or 4688 events. It
+  will be important to understand the timeline of events around this activity. Review
+  the entire logged PowerShell script block.'
+search: '`powershell` EventCode=4104 Message IN ("*copy*","*[System.IO.File]::Copy*") AND Message IN ("*System32\\config\\SAM*", "*System32\\config\\SYSTEM*","*System32\\config\\SECURITY*") | stats count min(_time) as firstTime max(_time)
+  as lastTime by OpCode ComputerName User EventCode Message | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `detect_copy_of_shadowcopy_with_script_block_logging_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hives.
+references: 
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36934
+  - https://github.com/GossiTheDog/HiveNightmare
+  - https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
+tags:
+  analytic_story:
+  - Credential Dumping
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1003.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Message
+  - OpCode
+  - ComputerName
+  - User
+  - EventCode
+  security_domain: endpoint
+  impact: 80
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: PowerShell was identified running a script to capture the SAM hive on endpoint $ComputerName$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim

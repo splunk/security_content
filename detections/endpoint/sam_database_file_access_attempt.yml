@@ -1,0 +1,66 @@
+name: SAM Database File Access Attempt
+id: 57551656-ebdb-11eb-afdf-acde48001122
+version: 1
+date: '2021-07-23'
+author: Michael Haag, Mauricio Velazco, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies access to SAM, SYSTEM or SECURITY databases' within the file path of `windows\system32\config` using Windows Security EventCode 4663. This particular behavior is related to credential access, an attempt to either use a Shadow Copy or recent CVE-2021-36934 to access the SAM database.
+  The Security Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7, 8.1 and 10 that stores users' passwords.
+search: '`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*") 
+  | stats values(Accesses) count by process_name Object_Name  dest user 
+  | `sam_database_file_access_attempt_filter`'
+how_to_implement: To successfully implement this search, you must ingest Windows Security
+  Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+known_false_positives: Natively, `dllhost.exe` will access the files. Every environment will have additional native processes that do as well. Filter by process_name. As an aside, one can remove process_name entirely and add `Object_Name=*ShadowCopy*`. 
+references:
+  - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4663
+  - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36934
+  - https://github.com/GossiTheDog/HiveNightmare
+  - https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
+  - https://en.wikipedia.org/wiki/Security_Account_Manager
+tags:
+  analytic_story:
+  - Credential Dumping
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1003.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - process_name 
+  - Object_Name
+  - dest
+  - user 
+  security_domain: endpoint
+  impact: 80
+  confidence: 100
+  # (impact * confidence)/100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
+  message: The following process $process_name$ accessed the object $Object_Name$ attempting to gain access to credentials on $dest$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
+  - name: Object_Name
+    type: File
+    role:
+    - Other
