@@ -59,7 +59,7 @@ jobs:
           echo "Current directory"
           pwd
           echo "Current directory listing"
-          cd security-content-TEST
+          cd security-content
           pwd
           ls -lah
           rm -rf venv
