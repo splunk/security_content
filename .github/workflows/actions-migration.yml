@@ -40,7 +40,7 @@ jobs:
           sudo apt update -qq
           sudo apt install jq -qq
           #Upgrade to the latest pip so that Github Actions doesn't complain 
-          #sudo python3 -m pip install --upgrade pip
+          sudo python3 -m pip instaßll --upgrade pip
 
       #TODO: CircleCI save_cache equivalent    
       
