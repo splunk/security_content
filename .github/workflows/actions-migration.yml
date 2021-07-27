@@ -61,10 +61,11 @@ jobs:
           repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
           path: "~/security-content/"
 
-      - name: Generate documentation
-        uses: actions/setup-node@v2
+      #Now generate the documentation (uses Node)
+      - uses: actions/setup-node@v2
         with:
           node-version: '14' #can easily be changed to a different version
+      - name: Generate documentation
         run: |
           cd security-content
           source venv/bin/activate
