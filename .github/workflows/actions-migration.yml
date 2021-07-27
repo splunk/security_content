@@ -56,7 +56,14 @@ jobs:
       - name: Install Python Dependencies
         run: |
           #see what's in the current directory - we should have checkout out security content?
+          echo "Current directory"
           pwd
+          echo "Current directory listing"
+          ls -lah
+          cd ~/ 
+          echo "Directory after going home"
+          pwd
+          echo "Contents after going home"
           ls -lah
           cd security-content
           rm -rf venv
