@@ -29,7 +29,7 @@ jobs:
         with:
           python-version: '3.9.5' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-          
+
 
       #TODO: CircleCI restore_cache equivalent
 
@@ -40,12 +40,22 @@ jobs:
           sudo apt update -qq
           sudo apt install jq -qq
           #Upgrade to the latest pip so that Github Actions doesn't complain 
+          echo "This is the version of Python that we are running under:"
+          which python
+          which python3
+          echo "Do the pip upgrade that we are used to"
           sudo python3 -m pip install --upgrade pip
+          echo "Do the suggested pip upgrade from the actions output"
+          /opt/hostedtoolcache/Python/3.9.5/x64/bin/python -m pip install --upgrade pip
+
 
       #TODO: CircleCI save_cache equivalent    
       
       - name: Install Python Dependencies
         run: |
+          #see what's in the current directory - we should have checkout out security content?
+          pwd
+          ls -lah
           cd security-content
           rm -rf venv
           virtualenv --python=/usr/bin/python3 --clear venv
@@ -54,9 +64,7 @@ jobs:
 
       - name: run validate  
         run: | 
-          #see what's in the current directory - we should have checkout out security content?
-          pwd
-          ls -lah
+        
           cd security-content
           source venv/bin/activate
           python contentctl.py --path . --verbose validate
