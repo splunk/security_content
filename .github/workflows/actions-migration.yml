@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: splunk/security-content #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "~/security-content/"
+          path: "security-content-TEST"
       
 
       - uses: actions/setup-python@v2
