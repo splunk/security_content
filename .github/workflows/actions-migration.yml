@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: splunk/security-content #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "security-content-TEST"
+          path: "security-content"
       
 
       - uses: actions/setup-python@v2
@@ -60,10 +60,11 @@ jobs:
           pwd
           echo "Current directory listing"
           cd security-content-TEST
-          echo "Inside of the test directory"
+          pwd
           ls -lah
           rm -rf venv
-          virtualenv --python=/usr/bin/python3 --clear venv
+          #virtualenv --python=/usr/bin/python3 --clear venv
+          python3 -m venv --clear venv
           source venv/bin/activate
           sudo python3 -m pip install -q -r requirements.txt
 
