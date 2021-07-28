@@ -162,7 +162,6 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: content-pack-build
-          path: build/
 
       #This explicitly uses a different version of python (2.7)
       - uses: actions/setup-python@v2
@@ -214,49 +213,50 @@ jobs:
             build/DA-ESS-ContentUpdate-latest.tar.gz
             build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
 
-      
-  #     - name: persist_to_workspace
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: content_tars
-  #         path: |
-  #           ~/build/DA-ESS-ContentUpdate-latest.tar.gz
-  #           ~/build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
+  run-appinspect:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      #Download the artifacts we want to check
+      - name: Restore Content-Pack Artifacts for AppInspect testing
+        uses: actions/download-artifact@v2
+        with:
+          name: content-latest
 
 
-  # run-appinspect:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Install System Packages
-  #       run: | 
-  #         sudo apt update -qq
-  #         sudo apt install jq -qq
+
+      - name: Install System Packages
+        run: | 
+          sudo apt update -qq
+          sudo apt install jq -qq
       
-  #     - name: Checkout Repo
-  #       uses: actions/checkout@v2
-      
-  #     - name: Submit ESCU Package to AppInspect API
-  #       env:
-  #         APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
-  #         APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
-  #       run: |
-  #         cd security-content/bin
-  #         #Enclose in quotes in case there are any special characters in the username/password
-  #         #Better not to pass these arguments on the command line, if possible
-  #         ./appinspect.sh ~/ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD" 
-  #     - name: Submit SAAWS Package to AppInspect API
-  #       env:
-  #         APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
-  #         APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
-  #       run: |
-  #         cd security-content/bin
-  #         ./appinspect.sh ~/ DA-ESS_AmazonWebServices_Content-latest.tar.gz $APPINSPECT_USERNAME $APPINSPECT_PASSWORD
-  #     - name: store_artifacts 
-  #       uses: actions/upload-artifacts@v2
-  #       with:
-  #         name: report/
-  #         path: |
-  #           ~/report
+
+
+      - name: Submit ESCU Package to AppInspect API
+        env:
+          APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
+          APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
+        run: |
+          cd bin
+          #Enclose in quotes in case there are any special characters in the username/password
+          #Better not to pass these arguments on the command line, if possible
+          ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD" 
+      - name: Submit SAAWS Package to AppInspect API
+        env:
+          APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
+          APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
+        run: |
+          cd bin
+          ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
+      - name: store_artifacts 
+        uses: actions/upload-artifacts@v2
+        with:
+          name: report
+          path: |
+            report/
       
 
 
