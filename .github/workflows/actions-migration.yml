@@ -91,6 +91,9 @@ jobs:
           echo "Some path information"
           pwd
           ls -lah 
+          echo $HOME
+          ls -lah ~
+          ls -lah ~/cti
 
           #Enter the virtualenv and run the docgen
           source venv/bin/activate
