@@ -186,7 +186,7 @@ jobs:
           virtualenv --python=/usr/bin/python2.7 --clear venv
           source venv/bin/activate
           python -m pip install semantic_version
-          ppython -m pip install .
+          python -m pip install .
       - name: Create a .spl for this Build Using Slim
         run: |
           source slim-latest/venv/bin/activate
