@@ -65,7 +65,9 @@ jobs:
           source venv/bin/activate
           echo "Before installing requirements"
           python3 -m pip list
-          sudo python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
+          python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
+          echo "After installing Python dependencies with the requirements.txt file"
+          python3 -m pip list
 
       - name: run validate  
         run: | 
