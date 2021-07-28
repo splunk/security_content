@@ -6,6 +6,7 @@ set -o nounset
 set -o errexit
 #This script is used to check the status of the smoketest k8s job: the tests pass if {.status.succeeded} returns 1.
 # Then retrieve the job logs once it's completed.
+kubectl get pods
 smoketest_k8s_job=$(kubectl get jobs -o json | jq -r --arg JOBID "${CI_JOB_ID}" '.items[] | select(.kind=="Job") | select(.metadata.labels.ciJobId==$JOBID) | .metadata.name')
 echo >&2 "Create smoketest k8s job: $smoketest_k8s_job"
 smoketest_k8s_pod=$(kubectl get pods -o custom-columns=:metadata.name | grep ${smoketest_k8s_job})
