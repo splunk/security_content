@@ -169,12 +169,16 @@ jobs:
         with:
           python-version: '2.7' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      
+      - name: Get virtualenv for Python 2.7
+        run: |
+          sudo apt install virtualenv 
 
       - name: Grab Splunk Packaging Toolkit    
         run : |
-          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
+          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
           mkdir slim-latest
-          tar -zxf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
+          tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1
 
       - name: Install Splunk Packaging Toolkit (slim)
         run: |
