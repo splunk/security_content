@@ -38,24 +38,10 @@ jobs:
 
       #don't need to install python3 or python3-dev since it was handled by the action above?  
       #Also, no support for YAML anchors/aliases in Github Actions...
-      - name: Install System Packages and Upgrade pip
+      - name: Install System Packages
         run: | 
           sudo apt update -qq
-          sudo apt install jq -qq
-
-          #Must be removed because installing requirements fails with the following error
-          #ERROR: Cannot uninstall 'simplejson'. It is a distutils installed project and 
-          #thus we cannot accurately determine which files belong to it which would lead 
-          #to only a partial uninstall.
-          #see below in requirements installation
-          #sudo apt remove python-simplejson
-    
-          #Upgrade pip as suggested. However, even though we do this,
-          #Github Action log still complains that the version is out of date...
-          #/opt/hostedtoolcache/Python/3.9.5/x64/bin/python -m pip install --upgrade pip
-          
-
-
+          sudo apt install jq -qq          
       #TODO: CircleCI save_cache equivalent    
       
       - name: Install Python Dependencies
@@ -64,12 +50,8 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
-          
-          #Actually install the requirements
-          #python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
           python3 -m pip install -q -r requirements.txt
           
-
       - name: run validate  
         run: | 
           source venv/bin/activate
@@ -111,17 +93,14 @@ jobs:
       - name: Install System Packages
         run: | 
           sudo apt update -qq
-          sudo apt install jq -qq
-
+          sudo apt install jq -qq          
+      
       - name: Install Python Dependencies
-        run: | 
-          
-          #get the virtualenv setup
+        run: |
+          #Get the virtualenv set up
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
-        
-          #Actually install the requirements
           python3 -m pip install -q -r requirements.txt
 
       - name: Run Generate
@@ -175,42 +154,62 @@ jobs:
             content-pack-build-escu.tar.gz
             content-pack-build-saaws.tar.gz
 
-  # build-package:
-  #   runs-on: ubuntu-latest
-  #   #going to assume since this is a VM we don't need the 
-  #   #attach_workspace command
-  #   steps:
-  #     - name: Grab Splunk Packaging Toolkit    
-  #       run : |
-  #         curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
-  #         mkdir ~/slim-latest
-  #         tar -zxf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
-  #     - name: Install Splunk Packaging Toolkit (slim)
-  #       run: |
-  #         cd ~/slim-latest
-  #         virtualenv --python=/usr/bin/python2.7 --clear venv
-  #         source venv/bin/activate
-  #         pip install semantic_version
-  #         pip install .
-  #     - name: Create a .spl for this Build Using Slim
-  #       run: |
-  #         source ~/slim-latest/venv/bin/activate
-  #         cd ~/build
-  #         tar -zxf content-pack-build-escu.tar.gz
-  #         tar -zxf content-pack-build-saaws.tar.gz
-  #         mv dist/escu DA-ESS-ContentUpdate
-  #         mv dist/saaws DA-ESS_AmazonWebServices_Content
-  #         slim package -o upload DA-ESS-ContentUpdate
-  #         slim package -o upload DA-ESS_AmazonWebServices_Content
-  #         cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
-  #         cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
+  build-package:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources]
+    
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: content-pack-build
+          path: build/
+
+      #This explicitly uses a different version of python (2.7)
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '2.7' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+      - name: Grab Splunk Packaging Toolkit    
+        run : |
+          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o ~/splunk-packaging-toolkit-latest.tar.gz
+          mkdir slim-latest
+          tar -zxf ~/splunk-packaging-toolkit-latest.tar.gz -C ~/slim-latest --strip-components=1
+
+      - name: Install Splunk Packaging Toolkit (slim)
+        run: |
+          cd slim-latest
+          virtualenv --python=/usr/bin/python2.7 --clear venv
+          source venv/bin/activate
+          python -m pip install semantic_version
+          ppython -m pip install .
+      - name: Create a .spl for this Build Using Slim
+        run: |
+          source slim-latest/venv/bin/activate
+          cd build
+          tar -zxf content-pack-build-escu.tar.gz
+          tar -zxf content-pack-build-saaws.tar.gz
+          mv dist/escu DA-ESS-ContentUpdate
+          mv dist/saaws DA-ESS_AmazonWebServices_Content
+          slim package -o upload DA-ESS-ContentUpdate
+          slim package -o upload DA-ESS_AmazonWebServices_Content
+          cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+          cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
       
-  #     - name: store_artifacts
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: package
-  #         path: |
-  #           ~/build/upload
+      - name: store_artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: |
+            build/upload
+      - name: store_artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: content-latest
+          path: |
+            build/DA-ESS-ContentUpdate-latest.tar.gz
+            build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
+
       
   #     - name: persist_to_workspace
   #       uses: actions/upload-artifact@v2
