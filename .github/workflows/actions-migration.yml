@@ -172,8 +172,8 @@ jobs:
         with:
           name: content-pack-build
           path: |
-            security-content/content-pack-build-escu.tar.gz
-            security-content/content-pack-build-saaws.tar.gz
+            content-pack-build-escu.tar.gz
+            content-pack-build-saaws.tar.gz
 
   # build-package:
   #   runs-on: ubuntu-latest
