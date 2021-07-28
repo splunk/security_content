@@ -50,8 +50,8 @@ jobs:
           #see below in requirements installation
           #sudo apt remove python-simplejson
     
-          echo "Upgrade pip as suggested" #github log still complains that the version is out of date...
-          sudo python3 -m pip install --upgrade pip
+          #echo "Upgrade pip as suggested" #github log still complains that the version is out of date...
+          #sudo python3 -m pip install --upgrade pip
           
 
 
@@ -59,22 +59,22 @@ jobs:
       
       - name: Install Python Dependencies
         run: |
+          #Get the virtualenv set up
           rm -rf venv
-          #virtualenv --python=/usr/bin/python3 --clear venv
           python3 -m venv --clear venv
           source venv/bin/activate
-          echo "Before installing requirements"
-          python3 -m pip list
+          
+          #Update pip, otherwise Github Actions complains
+          python3 -m pip install --upgrade pip
+          
+          #Actually install the requirements
           python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
-          echo "After installing Python dependencies with the requirements.txt file"
-          python3 -m pip list
+          
 
       - name: run validate  
         run: | 
           source venv/bin/activate
-          echo "Before we try to run validate"
-          python3 -m pip list
-          python contentctl.py --path . --verbose validate
+          python3 contentctl.py --path . --verbose validate
 
       - name: Get CTI Repo for Mitre context 
         uses:  actions/checkout@v2  
@@ -88,11 +88,14 @@ jobs:
           node-version: '14' #can easily be changed to a different version
       - name: Generate documentation
         run: |
+          #Enter the virtualenv and run the docgen
           source venv/bin/activate
           python bin/doc_gen.py --path . --output docs -v
+          
           #Now generate the spec docs
-          sudo npm install -g @adobe/jsonschema2md
+          npm install -g @adobe/jsonschema2md
           jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
+          
           #Clean up extra properties on docs
           rm -rf docs/spec/*-*.md
       
