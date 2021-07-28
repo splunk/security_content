@@ -101,78 +101,75 @@ jobs:
           #Clean up extra properties on docs
           rm -rf docs/spec/*-*.md
       
-  # build-sources:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Repo
-  #       uses: actions/checkout@v2
+  build-sources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
 
-  #     - name: Install System Packages
-  #       run: | 
-  #         sudo apt update -qq
-  #         sudo apt install jq -qq
+      - name: Install System Packages
+        run: | 
+          sudo apt update -qq
+          sudo apt install jq -qq
 
-  #     - name: Install Python Dependencies
-  #       run: | 
-  #         cd security-content
-  #         rm -rf venv
-  #         virtualenv --python=/usr/bin/python3 --clear venv
-  #         source venv/bin/activate
-  #         pip install -q -r requirements.txt
+      - name: Install Python Dependencies
+        run: | 
+          
+          rm -rf venv
+          virtualenv --clear venv
+          source venv/bin/activate
+          python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
 
-  #     - name: Run Generate
-  #       run: | 
-  #         cd security-content
-  #         source venv/bin/activate
-  #         python contentctl.py --path . --verbose generate --product ESCU --output dist/escu
-  #         python contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
-  #         #make a copy of use_case_lib in order to have ES work :-(
-  #         cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
-  #         cp dist/saaws/default/use_case_library.conf dist/saaws/default/analyticstories.conf
+      - name: Run Generate
+        run: | 
+          source venv/bin/activate
+          python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu
+          python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
+          #make a copy of use_case_lib in order to have ES work :-(
+          cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
+          cp dist/saaws/default/use_case_library.conf dist/saaws/default/analyticstories.conf
 
-  #     - name: Copy looks .csv files
-  #       run: | 
-  #         cd security-content
-  #         # clean up current lookups
-  #         rm -rf dist/escu/lookups
-  #         rm -rf dist/saaws/lookups
-  #         mkdir dist/escu/lookups
-  #         mkdir dist/saaws/lookups
-  #         #copy over lookups
-  #         cd lookups
-  #         cp -rv *.csv ../dist/escu/lookups
-  #         cp -rv *.csv ../dist/saaws/lookups
-  #     - name: Update Version and Build number
-  #       run : |
-  #          cd security-content
-  #           # check if tag is set, get build number from the tag if set
-  #           if [ -z "${CIRCLE_TAG}" ]; then
-  #               CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
-  #               echo "detected content version: $CONTENT_VERSION"
-  #           else
-  #               CONTENT_VERSION=$(echo $CIRCLE_TAG | grep -oP "\d+.\d+.\d+")
-  #               echo "content version: $CONTENT_VERSION, set by tag: $CIRCLE_TAG"
-  #           fi
-  #           # update build number and version for ESCU
-  #           sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" dist/escu/default/app.conf
-  #           sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/app.conf
-  #           sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
-  #           sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
-  #           tar -czf content-pack-build-escu.tar.gz dist/escu/*
-  #           # update build number and version for saaws
-  #           sed -i "s/build = .*$/build = $CIRCLE_BUILD_NUM/g" dist/saaws/default/app.conf
-  #           sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/app.conf
-  #           sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/saaws/app.manifest
-  #           sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
-  #           tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
+      - name: Copy lookups .csv files
+        run: | 
+          # clean up current lookups
+          rm -rf dist/escu/lookups
+          rm -rf dist/saaws/lookups
+          mkdir dist/escu/lookups
+          mkdir dist/saaws/lookups
+          #copy over lookups
+          cd lookups
+          cp -rv *.csv ../dist/escu/lookups
+          cp -rv *.csv ../dist/saaws/lookups
+      - name: Update Version and Build number
+        run : |
+            # check if tag is set, get build number from the tag if set
+            if [ -z "${{ github.event.release.tag_name }}" ]; then
+                CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
+                echo "detected content version: $CONTENT_VERSION"
+            else
+                CONTENT_VERSION=$(echo ${{ github.event.release.tag_name }} | grep -oP "\d+.\d+.\d+")
+                echo "content version: $CONTENT_VERSION, set by tag: ${{ github.event.release.tag_name }}"
+            fi
+            # update build number and version for ESCU
+            sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/escu/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/app.conf
+            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
+            tar -czf content-pack-build-escu.tar.gz dist/escu/*
+            # update build number and version for saaws
+            sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/saaws/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/app.conf
+            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/saaws/app.manifest
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
+            tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
       
-  #     - name: Persist to Workspace
-  #       uses: actions/upload-artifact@v2
-  #       with:
-  #         name: content-pack-build
-  #         path: |
-  #           security-content/content-pack-build-escu.tar.gz
-  #           security-content/content-pack-build-saaws.tar.gz
+      - name: Persist to Workspace
+        uses: actions/upload-artifact@v2
+        with:
+          name: content-pack-build
+          path: |
+            security-content/content-pack-build-escu.tar.gz
+            security-content/content-pack-build-saaws.tar.gz
 
   # build-package:
   #   runs-on: ubuntu-latest
