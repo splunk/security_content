@@ -79,7 +79,7 @@ jobs:
         uses:  actions/checkout@v2  
         with:
           repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "cti"
+          path: "~/cti"
           
 
       #Now generate the documentation (uses Node)
@@ -94,7 +94,7 @@ jobs:
 
           #Enter the virtualenv and run the docgen
           source venv/bin/activate
-          python bin/doc_gen.py --path . --output docs -v
+          python bin/doc_gen.py --path ~/cti --output docs -v
           
           #Now generate the spec docs
           npm install -g @adobe/jsonschema2md
