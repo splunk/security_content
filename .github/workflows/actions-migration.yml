@@ -50,11 +50,10 @@ jobs:
           #see below in requirements installation
           #sudo apt remove python-simplejson
     
-          #echo "Upgrade pip as suggested" #github log still complains that the version is out of date...
-          #sudo python3 -m pip install --upgrade pip
-          #python3 -m pip install --upgrade virtualenv
+          #Upgrade pip as suggested. However, even though we do this,
+          #Github Action log still complains that the version is out of date...
           /opt/hostedtoolcache/Python/3.9.5/x64/bin/python -m pip install --upgrade pip
-          python3 -m pip --version
+          
 
 
       #TODO: CircleCI save_cache equivalent    
@@ -65,42 +64,39 @@ jobs:
           python3 -m pip --version
           rm -rf venv
           python3 -m venv --clear venv
-          #source venv/bin/activate
-          
-          #Update pip, otherwise Github Actions complains
-          #python3 -m pip install --upgrade pip
+          source venv/bin/activate
           
           #Actually install the requirements
-          #python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
+          python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
           
 
-      # - name: run validate  
-      #   run: | 
-      #     source venv/bin/activate
-      #     python3 contentctl.py --path . --verbose validate
+      - name: run validate  
+        run: | 
+          source venv/bin/activate
+          python3 contentctl.py --path . --verbose validate
 
-      # - name: Get CTI Repo for Mitre context 
-      #   uses:  actions/checkout@v2  
-      #   with:
-      #     repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
-      #     path: "~/cti/"
+      - name: Get CTI Repo for Mitre context 
+        uses:  actions/checkout@v2  
+        with:
+          repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
+          path: "~/cti/"
 
-      # #Now generate the documentation (uses Node)
-      # - uses: actions/setup-node@v2
-      #   with:
-      #     node-version: '14' #can easily be changed to a different version
-      # - name: Generate documentation
-      #   run: |
-      #     #Enter the virtualenv and run the docgen
-      #     source venv/bin/activate
-      #     python bin/doc_gen.py --path . --output docs -v
+      #Now generate the documentation (uses Node)
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14' #can easily be changed to a different version
+      - name: Generate documentation
+        run: |
+          #Enter the virtualenv and run the docgen
+          source venv/bin/activate
+          python bin/doc_gen.py --path . --output docs -v
           
-      #     #Now generate the spec docs
-      #     npm install -g @adobe/jsonschema2md
-      #     jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
+          #Now generate the spec docs
+          npm install -g @adobe/jsonschema2md
+          jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
           
-      #     #Clean up extra properties on docs
-      #     rm -rf docs/spec/*-*.md
+          #Clean up extra properties on docs
+          rm -rf docs/spec/*-*.md
       
   # build-sources:
   #   runs-on: ubuntu-latest
