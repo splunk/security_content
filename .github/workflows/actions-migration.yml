@@ -64,13 +64,13 @@ jobs:
           #Get the virtualenv set up
           rm -rf venv
           python3 -m venv --clear venv
-          source venv/bin/activate
+          #source venv/bin/activate
           
           #Update pip, otherwise Github Actions complains
-          python3 -m pip install --upgrade pip
+          #python3 -m pip install --upgrade pip
           
           #Actually install the requirements
-          python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
+          #python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
           
 
       # - name: run validate  
