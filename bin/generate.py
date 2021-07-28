@@ -363,24 +363,24 @@ def add_rba(detection):
 
             risk_object = dict()
 
-            # determine if is a user type
+            # determine if is a user type, create risk
             if entity['type'].lower() in risk_object_user_types:
                 
                 for r in entity['role']:
                     if 'attacker' == r.lower():
-                        print(detection['name'] + "--" + r)
+
                         risk_object['risk_object_type'] = 'user'
                         risk_object['risk_object_field'] = entity['name']
                         risk_object['risk_score'] = detection['tags']['risk_score']
 
                         risk_objects.append(risk_object)
 
-            # determine if is a system type
+            # determine if is a system type, create risk
             elif entity['type'].lower() in risk_object_system_types:
                 
                 for r in entity['role']:
                     if 'attacker' == r.lower():
-                        print(detection['name'] + "--" + r)
+                        
                         risk_object['risk_object_type'] = 'system'
                         risk_object['risk_object_field'] = entity['name']
                         risk_object['risk_score'] = detection['tags']['risk_score']
@@ -394,7 +394,7 @@ def add_rba(detection):
                 continue
 
     detection['risk'] = risk_objects
-    print(risk_objects)
+    
     return detection
 
 def prepare_detections(detections, deployments, OUTPUT_PATH):
