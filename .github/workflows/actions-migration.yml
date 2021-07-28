@@ -52,53 +52,54 @@ jobs:
     
           #echo "Upgrade pip as suggested" #github log still complains that the version is out of date...
           #sudo python3 -m pip install --upgrade pip
-          sudo python3 -m pip install --upgrade virtualenv
+          #python3 -m pip install --upgrade virtualenv
+          /opt/hostedtoolcache/Python/3.9.5/x64/bin/python -m pip install --upgrade pip
           
 
 
-      #TODO: CircleCI save_cache equivalent    
+      # #TODO: CircleCI save_cache equivalent    
       
-      - name: Install Python Dependencies
-        run: |
-          #Get the virtualenv set up
-          rm -rf venv
-          python3 -m venv --clear venv
-          source venv/bin/activate
+      # - name: Install Python Dependencies
+      #   run: |
+      #     #Get the virtualenv set up
+      #     rm -rf venv
+      #     python3 -m venv --clear venv
+      #     source venv/bin/activate
           
-          #Update pip, otherwise Github Actions complains
-          python3 -m pip install --upgrade pip
+      #     #Update pip, otherwise Github Actions complains
+      #     python3 -m pip install --upgrade pip
           
-          #Actually install the requirements
-          python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
+      #     #Actually install the requirements
+      #     python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
           
 
-      - name: run validate  
-        run: | 
-          source venv/bin/activate
-          python3 contentctl.py --path . --verbose validate
+      # - name: run validate  
+      #   run: | 
+      #     source venv/bin/activate
+      #     python3 contentctl.py --path . --verbose validate
 
-      - name: Get CTI Repo for Mitre context 
-        uses:  actions/checkout@v2  
-        with:
-          repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "~/cti/"
+      # - name: Get CTI Repo for Mitre context 
+      #   uses:  actions/checkout@v2  
+      #   with:
+      #     repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
+      #     path: "~/cti/"
 
-      #Now generate the documentation (uses Node)
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14' #can easily be changed to a different version
-      - name: Generate documentation
-        run: |
-          #Enter the virtualenv and run the docgen
-          source venv/bin/activate
-          python bin/doc_gen.py --path . --output docs -v
+      # #Now generate the documentation (uses Node)
+      # - uses: actions/setup-node@v2
+      #   with:
+      #     node-version: '14' #can easily be changed to a different version
+      # - name: Generate documentation
+      #   run: |
+      #     #Enter the virtualenv and run the docgen
+      #     source venv/bin/activate
+      #     python bin/doc_gen.py --path . --output docs -v
           
-          #Now generate the spec docs
-          npm install -g @adobe/jsonschema2md
-          jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
+      #     #Now generate the spec docs
+      #     npm install -g @adobe/jsonschema2md
+      #     jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
           
-          #Clean up extra properties on docs
-          rm -rf docs/spec/*-*.md
+      #     #Clean up extra properties on docs
+      #     rm -rf docs/spec/*-*.md
       
   # build-sources:
   #   runs-on: ubuntu-latest
