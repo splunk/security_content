@@ -103,6 +103,7 @@ jobs:
       
   build-sources:
     runs-on: ubuntu-latest
+    needs: validate-content
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -116,7 +117,7 @@ jobs:
         run: | 
           
           rm -rf venv
-          virtualenv --clear venv
+          python3 -m pip --clear venv
           source venv/bin/activate
           python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
 
