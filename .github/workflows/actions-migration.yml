@@ -52,6 +52,7 @@ jobs:
     
           #echo "Upgrade pip as suggested" #github log still complains that the version is out of date...
           #sudo python3 -m pip install --upgrade pip
+          sudo python3 -m pip install --upgrade virtualenv
           
 
 
