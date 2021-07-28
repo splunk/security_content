@@ -54,7 +54,7 @@ jobs:
           #sudo python3 -m pip install --upgrade pip
           #python3 -m pip install --upgrade virtualenv
           /opt/hostedtoolcache/Python/3.9.5/x64/bin/python -m pip install --upgrade pip
-          
+          python3 -m pip --version
 
 
       #TODO: CircleCI save_cache equivalent    
@@ -62,6 +62,7 @@ jobs:
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
+          python3 -m pip --version
           rm -rf venv
           python3 -m venv --clear venv
           #source venv/bin/activate
