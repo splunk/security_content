@@ -63,11 +63,15 @@ jobs:
           #virtualenv --python=/usr/bin/python3 --clear venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          echo "Before installing requirements"
+          python3 -m pip list
           sudo python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
 
       - name: run validate  
         run: | 
           source venv/bin/activate
+          echo "Before we try to run validate"
+          python3 -m pip list
           python contentctl.py --path . --verbose validate
 
       - name: Get CTI Repo for Mitre context 
