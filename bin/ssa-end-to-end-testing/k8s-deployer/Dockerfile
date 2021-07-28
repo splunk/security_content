@@ -3,7 +3,7 @@ FROM docker.repo.splunkdev.net/ci-cd/ci-container:debian-buster
 ARG SRCBRANCH=develop
 ARG SCSENV=app_play1
 
-ARG KUBECTL_VERSION=v1.15.12
+ENV KUBECTL_VERSION=v1.15.12
 
 ENV QBEC_VERSION=v0.12.3
 
