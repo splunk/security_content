@@ -23,9 +23,9 @@ jobs:
       #I think Github is smart enough to choose based on whether it's a pull request or push + other info?
       - name: Check out the repository code 
         uses: actions/checkout@v2
-        with:
-          repository: splunk/security-content #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "security-content"
+        #with:
+        #  repository: splunk/security-content #check out https://github.com/mitre/cti.git, defaults to HEAD
+        #  path: "security-content"
       
 
       - uses: actions/setup-python@v2
@@ -40,6 +40,9 @@ jobs:
       #Also, no support for YAML anchors/aliases in Github Actions...
       - name: Install System Packages and Upgrade pip
         run: | 
+          pwd
+          ls -lah
+          ls -lah security-content
           sudo apt update -qq
           sudo apt install jq -qq
           #Upgrade to the latest pip so that Github Actions doesn't complain 
