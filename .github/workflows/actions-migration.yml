@@ -40,15 +40,9 @@ jobs:
       #Also, no support for YAML anchors/aliases in Github Actions...
       - name: Install System Packages and Upgrade pip
         run: | 
-          pwd
-          ls -lah
-          ls -lah security-content
           sudo apt update -qq
           sudo apt install jq -qq
-          #Upgrade to the latest pip so that Github Actions doesn't complain 
-          echo "This is the version of Python that we are running under:"
-          which python
-          which python3
+          
           echo "Upgrade pip as suggested" #github log still complains that the version is out of date...
           sudo python3 -m pip install --upgrade pip
           
@@ -58,13 +52,6 @@ jobs:
       
       - name: Install Python Dependencies
         run: |
-          #see what's in the current directory - we should have checkout out security content?
-          echo "Current directory"
-          pwd
-          echo "Current directory listing"
-          cd security-content
-          pwd
-          ls -lah
           rm -rf venv
           #virtualenv --python=/usr/bin/python3 --clear venv
           python3 -m venv --clear venv
@@ -82,7 +69,7 @@ jobs:
         uses:  actions/checkout@v2  
         with:
           repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "~/security-content/"
+          path: "~/cti/"
 
       #Now generate the documentation (uses Node)
       - uses: actions/setup-node@v2
@@ -90,7 +77,6 @@ jobs:
           node-version: '14' #can easily be changed to a different version
       - name: Generate documentation
         run: |
-          cd security-content
           source venv/bin/activate
           python bin/doc_gen.py --path . --output docs -v
           #Now generate the spec docs
