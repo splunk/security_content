@@ -41,8 +41,16 @@ jobs:
       - name: Install System Packages and Upgrade pip
         run: | 
           sudo apt update -qq
+          sudo apt remove python-simplejson
           sudo apt install jq -qq
-          
+
+          #Must be removed because installing requirements fails with the following error
+          #ERROR: Cannot uninstall 'simplejson'. It is a distutils installed project and 
+          #thus we cannot accurately determine which files belong to it which would lead 
+          #to only a partial uninstall.
+
+          sudo apt remove python-simplejson
+    
           echo "Upgrade pip as suggested" #github log still complains that the version is out of date...
           sudo python3 -m pip install --upgrade pip
           
@@ -60,8 +68,6 @@ jobs:
 
       - name: run validate  
         run: | 
-        
-          cd security-content
           source venv/bin/activate
           python contentctl.py --path . --verbose validate
 
