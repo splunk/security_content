@@ -10,11 +10,12 @@ description: This search looks for fast execution of processes used for system n
   configuration discovery on the endpoint.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.process_name
-  Processes.user _time | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `drop_dm_object_name(Processes)` | search `system_network_configuration_discovery_tools`
-  | transaction dest connected=false maxpause=5m |where eventcount>=5 | table firstTime
-  lastTime dest user process_name process parent_process eventcount | `detect_processes_used_for_system_network_configuration_discovery_filter`'
+  max(_time) as lastTime from datamodel=Endpoint.Processes where NOT Processes.user
+  IN ("","unknown") by Processes.dest Processes.process_name Processes.user _time
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)`
+  | search `system_network_configuration_discovery_tools` | transaction dest connected=false
+  maxpause=5m |where eventcount>=5 | table firstTime lastTime dest user process_name
+  process parent_process eventcount | `detect_processes_used_for_system_network_configuration_discovery_filter`'
 how_to_implement: You must be ingesting data that records registry activity from your
   hosts to populate the Endpoint data model in the processes node. This is typically
   populated via endpoint detection-and-response product, such as Carbon Black, or
