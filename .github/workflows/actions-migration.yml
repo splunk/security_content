@@ -52,7 +52,7 @@ jobs:
     
           #Upgrade pip as suggested. However, even though we do this,
           #Github Action log still complains that the version is out of date...
-          /opt/hostedtoolcache/Python/3.9.5/x64/bin/python -m pip install --upgrade pip
+          #/opt/hostedtoolcache/Python/3.9.5/x64/bin/python -m pip install --upgrade pip
           
 
 
@@ -61,7 +61,6 @@ jobs:
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
-          python3 -m pip --version
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
@@ -92,7 +91,7 @@ jobs:
 
           #Enter the virtualenv and run the docgen
           source venv/bin/activate
-          python bin/doc_gen.py --path . --output docs -v
+          python3 bin/doc_gen.py --path . --output docs -v
           
           #Now generate the spec docs
           npm install -g @adobe/jsonschema2md
@@ -116,9 +115,12 @@ jobs:
       - name: Install Python Dependencies
         run: | 
           
+          #get the virtualenv setup
           rm -rf venv
-          python3 -m pip --clear venv
+          python3 -m venv --clear venv
           source venv/bin/activate
+        
+          #Actually install the requirements
           python3 -m pip install -q -r requirements.txt --ignore-installed simplejson
 
       - name: Run Generate
