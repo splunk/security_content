@@ -79,7 +79,7 @@ jobs:
         uses:  actions/checkout@v2  
         with:
           repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
-          path: "~/cti"
+          path: "~/work/cti"
           
 
       #Now generate the documentation (uses Node)
@@ -89,11 +89,11 @@ jobs:
       - name: Generate documentation
         run: |
           echo "Some path information"
-          pwd
-          ls -lah 
-          echo $HOME
-          ls -lah ~
-          ls -lah ~/cti
+          echo "Listing of ~/work"
+          ls -lah ~/work
+          echo "Listing of ~/work/security_content"
+          ls -lah ~/work/security_content
+          
 
           #Enter the virtualenv and run the docgen
           source venv/bin/activate
