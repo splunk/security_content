@@ -39,21 +39,29 @@ def main(args):
 
     # Retrieve Security Content
     github_service = GithubService(branch)
+    ci_changes = False
     if test_file:
         if not os.path.isfile('security_content/tests/' + test_file):
             LOGGER.error('Can not find specified test file')
             sys.exit(1)
         test_files_ssa = [str("tests/" + test_file)]
     else:
-        test_files_ssa = github_service.get_changed_test_files_ssa()
+        test_files_ssa, ci_changes = github_service.get_changed_test_files_ssa()
     
     LOGGER.info('changed/added GitHub files:')
     for test_file in test_files_ssa:
         LOGGER.info(test_file)
 
-    if len(test_files_ssa) == 0:
+    if ci_changes:
+        LOGGER.info('CI code has changed')
+
+    if len(test_files_ssa) == 0 and not ci_changes:
         LOGGER.info('Nothing to test for SSA smoke test.')
         sys.exit(0)
+
+    if len(test_files_ssa) == 0 and ci_changes and fast:
+        LOGGER.error('Cannot test CI changes since no detections/tests have changed and running in fast mode.')
+        sys.exit(-1)
 
     # test DSP and SSA pipeline
     ssa_detection_testing = SSADetectionTesting(env, tenant, token)
