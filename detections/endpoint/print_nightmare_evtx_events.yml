@@ -10,7 +10,7 @@ description: The following analytic identifies EVTX events associated with Print
   during testing of current and modified exploits.
 search: 'sourcetype=WinEventLog EventCode=7031 OR EventCode=7036 Message=*Spooler* | stats  count by EventCode ComputerName Message| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `print_nightmare_evtx_events_filter`'
-how_to_implement: GPO auditing object access, detailed object access, process tracking, privilege use.
+how_to_implement: GPO auditing System Audit Policies, Detailed Tracking, Object Access, System, Privilege Use.
 known_false_positives: Unknown. This may require filtering.
 references:
 - https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/audit-policy-recommendations
