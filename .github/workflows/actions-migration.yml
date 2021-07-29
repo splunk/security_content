@@ -245,7 +245,8 @@ jobs:
           cd bin
           #Enclose in quotes in case there are any special characters in the username/password
           #Better not to pass these arguments on the command line, if possible
-          ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD" 
+          ls -lah 
+          ./appinspect.sh ../ build/DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD" 
       - name: Submit SAAWS Package to AppInspect API
         env:
           APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
