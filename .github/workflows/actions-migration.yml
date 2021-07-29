@@ -254,7 +254,7 @@ jobs:
           cd bin
           ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
       - name: store_artifacts 
-        uses: actions/upload-artifacts@v2
+        uses: actions/upload-artifact@v2
         with:
           name: report
           path: |
