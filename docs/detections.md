@@ -325,6 +325,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Detect GCP Storage access from a new IP](#detect-gcp-storage-access-from-a-new-ip)
 
 
@@ -470,6 +472,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+- [Detect shared ec2 snapshot](#detect-shared-ec2-snapshot)
 
 
 
@@ -687,6 +693,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [New container uploaded to AWS ECR](#new-container-uploaded-to-aws-ecr)
 
 
@@ -738,6 +748,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [O365 Suspicious User Email Forwarding](#o365-suspicious-user-email-forwarding)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1492,6 +1514,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Detect Copy of ShadowCopy with Script Block Logging](#detect-copy-of-shadowcopy-with-script-block-logging)
+
+
+
 - [Detect Credential Dumping through LSASS access](#detect-credential-dumping-through-lsass-access)
 
 
@@ -1725,6 +1751,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Detect processes used for System Network Configuration Discovery](#detect-processes-used-for-system-network-configuration-discovery)
+
+
 
 
 
@@ -2068,6 +2096,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Mshta spawning Rundll32 OR Regsvr32 Process](#mshta-spawning-rundll32-or-regsvr32-process)
+
+
+
 - [Msmpeng Application DLL Side Loading](#msmpeng-application-dll-side-loading)
 
 
@@ -2105,6 +2137,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Multiple Users Remotely Failing To Authenticate From Host](#multiple-users-remotely-failing-to-authenticate-from-host)
+
+
+
+- [NET Profiler UAC bypass](#net-profiler-uac-bypass)
 
 
 
@@ -2159,6 +2195,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Office Document Spawned Child Process To Download](#office-document-spawned-child-process-to-download)
+
+
+
+- [Office Product Spawn CMD Process](#office-product-spawn-cmd-process)
 
 
 
@@ -2434,6 +2474,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [SAM Database File Access Attempt](#sam-database-file-access-attempt)
+
+
+
 - [SLUI RunAs Elevated](#slui-runas-elevated)
 
 
@@ -2484,6 +2528,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Sdclt UAC Bypass](#sdclt-uac-bypass)
+
+
+
 - [SearchProtocolHost with no Command Line with Network](#searchprotocolhost-with-no-command-line-with-network)
 
 
@@ -2521,6 +2569,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Short Lived Windows Accounts](#short-lived-windows-accounts)
+
+
+
+- [SilentCleanup UAC Bypass](#silentcleanup-uac-bypass)
 
 
 
@@ -2688,6 +2740,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [UAC Bypass MMC Load Unsigned Dll](#uac-bypass-mmc-load-unsigned-dll)
+
+
+
 - [USN Journal Deletion](#usn-journal-deletion)
 
 
@@ -2739,6 +2795,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [WMI Temporary Event Subscription](#wmi-temporary-event-subscription)
+
+
+
+- [WSReset UAC Bypass](#wsreset-uac-bypass)
 
 
 
@@ -3089,6 +3149,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Detect IPv6 Network Infrastructure Threats](#detect-ipv6-network-infrastructure-threats)
 
 
@@ -3299,6 +3361,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Excessive DNS Failures](#excessive-dns-failures)
 
 
@@ -3425,7 +3489,13 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Multiple Archive Files Http Post Traffic](#multiple-archive-files-http-post-traffic)
+
+
+
+
 
 
 
@@ -3649,11 +3719,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [SMB Traffic Spike](#smb-traffic-spike)
 
 
 
 - [SMB Traffic Spike - MLTK](#smb-traffic-spike---mltk)
+
+
+
+
 
 
 
@@ -3799,7 +3875,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Unusually Long Content-Type Length](#unusually-long-content-type-length)
+
+
 
 
 
@@ -3867,6 +3947,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Application
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -4288,6 +4370,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Email Attachments With Lots Of Spaces](#email-attachments-with-lots-of-spaces)
 
 
@@ -4442,7 +4526,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Multiple Okta Users With Invalid Credentials From The Same IP](#multiple-okta-users-with-invalid-credentials-from-the-same-ip)
+
+
 
 
 
@@ -4508,6 +4596,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Okta Account Lockout Events](#okta-account-lockout-events)
 
 
@@ -4525,6 +4615,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Phishing Email Detection by Machine Learning Method - SSA](#phishing-email-detection-by-machine-learning-method---ssa)
+
+
+
+
+
+
 
 
 
@@ -4820,6 +4916,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Web Servers Executing Suspicious Processes](#web-servers-executing-suspicious-processes)
 
 
@@ -4872,6 +4972,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Web
 <details>
   <summary>details</summary>
+
+
 
 
 
@@ -5429,7 +5531,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
+
+
+
+
+
+
 
 
 
@@ -5711,7 +5823,15 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Supernova Webshell](#supernova-webshell)
+
+
+
+
 
 
 
@@ -13534,7 +13654,7 @@ This search allows you to identify DNS requests and compute the standard deviati
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
 - **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
-- **Last Updated**: 2021-01-18
+- **Last Updated**: 2021-07-21
 
 <details>
   <summary>details</summary>
@@ -13542,8 +13662,8 @@ This search allows you to identify DNS requests and compute the standard deviati
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count from datamodel=Network_Resolution by DNS.query 
-|  `drop_dm_object_name("DNS")` 
+| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where NOT DNS.message_type IN("Pointer","PTR") by DNS.query 
+| `drop_dm_object_name("DNS")` 
 | eval query_length = len(query) 
 | table query query_length record_type count 
 | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50
@@ -14992,6 +15112,85 @@ None thus far found
 
 
 * https://www.lares.com/blog/from-lares-labs-defensive-guidance-for-zerologon-cve-2020-1472/
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Detect Copy of ShadowCopy with Script Block Logging
+The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
+This analytic identifies `copy` or `[System.IO.File]::Copy` being used to capture the SAM, SYSTEM or SECURITY hives identified in script block. This will catch the most basic use cases for credentials being taken for offline cracking. \
+During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-07-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`powershell` EventCode=4104 Message IN ("*copy*","*[System.IO.File]::Copy*") AND Message IN ("*System32\\config\\SAM*", "*System32\\config\\SYSTEM*","*System32\\config\\SECURITY*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_copy_of_shadowcopy_with_script_block_logging_filter`
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+
+#### Required field
+
+* _time
+
+* Message
+
+* OpCode
+
+* ComputerName
+
+* User
+
+* EventCode
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hives.
+
+#### Reference
+
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36934
+
+* https://github.com/GossiTheDog/HiveNightmare
+
+* https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
 
 
 
@@ -16748,7 +16947,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 #### Search
 ```
-`cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers","*AllUsers") 
+`cloudtrail` eventSource="s3.amazonaws.com" (userAgent="[aws-cli*" OR userAgent=aws-cli* ) eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers","*AllUsers") 
 | rename requestParameters.bucketName AS bucketName 
 | fillnull 
 | stats count min(_time) as firstTime max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent bucketName requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control 
@@ -16843,7 +17042,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers") 
 | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL") 
 | rename requestParameters.bucketName AS bucketName 
-| stats count min(_time) as firstTime max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent uri permission bucketName 
+| stats count min(_time) as firstTime max(_time) as lastTime by user_arn userIdentity.principalId userAgent uri permission bucketName 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `detect_new_open_s3_buckets_filter` 
@@ -16866,7 +17065,7 @@ You must install the AWS App for Splunk.
 
 * requestParameters.bucketName
 
-* userIdentity.userName
+* user_arn
 
 * userIdentity.principalId
 
@@ -18476,7 +18675,7 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 
 #### Search
 ```
-`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe) 
+`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe process_name!=PsExec64.exe) 
 | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -18654,7 +18853,7 @@ The following analtyic identifies renamed instances of `WinRAR.exe`. In most cas
 
 #### Search
 ```
-`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe 
+`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe process_name!=winrar.exe 
 | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -20869,7 +21068,7 @@ This search looks for fast execution of processes used for system network config
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.process_name Processes.user _time 
+| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where NOT Processes.user IN ("","unknown") by Processes.dest Processes.process_name Processes.user _time 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `drop_dm_object_name(Processes)` 
@@ -20940,6 +21139,89 @@ It is uncommon for normal users to execute a series of commands used for network
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log
+
+
+_version_: 2
+</details>
+
+---
+
+### Detect shared ec2 snapshot
+The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1537](https://attack.mitre.org/techniques/T1537/)
+- **Last Updated**: 2021-07-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=ModifySnapshotAttribute 
+| rename requestParameters.createVolumePermission.add.items{}.userId as requested_account_id 
+| search requested_account_id != NULL 
+| eval match=if(requested_account_id==aws_account_id,"Match","No Match") 
+| table _time user_arn src_ip requestParameters.attributeType requested_account_id aws_account_id match vendor_region user_agent 
+| where match = "No Match" 
+| `detect_shared_ec2_snapshot_filter` 
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Instance Activities
+
+* Data Exfiltration
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* user_arn
+
+* src_ip
+
+* requestParameters.attributeType
+
+* aws_account_id
+
+* vendor_region
+
+* user_agent
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1537 | Transfer Data to Cloud Account | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+It is possible that an AWS admin has legitimately shared a snapshot with others for  a specific purpose.
+
+#### Reference
+
+
+* https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
 
 
 _version_: 2
@@ -28007,6 +28289,82 @@ _version_: 2
 
 ---
 
+### Mshta spawning Rundll32 OR Regsvr32 Process
+This search is to detect a suspicious mshta.exe process that spawn rundll32 or regsvr32 child process. This technique was seen in several malware nowadays like trickbot to load its initial .dll stage loader to execute and download the the actual trickbot payload.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
+- **Last Updated**: 2021-07-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = "mshta.exe"  (Processes.process_name=rundll32.exe OR Processes.process_name=regsvr32.exe) by Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `mshta_spawning_rundll32_or_regsvr32_process_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed mshta.exe may be used.
+
+#### Required field
+
+* _time
+
+* parent_process
+
+* process_name
+
+* process
+
+* process_id
+
+* process_guid
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.005 | Mshta | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+limitted. this anomaly behavior is not commonly seen in clean host.
+
+#### Reference
+
+
+* https://twitter.com/cyb3rops/status/1416050325870587910?s=21
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Msmpeng Application DLL Side Loading
 This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in non default windows defender folder. This technique was seen couple days ago with revil ransomware in Kaseya Supply chain. The approach is to drop an old version of msmpeng.exe to load the actual payload name as mspvc.dll which will load the revil ransomware to the compromise machine
 
@@ -28917,6 +29275,80 @@ A host failing to authenticate with multiple valid users against a remote host i
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### NET Profiler UAC bypass
+This search is to detect modification of registry to bypass UAC windows feature. This technique is to add a payload dll path on .NET COR file path that will be loaded by mmc.exe as soon it was executed. This detection rely on monitoring the registry key and values in the detection area. It may happened that windows update some dll related to mmc.exe and add dll path in this registry. In this case filtering is needed.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH" Registry.registry_value_name = "*.dll" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `net_profiler_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+limited false positive. It may trigger by some windows update that will modify this registry.
+
+#### Reference
+
+
+* https://offsec.almond.consulting/UAC-bypass-dotnet.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
 
 
 _version_: 1
@@ -30517,6 +30949,82 @@ default browser not in the filter list
 
 
 _version_: 2
+</details>
+
+---
+
+### Office Product Spawn CMD Process
+this search is to detect a suspicious office product process that spawn cmd child process. This is commonly seen in a ms office product having macro to execute shell command to download or execute malicious lolbin relative to its malicious code. This is seen in trickbot spear phishing doc where it execute shell cmd to run mshta payload.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
+- **Last Updated**: 2021-07-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name= "excel.exe" OR Processes.parent_process_name = "powerpnt.exe") Processes.process_name=cmd.exe by Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `office_product_spawn_cmd_process_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* parent_process
+
+* process_name
+
+* process
+
+* process_id
+
+* process_guid
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.005 | Mshta | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+IT or network admin may create an document automation that will run shell script.
+
+#### Reference
+
+
+* https://twitter.com/cyb3rops/status/1416050325870587910?s=21
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -36180,6 +36688,85 @@ _version_: 1
 
 ---
 
+### SAM Database File Access Attempt
+The following analytic identifies access to SAM, SYSTEM or SECURITY databases' within the file path of `windows\system32\config` using Windows Security EventCode 4663. This particular behavior is related to credential access, an attempt to either use a Shadow Copy or recent CVE-2021-36934 to access the SAM database. The Security Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7, 8.1 and 10 that stores users' passwords.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-07-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*") 
+| stats values(Accesses) count by process_name Object_Name  dest user 
+| `sam_database_file_access_attempt_filter`
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+
+#### Required field
+
+* _time
+
+* process_name
+
+* Object_Name
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Natively, `dllhost.exe` will access the files. Every environment will have additional native processes that do as well. Filter by process_name. As an aside, one can remove process_name entirely and add `Object_Name=*ShadowCopy*`.
+
+#### Reference
+
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4663
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36934
+
+* https://github.com/GossiTheDog/HiveNightmare
+
+* https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
+
+* https://en.wikipedia.org/wiki/Security_Account_Manager
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### SLUI RunAs Elevated
 The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, elevating access using the `-verb runas` function. This particular bypass utilizes a registry key/value. Identified by two sources, the registry keys are `HKCU\Software\Classes\exefile\shell` and `HKCU\Software\Classes\launcher.Systemsettings\Shell\open\command`. To simulate this behavior, multiple POC are available. The analytic identifies the use of `runas` by `slui.exe`.
 
@@ -37279,6 +37866,84 @@ _version_: 4
 
 ---
 
+### Sdclt UAC Bypass
+This search is to detect a suspicious sdclt.exe registry modification. This technique is commonly seen when attacker try to bypassed UAC by using sdclt.exe application by modifying some registry that sdclt.exe tries to open or query with payload file path on it to be executed.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "IsolatedCommand") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `sdclt_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited to no false positives are expected.
+
+#### Reference
+
+
+* https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/
+
+* https://github.com/hfiref0x/UACME
+
+* https://www.cyborgsecurity.com/cyborg_labs/threat-hunt-deep-dives-user-account-control-bypass-via-registry-modification/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### SearchProtocolHost with no Command Line with Network
 The following analytic identifies searchprotocolhost.exe with no command line arguments and with a network connection. It is unusual for searchprotocolhost.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. searchprotocolhost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
@@ -38048,6 +38713,82 @@ It is possible that an administrator created and deleted an account in a short t
 
 
 _version_: 2
+</details>
+
+---
+
+### SilentCleanup UAC Bypass
+This search is to detect a suspicious modification of registry that may related to UAC bypassed. This registry will be trigger once the attacker abuse the silentcleanup task schedule to gain high privilege execution that will bypass User control account.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\windir" Registry.registry_value_name = "*.exe*" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `silentcleanup_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://github.com/hfiref0x/UACME
+
+* https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -41583,6 +42324,87 @@ _version_: 1
 
 ---
 
+### UAC Bypass MMC Load Unsigned Dll
+This search is to detect a suspicious loaded unsigned dll by MMC.exe application. This technique is commonly seen in attacker that tries to bypassed UAC feature or gain privilege escalation. This is done by modifying some CLSID registry that will trigger the mmc.exe to load the dll path
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false Company != "Microsoft Corporation" 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed ProcessId OriginalFileName Computer EventCode Company 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `uac_bypass_mmc_load_unsigned_dll_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Image
+
+* ImageLoaded
+
+* Signed
+
+* ProcessId
+
+* OriginalFileName
+
+* Computer
+
+* EventCode
+
+* Company
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown. all of the dll loaded by mmc.exe is microsoft signed dll.
+
+#### Reference
+
+
+* https://offsec.almond.consulting/UAC-bypass-dotnet.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### USN Journal Deletion
 The fsutil.exe application is a legitimate Windows utility used to perform tasks related to the file allocation table (FAT) and NTFS file systems. The update sequence number (USN) change journal provides a log of all changes made to the files on the disk. This search looks for fsutil.exe deleting the USN journal.
 
@@ -42646,6 +43468,82 @@ Some software may create WMI temporary event subscriptions for various purposes.
 
 
 #### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### WSReset UAC Bypass
+This search is to detect a suspicious modification of registry related to UAC bypass. This technique is to modify the registry in this detection, create a registry value with the path of the payload and run WSreset.exe to bypass User account Control.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*" (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "DelegateExecute") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `wsreset_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://github.com/hfiref0x/UACME
+
+* https://blog.morphisec.com/trickbot-uses-a-new-windows-10-uac-bypass
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
 
 
 _version_: 1
