@@ -34,7 +34,7 @@ tags:
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json
   impact: 30
-  message: Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$ 
+  message: Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$
   nist:
   - DE.DP
   observable:
