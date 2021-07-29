@@ -530,6 +530,7 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 | T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
+| T1537 | Transfer Data to Cloud Account | Exfiltration |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
@@ -615,6 +616,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals](detections.md#credential-extraction-via-get-addbaccount-module-present-in-powersploit-and-dsinternals)
 
+* [Detect Copy of ShadowCopy with Script Block Logging](detections.md#detect-copy-of-shadowcopy-with-script-block-logging)
+
 * [Detect Credential Dumping through LSASS access](detections.md#detect-credential-dumping-through-lsass-access)
 
 * [Detect Dump LSASS Memory using comsvcs](detections.md#detect-dump-lsass-memory-using-comsvcs)
@@ -632,6 +635,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * [Extract SAM from Registry](detections.md#extract-sam-from-registry)
 
 * [Ntdsutil Export NTDS](detections.md#ntdsutil-export-ntds)
+
+* [SAM Database File Access Attempt](detections.md#sam-database-file-access-attempt)
 
 * [SecretDumps Offline NTDS Dumping Tool](detections.md#secretdumps-offline-ntds-dumping-tool)
 
@@ -735,7 +740,7 @@ The stealing of data by an adversary.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint, Network_Traffic
-- **ATT&CK**: [T1041](https://attack.mitre.org/techniques/T1041/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1114](https://attack.mitre.org/techniques/T1114/), [T1114.001](https://attack.mitre.org/techniques/T1114.001/), [T1114.003](https://attack.mitre.org/techniques/T1114.003/)
+- **ATT&CK**: [T1041](https://attack.mitre.org/techniques/T1041/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1114](https://attack.mitre.org/techniques/T1114/), [T1114.001](https://attack.mitre.org/techniques/T1114.001/), [T1114.003](https://attack.mitre.org/techniques/T1114.003/), [T1537](https://attack.mitre.org/techniques/T1537/)
 - **Last Updated**: 2020-10-21
 
 <details>
@@ -746,6 +751,8 @@ The stealing of data by an adversary.
 * [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
 
 * [Detect SNICat SNI Exfiltration](detections.md#detect-snicat-sni-exfiltration)
+
+* [Detect shared ec2 snapshot](detections.md#detect-shared-ec2-snapshot)
 
 * [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
 
@@ -772,6 +779,7 @@ The stealing of data by an adversary.
 | T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
+| T1537 | Transfer Data to Cloud Account | Exfiltration |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
@@ -1898,6 +1906,7 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 | T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
+| T1537 | Transfer Data to Cloud Account | Exfiltration |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
@@ -2564,13 +2573,23 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 
 * [Hiding Files And Directories With Attrib exe](detections.md#hiding-files-and-directories-with-attrib-exe)
 
+* [NET Profiler UAC bypass](detections.md#net-profiler-uac-bypass)
+
 * [SLUI RunAs Elevated](detections.md#slui-runas-elevated)
 
 * [SLUI Spawning a Process](detections.md#slui-spawning-a-process)
 
+* [Sdclt UAC Bypass](detections.md#sdclt-uac-bypass)
+
+* [SilentCleanup UAC Bypass](detections.md#silentcleanup-uac-bypass)
+
 * [Suspicious Reg exe Process](detections.md#suspicious-reg-exe-process)
 
 * [System Process Running from Unexpected Location](detections.md#system-process-running-from-unexpected-location)
+
+* [UAC Bypass MMC Load Unsigned Dll](detections.md#uac-bypass-mmc-load-unsigned-dll)
+
+* [WSReset UAC Bypass](detections.md#wsreset-uac-bypass)
 
 * [Windows DisableAntiSpyware Registry](detections.md#windows-disableantispyware-registry)
 
@@ -3917,7 +3936,7 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Change
-- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/)
+- **ATT&CK**: [T1078.004](https://attack.mitre.org/techniques/T1078.004/), [T1537](https://attack.mitre.org/techniques/T1537/)
 - **Last Updated**: 2020-08-25
 
 <details>
@@ -3931,12 +3950,15 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 * [Cloud Instance Modified By Previously Unseen User](detections.md#cloud-instance-modified-by-previously-unseen-user)
 
+* [Detect shared ec2 snapshot](detections.md#detect-shared-ec2-snapshot)
+
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1078.004 | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| T1537 | Transfer Data to Cloud Account | Exfiltration |
 
 #### Kill Chain Phase
 
@@ -4487,6 +4509,7 @@ Detect and investigate hosts in your environment that may be communicating with 
 | T1095 | Non-Application Layer Protocol | Command And Control |
 | T1041 | Exfiltration Over C2 Channel | Exfiltration |
 | T1189 | Drive-by Compromise | Initial Access |
+| T1537 | Transfer Data to Cloud Account | Exfiltration |
 | T1114.001 | Local Email Collection | Collection |
 | T1114 | Email Collection | Collection |
 | T1114.003 | Email Forwarding Rule | Collection |
@@ -5206,7 +5229,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
-- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1566.001](https://attack.mitre.org/techniques/T1566.001/), [T1590.005](https://attack.mitre.org/techniques/T1590.005/)
+- **ATT&CK**: [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1218.005](https://attack.mitre.org/techniques/T1218.005/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1566.001](https://attack.mitre.org/techniques/T1566.001/), [T1590.005](https://attack.mitre.org/techniques/T1590.005/)
 - **Last Updated**: 2021-04-20
 
 <details>
@@ -5220,9 +5243,13 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Cobalt Strike Named Pipes](detections.md#cobalt-strike-named-pipes)
 
+* [Mshta spawning Rundll32 OR Regsvr32 Process](detections.md#mshta-spawning-rundll32-or-regsvr32-process)
+
 * [Office Application Spawn rundll32 process](detections.md#office-application-spawn-rundll32-process)
 
 * [Office Document Executing Macro Code](detections.md#office-document-executing-macro-code)
+
+* [Office Product Spawn CMD Process](detections.md#office-product-spawn-cmd-process)
 
 * [Powershell Remote Thread To Known Windows Process](detections.md#powershell-remote-thread-to-known-windows-process)
 
@@ -5248,6 +5275,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1087.002 | Domain Account | Discovery |
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1218.005 | Mshta | Defense Evasion |
 | T1566.001 | Spearphishing Attachment | Initial Access |
 | T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | T1218.011 | Rundll32 | Defense Evasion |
