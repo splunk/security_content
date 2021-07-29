@@ -51,7 +51,7 @@ tags:
   - ID.AM
   observable:
   - name: user
-    type: user
+    type: User
     role:
     - Attacker
   product:
