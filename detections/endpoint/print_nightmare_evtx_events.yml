@@ -1,0 +1,52 @@
+name: Print Nightmare Evtx Events
+id: 0ba91d94-16c4-4620-88aa-fd0ccd2abfb5
+version: 1
+date: '2021-07-29'
+author: Rod Soto, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: The following analytic identifies EVTX events associated with PrintNightmare exploitation, specially via Mimikatz. This was identified
+  during testing of current and modified exploits.
+search: 'sourcetype=WinEventLog EventCode=7031 OR EventCode=7036 Message=*Spooler* | stats  count by EventCode ComputerName Message| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `print_nightmare_evtx_events_filter`'
+how_to_implement: GPO auditing object access, detailed object access, process tracking, privilege use.
+known_false_positives: Unknown. This may require filtering.
+references:
+- https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/audit-policy-recommendations
+- https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210724
+tags:
+  analytic_story:
+  - PrintNightmare CVE-2021-34527
+  automated_detection_testing: n/a
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Persistence,
+  - Stage:Privilege Escalation
+  - Stage:Defense Evasion
+  - Scope:Incoming
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: The Print Spooler service terminated unexpectedly.  It has done this 1 time(s).
+  mitre_attack_id:
+  - T1547.012
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ComputerName
+  - Message
+  risk_score: 72
+  security_domain: endpoint
