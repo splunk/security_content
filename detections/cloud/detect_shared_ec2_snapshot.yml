@@ -5,8 +5,9 @@ date: '2021-07-20'
 author: Bhavin Patel, Splunk
 type: batch
 datamodel: []
-description: The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions
-  are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot. 
+description: The following analytic utilizes AWS CloudTrail events to identify when
+  an EC2 snapshot permissions are modified to be shared with a different AWS account.
+  This method is used by adversaries to exfiltrate the EC2 snapshot.
 search: '`cloudtrail` eventName=ModifySnapshotAttribute | rename requestParameters.createVolumePermission.add.items{}.userId
   as requested_account_id | search requested_account_id != NULL | eval match=if(requested_account_id==aws_account_id,"Match","No
   Match") | table _time user_arn src_ip requestParameters.attributeType requested_account_id
@@ -22,16 +23,38 @@ tags:
   - Suspicious Cloud Instance Activities
   - Data Exfiltration
   asset_type: EC2 Snapshot
+  automated_detection_testing: passed
   cis20:
   - CIS 13
+  confidence: 80
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Outcome:Allowed
+  - Stage:Execution
+  - Stage:Exfiltration
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
+  impact: 60
   kill_chain_phases:
   - Actions on Objectives
+  message: AWS EC2 snapshot from account $aws_account_id$ is shared with $requested_account_id$
+    by user $user_arn$ from $src_ip$
   mitre_attack_id:
   - T1537
   nist:
   - PR.DS
   - PR.AC
   - DE.CM
+  observable:
+  - name: user_arn
+    type: User
+    role:
+    - Attacker
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -46,27 +69,5 @@ tags:
   - aws_account_id
   - vendor_region
   - user_agent
-  impact: 60
-  confidence: 80
   risk_score: 48
-  context:
-  - Source:Cloud Data
-  - Scope:External
-  - Outcome:Allowed
-  - Stage:Execution
-  - Stage:Exfiltration
-  message: AWS EC2 snapshot from account $aws_account_id$ is shared with $requested_account_id$
-    by user $user_arn$ from $src_ip$
-  observable:
-  - name: user_arn
-    type: User
-    role:
-    - Attacker
-  - name: src_ip
-    type: IP Address
-    role:
-    - Attacker
   security_domain: threat
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
