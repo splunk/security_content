@@ -246,14 +246,14 @@ jobs:
           #Enclose in quotes in case there are any special characters in the username/password
           #Better not to pass these arguments on the command line, if possible
           ls -lah 
-          ./appinspect.sh ../ build/DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD" 
+          ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD" 
       - name: Submit SAAWS Package to AppInspect API
         env:
           APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
           APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
         run: |
           cd bin
-          ./appinspect.sh ../ build/DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
+          ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
       - name: store_artifacts 
         uses: actions/upload-artifact@v2
         with:
