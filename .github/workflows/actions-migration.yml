@@ -252,7 +252,7 @@ jobs:
           APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
         run: |
           cd bin
-          ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
+          ./appinspect.sh ../ build/DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
       - name: store_artifacts 
         uses: actions/upload-artifact@v2
         with:
