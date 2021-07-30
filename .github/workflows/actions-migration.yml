@@ -451,3 +451,81 @@ jobs:
             aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/
             # make the file public since it is not by default
             aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
+
+  master-api-update:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
+    
+    steps:  
+        - name: Checkout Repo
+          uses: actions/checkout@v2
+        
+        #Official, Verified Amazon-AWS Github Account Provided Action
+        - uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
+            aws-region: us-west-1 #assume we will always use this, could make this an environment variable... 
+
+        - name: Update API sources
+          run: |
+            aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
+            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
+            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
+            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
+            aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
+            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
+            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
+            aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+        - name: Security Content API Smoke Test
+          run: |
+            API_URL='https://content.splunkresearch.com/detections'
+            API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $API_URL)
+            echo "Security Content API Status: $API_STATUS"
+            if [ "$API_STATUS" != "200" ]; then
+              echo "Error [Security Content API status: $API_STATUS]"
+              exit 1
+            fi
+  
+  detection-testing:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update, master-api-update]
+    
+    steps:  
+        - name: Checkout Repo
+          uses: actions/checkout@v2
+        
+        - name: Install System Packages
+          run: | 
+            sudo apt update -qq
+            sudo apt install jq -qq          
+       
+        - name: Install Python Dependencies
+          run: |
+            #Get the virtualenv set up
+            rm -rf venv
+            python3 -m venv --clear venv
+            source venv/bin/activate
+            python3 -m pip install -q -r requirements.txt
+        
+        - name: Get branch and PR required for detection testing main.py
+          id: vars
+          run: |
+            echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
+            
+        
+        - name: Run Detection testing
+          timeout-minutes: 120
+          run: |
+            cd automated_detection_testing/ci/python_ci_code
+            python3 -m venv --clear venv
+            source venv/bin/activate
+            pip install -q -r requirements.txt
+            if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "{{ github.event.issue.number }}"" ]]; then
+                python main.py -b ${{ steps.vars.outputs.branch }} -pr {{ github.event.issue.number }}"
+            else
+                python main.py -b ${{ steps.vars.outputs.branch }}
+            fi
