@@ -422,6 +422,6 @@ jobs:
       - name: Install ghr
         run: |
           go get -u github.com/tcnksm/ghr
-      - name: Run github.event.release.tag_name
+      - name: Run github release
         run: |
-          ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{ github.actor }} -r ${{} github.repository }} -c ${{ github.sha }} -delete ${{ github.ref }} DA-ESS-ContentUpdate-${{ github.ref }}.tar.gz
+          ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{ github.actor }} -r ${{ github.repository }} -c ${{ github.sha }} -delete ${{ github.ref }} DA-ESS-ContentUpdate-${{ github.ref }}.tar.gz
