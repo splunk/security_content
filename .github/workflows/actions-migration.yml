@@ -311,6 +311,15 @@ jobs:
     needs: [validate-content, build-sources, build-package, run-appinspect, create-report]
     steps: 
 
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9.5' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+
       - uses: actions/download-artifact@v2
         with:
           name: content-latest
@@ -329,13 +338,6 @@ jobs:
           ls -lah
           ls -lah latest-escu
           ls -lah latest-saaws
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-      
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.9.5' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
       - name: Install Python Dependencies
         run: |
@@ -369,7 +371,7 @@ jobs:
       - name: Run generate-coverage-map
         run: |
           source venv/bin/activate
-          python bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
+          python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
       
       - name: Update github with new docs and package bits
         run: |
