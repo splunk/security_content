@@ -410,9 +410,14 @@ jobs:
         with:
           name: content-latest
 
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      
+
       - name: Rename the content-update appropriately 
         run: |
-          cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ github.ref }}.tar.gz
+          cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
 
       #Need go to install and use ghr      
       - uses: actions/setup-go@v2
@@ -424,4 +429,4 @@ jobs:
           go get -u github.com/tcnksm/ghr
       - name: Run github release
         run: |
-          ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{ github.actor }} -r ${{ github.repository }} -c ${{ github.sha }} -delete ${{ github.ref }} DA-ESS-ContentUpdate-${{ github.ref }}.tar.gz
+          ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{ github.actor }} -r ${{ github.repository }} -c ${{ github.sha }} -delete ${{ steps.vars.outputs.tag }} DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
