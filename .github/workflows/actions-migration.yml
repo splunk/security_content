@@ -412,8 +412,9 @@ jobs:
 
       - name: Set output
         id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-      
+        run: |
+          echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+          echo ::set-output name=reponame::${GITHUB_REPOSITORY#*/}
 
       - name: Rename the content-update appropriately 
         run: |
@@ -429,4 +430,4 @@ jobs:
           go get -u github.com/tcnksm/ghr
       - name: Run github release
         run: |
-          ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{ github.actor }} -r ${{ github.repository }} -c ${{ github.sha }} -delete ${{ steps.vars.outputs.tag }} DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
+          ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{ github.actor }} -r ${{ steps.vars.outputs.reponame }} -c ${{ github.sha }} -delete ${{ steps.vars.outputs.tag }} DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
