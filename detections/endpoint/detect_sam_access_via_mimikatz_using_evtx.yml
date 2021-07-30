@@ -1,0 +1,52 @@
+name: Detect Sam access via Mimikatz using evtx
+id: 6615c1d3-0b03-4431-8371-0530e498102d
+version: 1
+date: '2021-07-30'
+author: Rod Soto, Splunk
+type: batch
+datamodel: []
+description: This search detects access to the Security Account Manager database file via Mimikatz using Active Directory
+  event ids (evtx format). The events 4719 and 4656 appear consistently when executing SeriousSam attack via mimikatz (Windows 10).
+search: 'sourcetype=XmlWinEventLog EventCode=4719 OR EventCode=4656 ObjectName=SAM   | stats  count by Computer process_name subject SystemTime  |
+  convert  timeformat="%Y-%m-%dT%H:%M:%S" ctime(firstTime)  | convert  timeformat="%Y-%m-%dT%H:%M:%S" ctime(lastTime)
+  | `detect_sam_access_via_mimikatz_using_evtx_filter`'
+how_to_implement: Need to implement AD GPO specifically targeting SAM access and Audit Policy Change under Object Access and Policy Change.
+known_false_positives: Limited false positives as the scope is limited to SAM, SYSTEM
+  and SECURITY hives.
+references:
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36934
+- https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210724
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-sam
+tags:
+  analytic_story:
+  - Credential Dumping
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: A handle to an object was requested. (subject)
+  mitre_attack_id:
+  - T1003
+  observable:
+  - name: Computer
+    type: Asset
+    role:
+    - Victim
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Message
+  - Computer
+  - EventCode
+  risk_score: 80
+  security_domain: endpoint
