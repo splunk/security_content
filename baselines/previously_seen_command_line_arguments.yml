@@ -28,6 +28,7 @@ tags:
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
+  - Icedid
   detections:
   - Detect Prohibited Applications Spawning cmd.exe
   - Processes launching netsh
