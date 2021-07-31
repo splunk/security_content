@@ -504,6 +504,11 @@ jobs:
             sudo apt update -qq
             sudo apt install jq -qq          
        
+        - uses: actions/setup-python@v2
+          with:
+           python-version: '3.9.5' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
         - name: Install Python Dependencies
           run: |
             #Get the virtualenv set up
@@ -534,7 +539,9 @@ jobs:
             source venv/bin/activate
             pip install -q -r requirements.txt
             if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
-                python main.py -b ${{ steps.vars.outputs.branch }} -pr ${{ github.event.issue.number }}
+                #python3 main.py -b ${{ steps.vars.outputs.branch }} -pr ${{ github.event.issue.number }}
+                echo "Did here"
             else
-                python main.py -b ${{ steps.vars.outputs.branch }}
+                #python3 main.py -b ${{ steps.vars.outputs.branch }}
+                echo "did there"
             fi
