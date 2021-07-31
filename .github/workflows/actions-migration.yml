@@ -517,7 +517,12 @@ jobs:
           run: |
             echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
             
-        
+        #Set up credentials in the environment so that boto3 will succeed
+        - uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
         - name: Run Detection testing
           timeout-minutes: 120
           run: |
