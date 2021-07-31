@@ -526,7 +526,7 @@ jobs:
             source venv/bin/activate
             pip install -q -r requirements.txt
             if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
-                python main.py -b ${{ steps.vars.outputs.branch }} -pr ${{ github.event.issue.number }}"
+                python main.py -b ${{ steps.vars.outputs.branch }} -pr ${{ github.event.issue.number }}
             else
                 python main.py -b ${{ steps.vars.outputs.branch }}
             fi
