@@ -517,11 +517,14 @@ jobs:
           run: |
             echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
             
-        #Set up credentials in the environment so that boto3 will succeed
+        #Set up credentials in the environment so that boto will be able to find them
         - uses: aws-actions/configure-aws-credentials@v1
           with:
             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            #Right now the script is hard coded to EU because of the dev who originally wrote it...
+            #probably change that arg to None and set here?
+            aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
 
         - name: Run Detection testing
           timeout-minutes: 120
