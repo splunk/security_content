@@ -357,6 +357,11 @@ jobs:
         with:
           repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
           path: "cti/"
+
+      - name: Get branch and PR required for detection testing main.py
+        id: vars
+        run: |
+          echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
       
       - name: Run doc-gen 
         run: |
@@ -371,12 +376,12 @@ jobs:
       - name: Run generate-actors-map
         run: |
           source venv/bin/activate
-          python3 bin/generate-actors-map.py --projects_path . --output docs/mitre-map/
+          #python3 bin/generate-actors-map.py --projects_path . --output docs/mitre-map/
       
       - name: Run generate-coverage-map
         run: |
           source venv/bin/activate
-          python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
+          #python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
       
       - name: Update github with new docs and package bits
         run: |
@@ -398,7 +403,7 @@ jobs:
           git commit --allow-empty -m "updating docs and package bits [ci skip]"
           # Push quietly to prevent showing the token in log
           #No need to provide any credentials
-          git push
+          git push ${{ steps.vars.outputs.branch }}
       
   #     #No need to store artifacts, they are stored previously.
 
