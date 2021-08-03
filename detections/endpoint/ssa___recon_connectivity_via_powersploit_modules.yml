@@ -10,7 +10,8 @@ description: This detection identifies access to PowerSploit modules for reconna
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  cmd_line=ucast(map_get(input_event, "process"), "string", null),
+  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where cmd_line
   != null AND ( match_regex(cmd_line, /(?i)Get-DomainDNSRecord/)=true OR match_regex(cmd_line,
   /(?i)Get-DNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DomainDNSZone/)=true
   OR match_regex(cmd_line, /(?i)Get-DNSZone/)=true OR match_regex(cmd_line, /(?i)Invoke-ReverseDnsLookup/)=true

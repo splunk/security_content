@@ -11,7 +11,8 @@ description: This detection identifies access to PowerSploit modules that enable
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null) | where cmd_line
+  cmd_line=ucast(map_get(input_event, "process"), "string", null),
+  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where cmd_line
   != null AND ( match_regex(cmd_line, /(?i)Set-DomainObject/)=true OR match_regex(cmd_line,
   /(?i)Set-ADObject/)=true OR match_regex(cmd_line, /(?i)Set-DomainObjectOwner/)=true
   OR match_regex(cmd_line, /(?i)Set-MasterBootRecord/)=true )
