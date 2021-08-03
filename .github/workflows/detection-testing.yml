@@ -54,8 +54,8 @@ jobs:
               pip install -q -r requirements.txt
               echo "BRANCH ${{ steps.vars.outputs.branch }}"
               echo "PR NUMBER ${{ github.event.issue.number }}"
-              SIMPLE_BRANCH=`git branch -a --contains `${{ steps.vars.outputs.branch }}`
-              echo simple_branch $SIMPLE_BRANCH
+              SIMPLE_BRANCH=`git branch -a --contains ${{ steps.vars.outputs.branch }}`
+              echo "simple_branch $SIMPLE_BRANCH"
               #if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
               #    python3 main.py -b $SIMPLE_BRANCH -pr ${{ github.event.issue.number }}
               #    
