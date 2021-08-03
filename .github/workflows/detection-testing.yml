@@ -5,7 +5,8 @@ jobs:
   detection-testing:
       runs-on: ubuntu-latest
       environment: Detection-Testing-Approval
-      needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update, master-api-update]
+      #Doesn't seem like it actually has any dependencies...
+      #needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update, master-api-update]
       #Only run when tagged
       if: startsWith(github.ref, 'refs/tags/v')
       steps:  
