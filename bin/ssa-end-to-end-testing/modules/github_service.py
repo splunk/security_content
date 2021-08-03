@@ -35,6 +35,7 @@ class GithubService:
         branch2 = 'develop'
         g = git.Git('security_content')
         changed_ssa_test_files = []
+        ci_changes = False
 
         if branch1 != 'develop':
             differ = g.diff('--name-only', branch1, branch2)
@@ -55,6 +56,10 @@ class GithubService:
                         if file_path_new not in changed_ssa_test_files:
                             changed_ssa_test_files.append(file_path_new)
 
+                # changed CI code
+                if file_path == '.gitlab-ci.yml' or file_path.startswith('bin/ssa-end-to-end-testing'):
+                    ci_changes = True
+
         # all SSA test files for nightly build
         else:
             changed_files = sorted(glob.glob('security_content/tests/*/*.yml'))
@@ -64,7 +69,11 @@ class GithubService:
                 if os.path.basename(file_path).startswith('ssa'):
                     changed_ssa_test_files.append(file_path)
 
-        return changed_ssa_test_files
+                # changed CI code
+                if file_path == '.gitlab-ci.yml' or file_path.startswith('bin/ssa-end-to-end-testing'):
+                    ci_changes = True
+
+        return changed_ssa_test_files, ci_changes
 
 
 

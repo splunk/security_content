@@ -14,12 +14,11 @@ LOGGER = logging.getLogger(__name__)
 # Macros
 PULSAR_SOURCE_CONNECTION_ID_PLAYGROUND = f"29fb61f1-9342-48f5-9793-1afa008c377b"
 PULSAR_SOURCE_TOPIC_PLAYGROUND = f"persistent://ssa/egress/decorated-events-research2"
-PULSAR_SOURCE_CONNECTION_ID_STAGING = f"b8c81601-a7e0-4501-802c-cb2831c72b6f"
+PULSAR_SOURCE_CONNECTION_ID_STAGING = f"d156ed3a-1254-469a-bffc-9dd6eda97ac6"
 PULSAR_SOURCE_TOPIC_STAGING = f"persistent://ssa/egress/decorated-events-research"
 
-READ_SSA_ENRICHED_EVENTS = f"| from read_ssa_enriched_events()"
 READ_SSA_ENRICHED_EVENTS_EXPANDED = (
-    f"| from pulsar(\"__PULSAR_SOURCE_CONNECTION_ID__\", \"__PULSAR_SOURCE_TOPIC__\")"
+    f"pulsar(\"__PULSAR_SOURCE_CONNECTION_ID__\", \"__PULSAR_SOURCE_TOPIC__\")"
     f"| eval input_event=deserialize_json_object(value)"
     f"| select input_event"
     f"| eval _datamodels=ucast(map_get(input_event, \"_datamodels\"), \"collection<string>\", [])"
@@ -29,7 +28,6 @@ READ_SSA_ENRICHED_EVENTS_EXPANDED = (
 # not used in the moment
 # PULSAR_SINK_CONNECTION_ID = f"29fb61f1-9342-48f5-9793-1afa008c377b"
 # PULSAR_SINK_TOPIC = f"persistent://ssa/ingress/detection-events-research2"
-WRITE_SSA_DETECTED_EVENTS = f"| into write_ssa_detected_events();"
 
 # ## dummy values ##
 # DETECTION_TYPE = f"anomaly"
@@ -87,11 +85,12 @@ def manipulate_spl(env, spl, results_index):
         .replace("__PULSAR_SOURCE_CONNECTION_ID__", pulsar_source_connection_id)\
         .replace("__PULSAR_SOURCE_TOPIC__", pulsar_source_topic)
     # Obtain the test sink
-    sink = ";"
     if results_index is not None:
         module = results_index["module"]
         index = results_index["name"]
-        sink = f"| into index(\"{module}\", \"{index}\");"
+        sink = f"index(\"{module}\", \"{index}\")"
+    else:
+        sink = "write_null()"
     # Replace spl template with its `source` and `sink`
     spl = replace_ssa_macros(source, sink, spl)
     LOGGER.info(f"spl: {spl}")
@@ -105,8 +104,8 @@ def read_spl(file_path, file_name):
 
 
 def replace_ssa_macros(source, sink, spl):
-    spl = spl.replace(READ_SSA_ENRICHED_EVENTS, source)
-    spl = spl.replace(WRITE_SSA_DETECTED_EVENTS, sink)
+    spl = re.sub(r'read_ssa_enriched_events\(\s*\)', source, spl, flags=re.IGNORECASE)
+    spl = re.sub(r'write_ssa_detected_events\(\s*\)', sink, spl, flags=re.IGNORECASE)
     return spl
 
 
@@ -121,7 +120,7 @@ def read_data(file_path):
     tmp_counter = 0
     for line in fileinput.input(files=modified_file):
         i = i + 1
-        if event != "" and re.match(date_rex, line):
+        if event.strip() != "" and re.match(date_rex, line):
             data.append(event)
             tmp_counter = 0
             event = line
