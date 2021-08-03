@@ -448,7 +448,11 @@ class DSPApi:
             "sourcetype": "WinEventLog"
             } for event in data]
         response = requests.post(self.return_api_endpoint(INGEST_ENDPOINT), json=data, headers=request_headers(self.header_token))
-        return response.json()
+        if response.status_code != HTTPStatus.OK:
+            LOGGER.error(f"Failed to upload data: %s", response.text)
+            return False
+
+        return True
 
 
     def submit_search_job(self, module, query):

@@ -120,7 +120,7 @@ def read_data(file_path):
     tmp_counter = 0
     for line in fileinput.input(files=modified_file):
         i = i + 1
-        if event != "" and re.match(date_rex, line):
+        if event.strip() != "" and re.match(date_rex, line):
             data.append(event)
             tmp_counter = 0
             event = line

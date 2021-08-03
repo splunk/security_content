@@ -150,7 +150,8 @@ class SSADetectionTesting:
 
         assert len(data) > 0, "No events to send, skip to next test."
 
-        response_body = self.api.ingest_data(data)
+        data_uploaded = self.api.ingest_data(data)
+        assert data_uploaded, "Failed to upload test data"
 
         self.wait_time(SLEEP_TIME_SEND_DATA)
 
