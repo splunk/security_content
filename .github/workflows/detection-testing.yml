@@ -1,55 +1,59 @@
-detection-testing:
-    runs-on: ubuntu-latest
-    environment: Detection-Testing-Approval
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update, master-api-update]
-    #Only run when tagged
-    if: startsWith(github.ref, 'refs/tags/v')
-    steps:  
-        - name: Checkout Repo
-          uses: actions/checkout@v2
-        
-        - name: Install System Packages
-          run: | 
-            sudo apt update -qq
-            sudo apt install jq -qq          
-       
-        - uses: actions/setup-python@v2
-          with:
-           python-version: '3.9.5' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
-           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+name: detection-testing
+on: [push, pull_request]
+jobs:
 
-        - name: Install Python Dependencies
-          run: |
-            #Get the virtualenv set up
-            rm -rf venv
-            python3 -m venv --clear venv
-            source venv/bin/activate
-            python3 -m pip install -q -r requirements.txt
+  detection-testing:
+      runs-on: ubuntu-latest
+      environment: Detection-Testing-Approval
+      needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update, master-api-update]
+      #Only run when tagged
+      if: startsWith(github.ref, 'refs/tags/v')
+      steps:  
+          - name: Checkout Repo
+            uses: actions/checkout@v2
+          
+          - name: Install System Packages
+            run: | 
+              sudo apt update -qq
+              sudo apt install jq -qq          
         
-        - name: Get branch and PR required for detection testing main.py
-          id: vars
-          run: |
-            echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
-            
-        #Set up credentials in the environment so that boto will be able to find them
-        - uses: aws-actions/configure-aws-credentials@v1
-          with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            #Right now the script is hard coded to EU because of the dev who originally wrote it...
-            #probably change that arg to None and set here?
-            aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
+          - uses: actions/setup-python@v2
+            with:
+              python-version: '3.9.5' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+              architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
-        - name: Run Detection testing
-          timeout-minutes: 120
-          run: |
-            cd automated_detection_testing/ci/python_ci_code
-            python3 -m venv --clear venv
-            source venv/bin/activate
-            pip install -q -r requirements.txt
-            if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
-                python3 main.py -b ${{ steps.vars.outputs.branch }} -pr ${{ github.event.issue.number }}
-                
-            else
-                python3 main.py -b ${{ steps.vars.outputs.branch }}
-            fi
+          - name: Install Python Dependencies
+            run: |
+              #Get the virtualenv set up
+              rm -rf venv
+              python3 -m venv --clear venv
+              source venv/bin/activate
+              python3 -m pip install -q -r requirements.txt
+          
+          - name: Get branch and PR required for detection testing main.py
+            id: vars
+            run: |
+              echo ::set-output name=branch::${GITHUB_REF#refs/heads/}
+              
+          #Set up credentials in the environment so that boto will be able to find them
+          - uses: aws-actions/configure-aws-credentials@v1
+            with:
+              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              #Right now the script is hard coded to EU because of the dev who originally wrote it...
+              #probably change that arg to None and set here?
+              aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
+
+          - name: Run Detection testing
+            timeout-minutes: 120
+            run: |
+              cd automated_detection_testing/ci/python_ci_code
+              python3 -m venv --clear venv
+              source venv/bin/activate
+              pip install -q -r requirements.txt
+              if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
+                  python3 main.py -b ${{ steps.vars.outputs.branch }} -pr ${{ github.event.issue.number }}
+                  
+              else
+                  python3 main.py -b ${{ steps.vars.outputs.branch }}
+              fi
