@@ -8,6 +8,9 @@ import logging
 import os
 import uuid
 import requests
+import time
+import base64
+import json
 
 from http import HTTPStatus
 #from constants import ML_MODEL_CONNECTOR_UUID
@@ -21,7 +24,7 @@ LOGGER = logging.getLogger(__name__)
 TENANT_PLAYGROUND = f"research2"
 TENANT_STAGING = f"research"
 BASE_URL_PLAYGROUND = f"https://api.playground.scp.splunk.com/"
-BASE_URL_STAGING = f"https://api.staging.scp.splunk.com/"
+BASE_URL_STAGING = f"https://api.staging.scs.splunk.com/"
 
 # Streaming Pipelines REST endpoints
 CONNECTIONS_ENDPOINT = f"streams/v3beta1/connections"
@@ -36,13 +39,41 @@ SUBMIT_SEARCH_ENDPOINT = f"search/v2beta1/jobs"
 DATASETS_ENDPOINT = f"catalog/v2beta1/datasets"
 
 
+class ApiError(Exception):
+    pass
+
+
 class DSPApi:
 
-    def __init__(self, env, tenant, header_token):
+    def __init__(self, env, tenant, token):
         self.env = env
         self.tenant = tenant
-        self.header_token = header_token
+        self.header_token = f"Bearer {token}"
+        self.validate_token()
 
+    def validate_token(self):
+        def decode(s):
+            def pad(t):
+                return t + '=' * (len(t) % 4)
+            return json.loads(base64.b64decode(pad(s)))
+
+        token = self.header_token.split()[1]
+        header, payload, signature = token.split('.')
+        payload_data = decode(payload)
+        for k in sorted(payload_data.keys()):
+            LOGGER.info(f"token.payload.{k} = %s", payload_data[k])
+
+        valid_for = payload_data['exp'] - int(time.time())
+        if not valid_for > 0:
+            raise ApiError("Token is expired")
+
+        token_env = payload_data['iss'].split('.')[-4]
+        if self.env != token_env:
+            raise ApiError(f"Env {self.env} was specified but token is for {token_env}")
+
+        token_tenant = payload_data['tenant']
+        if self.tenant != token_tenant:
+            raise ApiError(f"Tenant {self.tenant} was specified but token is for {token_tenant}")
 
     def return_api_endpoint(self, endpoint):
         if self.env == 'playground':
@@ -70,10 +101,11 @@ class DSPApi:
         #LOGGER.info(f"{spl}")
         response = requests.post(self.return_api_endpoint(PIPELINES_COMPILE_ENDPOINT), json=data, headers=request_headers(self.header_token))
         upl = response.json()
-        #LOGGER.info(f"POST compile response_body is: {upl}")
-        LOGGER.info(f"Successfully compile spl to upl")
-        return upl, response
-
+        if response.status_code == HTTPStatus.OK:
+            LOGGER.info(f"Successfully compiled spl to upl")
+            return upl
+        else:
+            LOGGER.error("SPL compilation failed: %s", response.text)
 
     def validate_upl(self, upl):
         """
@@ -93,13 +125,12 @@ class DSPApi:
         headers = {"Content-Type": "application/json", "Authorization": self.header_token}
         data = {"upl": upl}
         response = requests.post(self.return_api_endpoint(PIPELINES_VALIDATE_ENDPOINT), json=data, headers=headers)
-        response_body = response.json()
+
         if response.status_code == HTTPStatus.OK:
             LOGGER.info(f"UPL is validated.")
-            return upl, response_body
+            return upl
         else:
-            LOGGER.error(f"UPL validation failed: {response_body}")
-            return response_body
+            LOGGER.error("UPL validation failed: %s", response.text)
 
 
     def get_pipelines(self):
@@ -141,6 +172,7 @@ class DSPApi:
             "name": f"ssa_smoke_test_pipeline_helper_{set_test_id}",
             "description": "ssa_test_pipeline_description",
             "bypassValidation": "true",
+            "labels": {"app": "ba"},
             "data": upl
         }
         response = requests.post(self.return_api_endpoint(PIPELINES_ENDPOINT), json=data, headers=headers)
@@ -149,6 +181,8 @@ class DSPApi:
             pipeline_id = response_body.get("id")
             #LOGGER.info(f"Pipeline {pipeline_id} successfully created")
             return pipeline_id
+        else:
+            LOGGER.error(f"Failed to create pipeline: %s", response.text)
 
 
     def create_pipeline_from_spl(self, spl):
@@ -156,8 +190,8 @@ class DSPApi:
         helper function to compile and validate from spl text, then create the pipeline
 
         """
-        upl, _ = self.compile_spl(spl)
-        validated_upl, _ = self.validate_upl(upl)
+        upl = self.compile_spl(spl)
+        validated_upl = self.validate_upl(upl)
         pipeline_id = self.create_pipeline(validated_upl)
         LOGGER.info(f"pipeline id created is: {pipeline_id}")
         return pipeline_id
@@ -182,6 +216,7 @@ class DSPApi:
 
         headers = {"Content-Type": "application/json", "Authorization": self.header_token}
         pipelines_activate_endpoint = self.return_api_endpoint(PIPELINES_ENDPOINT) + "/" + pipeline_id + "/activate"
+        pipelines_status_endpoint = self.return_api_endpoint(PIPELINES_ENDPOINT) + "/" + pipeline_id
 
         data = {
             "activateLatestVersion": "true",
@@ -189,16 +224,35 @@ class DSPApi:
             "skipRestoreState": "true"
         }
 
+        pipeline_activated = False
+        attempts_remaining = 30
+
         response = requests.post(pipelines_activate_endpoint, json=data, headers=headers)
-        response_body = response.json()
 
         if response.status_code == HTTPStatus.OK:
-            pipeline_id = response_body.get("activated")
-            LOGGER.info(f"Pipeline {pipeline_id} successfully activated")
-        else:
-            LOGGER.error(f"Failed to activate pipeline {pipeline_id}: {response.text}")
+            while attempts_remaining:
+                attempts_remaining -= 1
+                pipeline_status_response = requests.get(pipelines_status_endpoint, headers=headers)
+                if pipeline_status_response.status_code == HTTPStatus.OK:
+                    pipeline_status = pipeline_status_response.json()
+                    status = pipeline_status['status']
+                    if status == 'ACTIVATED':
+                        pipeline_activated = True
+                        LOGGER.info(f"Pipeline {pipeline_id} successfully activated")
+                        break
+                    else:
+                        LOGGER.warning("Current pipeline activation status for %s: %s", pipeline_id, status)
+                else:
+                    LOGGER.error("Failed to check pipeline status for %s: %s", pipeline_id, pipeline_status_response.text)
 
-        return response_body
+                if attempts_remaining:
+                    time.sleep(60)
+                else:
+                    LOGGER.error("Got tired of waiting for the pipeline to activate")
+        else:
+            LOGGER.error("Failed to request pipeline activation for %: %s", pipeline_id, response.text)
+
+        return pipeline_activated
 
 
     def deactivate_pipeline(self, pipeline_id):
@@ -368,8 +422,8 @@ class DSPApi:
 
         """
 
-        upl, _ = self.compile_spl(spl)
-        validated_upl, _ = self.validate_upl(upl)
+        upl = self.compile_spl(spl)
+        validated_upl = self.validate_upl(upl)
         preview_id = self.get_preview_id(validated_upl)
         LOGGER.info(f"preview id created is: {preview_id}")
         return preview_id
@@ -390,11 +444,15 @@ class DSPApi:
             response body in JSON format
         """
         data = [{
-            "body": data,
+            "body": event,
             "sourcetype": "WinEventLog"
-            }]
+            } for event in data]
         response = requests.post(self.return_api_endpoint(INGEST_ENDPOINT), json=data, headers=request_headers(self.header_token))
-        return response.json()
+        if response.status_code != HTTPStatus.OK:
+            LOGGER.error(f"Failed to upload data: %s", response.text)
+            return False
+
+        return True
 
 
     def submit_search_job(self, module, query):
@@ -420,7 +478,7 @@ class DSPApi:
         LOGGER.info(f"Submit Search Job")
         response = requests.post(self.return_api_endpoint(SUBMIT_SEARCH_ENDPOINT), json=data, headers=request_headers(self.header_token))
         if response.status_code != HTTPStatus.CREATED:
-            LOGGER.error(f"Submit search job failed.")
+            LOGGER.error(f"Submit search job failed: %s", response.text)
             return None
         else:
             response_body = response.json()
