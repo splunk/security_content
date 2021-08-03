@@ -8,7 +8,7 @@ jobs:
       #Doesn't seem like it actually has any dependencies...
       #needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update, master-api-update]
       #Only run when tagged
-      if: startsWith(github.ref, 'refs/tags/v')
+      #if: startsWith(github.ref, 'refs/tags/v')
       steps:  
           - name: Checkout Repo
             uses: actions/checkout@v2
@@ -52,13 +52,14 @@ jobs:
               python3 -m venv --clear venv
               source venv/bin/activate
               pip install -q -r requirements.txt
+              echo "At least we got here..."
               echo "BRANCH ${{ steps.vars.outputs.branch }}"
               echo "PR NUMBER ${{ github.event.issue.number }}"
               SIMPLE_BRANCH=`git branch -a --contains ${{ steps.vars.outputs.branch }}`
               echo "simple_branch $SIMPLE_BRANCH"
-              #if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
-              #    python3 main.py -b $SIMPLE_BRANCH -pr ${{ github.event.issue.number }}
-              #    
-              #else
-              #    python3 main.py -b $SIMPLE_BRANCH
-              #fi
+              # if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
+              #     python3 main.py -b $SIMPLE_BRANCH -pr ${{ github.event.issue.number }}
+                  
+              # else
+              #     python3 main.py -b $SIMPLE_BRANCH
+              # fi
