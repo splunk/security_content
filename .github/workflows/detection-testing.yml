@@ -52,9 +52,11 @@ jobs:
               python3 -m venv --clear venv
               source venv/bin/activate
               pip install -q -r requirements.txt
-              if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
-                  python3 main.py -b ${{ steps.vars.outputs.branch }} -pr ${{ github.event.issue.number }}
-                  
-              else
-                  python3 main.py -b ${{ steps.vars.outputs.branch }}
-              fi
+              echo "BRANCH ${{ steps.vars.outputs.branch }}"
+              echo "PR NUMBER ${{ github.event.issue.number }}"
+              #if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
+              #    python3 main.py -b ${{ steps.vars.outputs.branch }} -pr ${{ github.event.issue.number }}
+              #    
+              #else
+              #    python3 main.py -b ${{ steps.vars.outputs.branch }}
+              #fi
