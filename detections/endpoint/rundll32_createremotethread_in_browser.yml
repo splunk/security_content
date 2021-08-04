@@ -9,7 +9,7 @@ datamodel:
 description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to "firefox.exe" and "chrome.exe"
   browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted 
   browser process.
-search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe")
+search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe")
   | stats count min(_time) as firstTime max(_time) as lastTime
   by SourceImage TargetImage TargetProcessId SourceProcessId StartAddress EventCode Computer 
   | `security_content_ctime(firstTime)`
