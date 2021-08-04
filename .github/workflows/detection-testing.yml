@@ -56,7 +56,7 @@ jobs:
               git branch -a --contains ${{ steps.vars.outputs.branch }}
               echo "Parsed branch name?"
               #BRANCH_NAME=`git branch -a --contains ${{ steps.vars.outputs.branch }} | head -n1 | cut -d' ' -f2`
-              BRANCH_NAME=$(git branch --contains $(git log --pretty=oneline | head -n 2 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'))
+              BRANCH_NAME=$(git branch -a --contains $(git log --pretty=oneline | head -n 2 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'))
               echo "The branch name is....$BRANCH_NAME"
               # cd automated_detection_testing/ci/python_ci_code
               # python3 -m venv --clear venv
