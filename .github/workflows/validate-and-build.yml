@@ -83,6 +83,10 @@ jobs:
 
           #Clean up extra properties on docs
           rm -rf docs/spec/*-*.md
+          
+          echo "****** BRANCH INFORMATION ******"
+          git branch
+          git branch --show-current
       
 #   build-sources:
 #     runs-on: ubuntu-latest
