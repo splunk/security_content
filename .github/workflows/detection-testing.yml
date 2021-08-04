@@ -48,6 +48,8 @@ jobs:
           - name: Run Detection testing
             timeout-minutes: 120
             run: |
+              echo "Show a big log of the past 10 commits"
+              git log --pretty=oneline | head -n 10
               echo "Attempt 1"
               git branch -a --contains ${{ steps.vars.outputs.branch }}
               echo "Parsed branch name?"
