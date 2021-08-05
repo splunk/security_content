@@ -1,6 +1,6 @@
-name: Drop IcedID License.dat Unit Test
+name: Drop IcedID License dat Unit Test
 tests:
-- name: Drop IcedID License.dat
+- name: Drop IcedID License dat
   file: endpoint/drop_icedid_license_dat.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
