@@ -6,19 +6,18 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect suspicious process injection in command shell. 
-  This technique was seen in IcedID where it execute cmd.exe process to inject its shellcode as part of its execution as 
-  banking trojan. It is really uncommon to have a create remote thread execution in the following application.
-search: '`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*")
-  | stats count min(_time) as firstTime max(_time) as lastTime
-  by  TargetImage TargetProcessId SourceProcessId  EventCode StartAddress SourceImage Computer 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `create_remote_thread_in_shell_application_filter`'
+description: This search is to detect suspicious process injection in command shell.
+  This technique was seen in IcedID where it execute cmd.exe process to inject its
+  shellcode as part of its execution as banking trojan. It is really uncommon to have
+  a create remote thread execution in the following application.
+search: '`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") | stats
+  count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId
+  SourceProcessId  EventCode StartAddress SourceImage Computer | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `create_remote_thread_in_shell_application_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: unknown
 references:
 - https://thedfirreport.com/2021/07/19/icedid-and-cobalt-strike-vs-antivirus/
@@ -37,24 +36,24 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - SourceImage 
-  - TargetImage 
-  - TargetProcessId 
-  - SourceProcessId 
-  - StartAddress 
-  - EventCode 
-  - Computer 
+  - SourceImage
+  - TargetImage
+  - TargetProcessId
+  - SourceProcessId
+  - StartAddress
+  - EventCode
+  - Computer
   security_domain: endpoint
   impact: 70
   confidence: 100
-  # (impact * confidence)/100
   risk_score: 70
-  context: 
-  - source: endpoint 
+  context:
+  - source: endpoint
   - stage: Defense Evasion
-  message: process $SourceImage$ create a remote thread to shell app process $TargetImage$ in host $Computer$
+  message: process $SourceImage$ create a remote thread to shell app process $TargetImage$
+    in host $Computer$
   observable:
-  - name: Computer 
+  - name: Computer
     type: Hostname
     role:
     - Victim
@@ -62,4 +61,4 @@ tags:
     type: process name
     role:
     - Attacker
-  
+  automated_detection_testing: passed

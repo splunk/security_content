@@ -6,17 +6,17 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious file creation namely passff.tar and cookie.tar.
-  This files are possible archived of stolen browser information like history and cookies in a compromised machine with IcedID.
-search: '`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename = "*\\cookie.tar") 
-  |stats count min(_time) as firstTime max(_time) as lastTime by TargetFilename EventCode process_id  process_name Computer 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `icedid_exfiltrated_archived_file_creation_filter`'
+description: This search is to detect a suspicious file creation namely passff.tar
+  and cookie.tar. This files are possible archived of stolen browser information like
+  history and cookies in a compromised machine with IcedID.
+search: '`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename
+  = "*\\cookie.tar") |stats count min(_time) as firstTime max(_time) as lastTime by
+  TargetFilename EventCode process_id  process_name Computer | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `icedid_exfiltrated_archived_file_creation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: unknown
 references:
 - https://www.cisecurity.org/white-papers/security-primer-icedid/
@@ -35,22 +35,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - TargetFilename 
-  - EventCode 
-  - process_id  
-  - process_name 
-  - Computer 
+  - TargetFilename
+  - EventCode
+  - process_id
+  - process_name
+  - Computer
   security_domain: endpoint
   impact: 80
   confidence: 90
-  # (impact * confidence)/100
   risk_score: 72
   context:
-  - source: endpoint 
+  - source: endpoint
   - stage: Collection
   message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
   observable:
-  - name: Computer 
+  - name: Computer
     type: Hostname
     role:
     - Victim
@@ -58,4 +57,4 @@ tags:
     type: process name
     role:
     - Attacker
-  
+  automated_detection_testing: passed
