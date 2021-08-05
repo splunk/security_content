@@ -36,7 +36,7 @@ jobs:
           - name: Get branch and PR required for detection testing main.py
             id: vars
             run: |
-              echo ::set-output name=branch::${GITHUB_REF#refs/tags/}
+              echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
               
           #Set up credentials in the environment so that boto will be able to find them
           - uses: aws-actions/configure-aws-credentials@v1
@@ -53,8 +53,8 @@ jobs:
               echo "Show a big log of the past 10 commits"
               git log --pretty=oneline | head -n 2
               echo "Attempt 1"
-              git branch -a --contains ${{ steps.vars.outputs.branch }}
-              echo "Parsed branch name?"
+              THE_BRANCH=`git branch -a --contains ${{ steps.vars.outputs.tag }} | tail -n 1 | sed 's/^[[:space:]]*//g'`
+              echo "Parsed branch name <$THE_BRANCH>"
               #BRANCH_NAME=`git branch -a --contains ${{ steps.vars.outputs.branch }} | head -n1 | cut -d' ' -f2`
               #git log --pretty=oneline | head -n 1 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'
               #git log --pretty=oneline | head -n 2 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'
