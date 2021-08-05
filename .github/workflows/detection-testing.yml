@@ -13,7 +13,7 @@ jobs:
           - name: Checkout Repo
             uses: actions/checkout@v2
             with:
-              fetch-depth: '10'
+              fetch-depth: '0'
           
           - name: Install System Packages
             run: | 
