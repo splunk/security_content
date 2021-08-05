@@ -6,23 +6,21 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious rundll32.exe process with plugininit parameter. 
-  This technique is commonly seen in IceID malware to execute its initial dll stager to download another 
-  payload to the compromised machine.
+description: This search is to detect a suspicious rundll32.exe process with plugininit
+  parameter. This technique is commonly seen in IceID malware to execute its initial
+  dll stager to download another payload to the compromised machine.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
-  Processes.process=*PluginInit* by  Processes.process_name Processes.process
-  Processes.parent_process_name Processes.parent_process Processes.process_id 
-  Processes.parent_process_id Processes.dest Processes.user
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `suspicious_rundll32_plugininit_filter`'
+  Processes.process=*PluginInit* by  Processes.process_name Processes.process Processes.parent_process_name
+  Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest
+  Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_rundll32_plugininit_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-known_false_positives: third party application may used this dll export name to execute function.
+known_false_positives: third party application may used this dll export name to execute
+  function.
 references:
 - https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
 tags:
@@ -40,25 +38,24 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - process_name 
+  - process_name
   - process
-  - parent_process_name 
-  - parent_process 
-  - process_id 
-  - parent_process_id 
-  - dest 
+  - parent_process_name
+  - parent_process
+  - process_id
+  - parent_process_id
+  - dest
   - user
   security_domain: endpoint
   impact: 60
   confidence: 70
-  # (impact * confidence)/100
   risk_score: 42
   context:
-  - source: endpoint 
+  - source: endpoint
   - stage: Defense Evasion
   message: rundll32 process $process_name$ with commandline $process$ in host $dest$
   observable:
-  - name: dest 
+  - name: dest
     type: Hostname
     role:
     - Victim
@@ -66,4 +63,4 @@ tags:
     type: process name
     role:
     - Attacker
-  
+  automated_detection_testing: passed
