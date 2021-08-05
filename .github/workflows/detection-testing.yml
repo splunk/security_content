@@ -50,19 +50,18 @@ jobs:
           - name: Run Detection testing
             timeout-minutes: 120
             run: |
-              echo "Show a big log of the past 10 commits"
-              git log --pretty=oneline | head -n 2
-              echo "Attempt 1"
-              THE_BRANCH=`git branch -a --contains ${{ steps.vars.outputs.tag }} | tail -n 1 | sed 's/^[[:space:]]*//g'`
-              echo "Parsed branch name <$THE_BRANCH>"
-              git checkout $THE_BRANCH
+              #echo "Show a big log of the past 10 commits"
+              #git log --pretty=oneline | head -n 2
+              #echo "Attempt 1"
+              #THE_BRANCH=`git branch -a --contains ${{ steps.vars.outputs.tag }} | tail -n 1 | sed 's/^[[:space:]]*//g'`
+              #echo "Parsed branch name <$THE_BRANCH>"
+              #git checkout $THE_BRANCH
               git config user.email "research@splunk.com"
               git config user.name "research bot"
-              git config --global push.default simple
               touch test.file
               git add test.file
               git commit --allow-empty -m "Doing a test commit"
-              git push origin HEAD:refs/heads/$THE_BRANCH
+              
               
 
               #BRANCH_NAME=`git branch -a --contains ${{ steps.vars.outputs.branch }} | head -n1 | cut -d' ' -f2`
@@ -84,3 +83,8 @@ jobs:
               # else
               #     python3 main.py -b $SIMPLE_BRANCH
               # fi
+          - name: Puish Changes
+            uses: ad-m/github-push-action@master
+            with:
+              github_token: $
+              branch: $
