@@ -36,7 +36,7 @@ jobs:
           - name: Get branch and PR required for detection testing main.py
             id: vars
             run: |
-              echo ::set-output name=tag::${GITHUB_REF#refs/tags/remotes/origin}
+              echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
               
           #Set up credentials in the environment so that boto will be able to find them
           - uses: aws-actions/configure-aws-credentials@v1
@@ -62,8 +62,8 @@ jobs:
               touch test.file
               git add test.file
               git commit --allow-empty -m "Doing a test commit"
-              #git push origin HEAD:refs/heads/remote/origin/$THE_BRANCH
-              git push
+              git push origin HEAD:`echo "$THE_BRANCH" | cut -d'/' -f3`
+              
 
               #BRANCH_NAME=`git branch -a --contains ${{ steps.vars.outputs.branch }} | head -n1 | cut -d' ' -f2`
               #git log --pretty=oneline | head -n 1 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'
