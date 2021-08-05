@@ -74,7 +74,7 @@ jobs:
               #echo "The branch name 2 is....$BRANCH_NAME"
               # cd automated_detection_testing/ci/python_ci_code
               # python3 -m venv --clear venv
-              # source venv/bin/activate
+              # source venv/bin/activate 
               # pip install -q -r requirements.txt
               
               # if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
