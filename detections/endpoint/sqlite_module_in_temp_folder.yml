@@ -9,9 +9,8 @@ datamodel:
 description: This search is to detect a suspicious file creation of sqlite3.dll in %temp% folder.
   This behavior was seen in IcedID malware where it download sqlite module to parse browser database like for chrome 
   or firefox to stole browser information related to bank, credit card or credentials.
-search: '`sysmon` EventCode= 11  (TargetFilename = "*\\sqlite32.dll" OR TargetFilename = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*")
-  |stats count min(_time) as firstTime max(_time) as lastTime by  process_name TargetFilename EventCode ProcessId Image
-   process_id  process_name Computer 
+search: '`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*")
+  |stats count min(_time) as firstTime max(_time) as lastTime by process_name TargetFilename EventCode ProcessId Image
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `sqlite_module_in_temp_folder_filter`'
@@ -44,9 +43,9 @@ tags:
   - Image
   security_domain: endpoint
   impact: 30
-  confidence: 50
+  confidence: 30
   # (impact * confidence)/100
-  risk_score: 15
+  risk_score: 9
   context:
   - source: endpoint 
   - stage: Collection
