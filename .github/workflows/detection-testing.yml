@@ -65,6 +65,7 @@ jobs:
               touch test.file
               git add test.file
               git commit --allow-empty -m "Doing a test commit"
+              echo ::set-output name=real_branch::$REAL_BRANCH
               #git push https://${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY $REAL_BRANCH
 
               #echo "Show a big log of the past 10 commits"
@@ -105,4 +106,4 @@ jobs:
             uses: ad-m/github-push-action@master
             with:
               github_token: ${{ secrets.GITHUB_TOKEN }}
-              branch: $REAL_BRANCH
+              branch: ${{ steps.vars.outputs.real_branch }}
