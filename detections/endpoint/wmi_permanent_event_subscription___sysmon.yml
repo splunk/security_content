@@ -12,7 +12,7 @@ description: 'This analytic looks for the creation of WMI permanent event subscr
   WMI subscription execution is proxied by the WMI Provider Host process (WmiPrvSe.exe)
   and thus may result in elevated SYSTEM privileges. This analytic is restricted by
   commonly added process execution and a path. If the volume is low enough, remove
-  the values and flag on any new subscriptions.
+  the values and flag on any new subscriptions.\
 
   All event subscriptions have three components \
 
@@ -47,10 +47,18 @@ tags:
   cis20:
   - CIS 3
   - CIS 5
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Actions on Objectives
+  message: 'User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter:
+    $filter$. Consumer: $Consumer$.  EventCode: $EventCode$'
   mitre_attack_id:
   - T1546.003
   nist:
@@ -58,6 +66,15 @@ tags:
   - PR.AT
   - PR.AC
   - PR.IP
+  observable:
+  - name: host
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -72,4 +89,5 @@ tags:
   - Query
   - Consumer
   - Filter
+  risk_score: 30
   security_domain: endpoint

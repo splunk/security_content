@@ -26,6 +26,9 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -42,6 +45,3 @@ tags:
   - Registry.dest
   - Registry.registry_value_name
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log

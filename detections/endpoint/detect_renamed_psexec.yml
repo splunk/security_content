@@ -12,10 +12,10 @@ description: The following analytic identifies renamed instances of `PsExec.exe`
   In this instance, we are using `OriginalFileName` from Sysmon to identify `PsExec`
   usage. During triage, validate this is the legitimate version of `PsExec` by review
   the PE metadata. In addition, review parallel processes for further suspicious behavior.
-search: '`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe) |
-  stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name,
-  process_name, OriginalFileName, process_path, CommandLine Product | rename Computer
-  as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe process_name!=PsExec64.exe)
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User,
+  parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product
+  | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_renamed_psexec_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -34,14 +34,38 @@ tags:
   - DarkSide Ransomware
   - Lateral Movement
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Collection
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Exploitation
   - Lateral Movement
   - Execution
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
   - T1569.002
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -56,4 +80,5 @@ tags:
   - process_path
   - CommandLine
   - Product
+  risk_score: 27
   security_domain: endpoint

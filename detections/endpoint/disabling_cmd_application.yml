@@ -26,14 +26,29 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: The Windows command prompt was disabled on $dest$ by $user$.
   mitre_attack_id:
   - T1562.001
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -45,5 +60,5 @@ tags:
   - Registry.user
   - Registry.dest
   - Registry.registry_value_name
+  risk_score: 25
   security_domain: endpoint
-
