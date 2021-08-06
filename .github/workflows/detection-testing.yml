@@ -55,7 +55,7 @@ jobs:
               echo "Just print the result of git branch -a --contains $GITHUB_SHA"
               REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
               echo ::set-output name=real_branch::$REAL_BRANCH
-              git pull
+              git pull origin $REAL_BRANCH
               git checkout $REAL_BRANCH
               git status
               #Make some configs...              
