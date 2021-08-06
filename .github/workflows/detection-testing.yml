@@ -57,7 +57,7 @@ jobs:
               mkdir tempFolder
               cd tempFolder
               echo "github.com/$GITHUB_REPOSITORY"
-              git clone --branch $REAL_BRANCH https://${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+              git clone --branch $REAL_BRANCH https://${{ secrets.GITHUB_TOKEN }}@github.com:$GITHUB_REPOSITORY
               ls -lah
               cd security_content
               git config user.email "research@splunk.com"
@@ -65,7 +65,7 @@ jobs:
               touch test.file
               git add test.file
               git commit --allow-empty -m "Doing a test commit"
-              git push https://${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY $REAL_BRANCH
+              #git push https://${{ secrets.GITHUB_TOKEN }}@github.com:$GITHUB_REPOSITORY $REAL_BRANCH
 
               #echo "Show a big log of the past 10 commits"
               #git log --pretty=oneline | head -n 2
@@ -101,8 +101,8 @@ jobs:
               # else
               #     python3 main.py -b $SIMPLE_BRANCH
               # fi
-          - name: Puish Changes
+          - name: Push Changes
             uses: ad-m/github-push-action@master
-            #with:
-            #  github_token: ${{ secrets.GITHUB_TOKEN }}
-            #  branch: ${{ github.ref }}
+            with:
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              branch: $REAL_BRANCH
