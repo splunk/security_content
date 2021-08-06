@@ -10,6 +10,7 @@ jobs:
       #Only run when tagged
       if: startsWith(github.ref, 'refs/tags/v')
       steps:  
+
           - name: Checkout Repo
             uses: actions/checkout@v2
             with:
@@ -52,7 +53,7 @@ jobs:
             run: |
 
               echo "Just print the result of git branch -a --contains $GITHUB_SHA"
-              REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3')
+              REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
               mkdir tempFolder
               cd tempFolder
               git clone --branch $REAL_BRANCH ${{ secrets.GITHUB_TOKEN }}@$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/
