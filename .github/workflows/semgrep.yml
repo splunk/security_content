@@ -9,17 +9,19 @@ jobs:
     name: Scan
     runs-on: ubuntu-latest
     # Skip any PR created by dependabot to avoid permission issues
-    if: (github.actor != 'dependabot[bot]')
+    #if: (github.actor != 'dependabot[bot]')
     steps:
       # Fetch project source
       - uses: actions/checkout@v2
 
       - uses: returntocorp/semgrep-action@v1
         with:
+          generateSarif: "1"
+          auditOn: push
           config: >- # more at semgrep.dev/explore
             p/security-audit
             p/secrets
-          generateSarif: "1"
+ 
 
         # == Optional settings in the `with:` block
 
@@ -45,5 +47,5 @@ jobs:
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: semgrep.sarif
-        if: ${{ always() }}
+        if: always()
           
