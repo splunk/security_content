@@ -52,7 +52,18 @@ jobs:
             run: |
 
               echo "Just print the result of git branch -a --contains $GITHUB_SHA"
-              git branch -a --contains $GITHUB_SHA
+              REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3')
+              mkdir tempFolder
+              cd tempFolder
+              git clone --branch $REAL_BRANCH ${{ secrets.GITHUB_TOKEN }}@$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/
+              ls -lah
+              git config user.email "research@splunk.com"
+              git config user.name "research bot"
+              touch test.file
+              git add test.file
+              git commit --allow-empty -m "Doing a test commit"
+              git push
+
               #echo "Show a big log of the past 10 commits"
               #git log --pretty=oneline | head -n 2
               #echo "Attempt 1"
