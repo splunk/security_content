@@ -19,6 +19,7 @@ jobs:
           config: >- # more at semgrep.dev/explore
             p/security-audit
             p/secrets
+          generateSarif: "1"
 
         # == Optional settings in the `with:` block
 
