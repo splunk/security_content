@@ -56,8 +56,10 @@ jobs:
               REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
               mkdir tempFolder
               cd tempFolder
-              git clone --branch $REAL_BRANCH ${{ secrets.GITHUB_TOKEN }}@$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/
+              echo "github.com/$GITHUB_ACTOR/$GITHUB_REPOSITORY"
+              git clone --branch $REAL_BRANCH https://${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_ACTOR/$GITHUB_REPOSITORY
               ls -lah
+              cd security_content
               git config user.email "research@splunk.com"
               git config user.name "research bot"
               touch test.file
