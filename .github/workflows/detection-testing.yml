@@ -55,7 +55,7 @@ jobs:
               #echo "Attempt 1"
               #THE_BRANCH=`git branch -a --contains ${{ steps.vars.outputs.tag }} | tail -n 1 | sed 's/^[[:space:]]*//g'`
               #echo "Parsed branch name <$THE_BRANCH>"
-              #git checkout $THE_BRANCH
+              git checkout $THE_BRANCH
               git pull
               git config user.email "research@splunk.com"
               git config user.name "research bot"
