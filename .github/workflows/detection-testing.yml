@@ -50,18 +50,21 @@ jobs:
           - name: Run Detection testing
             timeout-minutes: 120
             run: |
+
+              echo "Just print the result of git branch -a --contains $GITHUB_SHA"
+              git branch -a --contains $GITHUB_SHA
               #echo "Show a big log of the past 10 commits"
               #git log --pretty=oneline | head -n 2
               #echo "Attempt 1"
               #THE_BRANCH=`git branch -a --contains ${{ steps.vars.outputs.tag }} | tail -n 1 | sed 's/^[[:space:]]*//g'`
               #echo "Parsed branch name <$THE_BRANCH>"
-              git checkout $THE_BRANCH
-              git pull
-              git config user.email "research@splunk.com"
-              git config user.name "research bot"
-              touch test.file
-              git add test.file
-              git commit --allow-empty -m "Doing a test commit"
+              #git checkout $THE_BRANCH
+              #git pull
+              #git config user.email "research@splunk.com"
+              #git config user.name "research bot"
+              #touch test.file
+              #git add test.file
+              #git commit --allow-empty -m "Doing a test commit"
               
               
 
