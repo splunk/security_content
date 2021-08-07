@@ -54,20 +54,31 @@ jobs:
 
               mkdir tempFolder
               cd tempFolder
+              echo "CLONE STEP"
               git clone https://github.com/$GITHUB_REPOSITORY
+              echo "CD STEP"
               cd security_content
+              echo "CHECKOUT STEP"
               git checkout ${{ steps.vars.outputs.tag }}
               REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
+              echo "CHECKOUT CORRECT"
               git checkout remotes/origin/migrate_to_github_actions
+              echo "PULL STEP"
               git pull origin remotes/origin/migrate_to_github_actions
+              echo "GIT CONFIGS STEPS"
               git config user.email "research@splunk.com"
               git config user.name "research bot"
+              echo "TOUCH FILE"
               touch test.file
+              echo "ADD FILE"
               git add test.file
+              echo "COMMIT"
               git commit --allow-empty -m "Doing a test commit"
 
+
+              echo "PUSH"
               git push origin HEAD:remotes/origin/migrate_to_github_actions
-              git checkout $REAL_BRANCH
+              echo "DONE"
 
               #Make some configs...              
 
@@ -137,8 +148,8 @@ jobs:
               # else
               #     python3 main.py -b $SIMPLE_BRANCH
               # fi
-          - name: Push Changes
-            uses: ad-m/github-push-action@master
-            with:
-              github_token: ${{ secrets.GITHUB_TOKEN }}
-              branch: ${{ steps.vars.outputs.real_branch }}
+          #- name: Push Changes
+          #  uses: ad-m/github-push-action@master
+          #  with:
+          #    github_token: ${{ secrets.GITHUB_TOKEN }}
+          #    branch: ${{ steps.vars.outputs.real_branch }}
