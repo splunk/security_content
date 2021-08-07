@@ -52,18 +52,41 @@ jobs:
             timeout-minutes: 120
             run: |
 
-              echo "Just print the result of git branch -a --contains $GITHUB_SHA"
+              mkdir tempFolder
+              cd tempFolder
+              git clone https://github.com/$GITHUB_REPOSITORY
+              cd security_content
+              git checkout ${{ steps.vars.outputs.tag }}
               REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
-              echo ::set-output name=real_branch::$REAL_BRANCH
-              git pull origin $REAL_BRANCH
-              git checkout $REAL_BRANCH
-              git status
-              #Make some configs...              
+              git checkout remotes/origin/migrate_to_github_actions
+              git pull origin remotes/origin/migrate_to_github_actions
               git config user.email "research@splunk.com"
               git config user.name "research bot"
               touch test.file
               git add test.file
               git commit --allow-empty -m "Doing a test commit"
+
+              git push origin HEAD:remotes/origin/migrate_to_github_actions
+              git checkout $REAL_BRANCH
+
+              #Make some configs...              
+
+              
+              #echo "Just print the result of git branch -a --contains $GITHUB_SHA"
+              #REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
+              #mkdir tempFolder
+              #cd tempFolder
+
+              #echo ::set-output name=real_branch::$REAL_BRANCH
+              #git pull origin $REAL_BRANCH
+              #git checkout $REAL_BRANCH
+              #git status
+              #Make some configs...              
+              #git config user.email "research@splunk.com"
+              #git config user.name "research bot"
+              #touch test.file
+              #git add test.file
+              #git commit --allow-empty -m "Doing a test commit"
 
 
               # mkdir tempFolder
