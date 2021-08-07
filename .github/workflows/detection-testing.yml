@@ -60,14 +60,19 @@ jobs:
               cd security_content
               echo "CHECKOUT STEP"
               git checkout ${{ steps.vars.outputs.tag }}
+              git branch
               REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
               echo "CHECKOUT CORRECT"
               git checkout remotes/origin/migrate_to_github_actions
+              git branch
+              
+              git config user.email "research@splunk.com"
+              git config user.name "research bot"
+              
               echo "PULL STEP"
               git pull origin remotes/origin/migrate_to_github_actions
               echo "GIT CONFIGS STEPS"
-              git config user.email "research@splunk.com"
-              git config user.name "research bot"
+              
               echo "TOUCH FILE"
               touch test.file
               echo "ADD FILE"
