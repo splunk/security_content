@@ -51,11 +51,13 @@ jobs:
           - name: Run Detection testing
             timeout-minutes: 120
             run: |
+              git config user.email "research@splunk.com"
+              git config user.name "research bot"
               echo "This is a simple test" > simple_test.txt
               git add simple_test.txt
               git commit -m "Just adding a simple file, let's see if it works!"
               git push
-              
+
               # mkdir tempFolder
               # cd tempFolder
               # echo "CLONE STEP"
