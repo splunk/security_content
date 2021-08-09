@@ -67,7 +67,7 @@ jobs:
               echo "REAL BRANCH NAME $REAL_BRANCH"
 
               echo "Show the refs"
-              git git-ref | grep "migrate_to_github_actions"
+              git show-ref | grep "migrate_to_github_actions"
 
               echo "CHECKOUT CORRECT"
               #git checkout remotes/origin/$REAL_BRANCH
