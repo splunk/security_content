@@ -55,7 +55,7 @@ jobs:
               mkdir tempFolder
               cd tempFolder
               echo "CLONE STEP"
-              git clone https://github.com/$GITHUB_REPOSITORY
+              git clone https://${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
               echo "CD STEP"
               cd security_content
               echo "CHECKOUT STEP"
