@@ -26,13 +26,13 @@ jobs:
               python-version: '3.9.5' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
               architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
-          # - name: Install Python Dependencies
-          #   run: |
-          #     #Get the virtualenv set up
-          #     rm -rf venv
-          #     python3 -m venv --clear venv
-          #     source venv/bin/activate
-          #     python3 -m pip install -q -r requirements.txt
+          - name: Install Python Dependencies
+            run: |
+              #Get the virtualenv set up
+              rm -rf venv
+              python3 -m venv --clear venv
+              source venv/bin/activate
+              python3 -m pip install -q -r requirements.txt
           
           - name: Get branch and PR required for detection testing main.py
             id: vars
@@ -51,126 +51,14 @@ jobs:
           - name: Run Detection testing
             timeout-minutes: 120
             run: |
-              git config user.email "research@splunk.com"
-              git config user.name "research bot"
-              echo "This is a simple test" > simple_test.txt
-              git add simple_test.txt
-              git commit -m "Just adding a simple file, let's see if it works!"
-              git push
-
-              # mkdir tempFolder
-              # cd tempFolder
-              # echo "CLONE STEP"
-              # git clone https://GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-              # echo "CD STEP"
-              # cd security_content
-              # echo "CHECKOUT STEP"
-              # git checkout tags/${{ steps.vars.outputs.tag }}
-              # echo "PRINT BRANCH STEP"
-              # git branch
-              # echo "GET BRANCH NAME"
-              # REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
-              # echo "REAL BRANCH NAME $REAL_BRANCH"
-
-              # echo "Show the refs"
-              # git show-ref | grep "migrate_to_github_actions"
-
-              # echo "CHECKOUT CORRECT"
-              # #git checkout remotes/origin/$REAL_BRANCH
-              # git checkout refs/remotes/origin/$REAL_BRANCH
-              # git branch
+              cd automated_detection_testing/ci/python_ci_code
+              python3 -m venv --clear venv
+              source venv/bin/activate 
+              pip install -q -r requirements.txt
               
-              # git config user.email "research@splunk.com"
-              # git config user.name "research bot"
-              
-              # #echo "PULL STEP"
-              # #git pull origin remotes/origin/migrate_to_github_actions
-              
-              # echo "GIT CONFIGS STEPS"
-              # echo "TOUCH FILE"
-              # echo "Created by a run of the Github Action" > test.file
-              # echo "ADD FILE"
-              # git add test.file
-              # echo "COMMIT"
-              # git commit --allow-empty -m "Doing a test commit"
-
-
-              # echo "PUSH"
-              # #git push -f origin HEAD:$REAL_BRANCH
-              # echo "PUSHING TO refs/remotes/origin/$REAL_BRANCH"
-              # git push -f origin refs/remotes/origin/$REAL_BRANCH
-              # echo "DONE"
-
-              # #Make some configs...              
-
-              
-              # #echo "Just print the result of git branch -a --contains $GITHUB_SHA"
-              # #REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
-              # #mkdir tempFolder
-              # #cd tempFolder
-
-              # #echo ::set-output name=real_branch::$REAL_BRANCH
-              # #git pull origin $REAL_BRANCH
-              # #git checkout $REAL_BRANCH
-              # #git status
-              # #Make some configs...              
-              # #git config user.email "research@splunk.com"
-              # #git config user.name "research bot"
-              # #touch test.file
-              # #git add test.file
-              # #git commit --allow-empty -m "Doing a test commit"
-
-
-              # # mkdir tempFolder
-              # # cd tempFolder
-              # # echo "github.com/$GITHUB_REPOSITORY"
-              # # git clone --branch $REAL_BRANCH https://${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-              # # ls -lah
-              # # cd security_content
-              # # git config user.email "research@splunk.com"
-              # # git config user.name "research bot"
-              # # touch test.file
-              # # git add test.file
-              # # git commit --allow-empty -m "Doing a test commit"
-              # # echo ::set-output name=real_branch::$REAL_BRANCH
-              # #git push https://${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY $REAL_BRANCH
-
-              # #echo "Show a big log of the past 10 commits"
-              # #git log --pretty=oneline | head -n 2
-              # #echo "Attempt 1"
-              # #THE_BRANCH=`git branch -a --contains ${{ steps.vars.outputs.tag }} | tail -n 1 | sed 's/^[[:space:]]*//g'`
-              # #echo "Parsed branch name <$THE_BRANCH>"
-              # #git checkout $THE_BRANCH
-              # #git pull
-              # #git config user.email "research@splunk.com"
-              # #git config user.name "research bot"
-              # #touch test.file
-              # #git add test.file
-              # #git commit --allow-empty -m "Doing a test commit"
-              
-              
-
-              # #BRANCH_NAME=`git branch -a --contains ${{ steps.vars.outputs.branch }} | head -n1 | cut -d' ' -f2`
-              # #git log --pretty=oneline | head -n 1 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'
-              # #git log --pretty=oneline | head -n 2 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'
-
-              # #BRANCH_NAME=$(git branch -a --contains $(git log --pretty=oneline | head -n 1 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'))
-              # #echo "The branch name 1 is....$BRANCH_NAME"
-              # #BRANCH_NAME=$(git branch -a --contains $(git log --pretty=oneline | head -n 2 | tail -n 1 | cut -d' ' -f 1 | tr "*" " " | sed 's/^[[:space:]]*//g'))
-              # #echo "The branch name 2 is....$BRANCH_NAME"
-              # # cd automated_detection_testing/ci/python_ci_code
-              # # python3 -m venv --clear venv
-              # # source venv/bin/activate 
-              # # pip install -q -r requirements.txt
-              
-              # # if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
-              # #     python3 main.py -b $SIMPLE_BRANCH -pr ${{ github.event.issue.number }}
+              if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
+                  python3 main.py -b develop -pr ${{ github.event.issue.number }}
                 
-              # # else
-              # #     python3 main.py -b $SIMPLE_BRANCH
-              # # fi
-          #- name: Push Changes
-          #  uses: ad-m/github-push-action@master
-          #  with:
-          #    github_token: ${{ secrets.GITHUB_TOKEN }}
-          #    branch: ${{ steps.vars.outputs.real_branch }}
+              else
+                  python3 main.py -b develop
+              fi
