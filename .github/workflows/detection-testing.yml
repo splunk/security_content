@@ -86,7 +86,7 @@ jobs:
 
               echo "PUSH"
               #git push -f origin HEAD:$REAL_BRANCH
-              git push -f origin :refs/heads/$REAL_BRANCH
+              git push -f origin refs/heads/$REAL_BRANCH
               echo "DONE"
 
               #Make some configs...              
