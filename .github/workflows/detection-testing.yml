@@ -11,10 +11,10 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/v')
       steps:  
 
-          - name: Checkout Repo
-            uses: actions/checkout@v2
-            with:
-              fetch-depth: '0'
+          #- name: Checkout Repo
+          #  uses: actions/checkout@v2
+          #  with:
+          #    fetch-depth: '0'
           
           - name: Install System Packages
             run: | 
@@ -59,20 +59,23 @@ jobs:
               echo "CD STEP"
               cd security_content
               echo "CHECKOUT STEP"
-              git checkout ${{ steps.vars.outputs.tag }}
+              git checkout tags/${{ steps.vars.outputs.tag }}
+              echo "PRINT BRANCH STEP"
               git branch
+              echo "GET BRANCH NAME"
               REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
+              echo "REAL BRANCH NAME $REAL_BRANCH"
               echo "CHECKOUT CORRECT"
-              git checkout remotes/origin/migrate_to_github_actions
+              git checkout $REAL_BRANCH
               git branch
               
               git config user.email "research@splunk.com"
               git config user.name "research bot"
               
-              echo "PULL STEP"
-              git pull origin remotes/origin/migrate_to_github_actions
-              echo "GIT CONFIGS STEPS"
+              #echo "PULL STEP"
+              #git pull origin remotes/origin/migrate_to_github_actions
               
+              echo "GIT CONFIGS STEPS"
               echo "TOUCH FILE"
               touch test.file
               echo "ADD FILE"
@@ -82,7 +85,7 @@ jobs:
 
 
               echo "PUSH"
-              git push origin HEAD:remotes/origin/migrate_to_github_actions
+              git push 
               echo "DONE"
 
               #Make some configs...              
