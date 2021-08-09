@@ -77,7 +77,7 @@ jobs:
               
               echo "GIT CONFIGS STEPS"
               echo "TOUCH FILE"
-              touch test.file
+              echo "Created by a run of the Github Action" > test.file
               echo "ADD FILE"
               git add test.file
               echo "COMMIT"
