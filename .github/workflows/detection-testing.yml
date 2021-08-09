@@ -65,8 +65,13 @@ jobs:
               echo "GET BRANCH NAME"
               REAL_BRANCH=$(git branch -a --contains $GITHUB_SHA | tail -n1 | cut -d'/' -f3)
               echo "REAL BRANCH NAME $REAL_BRANCH"
+
+              echo "Show the refs"
+              git git-ref | grep "migrate_to_github_actions"
+
               echo "CHECKOUT CORRECT"
-              git checkout remotes/origin/$REAL_BRANCH
+              #git checkout remotes/origin/$REAL_BRANCH
+              git checkout refs/remotes/origin/$REAL_BRANCH
               git branch
               
               git config user.email "research@splunk.com"
