@@ -63,6 +63,8 @@ do
         if [ $FAILS -gt 0 -o $ERRORS -gt 0 ]
         then
     		echo "ERROR appinspect had $FAILS failures and or $ERRORS errors, see summary report under job artifacts for details"
+            #print out the report so that we know what went wrong
+            cat report/appinspect_report_$PACKAGE_NAME.html
     		exit 1
     	else
     		echo "appinspect passed successfully, see summary report under job artifacts for details"
