@@ -302,7 +302,7 @@ jobs:
       - name: store_artifacts 
         uses: actions/upload-artifact@v2
         with:
-          name: report_failure
+          name: report
           path: |
             report/
       #Still store the report, even if we have failed (otherwise we don't know why/how we failed)
@@ -310,7 +310,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: report
+          name: report_failure
           path: |
             report/
   
