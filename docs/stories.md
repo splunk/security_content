@@ -636,6 +636,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [Ntdsutil Export NTDS](detections.md#ntdsutil-export-ntds)
 
+* [SAM Database File Access Attempt](detections.md#sam-database-file-access-attempt)
+
 * [SecretDumps Offline NTDS Dumping Tool](detections.md#secretdumps-offline-ntds-dumping-tool)
 
 * [Set Default PowerShell Execution Policy To Unrestricted or Bypass](detections.md#set-default-powershell-execution-policy-to-unrestricted-or-bypass)

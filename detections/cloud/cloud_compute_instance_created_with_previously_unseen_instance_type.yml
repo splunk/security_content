@@ -48,6 +48,10 @@ tags:
   nist:
   - ID.AM
   observable:
+  - name: user
+    type: User
+    role:
+    - Attacker
   - name: dest
     type: Endpoint
     role:

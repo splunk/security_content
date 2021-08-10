@@ -1115,6 +1115,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [aws detect attach to role policy](#aws-detect-attach-to-role-policy)
 
 
@@ -2472,6 +2474,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [SAM Database File Access Attempt](#sam-database-file-access-attempt)
+
+
+
 - [SLUI RunAs Elevated](#slui-runas-elevated)
 
 
@@ -3713,6 +3719,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [SMB Traffic Spike](#smb-traffic-spike)
 
 
@@ -4812,6 +4820,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Suspicious Email Attachment Extensions](#suspicious-email-attachment-extensions)
 
 
@@ -5524,6 +5534,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
 
 
 
@@ -9369,80 +9381,6 @@ _version_: 1
 ### Attempted Credential Dump From Registry via Reg exe
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
-- **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
-- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
-- **Last Updated**: 2020-6-04
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
- 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
-| where process_name="cmd.exe" OR process_name="reg.exe" 
-| where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
-| into write_ssa_detected_events(); 
-```
-#### Associated Analytic Story
-
-* Credential Dumping
-
-
-#### How To Implement
-You must be ingesting windows endpoint data that tracks process activity, including parent-child relationships from your endpoints.
-
-#### Required field
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1003 | OS Credential Dumping | Credential Access |
-
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Known False Positives
-None identified.
-
-#### Reference
-
-
-* https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
-
-
-
-#### Test Dataset
-
-
-_version_: 1
-</details>
-
----
-
-### Attempted Credential Dump From Registry via Reg exe
-Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
-
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
 - **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
@@ -9518,6 +9456,80 @@ None identified.
 
 
 _version_: 4
+</details>
+
+---
+
+### Attempted Credential Dump From Registry via Reg exe
+Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: 
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
+- **Last Updated**: 2020-6-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
+| where process_name="cmd.exe" OR process_name="reg.exe" 
+| where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| into write_ssa_detected_events(); 
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+You must be ingesting windows endpoint data that tracks process activity, including parent-child relationships from your endpoints.
+
+#### Required field
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003 | OS Credential Dumping | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+None identified.
+
+#### Reference
+
+
+* https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
+
+
+
+#### Test Dataset
+
+
+_version_: 1
 </details>
 
 ---
@@ -13642,7 +13654,7 @@ This search allows you to identify DNS requests and compute the standard deviati
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
 - **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
-- **Last Updated**: 2021-01-18
+- **Last Updated**: 2021-07-21
 
 <details>
   <summary>details</summary>
@@ -13650,8 +13662,8 @@ This search allows you to identify DNS requests and compute the standard deviati
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count from datamodel=Network_Resolution by DNS.query 
-|  `drop_dm_object_name("DNS")` 
+| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where NOT DNS.message_type IN("Pointer","PTR") by DNS.query 
+| `drop_dm_object_name("DNS")` 
 | eval query_length = len(query) 
 | table query query_length record_type count 
 | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50
@@ -16935,7 +16947,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 #### Search
 ```
-`cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers","*AllUsers") 
+`cloudtrail` eventSource="s3.amazonaws.com" (userAgent="[aws-cli*" OR userAgent=aws-cli* ) eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers","*AllUsers") 
 | rename requestParameters.bucketName AS bucketName 
 | fillnull 
 | stats count min(_time) as firstTime max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent bucketName requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control 
@@ -17030,7 +17042,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers") 
 | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL") 
 | rename requestParameters.bucketName AS bucketName 
-| stats count min(_time) as firstTime max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent uri permission bucketName 
+| stats count min(_time) as firstTime max(_time) as lastTime by user_arn userIdentity.principalId userAgent uri permission bucketName 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `detect_new_open_s3_buckets_filter` 
@@ -17053,7 +17065,7 @@ You must install the AWS App for Splunk.
 
 * requestParameters.bucketName
 
-* userIdentity.userName
+* user_arn
 
 * userIdentity.principalId
 
@@ -21056,7 +21068,7 @@ This search looks for fast execution of processes used for system network config
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.process_name Processes.user _time 
+| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where NOT Processes.user IN ("","unknown") by Processes.dest Processes.process_name Processes.user _time 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `drop_dm_object_name(Processes)` 
@@ -36676,6 +36688,85 @@ _version_: 1
 
 ---
 
+### SAM Database File Access Attempt
+The following analytic identifies access to SAM, SYSTEM or SECURITY databases' within the file path of `windows\system32\config` using Windows Security EventCode 4663. This particular behavior is related to credential access, an attempt to either use a Shadow Copy or recent CVE-2021-36934 to access the SAM database. The Security Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7, 8.1 and 10 that stores users' passwords.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-07-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*") 
+| stats values(Accesses) count by process_name Object_Name  dest user 
+| `sam_database_file_access_attempt_filter`
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+
+#### Required field
+
+* _time
+
+* process_name
+
+* Object_Name
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Natively, `dllhost.exe` will access the files. Every environment will have additional native processes that do as well. Filter by process_name. As an aside, one can remove process_name entirely and add `Object_Name=*ShadowCopy*`.
+
+#### Reference
+
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4663
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36934
+
+* https://github.com/GossiTheDog/HiveNightmare
+
+* https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
+
+* https://en.wikipedia.org/wiki/Security_Account_Manager
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### SLUI RunAs Elevated
 The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, elevating access using the `-verb runas` function. This particular bypass utilizes a registry key/value. Identified by two sources, the registry keys are `HKCU\Software\Classes\exefile\shell` and `HKCU\Software\Classes\launcher.Systemsettings\Shell\open\command`. To simulate this behavior, multiple POC are available. The analytic identifies the use of `runas` by `slui.exe`.
 
@@ -42634,6 +42725,76 @@ _version_: 1
 ---
 
 ### Unusually Long Command Line
+Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-10-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null) 
+| where cmd_line!=null and dest_user_id!=null 
+| eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
+|(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
+| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
+| adaptive_threshold algorithm="quantile" entity="process_name" window=60480000 
+| where label AND quantile>0.99 
+| first_time_event input_columns=["dest_device_id", "cmd_line"] 
+| where first_time_dest_device_id_cmd_line 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* Unusual Processes
+
+
+#### How To Implement
+You must be ingesting sysmon endpoint data that monitors command lines.
+
+#### Required field
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Unusually Long Command Line
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -42704,76 +42865,6 @@ Some legitimate applications start with long command lines.
 
 
 _version_: 5
-</details>
-
----
-
-### Unusually Long Command Line
-Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
-
-- **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
-- **ATT&CK**: 
-- **Last Updated**: 2020-10-06
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
- 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null) 
-| where cmd_line!=null and dest_user_id!=null 
-| eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
-|(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
-| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
-| adaptive_threshold algorithm="quantile" entity="process_name" window=60480000 
-| where label AND quantile>0.99 
-| first_time_event input_columns=["dest_device_id", "cmd_line"] 
-| where first_time_dest_device_id_cmd_line 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
-| into write_ssa_detected_events();
-```
-#### Associated Analytic Story
-
-* Unusual Processes
-
-
-#### How To Implement
-You must be ingesting sysmon endpoint data that monitors command lines.
-
-#### Required field
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Known False Positives
-This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
-
-#### Reference
-
-
-#### Test Dataset
-
-
-_version_: 1
 </details>
 
 ---
