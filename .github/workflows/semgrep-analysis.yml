@@ -7,6 +7,27 @@ name: Semgrep
 
 on: [push, pull_request]
 jobs:
+
+  validate-tag-if-present:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: TAGGED, Validate that the tag is in the correct format
+        
+        run: |
+          echo "The GITHUB_REF: $GITHUB_REF"
+          #First check to see if the release is a tag
+          if [[ $GITHUB_REF =~ refs/tags/* ]]; then
+            #Yes, this is a tag, so we need to test to make sure that the tag
+            #is in the correct format (like v1.10.20)
+            if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
+              exit
+            else
+              exit 1
+            fi
+          else
+          exit
+          fi            
   semgrep:
     name: Scan
     runs-on: ubuntu-latest

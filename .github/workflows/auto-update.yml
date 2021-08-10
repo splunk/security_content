@@ -10,6 +10,7 @@ jobs:
       - name: TAGGED, Validate that the tag is in the correct format
         
         run: |
+          echo "The GITHUB_REF: $GITHUB_REF"
           #First check to see if the release is a tag
           if [[ $GITHUB_REF =~ refs/tags/* ]]; then
             #Yes, this is a tag, so we need to test to make sure that the tag
