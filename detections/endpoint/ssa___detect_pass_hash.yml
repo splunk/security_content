@@ -56,3 +56,24 @@ tags:
   - dest_device_id
   risk_severity: low
   security_domain: endpoint
+  message: Potential use of the pass the hash/token attacks that spoof authentication. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
+  risk_score: 16
+  impact: 80
+  confidence: 20
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Credential Access
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: cmd_line
+    type: processname
+    role:
+    - Others
