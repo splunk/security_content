@@ -35,9 +35,6 @@ jobs:
           exit
           fi            
 
-          
-            
-
   validate-content:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
     #is to first start up a Virtual Machine, then we can by following:
@@ -265,6 +262,8 @@ jobs:
 
       - name: Checkout Repo
         uses: actions/checkout@v2
+        with:
+          ref: 'develop'
 
       #Download the artifacts we want to check
       - name: Restore Content-Pack Artifacts for AppInspect testing
@@ -322,6 +321,8 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
+        with:
+          ref: 'develop'
       
       
       - name: Install System Packages
@@ -368,6 +369,8 @@ jobs:
 
       - name: Checkout Repo
         uses: actions/checkout@v2
+        with:
+          ref: 'develop'
       
       - uses: actions/setup-python@v2
         with:
@@ -417,12 +420,12 @@ jobs:
       - name: Run generate-actors-map
         run: |
           source venv/bin/activate
-          #python3 bin/generate-actors-map.py --projects_path . --output docs/mitre-map/
+          python3 bin/generate-actors-map.py --projects_path . --output docs/mitre-map/
       
       - name: Run generate-coverage-map
         run: |
           source venv/bin/activate
-          #python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
+          python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
       
       - name: Update github with new docs and package bits
         run: |
@@ -517,6 +520,8 @@ jobs:
     steps:  
         - name: Checkout Repo
           uses: actions/checkout@v2
+          with:
+            ref: 'develop'
         
         #Official, Verified Amazon-AWS Github Account Provided Action
         - uses: aws-actions/configure-aws-credentials@v1
