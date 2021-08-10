@@ -16,14 +16,14 @@ jobs:
             #is in the correct format (like v1.10.20)
             if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
               echo "PASS: Tagged release with good format"
-              exit
+              exit 0
             else
               echo "FAIL: Tagged release with bad format"
               exit 1
             fi
           else
           echo "PASS: Not a tagged release"
-          exit
+          exit 0
           fi                    
 
   detection-testing:
