@@ -17,11 +17,10 @@ description: The following analytic identifies rundll32.exe executing a DLL func
   process can be changed, but typically is not.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.original_file_name=RUNDLL32.exe
-  OR Processes.process_name=rundll32.exe)
-  Processes.process=*start* by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `suspicious_rundll32_startw_filter`'
+  OR Processes.process_name=rundll32.exe) Processes.process=*start* by Processes.dest
+  Processes.user Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_rundll32_startw_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
