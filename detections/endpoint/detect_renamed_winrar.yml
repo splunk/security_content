@@ -12,15 +12,16 @@ description: The following analtyic identifies renamed instances of `WinRAR.exe`
   In this instance, we are using `OriginalFileName` from Sysmon to determine if the
   process is WinRAR. During triage, validate additional metadata from the binary that
   this is `WinRAR`. Review parallel processes and file modifications.
-search: '`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe
-  process_name!=winrar.exe | stats count min(_time) as firstTime max(_time) as lastTime
-  by Computer, User, parent_process_name, process_name, OriginalFileName, process_path,
-  CommandLine Product | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `detect_renamed_winrar_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Modify query for specific EDR products as needed.
+search: ' | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name=WinRAR.exe
+  AND Processes.process_name!=rar.exe Processes.process_name!=winrar.exe by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `detect_renamed_winrar_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Unknown. It is possible third party applications use renamed
   instances of WinRAR.
 references:
