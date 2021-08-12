@@ -14,11 +14,10 @@ description: The following analytic identifies a renamed instance of microsoft.w
   or any living off the land binary is highly suspect.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.original_file_name=microsoft.workflow.compiler.exe
-  AND Processes.process_name!=microsoft.workflow.compiler.exe) by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `suspicious_microsoft_workflow_compiler_rename_filter`'
+  AND Processes.process_name!=microsoft.workflow.compiler.exe) by Processes.dest Processes.user
+  Processes.parent_process_name Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id Processes.original_file_name | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `suspicious_microsoft_workflow_compiler_rename_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -44,7 +43,7 @@ tags:
   - Stage:Execution
   - Stage:Defense Evasion
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/windows-sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log
   impact: 70
   kill_chain_phases:
   - Exploitation
