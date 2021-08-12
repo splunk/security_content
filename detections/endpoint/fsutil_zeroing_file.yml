@@ -6,21 +6,19 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious fsutil process to zeroing a target file. 
-  This technique was seen in lockbit ransomware where it tries to zero out its malware path as part of its 
-  defense evasion after encrypting the compromised host.
+description: This search is to detect a suspicious fsutil process to zeroing a target
+  file. This technique was seen in lockbit ransomware where it tries to zero out its
+  malware path as part of its defense evasion after encrypting the compromised host.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe Processes.process="*setzerodata*"
-  by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  Processes.process Processes.parent_process
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `fsutil_zeroing_file_filter`'
+  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe
+  Processes.process="*setzerodata*" by Processes.user Processes.process_name Processes.parent_process_name
+  Processes.dest  Processes.process Processes.parent_process | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `fsutil_zeroing_file_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: unknown
 references:
 - https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
@@ -39,24 +37,23 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.user 
-  - Processes.process_name 
-  - Processes.parent_process_name 
-  - Processes.dest  
-  - Processes.process 
+  - Processes.user
+  - Processes.process_name
+  - Processes.parent_process_name
+  - Processes.dest
+  - Processes.process
   - Processes.parent_process
   security_domain: endpoint
   impact: 60
   confidence: 90
-  # (impact * confidence)/100
   risk_score: 54
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
-  message:  Possible file data deletion on $dest$ using $process$
+  message: Possible file data deletion on $dest$ using $process$
   observable:
   - name: dest
     type: Endpoint
     role:
-    - Victim  
-  
+    - Victim
+  automated_detection_testing: passed
