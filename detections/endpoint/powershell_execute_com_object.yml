@@ -6,20 +6,19 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a COM CLSID execution through powershell. 
-  This technique was seen in several adversaries and malware like ransomware conti where it has a feature to 
-  execute command using COM Object. This technique may use by network operator at some cases but a good indicator 
-  if some application want to gain privilege escalation or bypass uac.
-search: '`powershell` EventCode=4104 Message = "*CreateInstance([type]::GetTypeFromCLSID*" 
+description: This search is to detect a COM CLSID execution through powershell. This
+  technique was seen in several adversaries and malware like ransomware conti where
+  it has a feature to execute command using COM Object. This technique may use by
+  network operator at some cases but a good indicator if some application want to
+  gain privilege escalation or bypass uac.
+search: '`powershell` EventCode=4104 Message = "*CreateInstance([type]::GetTypeFromCLSID*"
   OR Message = "*CreateInstance([Type]::GetTypeFromProgID*"| stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `powershell_execute_com_object_filter`'
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_execute_com_object_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: network operrator may use this command.
 references:
 - https://threadreaderapp.com/thread/1423361119926816776.html
@@ -42,7 +41,6 @@ tags:
   security_domain: endpoint
   impact: 10
   confidence: 50
-  # (impact * confidence)/100
   risk_score: 5
   context:
   - source:endpoint
@@ -58,4 +56,4 @@ tags:
     type: User
     role:
     - Victim
-  
+  automated_detection_testing: passed
