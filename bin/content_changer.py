@@ -90,7 +90,8 @@ def call_splunk_parser_api(detection):
         "q": spl,
         "parse_only": "true"
     }
-    response = requests.post(BASE_URL + SEARCH_PARSER_ENDPOINT, data=data, auth=(USER, PASSWORD), verify=False, headers={"Content-Type": "application/x-www-form-urlencoded"})
+    #Have semgrep ignore the following line.  It will complain about the verify=false, but the server is hosted on localhost
+    response = requests.post(BASE_URL + SEARCH_PARSER_ENDPOINT, data=data, auth=(USER, PASSWORD), verify=False, headers={"Content-Type": "application/x-www-form-urlencoded"}) # nosemgrep
     if response.status_code != 200:
         print(response.json())
         print('ERROR: parser endpoint problems')
