@@ -24,17 +24,17 @@ def build_humvee(path):
         os.mkdir(path)
     latest_humvee_object = get_latest_humvee_object()
     humvee_path = "%s/humvee.jar" % path
-    humvee_md5 = ""
+    humvee_sha256 = ""
     if os.path.exists(humvee_path):
         with open(humvee_path, 'rb') as jar_fh:
-            humvee_md5 = hashlib.md5(jar_fh.read()).hexdigest()
-            log(logging.DEBUG, "Current local checksum of Humvee", detail=humvee_md5)
-    if humvee_md5 != latest_humvee_object['checksums']['md5']:
+            humvee_sha256 = hashlib.sha256(jar_fh.read()).hexdigest()
+            log(logging.DEBUG, "Current local checksum of Humvee", detail=humvee_sha256)
+    if humvee_sha256 != latest_humvee_object['checksums']['sha256']:
         log(logging.INFO, "Downloading Latest Humvee")
         log(logging.DEBUG, "Humvee details", detail=latest_humvee_object)
         urllib.request.urlretrieve(latest_humvee_object['downloadUri'], humvee_path)
     else:
-        log(logging.DEBUG, "Already latest checksum %s" % humvee_md5, detail=latest_humvee_object)
+        log(logging.DEBUG, "Already latest checksum %s" % humvee_sha256, detail=latest_humvee_object)
 
 
 #def convert_to_ssa(detection):
