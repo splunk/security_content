@@ -449,44 +449,7 @@ jobs:
           #No need to provide any credentials
           git push
       
-  #     #No need to store artifacts, they are stored previously.
 
-
-  # publish-github-release:
-  #   #Github-maintained release action is in archived state: https://github.com/actions/create-release
-  #   #They recommend several and we use the following with the most stars: https://github.com/softprops/action-gh-release
-  #   runs-on: ubuntu-latest
-  #   needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github]
-  #   #Only run when tagged
-  #   if: startsWith(github.ref, 'refs/tags/v')
-  #   steps:
-
-  #     - uses: actions/download-artifact@v2
-  #       with:
-  #         name: content-latest
-
-  #     - name: Set output
-  #       id: vars
-  #       run: |
-  #         echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-  #         echo ::set-output name=reponame::${GITHUB_REPOSITORY#*/}
-
-  #     - name: Rename the content-update appropriately 
-  #       run: |
-  #         cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
-
-  #     #Need go to install and use ghr      
-  #     - uses: actions/setup-go@v2
-  #       with:
-  #         go-version: '1.16.6' 
-      
-  #     - name: Install ghr
-  #       run: |
-  #         go get -u github.com/tcnksm/ghr
-  #     - name: Run github release
-  #       run: |
-  #         ghr -t ${{ secrets.GITHUB_TOKEN }} -u ${{ github.actor }} -r ${{ steps.vars.outputs.reponame }} -c ${{ github.sha }} -delete ${{ steps.vars.outputs.tag }} DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
-  
   publish-github-release:
     #Github-maintained release action is in archived state: https://github.com/actions/create-release
     #They recommend several and we use the following with the most stars: https://github.com/softprops/action-gh-release
@@ -527,10 +490,6 @@ jobs:
             checksum-${{ steps.vars.outputs.tag }}.txt
 
           
-
-      
-
-
 
   attack-range-update:
     runs-on: ubuntu-latest
