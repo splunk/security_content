@@ -1,0 +1,64 @@
+name: Rundll32 Create Remote Thread To A Process
+id: 2dbeee3a-f067-11eb-96c0-acde48001122
+version: 1
+date: '2021-07-29'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
+  process to cmd.exe process . This technique was seen in IcedID malware to execute
+  its malicious code in normal process for defense evasion and to steal sensitive
+  information the the compromised host. browser process.
+search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe"
+  | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage
+  TargetProcessId SourceProcessId StartAddress EventCode Computer | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `rundll32_create_remote_thread_to_a_process_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
+  related to create remote thread or injecting codes. If you are using Sysmon, you
+  must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: unknown
+references:
+- https://www.joesandbox.com/analysis/380662/0/html
+tags:
+  analytic_story:
+  - Icedid
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1055
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - SourceImage
+  - TargetImage
+  - TargetProcessId
+  - SourceProcessId
+  - StartAddress
+  - EventCode
+  - Computer
+  security_domain: endpoint
+  impact: 70
+  confidence: 80
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: rundl32 process $SourceImage$ create a remote thread to process $TargetImage$
+    in host $Computer$
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: SourceImage
+    type: process name
+    role:
+    - Attacker
+  automated_detection_testing: passed

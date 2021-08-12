@@ -1,0 +1,12 @@
+name: Suspicious IcedID Regsvr32 Cmdline Unit Test
+tests:
+- name: Suspicious IcedID Regsvr32 Cmdline
+  file: endpoint/suspicious_icedid_regsvr32_cmdline.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

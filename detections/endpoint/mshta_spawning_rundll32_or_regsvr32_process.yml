@@ -27,6 +27,7 @@ references:
 tags:
   analytic_story:
   - Trickbot
+  - Icedid
   confidence: 80
   context:
   - source:endpoint
