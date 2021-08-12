@@ -8,14 +8,13 @@ from pathlib import Path
 from PyInquirer import prompt, Separator
 import os
 import getpass
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader
 import uuid
 from datetime import date
 from os import path
 import sys
 
 
-select_autoescape(default_for_string=True, default=True)
 
 def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     questions = [
@@ -203,7 +202,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     print(mitre_attack_id)
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                     trim_blocks=True)
+                     trim_blocks=True, autoescape=True)
 
     if answers['detection_type'] == 'batch':
         answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
@@ -382,7 +381,7 @@ def story_wizard(security_content_path,type, TEMPLATE_PATH):
     ]
     answers = prompt(questions)
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                     trim_blocks=True)
+                     trim_blocks=True, autoescape=True)
     if answers['story_type'] == 'batch':
         answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
     elif answers['story_type'] == 'streaming':
@@ -404,7 +403,7 @@ def story_wizard(security_content_path,type, TEMPLATE_PATH):
 def create_example(security_content_path,type, TEMPLATE_PATH):
     getpass.getuser()
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape=True)
 
     if type == 'detection':
 

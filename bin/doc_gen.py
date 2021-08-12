@@ -5,7 +5,7 @@ import sys
 import re
 from os import path, walk
 import json
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader
 import datetime
 from stix2 import FileSystemSource
 from stix2 import Filter
@@ -151,7 +151,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
                 category['stories'].append(story)
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                             trim_blocks=False)
+                             trim_blocks=False, autoescape=True)
     # write markdown
     template = j2_env.get_template('doc_stories_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/stories.md')
@@ -208,7 +208,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
     sorted_detections = sorted(detections, key=lambda i: i['name'])
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                             trim_blocks=False)
+                             trim_blocks=False, autoescape=True)
 
     # write markdown
     template = j2_env.get_template('doc_detections_markdown.j2')
@@ -260,7 +260,7 @@ if __name__ == "__main__":
     OUTPUT_DIR = args.output
     VERBOSE = args.verbose
 
-    select_autoescape(default_for_string=True, default=True)
+    
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     if VERBOSE:

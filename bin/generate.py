@@ -63,7 +63,7 @@ def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape==True)
     template = j2_env.get_template('transforms.j2')
     output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
@@ -79,7 +79,7 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape=True)
     template = j2_env.get_template('collections.j2')
     output_path = path.join(OUTPUT_PATH, 'default/collections.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
@@ -101,7 +101,7 @@ def generate_savedsearches_conf(detections, response_tasks, baselines, deploymen
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape=True)
     j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
     output_path = path.join(OUTPUT_PATH, 'default/savedsearches.conf')
@@ -116,7 +116,7 @@ def generate_analytic_story_conf(stories, detections, response_tasks, baselines,
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape=True)
     template = j2_env.get_template('analytic_stories.j2')
     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
     output = template.render(stories=stories, time=utc_time)
@@ -129,7 +129,7 @@ def generate_use_case_library_conf(stories, detections, response_tasks, baseline
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape=True)
     template = j2_env.get_template('use_case_library.j2')
     output_path = path.join(OUTPUT_PATH, 'default/use_case_library.conf')
     output = template.render(stories=stories, detections=detections,
@@ -155,7 +155,7 @@ def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape=True)
     template = j2_env.get_template('macros.j2')
     output_path = path.join(OUTPUT_PATH, 'default/macros.conf')
     output = template.render(macros=all_macros, time=utc_time)
@@ -174,7 +174,7 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                 response_task['lowercase_name'] = response_file_name
                 workbench_panel_objects.append(response_task)
                 j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                                     trim_blocks=True)
+                                     trim_blocks=True, autoescape=True)
                 template = j2_env.get_template('panel.j2')
                 file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml
                 output_path = path.join(OUTPUT_PATH, file_path)
@@ -186,14 +186,14 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     f.write(output)
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape=True)
     template = j2_env.get_template('es_investigations.j2')
     output_path = path.join(OUTPUT_PATH, 'default/es_investigations.conf')
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+                         trim_blocks=True, autoescape=True)
     template = j2_env.get_template('workflow_actions.j2')
     output_path = path.join(OUTPUT_PATH, 'default/workflow_actions.conf')
     output = template.render(response_tasks=workbench_panel_objects)

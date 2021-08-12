@@ -7,7 +7,7 @@ import os
 from os import path
 import sys
 import datetime
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader
 
 
 def load_objects(file_path, REPO_PATH):
@@ -65,10 +65,10 @@ def main(args):
 
     print("detection_coverage {}".format(detection_coverage))
 
-    select_autoescape(default_for_string=True, default=True)
+    
     TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'jinja2_templates')
     OUTPUT_PATH = os.path.join(os.path.dirname(__file__), 'reporting')
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), trim_blocks=True)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), trim_blocks=True, autoescape=True)
     template = j2_env.get_template('detection_coverage.j2')
     output_path = path.join(OUTPUT_PATH, 'detection_coverage.svg')
     output = template.render(detection_coverage=detection_coverage)
