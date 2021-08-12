@@ -51,8 +51,8 @@ tags:
   confidence: 80
   risk_score: 56
   context:
-  - source: endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: rundll32 process $process_name$ with commandline $process$ in host $dest$
   observable:
   - name: dest

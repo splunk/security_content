@@ -47,8 +47,8 @@ tags:
   confidence: 30
   risk_score: 9
   context:
-  - source: endpoint
-  - stage: Collection
+  - Source:Endpoint
+  - Stage:Collection
   message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
   observable:
   - name: Computer

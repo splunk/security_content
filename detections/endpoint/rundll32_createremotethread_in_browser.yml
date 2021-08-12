@@ -49,8 +49,8 @@ tags:
   confidence: 100
   risk_score: 70
   context:
-  - source: endpoint
-  - stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   message: rundl32 process $SourceImage$ create a remote thread to browser process
     $TargetImage$ in host $Computer$
   observable:

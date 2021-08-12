@@ -52,8 +52,8 @@ tags:
   confidence: 30
   risk_score: 9
   context:
-  - source: endpoint
-  - stage: recon
+  - Source:Endpoint
+  - Stage:Recon
   message: parent process $parent_process_name$ spawning chcp process $process_name$
     with parent command line $parent_process$
   observable:
