@@ -6,17 +6,16 @@ author: Teoderick Contreras, Splunk
 type: batch
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious rundll32 commandline to lock the workstation through command line. 
-  This technique was seen in CONTI leak tooling and script as part of its defense evasion. This technique is not a common 
-  practice to lock a screen and maybe a good indicator of compromise.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name=rundll32.exe Processes.process= "*user32.dll,LockWorkStation*"
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name 
-  Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name  
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `rundll32_lockworkstation_filter`'
+description: This search is to detect a suspicious rundll32 commandline to lock the
+  workstation through command line. This technique was seen in CONTI leak tooling
+  and script as part of its defense evasion. This technique is not a common practice
+  to lock a screen and maybe a good indicator of compromise.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
+  Processes.process= "*user32.dll,LockWorkStation*" by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id Processes.parent_process_name | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_lockworkstation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -39,13 +38,13 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
+  - Processes.dest
+  - Processes.user
   - Processes.parent_process
-  - Processes.parent_process_name  
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_id 
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
   impact: 50
@@ -64,4 +63,4 @@ tags:
     type: process name
     role:
     - Attacker
-  
+  automated_detection_testing: passed
