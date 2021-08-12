@@ -1,0 +1,61 @@
+name: Rundll32 Process Creating Exe Dll Files
+id: 6338266a-ee2a-11eb-bf68-acde48001122
+version: 1
+date: '2021-07-26'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious rundll32 process that drops executable
+  (.exe or .dll) files. this behavior seen in rundll32 process of IcedID that tries
+  to drop copy of itself in temp folder or download executable drop it either appdata
+  or programdata as part of its execution.
+search: '`sysmon` EventCode=11 process_name="rundll32.exe" TargetFilename IN ("*.exe",
+  "*.dll",) | stats count min(_time) as firstTime max(_time) as lastTime by Image
+  TargetFilename ProcessGuid dest user_id | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `rundll32_process_creating_exe_dll_files_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, TargetFilename, and eventcode 11 executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: unknown
+references:
+- https://any.run/malware-trends/icedid
+tags:
+  analytic_story:
+  - Icedid
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.011
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - TargetFilename
+  - ProcessGuid
+  - dest
+  - user_id
+  security_domain: endpoint
+  impact: 80
+  confidence: 100
+  risk_score: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: rundll32 process $process_name$ drops a file $TargetFilename$ in host $dest$
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: process name
+    role:
+    - Attacker
+  automated_detection_testing: passed

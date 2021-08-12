@@ -1,0 +1,60 @@
+name: IcedID Exfiltrated Archived File Creation
+id: 0db4da70-f14b-11eb-8043-acde48001122
+version: 1
+date: '2021-07-30'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious file creation namely passff.tar
+  and cookie.tar. This files are possible archived of stolen browser information like
+  history and cookies in a compromised machine with IcedID.
+search: '`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename
+  = "*\\cookie.tar") |stats count min(_time) as firstTime max(_time) as lastTime by
+  TargetFilename EventCode process_id  process_name Computer | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `icedid_exfiltrated_archived_file_creation_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: unknown
+references:
+- https://www.cisecurity.org/white-papers/security-primer-icedid/
+tags:
+  analytic_story:
+  - Icedid
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1560.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - TargetFilename
+  - EventCode
+  - process_id
+  - process_name
+  - Computer
+  security_domain: endpoint
+  impact: 80
+  confidence: 90
+  risk_score: 72
+  context:
+  - Source:Endpoint
+  - Stage:Collection
+  message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: SourceImage
+    type: process name
+    role:
+    - Attacker
+  automated_detection_testing: passed
