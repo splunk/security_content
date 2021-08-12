@@ -1,0 +1,62 @@
+name: Sqlite Module In Temp Folder
+id: 0f216a38-f45f-11eb-b09c-acde48001122
+version: 1
+date: '2021-08-03'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious file creation of sqlite3.dll in
+  %temp% folder. This behavior was seen in IcedID malware where it download sqlite
+  module to parse browser database like for chrome or firefox to stole browser information
+  related to bank, credit card or credentials.
+search: '`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename
+  = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") |stats count min(_time) as
+  firstTime max(_time) as lastTime by process_name TargetFilename EventCode ProcessId
+  Image | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `sqlite_module_in_temp_folder_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: unknown
+references:
+- https://www.cisecurity.org/white-papers/security-primer-icedid/
+tags:
+  analytic_story:
+  - Icedid
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - process_name
+  - TargetFilename
+  - EventCode
+  - ProcessId
+  - Image
+  security_domain: endpoint
+  impact: 30
+  confidence: 30
+  risk_score: 9
+  context:
+  - Source:Endpoint
+  - Stage:Collection
+  message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: SourceImage
+    type: process name
+    role:
+    - Attacker
+  automated_detection_testing: passed

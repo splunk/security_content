@@ -1,0 +1,68 @@
+name: CHCP Command Execution
+id: 21d236ec-eec1-11eb-b23e-acde48001122
+version: 1
+date: '2021-07-27'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect execution of chcp.exe application. this utility
+  is used to change the active code page of the console. This technique was seen in
+  icedid malware to know the locale region/language/country of the compromise host.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=chcp.com
+  Processes.parent_process_name = cmd.exe Processes.parent_process=*/c* by  Processes.process_name
+  Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id
+  Processes.parent_process_id Processes.dest Processes.user | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `chcp_command_execution_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed chcp.com may be used.
+known_false_positives: other tools or script may used this to change code page to
+  UTF-* or others
+references:
+- https://ss64.com/nt/chcp.html
+- https://twitter.com/tccontre18/status/1419941156633329665?s=20
+tags:
+  analytic_story:
+  - Icedid
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1059
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - process_name
+  - process
+  - parent_process_name
+  - parent_process
+  - process_id
+  - parent_process_id
+  - dest
+  - user
+  security_domain: endpoint
+  impact: 30
+  confidence: 30
+  risk_score: 9
+  context:
+  - Source:Endpoint
+  - Stage:Recon
+  message: parent process $parent_process_name$ spawning chcp process $process_name$
+    with parent command line $parent_process$
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
+  automated_detection_testing: passed
