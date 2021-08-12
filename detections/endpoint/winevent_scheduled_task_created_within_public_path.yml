@@ -46,6 +46,7 @@ tags:
   - Windows Persistence Techniques
   - Ransomware
   - Ryuk Ransomware
+  - Icedid
   automated_detection_testing: passed
   confidence: 100
   context:
