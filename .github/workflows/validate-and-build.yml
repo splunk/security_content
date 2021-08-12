@@ -247,7 +247,7 @@ jobs:
           name: package
           path: |
             build/upload
-      - name: store_artifacts
+      - name: store_artifacts_two
         uses: actions/upload-artifact@v2
         with:
           name: content-latest
