@@ -52,8 +52,8 @@ tags:
   confidence: 60
   risk_score: 30
   context:
-  - source: endpoint
-  - stage: Execution
+  - Source:Endpoint
+  - Stage:Execution
   message: process $process_name$ with a cmdline $process$ in host $dest$
   observable:
   - name: dest
