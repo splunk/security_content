@@ -41,7 +41,7 @@ jobs:
       # Scan code using project's configuration on https://semgrep.dev/manage
       - uses: returntocorp/semgrep-action@v1
         with:
-          generateSarif: "1"
+          #generateSarif: "1"
           config: >- # more at semgrep.dev/explore
             p/security-audit
             p/secrets
