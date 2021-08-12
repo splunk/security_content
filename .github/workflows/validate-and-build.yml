@@ -303,7 +303,7 @@ jobs:
         with:
           name: appinspect_reports
           path: |
-            report.tar.gz
+            bin/report.tar.gz
       #Still store the report, even if we have failed (otherwise we don't know why/how we failed)
       - name: store_artifacts_on_failure
         uses: actions/upload-artifact@v2
