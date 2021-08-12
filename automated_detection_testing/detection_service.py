@@ -10,7 +10,7 @@ import boto3
 from random import randrange
 import yaml
 from github import Github
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 import base64
 from botocore.exceptions import ClientError
 import json
@@ -41,7 +41,8 @@ def main(args):
     parser.add_argument("-s3b", "--s3_bucket", required=False, default="attack-range-automated-testing",
                         help="S3 bucket to store the test data")
 
-
+    select_autoescape(default_for_string=True, default=True)
+    
     args = parser.parse_args()
     test_file_name = args.test_file_name
     attack_range_repo = args.attack_range_repo

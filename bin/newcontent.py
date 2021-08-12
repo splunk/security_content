@@ -8,12 +8,14 @@ from pathlib import Path
 from PyInquirer import prompt, Separator
 import os
 import getpass
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 import uuid
 from datetime import date
 from os import path
 import sys
 
+
+select_autoescape(default_for_string=True, default=True)
 
 def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     questions = [

@@ -5,7 +5,7 @@ import sys
 import re
 from os import path, walk
 import json
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 import datetime
 from stix2 import FileSystemSource
 from stix2 import Filter
@@ -253,12 +253,14 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 
+    
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     VERBOSE = args.verbose
 
+    select_autoescape(default_for_string=True, default=True)
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     if VERBOSE:

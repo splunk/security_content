@@ -231,10 +231,10 @@ jobs:
           slim package -o upload DA-ESS_AmazonWebServices_Content
 
           cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
-          sha256 DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
+          sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
 
           cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
-          sha256 DA-ESS_AmazonWebServices_Content-latest.tar.gz > checksum.txt
+          sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz > checksum.txt
 
       - name: store_artifacts
         uses: actions/upload-artifact@v2
