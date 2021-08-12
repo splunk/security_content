@@ -43,8 +43,8 @@ tags:
   confidence: 50
   risk_score: 5
   context:
-  - source:endpoint
-  - stage: Privilege Escalation
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   message: A suspicious powershell script contains COM CLSID command in $Message$
     with EventCode $EventCode$ in host $ComputerName$
   observable:
