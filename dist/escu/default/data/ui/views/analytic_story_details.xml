@@ -1,4 +1,4 @@
-<form script="analytic_story_details.js" hideFilters="false">
+<form script="analytic_story_details.js" hideFilters="false" version="1.1">
   <label>Analytic Story Detail</label>
   <fieldset autoRun="true" submitButton="false">
     <input type="dropdown" token="analytic_story_name">
