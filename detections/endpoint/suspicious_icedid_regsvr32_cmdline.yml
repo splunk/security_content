@@ -1,0 +1,67 @@
+name: Suspicious IcedID Regsvr32 Cmdline
+id: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
+version: 1
+date: '2021-07-27'
+author: Teoderick Contreras,
+type: batch
+datamodel:
+- Endpoint
+description: this search is to detect a suspicious regsvr32 commandline "-s" to execute
+  a dll files. This technique was seen in IcedID malware to execute its initial downloader
+  dll that will download the 2nd stage loader that will download and decrypt the config
+  payload.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=regsvr32.exe
+  Processes.process=*-s* by  Processes.process_name Processes.process Processes.parent_process_name
+  Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest
+  Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_icedid_regsvr32_cmdline_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed regsvr32.exe may be used.
+known_false_positives: minimal. but network operator can use this application to load
+  dll.
+references:
+- https://app.any.run/tasks/56680cba-2bbc-4b34-8633-5f7878ddf858/
+tags:
+  analytic_story:
+  - Icedid
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.010
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - process_name
+  - process
+  - parent_process_name
+  - parent_process
+  - process_id
+  - parent_process_id
+  - dest
+  - user
+  security_domain: endpoint
+  impact: 70
+  confidence: 80
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: regsvr32 process $process_name$ with commandline $process$ in host $dest$
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: process name
+    role:
+    - Attacker
+  automated_detection_testing: passed
