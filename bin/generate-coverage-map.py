@@ -180,7 +180,7 @@ def generate_csv_file(matched_techniques, output):
     security_content_url = 'https://github.com/splunk/security_content/blob/develop/'
 
     with open(output + '/coverage.csv', 'w') as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, csv.QUOTE_ALL)
         writer.writerow(['Technique ID', 'Detection Available', 'Link', 'score'])
 
         for technique in matched_techniques:

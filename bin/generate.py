@@ -576,7 +576,7 @@ def generate_mitre_lookup(OUTPUT_PATH):
             csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
     with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='', encoding="utf-8") as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file,quoting=csv.QUOTE_ALL)
         writer.writerows(csv_mitre_rows)
 
 
