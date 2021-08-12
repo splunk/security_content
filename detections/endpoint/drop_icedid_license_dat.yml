@@ -1,0 +1,55 @@
+name: Drop IcedID License dat
+id: b7a045fc-f14a-11eb-8e79-acde48001122
+version: 1
+date: '2021-07-30'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect dropping a suspicious file named as "license.dat"
+  in %appdata%. This behavior seen in latest IcedID malware that contain the actual
+  core bot that will be injected in other process to do banking stealing.
+search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*"
+  OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time)
+  as lastTime by TargetFilename EventCode process_id  process_name Computer | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `drop_icedid_license_dat_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: unknown
+references:
+- https://www.cisecurity.org/white-papers/security-primer-icedid/
+tags:
+  analytic_story:
+  - Icedid
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1204.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 70
+  confidence: 90
+  risk_score: 63
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: SourceImage
+    type: process name
+    role:
+    - Attacker
+  automated_detection_testing: passed
