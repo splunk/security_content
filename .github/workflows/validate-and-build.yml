@@ -154,15 +154,18 @@ jobs:
           cd lookups
           cp -rv *.csv ../dist/escu/lookups
           cp -rv *.csv ../dist/saaws/lookups
+      - name: Set tag
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        
       - name: Update Version and Build number
         run : |
             # check if tag is set, get build number from the tag if set
-            if [ -z "${{ github.event.release.tag_name }}" ]; then
+            if [ -z "${{ steps.vars.outputs.tag }}" ]; then
                 CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
                 echo "detected content version: $CONTENT_VERSION"
             else
-                CONTENT_VERSION=$(echo ${{ github.event.release.tag_name }} | grep -oP "\d+.\d+.\d+")
-                echo "content version: $CONTENT_VERSION, set by tag: ${{ github.event.release.tag_name }}"
+                CONTENT_VERSION=$(echo ${{ steps.vars.outputs.tag }} | grep -oP "\d+.\d+.\d+")
+                echo "content version: $CONTENT_VERSION, set by tag: ${{ steps.vars.outputs.tag }}"
             fi
             # update build number and version for ESCU
             sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/escu/default/app.conf
@@ -468,15 +471,18 @@ jobs:
           name: appinspect_reports
     
       #Rename those artifacts appropriately
+      - name: Set tag
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
       - name: Rename the content-update appropriately 
         run: |
-          cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ github.event.release.tag_name }}.tar.gz
-          cp DA-ESS_AmazonWebServices_Content-latest.tar.gz DA-ESS_AmazonWebServices_Content-${{ github.event.release.tag_name }}.tar.gz
+          cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
+          cp DA-ESS_AmazonWebServices_Content-latest.tar.gz DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
           
           #No checksum on the reports
-          cp report.tar.gz report-${{ github.event.release.tag_name }}.tar.gz
+          cp report.tar.gz report-${{ steps.vars.outputs.tag }}.tar.gz
           
-          cp checksum.txt checksum-${{ github.event.release.tag_name }}.txt
+          cp checksum.txt checksum-${{ steps.vars.outputs.tag }}.txt
       
       #Upload all of the artifacts that we have created using the third party
       #action recommended bu Github
@@ -484,10 +490,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            DA-ESS-ContentUpdate-${{ github.event.release.tag_name }}.tar.gz
-            DA-ESS_AmazonWebServices_Content-${{ github.event.release.tag_name }}.tar.gz
-            report-${{ github.event.release.tag_name }}.tar.gz
-            checksum-${{ github.event.release.tag_name }}.txt
+            DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
+            DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
+            report-${{ steps.vars.outputs.tag }}.tar.gz
+            checksum-${{ steps.vars.outputs.tag }}.txt
 
           
 
