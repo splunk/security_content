@@ -156,9 +156,10 @@ jobs:
           cp -rv *.csv ../dist/saaws/lookups
       - name: Set tag
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-        
+
       - name: Update Version and Build number
         run : |
+            echo "The entire github ref is $GITHUB_REF"
             # check if tag is set, get build number from the tag if set
             if [ -z "${{ steps.vars.outputs.tag }}" ]; then
                 CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
