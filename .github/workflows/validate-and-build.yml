@@ -163,8 +163,8 @@ jobs:
       - name: Update Version and Build number
         run : |
             echo "The entire github ref is $GITHUB_REF"
-            echo "The tag is     {{ steps.vars.outputs.tag }}"
-            echo "The tag two is {{ steps.vars.outputs.tagtwo }}"
+            echo "The tag is     ${{ steps.vars.outputs.tag }}"
+            echo "The tag two is ${{ steps.vars.outputs.tagtwo }}"
             # check if tag is set, get build number from the tag if set
             if [ -z "${{ steps.vars.outputs.tag }}" ]; then
                 CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
