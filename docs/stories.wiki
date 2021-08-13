@@ -6175,6 +6175,181 @@ Monitor for and investigate activities, including the creation or deletion of hi
 
 ----
 
+===Icedid===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the IcedID banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1059/ T1059], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1548.002/ T1548.002], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1560.001/ T1560.001], [https://attack.mitre.org/techniques/T1218.005/ T1218.005], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1005/ T1005], [https://attack.mitre.org/techniques/T1218.010/ T1218.010], [https://attack.mitre.org/techniques/T1590.005/ T1590.005], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1021.002/ T1021.002]
+* '''Last Updated''': 2021-07-29
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Account_discovery_with_net_app|Account Discovery With Net App]]
+
+* [[Documentation:ESSOC:detections:Detections#Chcp_command_execution|CHCP Command Execution]]
+
+* [[Documentation:ESSOC:detections:Detections#Create_remote_thread_in_shell_application|Create Remote Thread In Shell Application]]
+
+* [[Documentation:ESSOC:detections:Detections#Drop_icedid_license_dat|Drop IcedID License dat]]
+
+* [[Documentation:ESSOC:detections:Detections#Eventvwr_uac_bypass|Eventvwr UAC Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Fodhelper_uac_bypass|FodHelper UAC Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Icedid_exfiltrated_archived_file_creation|IcedID Exfiltrated Archived File Creation]]
+
+* [[Documentation:ESSOC:detections:Detections#Mshta_spawning_rundll32_or_regsvr32_process|Mshta spawning Rundll32 OR Regsvr32 Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Nltest_domain_trust_discovery|NLTest Domain Trust Discovery]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_application_spawn_regsvr32_process|Office Application Spawn Regsvr32 process]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_application_spawn_rundll32_process|Office Application Spawn rundll32 process]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_document_executing_macro_code|Office Document Executing Macro Code]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_product_spawning_mshta|Office Product Spawning MSHTA]]
+
+* [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_create_remote_thread_to_a_process|Rundll32 Create Remote Thread To A Process]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_createremotethread_in_browser|Rundll32 CreateRemoteThread In Browser]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_dnsquery|Rundll32 DNSQuery]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_process_creating_exe_dll_files|Rundll32 Process Creating Exe Dll Files]]
+
+* [[Documentation:ESSOC:detections:Detections#Schedule_task_with_rundll32_command_trigger|Schedule Task with Rundll32 Command Trigger]]
+
+* [[Documentation:ESSOC:detections:Detections#Sqlite_module_in_temp_folder|Sqlite Module In Temp Folder]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_icedid_regsvr32_cmdline|Suspicious IcedID Regsvr32 Cmdline]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_icedid_rundll32_cmdline|Suspicious IcedID Rundll32 Cmdline]]
+
+* [[Documentation:ESSOC:detections:Detections#Suspicious_rundll32_plugininit|Suspicious Rundll32 PluginInit]]
+
+* [[Documentation:ESSOC:detections:Detections#Winevent_scheduled_task_created_within_public_path|WinEvent Scheduled Task Created Within Public Path]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1562.001
+| Disable or Modify Tools
+| Defense Evasion
+|-
+| T1059
+| Command and Scripting Interpreter
+| Execution
+|-
+| T1055
+| Process Injection
+| Defense Evasion, Privilege Escalation
+|-
+| T1204.002
+| Malicious File
+| Execution
+|-
+| T1548.002
+| Bypass User Account Control
+| Privilege Escalation, Defense Evasion
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|-
+| T1560.001
+| Archive via Utility
+| Collection
+|-
+| T1218.005
+| Mshta
+| Defense Evasion
+|-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1218.011
+| Rundll32
+| Defense Evasion
+|-
+| T1053
+| Scheduled Task/Job
+| Execution, Persistence, Privilege Escalation
+|-
+| T1005
+| Data from Local System
+| Collection
+|-
+| T1218.010
+| Regsvr32
+| Defense Evasion
+|-
+| T1590.005
+| IP Addresses
+| Reconnaissance
+|-
+| T1027
+| Obfuscated Files or Information
+| Defense Evasion
+|-
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
+|-
+| T1021.002
+| SMB/Windows Admin Shares
+| Lateral Movement
+|}
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exploitation
+
+* Privilege Escalation
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+
+* https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Orangeworm attack group===
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
@@ -7028,7 +7203,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1218.005/ T1218.005], [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1590.005/ T1590.005], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1059/ T1059], [https://attack.mitre.org/techniques/T1021.002/ T1021.002]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1059/ T1059], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1548.002/ T1548.002], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1560.001/ T1560.001], [https://attack.mitre.org/techniques/T1218.005/ T1218.005], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1005/ T1005], [https://attack.mitre.org/techniques/T1218.010/ T1218.010], [https://attack.mitre.org/techniques/T1590.005/ T1590.005], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1021.002/ T1021.002]
 * '''Last Updated''': 2021-04-20
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -7082,24 +7257,60 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | Disable or Modify Tools
 | Defense Evasion
 |-
+| T1059
+| Command and Scripting Interpreter
+| Execution
+|-
 | T1055
 | Process Injection
 | Defense Evasion, Privilege Escalation
+|-
+| T1204.002
+| Malicious File
+| Execution
+|-
+| T1548.002
+| Bypass User Account Control
+| Privilege Escalation, Defense Evasion
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|-
+| T1560.001
+| Archive via Utility
+| Collection
 |-
 | T1218.005
 | Mshta
 | Defense Evasion
 |-
+| T1482
+| Domain Trust Discovery
+| Discovery
+|-
 | T1566.001
 | Spearphishing Attachment
 | Initial Access
+|-
+| T1547.001
+| Registry Run Keys / Startup Folder
+| Persistence, Privilege Escalation
+|-
+| T1218.011
+| Rundll32
+| Defense Evasion
 |-
 | T1053
 | Scheduled Task/Job
 | Execution, Persistence, Privilege Escalation
 |-
-| T1218.011
-| Rundll32
+| T1005
+| Data from Local System
+| Collection
+|-
+| T1218.010
+| Regsvr32
 | Defense Evasion
 |-
 | T1590.005
@@ -7110,9 +7321,9 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | Obfuscated Files or Information
 | Defense Evasion
 |-
-| T1059
-| Command and Scripting Interpreter
-| Execution
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
 |-
 | T1021.002
 | SMB/Windows Admin Shares
@@ -7831,7 +8042,7 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-07-29 21:06:57.254832 UTC
+# On Date: 2021-08-12 18:33:56.195570 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############
