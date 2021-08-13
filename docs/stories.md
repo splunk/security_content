@@ -51,7 +51,7 @@ _version_: 1
 ---
 
 ### DNS Amplification Attacks
-DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to `ANY` queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
+DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to `ANY` queries. This Analytic Story can help you detect attackers who may be abusing your company&#39;s DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
@@ -1257,7 +1257,7 @@ _version_: 2
 ---
 
 ### Malicious PowerShell
-Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
+Attackers are finding stealthy ways &#34;live off the land,&#34; leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -1770,7 +1770,7 @@ _version_: 1
 ---
 
 ### Suspicious Command-Line Executions
-Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.
+Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&amp;CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -3388,7 +3388,7 @@ _version_: 1
 ---
 
 ### AWS User Monitoring
-Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it's critical to enable governance within your environment.
+Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it&#39;s critical to enable governance within your environment.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -3473,7 +3473,7 @@ _version_: 1
 ---
 
 ### Cloud Federated Credential Abuse
-This analytical story addresses events that indicate abuse of cloud federated credentials. These credentials are usually extracted from endpoint desktop or servers specially those servers that provide federation services such as Windows Active Directory Federation Services. Identity Federation relies on objects such as Oauth2 tokens, cookies or SAML assertions in order to provide seamless access between cloud and perimeter environments. If these objects are either hijacked or forged then attackers will be able to pivot into victim's cloud environements.
+This analytical story addresses events that indicate abuse of cloud federated credentials. These credentials are usually extracted from endpoint desktop or servers specially those servers that provide federation services such as Windows Active Directory Federation Services. Identity Federation relies on objects such as Oauth2 tokens, cookies or SAML assertions in order to provide seamless access between cloud and perimeter environments. If these objects are either hijacked or forged then attackers will be able to pivot into victim&#39;s cloud environements.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -3542,7 +3542,7 @@ _version_: 1
 ---
 
 ### Container Implantation Monitoring and Investigation
-Use the searches in this story to monitor your Kubernetes registry repositories for upload, and deployment of potentially vulnerable, backdoor, or implanted containers. These searches provide information on source users, destination path, container names and repository names. The searches provide context to address Mitre T1525 which refers to container implantation upload to a company's repository either in Amazon Elastic Container Registry, Google Container Registry and Azure Container Registry.
+Use the searches in this story to monitor your Kubernetes registry repositories for upload, and deployment of potentially vulnerable, backdoor, or implanted containers. These searches provide information on source users, destination path, container names and repository names. The searches provide context to address Mitre T1525 which refers to container implantation upload to a company&#39;s repository either in Amazon Elastic Container Registry, Google Container Registry and Azure Container Registry.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -4667,6 +4667,116 @@ _version_: 2
 
 ---
 
+### Icedid
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the IcedID banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1005](https://attack.mitre.org/techniques/T1005/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1218.005](https://attack.mitre.org/techniques/T1218.005/), [T1218.010](https://attack.mitre.org/techniques/T1218.010/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1548.002](https://attack.mitre.org/techniques/T1548.002/), [T1560.001](https://attack.mitre.org/techniques/T1560.001/), [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **Last Updated**: 2021-07-29
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Account Discovery With Net App](detections.md#account-discovery-with-net-app)
+
+* [CHCP Command Execution](detections.md#chcp-command-execution)
+
+* [Create Remote Thread In Shell Application](detections.md#create-remote-thread-in-shell-application)
+
+* [Drop IcedID License dat](detections.md#drop-icedid-license-dat)
+
+* [Eventvwr UAC Bypass](detections.md#eventvwr-uac-bypass)
+
+* [FodHelper UAC Bypass](detections.md#fodhelper-uac-bypass)
+
+* [IcedID Exfiltrated Archived File Creation](detections.md#icedid-exfiltrated-archived-file-creation)
+
+* [Mshta spawning Rundll32 OR Regsvr32 Process](detections.md#mshta-spawning-rundll32-or-regsvr32-process)
+
+* [NLTest Domain Trust Discovery](detections.md#nltest-domain-trust-discovery)
+
+* [Office Application Spawn Regsvr32 process](detections.md#office-application-spawn-regsvr32-process)
+
+* [Office Application Spawn rundll32 process](detections.md#office-application-spawn-rundll32-process)
+
+* [Office Document Executing Macro Code](detections.md#office-document-executing-macro-code)
+
+* [Office Product Spawning MSHTA](detections.md#office-product-spawning-mshta)
+
+* [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
+
+* [Rundll32 Create Remote Thread To A Process](detections.md#rundll32-create-remote-thread-to-a-process)
+
+* [Rundll32 CreateRemoteThread In Browser](detections.md#rundll32-createremotethread-in-browser)
+
+* [Rundll32 DNSQuery](detections.md#rundll32-dnsquery)
+
+* [Rundll32 Process Creating Exe Dll Files](detections.md#rundll32-process-creating-exe-dll-files)
+
+* [Schedule Task with Rundll32 Command Trigger](detections.md#schedule-task-with-rundll32-command-trigger)
+
+* [Sqlite Module In Temp Folder](detections.md#sqlite-module-in-temp-folder)
+
+* [Suspicious IcedID Regsvr32 Cmdline](detections.md#suspicious-icedid-regsvr32-cmdline)
+
+* [Suspicious IcedID Rundll32 Cmdline](detections.md#suspicious-icedid-rundll32-cmdline)
+
+* [Suspicious Rundll32 PluginInit](detections.md#suspicious-rundll32-plugininit)
+
+* [WinEvent Scheduled Task Created Within Public Path](detections.md#winevent-scheduled-task-created-within-public-path)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1087.002 | Domain Account | Discovery |
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+| T1059 | Command and Scripting Interpreter | Execution |
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1204.002 | Malicious File | Execution |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| T1112 | Modify Registry | Defense Evasion |
+| T1560.001 | Archive via Utility | Collection |
+| T1218.005 | Mshta | Defense Evasion |
+| T1482 | Domain Trust Discovery | Discovery |
+| T1566.001 | Spearphishing Attachment | Initial Access |
+| T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
+| T1218.011 | Rundll32 | Defense Evasion |
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1005 | Data from Local System | Collection |
+| T1218.010 | Regsvr32 | Defense Evasion |
+| T1590.005 | IP Addresses | Reconnaissance |
+| T1027 | Obfuscated Files or Information | Defense Evasion |
+| T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+* Exploitation
+
+* Privilege Escalation
+
+* Reconnaissance
+
+
+#### Reference
+
+* https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+
+* https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/
+
+
+_version_: 1
+</details>
+
+---
+
 ### Orangeworm Attack Group
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
@@ -5274,14 +5384,23 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ----------- | ----------- |--------------|
 | T1087.002 | Domain Account | Discovery |
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
+| T1059 | Command and Scripting Interpreter | Execution |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1204.002 | Malicious File | Execution |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| T1112 | Modify Registry | Defense Evasion |
+| T1560.001 | Archive via Utility | Collection |
 | T1218.005 | Mshta | Defense Evasion |
+| T1482 | Domain Trust Discovery | Discovery |
 | T1566.001 | Spearphishing Attachment | Initial Access |
-| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 | T1218.011 | Rundll32 | Defense Evasion |
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1005 | Data from Local System | Collection |
+| T1218.010 | Regsvr32 | Defense Evasion |
 | T1590.005 | IP Addresses | Reconnaissance |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
-| T1059 | Command and Scripting Interpreter | Execution |
+| T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 
 #### Kill Chain Phase
