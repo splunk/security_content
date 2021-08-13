@@ -156,6 +156,7 @@ jobs:
           cp -rv *.csv ../dist/saaws/lookups
       - name: Set tag
         run: |
+          id: vars
           echo ::set-output name=tag::${GITHUB_REF#refs/*/}
           echo ::set-output name=tagtwo::${GITHUB_REF#refs/*/}
 
