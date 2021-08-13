@@ -155,17 +155,13 @@ jobs:
           cp -rv *.csv ../dist/escu/lookups
           cp -rv *.csv ../dist/saaws/lookups
       - name: Set tag
+        id: vars
         run: |
-          id: vars
           echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-          echo ::set-output name=tagtwo::${GITHUB_REF#refs/*/}
 
 
       - name: Update Version and Build number
         run : |
-            echo "The entire github ref is $GITHUB_REF"
-            echo "The tag is     ${{ steps.vars.outputs.tag }}"
-            echo "The tag two is ${{ steps.vars.outputs.tagtwo }}"
             # check if tag is set, get build number from the tag if set
             if [ -z "${{ steps.vars.outputs.tag }}" ]; then
                 CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
@@ -479,6 +475,7 @@ jobs:
     
       #Rename those artifacts appropriately
       - name: Set tag
+        id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
       - name: Rename the content-update appropriately 
