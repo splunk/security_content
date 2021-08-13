@@ -234,7 +234,7 @@ jobs:
           sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
 
           cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
-          sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz > checksum.txt
+          sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz >> checksum.txt
 
       - name: store_artifacts
         uses: actions/upload-artifact@v2
@@ -470,13 +470,13 @@ jobs:
       #Rename those artifacts appropriately
       - name: Rename the content-update appropriately 
         run: |
-          cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
-          cp DA-ESS_AmazonWebServices_Content-latest.tar.gz DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
+          cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ github.event.release.tag_name }}.tar.gz
+          cp DA-ESS_AmazonWebServices_Content-latest.tar.gz DA-ESS_AmazonWebServices_Content-${{ github.event.release.tag_name }}.tar.gz
           
           #No checksum on the reports
-          cp report.tar.gz report-${{ steps.vars.outputs.tag }}.tar.gz
+          cp report.tar.gz report-${{ github.event.release.tag_name }}.tar.gz
           
-          cp checksum.txt checksum-${{ steps.vars.outputs.tag }}.txt
+          cp checksum.txt checksum-${{ github.event.release.tag_name }}.txt
       
       #Upload all of the artifacts that we have created using the third party
       #action recommended bu Github
@@ -484,10 +484,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
-            DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
-            report-${{ steps.vars.outputs.tag }}.tar.gz
-            checksum-${{ steps.vars.outputs.tag }}.txt
+            DA-ESS-ContentUpdate-${{ github.event.release.tag_name }}.tar.gz
+            DA-ESS_AmazonWebServices_Content-${{ github.event.release.tag_name }}.tar.gz
+            report-${{ github.event.release.tag_name }}.tar.gz
+            checksum-${{ github.event.release.tag_name }}.txt
 
           
 
