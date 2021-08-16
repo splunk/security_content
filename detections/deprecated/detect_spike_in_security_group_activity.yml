@@ -3,7 +3,7 @@ id: ada0f478-84a8-4641-a3f1-e32372d4bd53
 version: 1
 date: '2018-04-18'
 author: Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search will detect users creating spikes in API activity related
   to security groups in your AWS environment.  It will also update the cache file

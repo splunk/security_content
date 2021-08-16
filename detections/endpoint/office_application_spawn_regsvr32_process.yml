@@ -3,7 +3,7 @@ id: 2d9fc90c-f11f-11eb-9300-acde48001122
 version: 1
 date: '2021-07-30'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this detection was designed to identifies suspicious spawned process

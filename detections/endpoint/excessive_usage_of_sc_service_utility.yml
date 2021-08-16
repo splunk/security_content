@@ -3,7 +3,7 @@ id: cb6b339e-d4c6-11eb-a026-acde48001122
 version: 1
 date: '2021-06-24'
 author: Teoderick Contreras, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious excessive usage of sc.exe in a

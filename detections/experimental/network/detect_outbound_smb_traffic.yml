@@ -3,7 +3,7 @@ id: 7f5fb3e1-4209-414-90db-0ec21b936378
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Stuart Hopkins from Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Traffic
 description: This search looks for outbound SMB connections made by hosts within your

@@ -3,7 +3,7 @@ id: 6923cd64-17a0-453c-b945-81ac2d8c6db9
 version: 2
 date: '2020-11-04'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Traffic
 description: This search looks for cleartext protocols at risk of leaking credentials.

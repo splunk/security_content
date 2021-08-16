@@ -3,7 +3,7 @@ id: babd8d10-d073-11ea-87d0-0242ac130003
 version: 1
 date: '2020-07-28'
 author: Shannon Davis, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects SIGRed via Splunk Stream.
 search: '`stream_dns` | spath "query_type{}" | search "query_type{}" IN (SIG,KEY)

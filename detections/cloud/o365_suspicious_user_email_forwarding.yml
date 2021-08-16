@@ -3,7 +3,7 @@ id: f8dfe015-dbb3-4569-ba75-b13787e06aa4
 version: 1
 date: '2020-12-16'
 author: Patrick Bareiss, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search detects when multiple user configured a forwarding rule to
   the same destination.

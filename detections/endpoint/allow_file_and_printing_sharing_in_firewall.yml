@@ -3,7 +3,7 @@ id: ce27646e-d411-11eb-8a00-acde48001122
 version: 1
 date: '2021-06-23'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious modification of firewall to allow

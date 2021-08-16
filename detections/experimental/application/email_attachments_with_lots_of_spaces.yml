@@ -3,7 +3,7 @@ id: 56e877a6-1455-4479-ada6-0550dc1e22f8
 version: 2
 date: '2017-09-19'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Email
 description: Attackers often use spaces as a means to obfuscate an attachment's file

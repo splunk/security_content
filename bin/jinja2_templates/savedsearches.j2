@@ -8,6 +8,7 @@
 ### ESCU DETECTIONS ###
 
 {% for detection in detections %}
+{% if (detection.type == 'TTP' or detection.type == 'Anomaly' or detection.type == 'Hunting' or detection.type == 'Correlation') %}
 [ESCU - {{ detection.name }} - Rule]
 action.escu = 0
 action.escu.enabled = 1
@@ -32,7 +33,7 @@ action.escu.known_false_positives = None
 action.escu.creation_date = {{ detection.date }}
 action.escu.modification_date = {{ detection.date }}
 action.escu.confidence = high
-action.escu.full_search_name = ESCU - {{ detection.name }} - Rule
+action.escu.full_search_name = ESCU - {{ detection.name }} - Rule
 action.escu.search_type = detection
 {% if detection.product is defined %}
 action.escu.product = {{ detection.product | tojson }}
@@ -58,9 +59,9 @@ dispatch.earliest_time = {{ detection.deployment.scheduling.earliest_time }}
 dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
 action.correlationsearch.enabled = 1
 {% if detection.deprecated is defined %}
-action.correlationsearch.label = ESCU - Deprecated - {{ detection.name }} - Rule
+action.correlationsearch.label = ESCU - Deprecated - {{ detection.name }} - Rule
 {% else %}
-action.correlationsearch.label = ESCU - {{ detection.name }} - Rule
+action.correlationsearch.label = ESCU - {{ detection.name }} - Rule
 {% endif %}
 action.correlationsearch.annotations = {{ detection.savedsearch_annotations | tojson }}
 {% if detection.deployment.scheduling.schedule_window is defined %}
@@ -70,11 +71,11 @@ schedule_window = {{ detection.deployment.scheduling.schedule_window }}
 {% if detection.deployment.alert_action.notable is defined %}
 action.notable = 1
 {% if detection.nes_fields is defined %}
-action.notable.param.nes_fields = {{ detection.nes_fields }}
+action.notable.param.nes_fields = {{ detection.nes_fields }}
 {% endif %}
 action.notable.param.rule_description = {{ detection.deployment.alert_action.notable.rule_description | custom_jinja2_enrichment_filter(detection) }}
 action.notable.param.rule_title = {{ detection.deployment.alert_action.notable.rule_title | custom_jinja2_enrichment_filter(detection) }}
-action.notable.param.security_domain = {{ detection.tags.security_domain }}
+action.notable.param.security_domain = {{ detection.tags.security_domain }}
 action.notable.param.severity = high
 {% endif %}
 {% if detection.deployment.alert_action.email is defined %}
@@ -97,95 +98,100 @@ relation = greater than
 quantity = 0
 realtime_schedule = 0
 is_visible = false
-search = {{ detection.search }}
+search = {{ detection.search }}
 
+{% endif %}
 {% endfor %}
 ### END ESCU DETECTIONS ###
 
 
 ### ESCU BASELINES ###
 
-{% for baseline in baselines %}
-[ESCU - {{ baseline.name }}]
+{% for detection in detections %}
+{% if (detection.type == 'Baseline') %}
+[ESCU - {{ detection.name }}]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = support
-action.escu.full_search_name = ESCU - {{ baseline.name }}
-description = {{ baseline.description }}
-action.escu.creation_date = {{ baseline.date }}
-action.escu.modification_date = {{ baseline.date }}
-{% if baseline.tags.analytic_story is defined %}
-action.escu.analytic_story = {{ baseline.tags.analytic_story | tojson }}
+action.escu.full_search_name = ESCU - {{ detection.name }}
+description = {{ detection.description }}
+action.escu.creation_date = {{ detection.date }}
+action.escu.modification_date = {{ detection.date }}
+{% if detection.tags.analytic_story is defined %}
+action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
 {% else %}
 action.escu.analytic_story = []
 {% endif %}
-{% if baseline.data_model is defined %}
-action.escu.data_models = [{{ baseline.data_model | tojson }}]
+{% if detection.data_model is defined %}
+action.escu.data_models = [{{ detection.data_model | tojson }}]
 {% else %}
 action.escu.data_models = []
 {% endif %}
-cron_schedule = {{ baseline.deployment.scheduling.cron_schedule }}
+cron_schedule = {{ detection.deployment.scheduling.cron_schedule }}
 enableSched = 1
-dispatch.earliest_time = {{ baseline.deployment.scheduling.earliest_time }}
-dispatch.latest_time = {{ baseline.deployment.scheduling.latest_time }}
-{% if baseline.deployment.scheduling.schedule_window is defined %}
-schedule_window = {{ baseline.deployment.scheduling.schedule_window }}
+dispatch.earliest_time = {{ detection.deployment.scheduling.earliest_time }}
+dispatch.latest_time = {{ detection.deployment.scheduling.latest_time }}
+{% if detection.deployment.scheduling.schedule_window is defined %}
+schedule_window = {{ detection.deployment.scheduling.schedule_window }}
 {% endif %}
-{% if baseline.providing_technologies is defined %}
-action.escu.providing_technologies = {{ baseline.providing_technologies | tojson }}
+{% if detection.providing_technologies is defined %}
+action.escu.providing_technologies = {{ detection.providing_technologies | tojson }}
 {% else %}
 action.escu.providing_technologies = []
 {% endif %}
-action.escu.eli5 = {{ baseline.description }}
-{% if baseline.how_to_implement is defined %}
-action.escu.how_to_implement = {{ baseline.how_to_implement }}
+action.escu.eli5 = {{ detection.description }}
+{% if detection.how_to_implement is defined %}
+action.escu.how_to_implement = {{ detection.how_to_implement }}
 {% else %}
 action.escu.how_to_implement = none
 {% endif %}
-{% if baseline.disabled is defined %}
+{% if detection.disabled is defined %}
 disabled = false
 {% else %}
 disabled = true
 {% endif %}
 is_visible = false
-search = {{ baseline.search }}
+search = {{ detection.search }}
 
+{% endif %}
 {% endfor %}
 
 
 ### ESCU RESPONSE TASKS ###
 
-{% for response_task in response_tasks %}
-{% if response_task.search is defined %}
-[ESCU - {{ response_task.name }} - Response Task]
+{% for detection in detections %}
+{% if (detection.type == 'Investigation') %}
+{% if detection.search is defined %}
+[ESCU - {{ detection.name }} - Response Task]
 action.escu = 0
 action.escu.enabled = 1
 action.escu.search_type = investigative
-action.escu.full_search_name = ESCU - {{ response_task.name }} - Response Task
-description = {{ response_task.description }}
-action.escu.creation_date = {{ response_task.date }}
-action.escu.modification_date = {{ response_task.date }}
-{% if response_task.tags is defined %}
-action.escu.analytic_story = {{ response_task.tags.analytic_story | tojson }}
+action.escu.full_search_name = ESCU - {{ detection.name }} - Response Task
+description = {{ detection.description }}
+action.escu.creation_date = {{ detection.date }}
+action.escu.modification_date = {{ detection.date }}
+{% if detection.tags is defined %}
+action.escu.analytic_story = {{ detection.tags.analytic_story | tojson }}
 {% else %}
 action.escu.analytic_story = []
 {% endif %}
 action.escu.earliest_time_offset = 3600
 action.escu.latest_time_offset = 86400
 action.escu.providing_technologies = []
-{% if response_task.data_model is defined %}
-action.escu.data_models = [{{ response_task.data_model | tojson}}]
+{% if detection.data_model is defined %}
+action.escu.data_models = [{{ detection.data_model | tojson}}]
 {% else %}
 action.escu.data_models = []
 {% endif %}
-action.escu.eli5 = {{ response_task.description }}
+action.escu.eli5 = {{ detection.description }}
 action.escu.how_to_implement = none
 action.escu.known_false_positives = None at this time
 disabled = true
 schedule_window = auto
 is_visible = false
-search = {{ response_task.search }}
+search = {{ detection.search }}
 
+{% endif %}
 {% endif %}
 {% endfor %}
 
@@ -263,3 +269,4 @@ search = index=_audit sourcetype="audittrail" \
 | table savedsearch_name count(search) usage user | join savedsearch_name max=0 type=left [search sourcetype="manifests" | spath searches{} | mvexpand searches{} | spath input=searches{} | table category search_name | rename search_name as savedsearch_name | dedup savedsearch_name] | search category=*
 
 ### END OF USAGE DASHBOARD CONFIGURATIONS ###
+

@@ -3,7 +3,7 @@ id: 35307032-a12d-11eb-835f-acde48001122
 version: 1
 date: '2021-04-19'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies rundll32.exe with no command line arguments
