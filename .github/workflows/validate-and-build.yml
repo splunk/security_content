@@ -537,6 +537,11 @@ jobs:
           with:
             ref: 'develop'
         
+        - name: Create Baseline Folder
+          run: |
+            source venv/bin/activate
+            python3 bin/create_baseline_folder.py   
+
         #Official, Verified Amazon-AWS Github Account Provided Action
         - uses: aws-actions/configure-aws-credentials@v1
           with:
