@@ -3,7 +3,7 @@ id: f0eacfa4-d33f-11eb-8f9d-acde48001122
 version: 1
 date: '2021-06-22'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this search is to identify modification in registry to disable ETW windows

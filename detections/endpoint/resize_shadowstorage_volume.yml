@@ -3,7 +3,7 @@ id: bc760ca6-8336-11eb-bcbb-acde48001122
 version: 1
 date: '2021-03-12'
 author: Teoderick Contreras
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytics identifies the resizing of shadowstorage by ransomware

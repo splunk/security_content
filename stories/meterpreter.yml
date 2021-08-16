@@ -3,7 +3,6 @@ id: d5f8e298-c85a-11eb-9fea-acde48001122
 version: 1
 date: '2021-06-08'
 author: Michael Hart
-type: batch
 description: Meterpreter provides red teams, pen testers and threat actors interactive access to a compromised host to run commands, upload payloads, download files, and other actions.
 narrative: 'This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from Meterpreter.
   Meterpreter is a Metasploit payload for remote execution that leverages DLL injection to make it extremely difficult to detect.  Since the software

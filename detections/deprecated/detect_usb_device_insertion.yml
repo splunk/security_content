@@ -3,7 +3,7 @@ id: 104658f4-afdc-499f-9719-17a43f9826f5
 version: 1
 date: '2017-11-27'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Change_Analysis
 description: The search is used to detect hosts that generate Windows Event ID 4663

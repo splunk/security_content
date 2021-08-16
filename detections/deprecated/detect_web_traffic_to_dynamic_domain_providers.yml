@@ -3,7 +3,7 @@ id: 134da869-e264-4a8f-8d7e-fcd01c18f301
 version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Web
 description: This search looks for web connections to dynamic DNS providers.

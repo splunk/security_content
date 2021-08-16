@@ -3,7 +3,7 @@ id: 2e70ef35-2187-431f-aedc-4503dc9b06ba
 version: 1
 date: '2020-10-09'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides detection of high risk permissions by resource and
   accounts. These are permissions that can allow attackers with compromised accounts
