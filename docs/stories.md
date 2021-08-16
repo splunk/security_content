@@ -4667,6 +4667,116 @@ _version_: 2
 
 ---
 
+### Icedid
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the IcedID banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1005](https://attack.mitre.org/techniques/T1005/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059](https://attack.mitre.org/techniques/T1059/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1218.005](https://attack.mitre.org/techniques/T1218.005/), [T1218.010](https://attack.mitre.org/techniques/T1218.010/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1548.002](https://attack.mitre.org/techniques/T1548.002/), [T1560.001](https://attack.mitre.org/techniques/T1560.001/), [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **Last Updated**: 2021-07-29
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Account Discovery With Net App](detections.md#account-discovery-with-net-app)
+
+* [CHCP Command Execution](detections.md#chcp-command-execution)
+
+* [Create Remote Thread In Shell Application](detections.md#create-remote-thread-in-shell-application)
+
+* [Drop IcedID License dat](detections.md#drop-icedid-license-dat)
+
+* [Eventvwr UAC Bypass](detections.md#eventvwr-uac-bypass)
+
+* [FodHelper UAC Bypass](detections.md#fodhelper-uac-bypass)
+
+* [IcedID Exfiltrated Archived File Creation](detections.md#icedid-exfiltrated-archived-file-creation)
+
+* [Mshta spawning Rundll32 OR Regsvr32 Process](detections.md#mshta-spawning-rundll32-or-regsvr32-process)
+
+* [NLTest Domain Trust Discovery](detections.md#nltest-domain-trust-discovery)
+
+* [Office Application Spawn Regsvr32 process](detections.md#office-application-spawn-regsvr32-process)
+
+* [Office Application Spawn rundll32 process](detections.md#office-application-spawn-rundll32-process)
+
+* [Office Document Executing Macro Code](detections.md#office-document-executing-macro-code)
+
+* [Office Product Spawning MSHTA](detections.md#office-product-spawning-mshta)
+
+* [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
+
+* [Rundll32 Create Remote Thread To A Process](detections.md#rundll32-create-remote-thread-to-a-process)
+
+* [Rundll32 CreateRemoteThread In Browser](detections.md#rundll32-createremotethread-in-browser)
+
+* [Rundll32 DNSQuery](detections.md#rundll32-dnsquery)
+
+* [Rundll32 Process Creating Exe Dll Files](detections.md#rundll32-process-creating-exe-dll-files)
+
+* [Schedule Task with Rundll32 Command Trigger](detections.md#schedule-task-with-rundll32-command-trigger)
+
+* [Sqlite Module In Temp Folder](detections.md#sqlite-module-in-temp-folder)
+
+* [Suspicious IcedID Regsvr32 Cmdline](detections.md#suspicious-icedid-regsvr32-cmdline)
+
+* [Suspicious IcedID Rundll32 Cmdline](detections.md#suspicious-icedid-rundll32-cmdline)
+
+* [Suspicious Rundll32 PluginInit](detections.md#suspicious-rundll32-plugininit)
+
+* [WinEvent Scheduled Task Created Within Public Path](detections.md#winevent-scheduled-task-created-within-public-path)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1087.002 | Domain Account | Discovery |
+| T1562.001 | Disable or Modify Tools | Defense Evasion |
+| T1059 | Command and Scripting Interpreter | Execution |
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1204.002 | Malicious File | Execution |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| T1112 | Modify Registry | Defense Evasion |
+| T1560.001 | Archive via Utility | Collection |
+| T1218.005 | Mshta | Defense Evasion |
+| T1482 | Domain Trust Discovery | Discovery |
+| T1566.001 | Spearphishing Attachment | Initial Access |
+| T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
+| T1218.011 | Rundll32 | Defense Evasion |
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1005 | Data from Local System | Collection |
+| T1218.010 | Regsvr32 | Defense Evasion |
+| T1590.005 | IP Addresses | Reconnaissance |
+| T1027 | Obfuscated Files or Information | Defense Evasion |
+| T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+* Exploitation
+
+* Privilege Escalation
+
+* Reconnaissance
+
+
+#### Reference
+
+* https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+
+* https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/
+
+
+_version_: 1
+</details>
+
+---
+
 ### Orangeworm Attack Group
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
@@ -5274,14 +5384,23 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ----------- | ----------- |--------------|
 | T1087.002 | Domain Account | Discovery |
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
+| T1059 | Command and Scripting Interpreter | Execution |
 | T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+| T1204.002 | Malicious File | Execution |
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| T1112 | Modify Registry | Defense Evasion |
+| T1560.001 | Archive via Utility | Collection |
 | T1218.005 | Mshta | Defense Evasion |
+| T1482 | Domain Trust Discovery | Discovery |
 | T1566.001 | Spearphishing Attachment | Initial Access |
-| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 | T1218.011 | Rundll32 | Defense Evasion |
+| T1053 | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| T1005 | Data from Local System | Collection |
+| T1218.010 | Regsvr32 | Defense Evasion |
 | T1590.005 | IP Addresses | Reconnaissance |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
-| T1059 | Command and Scripting Interpreter | Execution |
+| T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 
 #### Kill Chain Phase
