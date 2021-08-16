@@ -10,7 +10,7 @@ description: This search is to detect a suspicious attachment file extension in 
   This file type is commonly used by malware to lure user to click on it to execute malicious code to compromised targetted machine. 
   But this search can also catch some normal files related to this file type that maybe send by employee or network admin.
  
-search: 'index=obs-gsuite sourcetype="gsuite:gmail:bigquery" tcontreras "attachment{}.file_extension_type" 
+search: 'index=obs-gsuite sourcetype="gsuite:gmail:bigquery" "attachment{}.file_extension_type" 
   IN ("pl", "py", "rb", "sh", "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go") 
   | stats count min(_time) as firstTime max(_time) as lastTime by attachment{}.file_extension_type attachment{}.sha256 
   destination{}.service num_message_attachments payload_size subject destination{}.address source.address
@@ -18,7 +18,8 @@ search: 'index=obs-gsuite sourcetype="gsuite:gmail:bigquery" tcontreras "attachm
   | `security_content_ctime(lastTime)` 
   | `gsuite_suspicious_attachment_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+  logs related to gsuite having the file attachment metadata like file type, file 
+  extension, source email, destination email, num of attachment and etc.
 known_false_positives: network admin and normal user may send this file attachment as part of their day to day work. having a good protocol 
   in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
 references:
