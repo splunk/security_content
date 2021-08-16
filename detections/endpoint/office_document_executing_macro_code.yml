@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Trickbot
+  - Icedid
   automated_detection_testing: passed
   confidence: 50
   context:

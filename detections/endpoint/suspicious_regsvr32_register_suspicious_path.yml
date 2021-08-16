@@ -33,6 +33,7 @@ references:
 tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
+  - Iceid
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

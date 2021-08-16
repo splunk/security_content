@@ -29,9 +29,11 @@ known_false_positives: admin or power user may used this series of command.
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+- https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/
 tags:
   analytic_story:
   - Trickbot
+  - Icedid
   automated_detection_testing: passed
   confidence: 50
   context:

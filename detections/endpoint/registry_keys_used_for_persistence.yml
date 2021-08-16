@@ -36,6 +36,7 @@ tags:
   - Ransomware
   - Windows Persistence Techniques
   - 'Emotet Malware  DHS Report TA18-201A '
+  - Icedid
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

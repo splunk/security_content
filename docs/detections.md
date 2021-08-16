@@ -173,6 +173,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Cloud API Calls From Previously Unseen User Roles](#cloud-api-calls-from-previously-unseen-user-roles)
 
 
@@ -210,6 +212,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Cloud Provisioning Activity From Previously Unseen Region](#cloud-provisioning-activity-from-previously-unseen-region)
+
+
 
 
 
@@ -581,6 +585,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [GCP Detect gcploit framework](#gcp-detect-gcploit-framework)
 
 
@@ -600,6 +606,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [High Number of Login Failures from a single source](#high-number-of-login-failures-from-a-single-source)
+
+
 
 
 
@@ -748,6 +756,24 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [O365 Suspicious User Email Forwarding](#o365-suspicious-user-email-forwarding)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1288,6 +1314,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [CHCP Command Execution](#chcp-command-execution)
+
+
+
 - [CMD Echo Pipe - Escalation](#cmd-echo-pipe---escalation)
 
 
@@ -1361,6 +1391,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Conti Common Exec parameter](#conti-common-exec-parameter)
+
+
+
+- [Create Remote Thread In Shell Application](#create-remote-thread-in-shell-application)
 
 
 
@@ -1836,6 +1870,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Drop IcedID License dat](#drop-icedid-license-dat)
+
+
+
 - [Dump LSASS via comsvcs DLL](#dump-lsass-via-comsvcs-dll)
 
 
@@ -1989,6 +2027,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Icacls Deny Command](#icacls-deny-command)
+
+
+
+- [IcedID Exfiltrated Archived File Creation](#icedid-exfiltrated-archived-file-creation)
 
 
 
@@ -2179,6 +2221,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+- [Office Application Spawn Regsvr32 process](#office-application-spawn-regsvr32-process)
 
 
 
@@ -2462,6 +2508,22 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Rundll32 Create Remote Thread To A Process](#rundll32-create-remote-thread-to-a-process)
+
+
+
+- [Rundll32 CreateRemoteThread In Browser](#rundll32-createremotethread-in-browser)
+
+
+
+- [Rundll32 DNSQuery](#rundll32-dnsquery)
+
+
+
+- [Rundll32 Process Creating Exe Dll Files](#rundll32-process-creating-exe-dll-files)
+
+
+
 - [Rundll32 with no Command Line Arguments with Network](#rundll32-with-no-command-line-arguments-with-network)
 
 
@@ -2604,6 +2666,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Sqlite Module In Temp Folder](#sqlite-module-in-temp-folder)
+
+
+
 - [Start Up During Safe Mode Boot](#start-up-during-safe-mode-boot)
 
 
@@ -2636,6 +2702,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Suspicious IcedID Regsvr32 Cmdline](#suspicious-icedid-regsvr32-cmdline)
+
+
+
+- [Suspicious IcedID Rundll32 Cmdline](#suspicious-icedid-rundll32-cmdline)
+
+
+
 
 
 - [Suspicious MSBuild Rename](#suspicious-msbuild-rename)
@@ -2663,6 +2737,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Suspicious Regsvr32 Register Suspicious Path](#suspicious-regsvr32-register-suspicious-path)
+
+
+
+- [Suspicious Rundll32 PluginInit](#suspicious-rundll32-plugininit)
 
 
 
@@ -2890,6 +2968,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Network
 <details>
   <summary>details</summary>
+
+
+
+
 
 
 
@@ -3363,6 +3445,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Excessive DNS Failures](#excessive-dns-failures)
 
 
@@ -3455,6 +3539,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Large Volume of DNS ANY Queries](#large-volume-of-dns-any-queries)
 
 
@@ -3492,6 +3578,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Multiple Archive Files Http Post Traffic](#multiple-archive-files-http-post-traffic)
+
+
 
 
 
@@ -3721,11 +3809,27 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 - [SMB Traffic Spike](#smb-traffic-spike)
 
 
 
 - [SMB Traffic Spike - MLTK](#smb-traffic-spike---mltk)
+
+
+
+
+
+
+
+
 
 
 
@@ -4216,7 +4320,13 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Detect New Login Attempts to Routers](#detect-new-login-attempts-to-routers)
+
+
 
 
 
@@ -4506,6 +4616,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Monitor Email For Brand Abuse](#monitor-email-for-brand-abuse)
 
 
@@ -4551,6 +4663,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [No Windows Updates in a time frame](#no-windows-updates-in-a-time-frame)
+
+
 
 
 
@@ -4822,6 +4936,16 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 - [Suspicious Email Attachment Extensions](#suspicious-email-attachment-extensions)
 
 
@@ -4830,7 +4954,13 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Suspicious Java Classes](#suspicious-java-classes)
+
+
 
 
 
@@ -4972,6 +5102,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Web
 <details>
   <summary>details</summary>
+
+
+
+
 
 
 
@@ -5533,7 +5667,21 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5827,7 +5975,15 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Supernova Webshell](#supernova-webshell)
+
+
+
+
+
+
 
 
 
@@ -7821,6 +7977,8 @@ this search is to detect a potential account discovery series of command used by
 
 * Trickbot
 
+* Icedid
+
 
 #### How To Implement
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
@@ -7868,6 +8026,8 @@ admin or power user may used this series of command.
 * https://labs.vipre.com/trickbot-and-its-modules/
 
 * https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
+
+* https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/
 
 
 
@@ -8732,10 +8892,10 @@ This detection indicates use of Mimikatz modules that facilitate Pass-the-Token 
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)kerberos::ptt/)=true OR match_regex(cmd_line, /(?i)kerberos::golden/)=true OR match_regex(cmd_line, /(?i)kerberos::silver/)=true OR match_regex(cmd_line, /(?i)misc::skeleton/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -8818,10 +8978,10 @@ Stolen credentials are applied by methods such as user impersonation, credential
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Invoke-CredentialInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-TokenManipulation/)=true OR match_regex(cmd_line, /(?i)Invoke-UserImpersonation/)=true OR match_regex(cmd_line, /(?i)Get-System/)=true OR match_regex(cmd_line, /(?i)Invoke-RevertToSelf/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -8902,10 +9062,10 @@ This detection identifies use of DSInternals modules that verify password streng
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Test-PasswordQuality/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -9145,9 +9305,9 @@ This analytic will identify suspicious series of command-line to disable several
 
 | from read_ssa_enriched_events() 
 | eval _datamodels=ucast(map_get(input_event, "_datamodels"), "collection<string>", []), body={} 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%disabled%") AND like(cmd_line, "%config%") AND process_name="sc.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -9313,9 +9473,9 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%delete%") AND process_name = "sc.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -9476,10 +9636,10 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
  
 | from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
+| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where process_name="cmd.exe" OR process_name="reg.exe" 
 | where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events(); 
 ```
 #### Associated Analytic Story
@@ -9870,6 +10030,90 @@ It is possible for this search to generate a notable event for a batch file writ
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### CHCP Command Execution
+This search is to detect execution of chcp.exe application. this utility is used to change the active code page of the console. This technique was seen in icedid malware to know the locale region/language/country of the compromise host.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/)
+- **Last Updated**: 2021-07-27
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=chcp.com Processes.parent_process_name = cmd.exe Processes.parent_process=*/c* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `chcp_command_execution_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed chcp.com may be used.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process
+
+* parent_process_name
+
+* parent_process
+
+* process_id
+
+* parent_process_id
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1059 | Command and Scripting Interpreter | Execution |
+
+
+#### Kill Chain Phase
+
+* Reconnaissance
+
+
+#### Known False Positives
+other tools or script may used this to change code page to UTF-* or others
+
+#### Reference
+
+
+* https://ss64.com/nt/chcp.html
+
+* https://twitter.com/tccontre18/status/1419941156633329665?s=20
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
 
 
 _version_: 1
@@ -11845,6 +12089,85 @@ _version_: 1
 
 ---
 
+### Create Remote Thread In Shell Application
+This search is to detect suspicious process injection in command shell. This technique was seen in IcedID where it execute cmd.exe process to inject its shellcode as part of its execution as banking trojan. It is really uncommon to have a create remote thread execution in the following application.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-08-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId SourceProcessId  EventCode StartAddress SourceImage Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `create_remote_thread_in_shell_application_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* SourceImage
+
+* TargetImage
+
+* TargetProcessId
+
+* SourceProcessId
+
+* StartAddress
+
+* EventCode
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://thedfirreport.com/2021/07/19/icedid-and-cobalt-strike-vs-antivirus/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Create Remote Thread into LSASS
 Detect remote thread creation into LSASS consistent with credential dumping.
 
@@ -12627,10 +12950,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND process_name != null AND parent_process_name != null AND match_regex(parent_process_name, /(?i)System32\\services.exe/)=true AND match_regex(process_name, /(?i)cachedump\d{0,2}.exe/)=true AND match_regex(process_path, /(?i)\\Temp/)=true AND match_regex(cmd_line, /(?i)\-s/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12705,10 +13028,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND process_name != null AND process_path != null AND match_regex(process_name, /(?i)cachedump\d{0,2}.exe/)=true AND match_regex(process_path, /(?i)\\Temp/)=true AND match_regex(cmd_line, /(?i)\-v/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12781,10 +13104,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND match_regex(cmd_line, /(?i)all\s+\-oA\s+\-output/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12852,10 +13175,10 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)ConvertFrom-ADManagedPasswordBlob/)=true OR match_regex(cmd_line, /(?i)ConvertFrom-GPPrefPassword/)=true OR match_regex(cmd_line, /(?i)ConvertFrom-UnicodePassword/)=true OR match_regex(cmd_line, /(?i)ConvertTo-GPPrefPassword/)=true OR match_regex(cmd_line, /(?i)ConvertTo-KerberosKey/)=true OR match_regex(cmd_line, /(?i)ConvertTo-LMHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-NTHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-OrgIdHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-UnicodePassword/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12934,10 +13257,10 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ADDBBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-ADDBDomainController/)=true OR match_regex(cmd_line, /(?i)Get-ADDBKdsRootKey/)=true OR match_regex(cmd_line, /(?i)Get-ADDBSchemaAttribute/)=true OR match_regex(cmd_line, /(?i)Get-ADKeyCredential/)=true OR match_regex(cmd_line, /(?i)Get-ADReplAccount/)=true OR match_regex(cmd_line, /(?i)Get-ADReplBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-ADSIAccount/)=true OR match_regex(cmd_line, /(?i)Get-AzureADUserEx/)=true OR match_regex(cmd_line, /(?i)Get-BootKey/)=true OR match_regex(cmd_line, /(?i)Get-LsaBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-LsaPolicyInformation/)=true OR match_regex(cmd_line, /(?i)Get-SamPasswordPolicy/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13016,10 +13339,10 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)CRYPTO::Certificates/)=true OR match_regex(cmd_line, /(?i)CRYPTO::keys/)=true OR match_regex(cmd_line, /(?i)kerberos::list/)=true OR match_regex(cmd_line, /(?i)kerberos::tgt/)=true OR match_regex(cmd_line, /(?i)lsadump::sam/)=true OR match_regex(cmd_line, /(?i)lsadump::secrets/)=true OR match_regex(cmd_line, /(?i)lsadump::cache/)=true OR match_regex(cmd_line, /(?i)lsadump::lsa/)=true OR match_regex(cmd_line, /(?i)lsadump::trust/)=true OR match_regex(cmd_line, /(?i)lsadump::backupkeys/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13092,10 +13415,10 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ApplicationHost/)=true OR match_regex(cmd_line, /(?i)Get-CachedGPPPassword/)=true OR match_regex(cmd_line, /(?i)Get-GPPAutologon/)=true OR match_regex(cmd_line, /(?i)Get-GPPPassword/)=true OR match_regex(cmd_line, /(?i)Get-RegistryAutoLogon/)=true OR match_regex(cmd_line, /(?i)Get-SiteListPassword/)=true OR match_regex(cmd_line, /(?i)Get-SPNTicket/)=true OR match_regex(cmd_line, /(?i)Request-SPNTicket/)=true OR match_regex(cmd_line, /(?i)Get-VaultCredential/)=true OR match_regex(cmd_line, /(?i)Invoke-Kerberoast/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13168,10 +13491,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND parent_process_name != null AND process_name != null  AND ( match_regex(parent_process_name, /(?i)ntkd\.exe/)=true OR match_regex(parent_process_name, /(?i)livekd\.exe/)=true ) AND match_regex(process_name, /(?i)conhost\.exe/)=true AND match_regex(cmd_line, /(?i)0xffffffff/)=true AND match_regex(cmd_line, /(?i)\-ForceV1/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13248,10 +13571,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND process_name != null AND ( match_regex(process_name, /^(?i)ntkd\.exe/)=true OR match_regex(process_name, /^(?i)kd\.exe/)=true ) AND match_regex(cmd_line, /(?i)\-z\s+/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13322,11 +13645,11 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND match_regex(cmd_line, /(?i)Get-ADDBAccount/)=true AND match_regex(cmd_line, /(?i)\-dbpath[\s;:\.\
 |]+/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13825,9 +14148,9 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%/delete%") AND (process_name="net1.exe" OR process_name="net.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -14162,9 +14485,9 @@ This analytic identifies a potential adversary that changes the security permiss
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)deny/)=true AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -15297,9 +15620,9 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 ```
 
 | from read_ssa_enriched_events() 
-| eval tenant=ucast(map_get(input_event, "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"), "string", null)) 
+| eval tenant=ucast(map_get(input_event, "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine), body=create_map(["process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine), body=create_map(["event_id", event_id, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -16313,11 +16636,11 @@ This search detects a potential kerberoasting attack via service principal name 
 ```
  
 | from read_ssa_enriched_events() 
-| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
+| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" 
 | first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"] 
 | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID 
-| eval start_time=_time, end_time=_time, body=create_map(["EventCode", EventCode, "ServiceName", ServiceName, "TicketOptions", TicketOptions, "TicketEncryptionType", TicketEncryptionType]), entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
+| eval start_time=_time, end_time=_time, body=create_map(["event_id", event_id, "EventCode", EventCode, "ServiceName", ServiceName, "TicketOptions", TicketOptions, "TicketEncryptionType", TicketEncryptionType]), entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
 | select start_time, end_time, entities, body 
 | into write_ssa_detected_events();
 ```
@@ -17287,11 +17610,11 @@ This search looks for specific authentication events from the Windows Security E
 | from read_ssa_enriched_events()
 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval signature_id=map_get(input_event, "signature_id"), authentication_type=map_get(input_event, "authentication_type"), authentication_method=map_get(input_event, "authentication_method"), origin_device_domain=map_get(input_event, "origin_device_domain"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+| eval signature_id=map_get(input_event, "signature_id"), authentication_type=map_get(input_event, "authentication_type"), authentication_method=map_get(input_event, "authentication_method"), origin_device_domain=map_get(input_event, "origin_device_domain"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
 
 | where (authentication_type="3" AND authentication_method="NtLmSsp") OR (authentication_type="9" AND authentication_method="seclogo")
 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["authentication_type", authentication_type, "authentication_method", authentication_method]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "authentication_type", authentication_type, "authentication_method", authentication_method]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -17641,13 +17964,13 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 | from read_ssa_enriched_events()
 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+| eval process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
 
 | where process_name="cmd.exe" 
 | rex field=parent_process "(?<field0>[^\\\\]+)$" 
 | where field0="winword.exe" OR field0="excel.exe" OR field0="outlook.exe" OR field0="powerpnt.exe" OR field0="visio.exe" OR field0="mspub.exe" OR field0="acrobat.exe" OR field0="acrord32.exe" OR field0="chrome.exe" OR field0="iexplore.exe" OR field0="opera.exe" OR field0="firefox.exe" OR field0="java.exe" OR field0="powershell.exe"
 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map([ "process_name", process_name, "parent_process_name", parent_process]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name, "parent_process_name", parent_process]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -21550,9 +21873,9 @@ This analytic will identify a suspicious command-line that disables a user accou
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%/active:no%") AND (process_name="net1.exe" OR process_name="net.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22813,6 +23136,71 @@ _version_: 1
 
 ---
 
+### Drop IcedID License dat
+This search is to detect dropping a suspicious file named as "license.dat" in %appdata%. This behavior seen in latest IcedID malware that contain the actual core bot that will be injected in other process to do banking stealing.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204/002/)
+- **Last Updated**: 2021-07-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*" OR TargetFilename="*\\programdata\\*") 
+|stats count min(_time) as firstTime max(_time) as lastTime by TargetFilename EventCode process_id  process_name Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `drop_icedid_license_dat_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1204.002 | Malicious File | Execution |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.cisecurity.org/white-papers/security-primer-icedid/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Dump LSASS via comsvcs DLL
 Detect the usage of comsvcs.dll for dumping the lsass process.
 
@@ -23466,6 +23854,8 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 #### Associated Analytic Story
 
 * Windows Defense Evasion Tactics
+
+* Icedid
 
 
 #### How To Implement
@@ -25103,12 +25493,12 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
 | eval dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), cmd_line_norm=lower(cmd_line), cmd_line_norm=replace(cmd_line_norm, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/, "GUID"), cmd_line_norm=replace(cmd_line_norm, /(?<=\s)+\\[^:]*(?=\\.*\.\w{3}(\s
 |$)+)/, "\\PATH"), /* replaces " \\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s
-|$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\d+/, "N") 
+|$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where process_name="cmd.exe" AND match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true 
 | select process_name, cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id 
 | first_time_event input_columns=["cmd_line_norm"] 
 | where first_time_cmd_line_norm 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -25190,6 +25580,8 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 #### Associated Analytic Story
 
 * Windows Defense Evasion Tactics
+
+* Icedid
 
 
 #### How To Implement
@@ -25513,9 +25905,9 @@ This analytic identifies potential adversaries that modify the security permissi
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)grant/)=true AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26187,6 +26579,81 @@ _version_: 1
 
 ---
 
+### IcedID Exfiltrated Archived File Creation
+This search is to detect a suspicious file creation namely passff.tar and cookie.tar. This files are possible archived of stolen browser information like history and cookies in a compromised machine with IcedID.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1560.001](https://attack.mitre.org/techniques/T1560/001/)
+- **Last Updated**: 2021-07-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename = "*\\cookie.tar") 
+|stats count min(_time) as firstTime max(_time) as lastTime by TargetFilename EventCode process_id  process_name Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `icedid_exfiltrated_archived_file_creation_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* TargetFilename
+
+* EventCode
+
+* process_id
+
+* process_name
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1560.001 | Archive via Utility | Collection |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.cisecurity.org/white-papers/security-primer-icedid/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Illegal Access To User Content via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
@@ -26203,10 +26670,10 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-HttpStatus/)=true OR match_regex(cmd_line, /(?i)Get-Keystrokes/)=true OR match_regex(cmd_line, /(?i)Get-MicrophoneAudio/)=true OR match_regex(cmd_line, /(?i)Get-NetRDPSession/)=true OR match_regex(cmd_line, /(?i)Get-TimedScreenshot/)=true OR match_regex(cmd_line, /(?i)Get-WebConfig/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26280,10 +26747,10 @@ This detection identifies access to PowerSploit modules that create accounts ill
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)New-DomainUser/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26354,10 +26821,10 @@ This detection identifies access to PowerSploit modules that delete event logs.
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)event::drop/)=true OR match_regex(cmd_line, /(?i)event::clear/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26428,10 +26895,10 @@ This detection identifies use of DSInternals modules that enable or disable acco
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Disable-ADDBAccount/)=true OR match_regex(cmd_line, /(?i)Enable-ADDBAccount/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26503,10 +26970,10 @@ This detection identifies use of DSInternals modules for illegal management of A
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Remove-ADDBObject/)=true OR match_regex(cmd_line, /(?i)Set-ADDBDomainController/)=true OR match_regex(cmd_line, /(?i)Set-ADDBPrimaryGroup/)=true OR match_regex(cmd_line, /(?i)Set-LsaPolicyInformation/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26579,11 +27046,11 @@ This detection identifies access to PowerSploit modules that enable illegal mana
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Set-DomainObject/)=true OR match_regex(cmd_line, /(?i)Set-ADObject/)=true OR match_regex(cmd_line, /(?i)Set-DomainObjectOwner/)=true OR match_regex(cmd_line, /(?i)Set-MasterBootRecord/)=true )
 
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26656,10 +27123,10 @@ This detection identifies access to PowerSploit modules that illegaly elevate ge
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Add-DomainObjectAcl/)=true OR match_regex(cmd_line, /(?i)Add-ObjectAcl/)=true OR match_regex(cmd_line, /(?i)Enable-Privilege/)=true OR match_regex(cmd_line, /(?i)New-ElevatedPersistenceOption/)=true OR match_regex(cmd_line, /(?i)New-UserPersistenceOption/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26734,10 +27201,10 @@ This detection identifies use of Mimikatz modules for illegal privilege elevatio
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)privilege::debug/)=true OR match_regex(cmd_line, /(?i)token::elevate/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26809,10 +27276,10 @@ This detection identifies use of Mimikatz modules for illegal control over servi
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)process::start/)=true OR match_regex(cmd_line, /(?i)service::\+/)=true OR match_regex(cmd_line, /(?i)service::\-/)=true OR match_regex(cmd_line, /(?i)service::start/)=true OR match_regex(cmd_line, /(?i)service::stop/)=true OR match_regex(cmd_line, /(?i)service::suspend/)=true OR match_regex(cmd_line, /(?i)misc::memssp/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26885,11 +27352,11 @@ This detection identifies access to PowerSploit modules that enable illegal cont
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Install-SSP/)=true OR match_regex(cmd_line, /(?i)Set-CriticalProcess/)=true OR match_regex(cmd_line, /(?i)Install-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Restore-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Write-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Set-ServiceBinaryPath/)=true OR match_regex(cmd_line, /(?i)Invoke-ReflectivePEInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-DllInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-ServiceAbuse/)=true OR match_regex(cmd_line, /(?i)Invoke-Shellcode/)=true OR match_regex(cmd_line, /(?i)Invoke-WScriptUACBypass/)=true OR match_regex(cmd_line, /(?i)Invoke-WmiCommand/)=true OR match_regex(cmd_line, /(?i)Write-HijackDll/)=true OR match_regex(cmd_line, /(?i)Add-ServiceDacl/)=true )
 
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27952,9 +28419,9 @@ This analytic identifies suspicious modification of ACL permission to a files or
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%/G%") AND (match_regex(cmd_line, /(?i)everyone:/)=true OR match_regex(cmd_line, /(?i)SYSTEM:/)=true) AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -28312,6 +28779,8 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 #### Associated Analytic Story
 
 * Trickbot
+
+* Icedid
 
 
 #### How To Implement
@@ -29381,6 +29850,8 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 * Ryuk Ransomware
 
 * Domain Trust Discovery
+
+* Icedid
 
 
 #### How To Implement
@@ -30622,6 +31093,88 @@ _version_: 1
 
 ---
 
+### Office Application Spawn Regsvr32 process
+this detection was designed to identifies suspicious spawned process of known MS office application due to macro or malicious code. this technique can be seen in so many malware like Icedid that used MS office as its weapon or attack vector to initially infect the machines.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-07-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe" OR Processes.parent_process_name = "outlook.exe") Processes.process_name=regsvr32.exe by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `office_application_spawn_regsvr32_process_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_guid
+
+* Processes.user
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.joesandbox.com/analysis/380662/0/html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/phish_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Office Application Spawn rundll32 process
 this detection was designed to identifies suspicious spawned process of known MS office application due to macro or malicious code. this technique can be seen in so many malware like trickbot that used MS office as its weapon or attack vector to initially infect the machines.
 
@@ -30647,6 +31200,8 @@ this detection was designed to identifies suspicious spawned process of known MS
 * Spearphishing Attachments
 
 * Trickbot
+
+* Icedid
 
 
 #### How To Implement
@@ -30811,6 +31366,8 @@ this detection was designed to identifies suspicious office documents that using
 * Spearphishing Attachments
 
 * Trickbot
+
+* Icedid
 
 
 #### How To Implement
@@ -31210,6 +31767,8 @@ The following detection identifies the latest behavior utilized by different mal
 #### Associated Analytic Story
 
 * Spearphishing Attachments
+
+* Icedid
 
 
 #### How To Implement
@@ -33081,10 +33640,10 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Test-AdminAccess/)=true OR match_regex(cmd_line, /(?i)Invoke-CheckLocalAdminAccess/)=true OR match_regex(cmd_line, /(?i)Test-ServiceDaclPermission/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -33922,7 +34481,7 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 
 | from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), parent_process_name=mvindex(split(parent_process, "\\"), -1), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
+| eval parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), parent_process_name=mvindex(split(parent_process, "\\"), -1), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where parent_process_name!=null 
 | select parent_process_name, process_name, cmd_line, timestamp, dest_device_id, dest_user_id 
 | conditional_anomaly conditional="parent_process_name" target="process_name" 
@@ -34000,7 +34559,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### Search
 ```
-`powershell` EventCode=4104 Message = "*SELECT*" AND (Message = "*AntiVirusProduct*" OR Message = "*AntiSpywareProduct*") 
+`powershell` EventCode=4104 (Message = "*SELECT*" OR Message = "*WMIC*") AND (Message = "*AntiVirusProduct*" OR Message = "*AntiSpywareProduct*") 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -34167,10 +34726,10 @@ This detection identifies access to PowerSploit modules that discover accounts, 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainLocalGroupMember/)=true OR match_regex(cmd_line, /(?i)Invoke-EnumerateLocalAdmin/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserEvent/)=true OR match_regex(cmd_line, /(?i)Invoke-EventHunter/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserLocation/)=true OR match_regex(cmd_line, /(?i)Invoke-UserHunter/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignGroupMember/)=true OR match_regex(cmd_line, /(?i)Find-ForeignGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignUser/)=true OR match_regex(cmd_line, /(?i)Find-ForeignUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPO/)=true OR match_regex(cmd_line, /(?i)Get-NetGPO/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOComputerLocalGroupMapping/)=true OR match_regex(cmd_line, /(?i)Find-GPOComputerAdmin/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGPOGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOUserLocalGroupMapping/)=true OR match_regex(cmd_line, /(?i)Find-GPOLocation/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-NetGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-DomainManagedSecurityGroup/)=true OR match_regex(cmd_line, /(?i)Find-ManagedSecurityGroups/)=true OR match_regex(cmd_line, /(?i)Get-DomainOU/)=true OR match_regex(cmd_line, /(?i)Get-NetOU/)=true OR match_regex(cmd_line, /(?i)Get-DomainUser/)=true OR match_regex(cmd_line, /(?i)Get-NetUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainUserEvent/)=true OR match_regex(cmd_line, /(?i)Get-UserEvent/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-NetLoggedon/)=true OR match_regex(cmd_line, /(?i)Get-RegLoggedOn/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegLastLoggedOn/)=true OR match_regex(cmd_line, /(?i)Get-LastLoggedOn/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34241,10 +34800,10 @@ This detection identifies use of Mimikatz modules for discovery of accounts and 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::user/)=true OR match_regex(cmd_line, /(?i)net::group/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34315,10 +34874,10 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-DomainSID/)=true OR match_regex(cmd_line, /(?i)Get-DomainSite/)=true OR match_regex(cmd_line, /(?i)Get-NetSite/)=true OR match_regex(cmd_line, /(?i)Get-DomainSubnet/)=true OR match_regex(cmd_line, /(?i)Get-NetSubnet/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrustMapping/)=true OR match_regex(cmd_line, /(?i)Invoke-MapDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-Forest/)=true OR match_regex(cmd_line, /(?i)Get-NetForest/)=true OR match_regex(cmd_line, /(?i)Get-ForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-NetForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-ForestGlobalCatalog/)=true OR match_regex(cmd_line, /(?i)Get-NetForestCatalog/)=true OR match_regex(cmd_line, /(?i)Get-ForestTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetForestTrust/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34391,10 +34950,10 @@ This detection identifies access to PowerSploit modules that discover computers,
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ComputerDetail/)=true OR match_regex(cmd_line, /(?i)Get-Domain/)=true OR match_regex(cmd_line, /(?i)Get-NetDomain/)=true OR match_regex(cmd_line, /(?i)Get-DomainComputer/)=true OR match_regex(cmd_line, /(?i)Get-NetComputer/)=true OR match_regex(cmd_line, /(?i)Get-DomainController/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainController/)=true OR match_regex(cmd_line, /(?i)Get-DomainFileServer/)=true OR match_regex(cmd_line, /(?i)Get-NetFileServer/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34465,10 +35024,10 @@ This detection identifies use of Mimikatz modules for discovery of computers and
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::ServerInfo/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34537,10 +35096,10 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainProcess/)=true OR match_regex(cmd_line, /(?i)Invoke-ProcessHunter/)=true OR match_regex(cmd_line, /(?i)Get-ServiceDetail/)=true OR match_regex(cmd_line, /(?i)Get-WMIProcess/)=true OR match_regex(cmd_line, /(?i)Get-NetProcess/)=true OR match_regex(cmd_line, /(?i)Get-SecurityPackage/)=true OR match_regex(cmd_line, /(?i)Find-DomainObjectPropertyOutlier/)=true OR match_regex(cmd_line, /(?i)Get-DomainObject/)=true OR match_regex(cmd_line, /(?i)Get-ADObject/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegMountedDrive/)=true OR match_regex(cmd_line, /(?i)Get-RegistryMountedDrive/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34616,10 +35175,10 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)process::list/)=true OR match_regex(cmd_line, /(?i)service::list/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34690,10 +35249,10 @@ This detection identifies use of Mimikatz modules for discovery and access to ne
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::share/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34764,10 +35323,10 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainShare/)=true OR match_regex(cmd_line, /(?i)Invoke-ShareFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainShareFile/)=true OR match_regex(cmd_line, /(?i)Invoke-FileFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingFile/)=true OR match_regex(cmd_line, /(?i)Get-DomainDFSShare/)=true OR match_regex(cmd_line, /(?i)Get-DFSshare/)=true OR match_regex(cmd_line, /(?i)Get-NetShare/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34838,10 +35397,10 @@ This detection identifies use of PowerSploit modules that discover opportunities
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-LocalAdminAccess/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainAcl/)=true OR match_regex(cmd_line, /(?i)Invoke-ACLScanner/)=true OR match_regex(cmd_line, /(?i)Find-PathDLLHijack/)=true OR match_regex(cmd_line, /(?i)Find-ProcessDLLHijack/)=true OR match_regex(cmd_line, /(?i)Get-DomainObjectAcl/)=true OR match_regex(cmd_line, /(?i)Get-ObjectAcl/)=true OR match_regex(cmd_line, /(?i)Get-DomainPolicy/)=true OR match_regex(cmd_line, /(?i)Get-ModifiablePath/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableRegistryAutoRun/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableScheduledTaskFile/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableService/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableServiceFile/)=true OR match_regex(cmd_line, /(?i)Get-PathAcl/)=true OR match_regex(cmd_line, /(?i)Get-UnattendedInstallFile/)=true OR match_regex(cmd_line, /(?i)Get-UnquotedService/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34915,10 +35474,10 @@ This detection identifies access to PowerSploit modules for reconnaissance of co
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-DomainDNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DomainDNSZone/)=true OR match_regex(cmd_line, /(?i)Get-DNSZone/)=true OR match_regex(cmd_line, /(?i)Invoke-ReverseDnsLookup/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegCachedRDPConnection/)=true OR match_regex(cmd_line, /(?i)Get-CachedRDPConnection/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegProxy/)=true OR match_regex(cmd_line, /(?i)Get-Proxy/)=true OR match_regex(cmd_line, /(?i)Invoke-Portscan/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34989,10 +35548,10 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)crypto::capi/)=true OR match_regex(cmd_line, /(?i)crypto::cng/)=true OR match_regex(cmd_line, /(?i)crypto::providers/)=true OR match_regex(cmd_line, /(?i)crypto::stores/)=true OR match_regex(cmd_line, /(?i)crypto::sc/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -35066,10 +35625,10 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-AVSignature/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -35139,10 +35698,10 @@ This detection identifies use of PowerSploit modules for assessment of privilege
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Invoke-PrivescAudit/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -35213,10 +35772,10 @@ This detection identifies use of Mimikatz modules for discovery of process or se
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::detours/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -35464,6 +36023,8 @@ The search looks for modifications to registry keys that can be used to launch a
 * Windows Persistence Techniques
 
 * Emotet Malware  DHS Report TA18-201A 
+
+* Icedid
 
 
 #### How To Implement
@@ -36131,9 +36692,9 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%resize%") AND like(cmd_line, "%shadowstorage%") AND like(cmd_line, "%maxsize%") AND process_name="vssadmin.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -36212,7 +36773,7 @@ This analytic identifies suspicious commandline parameter that are commonly used
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*-nolan*" OR Processes.process = "*-nolocal*" OR Processes.process = "*-fast*" OR Processes.process = "*-full*" by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "* -nolan *" OR Processes.process = "* -nolocal *" OR Processes.process = "* -fast *" OR Processes.process = "* -full *" by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -36279,7 +36840,7 @@ third party tool may have same command line parameters as revil ransomware.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -36432,6 +36993,316 @@ While not common, loading a DLL under %AppData% and calling a function by ordina
 
 
 _version_: 4
+</details>
+
+---
+
+### Rundll32 Create Remote Thread To A Process
+This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to cmd.exe process . This technique was seen in IcedID malware to execute its malicious code in normal process for defense evasion and to steal sensitive information the the compromised host. browser process.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-07-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe" 
+| stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId StartAddress EventCode Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_create_remote_thread_to_a_process_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* SourceImage
+
+* TargetImage
+
+* TargetProcessId
+
+* SourceProcessId
+
+* StartAddress
+
+* EventCode
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.joesandbox.com/analysis/380662/0/html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Rundll32 CreateRemoteThread In Browser
+This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to "firefox.exe" and "chrome.exe" browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") 
+| stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId StartAddress EventCode Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_createremotethread_in_browser_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* SourceImage
+
+* TargetImage
+
+* TargetProcessId
+
+* SourceProcessId
+
+* StartAddress
+
+* EventCode
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.joesandbox.com/analysis/380662/0/html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Rundll32 DNSQuery
+This search is to detect a suspicious rundll32.exe process having a http connection and do a dns query in some web domain. This technique was seen in IcedID malware where the rundll32 that execute its payload will contact amazon.com to check internet connect and to communicate to its C&C server to download config and other file component.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=22 process_name="rundll32.exe" 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId direction Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_dnsquery_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and eventcode = 22 dnsquery executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* Image
+
+* QueryName
+
+* QueryStatus
+
+* ProcessId
+
+* direction
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://any.run/malware-trends/icedid
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Rundll32 Process Creating Exe Dll Files
+This search is to detect a suspicious rundll32 process that drops executable (.exe or .dll) files. this behavior seen in rundll32 process of IcedID that tries to drop copy of itself in temp folder or download executable drop it either appdata or programdata as part of its execution.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=11 process_name="rundll32.exe" TargetFilename IN ("*.exe", "*.dll",) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image TargetFilename ProcessGuid dest user_id 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_process_creating_exe_dll_files_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, TargetFilename, and eventcode 11 executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* Image
+
+* TargetFilename
+
+* ProcessGuid
+
+* dest
+
+* user_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://any.run/malware-trends/icedid
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -37434,6 +38305,8 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 
 * Trickbot
 
+* Icedid
+
 
 #### How To Implement
 To successfully implement this search, you need to be ingesting logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and filter known instances of Task schedule used in your environment.
@@ -38286,10 +39159,10 @@ This detection identifies illegal setting of credentials via DSInternals modules
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Add-ADDBSidHistory/)=true OR match_regex(cmd_line, /(?i)Add-ADReplNgcKey/)=true OR match_regex(cmd_line, /(?i)Set-ADDBAccountPassword/)=true OR match_regex(cmd_line, /(?i)Set-ADDBAccountPasswordHash/)=true OR match_regex(cmd_line, /(?i)Set-ADDBBootKey/)=true OR match_regex(cmd_line, /(?i)Set-SamAccountPasswordHash/)=true OR match_regex(cmd_line, /(?i)Set-AzureADUserEx/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -38368,10 +39241,10 @@ This detection identifies illegal setting of credentials via Mimikatz modules.
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::addsid/)=true OR match_regex(cmd_line, /(?i)CRYPTO::scauth/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -38444,10 +39317,10 @@ This detection identifies illegal setting of credentials via PowerSploit modules
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Set-DomainUserPassword/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -39342,6 +40215,81 @@ _version_: 1
 
 ---
 
+### Sqlite Module In Temp Folder
+This search is to detect a suspicious file creation of sqlite3.dll in %temp% folder. This behavior was seen in IcedID malware where it download sqlite module to parse browser database like for chrome or firefox to stole browser information related to bank, credit card or credentials.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1005](https://attack.mitre.org/techniques/T1005/)
+- **Last Updated**: 2021-08-03
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") 
+|stats count min(_time) as firstTime max(_time) as lastTime by process_name TargetFilename EventCode ProcessId Image 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `sqlite_module_in_temp_folder_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* TargetFilename
+
+* EventCode
+
+* ProcessId
+
+* Image
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1005 | Data from Local System | Collection |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.cisecurity.org/white-papers/security-primer-icedid/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Start Up During Safe Mode Boot
 This search is to detect a modification or registry add to the safeboot registry as an autostart mechanism. This technique was seen in some ransomware to automatically execute its code upon a safe mode boot.
 
@@ -40048,6 +40996,170 @@ _version_: 1
 
 ---
 
+### Suspicious IcedID Regsvr32 Cmdline
+this search is to detect a suspicious regsvr32 commandline "-s" to execute a dll files. This technique was seen in IcedID malware to execute its initial downloader dll that will download the 2nd stage loader that will download and decrypt the config payload.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218/010/)
+- **Last Updated**: 2021-07-27
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=regsvr32.exe Processes.process=*-s* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `suspicious_icedid_regsvr32_cmdline_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed regsvr32.exe may be used.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process
+
+* parent_process_name
+
+* parent_process
+
+* process_id
+
+* parent_process_id
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.010 | Regsvr32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+minimal. but network operator can use this application to load dll.
+
+#### Reference
+
+
+* https://app.any.run/tasks/56680cba-2bbc-4b34-8633-5f7878ddf858/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Suspicious IcedID Rundll32 Cmdline
+This search is to detect a suspicious rundll32.exe commandline to execute dll file. This technique was seen in IcedID malware to load its payload dll with the following parameter to load encrypted dll payload which is the license.dat.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*/i:* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `suspicious_icedid_rundll32_cmdline_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process
+
+* parent_process_name
+
+* parent_process
+
+* process_id
+
+* parent_process_id
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+limitted. this parameter is not commonly used by windows application but can be used by the network operator.
+
+#### Reference
+
+
+* https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Suspicious Java Classes
 This search looks for suspicious Java classes that are often used to exploit remote command execution in common Java frameworks, such as Apache Struts.
 
@@ -40645,6 +41757,8 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 * Suspicious Regsvr32 Activity
 
+* Iceid
+
 
 #### How To Implement
 You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model. Tune the query by filtering additional extensions found to be used by  legitimate processes.
@@ -40704,6 +41818,88 @@ Limited false positives with the query restricted to specified paths. Add more w
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Suspicious Rundll32 PluginInit
+This search is to detect a suspicious rundll32.exe process with plugininit parameter. This technique is commonly seen in IceID malware to execute its initial dll stager to download another payload to the compromised machine.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*PluginInit* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `suspicious_rundll32_plugininit_filter`
+```
+#### Associated Analytic Story
+
+* Icedid
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process
+
+* parent_process_name
+
+* parent_process
+
+* process_id
+
+* parent_process_id
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+third party application may used this dll export name to execute function.
+
+#### Reference
+
+
+* https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
 
 
 _version_: 1
@@ -41994,7 +43190,7 @@ An attacker tries might try to use different version of a system command without
 ```
  $ssa_input = 
 | from read_ssa_enriched_events() 
-| eval device=ucast(map_get(input_event, "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"), "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string", null));
+| eval device=ucast(map_get(input_event, "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"), "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);
 $cond_1 = 
 | from $ssa_input 
 | where process_name="arp.exe" OR process_name="adaptertroubleshooter.exe" OR process_name="applicationframehost.exe" OR process_name="atbroker.exe" OR process_name="authhost.exe" OR process_name="autoworkplace.exe" OR process_name="axinstui.exe" OR process_name="backgroundtransferhost.exe" OR process_name="bdehdcfg.exe" OR process_name="bdeuisrv.exe" OR process_name="bdeunlockwizard.exe" OR process_name="bitlockerdeviceencryption.exe" OR process_name="bitlockerwizard.exe" OR process_name="bitlockerwizardelev.exe" OR process_name="bytecodegenerator.exe" OR process_name="camerasettingsuihost.exe" OR process_name="castsrv.exe" OR process_name="certenrollctrl.exe" OR process_name="checknetisolation.exe" OR process_name="clipup.exe" OR process_name="cloudexperiencehostbroker.exe" OR process_name="cloudnotifications.exe" OR process_name="cloudstoragewizard.exe" OR process_name="compmgmtlauncher.exe" OR process_name="compattelrunner.exe" OR process_name="computerdefaults.exe" OR process_name="credentialuibroker.exe" OR process_name="dfdwiz.exe" OR process_name="dwwin.exe" OR process_name="dataexchangehost.exe" OR process_name="defrag.exe" OR process_name="devicedisplayobjectprovider.exe" OR process_name="deviceeject.exe" OR process_name="deviceenroller.exe" OR process_name="devicepairingwizard.exe" OR process_name="deviceproperties.exe" OR process_name="disksnapshot.exe" OR process_name="dism.exe" OR process_name="displayswitch.exe" OR process_name="dmnotificationbroker.exe" OR process_name="dmomacpmo.exe" OR process_name="dpiscaling.exe" OR process_name="dsmusertask.exe" OR process_name="dxpserver.exe" OR process_name="edpcleanup.exe" OR process_name="eosnotify.exe" OR process_name="eap3host.exe" OR process_name="easpoliciesbrokerhost.exe" OR process_name="easeofaccessdialog.exe" OR process_name="ehstorauthn.exe" OR process_name="fxscover.exe" OR process_name="fxssvc.exe" OR process_name="fxsunatd.exe" OR process_name="filehistory.exe" OR process_name="fondue.exe" OR process_name="gamepanel.exe" OR process_name="genvalobj.exe" OR process_name="gettingstarted.exe" OR process_name="hostname.exe" OR process_name="icsentitlementhost.exe" OR process_name="infdefaultinstall.exe" OR process_name="installagent.exe" OR process_name="languagecomponentsinstallercomhandler.exe" OR process_name="launchtm.exe" OR process_name="launchwinapp.exe" OR process_name="legacynetuxhost.exe" OR process_name="licensemanagershellext.exe" OR process_name="licensingui.exe" OR process_name="locationnotificationwindows.exe" OR process_name="locationnotifications.exe" OR process_name="locator.exe" OR process_name="lockapphost.exe" OR process_name="lockscreencontentserver.exe" OR process_name="logonui.exe" OR process_name="lsaiso.exe" OR process_name="mdeserver.exe" OR process_name="mdmagent.exe" OR process_name="mdmappinstaller.exe" OR process_name="mrinfo.exe" OR process_name="mrt.exe" OR process_name="mschedexe.exe" OR process_name="magnify.exe" OR process_name="mbaeparsertask.exe" OR process_name="mdres.exe" OR process_name="mdsched.exe" OR process_name="migautoplay.exe" OR process_name="mpsigstub.exe" OR process_name="msspellcheckinghost.exe" OR process_name="muiunattend.exe" OR process_name="multidigimon.exe" OR process_name="musnotification.exe" OR process_name="musnotificationux.exe" OR process_name="napstat.exe" OR process_name="netstat.exe" OR process_name="narrator.exe" OR process_name="netcfgnotifyobjecthost.exe" OR process_name="netevtfwdr.exe" OR process_name="netproj.exe" OR process_name="netplwiz.exe" OR process_name="networkuxbroker.exe";
@@ -42021,7 +43217,7 @@ $cond_6 =
 | union $cond_5 
 | union $cond_6 
 | where match_regex(process_path, /(?i)\\windows\\system32/)=false AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["process_path", process_path, "process_name", process_name]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path", process_path, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -42740,7 +43936,7 @@ Command lines that are extremely long may be indicative of malicious activity on
  
 | from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null) 
+| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line!=null and dest_user_id!=null 
 | eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
 |(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
@@ -42749,7 +43945,7 @@ Command lines that are extremely long may be indicative of malicious activity on
 | where label AND quantile>0.99 
 | first_time_event input_columns=["dest_device_id", "cmd_line"] 
 | where first_time_dest_device_id_cmd_line 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -43969,9 +45165,9 @@ The wevtutil.exe application is the windows event log utility. This searches for
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "% cl %") AND (match_regex(cmd_line, /(?i)security/)=true OR match_regex(cmd_line, /(?i)system/)=true OR match_regex(cmd_line, /(?i)sysmon/)=true OR match_regex(cmd_line, /(?i)application/)=true OR match_regex(cmd_line, /(?i)setup/)=true OR match_regex(cmd_line, /(?i)powershell/)=true) AND process_name="wevtutil.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44051,9 +45247,9 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "% sl %") AND like(cmd_line, "%/e:false%") AND process_name="wevtutil.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44148,6 +45344,8 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or was it v
 * Ransomware
 
 * Ryuk Ransomware
+
+* Icedid
 
 
 #### How To Implement
