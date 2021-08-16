@@ -3,7 +3,7 @@ id: f27349e5-1641-4f6a-9e68-30402be0ad4c
 version: 1
 date: '2020-05-20'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides information on Kubernetes accounts accessing sensitve
   objects such as configmpas or secrets

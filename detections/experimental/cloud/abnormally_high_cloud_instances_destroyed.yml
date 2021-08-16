@@ -3,7 +3,7 @@ id: ef629fc9-1583-4590-b62a-f2247fbf7bbf
 version: 1
 date: '2020-08-21'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search finds for the number successfully destroyed cloud instances

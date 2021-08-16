@@ -3,7 +3,7 @@ id: 06a6fc63-a72d-41dc-8736-7e3dd9612116
 version: 1
 date: '2018-11-02'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The search looks for modifications to the hosts file on all Windows endpoints
   across your environment.

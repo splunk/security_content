@@ -3,7 +3,7 @@ id: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
 version: 1
 date: '2021-07-27'
 author: Teoderick Contreras,
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this search is to detect a suspicious regsvr32 commandline "-s" to execute

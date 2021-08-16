@@ -3,7 +3,7 @@ id: c77162d3-f93c-45cc-80c8-22f6v5264g9f
 version: 3
 date: '2020-07-03'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'The detection Detect Path Interception By Creation Of program exe is

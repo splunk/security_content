@@ -3,7 +3,7 @@ id: b9b4492c-2af8-449b-beb4-b1b78d963321
 version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of PowerSploit modules for assessment of
   privilege escalation opportunities.

@@ -27,6 +27,7 @@ narrative = {{ story.narrative }}
 ### DETECTIONS ###
 
 {% for detection in detections %}
+{% if (detection.type == 'TTP' or detection.type == 'Anomaly' or detection.type == 'Hunting' or detection.type == 'Correlation') %}
 [savedsearch://ESCU - {{ detection.name }} - Rule]
 type = detection
 asset_type = {{ detection.tags.asset_type }}
@@ -41,17 +42,19 @@ annotations = {{ detection.mappings | tojson }}
 known_false_positives = {{ detection.known_false_positives }}
 providing_technologies = []
 
+{% endif %}
 {% endfor %}
 ### END DETECTIONS ###
 
 ### RESPONSE TASKS ###
 
-{% for response_task in response_tasks %}
-[savedsearch://ESCU - {{ response_task.name }} - Response Task]
+{% for detection in detections %}
+{% if (detection.type == 'Investigation') %}
+[savedsearch://ESCU - {{ detection.name }} - Response Task]
 type = investigation
 explanation = none
-{% if response_task.how_to_implement is defined %}
-how_to_implement = {{ response_task.how_to_implement }}
+{% if detection.how_to_implement is defined %}
+how_to_implement = {{ detection.how_to_implement }}
 {% else %}
 how_to_implement = none
 {% endif %}
@@ -59,25 +62,7 @@ known_false_positives = not defined
 earliest_time_offset = 14400
 latest_time_offset = 0
 
+{% endif %}
 {% endfor %}
 ### END RESPONSE TASKS ###
 
-### BASELINES ###
-{% for baseline in baselines %}
-[savedsearch://ESCU - {{ baseline.name }}]
-type = support
-explanation = {{ baseline.description }}
-{% if baseline.how_to_implement is defined %}
-how_to_implement = {{ baseline.how_to_implement }}
-{% else %}
-how_to_implement = none
-{% endif %}
-{% if baseline.known_false_positives is defined %}
-known_false_positives = {{ baseline.known_false_positives }}
-{% else %}
-known_false_positives = not defined
-{% endif %}
-providing_technologies = none
-
-{% endfor %}
-### END ESCU BASELINES ###

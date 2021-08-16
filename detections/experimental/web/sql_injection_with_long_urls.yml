@@ -3,7 +3,7 @@ id: e0aad4cf-0790-423b-8328-7564d0d938f9
 version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Web
 description: This search looks for long URLs that have several SQL commands visible

@@ -3,7 +3,7 @@ id: a1c5a85e-a162-410c-a5d9-99ff639e5a52
 version: 1
 date: '2020-10-08'
 author: Rod Soto, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search provides detection of GCPloit exploitation framework. This
   framework can be used to escalate privileges and move laterally from compromised

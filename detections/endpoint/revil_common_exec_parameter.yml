@@ -3,7 +3,7 @@ id: 85facebe-c382-11eb-9c3e-acde48001122
 version: 2
 date: '2021-06-02'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies suspicious commandline parameter that are commonly

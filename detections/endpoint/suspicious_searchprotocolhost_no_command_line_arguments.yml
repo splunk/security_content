@@ -3,7 +3,7 @@ id: f52d2db8-31f9-4aa7-a176-25779effe55c
 version: 1
 date: '2021-02-23'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies searchprotocolhost.exe with no command
   line arguments. It is unusual for searchprotocolhost.exe to execute with no command

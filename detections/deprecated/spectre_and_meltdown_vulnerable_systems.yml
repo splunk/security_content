@@ -3,7 +3,7 @@ id: 354be8e0-32cd-4da0-8c47-796de13b60ea
 version: 1
 date: '2017-01-07'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Vulnerabilities
 description: The search is used to detect systems that are still vulnerable to the

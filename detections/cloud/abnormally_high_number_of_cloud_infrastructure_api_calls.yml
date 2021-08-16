@@ -3,7 +3,7 @@ id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
 version: 1
 date: '2020-09-07'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search will detect a spike in the number of API calls made to your

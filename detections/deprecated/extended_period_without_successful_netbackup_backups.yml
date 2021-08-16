@@ -3,7 +3,7 @@ id: a34aae96-ccf8-4aef-952c-3ea214444440
 version: 1
 date: '2017-09-12'
 author: David Dorsey, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search returns a list of hosts that have not successfully completed
   a backup in over a week. Deprecated because it's a infrastructure monitoring.

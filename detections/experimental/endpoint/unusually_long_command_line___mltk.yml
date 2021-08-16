@@ -3,7 +3,7 @@ id: 57edaefa-a73b-45e5-bbae-f39c1473f941
 version: 1
 date: '2019-05-08'
 author: Rico Valdez, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK)
