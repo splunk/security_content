@@ -3,7 +3,7 @@ id: bd3b0187-189b-46c0-be45-f52da2bae67f
 version: 1
 date: '2020-12-16'
 author: Jose Hernandez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'This search looks for the execution of `adfind.exe` with command-line

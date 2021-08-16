@@ -3,7 +3,7 @@ id: c5c622e4-d073-11ea-87d0-0242ac130003
 version: 1
 date: '2020-07-28'
 author: Shannon Davis, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: This search detects SIGRed via Zeek DNS and Zeek Conn data.

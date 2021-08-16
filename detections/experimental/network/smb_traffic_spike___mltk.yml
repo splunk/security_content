@@ -3,7 +3,7 @@ id: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 version: 3
 date: '2020-07-22'
 author: Rico Valdez, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Network_Traffic
 description: This search uses the Machine Learning Toolkit (MLTK) to identify spikes

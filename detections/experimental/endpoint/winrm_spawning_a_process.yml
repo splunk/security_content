@@ -3,7 +3,7 @@ id: a081836a-ba4d-11eb-8593-acde48001122
 version: 1
 date: '2021-05-21'
 author: Drew Church, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies suspicious processes spawning from

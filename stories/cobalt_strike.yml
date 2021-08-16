@@ -3,7 +3,6 @@ id: bcfd17e8-5461-400a-80a2-3b7d1459220c
 version: 1
 date: '2021-02-16'
 author: Michael Haag, Splunk
-type: batch
 description: Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility. 
 narrative: 'This Analytic Story supports you to detect Tactics, Techniques and Procedures
   (TTPs) from Cobalt Strike. Cobalt Strike has many ways to be enhanced by using aggressor scripts, malleable C2 profiles, default attack packages, and much more. 

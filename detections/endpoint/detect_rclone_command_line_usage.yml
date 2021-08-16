@@ -3,7 +3,7 @@ id: 32e0baea-b3f1-11eb-a2ce-acde48001122
 version: 1
 date: '2021-05-13'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies commonly used command-line arguments used by

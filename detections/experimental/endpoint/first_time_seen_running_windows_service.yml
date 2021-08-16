@@ -3,7 +3,7 @@ id: 823136f2-d755-4b6d-ae04-372b486a5808
 version: 4
 date: '2020-07-21'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search looks for the first and last time a Windows service is seen
   running in your environment. This table is then cached.

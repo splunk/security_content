@@ -3,7 +3,7 @@ id: a5d85486-b89c-11eb-8267-acde48001122
 version: 1
 date: '2021-05-19'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies suspicious PowerShell command to allow

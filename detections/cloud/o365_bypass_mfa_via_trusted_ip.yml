@@ -3,7 +3,7 @@ id: c783dd98-c703-4252-9e8a-f19d9f66949e
 version: 2
 date: '2021-07-19'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects newly added IP addresses/CIDR blocks to the list
   of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known

@@ -3,7 +3,7 @@ id: 07921114-6db4-4e2e-ae58-3ea8a52ae93f
 version: 1
 date: '2021-02-16'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies regasm.exe with a network connection
   to a public IP address, exluding private IP space. This particular technique has

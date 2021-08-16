@@ -3,7 +3,7 @@ id: 57551656-ebdb-11eb-afdf-acde48001122
 version: 1
 date: '2021-07-23'
 author: Michael Haag, Mauricio Velazco, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Endpoint
 description: The following analytic identifies access to SAM, SYSTEM or SECURITY databases'

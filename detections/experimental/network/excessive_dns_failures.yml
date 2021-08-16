@@ -3,7 +3,7 @@ id: 104658f4-afdc-499e-9719-17243f9826f1
 version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Network_Resolution
 description: This search identifies DNS query failures by counting the number of DNS

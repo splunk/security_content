@@ -3,7 +3,7 @@ id: 01fc7d91-eb0c-478e-8633-e4fa4904463a
 version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules that enable illegaly
   access user content, such as key logging, audio recording, screenshots, tapping

@@ -3,7 +3,7 @@ id: 17cd75b2-8666-11eb-9ab4-acde48001122
 version: 1
 date: '2021-03-16'
 author: Teoderick Contreras
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytics are designed to indentify a high frequency of process
