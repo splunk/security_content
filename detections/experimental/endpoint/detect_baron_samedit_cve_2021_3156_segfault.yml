@@ -3,7 +3,7 @@ id: 10f2bae0-bbe6-4984-808c-37dc1c67980d
 version: 1
 date: '2021-01-29'
 author: Shannon Davis, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects the heap-based buffer overflow of sudoedit
 search: '`linux_hosts` | search sudoedit segfault | stats count min(_time) as firstTime

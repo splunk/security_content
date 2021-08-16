@@ -3,7 +3,7 @@ id: 4aefadfe-9abd-4bf8-b3fd-867e9ef95bf8
 version: 1
 date: '2021-02-04'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies rundll32.exe loading advpack.dll and

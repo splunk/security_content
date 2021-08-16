@@ -3,7 +3,7 @@ id: a34aae96-ccf8-4aef-952c-3ea21444444d
 version: 6
 date: '2020-12-08'
 author: David Dorsey, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'This search looks for system processes that typically execute from `C:\Windows\System32\`

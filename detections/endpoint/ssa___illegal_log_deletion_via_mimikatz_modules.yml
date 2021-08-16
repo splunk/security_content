@@ -3,7 +3,7 @@ id: 4ddb3b0d-f95f-4ae2-b4e8-663296453a7b
 version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules that delete event
   logs.

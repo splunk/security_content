@@ -3,7 +3,7 @@ id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f6
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: This search will detect DNS requests resolved by unauthorized DNS servers.

@@ -3,7 +3,7 @@ id: c148a894-dd93-11eb-bf2a-acde48001122
 version: 1
 date: '2021-07-05'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to identifies a modification in registry to disable the

@@ -3,7 +3,7 @@ id: bb37061e-af1f-11eb-a159-acde48001122
 version: 1
 date: '2021-05-07'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies an on demand run of a Windows Schedule Task

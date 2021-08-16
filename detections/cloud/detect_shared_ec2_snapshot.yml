@@ -3,7 +3,7 @@ id: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
 version: 2
 date: '2021-07-20'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic utilizes AWS CloudTrail events to identify when
   an EC2 snapshot permissions are modified to be shared with a different AWS account.
