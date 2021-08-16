@@ -3,7 +3,7 @@ id: 56f91724-cf3f-4666-84e1-e3712fb41e76
 version: 3
 date: '2020-07-21'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search looks for EC2 instances being modified by users who have
   not previously modified them. This search is deprecated and have been translated

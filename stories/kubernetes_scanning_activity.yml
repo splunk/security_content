@@ -3,7 +3,6 @@ id: a9ef59cf-e981-4e66-9eef-bb049f695c09
 version: 1
 date: '2020-04-15'
 author: Rod Soto, Splunk
-type: batch
 description: This story addresses detection against Kubernetes cluster fingerprint
   scan and attack by providing information on items such as source ip, user agent,
   cluster names.

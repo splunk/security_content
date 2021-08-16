@@ -3,7 +3,7 @@ id: 1c02b86a-cd85-473e-a50b-014a9ac8fe3e
 version: 2
 date: '2020-07-21'
 author: Jason Brewer, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search looks for AWS CloudTrail events where a user successfully
   terminates an abnormally high number of instances. This search is deprecated and

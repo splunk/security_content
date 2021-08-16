@@ -3,7 +3,7 @@ id: 7de17d7a-c9d8-11eb-a812-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies a potential privilege escalation attempt to

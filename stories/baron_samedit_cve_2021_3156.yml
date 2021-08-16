@@ -3,7 +3,6 @@ id: 817b0dfc-23ba-4bcc-96cc-2cb77e428fbe
 version: 1
 date: '2021-01-27'
 author: Shannon Davis, Splunk
-type: batch
 description: Uncover activity consistent with CVE-2021-3156. Discovered by the Qualys
   Research Team, this vulnerability has been found to affect sudo across multiple
   Linux distributions (Ubuntu 20.04 and prior, Debian 10 and prior, Fedora 33 and

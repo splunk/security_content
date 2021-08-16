@@ -3,7 +3,7 @@ id: 1adc9548-da7c-11eb-8f13-acde48001122
 version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'The following analytic identifies driver load errors utilizing the Windows

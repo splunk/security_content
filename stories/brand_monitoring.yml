@@ -3,7 +3,6 @@ id: 91c676cf-0b23-438d-abee-f6335e1fce78
 version: 1
 date: '2017-12-19'
 author: David Dorsey, Splunk
-type: batch
 description: Detect and investigate activity that may indicate that an adversary is
   using faux domains to mislead users into interacting with malicious infrastructure.
   Monitor DNS, email, and web traffic for permutations of your brand name.

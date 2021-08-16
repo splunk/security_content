@@ -3,7 +3,7 @@ id: 4f00ca88-e766-4605-ac65-ae51c9fd185b
 version: 1
 date: '2020-02-20'
 author: Rod Soto, Rico Valdez, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search show information on uploaded containers including source
   user, account, action, bucket name event name, http user agent, message and destination

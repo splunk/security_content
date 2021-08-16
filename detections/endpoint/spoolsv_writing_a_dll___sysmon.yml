@@ -3,7 +3,7 @@ id: 347fd388-da87-11eb-836d-acde48001122
 version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies a `.dll` being written by `spoolsv.exe`.

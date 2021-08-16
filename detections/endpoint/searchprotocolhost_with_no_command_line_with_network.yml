@@ -3,7 +3,7 @@ id: b690df8c-a145-11eb-a38b-acde48001122
 version: 1
 date: '2021-04-19'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies searchprotocolhost.exe with no command
