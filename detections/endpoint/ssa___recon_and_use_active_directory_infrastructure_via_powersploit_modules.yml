@@ -12,23 +12,23 @@ description: This detection identifies access to PowerSploit modules for reconna
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null),
-  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where cmd_line
-  != null AND ( match_regex(cmd_line, /(?i)Get-DomainSID/)=true OR match_regex(cmd_line,
-  /(?i)Get-DomainSite/)=true OR match_regex(cmd_line, /(?i)Get-NetSite/)=true OR match_regex(cmd_line,
-  /(?i)Get-DomainSubnet/)=true OR match_regex(cmd_line, /(?i)Get-NetSubnet/)=true
-  OR match_regex(cmd_line, /(?i)Get-DomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainTrust/)=true
-  OR match_regex(cmd_line, /(?i)Get-DomainTrustMapping/)=true OR match_regex(cmd_line,
-  /(?i)Invoke-MapDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-Forest/)=true
-  OR match_regex(cmd_line, /(?i)Get-NetForest/)=true OR match_regex(cmd_line, /(?i)Get-ForestDomain/)=true
-  OR match_regex(cmd_line, /(?i)Get-NetForestDomain/)=true OR match_regex(cmd_line,
-  /(?i)Get-ForestGlobalCatalog/)=true OR match_regex(cmd_line, /(?i)Get-NetForestCatalog/)=true
-  OR match_regex(cmd_line, /(?i)Get-ForestTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetForestTrust/)=true
-  )
+  cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event,
+  "event_id"), "string", null) | where cmd_line != null AND ( match_regex(cmd_line,
+  /(?i)Get-DomainSID/)=true OR match_regex(cmd_line, /(?i)Get-DomainSite/)=true OR
+  match_regex(cmd_line, /(?i)Get-NetSite/)=true OR match_regex(cmd_line, /(?i)Get-DomainSubnet/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetSubnet/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrust/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetDomainTrust/)=true OR match_regex(cmd_line,
+  /(?i)Get-DomainTrustMapping/)=true OR match_regex(cmd_line, /(?i)Invoke-MapDomainTrust/)=true
+  OR match_regex(cmd_line, /(?i)Get-Forest/)=true OR match_regex(cmd_line, /(?i)Get-NetForest/)=true
+  OR match_regex(cmd_line, /(?i)Get-ForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-NetForestDomain/)=true
+  OR match_regex(cmd_line, /(?i)Get-ForestGlobalCatalog/)=true OR match_regex(cmd_line,
+  /(?i)Get-NetForestCatalog/)=true OR match_regex(cmd_line, /(?i)Get-ForestTrust/)=true
+  OR match_regex(cmd_line, /(?i)Get-NetForestTrust/)=true )
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) | into write_ssa_detected_events();'
+  "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line])
+  | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 known_false_positives: None identified.
