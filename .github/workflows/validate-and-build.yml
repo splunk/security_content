@@ -532,44 +532,58 @@ jobs:
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/v')
     steps:  
-        - name: Checkout Repo
-          uses: actions/checkout@v2
-          with:
-            ref: 'develop'
-        
-        - name: Create Baseline Folder
-          run: |
-            source venv/bin/activate
-            python3 bin/create_baseline_folder.py   
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: 'develop'
 
-        #Official, Verified Amazon-AWS Github Account Provided Action
-        - uses: aws-actions/configure-aws-credentials@v1
-          with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
-            aws-region: us-west-1 #assume we will always use this, could make this an environment variable... 
 
-        - name: Update API sources
-          run: |
-            aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
-            aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
-            aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
-            aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
-            aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
-            aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
-            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
-            aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
-            aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
-            aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
-        - name: Security Content API Smoke Test
-          run: |
-            API_URL='https://content.splunkresearch.com/detections'
-            API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $API_URL)
-            echo "Security Content API Status: $API_STATUS"
-            if [ "$API_STATUS" != "200" ]; then
-              echo "Error [Security Content API status: $API_STATUS]"
-              exit 1
-            fi
-  
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+      - name: Install Python Dependencies
+        run: |
+          #Get the virtualenv set up
+          rm -rf venv
+          python3 -m venv --clear venv
+          source venv/bin/activate
+          python3 -m pip install -q -r requirements.txt
+
+      - name: Create Baseline Folder
+        run: |
+          source venv/bin/activate
+          python3 bin/create_baseline_folder.py   
+
+      #Official, Verified Amazon-AWS Github Account Provided Action
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
+          aws-region: us-west-1 #assume we will always use this, could make this an environment variable... 
+
+      - name: Update API sources
+        run: |
+          aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
+          aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
+          aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
+          aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
+          aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
+          aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
+          aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+          aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
+          aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
+          aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+      - name: Security Content API Smoke Test
+        run: |
+          API_URL='https://content.splunkresearch.com/detections'
+          API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $API_URL)
+          echo "Security Content API Status: $API_STATUS"
+          if [ "$API_STATUS" != "200" ]; then
+            echo "Error [Security Content API status: $API_STATUS]"
+            exit 1
+          fi
+
   
