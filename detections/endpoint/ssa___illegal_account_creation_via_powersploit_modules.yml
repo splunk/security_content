@@ -48,3 +48,26 @@ tags:
   - _time
   risk_severity: high
   security_domain: endpoint
+  message: PowerSploit malware is creating illegal domain accounts. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
+  risk_score: 80
+  impact: 80
+  confidence: 100
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Persistence
+  - Consequence:Loss Of Control
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: cmd_line
+    type: processname
+    role:
+    - Others
+

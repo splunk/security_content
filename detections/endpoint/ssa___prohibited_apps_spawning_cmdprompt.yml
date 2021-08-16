@@ -58,3 +58,25 @@ tags:
   - dest_user_id
   risk_severity: low
   security_domain: endpoint
+  message: Potential malicious landing to the console via unexpected programs that called cmd.exe.  Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ where parent process $parent_process$ spwaned $process_name$.
+  risk_score: 56
+  impact: 70
+  confidence: 80
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Command And Control
+  - Consequence:Loss Of Control
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: cmd_line
+    type: processname
+    role:
+    - Others

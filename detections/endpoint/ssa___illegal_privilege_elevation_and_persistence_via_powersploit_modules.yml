@@ -54,3 +54,27 @@ tags:
   - _time
   risk_severity: high
   security_domain: endpoint
+  message: PowerSploit malware is planting attack persistence elements, altering privileges and access controls. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
+  risk_score: 90
+  impact: 90
+  confidence: 100
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Command And Control
+  - Stage:Persistence
+  - Consequence:Loss Of Control
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: cmd_line
+    type: processname
+    role:
+    - Others
