@@ -24,12 +24,28 @@ references:
 tags:
   analytic_story:
   - Icedid
+  automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: rundll32 process $process_name$ drops a file $TargetFilename$ in host $dest$
   mitre_attack_id:
   - T1218.011
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: process name
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -41,21 +57,5 @@ tags:
   - ProcessGuid
   - dest
   - user_id
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
   risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: rundll32 process $process_name$ drops a file $TargetFilename$ in host $dest$
-  observable:
-  - name: Computer
-    type: Hostname
-    role:
-    - Victim
-  - name: process_name
-    type: process name
-    role:
-    - Attacker
-  automated_detection_testing: passed
+  security_domain: endpoint
