@@ -30,8 +30,6 @@ tags:
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
   detections:
-  - Detect Prohibited Applications Spawning cmd.exe
-  - Processes launching netsh
   - First time seen command line argument
   deployments:
   - Daily Cache Updates
