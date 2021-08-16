@@ -3,7 +3,7 @@ id: b2fbe95a-9c62-4c12-8a29-24b97e84c0cd
 version: 1
 date: '2020-02-03'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: Detect the hands on keyboard behavior of Windows Task Manager creating
   a process dump of lsass.exe. Upon this behavior occurring, a file write/modification

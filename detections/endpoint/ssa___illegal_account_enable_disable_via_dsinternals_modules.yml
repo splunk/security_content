@@ -3,7 +3,7 @@ id: 3e0f9962-9989-445f-878c-939443326b63
 version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of DSInternals modules that enable or disable
   accounts illegaly.

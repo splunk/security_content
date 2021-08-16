@@ -3,7 +3,7 @@ id: 45b125c4-866f-11eb-a95a-acde48001122
 version: 1
 date: '2021-03-16'
 author: Teoderick Contreras
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This search looks for high frequency of file deletion relative to process

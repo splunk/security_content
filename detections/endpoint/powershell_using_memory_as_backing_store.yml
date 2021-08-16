@@ -3,7 +3,7 @@ id: c396a0c4-c9f2-11eb-b4f5-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104 that is using memory stream as new object backstore. The malicious

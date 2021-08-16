@@ -3,7 +3,7 @@ id: 0f216a38-f45f-11eb-b09c-acde48001122
 version: 1
 date: '2021-08-03'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious file creation of sqlite3.dll in

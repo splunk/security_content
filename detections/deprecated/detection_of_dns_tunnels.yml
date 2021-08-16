@@ -3,7 +3,7 @@ id: 104658f4-afdc-499f-9719-17a43f9826f4
 version: 2
 date: '2017-09-18'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: This search is used to detect DNS tunneling, by calculating the sum of

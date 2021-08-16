@@ -3,7 +3,7 @@ id: 624919bc-c382-11eb-adcc-acde48001122
 version: 1
 date: '2021-06-02'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search detects the suspicious commandline argument of revil ransomware

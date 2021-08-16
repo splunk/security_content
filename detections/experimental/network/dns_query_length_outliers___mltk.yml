@@ -3,7 +3,7 @@ id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 version: 2
 date: '2020-01-22'
 author: Rico Valdez, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Network_Resolution
 description: This search allows you to identify DNS requests that are unusually large

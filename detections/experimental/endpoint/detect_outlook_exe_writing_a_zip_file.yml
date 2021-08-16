@@ -3,7 +3,7 @@ id: a51bfe1a-94f0-4822-b1e4-16ae10145893
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for execution of process `outlook.exe` where the process
   is writing a `.zip` file to the disk.

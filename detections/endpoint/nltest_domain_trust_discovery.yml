@@ -3,7 +3,7 @@ id: c3e05466-5f22-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-25'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for the execution of `nltest.exe` with command-line

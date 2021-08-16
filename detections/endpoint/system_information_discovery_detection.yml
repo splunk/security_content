@@ -3,7 +3,7 @@ id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 version: 1
 date: '2020-10-12'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: Detect system information discovery techniques used by attackers to understand

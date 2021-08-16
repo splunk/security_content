@@ -3,7 +3,7 @@ id: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules that create accounts
   illegaly.
