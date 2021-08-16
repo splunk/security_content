@@ -3,7 +3,6 @@ id: aa3749a6-49c7-491e-a03f-4eaee5fe0258
 version: 1
 date: '2020-04-13'
 author: David Dorsey, Splunk
-type: batch
 description: Attackers are using Zoom as an vector to increase privileges on a sytems.
   This story detects new child processes of zoom and provides investigative actions
   for this detection.

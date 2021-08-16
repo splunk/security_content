@@ -3,7 +3,7 @@ id: 93fbec4e-0375-440c-8db3-4508eca470c4
 version: 1
 date: '2021-01-27'
 author: Shannon Davis, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects the heap-based buffer overflow of sudoedit
 search: '`linux_hosts` | search "sudoedit -s \\" | `detect_baron_samedit_cve_2021_3156_filter`'

@@ -3,7 +3,7 @@ id: 6078fa20-a6d2-11eb-b662-acde48001122
 version: 1
 date: '2021-04-26'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following detection identifies the latest behavior utilized by different

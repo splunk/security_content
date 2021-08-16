@@ -3,7 +3,7 @@ id: f0f70b40-f7ad-489d-9905-23d149da8099
 version: 1
 date: '2020-02-20'
 author: Rod Soto, Rico Valdez, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This searches show information on uploaded containers including source
   user, image id, source IP user type, http user agent, region, first time, last time

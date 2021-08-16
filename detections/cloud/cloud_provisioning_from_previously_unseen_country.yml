@@ -3,7 +3,7 @@ id: 94994255-3acf-4213-9b3f-0494df03bb31
 version: 1
 date: '2020-10-09'
 author: Rico Valdez, Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search looks for cloud provisioning activities from previously unseen

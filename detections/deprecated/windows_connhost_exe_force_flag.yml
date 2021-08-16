@@ -3,7 +3,7 @@ id: c114aaca-68ee-41c2-ad8c-32bf21db8769
 version: 1
 date: '2020-11-06'
 author: Rod Soto, Jose Hernandez, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: 'The search looks for the Console Window Host process (connhost.exe)
   executed using the force flag -ForceV1. This is not regular behavior in the Windows

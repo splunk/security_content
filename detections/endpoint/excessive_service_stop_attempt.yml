@@ -3,7 +3,7 @@ id: ae8d3f4a-acd7-11eb-8846-acde48001122
 version: 1
 date: '2021-05-04'
 author: Teoderick Contreras, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic identifies suspicious series of attempt to kill multiple

@@ -3,7 +3,7 @@ id: a0c8c292-d01a-11eb-aa18-acde48001122
 version: 1
 date: '2021-06-18'
 author: Teoderick Contreras, splunk
-type: streaming
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies suspicious series of attempt to kill multiple

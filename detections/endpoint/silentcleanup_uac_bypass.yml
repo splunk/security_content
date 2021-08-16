@@ -3,7 +3,7 @@ id: 56d7cfcc-da63-11eb-92d4-acde48001122
 version: 1
 date: '2021-07-01'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious modification of registry that may

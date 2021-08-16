@@ -3,7 +3,6 @@ id: 4f6632f5-449c-4686-80df-57625f59bab3
 version: 1
 date: '2017-09-19'
 author: Bhavin Patel, Splunk
-type: batch
 description: Use the searches in this Analytic Story to help you detect structured
   query language (SQL) injection attempts characterized by long URLs that contain
   malicious parameters.

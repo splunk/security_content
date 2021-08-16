@@ -3,7 +3,7 @@ id: 05437c07-62f5-452e-afdc-04dd44815bb9
 version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: This search is used to detect attempts to use DNS tunneling, by calculating

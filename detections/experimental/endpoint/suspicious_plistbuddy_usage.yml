@@ -3,7 +3,7 @@ id: c3194009-e0eb-4f84-87a9-4070f8688f00
 version: 1
 date: '2021-02-22'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'The following analytic identifies the use of a native MacOS utility,

@@ -3,7 +3,7 @@ id: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
 version: 2
 date: '2020-07-22'
 author: Rico Valdez, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search detects writes to the 'System Volume Information' folder
   by something other than the System process.

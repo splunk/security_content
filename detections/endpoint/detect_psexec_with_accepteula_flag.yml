@@ -3,7 +3,7 @@ id: b89919ed-fe5f-492c-b139-151xb162040e
 version: 3
 date: '2020-11-10'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for events where `PsExec.exe` is run with the `accepteula`

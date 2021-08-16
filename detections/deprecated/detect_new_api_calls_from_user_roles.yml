@@ -3,7 +3,7 @@ id: 22773e84-bac0-4595-b086-20d3f335b4f1
 version: 1
 date: '2018-04-16'
 author: Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search detects new API calls that have either never been seen before
   or that have not been seen in the previous hour, where the identity type is `AssumedRole`.

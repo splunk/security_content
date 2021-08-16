@@ -3,7 +3,7 @@ id: f1483f5e-ee29-11eb-9d23-acde48001122
 version: 1
 date: '2021-07-26'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious rundll32.exe process having a http

@@ -3,7 +3,7 @@ id: ea688274-9c06-4473-b951-e4cb7a5d7a45
 version: 2
 date: '2020-07-22'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Traffic
 description: This search looks for network traffic identified as The Onion Router

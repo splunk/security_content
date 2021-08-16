@@ -3,7 +3,6 @@ id: c8ddc5be-69bc-4202-b3ab-4010b27d7ad5
 version: 2
 date: '2018-10-23'
 author: Rico Valdez, Splunk
-type: batch
 description: Attackers are increasingly abusing Windows Management Instrumentation
   (WMI), a framework and associated utilities available on all modern Windows operating
   systems. Because WMI can be leveraged to manage both local and remote systems, it

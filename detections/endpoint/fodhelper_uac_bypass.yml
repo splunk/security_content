@@ -3,7 +3,7 @@ id: 909f8fd8-7ac8-11eb-a1f3-acde48001122
 version: 1
 date: '2021-03-01'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'Fodhelper.exe has a known UAC bypass as it attempts to look for specific

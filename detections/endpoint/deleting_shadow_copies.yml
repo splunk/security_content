@@ -3,7 +3,7 @@ id: b89919ed-ee5f-492c-b139-95dbb162039e
 version: 4
 date: '2020-11-09'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The vssadmin.exe utility is used to interact with the Volume Shadow Copy

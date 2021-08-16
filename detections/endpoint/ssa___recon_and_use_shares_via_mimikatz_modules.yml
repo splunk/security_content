@@ -3,7 +3,7 @@ id: c97b6eb9-1d8b-4017-bbbb-2af7fc17bc3f
 version: 1
 date: '2020-11-06'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of Mimikatz modules for discovery and access
   to network shares.
