@@ -12,15 +12,15 @@ description: This detection identifies access to PowerSploit modules that enable
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null),
-  event_id=ucast(map_get(input_event, "event_id"), "string", null) | where cmd_line
-  != null AND ( match_regex(cmd_line, /(?i)Install-SSP/)=true OR match_regex(cmd_line,
-  /(?i)Set-CriticalProcess/)=true OR match_regex(cmd_line, /(?i)Install-ServiceBinary/)=true
-  OR match_regex(cmd_line, /(?i)Restore-ServiceBinary/)=true OR match_regex(cmd_line,
-  /(?i)Write-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Set-ServiceBinaryPath/)=true
-  OR match_regex(cmd_line, /(?i)Invoke-ReflectivePEInjection/)=true OR match_regex(cmd_line,
-  /(?i)Invoke-DllInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-ServiceAbuse/)=true
-  OR match_regex(cmd_line, /(?i)Invoke-Shellcode/)=true OR match_regex(cmd_line, /(?i)Invoke-WScriptUACBypass/)=true
+  cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event,
+  "event_id"), "string", null) | where cmd_line != null AND ( match_regex(cmd_line,
+  /(?i)Install-SSP/)=true OR match_regex(cmd_line, /(?i)Set-CriticalProcess/)=true
+  OR match_regex(cmd_line, /(?i)Install-ServiceBinary/)=true OR match_regex(cmd_line,
+  /(?i)Restore-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Write-ServiceBinary/)=true
+  OR match_regex(cmd_line, /(?i)Set-ServiceBinaryPath/)=true OR match_regex(cmd_line,
+  /(?i)Invoke-ReflectivePEInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-DllInjection/)=true
+  OR match_regex(cmd_line, /(?i)Invoke-ServiceAbuse/)=true OR match_regex(cmd_line,
+  /(?i)Invoke-Shellcode/)=true OR match_regex(cmd_line, /(?i)Invoke-WScriptUACBypass/)=true
   OR match_regex(cmd_line, /(?i)Invoke-WmiCommand/)=true OR match_regex(cmd_line,
   /(?i)Write-HijackDll/)=true OR match_regex(cmd_line, /(?i)Add-ServiceDacl/)=true
   )
@@ -28,7 +28,8 @@ search: '| from read_ssa_enriched_events()
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) | into write_ssa_detected_events();'
+  "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line])
+  | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 known_false_positives: None identified.
