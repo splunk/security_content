@@ -11,10 +11,11 @@ description: The following analytic identifies suspicious PowerShell script exec
   adversary will map all running security applications or services. During triage,
   review parallel processes within the same timeframe. Review the full script block
   to identify other related artifacts.
-search: '`powershell` EventCode=4104 (Message = "*SELECT*" OR Message = "*WMIC*") AND (Message = "*AntiVirusProduct*"
-  OR Message = "*AntiSpywareProduct*") | stats count min(_time) as firstTime max(_time)
-  as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `recon_avproduct_through_pwh_or_wmi_filter`'
+search: '`powershell` EventCode=4104 (Message = "*SELECT*" OR Message = "*WMIC*")
+  AND (Message = "*AntiVirusProduct*" OR Message = "*AntiSpywareProduct*") | stats
+  count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName
+  User | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `recon_avproduct_through_pwh_or_wmi_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
