@@ -23,26 +23,19 @@ references:
 tags:
   analytic_story:
   - Icedid
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1204.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: endpoint
-  impact: 70
+  automated_detection_testing: passed
   confidence: 90
-  risk_score: 63
   context:
   - Source:Endpoint
   - Stage:Execution
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  impact: 70
+  kill_chain_phases:
+  - Exploitation
   message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
+  mitre_attack_id:
+  - T1204.002
   observable:
   - name: Computer
     type: Hostname
@@ -52,4 +45,11 @@ tags:
     type: process name
     role:
     - Attacker
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  risk_score: 63
+  security_domain: endpoint
