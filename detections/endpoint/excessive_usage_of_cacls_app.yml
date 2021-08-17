@@ -3,7 +3,7 @@ id: 0bdf6092-af17-11eb-939a-acde48001122
 version: 1
 date: '2021-05-07'
 author: Teoderick Contreras, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe`

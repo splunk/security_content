@@ -3,7 +3,7 @@ id: b12c89bc-9d06-11eb-a592-acde48001122
 version: 1
 date: '2021-04-14'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this detection was designed to identifies suspicious office documents

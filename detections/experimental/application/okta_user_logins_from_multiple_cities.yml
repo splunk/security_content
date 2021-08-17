@@ -3,7 +3,7 @@ id: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
 version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search detects logins from the same user from different cities in
   a 24 hour period.

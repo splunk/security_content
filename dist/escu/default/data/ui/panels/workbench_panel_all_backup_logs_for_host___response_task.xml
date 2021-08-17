@@ -1,7 +1,11 @@
 <panel>
   <table>
     <search>
+<<<<<<< HEAD
       <query>| search sourcetype=&#34;netbackup_logs&#34; dest=$dest$</query>
+=======
+      <query>| search `netbackup` dest=$dest$</query>
+>>>>>>> upstream/develop
     </search>
     <option name="drilldown">cell</option>
     <option name="wrap">false</option>

@@ -3,7 +3,7 @@ id: c026e3dd-7e18-4abb-8f41-929e836efe74
 version: 5
 date: '2020-11-09'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search identifies endpoints that have caused a relatively high number

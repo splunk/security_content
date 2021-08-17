@@ -3,7 +3,7 @@ id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
 version: 3
 date: '2020-03-02'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search monitors for remote modifications to registry keys.
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)

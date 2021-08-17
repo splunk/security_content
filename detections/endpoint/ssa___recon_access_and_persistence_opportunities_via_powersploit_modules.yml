@@ -3,7 +3,7 @@ id: 3d8bd7f3-1061-4ac7-9225-6764cc0684d7
 version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies use of PowerSploit modules that discover opportunities
   for malicious access and persistence. Some examples include access to admin accounts,
@@ -64,3 +64,24 @@ tags:
   - dest_user_id
   risk_severity: high
   security_domain: endpoint
+  message: PowerSploit malware is searching for an entry point into the infrastructure, such as local admin accounts, opportunities to hijack processes, unattended install files, or modifiable access objects. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
+  risk_score: 60
+  impact: 60
+  confidence: 100
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Recon
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: cmd_line
+    type: processname
+    role:
+    - Others

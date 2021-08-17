@@ -3,7 +3,7 @@ id: 339805ce-ac30-11eb-b87d-acde48001122
 version: 1
 date: '2021-05-03'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this search is to detect a potential account discovery series of command

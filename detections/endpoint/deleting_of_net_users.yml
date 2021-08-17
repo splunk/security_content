@@ -3,7 +3,7 @@ id: 1c8c6f66-acce-11eb-aafb-acde48001122
 version: 1
 date: '2021-05-04'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic will detect a suspicious net.exe/net1.exe command-line

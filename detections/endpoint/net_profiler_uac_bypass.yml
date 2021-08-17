@@ -3,7 +3,7 @@ id: 0252ca80-e30d-11eb-8aa3-acde48001122
 version: 1
 date: '2021-07-12'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect modification of registry to bypass UAC windows

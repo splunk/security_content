@@ -3,7 +3,6 @@ id: 2c8ff66e-0b57-42af-8ad7-912438a403fc
 version: 5
 date: '2017-08-23'
 author: David Dorsey, Splunk
-type: batch
 description: Attackers are finding stealthy ways "live off the land," leveraging utilities
   and tools that come standard on the endpoint--such as PowerShell--to achieve their
   goals without downloading binary files. These searches can help you detect and investigate

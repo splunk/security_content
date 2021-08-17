@@ -3,7 +3,7 @@ id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 version: 1
 date: '2018-12-14'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The search looks for a batch file (.bat) written to the Windows system

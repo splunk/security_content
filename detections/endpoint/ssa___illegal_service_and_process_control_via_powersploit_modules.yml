@@ -3,7 +3,7 @@ id: 0e910e5b-309d-4bc3-8af2-0030c02aa353
 version: 1
 date: '2020-11-09'
 author: Stanislav Miskovic, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules that enable illegal
   control of services and processes, such as installing or spoofing of malicious services,
@@ -63,3 +63,25 @@ tags:
   - _time
   risk_severity: high
   security_domain: endpoint
+  message: PowerSploit malware is controlling computer's processess and services. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
+  risk_score: 90
+  impact: 90
+  confidence: 100
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Recon
+  - Stage:Credential Access
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: cmd_line
+    type: processname
+    role:
+    - Others

@@ -1,0 +1,26 @@
+author: David Dorsey, Splunk
+datamodel: []
+date: '2017-09-14'
+description: This search will tell you the backup status from your netbackup_logs
+  of a specific endpoint for the last week.
+how_to_implement: You must be ingesting your backup logs.
+id: fdcfb369-1725-4c24-824a-22972d7f0d44
+inputs:
+- dest
+known_false_positives: ''
+name: Get Backup Logs For Endpoint
+search: '`netbackup` COMPUTERNAME=$dest$ | rename COMPUTERNAME
+  as dest, MESSAGE as signature | table _time, dest, signature'
+tags:
+  analytic_story:
+  - Ransomware
+  - SamSam Ransomware
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - COMPUTERNAME
+  - MESSAGE
+  security_domain: endpoint
+type: Investigation
+version: 1

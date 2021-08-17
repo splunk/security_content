@@ -3,7 +3,7 @@ id: 429141be-8311-11eb-adb6-acde48001122
 version: 1
 date: '2021-03-12'
 author: Teoderick Contreras
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This detection is to identify a creation of "user mode service" where

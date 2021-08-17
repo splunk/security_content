@@ -3,7 +3,7 @@ id: 1400624a-d42d-484d-8843-e6753e6e3645
 version: 1
 date: '2020-09-18'
 author: Rod Soto, Jose Hernandez, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search looks for Event Code 4742 (Computer Change) or EventCode
   4624 (An account was successfully logged on) with an anonymous account.

@@ -3,7 +3,7 @@ id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
 version: 1
 date: '2020-04-15'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides detection information on unauthenticated requests
   against Kubernetes' Pods API
