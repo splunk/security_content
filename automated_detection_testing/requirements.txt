@@ -15,7 +15,7 @@ azure-mgmt-resource==17.0.0
 bcrypt==3.2.0
 boto3==1.17.104
 botocore==1.20.105
-certifi==2020.5.30
+certifi==2021.5.30
 cffi==1.14.5
 cfgv==3.3.0
 chardet==4.0.0
@@ -70,7 +70,7 @@ splunk-sdk==1.6.16
 tabulate==0.8.9
 termcolor==1.1.0
 toml==0.10.2
-urllib3==1.26.6
+urllib3<=1.26.6
 virtualenv==20.4.6
 wcwidth==0.2.5
 wget==3.2
