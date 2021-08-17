@@ -1,6 +1,6 @@
 name: Suspicious Rundll32 PluginInit
 id: 92d51712-ee29-11eb-b1ae-acde48001122
-version: 1
+version: 2
 date: '2021-07-26'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -10,15 +10,12 @@ description: This search is to detect a suspicious rundll32.exe process with plu
   parameter. This technique is commonly seen in IceID malware to execute its initial
   dll stager to download another payload to the compromised machine.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
-  Processes.process=*PluginInit* by  Processes.process_name Processes.process Processes.parent_process_name
+  as lastTime from datamodel=Endpoint.Processes where `process_rundll32`
+  Processes.process=*PluginInit* by  Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name
   Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `suspicious_rundll32_plugininit_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: third party application may used this dll export name to execute
   function.
 references:
@@ -54,13 +51,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - process_name
-  - process
-  - parent_process_name
-  - parent_process
-  - process_id
-  - parent_process_id
-  - dest
-  - user
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 42
   security_domain: endpoint
