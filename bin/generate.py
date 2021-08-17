@@ -163,25 +163,6 @@ def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
 def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PATH):
     workbench_panel_objects = []
     for response_task in response_tasks:
-<<<<<<< HEAD
-        if 'search' in response_task:
-            if 'inputs' in response_task:
-                response_file_name = response_task['name'].replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
-                response_file_name_xml = response_file_name + "___response_task.xml"
-                response_task['lowercase_name'] = response_file_name
-                workbench_panel_objects.append(response_task)
-                j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                                     trim_blocks=True, autoescape=True)
-                template = j2_env.get_template('panel.j2')
-                file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml
-                output_path = path.join(OUTPUT_PATH, file_path)
-                response_task['search']= response_task['search'].replace(">","&gt;")
-                response_task['search']= response_task['search'].replace("<","&lt;")
-
-                output = template.render(search=response_task['search'])
-                with open(output_path, 'w') as f:
-                    f.write(output)
-=======
         if response_task['type'] == 'Investigation':
             if 'search' in response_task:
                 if 'inputs' in response_task:
@@ -200,7 +181,6 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     output = template.render(search=response_task['search'])
                     with open(output_path, 'w') as f:
                         f.write(output)
->>>>>>> upstream/develop
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                          trim_blocks=True, autoescape=True)

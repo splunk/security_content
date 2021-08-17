@@ -1,11 +1,7 @@
 <panel>
   <table>
     <search>
-<<<<<<< HEAD
-      <query>sourcetype=&#34;XmlWinEventLog:Microsoft-Windows-Sysmon/Operational&#34; EventCode&amp;gt;18 EventCode&amp;lt;22 | rename host as dest | search dest=$dest$| table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter</query>
-=======
       <query>`sysmon` EventCode&gt;18 EventCode&lt;22 | rename host as dest | search dest=$dest$| table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter</query>
->>>>>>> upstream/develop
     </search>
     <option name="drilldown">cell</option>
     <option name="wrap">false</option>
