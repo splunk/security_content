@@ -171,7 +171,7 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     response_task['lowercase_name'] = response_file_name
                     workbench_panel_objects.append(response_task)
                     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                                        trim_blocks=True)
+                                        trim_blocks=True, autoescape=True)
                     template = j2_env.get_template('panel.j2')
                     file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml
                     output_path = path.join(OUTPUT_PATH, file_path)
