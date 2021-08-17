@@ -3,7 +3,7 @@ id: 2f0604c6-6030-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-26'
 author: Rod Soto, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search provides detection of updates to SAML provider in AWS. Updates
   to SAML provider need to be monitored closely as they may indicate possible perimeter

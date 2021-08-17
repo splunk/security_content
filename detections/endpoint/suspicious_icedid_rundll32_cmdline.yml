@@ -3,7 +3,7 @@ id: bed761f8-ee29-11eb-8bf3-acde48001122
 version: 1
 date: '2021-07-26'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious rundll32.exe commandline to execute

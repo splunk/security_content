@@ -3,7 +3,7 @@ id: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
 version: 4
 date: '2020-07-21'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: Microsoft Windows contains accessibility features that can be launched

@@ -3,7 +3,7 @@ id: aa73f80d-d728-4077-b226-81ea0c8be589
 version: 4
 date: '2020-03-16'
 author: Rico Valdez, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for scripts launched via WMI.

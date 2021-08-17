@@ -3,7 +3,7 @@ id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 version: 3
 date: '2020-07-22'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Email
 description: This search looks for emails that have attachments with suspicious file

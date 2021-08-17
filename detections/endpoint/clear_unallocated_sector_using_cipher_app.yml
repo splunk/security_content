@@ -3,7 +3,7 @@ id: cd80a6ac-c9d9-11eb-8839-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this search is to detect execution of `cipher.exe` to clear the unallocated

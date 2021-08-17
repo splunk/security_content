@@ -3,7 +3,7 @@ id: 8c00a385-9b86-4ac0-8932-c9ec3713b159
 version: 1
 date: '2021-02-09'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies rundll32.exe using dllregisterserver

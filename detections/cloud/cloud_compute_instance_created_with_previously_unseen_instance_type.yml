@@ -3,7 +3,7 @@ id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
 version: 1
 date: '2020-09-12'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: Find EC2 instances being created with previously unseen instance types.

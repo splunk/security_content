@@ -3,7 +3,7 @@ id: 8fa2a0f0-acd9-11eb-8994-acde48001122
 version: 1
 date: '2021-05-04'
 author: Teoderick Contreras, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic will identify suspicious series of command-line to disable

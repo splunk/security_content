@@ -3,7 +3,7 @@ id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
 version: 1
 date: '2021-02-22'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies the use of a curl contacting suspicious

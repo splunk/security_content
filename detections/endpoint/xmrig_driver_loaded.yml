@@ -3,7 +3,7 @@ id: 90080fa6-a8df-11eb-91e4-acde48001122
 version: 1
 date: '2021-04-29'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies XMRIG coinminer driver installation on the system.

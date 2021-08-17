@@ -3,7 +3,6 @@ id: 80a65487-854b-42f1-80a1-935e4c170694
 version: 1
 date: '2021-02-03'
 author: Michael Haag, Splunk
-type: batch
 description: Monitor and detect techniques used by attackers who leverage rundll32.exe
   to execute arbitrary malicious code.
 narrative: One common adversary tactic is to bypass application control solutions

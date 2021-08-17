@@ -127,12 +127,16 @@
       "default": "",
       "description": "type of detection",
       "examples": [
-        "streaming"
+        "Anomaly"
       ],
       "items": {
         "enum": [
-          "batch",
-          "streaming"
+          "TTP",
+          "Anomaly",
+          "Hunting",
+          "Baseline",
+          "Investigation",
+          "Correlation"
         ],
         "type": "string"
       },
@@ -181,6 +185,7 @@
     "id",
     "version",
     "date",
+    "datamodel",
     "description",
     "type",
     "author",

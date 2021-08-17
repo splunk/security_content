@@ -3,7 +3,7 @@ id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
 version: 1
 date: '2019-12-10'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search detects the use of wmic and Powershell to create a shadow

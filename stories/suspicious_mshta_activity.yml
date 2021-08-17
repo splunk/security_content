@@ -3,7 +3,6 @@ id: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
 version: 2
 date: '2021-01-20'
 author: Bhavin Patel, Michael Haag, Splunk
-type: batch
 description: Monitor and detect techniques used by attackers who leverage the mshta.exe
   process to execute malicious code.
 narrative: 'One common adversary tactic is to bypass application control solutions

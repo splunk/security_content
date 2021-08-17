@@ -3,7 +3,7 @@ id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
 version: 3
 date: '2020-07-21'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search detects user accounts that have been locked out a relatively
