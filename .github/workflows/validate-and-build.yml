@@ -155,16 +155,17 @@ jobs:
           cp -rv *.csv ../dist/escu/lookups
           cp -rv *.csv ../dist/saaws/lookups
       
-      - name: Set tag to '' for non-tagged releases (default behavior)
+      #Tag is '' for non-tagged push and the tag name for a tagged release
+      - name: Set tag
         id: vars
         run: |
-          echo ::set-output name=tag::{}
-
-      - name: Set tag for tagged releases 
-        id: vars
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: |
-          echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+          if [ echo ${GITHUB_REF} | grep "^refs/tags/*" ]
+            #failed to find the refs/tags/ beginning, grab and set the tag
+            echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+          else
+            #Not a tagged relese
+            echo ::set-output name=tag::{}
+          fi
 
       - name: Update Version and Build number
         run : |
