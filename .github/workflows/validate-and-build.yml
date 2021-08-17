@@ -154,10 +154,18 @@ jobs:
           cd lookups
           cp -rv *.csv ../dist/escu/lookups
           cp -rv *.csv ../dist/saaws/lookups
-      - name: Set tag
+      
+      - name: Set tag to '' for non-tagged releases (default behavior)
         id: vars
         run: |
+          echo ::set-output name=tag::''
+
+      - name: Set tag for tagged releases 
+        id: vars
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
           echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+
       - name: Update Version and Build number
         run : |
             # check if tag is set, get build number from the tag if set
