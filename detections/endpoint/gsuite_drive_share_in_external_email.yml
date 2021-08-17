@@ -7,10 +7,12 @@ type: batch
 datamodel:
 - Endpoint
 description: This search is to detect suspicious google drive or google docs files shared outside or externally. 
-  This behavior might be a good hunting query to monitor exfitration of data made by an attacker to a compromise machine.
-search: 'index=obs-gsuite sourcetype=gsuite:drive:json NOT(email IN ("*splunk.com", "null"))
-  | stats values(parameters.doc_title) as doc_title count min(_time) as firstTime max(_time) as lastTime by 
-  parameters.doc_type parameters.owner email 
+  This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
+search: 'index=obs-gsuite sourcetype=gsuite:drive:json NOT (email IN("", "null")) 
+  | rex field=parameters.owner "[^@]+@(?<src_domain>[^@]+)"  
+  | rex field=email "[^@]+@(?<dest_domain>[^@]+)"
+  | where src_domain = "splunk.com" and not dest_domain = "splunk.com" 
+  | stats values(parameters.doc_title) as doc_title, values(parameters.doc_type) as doc_types, values(email) as dst_email_list, values(parameters.visibility) as visibility, count min(_time) as firstTime max(_time) as lastTime by parameters.owner
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `gsuite_drive_share_in_external_email_filter`'

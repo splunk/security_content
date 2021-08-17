@@ -1,0 +1,12 @@
+name: Gsuite Outbound Email With Attachment To External Domain Unit Test
+tests:
+- name: Gsuite Outbound Email With Attachment To External Domain
+  file: detections/endpoint/gsuite_outbound_email_with_attachment_to_external_domain.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: UPDATE_FILE_NAME
+    data: UPDATE_DATASET_URL
+    source: UPDATE_SPLUNK_SOURCE
+    sourcetype: UPDATE_SPLUNK_SOURCETYPE
