@@ -1,6 +1,6 @@
 name: Extract SAM from Registry
 id: 8bbb7d58-b360-11eb-ba21-acde48001122
-version: 1
+version: 2
 date: '2021-05-12'
 author: Michael Haag, Splunk
 type: TTP
@@ -11,15 +11,13 @@ description: The following analytic identifies the use of `reg.exe` exporting Wi
   registry hives for offline credential access attacks. Typically found executed from
   a untrusted process or script. Upon execution, a file will be written to disk.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=reg.exe
+  as lastTime from datamodel=Endpoint.Processes where `process_reg`
   (Processes.process=*save* OR Processes.process=*export*) AND (Processes.process=*sam*
   OR Processes.process=*system* OR Processes.process=*security*) by Processes.dest
   Processes.user Processes.parent_process Processes.process_name Processes.process
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `extract_sam_from_registry_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: It is possible some agent based products will generate false
   positives. Filter as needed.
 references:
@@ -66,10 +64,14 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
   - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint
