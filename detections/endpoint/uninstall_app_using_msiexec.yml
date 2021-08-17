@@ -3,7 +3,7 @@ id: 1fca2b28-f922-11eb-b2dd-acde48001122
 version: 1
 date: '2021-08-09'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious un-installation of application
