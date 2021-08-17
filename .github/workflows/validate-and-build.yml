@@ -158,7 +158,7 @@ jobs:
       - name: Set tag to '' for non-tagged releases (default behavior)
         id: vars
         run: |
-          echo ::set-output name=tag::''
+          echo ::set-output name=tag::{}
 
       - name: Set tag for tagged releases 
         id: vars
