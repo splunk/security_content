@@ -3,7 +3,7 @@ id: 9c27ec42-d338-11eb-9044-acde48001122
 version: 1
 date: '2021-06-22'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this search is to identify modification in registry to disable AMSI windows

@@ -3,7 +3,7 @@ id: a5bed417-070a-41f2-a1e4-82b6aa281557
 version: 1
 date: '2020-07-11'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides information on anonymous Kubectl calls with IP,
   verb namespace and object access context

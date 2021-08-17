@@ -3,7 +3,7 @@ id: 58f43aba-1775-445e-b19c-be2b87d83ae3
 version: 1
 date: '2020-10-06'
 author: Ignacio Bermudez Corrales, Splunk
-type: streaming
+type: Anomaly
 datamodel: []
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin

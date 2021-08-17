@@ -3,7 +3,7 @@ id: b5541828-8ffd-4070-9d95-b3da4de924cb
 version: 4
 date: '2020-07-22'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects writes to the recycle bin by a process other than
   explorer.exe.

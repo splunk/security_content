@@ -3,7 +3,7 @@ id: 31337aaa-941d-4ada-81ac-q2a17be5bf0d
 version: 1
 date: '2018-10-08'
 author: Jim Apger, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search is used to identify the creation of multiple user accounts
   using the same email domain name.

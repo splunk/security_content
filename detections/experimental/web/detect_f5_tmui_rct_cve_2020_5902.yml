@@ -3,7 +3,7 @@ id: 810e4dbc-d46e-11ea-87d0-0242ac130003
 version: 1
 date: '2020-08-02'
 author: Shannon Davis, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects remote code exploit attempts on F5 BIG-IP, BIG-IQ,
   and Traffix SDC devices

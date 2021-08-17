@@ -3,7 +3,7 @@ id: eff7919a-8330-11eb-83f8-acde48001122
 version: 1
 date: '2021-03-12'
 author: Teoderick Contreras
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytics identifies a big number of instance of ransomware

@@ -3,7 +3,7 @@ id: 294c4686-63dd-4fe6-93a2-ca807626704a
 version: 1
 date: '2020-04-15'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster in AWS

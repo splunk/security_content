@@ -3,7 +3,7 @@ id: b5cd5526-cce7-11eb-b3bd-acde48001122
 version: 1
 date: '2021-06-14'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104, where WMI is performing an event query looking for running processes

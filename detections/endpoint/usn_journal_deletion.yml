@@ -3,7 +3,7 @@ id: b6e0ff70-b122-4227-9368-4cf322ab43c3
 version: 2
 date: '2018-12-03'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The fsutil.exe application is a legitimate Windows utility used to perform

@@ -3,7 +3,7 @@ id: 15d905f6-da6b-11eb-ab82-acde48001122
 version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies a suspicious child process, `rundll32.exe`,

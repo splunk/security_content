@@ -3,7 +3,7 @@ id: e776d06c-9267-11eb-819b-acde48001122
 version: 1
 date: '2021-03-31'
 author: Michael Haag, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: The following query uses IAM events to track the success of a group being
   deleted on AWS. This is typically not indicative of malicious behavior, but a precurser

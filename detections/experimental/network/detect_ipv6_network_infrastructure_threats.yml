@@ -3,7 +3,7 @@ id: c3be767e-7959-44c5-8976-0e9c12a91ad2
 version: 1
 date: '2020-10-28'
 author: Mikael Bjerkeland, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: By enabling IPv6 First Hop Security as a Layer 2 Security measure on
   the organization's network devices, we will be able to detect various attacks such

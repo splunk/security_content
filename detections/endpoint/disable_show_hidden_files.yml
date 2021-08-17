@@ -3,7 +3,7 @@ id: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
 version: 1
 date: '2021-03-31'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic is to identify a modification in the Windows registry

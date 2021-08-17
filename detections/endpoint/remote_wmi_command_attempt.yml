@@ -3,7 +3,7 @@ id: 272df6de-61f1-4784-877c-1fbc3e2d0838
 version: 3
 date: '2018-12-03'
 author: Rico Valdez, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies usage of `wmic.exe` spawning a local
