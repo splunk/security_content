@@ -212,7 +212,6 @@ def pretty_yaml_stories(REPO_PATH, VERBOSE, content_part):
         pretty_yaml['version'] = object['version']
         pretty_yaml['date'] = object['date']
         pretty_yaml['author'] = object['author']
-        pretty_yaml['type'] = object['type']
         pretty_yaml['description'] = object['description']
         pretty_yaml['narrative'] = object['narrative']
         if 'references' in object:
