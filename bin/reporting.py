@@ -47,22 +47,26 @@ def main(args):
     # detections_all.extend(load_objects("detections/deprecated/*.yml", REPO_PATH))
     # detections_all.extend(load_objects("detections/experimental/*/*.yml", REPO_PATH))
     count_detections_all = len(detections_all)
-    print("detection count: {}".format(count_detections_all))
 
     tests = load_objects("tests/*/*.yml", REPO_PATH)
-    print("test count: {}".format(len(tests)))
 
     counter_tests=0
     counter_detection=0
 
     for detection in detections:
-        counter_detection=counter_detection+1
+        if detection['type'] != 'Baseline' and detection['type'] != 'Investigation':
+            counter_detection=counter_detection+1
 
     for test in tests:
         counter_tests=counter_tests+1
 
-    detection_coverage = "{:.0%}".format(counter_detection/counter_tests)
+    detection_coverage_tmp = counter_detection/counter_tests
+    if detection_coverage_tmp > 1:
+        detection_coverage_tmp = 1
+    detection_coverage = "{:.0%}".format(detection_coverage_tmp)
 
+    print("detection count: {}".format(counter_detection))
+    print("test count: {}".format(counter_tests))
     print("detection_coverage {}".format(detection_coverage))
 
     TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'jinja2_templates')

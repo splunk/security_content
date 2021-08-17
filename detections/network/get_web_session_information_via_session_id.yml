@@ -1,0 +1,31 @@
+author: Bhavin Patel, Splunk
+datamodel: []
+date: '2018-10-08'
+description: This search helps an analyst investigate a notable event to find out
+  more about a specific web session. The search looks for a specific web session ID
+  in the HTTP web traffic and outputs the URL and user agents, grouped by source IP
+  address and HTTP status code.
+how_to_implement: This search leverages data extracted from Stream:HTTP. You must
+  configure the HTTP stream using the Splunk Stream App on your Splunk Stream deployment
+  server.
+id: bc91a8cf-35e7-4bb2-1120-e756cc06fd89
+inputs:
+- session_id
+known_false_positives: ''
+name: Get Web Session Information via session id
+search: '`stream_http` session_id  = $session_id$ | stats values(url)
+  values(http_user_agent) by src_ip status'
+tags:
+  analytic_story:
+  - Web Fraud Detection
+  product:
+  - Splunk Phantom
+  required_fields:
+  - _time
+  - session_id
+  - http_user_agent
+  - src_ip
+  - status
+  security_domain: network
+type: Investigation
+version: 1

@@ -3,7 +3,7 @@ id: 57f76b8a-32f0-42ed-b358-d9fa3ca7bac8
 version: 3
 date: '2019-04-25'
 author: Rico Valdez, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: The search looks for files created with names that have been linked to
   malicious activity.

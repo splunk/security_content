@@ -3,7 +3,6 @@ id: be3418e2-551b-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-21'
 author: Michael Haag, Splunk
-type: batch
 description: Monitor and detect techniques used by attackers who leverage the msbuild.exe
   process to execute malicious code.
 narrative: 'Adversaries may use MSBuild to proxy execution of code through a trusted

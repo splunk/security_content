@@ -106,7 +106,7 @@ def main(args):
       file.write(filedata)
 
     module = __import__('attack_range')
-    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security_content/tests/' + test_file_name]
+    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security_content/tests/' + test_file_name, '--test_build_destroy']
 
     execution_error = False
 

@@ -3,7 +3,7 @@ id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 version: 6
 date: '2020-11-03'
 author: Patrick Bareiss, Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: Attempt To Add Certificate To Untrusted Store

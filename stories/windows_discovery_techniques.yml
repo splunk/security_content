@@ -3,7 +3,6 @@ id: f7aba570-7d59-11eb-825e-acde48001122
 version: 1
 date: '2021-03-04'
 author: Michael Hart, Splunk
-type: streaming
 description: Monitors for behaviors associated with adversaries discovering objects in the
   environment that can be leveraged in the progression of the attack.
 narrative: Attackers may not have much if any insight into their target's environment

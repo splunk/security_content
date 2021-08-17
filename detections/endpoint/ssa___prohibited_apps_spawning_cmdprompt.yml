@@ -3,7 +3,7 @@ id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 version: 1
 date: 2020-7-13
 author: Ignacio Bermudez Corrales, Splunk
-type: streaming
+type: TTP
 datamodel: []
 description: This search looks for executions of cmd.exe spawned by a process that
   is often abused by attackers and that does not typically launch cmd.exe. This is
@@ -15,8 +15,8 @@ search: '| from read_ssa_enriched_events()
   | eval process_name=ucast(map_get(input_event, "process_name"), "string", null),
   parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string",
   null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null),
-  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null),
-  event_id=ucast(map_get(input_event, "event_id"), "string", null)
+  dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event,
+  "event_id"), "string", null)
 
   | where process_name="cmd.exe" | rex field=parent_process "(?<field0>[^\\\\]+)$"
   | where field0="winword.exe" OR field0="excel.exe" OR field0="outlook.exe" OR field0="powerpnt.exe"
@@ -25,8 +25,8 @@ search: '| from read_ssa_enriched_events()
   OR field0="java.exe" OR field0="powershell.exe"
 
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
-  dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name, "parent_process_name",
-  parent_process]) | into write_ssa_detected_events();'
+  dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name,
+  "parent_process_name", parent_process]) | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting sysmon logs. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
 known_false_positives: There are circumstances where an application may legitimately
@@ -58,3 +58,25 @@ tags:
   - dest_user_id
   risk_severity: low
   security_domain: endpoint
+  message: Potential malicious landing to the console via unexpected programs that called cmd.exe.  Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ where parent process $parent_process$ spwaned $process_name$.
+  risk_score: 56
+  impact: 70
+  confidence: 80
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Command And Control
+  - Consequence:Loss Of Control
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Actor
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: cmd_line
+    type: processname
+    role:
+    - Others

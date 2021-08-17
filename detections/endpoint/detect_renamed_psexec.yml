@@ -3,7 +3,7 @@ id: 683e6196-b8e8-11eb-9a79-acde48001122
 version: 1
 date: '2021-05-19'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies renamed instances of `PsExec.exe` being

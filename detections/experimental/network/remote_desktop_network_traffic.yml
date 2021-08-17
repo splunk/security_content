@@ -3,7 +3,7 @@ id: 272b8407-842d-4b3d-bead-a704584003d3
 version: 3
 date: '2020-07-07'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Network_Traffic
 description: This search looks for network traffic on TCP/3389, the default port used

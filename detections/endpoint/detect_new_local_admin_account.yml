@@ -3,7 +3,7 @@ id: b25f6f62-0712-43c1-b203-083231ffd97d
 version: 2
 date: '2020-07-08'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for newly created accounts that have been elevated
   to local administrators.

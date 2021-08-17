@@ -3,7 +3,7 @@ id: bc24922d-987c-4645-b288-f8c73ec194c4
 version: 1
 date: '2018-10-12'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search looks for cloud compute instances being created with previously
