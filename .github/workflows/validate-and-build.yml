@@ -310,13 +310,20 @@ jobs:
         run: |
           cd bin
           ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
-          tar -cvzf ../report.tar.gz ../report/
+      
+      - name: Create report artifact
+        if: always()
+        run: |
+          #Always create this, regardless of whether success or failure above
+          tar -cvzf report.tar.gz report/
+
       - name: store_artifacts 
         uses: actions/upload-artifact@v2
         with:
           name: appinspect_reports
           path: |
             report.tar.gz
+            
       #Still store the report, even if we have failed (otherwise we don't know why/how we failed)
       - name: store_artifacts_on_failure
         uses: actions/upload-artifact@v2
