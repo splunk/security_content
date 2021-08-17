@@ -1,7 +1,7 @@
 <panel>
   <table>
     <search>
-      <query>| search sourcetype="netbackup_logs" COMPUTERNAME=$dest$ | rename COMPUTERNAME as dest, MESSAGE as signature | table _time, dest, signature</query>
+      <query>`netbackup` COMPUTERNAME=$dest$ | rename COMPUTERNAME as dest, MESSAGE as signature | table _time, dest, signature</query>
     </search>
     <option name="drilldown">cell</option>
     <option name="wrap">false</option>

@@ -3,7 +3,7 @@ id: 39c61d09-8b30-4154-922b-2d0a694ecc22
 version: 2
 date: '2021-07-19'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for AWS CloudTrail events where a user has created
   an open/public S3 bucket over the aws cli.

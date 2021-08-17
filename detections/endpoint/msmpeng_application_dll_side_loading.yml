@@ -3,7 +3,7 @@ id: 8bb3f280-dd9b-11eb-84d5-acde48001122
 version: 1
 date: '2021-07-05'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll

@@ -3,7 +3,7 @@ id: da63bc76-61ae-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-28'
 author: Michael Haag, Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'Monitor for signs that Ntdsutil is being used to Extract Active Directory

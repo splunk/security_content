@@ -3,7 +3,7 @@ id: a0873b32-5b68-11eb-ae93-0242ac130002
 version: 5
 date: '2021-01-20'
 author: Bhavin Patel, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies "mshta.exe" execution with inline protocol

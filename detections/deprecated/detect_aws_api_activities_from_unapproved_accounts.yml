@@ -3,7 +3,7 @@ id: ada0f478-84a8-4641-a3f1-d82362d4bd55
 version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search looks for successful AWS CloudTrail activity by user accounts
   that are not listed in the identity table or `aws_service_accounts.csv`. It returns

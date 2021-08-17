@@ -3,7 +3,7 @@ id: 92d51712-ee29-11eb-b1ae-acde48001122
 version: 1
 date: '2021-07-26'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious rundll32.exe process with plugininit

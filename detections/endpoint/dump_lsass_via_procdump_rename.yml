@@ -3,7 +3,7 @@ id: 21276daa-663d-11eb-ae93-0242ac130002
 version: 1
 date: '2021-02-01'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: 'Detect a renamed instance of procdump.exe dumping the lsass process.
   This query looks for both -mm and -ma usage. -mm will produce a mini dump file and

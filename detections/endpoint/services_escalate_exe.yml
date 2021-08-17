@@ -3,7 +3,7 @@ id: c448488c-b7ec-11eb-8253-acde48001122
 version: 1
 date: '2021-05-18'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies the use of `svc-exe` with Cobalt Strike.

@@ -3,7 +3,6 @@ id: 270a67a6-55d8-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
-type: batch
 description: Monitor and detect behaviors used by attackers who leverage trusted developer
   utilities to execute malicious code.
 narrative: 'Adversaries may take advantage of trusted developer utilities to proxy

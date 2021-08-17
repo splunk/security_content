@@ -3,7 +3,7 @@ id: b7a045fc-f14a-11eb-8e79-acde48001122
 version: 1
 date: '2021-07-30'
 author: Teoderick Contreras, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Endpoint
 description: This search is to detect dropping a suspicious file named as "license.dat"

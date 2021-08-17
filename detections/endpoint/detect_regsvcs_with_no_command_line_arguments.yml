@@ -3,7 +3,7 @@ id: 6b74d578-a02e-4e94-a0d1-39440d0bf254
 version: 1
 date: '2021-02-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies regsvcs.exe with no command line arguments.
   This particular behavior occurs when another process injects into regsvcs.exe, no

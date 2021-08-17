@@ -3,7 +3,7 @@ id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
 version: 2
 date: '2020-11-23'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for registry activity associated with modifications
   to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this

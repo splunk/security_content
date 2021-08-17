@@ -3,7 +3,7 @@ id: ec3a9362-92fe-11eb-99d0-acde48001122
 version: 1
 date: '2021-04-01'
 author: Michael Haag, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: The following detection identifes when a policy is deleted on AWS. This
   does not identify whether successful or failed, but the error messages tell a story

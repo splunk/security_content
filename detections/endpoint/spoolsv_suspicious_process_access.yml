@@ -3,7 +3,7 @@ id: 799b606e-da81-11eb-93f8-acde48001122
 version: 1
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies a suspicious behavior related to PrintNightmare,

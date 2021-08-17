@@ -3,7 +3,7 @@ id: 28179107-099a-464a-94d3-08301e6c055f
 version: 3
 date: '2020-08-25'
 author: Ignacio Bermudez Corrales, Splunk
-type: streaming
+type: Anomaly
 datamodel: []
 description: An attacker tries might try to use different version of a system command
   without overriding original, or they might try to avoid some detection running the

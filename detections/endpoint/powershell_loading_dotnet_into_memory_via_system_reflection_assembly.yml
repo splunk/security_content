@@ -3,7 +3,7 @@ id: 85bc3f30-ca28-11eb-bd21-acde48001122
 version: 1
 date: '2021-06-10'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify suspicious PowerShell execution. Script Block Logging captures the command

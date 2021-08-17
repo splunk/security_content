@@ -3,7 +3,7 @@ id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
 version: 1
 date: '2021-02-16'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies Regsvcs.exe with a network connection
   to a public IP address, exluding private IP space. This particular technique has
