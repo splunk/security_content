@@ -17,10 +17,10 @@ references: []
 tags:
   analytic_story:
   - Monitor Backup Solution
-  detections:
-  - Unsuccessful Netbackup backups
   deployments:
   - Daily Cache Updates
+  detections:
+  - Unsuccessful Netbackup backups
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

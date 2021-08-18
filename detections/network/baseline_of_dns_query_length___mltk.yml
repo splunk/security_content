@@ -30,10 +30,10 @@ tags:
   - Command and Control
   - Hidden Cobra Malware
   - Suspicious DNS Traffic
-  detections:
-  - DNS Query Length Outliers - MLTK
   deployments:
   - Daily Cache Updates
+  detections:
+  - DNS Query Length Outliers - MLTK
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

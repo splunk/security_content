@@ -20,10 +20,10 @@ tags:
   analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
-  detections:
-  - EC2 Instance Started In Previously Unseen Region
   deployments:
   - Daily Cache Updates
+  detections:
+  - EC2 Instance Started In Previously Unseen Region
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
