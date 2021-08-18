@@ -1,16 +1,17 @@
-author: Rico Valdez, Splunk
-datamodel: []
-date: '2020-04-02'
-description: This search returns all okta events by a specific user
-how_to_implement: You must be ingesting Okta logs
-id: 24ff145d-4d16-420a-b047-480f2a51c403
-inputs:
-- user
-known_false_positives: ''
 name: Investigate User Activities In Okta
-search: '`okta` user=$user$ | rename client.geographicalContext.country
-  as country, client.geographicalContext.state as state, client.geographicalContext.city
-  as city | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason'
+id: 24ff145d-4d16-420a-b047-480f2a51c403
+version: 1
+date: '2020-04-02'
+author: Rico Valdez, Splunk
+type: Investigation
+datamodel: []
+description: This search returns all okta events by a specific user
+search: '`okta` user=$user$ | rename client.geographicalContext.country as country,
+  client.geographicalContext.state as state, client.geographicalContext.city as city
+  | table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason'
+how_to_implement: You must be ingesting Okta logs
+known_false_positives: ''
+references: []
 tags:
   analytic_story:
   - Suspicious Okta Activity
@@ -27,5 +28,3 @@ tags:
   - result
   - outcome.reason
   security_domain: network
-type: Investigation
-version: 1

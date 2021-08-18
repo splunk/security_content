@@ -1,7 +1,7 @@
 <panel>
   <table>
     <search>
-      <query>| search sourcetype=&#34;aws:description&#34; source=&#34;*:ec2_instances&#34;| dedup id sortby -_time |rename id as instanceId|  search instanceId=$instanceId$ | spath output=tags path=tags | eval tags=mvzip(key,value,&#34; = &#34;), ip_address=if((ip_address == &#34;null&#34;),private_ip_address,ip_address) | table id, tags.Name, aws_account_id, placement, instance_type, key_name, ip_address, launch_time, state, vpc_id, subnet_id, tags | rename aws_account_id as &#34;Account ID&#34;, id as ID, instance_type as Type, ip_address as &#34;IP Address&#34;, key_name as &#34;Key Pair&#34;, launch_time as &#34;Launch Time&#34;, placement as &#34;Availability Zone&#34;, state as State, subnet_id as Subnet, &#34;tags.Name&#34; as Name, vpc_id as VPC</query>
+      <query>`aws_description` | dedup id sortby -_time |rename id as instanceId|  search instanceId=$instanceId$ | spath output=tags path=tags | eval tags=mvzip(key,value,&#34; = &#34;), ip_address=if((ip_address == &#34;null&#34;),private_ip_address,ip_address) | table id, tags.Name, aws_account_id, placement, instance_type, key_name, ip_address, launch_time, state, vpc_id, subnet_id, tags | rename aws_account_id as &#34;Account ID&#34;, id as ID, instance_type as Type, ip_address as &#34;IP Address&#34;, key_name as &#34;Key Pair&#34;, launch_time as &#34;Launch Time&#34;, placement as &#34;Availability Zone&#34;, state as State, subnet_id as Subnet, &#34;tags.Name&#34; as Name, vpc_id as VPC</query>
     </search>
     <option name="drilldown">cell</option>
     <option name="wrap">false</option>

@@ -1,23 +1,23 @@
-author: Bhavin Patel, Splunk
-datamodel: 
-- Endpoint
+name: Get Process Info
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
+version: 2
 date: '2019-04-01'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel:
+- Endpoint
 description: This search queries the Endpoint data model to give you details about
   the process running on a host which is under investigation. To gather the process
   info, enter the values for the process name in question and the destination IP address.
+search: '| tstats `security_content_summariesonly` count values(Processes.process)
+  as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+  by Processes.user Processes.parent_process_name Processes.process_name Processes.dest
+  | `drop_dm_object_name("Processes")` | search  process_name= $process_name$ | search
+  dest = $dest$ | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
 how_to_implement: To successfully implement this search you must be ingesting endpoint
   data and populating the Endpoint data model.
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
-inputs:
-- process_name
-- dest
 known_false_positives: ''
-name: Get Process Info
-search: '| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user
-  Processes.parent_process_name Processes.process_name Processes.dest | `drop_dm_object_name("Processes")`
-  | search  process_name= $process_name$ | search dest = $dest$ | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`'
+references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
@@ -59,5 +59,3 @@ tags:
   - Processes.process_name
   - Processes.dest
   security_domain: endpoint
-type: Investigation
-version: 2
