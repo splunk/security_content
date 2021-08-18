@@ -22,7 +22,7 @@
 
 Welcome to the Splunk Security Content
 
-This project gives you access to our repository of Analytic Stories that are security guides the provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
+Splunk Security Content contains [Analytic Stories](/stories) (a set of detections grouped as a Use Case by TTPs), that leverage Splunk [Analytics](/detections), and SOAR [playbooks](/playbooks) all designed to work together to detect, investigate, and respond to threats across Splunk Products.
 
 # Get Content🛡
 The latest Splunk Security Content can be obtained via:
@@ -45,7 +45,7 @@ curl -s https://content.splunkresearch.com | jq
 ### contentctl.py 
 The Content Control tool allows you to manipulate Splunk Security Content via the following actions: 
 
-1. **new** - Creates new content (detection, story, baseline)
+1. **new** - Creates new piece of content (detection, story, baseline)
 2. **validate** - Validates written content
 3. **generate** - Generates a deployment package for different platforms (splunk_app)
 
