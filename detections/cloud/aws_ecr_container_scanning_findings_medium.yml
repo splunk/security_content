@@ -23,7 +23,7 @@ references:
 - https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   asset_type: AWS Account
   cis20:
   - CIS 13
