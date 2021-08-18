@@ -258,7 +258,7 @@ jobs:
             mkdir ~/latest-saaws
             tar -zxf ~/DA-ESS_AmazonWebServices_Content-latest.tar.gz -C ~/latest-saaws --strip-components=1
             if [ "${CIRCLE_BRANCH}" == "" ]; then
-                git clone https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
+                git clone --branch ${CIRCLE_TAG} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             else
                 git clone --branch ${CIRCLE_BRANCH} https://${GITHUB_TOKEN}@github.com/splunk/security-content.git
             fi
