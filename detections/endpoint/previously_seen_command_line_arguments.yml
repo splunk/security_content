@@ -30,10 +30,10 @@ tags:
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
   - Icedid
-  detections:
-  - First time seen command line argument
   deployments:
   - Daily Cache Updates
+  detections:
+  - First time seen command line argument
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

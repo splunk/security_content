@@ -28,10 +28,10 @@ tags:
   - AWS Network ACL Activity
   - Command and Control
   - Suspicious AWS Traffic
-  detections:
-  - Detect Spike in blocked Outbound Traffic from your AWS
   deployments:
   - Daily Cache Updates
+  detections:
+  - Detect Spike in blocked Outbound Traffic from your AWS
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

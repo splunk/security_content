@@ -19,10 +19,10 @@ references: []
 tags:
   analytic_story:
   - Asset Tracking
-  detections:
-  - Detect Unauthorized Assets by MAC address
   deployments:
   - Daily Cache Updates
+  detections:
+  - Detect Unauthorized Assets by MAC address
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
