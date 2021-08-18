@@ -25,13 +25,13 @@ references: []
 tags:
   analytic_story:
   - Suspicious AWS Login Activities
+  deployments:
+  - Daily Cache Updates
   detections:
   - Detect AWS Console Login by User from New Country
   - Detect AWS Console Login by User from New Region
   - Detect AWS Console Login by User from New City
   - Detect new user AWS Console Login
-  deployments:
-  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

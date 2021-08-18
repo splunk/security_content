@@ -22,10 +22,10 @@ references: []
 tags:
   analytic_story:
   - Suspicious AWS S3 Activities
-  detections:
-  - Detect Spike in S3 Bucket deletion
   deployments:
   - Daily Cache Updates
+  detections:
+  - Detect Spike in S3 Bucket deletion
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
