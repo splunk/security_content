@@ -33,10 +33,10 @@ tags:
   analytic_story:
   - AWS Cryptomining
   - Suspicious AWS EC2 Activities
-  detections:
-  - Abnormally High AWS Instances Launched by User - MLTK
   deployments:
   - Daily Cache Updates
+  detections:
+  - Abnormally High AWS Instances Launched by User - MLTK
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

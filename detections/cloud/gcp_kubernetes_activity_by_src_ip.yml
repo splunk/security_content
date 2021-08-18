@@ -1,18 +1,13 @@
-author: Rod Soto, Splunk
-datamodel: []
+name: GCP Kubernetes activity by src ip
+id: c00e7626-92cc-4e06-9a51-b6db0a50bd1f
+version: 1
 date: '2020-04-13'
+author: Rod Soto, Splunk
+type: Investigation
+datamodel: []
 description: This search provides investigation data about requests via user agent,
   authentication request URI, resource path and cluster name data against Kubernetes
   cluster from a specific IP address
-how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later),
-  then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
-  You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection
-  to filter out FPs.
-id: c00e7626-92cc-4e06-9a51-b6db0a50bd1f
-inputs:
-- src_ip
-known_false_positives: ''
-name: GCP Kubernetes activity by src ip
 search: '`google_gcp_pubsub_message` | rename data.protoPayload.requestMetadata.callerIp
   as src_ip | search src_ip =$src_ip$ | stats count min(_time) as firstTime max(_time)
   as lastTime values(data.protoPayload.methodName) as method_names values(data.protoPayload.resourceName)
@@ -20,6 +15,12 @@ search: '`google_gcp_pubsub_message` | rename data.protoPayload.requestMetadata.
   as http_user_agent values(data.protoPayload.authenticationInfo.principalEmail) as
   user values(data.protoPayload.status.message) by src_ip data.resource.labels.cluster_name
   data.resource.type'
+how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later),
+  then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
+  You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection
+  to filter out FPs.
+known_false_positives: ''
+references: []
 tags:
   analytic_story:
   - Kubernetes Scanning Activity
@@ -36,5 +37,3 @@ tags:
   - data.resource.labels.cluster_name
   - data.resource.type
   security_domain: network
-type: Investigation
-version: 1
