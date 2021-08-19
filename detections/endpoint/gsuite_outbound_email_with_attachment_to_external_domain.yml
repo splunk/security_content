@@ -1,0 +1,63 @@
+name: Gsuite Outbound Email With Attachment To External Domain
+id: dc4dc3a8-ff54-11eb-8bf7-acde48001122
+version: 1
+date: '2021-08-17'
+author: Teoderick Contreras, Stanislav Miskovic, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+- Email
+description: This search is to detect a suspicious outbound e-mail from internal email to external email domain. 
+  This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail.
+  The idea is to parse the domain of destination email check if there is a minimum outbound traffic < 20 with attachment.
+search: '`gsuite_gmail` num_message_attachments > 0 
+  | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)"  
+  | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"  
+  | where source_domain="internal_test_email.com" and not dest_domain="internal_test_email.com" 
+  | stats values(subject) as subject, values(source.from_header_address) as src_domain_list, count as numEvents, dc(source.from_header_address) as numSrcAddresses, 
+  min(_time) as firstTime max(_time) as lastTime by dest_domain  
+  | where numSrcAddresses < 20 |sort - numSrcAddresses
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `gsuite_outbound_email_with_attachment_to_external_domain_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite having the file attachment metadata like file type, file 
+  extension, source email, destination email, num of attachment and etc.
+known_false_positives: network admin and normal user may send this file attachment as part of their day to day work. having a good protocol 
+  in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
+references:
+- https://www.redhat.com/en/topics/devops/what-is-devsecops
+tags:
+  analytic_story:
+  - DevSecOps
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  -  T1048.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 30
+  confidence: 30
+  # (impact * confidence)/100
+  risk_score: 9
+  context:
+  - Source:Endpoint
+  - Stage:Reconnaissance
+  message: suspicious email from $source.address$ to $destination{}.address$
+  observable:
+  - name: source.address
+    type: User
+    role:
+    - attacker
+  - name: destination{}.address 
+    type: User
+    role:
+    - Victim
+  
