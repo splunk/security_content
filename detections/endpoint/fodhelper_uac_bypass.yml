@@ -37,7 +37,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 90
   context:
