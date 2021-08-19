@@ -1,0 +1,68 @@
+name: UAC Bypass With Colorui COM Object
+id: 2bcccd20-fc2b-11eb-8d22-acde48001122
+version: 1
+date: '2021-08-13'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This search is to detect a possible uac bypass using the colorui.dll
+  COM Object. this technique was seen in so many malware and ransomware like lockbit
+  where it make use of the colorui.dll COM CLSID to bypass UAC.
+search: '`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe"
+  NOT(Image IN("*\\windows\\*", "*\\program files*")) | stats count min(_time) as
+  firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode
+  Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `uac_bypass_with_colorui_com_object_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: not so common. but 3rd part app may load this dll.
+references:
+- https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
+tags:
+  analytic_story:
+  - Ransomware
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/uac_colorui/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - ImageLoaded
+  - process_name
+  - Computer
+  - EventCode
+  - Signed
+  - ProcessId
+  security_domain: endpoint
+  impact: 60
+  confidence: 80
+  risk_score: 48
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: The following module $ImageLoaded$ was loaded by a non-standard application
+    on endpoint $Computer$ by user $user$.
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: ImageLoaded
+    type: Other
+    role:
+    - Other
+  automated_detection_testing: passed

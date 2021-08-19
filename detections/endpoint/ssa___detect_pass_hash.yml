@@ -35,8 +35,17 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  confidence: 20
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Credential Access
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: Potential use of the pass the hash/token attacks that spoof authentication.
+    Operation is performed at the device $dest_device_id$, by the account $dest_user_id$
+    via command $cmd_line$
   mitre_attack_id:
   - T1550.002
   nist:
@@ -44,26 +53,6 @@ tags:
   - PR.AT
   - PR.AC
   - PR.IP
-  product:
-  - Splunk Behavioral Analytics
-  required_fields:
-  - signature_id
-  - authentication_type
-  - _time
-  - authentication_method
-  - origin_device_domain
-  - dest_user_id
-  - dest_device_id
-  risk_severity: low
-  security_domain: endpoint
-  message: Potential use of the pass the hash/token attacks that spoof authentication. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
-  risk_score: 16
-  impact: 80
-  confidence: 20
-  context:
-  - Source:AD
-  - Source:Endpoint
-  - Stage:Credential Access
   observable:
   - name: dest_user_id
     type: User
@@ -77,3 +66,16 @@ tags:
     type: processname
     role:
     - Others
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - signature_id
+  - authentication_type
+  - _time
+  - authentication_method
+  - origin_device_domain
+  - dest_user_id
+  - dest_device_id
+  risk_score: 16
+  risk_severity: low
+  security_domain: endpoint

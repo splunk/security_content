@@ -10,7 +10,7 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Email, Web
+* '''Datamodel''': Email, Endpoint, Web
 * '''ATT&CK''': 
 * '''Last Updated''': 2017-12-19
 
@@ -18,6 +18,16 @@ Detect and investigate activity that may indicate that an adversary is using fau
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Dnstwist_domain_names|DNSTwist Domain Names]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_email_info|Get Email Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_emails_from_specific_sender|Get Emails From Specific Sender]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_responsible_for_the_dns_traffic|Get Process Responsible For The DNS Traffic]]
 
 * [[Documentation:ESSOC:detections:Detections#Monitor_email_for_brand_abuse|Monitor Email For Brand Abuse]]
 
@@ -59,6 +69,8 @@ DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it respond
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
 * [[Documentation:ESSOC:detections:Detections#Large_volume_of_dns_any_queries|Large Volume of DNS ANY Queries]]
 
 
@@ -97,7 +109,7 @@ DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it respond
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Network_Resolution
+* '''Datamodel''': Endpoint, Network_Resolution, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1189/ T1189]
 * '''Last Updated''': 2017-09-14
 
@@ -107,6 +119,16 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 ====Detection Profile====
 
 * [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_traffic_ratio|Get DNS traffic ratio]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_responsible_for_the_dns_traffic|Get Process Responsible For The DNS Traffic]]
 
 
 
@@ -148,7 +170,7 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 Detect activities and various techniques associated with the abuse of `netsh.exe`, which can disable local firewall settings or set up a remote connection to a host from an infected system.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
+* '''Datamodel''': Endpoint, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1562.004/ T1562.004]
 * '''Last Updated''': 2017-01-05
 
@@ -156,6 +178,16 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_smb_traffic_-_mltk|Baseline of SMB Traffic - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Processes_launching_netsh|Processes launching netsh]]
 
@@ -553,6 +585,12 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 
 * [[Documentation:ESSOC:detections:Detections#Email_servers_sending_high_volume_traffic_to_hosts|Email servers sending high volume traffic to hosts]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
 * [[Documentation:ESSOC:detections:Detections#Hosts_receiving_high_volume_of_network_traffic_from_email_server|Hosts receiving high volume of network traffic from email server]]
 
 * [[Documentation:ESSOC:detections:Detections#Suspicious_writes_to_windows_recycle_bin|Suspicious writes to windows Recycle Bin]]
@@ -618,6 +656,16 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_network_acl_details_from_id|AWS Network ACL Details from ID]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_network_interface_details_via_resourceid|AWS Network Interface details via resourceId]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_dns_query_length_-_mltk|Baseline of DNS Query Length - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_blocked_outbound_traffic_from_aws|Baseline of blocked outbound traffic from AWS]]
+
 * [[Documentation:ESSOC:detections:Detections#Dns_exfiltration_using_nslookup_app|DNS Exfiltration Using Nslookup App]]
 
 * [[Documentation:ESSOC:detections:Detections#Dns_query_length_outliers_-_mltk|DNS Query Length Outliers - MLTK]]
@@ -633,6 +681,22 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 * [[Documentation:ESSOC:detections:Detections#Excessive_dns_failures|Excessive DNS Failures]]
 
 * [[Documentation:ESSOC:detections:Detections#Excessive_usage_of_nslookup_app|Excessive Usage of NSLOOKUP App]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_all_aws_activity_from_ip_address|Get All AWS Activity From IP Address]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_traffic_ratio|Get DNS traffic ratio]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_responsible_for_the_dns_traffic|Get Process Responsible For The DNS Traffic]]
 
 * [[Documentation:ESSOC:detections:Detections#Multiple_archive_files_http_post_traffic|Multiple Archive Files Http Post Traffic]]
 
@@ -728,7 +792,7 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attempts to credential dumping.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
+* '''Datamodel''': Authentication, Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1068/ T1068], [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1098/ T1098], [https://attack.mitre.org/techniques/T1134/ T1134], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1547/ T1547], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1554/ T1554], [https://attack.mitre.org/techniques/T1556/ T1556], [https://attack.mitre.org/techniques/T1558/ T1558], [https://attack.mitre.org/techniques/T1555/ T1555], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1201/ T1201], [https://attack.mitre.org/techniques/T1552/ T1552], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1003.003/ T1003.003], [https://attack.mitre.org/techniques/T1558.003/ T1558.003], [https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 * '''Last Updated''': 2020-02-04
 
@@ -796,6 +860,14 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump_rename|Dump LSASS via procdump Rename]]
 
 * [[Documentation:ESSOC:detections:Detections#Extract_sam_from_registry|Extract SAM from Registry]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_failed_logins_for_multiple_destinations|Investigate Failed Logins for Multiple Destinations]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_pass_the_hash_attempts|Investigate Pass the Hash Attempts]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_pass_the_ticket_attempts|Investigate Pass the Ticket Attempts]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_previous_unseen_user|Investigate Previous Unseen User]]
 
 * [[Documentation:ESSOC:detections:Detections#Ntdsutil_export_ntds|Ntdsutil Export NTDS]]
 
@@ -936,6 +1008,10 @@ Secure your environment against DNS hijacks with searches that help you detect a
 
 * [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
 
+* [[Documentation:ESSOC:detections:Detections#Discover_dns_records|Discover DNS records]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
 
 
 ====ATT&CK====
@@ -994,6 +1070,8 @@ The stealing of data by an adversary.
 * [[Documentation:ESSOC:detections:Detections#Detect_shared_ec2_snapshot|Detect shared ec2 snapshot]]
 
 * [[Documentation:ESSOC:detections:Detections#Excessive_usage_of_nslookup_app|Excessive Usage of NSLOOKUP App]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 * [[Documentation:ESSOC:detections:Detections#Mailsniper_invoke_functions|Mailsniper Invoke functions]]
 
@@ -1149,6 +1227,8 @@ Uncover activity related to the execution of Zerologon CVE-2020-11472, a techniq
 
 * [[Documentation:ESSOC:detections:Detections#Detect_zerologon_via_zeek|Detect Zerologon via Zeek]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
 
 
 ====ATT&CK====
@@ -1199,7 +1279,7 @@ Uncover activity related to the execution of Zerologon CVE-2020-11472, a techniq
 Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious `reg.exe` processes, processes launching netsh, and many others.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
+* '''Datamodel''': Endpoint, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1553.004/ T1553.004], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1562.004/ T1562.004], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1112/ T1112]
 * '''Last Updated''': 2020-02-04
 
@@ -1211,6 +1291,16 @@ Looks for activities and techniques associated with the disabling of security to
 * [[Documentation:ESSOC:detections:Detections#Attempt_to_add_certificate_to_untrusted_store|Attempt To Add Certificate To Untrusted Store]]
 
 * [[Documentation:ESSOC:detections:Detections#Attempt_to_stop_security_service|Attempt To Stop Security Service]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_smb_traffic_-_mltk|Baseline of SMB Traffic - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Processes_launching_netsh|Processes launching netsh]]
 
@@ -1339,6 +1429,8 @@ Uncover activity consistent with CVE-2020-5902. Discovered by Positive Technolog
 ====Detection Profile====
 
 * [[Documentation:ESSOC:detections:Detections#Detect_f5_tmui_rce_cve-2020-5902|Detect F5 TMUI RCE CVE-2020-5902]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 
 
@@ -1630,7 +1722,7 @@ Adversaries may transfer tools or other files from an external system into a com
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint, Network_Traffic
+* '''Datamodel''': Authentication, Email, Endpoint, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1550.002/ T1550.002], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1558.003/ T1558.003], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1053.005/ T1053.005]
 * '''Last Updated''': 2020-02-04
 
@@ -1646,6 +1738,18 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 * [[Documentation:ESSOC:detections:Detections#Detect_psexec_with_accepteula_flag|Detect PsExec With accepteula Flag]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_renamed_psexec|Detect Renamed PSExec]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_history_of_email_sources|Get History Of Email Sources]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_successful_remote_desktop_authentications|Investigate Successful Remote Desktop Authentications]]
 
 * [[Documentation:ESSOC:detections:Detections#Kerberoasting_spn_request_with_rc4_encryption|Kerberoasting spn request with RC4 encryption]]
 
@@ -1715,7 +1819,7 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
+* '''Datamodel''': Email, Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1197/ T1197], [https://attack.mitre.org/techniques/T1105/ T1105], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1021/ T1021], [https://attack.mitre.org/techniques/T1113/ T1113], [https://attack.mitre.org/techniques/T1123/ T1123], [https://attack.mitre.org/techniques/T1563/ T1563], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1134/ T1134], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1106/ T1106], [https://attack.mitre.org/techniques/T1569/ T1569], [https://attack.mitre.org/techniques/T1027/ T1027], [https://attack.mitre.org/techniques/T1027.005/ T1027.005], [https://attack.mitre.org/techniques/T1140/ T1140], [https://attack.mitre.org/techniques/T1592/ T1592], [https://attack.mitre.org/techniques/T1562/ T1562]
 * '''Last Updated''': 2017-08-23
 
@@ -1739,6 +1843,14 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 * [[Documentation:ESSOC:detections:Detections#Detect_empire_with_powershell_script_block_logging|Detect Empire with PowerShell Script Block Logging]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_mimikatz_with_powershell_script_block_logging|Detect Mimikatz With PowerShell Script Block Logging]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_history_of_email_sources|Get History Of Email Sources]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
 
 * [[Documentation:ESSOC:detections:Detections#Illegal_access_to_user_content_via_powersploit_modules|Illegal Access To User Content via PowerSploit modules]]
 
@@ -2041,6 +2153,10 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 
 * [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_encoded_command|Malicious PowerShell Process - Encoded Command]]
 
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_running_windows_services_-_initial|Previously Seen Running Windows Services - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_running_windows_services_-_update|Previously Seen Running Windows Services - Update]]
+
 * [[Documentation:ESSOC:detections:Detections#Sc_exe_manipulating_windows_services|Sc exe Manipulating Windows Services]]
 
 * [[Documentation:ESSOC:detections:Detections#Scheduled_task_deleted_or_created_via_cmd|Scheduled Task Deleted Or Created via CMD]]
@@ -2175,7 +2291,7 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
+* '''Datamodel''': Email, Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1059.001/ T1059.001], [https://attack.mitre.org/techniques/T1547.001/ T1547.001]
 * '''Last Updated''': 2020-01-22
 
@@ -2184,7 +2300,19 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_command_line_length_-_mltk|Baseline of Command Line Length - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_history_of_email_sources|Get History Of Email Sources]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
 * [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_connect_to_internet_with_hidden_window|Malicious PowerShell Process - Connect To Internet With Hidden Window]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
 
@@ -2242,6 +2370,8 @@ Use the searches in this Analytic Story to help you detect structured query lang
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 * [[Documentation:ESSOC:detections:Detections#Sql_injection_with_long_urls|SQL Injection with Long URLs]]
 
@@ -2436,9 +2566,19 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_command_line_length_-_mltk|Baseline of Command Line Length - MLTK]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_use_of_cmd_exe_to_launch_script_interpreters|Detect Use of cmd exe to Launch Script Interpreters]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#System_processes_run_from_unexpected_locations|System Processes Run From Unexpected Locations]]
 
@@ -2553,7 +2693,7 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint, Network_Resolution
+* '''Datamodel''': Endpoint, Network_Resolution, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1071.004/ T1071.004], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1095/ T1095], [https://attack.mitre.org/techniques/T1041/ T1041], [https://attack.mitre.org/techniques/T1189/ T1189], [https://attack.mitre.org/techniques/T1537/ T1537], [https://attack.mitre.org/techniques/T1114.001/ T1114.001], [https://attack.mitre.org/techniques/T1114/ T1114], [https://attack.mitre.org/techniques/T1114.003/ T1114.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001]
 * '''Last Updated''': 2017-09-18
 
@@ -2561,6 +2701,8 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_dns_query_length_-_mltk|Baseline of DNS Query Length - MLTK]]
 
 * [[Documentation:ESSOC:detections:Detections#Dns_exfiltration_using_nslookup_app|DNS Exfiltration Using Nslookup App]]
 
@@ -2573,6 +2715,18 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 * [[Documentation:ESSOC:detections:Detections#Excessive_dns_failures|Excessive DNS Failures]]
 
 * [[Documentation:ESSOC:detections:Detections#Excessive_usage_of_nslookup_app|Excessive Usage of NSLOOKUP App]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_traffic_ratio|Get DNS traffic ratio]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_responsible_for_the_dns_traffic|Get Process Responsible For The DNS Traffic]]
 
 
 
@@ -2665,7 +2819,15 @@ Email remains one of the primary means for attackers to gain an initial foothold
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Dnstwist_domain_names|DNSTwist Domain Names]]
+
 * [[Documentation:ESSOC:detections:Detections#Email_attachments_with_lots_of_spaces|Email Attachments With Lots Of Spaces]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_email_info|Get Email Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_emails_from_specific_sender|Get Emails From Specific Sender]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 * [[Documentation:ESSOC:detections:Detections#Monitor_email_for_brand_abuse|Monitor Email For Brand Abuse]]
 
@@ -2714,6 +2876,8 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_command_line_length_-_mltk|Baseline of Command Line Length - MLTK]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_mshta_url_in_command_line|Detect MSHTA Url in Command Line]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
@@ -2723,6 +2887,14 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 * [[Documentation:ESSOC:detections:Detections#Detect_mshta_inline_hta_execution|Detect mshta inline hta execution]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_mshta_renamed|Detect mshta renamed]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
 
@@ -2792,6 +2964,12 @@ Monitor your Okta environment for suspicious activities. Due to the Covid outbre
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_okta_activity_by_ip_address|Investigate Okta Activity by IP Address]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_okta_activity_by_app|Investigate Okta Activity by app]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_user_activities_in_okta|Investigate User Activities In Okta]]
 
 * [[Documentation:ESSOC:detections:Detections#Multiple_okta_users_with_invalid_credentials_from_the_same_ip|Multiple Okta Users With Invalid Credentials From The Same IP]]
 
@@ -3033,6 +3211,14 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 
 * [[Documentation:ESSOC:detections:Detections#Detect_wmi_event_subscription_persistence|Detect WMI Event Subscription Persistence]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_sysmon_wmi_activity_for_host|Get Sysmon WMI Activity for Host]]
+
 * [[Documentation:ESSOC:detections:Detections#Process_execution_via_wmi|Process Execution via WMI]]
 
 * [[Documentation:ESSOC:detections:Detections#Remote_process_instantiation_via_wmi|Remote Process Instantiation via WMI]]
@@ -3099,6 +3285,12 @@ Monitor and detect registry changes initiated from remote locations, which can b
 ====Detection Profile====
 
 * [[Documentation:ESSOC:detections:Detections#Disabling_remote_user_account_control|Disabling Remote User Account Control]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
 
 * [[Documentation:ESSOC:detections:Detections#Monitor_registry_keys_for_print_monitors|Monitor Registry Keys for Print Monitors]]
 
@@ -3172,6 +3364,12 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 * [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 * [[Documentation:ESSOC:detections:Detections#First_time_seen_child_process_of_zoom|First Time Seen Child Process of Zoom]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_file_activity|Get Process File Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_zoom_child_processes_-_initial|Previously Seen Zoom Child Processes - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_zoom_child_processes_-_update|Previously Seen Zoom Child Processes - Update]]
 
 
 
@@ -3354,6 +3552,8 @@ Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered by Checkpo
 
 * [[Documentation:ESSOC:detections:Detections#Detect_windows_dns_sigred_via_zeek|Detect Windows DNS SIGRed via Zeek]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
 
 
 ====ATT&CK====
@@ -3428,6 +3628,12 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 * [[Documentation:ESSOC:detections:Detections#Excessive_number_of_service_control_start_as_disabled|Excessive number of service control start as disabled]]
 
 * [[Documentation:ESSOC:detections:Detections#Fodhelper_uac_bypass|FodHelper UAC Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
 
 * [[Documentation:ESSOC:detections:Detections#Hiding_files_and_directories_with_attrib_exe|Hiding Files And Directories With Attrib exe]]
 
@@ -3719,6 +3925,12 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 
 * [[Documentation:ESSOC:detections:Detections#Deleting_shadow_copies|Deleting Shadow Copies]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
 * [[Documentation:ESSOC:detections:Detections#Illegal_deletion_of_logs_via_mimikatz_modules|Illegal Deletion of Logs via Mimikatz modules]]
 
 * [[Documentation:ESSOC:detections:Detections#Suspicious_event_log_service_behavior|Suspicious Event Log Service Behavior]]
@@ -3793,6 +4005,12 @@ Monitor for activities and techniques associated with maintaining persistence on
 * [[Documentation:ESSOC:detections:Detections#Certutil_exe_certificate_extraction|Certutil exe certificate extraction]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_path_interception_by_creation_of_program_exe|Detect Path Interception By Creation Of program exe]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
 
 * [[Documentation:ESSOC:detections:Detections#Hiding_files_and_directories_with_attrib_exe|Hiding Files And Directories With Attrib exe]]
 
@@ -3961,6 +4179,12 @@ Monitor for and investigate activities that may be associated with a Windows pri
 
 * [[Documentation:ESSOC:detections:Detections#Child_processes_of_spoolsv_exe|Child Processes of Spoolsv exe]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
 * [[Documentation:ESSOC:detections:Detections#Illegal_privilege_elevation_via_mimikatz_modules|Illegal Privilege Elevation via Mimikatz modules]]
 
 * [[Documentation:ESSOC:detections:Detections#Overwriting_accessibility_binaries|Overwriting Accessibility Binaries]]
@@ -4043,7 +4267,13 @@ Keep a careful inventory of every asset on your network to make it easier to det
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Count_of_assets_by_category|Count of assets by category]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_unauthorized_assets_by_mac_address|Detect Unauthorized Assets by MAC address]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_first_occurrence_and_last_occurrence_of_a_mac_address|Get First Occurrence and Last Occurrence of a MAC Address]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 
 
@@ -4080,6 +4310,8 @@ Monitor your enterprise to ensure that your endpoints are being patched and upda
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 * [[Documentation:ESSOC:detections:Detections#No_windows_updates_in_a_time_frame|No Windows Updates in a time frame]]
 
@@ -4120,6 +4352,16 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 * [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
 
 * [[Documentation:ESSOC:detections:Detections#Enable_rdp_in_other_port_number|Enable RDP In Other Port Number]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
 
 * [[Documentation:ESSOC:detections:Detections#Prohibited_network_traffic_allowed|Prohibited Network Traffic Allowed]]
 
@@ -4210,6 +4452,8 @@ Validate the security configuration of network infrastructure and verify that on
 
 * [[Documentation:ESSOC:detections:Detections#Detect_traffic_mirroring|Detect Traffic Mirroring]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
 
 
 ====ATT&CK====
@@ -4272,7 +4516,7 @@ Validate the security configuration of network infrastructure and verify that on
 Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Network_Traffic
+* '''Datamodel''': Endpoint, Network_Traffic
 * '''ATT&CK''': 
 * '''Last Updated''': 2017-09-15
 
@@ -4280,6 +4524,10 @@ Leverage searches that detect cleartext network protocols that may leak credenti
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
 
 * [[Documentation:ESSOC:detections:Detections#Protocols_passing_authentication_in_cleartext|Protocols passing authentication in cleartext]]
 
@@ -4321,6 +4569,12 @@ Track when a user assumes an IAM role in another AWS account to obtain cross-acc
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_accesskeyid|AWS Investigate User Activities By AccessKeyId]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_aws_cross_account_activity|Previously Seen AWS Cross Account Activity]]
 
 * [[Documentation:ESSOC:detections:Detections#Aws_detect_attach_to_role_policy|aws detect attach to role policy]]
 
@@ -4457,7 +4711,7 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': 
+* '''Datamodel''': Endpoint, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1562.007/ T1562.007]
 * '''Last Updated''': 2018-05-21
 
@@ -4466,11 +4720,35 @@ Monitor your AWS network infrastructure for bad configurations and malicious act
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_network_acl_details_from_id|AWS Network ACL Details from ID]]
+
 * [[Documentation:ESSOC:detections:Detections#Aws_network_access_control_list_created_with_all_open_ports|AWS Network Access Control List Created with All Open Ports]]
 
 * [[Documentation:ESSOC:detections:Detections#Aws_network_access_control_list_deleted|AWS Network Access Control List Deleted]]
 
+* [[Documentation:ESSOC:detections:Detections#Aws_network_interface_details_via_resourceid|AWS Network Interface details via resourceId]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_network_acl_activity_by_arn|Baseline of Network ACL Activity by ARN]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_blocked_outbound_traffic_from_aws|Baseline of blocked outbound traffic from AWS]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_spike_in_blocked_outbound_traffic_from_your_aws|Detect Spike in blocked Outbound Traffic from your AWS]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_all_aws_activity_from_ip_address|Get All AWS Activity From IP Address]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_traffic_ratio|Get DNS traffic ratio]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_responsible_for_the_dns_traffic|Get Process Responsible For The DNS Traffic]]
 
 
 
@@ -4519,9 +4797,15 @@ This story is focused around detecting Security Hub alerts generated from AWS
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_spike_in_aws_security_hub_alerts_for_ec2_instance|Detect Spike in AWS Security Hub Alerts for EC2 Instance]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_spike_in_aws_security_hub_alerts_for_user|Detect Spike in AWS Security Hub Alerts for User]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_ec2_instance_details_by_instanceid|Get EC2 Instance Details by instanceId]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_ec2_launch_details|Get EC2 Launch Details]]
 
 
 
@@ -4554,6 +4838,18 @@ Detect and investigate dormant user accounts for your AWS environment that have 
 ====Detection Profile====
 
 * [[Documentation:ESSOC:detections:Detections#Aws_excessive_security_scanning|AWS Excessive Security Scanning]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_api_calls_per_user_arn|Baseline of API Calls per User ARN]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_security_group_activity_by_arn|Baseline of Security Group Activity by ARN]]
+
+* [[Documentation:ESSOC:detections:Detections#Create_a_list_of_approved_aws_service_accounts|Create a list of approved AWS service accounts]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_aws_user_activities_by_user_field|Investigate AWS User Activities by user field]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_api_call_per_user_roles_in_cloudtrail|Previously seen API call per user roles in CloudTrail]]
 
 
 
@@ -4600,7 +4896,15 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_security_hub_alerts_by_dest|AWS Investigate Security Hub alerts by dest]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
 * [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_instances_launched|Abnormally High Number Of Cloud Instances Launched]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_cloud_instances_destroyed|Baseline Of Cloud Instances Destroyed]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_cloud_instances_launched|Baseline Of Cloud Instances Launched]]
 
 * [[Documentation:ESSOC:detections:Detections#Cloud_compute_instance_created_by_previously_unseen_user|Cloud Compute Instance Created By Previously Unseen User]]
 
@@ -4609,6 +4913,30 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 * [[Documentation:ESSOC:detections:Detections#Cloud_compute_instance_created_with_previously_unseen_image|Cloud Compute Instance Created With Previously Unseen Image]]
 
 * [[Documentation:ESSOC:detections:Detections#Cloud_compute_instance_created_with_previously_unseen_instance_type|Cloud Compute Instance Created With Previously Unseen Instance Type]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_ec2_instance_details_by_instanceid|Get EC2 Instance Details by instanceId]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_ec2_launch_details|Get EC2 Launch Details]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_aws_activities_via_region_name|Investigate AWS activities via region name]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_compute_creations_by_user_-_initial|Previously Seen Cloud Compute Creations By User - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_compute_creations_by_user_-_update|Previously Seen Cloud Compute Creations By User - Update]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_compute_images_-_initial|Previously Seen Cloud Compute Images - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_compute_images_-_update|Previously Seen Cloud Compute Images - Update]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_compute_instance_types_-_initial|Previously Seen Cloud Compute Instance Types - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_compute_instance_types_-_update|Previously Seen Cloud Compute Instance Types - Update]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_regions_-_initial|Previously Seen Cloud Regions - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_regions_-_update|Previously Seen Cloud Regions - Update]]
 
 
 
@@ -4776,6 +5104,55 @@ Use the searches in this story to monitor your Kubernetes registry repositories 
 
 ----
 
+===Dev sec ops===
+This story is focused around detecting attacks on a DevSecOps lifeccycle which consists of the phases plan, code, build, test, release, deploy, operate and monitor.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204.003/ T1204.003]
+* '''Last Updated''': 2021-08-18
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Aws_ecr_container_scanning_findings_high|AWS ECR Container Scanning Findings High]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_ecr_container_scanning_findings_low_informational_unknown|AWS ECR Container Scanning Findings Low Informational Unknown]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_ecr_container_scanning_findings_medium|AWS ECR Container Scanning Findings Medium]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1204.003
+| Malicious Image
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Reference====
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Gcp cross account activity===
 Track when a user assumes an IAM role in another GCP account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
 
@@ -4790,6 +5167,8 @@ Track when a user assumes an IAM role in another GCP account to obtain cross-acc
 ====Detection Profile====
 
 * [[Documentation:ESSOC:detections:Detections#Gcp_detect_gcploit_framework|GCP Detect gcploit framework]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 
 
@@ -4836,9 +5215,15 @@ This story addresses detection against Kubernetes cluster fingerprint scan and a
 
 * [[Documentation:ESSOC:detections:Detections#Amazon_eks_kubernetes_pod_scan_detection|Amazon EKS Kubernetes Pod scan detection]]
 
+* [[Documentation:ESSOC:detections:Detections#Amazon_eks_kubernetes_activity_by_src_ip|Amazon EKS Kubernetes activity by src ip]]
+
 * [[Documentation:ESSOC:detections:Detections#Amazon_eks_kubernetes_cluster_scan_detection|Amazon EKS Kubernetes cluster scan detection]]
 
+* [[Documentation:ESSOC:detections:Detections#Gcp_kubernetes_activity_by_src_ip|GCP Kubernetes activity by src ip]]
+
 * [[Documentation:ESSOC:detections:Detections#Gcp_kubernetes_cluster_pod_scan_detection|GCP Kubernetes cluster pod scan detection]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 
 
@@ -4882,6 +5267,8 @@ This story addresses detection and response of accounts acccesing Kubernetes clu
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 * [[Documentation:ESSOC:detections:Detections#Kubernetes_aws_detect_suspicious_kubectl_calls|Kubernetes AWS detect suspicious kubectl calls]]
 
@@ -5016,11 +5403,17 @@ Monitor your AWS authentication events using your CloudTrail logs. Searches with
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_aws_console_login_by_user_from_new_city|Detect AWS Console Login by User from New City]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_aws_console_login_by_user_from_new_country|Detect AWS Console Login by User from New Country]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_aws_console_login_by_user_from_new_region|Detect AWS Console Login by User from New Region]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_users_in_cloudtrail|Previously seen users in CloudTrail]]
+
+* [[Documentation:ESSOC:detections:Detections#Update_previously_seen_users_in_cloudtrail|Update previously seen users in CloudTrail]]
 
 
 
@@ -5065,6 +5458,12 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_s3_bucket_details_via_bucketname|AWS S3 Bucket details via bucketName]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_s3_bucket_deletion_activity_by_arn|Baseline of S3 Bucket deletion activity by ARN]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_new_open_s3_buckets_over_aws_cli|Detect New Open S3 Buckets over AWS CLI]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_new_open_s3_buckets|Detect New Open S3 buckets]]
@@ -5072,6 +5471,14 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 * [[Documentation:ESSOC:detections:Detections#Detect_s3_access_from_a_new_ip|Detect S3 access from a new IP]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_spike_in_s3_bucket_deletion|Detect Spike in S3 Bucket deletion]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_all_aws_activity_from_ip_address|Get All AWS Activity From IP Address]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_aws_activities_via_region_name|Investigate AWS activities via region name]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_s3_bucket_access_by_remote_ip|Previously seen S3 bucket access by remote IP]]
 
 
 
@@ -5109,7 +5516,7 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 Leverage these searches to monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors, such as a spike in blocked outbound traffic in your virtual private cloud (VPC).
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': 
+* '''Datamodel''': Endpoint, Network_Traffic
 * '''ATT&CK''': 
 * '''Last Updated''': 2018-05-07
 
@@ -5118,7 +5525,29 @@ Leverage these searches to monitor your AWS network traffic for evidence of anom
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_network_acl_details_from_id|AWS Network ACL Details from ID]]
+
+* [[Documentation:ESSOC:detections:Detections#Aws_network_interface_details_via_resourceid|AWS Network Interface details via resourceId]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_blocked_outbound_traffic_from_aws|Baseline of blocked outbound traffic from AWS]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_spike_in_blocked_outbound_traffic_from_your_aws|Detect Spike in blocked Outbound Traffic from your AWS]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_all_aws_activity_from_ip_address|Get All AWS Activity From IP Address]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_traffic_ratio|Get DNS traffic ratio]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_responsible_for_the_dns_traffic|Get Process Responsible For The DNS Traffic]]
 
 
 
@@ -5163,6 +5592,18 @@ Monitor your cloud authentication events. Searches within this Analytic Story le
 * [[Documentation:ESSOC:detections:Detections#Detect_aws_console_login_by_user_from_new_country|Detect AWS Console Login by User from New Country]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_aws_console_login_by_user_from_new_region|Detect AWS Console Login by User from New Region]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_aws_user_activities_by_user_field|Investigate AWS User Activities by user field]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_aws_cross_account_activity_-_initial|Previously Seen AWS Cross Account Activity - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_aws_cross_account_activity_-_update|Previously Seen AWS Cross Account Activity - Update]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_users_in_cloudtrail_-_update|Previously Seen Users In CloudTrail - Update]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_users_in_cloudtrail_-_initial|Previously Seen Users in CloudTrail - Initial]]
 
 
 
@@ -5209,13 +5650,25 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
 * [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_instances_destroyed|Abnormally High Number Of Cloud Instances Destroyed]]
 
 * [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_instances_launched|Abnormally High Number Of Cloud Instances Launched]]
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_cloud_instances_destroyed|Baseline Of Cloud Instances Destroyed]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_cloud_instances_launched|Baseline Of Cloud Instances Launched]]
+
 * [[Documentation:ESSOC:detections:Detections#Cloud_instance_modified_by_previously_unseen_user|Cloud Instance Modified By Previously Unseen User]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_shared_ec2_snapshot|Detect shared ec2 snapshot]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_all_aws_activity_from_ip_address|Get All AWS Activity From IP Address]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_instance_modifications_by_user_-_initial|Previously Seen Cloud Instance Modifications By User - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_instance_modifications_by_user_-_update|Previously Seen Cloud Instance Modifications By User - Update]]
 
 
 
@@ -5272,6 +5725,12 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 * [[Documentation:ESSOC:detections:Detections#Cloud_provisioning_activity_from_previously_unseen_region|Cloud Provisioning Activity From Previously Unseen Region]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_provisioning_activity_sources_-_initial|Previously Seen Cloud Provisioning Activity Sources - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_provisioning_activity_sources_-_update|Previously Seen Cloud Provisioning Activity Sources - Update]]
+
 
 
 ====ATT&CK====
@@ -5315,11 +5774,21 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 
 * [[Documentation:ESSOC:detections:Detections#Aws_iam_accessdenied_discovery_events|AWS IAM AccessDenied Discovery Events]]
 
+* [[Documentation:ESSOC:detections:Detections#Aws_investigate_user_activities_by_arn|AWS Investigate User Activities By ARN]]
+
 * [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_infrastructure_api_calls|Abnormally High Number Of Cloud Infrastructure API Calls]]
 
 * [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_security_group_api_calls|Abnormally High Number Of Cloud Security Group API Calls]]
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_cloud_infrastructure_api_calls_per_user|Baseline Of Cloud Infrastructure API Calls Per User]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_cloud_security_group_api_calls_per_user|Baseline Of Cloud Security Group API Calls Per User]]
+
 * [[Documentation:ESSOC:detections:Detections#Cloud_api_calls_from_previously_unseen_user_roles|Cloud API Calls From Previously Unseen User Roles]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_api_calls_per_user_role_-_initial|Previously Seen Cloud API Calls Per User Role - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_cloud_api_calls_per_user_role_-_update|Previously Seen Cloud API Calls Per User Role - Update]]
 
 
 
@@ -5379,6 +5848,8 @@ Use the searches in this Analytic Story to monitor your GCP Storage buckets for 
 * [[Documentation:ESSOC:detections:Detections#Detect_gcp_storage_access_from_a_new_ip|Detect GCP Storage access from a new IP]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_new_open_gcp_storage_buckets|Detect New Open GCP Storage Buckets]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
 
 
 
@@ -5620,7 +6091,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': 
+* '''Datamodel''': Network_Traffic
 * '''ATT&CK''': 
 * '''Last Updated''': 2019-01-09
 
@@ -5628,6 +6099,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_network_traffic_from_src_ip|Investigate Network Traffic From src ip]]
 
 * [[Documentation:ESSOC:detections:Detections#Processes_tapping_keyboard_events|Processes Tapping Keyboard Events]]
 
@@ -5667,6 +6142,8 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_smb_traffic_-_mltk|Baseline of SMB Traffic - MLTK]]
+
 * [[Documentation:ESSOC:detections:Detections#Create_local_admin_accounts_using_net_exe|Create local admin accounts using net exe]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_new_local_admin_account|Detect New Local Admin account]]
@@ -5677,7 +6154,19 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 * [[Documentation:ESSOC:detections:Detections#Detect_renamed_psexec|Detect Renamed PSExec]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_file_activity|Get Process File Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
+
 * [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_execution_policy_bypass|Malicious PowerShell Process - Execution Policy Bypass]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Processes_launching_netsh|Processes launching netsh]]
 
@@ -5910,7 +6399,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint, Network_Resolution
+* '''Datamodel''': Endpoint, Network_Resolution, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1071.004/ T1071.004], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1095/ T1095], [https://attack.mitre.org/techniques/T1041/ T1041], [https://attack.mitre.org/techniques/T1189/ T1189], [https://attack.mitre.org/techniques/T1537/ T1537], [https://attack.mitre.org/techniques/T1114.001/ T1114.001], [https://attack.mitre.org/techniques/T1114/ T1114], [https://attack.mitre.org/techniques/T1114.003/ T1114.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001]
 * '''Last Updated''': 2018-09-06
 
@@ -5924,6 +6413,14 @@ Detect and investigate hosts in your environment that may be communicating with 
 * [[Documentation:ESSOC:detections:Detections#Detect_hosts_connecting_to_dynamic_domain_providers|Detect hosts connecting to dynamic domain providers]]
 
 * [[Documentation:ESSOC:detections:Detections#Excessive_usage_of_nslookup_app|Excessive Usage of NSLOOKUP App]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_traffic_ratio|Get DNS traffic ratio]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_responsible_for_the_dns_traffic|Get Process Responsible For The DNS Traffic]]
 
 
 
@@ -6018,6 +6515,8 @@ Detect rarely used executables, specific registry paths that may confer malware 
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_smb_traffic_-_mltk|Baseline of SMB Traffic - MLTK]]
+
 * [[Documentation:ESSOC:detections:Detections#Detect_rare_executables|Detect Rare Executables]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_use_of_cmd_exe_to_launch_script_interpreters|Detect Use of cmd exe to Launch Script Interpreters]]
@@ -6025,6 +6524,16 @@ Detect rarely used executables, specific registry paths that may confer malware 
 * [[Documentation:ESSOC:detections:Detections#Detection_of_tools_built_by_nirsoft|Detection of tools built by NirSoft]]
 
 * [[Documentation:ESSOC:detections:Detections#Email_attachments_with_lots_of_spaces|Email Attachments With Lots Of Spaces]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_history_of_email_sources|Get History Of Email Sources]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
 
 * [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
 
@@ -6096,7 +6605,7 @@ Detect rarely used executables, specific registry paths that may confer malware 
 Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint, Network_Resolution, Network_Traffic
+* '''Datamodel''': Authentication, Email, Endpoint, Network_Resolution, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1070.005/ T1070.005], [https://attack.mitre.org/techniques/T1071.004/ T1071.004], [https://attack.mitre.org/techniques/T1048.003/ T1048.003], [https://attack.mitre.org/techniques/T1071.002/ T1071.002], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1021.002/ T1021.002]
 * '''Last Updated''': 2020-01-22
 
@@ -6105,6 +6614,10 @@ Monitor for and investigate activities, including the creation or deletion of hi
 
 ====Detection Profile====
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_dns_query_length_-_mltk|Baseline of DNS Query Length - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_smb_traffic_-_mltk|Baseline of SMB Traffic - MLTK]]
+
 * [[Documentation:ESSOC:detections:Detections#Create_or_delete_windows_shares_using_net_exe|Create or delete windows shares using net exe]]
 
 * [[Documentation:ESSOC:detections:Detections#Dns_query_length_outliers_-_mltk|DNS Query Length Outliers - MLTK]]
@@ -6112,6 +6625,28 @@ Monitor for and investigate activities, including the creation or deletion of hi
 * [[Documentation:ESSOC:detections:Detections#Dns_query_length_with_high_standard_deviation|DNS Query Length With High Standard Deviation]]
 
 * [[Documentation:ESSOC:detections:Detections#Detect_outbound_smb_traffic|Detect Outbound SMB Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_server_history_for_a_host|Get DNS Server History for a host]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_dns_traffic_ratio|Get DNS traffic ratio]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_history_of_email_sources|Get History Of Email Sources]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_outbound_emails_to_hidden_cobra_threat_actors|Get Outbound Emails to Hidden Cobra Threat Actors]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_responsible_for_the_dns_traffic|Get Process Responsible For The DNS Traffic]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_successful_remote_desktop_authentications|Investigate Successful Remote Desktop Authentications]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Remote_desktop_network_traffic|Remote Desktop Network Traffic]]
 
@@ -6213,6 +6748,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Office_document_executing_macro_code|Office Document Executing Macro Code]]
 
 * [[Documentation:ESSOC:detections:Detections#Office_product_spawning_mshta|Office Product Spawning MSHTA]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
 
@@ -6354,7 +6891,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
+* '''Datamodel''': Email, Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1106/ T1106], [https://attack.mitre.org/techniques/T1569/ T1569], [https://attack.mitre.org/techniques/T1574.011/ T1574.011], [https://attack.mitre.org/techniques/T1543.003/ T1543.003]
 * '''Last Updated''': 2020-01-22
 
@@ -6364,6 +6901,20 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 ====Detection Profile====
 
 * [[Documentation:ESSOC:detections:Detections#First_time_seen_running_windows_service|First Time Seen Running Windows Service]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_history_of_email_sources|Get History Of Email Sources]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_running_windows_services_-_initial|Previously Seen Running Windows Services - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_running_windows_services_-_update|Previously Seen Running Windows Services - Update]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_command_line_arguments|Previously seen command line arguments]]
 
 * [[Documentation:ESSOC:detections:Detections#Sc_exe_manipulating_windows_services|Sc exe Manipulating Windows Services]]
 
@@ -6425,7 +6976,7 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint, Network_Traffic
+* '''Datamodel''': Email, Endpoint, Network_Traffic
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1562.007/ T1562.007], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1489/ T1489], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1218.003/ T1218.003], [https://attack.mitre.org/techniques/T1070.004/ T1070.004], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1204/ T1204], [https://attack.mitre.org/techniques/T1020/ T1020], [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1087.001/ T1087.001], [https://attack.mitre.org/techniques/T1482/ T1482], [https://attack.mitre.org/techniques/T1069.002/ T1069.002], [https://attack.mitre.org/techniques/T1069.001/ T1069.001], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1070.001/ T1070.001], [https://attack.mitre.org/techniques/T1531/ T1531], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1059.005/ T1059.005], [https://attack.mitre.org/techniques/T1222/ T1222], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1574.002/ T1574.002], [https://attack.mitre.org/techniques/T1027.005/ T1027.005], [https://attack.mitre.org/techniques/T1048/ T1048], [https://attack.mitre.org/techniques/T1592/ T1592], [https://attack.mitre.org/techniques/T1547.001/ T1547.001], [https://attack.mitre.org/techniques/T1047/ T1047], [https://attack.mitre.org/techniques/T1112/ T1112], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1053.005/ T1053.005], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1071.001/ T1071.001], [https://attack.mitre.org/techniques/T1070/ T1070]
 * '''Last Updated''': 2020-02-04
 
@@ -6445,6 +6996,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Attempt_to_delete_services|Attempt To delete Services]]
 
 * [[Documentation:ESSOC:detections:Detections#Bcdedit_failure_recovery_modification|BCDEdit Failure Recovery Modification]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_command_line_length_-_mltk|Baseline of Command Line Length - MLTK]]
+
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_smb_traffic_-_mltk|Baseline of SMB Traffic - MLTK]]
 
 * [[Documentation:ESSOC:detections:Detections#Cmlua_or_cmstplua_uac_bypass|CMLUA Or CMSTPLUA UAC Bypass]]
 
@@ -6489,6 +7044,20 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Excessive_usage_of_sc_service_utility|Excessive Usage Of SC Service Utility]]
 
 * [[Documentation:ESSOC:detections:Detections#Execute_javascript_with_jscript_com_clsid|Execute Javascript With Jscript COM CLSID]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_backup_logs_for_endpoint|Get Backup Logs For Endpoint]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_history_of_email_sources|Get History Of Email Sources]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_sysmon_wmi_activity_for_host|Get Sysmon WMI Activity for Host]]
 
 * [[Documentation:ESSOC:detections:Detections#Icacls_grant_command|ICACLS Grant Command]]
 
@@ -6751,6 +7320,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Aws_detect_users_with_kms_keys_performing_encryption_s3|AWS Detect Users with KMS keys performing encryption S3]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
 
 
 ====ATT&CK====
@@ -6893,6 +7464,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Common_ransomware_notes|Common Ransomware Notes]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
 * [[Documentation:ESSOC:detections:Detections#Nltest_domain_trust_discovery|NLTest Domain Trust Discovery]]
 
 * [[Documentation:ESSOC:detections:Detections#Remote_desktop_network_bruteforce|Remote Desktop Network Bruteforce]]
@@ -6997,7 +7570,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint, Network_Traffic, Web
+* '''Datamodel''': Authentication, Email, Endpoint, Network_Traffic, Web
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1036.005/ T1036.005], [https://attack.mitre.org/techniques/T1595/ T1595], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1489/ T1489], [https://attack.mitre.org/techniques/T1204.002/ T1204.002], [https://attack.mitre.org/techniques/T1485/ T1485], [https://attack.mitre.org/techniques/T1531/ T1531], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1222/ T1222], [https://attack.mitre.org/techniques/T1021.002/ T1021.002], [https://attack.mitre.org/techniques/T1569.002/ T1569.002], [https://attack.mitre.org/techniques/T1082/ T1082], [https://attack.mitre.org/techniques/T1016/ T1016], [https://attack.mitre.org/techniques/T1562.001/ T1562.001], [https://attack.mitre.org/techniques/T1105/ T1105], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1036/ T1036], [https://attack.mitre.org/techniques/T1059/ T1059], [https://attack.mitre.org/techniques/T1117/ T1117], [https://attack.mitre.org/techniques/T1202/ T1202], [https://attack.mitre.org/techniques/T1053/ T1053], [https://attack.mitre.org/techniques/T1203/ T1203], [https://attack.mitre.org/techniques/T1072/ T1072], [https://attack.mitre.org/techniques/T1021.001/ T1021.001], [https://attack.mitre.org/techniques/T1218.011/ T1218.011], [https://attack.mitre.org/techniques/T1486/ T1486], [https://attack.mitre.org/techniques/T1543.003/ T1543.003], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1036.003/ T1036.003], [https://attack.mitre.org/techniques/T1190/ T1190]
 * '''Last Updated''': 2018-12-13
 
@@ -7025,6 +7598,20 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [[Documentation:ESSOC:detections:Detections#Detect_malicious_requests_to_exploit_jboss_servers|Detect malicious requests to exploit JBoss servers]]
 
 * [[Documentation:ESSOC:detections:Detections#File_with_samsam_extension|File with Samsam Extension]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_backup_logs_for_endpoint|Get Backup Logs For Endpoint]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_history_of_email_sources|Get History Of Email Sources]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_information_for_port_activity|Get Process Information For Port Activity]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_successful_remote_desktop_authentications|Investigate Successful Remote Desktop Authentications]]
 
 * [[Documentation:ESSOC:detections:Detections#Remote_desktop_network_bruteforce|Remote Desktop Network Bruteforce]]
 
@@ -7372,6 +7959,8 @@ Quickly identify systems running new or unusual processes in your environment th
 
 * [[Documentation:ESSOC:detections:Detections#Attacker_tools_on_endpoint|Attacker Tools On Endpoint]]
 
+* [[Documentation:ESSOC:detections:Detections#Baseline_of_command_line_length_-_mltk|Baseline of Command Line Length - MLTK]]
+
 * [[Documentation:ESSOC:detections:Detections#Credential_extraction_indicative_of_fgdump_and_cachedump_with_s_option|Credential Extraction indicative of FGDump and CacheDump with s option]]
 
 * [[Documentation:ESSOC:detections:Detections#Credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option|Credential Extraction indicative of FGDump and CacheDump with v option]]
@@ -7387,6 +7976,12 @@ Quickly identify systems running new or unusual processes in your environment th
 * [[Documentation:ESSOC:detections:Detections#Detect_processes_used_for_system_network_configuration_discovery|Detect processes used for System Network Configuration Discovery]]
 
 * [[Documentation:ESSOC:detections:Detections#First_time_seen_command_line_argument|First time seen command line argument]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
 
 * [[Documentation:ESSOC:detections:Detections#More_than_usual_number_of_lolbas_applications_in_short_time_period|More than usual number of LOLBAS applications in short time period]]
 
@@ -7577,6 +8172,12 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 
 * [[Documentation:ESSOC:detections:Detections#Execution_of_file_with_multiple_extensions|Execution of File with Multiple Extensions]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
 
 
 ====ATT&CK====
@@ -7640,9 +8241,19 @@ Windows services are often used by attackers for persistence and the ability to 
 
 * [[Documentation:ESSOC:detections:Detections#First_time_seen_running_windows_service|First Time Seen Running Windows Service]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_parent_process_info|Get Parent Process Info]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_process_info|Get Process Info]]
+
 * [[Documentation:ESSOC:detections:Detections#Illegal_service_and_process_control_via_mimikatz_modules|Illegal Service and Process Control via Mimikatz modules]]
 
 * [[Documentation:ESSOC:detections:Detections#Illegal_service_and_process_control_via_powersploit_modules|Illegal Service and Process Control via PowerSploit modules]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_running_windows_services_-_initial|Previously Seen Running Windows Services - Initial]]
+
+* [[Documentation:ESSOC:detections:Detections#Previously_seen_running_windows_services_-_update|Previously Seen Running Windows Services - Update]]
 
 * [[Documentation:ESSOC:detections:Detections#Reg_exe_manipulating_windows_services_registry_keys|Reg exe Manipulating Windows Services Registry Keys]]
 
@@ -7938,7 +8549,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Detect and investigate activities--such as unusually long `Content-Type` length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
+* '''Datamodel''': Endpoint, Web
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1082/ T1082]
 * '''Last Updated''': 2018-12-06
 
@@ -7946,6 +8557,12 @@ Detect and investigate activities--such as unusually long `Content-Type` length,
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_suspicious_strings_in_http_header|Investigate Suspicious Strings in HTTP Header]]
+
+* [[Documentation:ESSOC:detections:Detections#Investigate_web_posts_from_src|Investigate Web POSTs From src]]
 
 * [[Documentation:ESSOC:detections:Detections#Suspicious_java_classes|Suspicious Java Classes]]
 
@@ -8004,6 +8621,8 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 
 * [[Documentation:ESSOC:detections:Detections#Detect_malicious_requests_to_exploit_jboss_servers|Detect malicious requests to exploit JBoss servers]]
 
+* [[Documentation:ESSOC:detections:Detections#Get_notable_history|Get Notable History]]
+
 
 
 ====ATT&CK====
@@ -8042,7 +8661,7 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-08-12 18:33:56.195570 UTC
+# On Date: 2021-08-18 16:47:29.276078 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############

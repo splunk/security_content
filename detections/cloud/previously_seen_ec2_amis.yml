@@ -18,10 +18,10 @@ references: []
 tags:
   analytic_story:
   - AWS Cryptomining
-  detections:
-  - EC2 Instance Started With Previously Unseen AMI
   deployments:
   - Daily Cache Updates
+  detections:
+  - EC2 Instance Started With Previously Unseen AMI
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
