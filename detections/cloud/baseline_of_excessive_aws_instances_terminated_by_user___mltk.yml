@@ -33,10 +33,10 @@ references: []
 tags:
   analytic_story:
   - Suspicious AWS EC2 Activities
-  detections:
-  - Abnormally High AWS Instances Terminated by User - MLTK
   deployments:
   - Daily Cache Updates
+  detections:
+  - Abnormally High AWS Instances Terminated by User - MLTK
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

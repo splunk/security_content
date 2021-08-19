@@ -1,20 +1,21 @@
-author: Bhavin Patel, Splunk
-datamodel: []
+name: Get EC2 Launch Details
+id: 0e40fe83-3edb-4d86-8206-8fed36529ca6
+version: 1
 date: '2018-03-12'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel: []
 description: This search returns some of the launch details for a EC2 instance.
+search: '`cloudtrail` dest=$dest$ |rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId
+  as dest, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress,
+  responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture
+  as architecture, responseElements.instancesSet.items{}.keyName as keyName | table
+  arn, awsRegion, dest, architecture, privateIpAddress, amiID, keyName'
 how_to_implement: In order to implement this search, you must install the AWS App
   for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later)
   and configure your AWS description inputs.
-id: 0e40fe83-3edb-4d86-8206-8fed36529ca6
-inputs:
-- dest
 known_false_positives: ''
-name: Get EC2 Launch Details
-search: '`cloudtrail` dest=$dest$ |rename userIdentity.arn as
-  arn, responseElements.instancesSet.items{}.instanceId as dest, responseElements.instancesSet.items{}.privateIpAddress
-  as privateIpAddress, responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture
-  as architecture, responseElements.instancesSet.items{}.keyName as keyName | table
-  arn, awsRegion, dest, architecture, privateIpAddress, amiID, keyName'
+references: []
 tags:
   analytic_story:
   - AWS Cryptomining
@@ -26,7 +27,7 @@ tags:
   - Splunk Security Analytics for AWS
   required_fields:
   - _time
-  - dest 
+  - dest
   - userIdentity.arn
   - responseElements.instancesSet.items{}.instanceId
   - responseElements.instancesSet.items{}.privateIpAddress
@@ -34,5 +35,3 @@ tags:
   - responseElements.instancesSet.items{}.architecture
   - responseElements.instancesSet.items{}.keyName
   security_domain: network
-type: Investigation
-version: 1

@@ -22,10 +22,10 @@ references: []
 tags:
   analytic_story:
   - AWS User Monitoring
-  detections:
-  - Detect Spike in AWS API Activity
   deployments:
   - Daily Cache Updates
+  detections:
+  - Detect Spike in AWS API Activity
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

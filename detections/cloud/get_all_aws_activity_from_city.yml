@@ -1,23 +1,23 @@
-author: David Dorsey, Splunk
-datamodel: []
+name: Get All AWS Activity From City
+id: 0abeeb40-1255-4b68-91d1-7a7eb410c4b8
+version: 1
 date: '2018-03-19'
+author: David Dorsey, Splunk
+type: Investigation
+datamodel: []
 description: This search retrieves all the activity from a specific city and will
   create a table containing the time, city, ARN, username, the type of user, the source
   IP address, the AWS region the activity was in, the API called, and whether or not
   the API call was successful.
+search: '`cloudtrail` | iplocation sourceIPAddress | search City=$City$ | spath output=user
+  path=userIdentity.arn | spath output=awsUserName path=userIdentity.userName | spath
+  output=userType path=userIdentity.type | rename sourceIPAddress as src_ip | table
+  _time, City, user, userName, userType, src_ip, awsRegion, eventName, errorCode'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-id: 0abeeb40-1255-4b68-91d1-7a7eb410c4b8
-inputs:
-- City
 known_false_positives: ''
-name: Get All AWS Activity From City
-search: '`cloudtrail` | iplocation sourceIPAddress | search
-  City=$City$ | spath output=user path=userIdentity.arn | spath output=awsUserName
-  path=userIdentity.userName | spath output=userType path=userIdentity.type | rename
-  sourceIPAddress as src_ip | table _time, City, user, userName, userType, src_ip,
-  awsRegion, eventName, errorCode'
+references: []
 tags:
   analytic_story:
   - AWS Suspicious Provisioning Activities
@@ -34,5 +34,3 @@ tags:
   - eventName
   - errorCode
   security_domain: network
-type: Investigation
-version: 1
