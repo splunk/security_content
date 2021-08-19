@@ -1,0 +1,64 @@
+name: Gsuite Email Suspicious Subject With Attachment
+id: 8ef3971e-00f2-11ec-b54f-acde48001122
+version: 1
+date: '2021-08-19'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+- Email
+- Updates
+description: This search is to detect a gsuite email contains suspicious subject having known file type used in spear phishing.
+  This technique is really a very common and effective entry vector of attacker to compromise a network by clicking or running the suspicous attachment 
+  send from external email account. 
+search: '`gsuite_gmail` num_message_attachments > 0  
+  subject IN ("*dhl*", "* ups *”, “*delivery*”, “*parcel*”, “*label*”, “*invoice*”, “*postal*”, “* fedex *”, “* usps *”, “* express *”, “*shipment*”, “*Banking/Tax*”,”*shipment*”, “*new order*”) 
+  attachment{}.file_extension_type IN ("doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "zip", "rar”, “html”,”htm”,”hta”) 
+  | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)"  
+  | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"  
+  | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
+  | stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by   
+  destination{}.service num_message_attachments  subject destination{}.address source.address
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `gsuite_email_suspicious_subject_with_attachment_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite having the file attachment metadata like file type, file 
+  extension, source email, destination email, num of attachment and etc.
+known_false_positives: normal user or normal transaction may contain the subject and file type attachment that 
+  this detection try to search.
+references:
+- https://www.redhat.com/en/topics/devops/what-is-devsecops
+tags:
+  analytic_story:
+  - DevSecOps
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1566.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 50
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 25
+  context:
+  - Source:Endpoint
+  - Stage:Reconnaissance
+  message: suspicious email from $source.address$ to $destination{}.address$
+  observable:
+  - name: source.address
+    type: User
+    role:
+    - attacker
+  - name: destination{}.address 
+    type: User
+    role:
+    - Victim
