@@ -8,5 +8,5 @@ tests:
   attack_data:
   - file_name: gdrive_share_external.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
-    source: UPDATE_SPLUNK_SOURCE
-    sourcetype: UPDATE_SPLUNK_SOURCETYPE
+    source: http:gsuite
+    sourcetype: gsuite:drive:json 

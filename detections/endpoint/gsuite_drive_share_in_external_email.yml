@@ -26,7 +26,7 @@ tags:
   analytic_story:
   - DevSecOps
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
   kill_chain_phases:
   - Exfiltration
   mitre_attack_id:

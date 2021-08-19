@@ -8,5 +8,5 @@ tests:
   attack_data:
   - file_name: UPDATE_FILE_NAME
     data: UPDATE_DATASET_URL
-    source: UPDATE_SPLUNK_SOURCE
-    sourcetype: UPDATE_SPLUNK_SOURCETYPE
+    source: http:gsuite
+    sourcetype: gsuite:gmail:bigquery
