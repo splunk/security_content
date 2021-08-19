@@ -1,18 +1,19 @@
-author: Bhavin Patel, Splunk
-datamodel: []
+name: Get Notable History
+id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
+version: 2
 date: '2017-09-20'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel: []
 description: This search queries the notable index and returns all the Notable Events
   for the particular destination host, giving the analyst an overview of the incidents
   that may have occurred with the host under investigation.
-how_to_implement: If you are using Enterprise Security you are likely already creating
-  notable events with your correlation rules. No additional configuration is necessary.
-id: 3d6c3213-5fff-4a1e-b57d-b24c262171e7
-inputs:
-- dest
-known_false_positives: ''
-name: Get Notable History
 search: '| search `notable` | search dest=$dest$ | table _time, dest, rule_name, owner,
   priority, severity, status_description'
+how_to_implement: If you are using Enterprise Security you are likely already creating
+  notable events with your correlation rules. No additional configuration is necessary.
+known_false_positives: ''
+references: []
 tags:
   analytic_story:
   - AWS Cross Account Activity
@@ -89,5 +90,3 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
-type: Investigation
-version: 2

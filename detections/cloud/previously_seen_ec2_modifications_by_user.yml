@@ -18,10 +18,10 @@ references: []
 tags:
   analytic_story:
   - Unusual AWS EC2 Modifications
-  detections:
-  - EC2 Instance Modified With Previously Unseen User
   deployments:
   - Daily Cache Updates
+  detections:
+  - EC2 Instance Modified With Previously Unseen User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
