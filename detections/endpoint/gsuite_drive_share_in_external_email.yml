@@ -1,0 +1,65 @@
+name: Gsuite Drive Share In External Email
+id: f6ee02d6-fea0-11eb-b2c2-acde48001122
+version: 1
+date: '2021-08-16'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: This search is to detect suspicious google drive or google docs files shared outside or externally. 
+  This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
+search: '`gsuite_drive` NOT (email IN("", "null")) 
+  | rex field=parameters.owner "[^@]+@(?<src_domain>[^@]+)"  
+  | rex field=email "[^@]+@(?<dest_domain>[^@]+)"
+  | where src_domain = "internal_test_email.com" and not dest_domain = "internal_test_email.com" 
+  | stats values(parameters.doc_title) as doc_title, values(parameters.doc_type) as doc_types, values(email) as dst_email_list, values(parameters.visibility) as visibility, count min(_time) as firstTime max(_time) as lastTime by parameters.owner
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `gsuite_drive_share_in_external_email_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite having the file attachment metadata like file type, file 
+  extension, source email, destination email, num of attachment and etc.
+known_false_positives: network admin or normal user may share files to customer and external team.
+references:
+- https://www.redhat.com/en/topics/devops/what-is-devsecops
+tags:
+  analytic_story:
+  - DevSecOps
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
+  kill_chain_phases:
+  - Exfiltration
+  mitre_attack_id:
+  - T1567.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - parameters.doc_title
+  - src_domain
+  - dest_domain
+  - email
+  - parameters.visibility
+  - parameters.owner
+  - parameters.doc_type
+  security_domain: endpoint
+  impact: 30
+  confidence: 30
+  # (impact * confidence)/100
+  risk_score: 9
+  context:
+  - Source:Endpoint
+  - Stage:Reconnaissance
+  message: suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$
+  observable:
+  - name: parameters.owner
+    type: User
+    role:
+    - attacker
+  - name: email
+    type: User
+    role:
+    - Victim
+  

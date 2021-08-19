@@ -1,20 +1,19 @@
-author: Rico Valdez, Splunk
-datamodel: []
+name: Get Sysmon WMI Activity for Host
+id: 155e0571-7db6-42f2-aa62-9a3a4cf35c94
+version: 1
 date: '2018-10-23'
+author: Rico Valdez, Splunk
+type: Investigation
+datamodel: []
 description: This search queries Sysmon WMI events for the host of interest.
+search: '`sysmon` EventCode>18 EventCode<22 | rename host as dest | search dest=$dest$|
+  table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter'
 how_to_implement: To successfully implement this search, you must be collecting Sysmon
   data using Sysmon version 6.1 or greater and have Sysmon configured to generate
   events for WMI activity. In addition, you must have at least version 6.0.4 of the
   Sysmon TA installed to properly parse the fields.
-id: 155e0571-7db6-42f2-aa62-9a3a4cf35c94
-inputs:
-- process
-- dest
 known_false_positives: ''
-name: Get Sysmon WMI Activity for Host
-search: '`sysmon` EventCode>18
-  EventCode<22 | rename host as dest | search dest=$dest$| table _time, dest, user,
-  Name, Operation, EventType, Type, Query, Consumer, Filter'
+references: []
 tags:
   analytic_story:
   - Ransomware
@@ -33,5 +32,3 @@ tags:
   - Consumer
   - Filter
   security_domain: endpoint
-type: Investigation
-version: 1

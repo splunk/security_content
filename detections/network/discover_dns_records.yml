@@ -27,10 +27,10 @@ references: []
 tags:
   analytic_story:
   - DNS Hijacking
-  detections:
-  - DNS record changed
   deployments:
   - Daily Cache Updates
+  detections:
+  - DNS record changed
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
