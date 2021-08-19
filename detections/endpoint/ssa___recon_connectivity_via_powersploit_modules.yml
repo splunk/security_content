@@ -36,8 +36,17 @@ tags:
   cis20:
   - CIS 16
   - CIS 20
+  confidence: 100
+  context:
+  - Source:AD
+  - Source:Endpoint
+  - Stage:Recon
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: PowerSploit malware is performing port scans or searching for various connectivity
+    details such as DNS data, proxies, or ongoing RDP connections. Operation is performed
+    at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
   mitre_attack_id:
   - T1021.002
   - T1135
@@ -45,23 +54,6 @@ tags:
   nist:
   - PR.AC
   - PR.IP
-  product:
-  - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - process
-  - dest_device_id
-  - dest_user_id
-  risk_severity: high
-  security_domain: endpoint
-  message: PowerSploit malware is performing port scans or searching for various connectivity details such as DNS data, proxies, or ongoing RDP connections. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
-  risk_score: 70
-  impact: 70
-  confidence: 100
-  context:
-  - Source:AD
-  - Source:Endpoint
-  - Stage:Recon
   observable:
   - name: dest_user_id
     type: User
@@ -75,3 +67,13 @@ tags:
     type: processname
     role:
     - Others
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - process
+  - dest_device_id
+  - dest_user_id
+  risk_score: 70
+  risk_severity: high
+  security_domain: endpoint

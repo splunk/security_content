@@ -19,12 +19,12 @@ tags:
   analytic_story:
   - Brand Monitoring
   - Suspicious Emails
+  deployments:
+  - Daily Cache Updates
   detections:
   - Monitor Email For Brand Abuse
   - Monitor DNS For Brand Abuse
   - Monitor Web Traffic For Brand Abuse
-  deployments:
-  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

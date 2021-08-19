@@ -18,14 +18,14 @@ references: []
 tags:
   analytic_story:
   - Monitor Backup Solution
+  deployments:
+  - Daily Cache Updates
   detections:
   - Unsuccessful Netbackup backups
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  deployments:
-  - Daily Cache Updates
   required_fields:
   - _time
   security_domain: endpoint

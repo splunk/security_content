@@ -1,17 +1,18 @@
-author: David Dorsey, Splunk
-datamodel: []
+name: Get Emails From Specific Sender
+id: 5df39b3f-447d-4869-b673-8f45ad4616fe
+version: 1
 date: '2017-11-09'
+author: David Dorsey, Splunk
+type: Investigation
+datamodel: []
 description: This search returns all the emails from a specific sender over the last
   24 and next hours.
+search: '| from datamodel Email.All_Email | search src_user=$src_user$'
 how_to_implement: To successfully implement this search you must ingest your email
   logs or capture unencrypted email communications within network traffic, and populate
   the Email data model.
-id: 5df39b3f-447d-4869-b673-8f45ad4616fe
-inputs:
-- src_user
 known_false_positives: ''
-name: Get Emails From Specific Sender
-search: '| from datamodel Email.All_Email | search src_user=$src_user$'
+references: []
 tags:
   analytic_story:
   - Brand Monitoring
@@ -23,5 +24,3 @@ tags:
   - _time
   - src_user
   security_domain: networks
-type: Investigation
-version: 1
