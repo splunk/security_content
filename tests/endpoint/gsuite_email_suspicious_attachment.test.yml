@@ -1,0 +1,12 @@
+name: GSuite Email Suspicious Attachment Unit Test
+tests:
+- name: GSuite Email Suspicious Attachment
+  file: endpoint/gsuite_email_suspicious_attachment.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: gsuite_gmail_file_ext.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_attachment_ext/gsuite_gmail_file_ext.log
+    source: http:gsuite
+    sourcetype: gsuite:gmail:bigquery
