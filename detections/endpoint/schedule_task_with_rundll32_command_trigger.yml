@@ -35,7 +35,7 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Trickbot
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 100
   context:

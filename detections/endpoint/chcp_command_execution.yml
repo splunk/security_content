@@ -26,7 +26,7 @@ references:
 - https://twitter.com/tccontre18/status/1419941156633329665?s=20
 tags:
   analytic_story:
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 30
   context:
