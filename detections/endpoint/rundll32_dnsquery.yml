@@ -24,7 +24,7 @@ references:
 - https://any.run/malware-trends/icedid
 tags:
   analytic_story:
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 80
   context:

@@ -24,7 +24,7 @@ references:
 - https://www.joesandbox.com/analysis/380662/0/html
 tags:
   analytic_story:
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 100
   context:
