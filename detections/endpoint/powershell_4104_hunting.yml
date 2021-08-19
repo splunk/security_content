@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-18'
 author: Michael Haag, Splunk
 type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
 description: The following Hunting analytic assists with identifying suspicious PowerShell execution using Script Block Logging, or EventCode 4104. This analytic is not meant to be ran hourly, but occasionally to identify malicious or suspicious PowerShell.
   This analytic is a combination of work completed by Alex Teixeira and Splunk Threat Research Team.
 search: '`powershell` EventCode=4104 
