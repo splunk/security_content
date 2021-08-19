@@ -22,10 +22,10 @@ references: []
 tags:
   analytic_story:
   - AWS User Monitoring
-  detections:
-  - Detect new API calls from user roles
   deployments:
   - Daily Cache Updates
+  detections:
+  - Detect new API calls from user roles
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

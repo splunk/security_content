@@ -12,7 +12,7 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Email, Web
+- **Datamodel**: Email, Endpoint, Web
 - **ATT&CK**: 
 - **Last Updated**: 2017-12-19
 
@@ -20,6 +20,16 @@ Detect and investigate activity that may indicate that an adversary is using fau
   <summary>details</summary>
 
 #### Detection Profile
+
+* [DNSTwist Domain Names](detections.md#dnstwist-domain-names)
+
+* [Get Email Info](detections.md#get-email-info)
+
+* [Get Emails From Specific Sender](detections.md#get-emails-from-specific-sender)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Process Responsible For The DNS Traffic](detections.md#get-process-responsible-for-the-dns-traffic)
 
 * [Monitor Email For Brand Abuse](detections.md#monitor-email-for-brand-abuse)
 
@@ -63,6 +73,8 @@ DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it respond
 
 #### Detection Profile
 
+* [Get Notable History](detections.md#get-notable-history)
+
 * [Large Volume of DNS ANY Queries](detections.md#large-volume-of-dns-any-queries)
 
 
@@ -93,7 +105,7 @@ _version_: 1
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Network_Resolution
+- **Datamodel**: Endpoint, Network_Resolution, Network_Traffic
 - **ATT&CK**: [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2017-09-14
 
@@ -103,6 +115,16 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 #### Detection Profile
 
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
+* [Get DNS traffic ratio](detections.md#get-dns-traffic-ratio)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Responsible For The DNS Traffic](detections.md#get-process-responsible-for-the-dns-traffic)
 
 
 #### ATT&CK
@@ -136,7 +158,7 @@ _version_: 1
 Detect activities and various techniques associated with the abuse of `netsh.exe`, which can disable local firewall settings or set up a remote connection to a host from an infected system.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: Endpoint, Network_Traffic
 - **ATT&CK**: [T1562.004](https://attack.mitre.org/techniques/T1562.004/)
 - **Last Updated**: 2017-01-05
 
@@ -144,6 +166,16 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Baseline of SMB Traffic - MLTK](detections.md#baseline-of-smb-traffic---mltk)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
 
 * [Processes launching netsh](detections.md#processes-launching-netsh)
 
@@ -445,6 +477,12 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 
 * [Email servers sending high volume traffic to hosts](detections.md#email-servers-sending-high-volume-traffic-to-hosts)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
 * [Hosts receiving high volume of network traffic from email server](detections.md#hosts-receiving-high-volume-of-network-traffic-from-email-server)
 
 * [Suspicious writes to windows Recycle Bin](detections.md#suspicious-writes-to-windows-recycle-bin)
@@ -493,6 +531,16 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 
 #### Detection Profile
 
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
+* [AWS Network ACL Details from ID](detections.md#aws-network-acl-details-from-id)
+
+* [AWS Network Interface details via resourceId](detections.md#aws-network-interface-details-via-resourceid)
+
+* [Baseline of DNS Query Length - MLTK](detections.md#baseline-of-dns-query-length---mltk)
+
+* [Baseline of blocked outbound traffic from AWS](detections.md#baseline-of-blocked-outbound-traffic-from-aws)
+
 * [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
 
 * [DNS Query Length Outliers - MLTK](detections.md#dns-query-length-outliers---mltk)
@@ -508,6 +556,22 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 * [Excessive DNS Failures](detections.md#excessive-dns-failures)
 
 * [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
+
+* [Get All AWS Activity From IP Address](detections.md#get-all-aws-activity-from-ip-address)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
+* [Get DNS traffic ratio](detections.md#get-dns-traffic-ratio)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
+
+* [Get Process Responsible For The DNS Traffic](detections.md#get-process-responsible-for-the-dns-traffic)
 
 * [Multiple Archive Files Http Post Traffic](detections.md#multiple-archive-files-http-post-traffic)
 
@@ -565,7 +629,7 @@ _version_: 1
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attempts to credential dumping.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: Authentication, Endpoint
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1003.001](https://attack.mitre.org/techniques/T1003.001/), [T1003.002](https://attack.mitre.org/techniques/T1003.002/), [T1003.003](https://attack.mitre.org/techniques/T1003.003/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1068](https://attack.mitre.org/techniques/T1068/), [T1078](https://attack.mitre.org/techniques/T1078/), [T1087](https://attack.mitre.org/techniques/T1087/), [T1098](https://attack.mitre.org/techniques/T1098/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1201](https://attack.mitre.org/techniques/T1201/), [T1543](https://attack.mitre.org/techniques/T1543/), [T1547](https://attack.mitre.org/techniques/T1547/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1552](https://attack.mitre.org/techniques/T1552/), [T1554](https://attack.mitre.org/techniques/T1554/), [T1555](https://attack.mitre.org/techniques/T1555/), [T1556](https://attack.mitre.org/techniques/T1556/), [T1558](https://attack.mitre.org/techniques/T1558/), [T1558.003](https://attack.mitre.org/techniques/T1558.003/)
 - **Last Updated**: 2020-02-04
 
@@ -633,6 +697,14 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * [Dump LSASS via procdump Rename](detections.md#dump-lsass-via-procdump-rename)
 
 * [Extract SAM from Registry](detections.md#extract-sam-from-registry)
+
+* [Investigate Failed Logins for Multiple Destinations](detections.md#investigate-failed-logins-for-multiple-destinations)
+
+* [Investigate Pass the Hash Attempts](detections.md#investigate-pass-the-hash-attempts)
+
+* [Investigate Pass the Ticket Attempts](detections.md#investigate-pass-the-ticket-attempts)
+
+* [Investigate Previous Unseen User](detections.md#investigate-previous-unseen-user)
 
 * [Ntdsutil Export NTDS](detections.md#ntdsutil-export-ntds)
 
@@ -705,6 +777,10 @@ Secure your environment against DNS hijacks with searches that help you detect a
 
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
 
+* [Discover DNS records](detections.md#discover-dns-records)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
 
 #### ATT&CK
 
@@ -755,6 +831,8 @@ The stealing of data by an adversary.
 * [Detect shared ec2 snapshot](detections.md#detect-shared-ec2-snapshot)
 
 * [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
+
+* [Get Notable History](detections.md#get-notable-history)
 
 * [Mailsniper Invoke functions](detections.md#mailsniper-invoke-functions)
 
@@ -864,6 +942,8 @@ Uncover activity related to the execution of Zerologon CVE-2020-11472, a techniq
 
 * [Detect Zerologon via Zeek](detections.md#detect-zerologon-via-zeek)
 
+* [Get Notable History](detections.md#get-notable-history)
+
 
 #### ATT&CK
 
@@ -900,7 +980,7 @@ _version_: 1
 Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious `reg.exe` processes, processes launching netsh, and many others.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: Endpoint, Network_Traffic
 - **ATT&CK**: [T1112](https://attack.mitre.org/techniques/T1112/), [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1553.004](https://attack.mitre.org/techniques/T1553.004/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1562.004](https://attack.mitre.org/techniques/T1562.004/)
 - **Last Updated**: 2020-02-04
 
@@ -912,6 +992,16 @@ Looks for activities and techniques associated with the disabling of security to
 * [Attempt To Add Certificate To Untrusted Store](detections.md#attempt-to-add-certificate-to-untrusted-store)
 
 * [Attempt To Stop Security Service](detections.md#attempt-to-stop-security-service)
+
+* [Baseline of SMB Traffic - MLTK](detections.md#baseline-of-smb-traffic---mltk)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
 
 * [Processes launching netsh](detections.md#processes-launching-netsh)
 
@@ -1009,6 +1099,8 @@ Uncover activity consistent with CVE-2020-5902. Discovered by Positive Technolog
 #### Detection Profile
 
 * [Detect F5 TMUI RCE CVE-2020-5902](detections.md#detect-f5-tmui-rce-cve-2020-5902)
+
+* [Get Notable History](detections.md#get-notable-history)
 
 
 #### ATT&CK
@@ -1198,7 +1290,7 @@ _version_: 1
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint, Network_Traffic
+- **Datamodel**: Authentication, Email, Endpoint, Network_Traffic
 - **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1550.002](https://attack.mitre.org/techniques/T1550.002/), [T1558.003](https://attack.mitre.org/techniques/T1558.003/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
 - **Last Updated**: 2020-02-04
 
@@ -1214,6 +1306,18 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 * [Detect PsExec With accepteula Flag](detections.md#detect-psexec-with-accepteula-flag)
 
 * [Detect Renamed PSExec](detections.md#detect-renamed-psexec)
+
+* [Get History Of Email Sources](detections.md#get-history-of-email-sources)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
+
+* [Investigate Successful Remote Desktop Authentications](detections.md#investigate-successful-remote-desktop-authentications)
 
 * [Kerberoasting spn request with RC4 encryption](detections.md#kerberoasting-spn-request-with-rc4-encryption)
 
@@ -1260,7 +1364,7 @@ _version_: 2
 Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: Email, Endpoint
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1021](https://attack.mitre.org/techniques/T1021/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1027.005](https://attack.mitre.org/techniques/T1027.005/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1113](https://attack.mitre.org/techniques/T1113/), [T1123](https://attack.mitre.org/techniques/T1123/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1140](https://attack.mitre.org/techniques/T1140/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1562](https://attack.mitre.org/techniques/T1562/), [T1563](https://attack.mitre.org/techniques/T1563/), [T1569](https://attack.mitre.org/techniques/T1569/), [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2017-08-23
 
@@ -1284,6 +1388,14 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 * [Detect Empire with PowerShell Script Block Logging](detections.md#detect-empire-with-powershell-script-block-logging)
 
 * [Detect Mimikatz With PowerShell Script Block Logging](detections.md#detect-mimikatz-with-powershell-script-block-logging)
+
+* [Get History Of Email Sources](detections.md#get-history-of-email-sources)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
 
 * [Illegal Access To User Content via PowerSploit modules](detections.md#illegal-access-to-user-content-via-powersploit-modules)
 
@@ -1496,6 +1608,10 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 
 * [Malicious PowerShell Process - Encoded Command](detections.md#malicious-powershell-process---encoded-command)
 
+* [Previously Seen Running Windows Services - Initial](detections.md#previously-seen-running-windows-services---initial)
+
+* [Previously Seen Running Windows Services - Update](detections.md#previously-seen-running-windows-services---update)
+
 * [Sc exe Manipulating Windows Services](detections.md#sc-exe-manipulating-windows-services)
 
 * [Scheduled Task Deleted Or Created via CMD](detections.md#scheduled-task-deleted-or-created-via-cmd)
@@ -1568,7 +1684,7 @@ _version_: 2
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: Email, Endpoint
 - **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/)
 - **Last Updated**: 2020-01-22
 
@@ -1577,7 +1693,19 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 
 #### Detection Profile
 
+* [Baseline of Command Line Length - MLTK](detections.md#baseline-of-command-line-length---mltk)
+
+* [Get History Of Email Sources](detections.md#get-history-of-email-sources)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
 * [Malicious PowerShell Process - Connect To Internet With Hidden Window](detections.md#malicious-powershell-process---connect-to-internet-with-hidden-window)
+
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
 
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
@@ -1624,6 +1752,8 @@ Use the searches in this Analytic Story to help you detect structured query lang
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Get Notable History](detections.md#get-notable-history)
 
 * [SQL Injection with Long URLs](detections.md#sql-injection-with-long-urls)
 
@@ -1782,9 +1912,19 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 
 #### Detection Profile
 
+* [Baseline of Command Line Length - MLTK](detections.md#baseline-of-command-line-length---mltk)
+
 * [Detect Prohibited Applications Spawning cmd exe](detections.md#detect-prohibited-applications-spawning-cmd-exe)
 
 * [Detect Use of cmd exe to Launch Script Interpreters](detections.md#detect-use-of-cmd-exe-to-launch-script-interpreters)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
 
 * [System Processes Run From Unexpected Locations](detections.md#system-processes-run-from-unexpected-locations)
 
@@ -1874,7 +2014,7 @@ _version_: 1
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint, Network_Resolution
+- **Datamodel**: Endpoint, Network_Resolution, Network_Traffic
 - **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/), [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2017-09-18
 
@@ -1882,6 +2022,8 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Baseline of DNS Query Length - MLTK](detections.md#baseline-of-dns-query-length---mltk)
 
 * [DNS Exfiltration Using Nslookup App](detections.md#dns-exfiltration-using-nslookup-app)
 
@@ -1894,6 +2036,18 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 * [Excessive DNS Failures](detections.md#excessive-dns-failures)
 
 * [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
+* [Get DNS traffic ratio](detections.md#get-dns-traffic-ratio)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Responsible For The DNS Traffic](detections.md#get-process-responsible-for-the-dns-traffic)
 
 
 #### ATT&CK
@@ -1948,7 +2102,15 @@ Email remains one of the primary means for attackers to gain an initial foothold
 
 #### Detection Profile
 
+* [DNSTwist Domain Names](detections.md#dnstwist-domain-names)
+
 * [Email Attachments With Lots Of Spaces](detections.md#email-attachments-with-lots-of-spaces)
+
+* [Get Email Info](detections.md#get-email-info)
+
+* [Get Emails From Specific Sender](detections.md#get-emails-from-specific-sender)
+
+* [Get Notable History](detections.md#get-notable-history)
 
 * [Monitor Email For Brand Abuse](detections.md#monitor-email-for-brand-abuse)
 
@@ -1989,6 +2151,8 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 
 #### Detection Profile
 
+* [Baseline of Command Line Length - MLTK](detections.md#baseline-of-command-line-length---mltk)
+
 * [Detect MSHTA Url in Command Line](detections.md#detect-mshta-url-in-command-line)
 
 * [Detect Prohibited Applications Spawning cmd exe](detections.md#detect-prohibited-applications-spawning-cmd-exe)
@@ -1998,6 +2162,14 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 * [Detect mshta inline hta execution](detections.md#detect-mshta-inline-hta-execution)
 
 * [Detect mshta renamed](detections.md#detect-mshta-renamed)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
 
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
@@ -2050,6 +2222,12 @@ Monitor your Okta environment for suspicious activities. Due to the Covid outbre
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Investigate Okta Activity by IP Address](detections.md#investigate-okta-activity-by-ip-address)
+
+* [Investigate Okta Activity by app](detections.md#investigate-okta-activity-by-app)
+
+* [Investigate User Activities In Okta](detections.md#investigate-user-activities-in-okta)
 
 * [Multiple Okta Users With Invalid Credentials From The Same IP](detections.md#multiple-okta-users-with-invalid-credentials-from-the-same-ip)
 
@@ -2253,6 +2431,14 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 
 * [Detect WMI Event Subscription Persistence](detections.md#detect-wmi-event-subscription-persistence)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Sysmon WMI Activity for Host](detections.md#get-sysmon-wmi-activity-for-host)
+
 * [Process Execution via WMI](detections.md#process-execution-via-wmi)
 
 * [Remote Process Instantiation via WMI](detections.md#remote-process-instantiation-via-wmi)
@@ -2309,6 +2495,12 @@ Monitor and detect registry changes initiated from remote locations, which can b
 
 * [Disabling Remote User Account Control](detections.md#disabling-remote-user-account-control)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
 * [Monitor Registry Keys for Print Monitors](detections.md#monitor-registry-keys-for-print-monitors)
 
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
@@ -2361,6 +2553,12 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 * [Detect Prohibited Applications Spawning cmd exe](detections.md#detect-prohibited-applications-spawning-cmd-exe)
 
 * [First Time Seen Child Process of Zoom](detections.md#first-time-seen-child-process-of-zoom)
+
+* [Get Process File Activity](detections.md#get-process-file-activity)
+
+* [Previously Seen Zoom Child Processes - Initial](detections.md#previously-seen-zoom-child-processes---initial)
+
+* [Previously Seen Zoom Child Processes - Update](detections.md#previously-seen-zoom-child-processes---update)
 
 
 #### ATT&CK
@@ -2504,6 +2702,8 @@ Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered by Checkpo
 
 * [Detect Windows DNS SIGRed via Zeek](detections.md#detect-windows-dns-sigred-via-zeek)
 
+* [Get Notable History](detections.md#get-notable-history)
+
 
 #### ATT&CK
 
@@ -2570,6 +2770,12 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 * [Excessive number of service control start as disabled](detections.md#excessive-number-of-service-control-start-as-disabled)
 
 * [FodHelper UAC Bypass](detections.md#fodhelper-uac-bypass)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
 
 * [Hiding Files And Directories With Attrib exe](detections.md#hiding-files-and-directories-with-attrib-exe)
 
@@ -2740,6 +2946,12 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 
 * [Deleting Shadow Copies](detections.md#deleting-shadow-copies)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
 * [Illegal Deletion of Logs via Mimikatz modules](detections.md#illegal-deletion-of-logs-via-mimikatz-modules)
 
 * [Suspicious Event Log Service Behavior](detections.md#suspicious-event-log-service-behavior)
@@ -2800,6 +3012,12 @@ Monitor for activities and techniques associated with maintaining persistence on
 * [Certutil exe certificate extraction](detections.md#certutil-exe-certificate-extraction)
 
 * [Detect Path Interception By Creation Of program exe](detections.md#detect-path-interception-by-creation-of-program-exe)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
 
 * [Hiding Files And Directories With Attrib exe](detections.md#hiding-files-and-directories-with-attrib-exe)
 
@@ -2912,6 +3130,12 @@ Monitor for and investigate activities that may be associated with a Windows pri
 
 * [Child Processes of Spoolsv exe](detections.md#child-processes-of-spoolsv-exe)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
 * [Illegal Privilege Elevation via Mimikatz modules](detections.md#illegal-privilege-elevation-via-mimikatz-modules)
 
 * [Overwriting Accessibility Binaries](detections.md#overwriting-accessibility-binaries)
@@ -2969,7 +3193,13 @@ Keep a careful inventory of every asset on your network to make it easier to det
 
 #### Detection Profile
 
+* [Count of assets by category](detections.md#count-of-assets-by-category)
+
 * [Detect Unauthorized Assets by MAC address](detections.md#detect-unauthorized-assets-by-mac-address)
+
+* [Get First Occurrence and Last Occurrence of a MAC Address](detections.md#get-first-occurrence-and-last-occurrence-of-a-mac-address)
+
+* [Get Notable History](detections.md#get-notable-history)
 
 
 #### ATT&CK
@@ -3008,6 +3238,8 @@ Monitor your enterprise to ensure that your endpoints are being patched and upda
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Get Notable History](detections.md#get-notable-history)
 
 * [No Windows Updates in a time frame](detections.md#no-windows-updates-in-a-time-frame)
 
@@ -3050,6 +3282,16 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
 
 * [Enable RDP In Other Port Number](detections.md#enable-rdp-in-other-port-number)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
 
 * [Prohibited Network Traffic Allowed](detections.md#prohibited-network-traffic-allowed)
 
@@ -3117,6 +3359,8 @@ Validate the security configuration of network infrastructure and verify that on
 
 * [Detect Traffic Mirroring](detections.md#detect-traffic-mirroring)
 
+* [Get Notable History](detections.md#get-notable-history)
+
 
 #### ATT&CK
 
@@ -3156,7 +3400,7 @@ _version_: 1
 Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Network_Traffic
+- **Datamodel**: Endpoint, Network_Traffic
 - **ATT&CK**: 
 - **Last Updated**: 2017-09-15
 
@@ -3164,6 +3408,10 @@ Leverage searches that detect cleartext network protocols that may leak credenti
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
 
 * [Protocols passing authentication in cleartext](detections.md#protocols-passing-authentication-in-cleartext)
 
@@ -3208,6 +3456,12 @@ Track when a user assumes an IAM role in another AWS account to obtain cross-acc
   <summary>details</summary>
 
 #### Detection Profile
+
+* [AWS Investigate User Activities By AccessKeyId](detections.md#aws-investigate-user-activities-by-accesskeyid)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Previously Seen AWS Cross Account Activity](detections.md#previously-seen-aws-cross-account-activity)
 
 * [aws detect attach to role policy](detections.md#aws-detect-attach-to-role-policy)
 
@@ -3310,7 +3564,7 @@ _version_: 1
 Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: Endpoint, Network_Traffic
 - **ATT&CK**: [T1562.007](https://attack.mitre.org/techniques/T1562.007/)
 - **Last Updated**: 2018-05-21
 
@@ -3319,11 +3573,35 @@ Monitor your AWS network infrastructure for bad configurations and malicious act
 
 #### Detection Profile
 
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
+* [AWS Network ACL Details from ID](detections.md#aws-network-acl-details-from-id)
+
 * [AWS Network Access Control List Created with All Open Ports](detections.md#aws-network-access-control-list-created-with-all-open-ports)
 
 * [AWS Network Access Control List Deleted](detections.md#aws-network-access-control-list-deleted)
 
+* [AWS Network Interface details via resourceId](detections.md#aws-network-interface-details-via-resourceid)
+
+* [Baseline of Network ACL Activity by ARN](detections.md#baseline-of-network-acl-activity-by-arn)
+
+* [Baseline of blocked outbound traffic from AWS](detections.md#baseline-of-blocked-outbound-traffic-from-aws)
+
 * [Detect Spike in blocked Outbound Traffic from your AWS](detections.md#detect-spike-in-blocked-outbound-traffic-from-your-aws)
+
+* [Get All AWS Activity From IP Address](detections.md#get-all-aws-activity-from-ip-address)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
+* [Get DNS traffic ratio](detections.md#get-dns-traffic-ratio)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
+
+* [Get Process Responsible For The DNS Traffic](detections.md#get-process-responsible-for-the-dns-traffic)
 
 
 #### ATT&CK
@@ -3364,9 +3642,15 @@ This story is focused around detecting Security Hub alerts generated from AWS
 
 #### Detection Profile
 
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
 * [Detect Spike in AWS Security Hub Alerts for EC2 Instance](detections.md#detect-spike-in-aws-security-hub-alerts-for-ec2-instance)
 
 * [Detect Spike in AWS Security Hub Alerts for User](detections.md#detect-spike-in-aws-security-hub-alerts-for-user)
+
+* [Get EC2 Instance Details by instanceId](detections.md#get-ec2-instance-details-by-instanceid)
+
+* [Get EC2 Launch Details](detections.md#get-ec2-launch-details)
 
 
 #### ATT&CK
@@ -3401,6 +3685,18 @@ Detect and investigate dormant user accounts for your AWS environment that have 
 #### Detection Profile
 
 * [AWS Excessive Security Scanning](detections.md#aws-excessive-security-scanning)
+
+* [Baseline of API Calls per User ARN](detections.md#baseline-of-api-calls-per-user-arn)
+
+* [Baseline of Security Group Activity by ARN](detections.md#baseline-of-security-group-activity-by-arn)
+
+* [Create a list of approved AWS service accounts](detections.md#create-a-list-of-approved-aws-service-accounts)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Investigate AWS User Activities by user field](detections.md#investigate-aws-user-activities-by-user-field)
+
+* [Previously seen API call per user roles in CloudTrail](detections.md#previously-seen-api-call-per-user-roles-in-cloudtrail)
 
 
 #### ATT&CK
@@ -3439,7 +3735,15 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 
 #### Detection Profile
 
+* [AWS Investigate Security Hub alerts by dest](detections.md#aws-investigate-security-hub-alerts-by-dest)
+
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
 * [Abnormally High Number Of Cloud Instances Launched](detections.md#abnormally-high-number-of-cloud-instances-launched)
+
+* [Baseline Of Cloud Instances Destroyed](detections.md#baseline-of-cloud-instances-destroyed)
+
+* [Baseline Of Cloud Instances Launched](detections.md#baseline-of-cloud-instances-launched)
 
 * [Cloud Compute Instance Created By Previously Unseen User](detections.md#cloud-compute-instance-created-by-previously-unseen-user)
 
@@ -3448,6 +3752,30 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 * [Cloud Compute Instance Created With Previously Unseen Image](detections.md#cloud-compute-instance-created-with-previously-unseen-image)
 
 * [Cloud Compute Instance Created With Previously Unseen Instance Type](detections.md#cloud-compute-instance-created-with-previously-unseen-instance-type)
+
+* [Get EC2 Instance Details by instanceId](detections.md#get-ec2-instance-details-by-instanceid)
+
+* [Get EC2 Launch Details](detections.md#get-ec2-launch-details)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Investigate AWS activities via region name](detections.md#investigate-aws-activities-via-region-name)
+
+* [Previously Seen Cloud Compute Creations By User - Initial](detections.md#previously-seen-cloud-compute-creations-by-user---initial)
+
+* [Previously Seen Cloud Compute Creations By User - Update](detections.md#previously-seen-cloud-compute-creations-by-user---update)
+
+* [Previously Seen Cloud Compute Images - Initial](detections.md#previously-seen-cloud-compute-images---initial)
+
+* [Previously Seen Cloud Compute Images - Update](detections.md#previously-seen-cloud-compute-images---update)
+
+* [Previously Seen Cloud Compute Instance Types - Initial](detections.md#previously-seen-cloud-compute-instance-types---initial)
+
+* [Previously Seen Cloud Compute Instance Types - Update](detections.md#previously-seen-cloud-compute-instance-types---update)
+
+* [Previously Seen Cloud Regions - Initial](detections.md#previously-seen-cloud-regions---initial)
+
+* [Previously Seen Cloud Regions - Update](detections.md#previously-seen-cloud-regions---update)
 
 
 #### ATT&CK
@@ -3576,6 +3904,47 @@ _version_: 1
 
 ---
 
+### Dev Sec Ops
+This story is focused around detecting attacks on a DevSecOps lifeccycle which consists of the phases plan, code, build, test, release, deploy, operate and monitor.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204.003/)
+- **Last Updated**: 2021-08-18
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [AWS ECR Container Scanning Findings High](detections.md#aws-ecr-container-scanning-findings-high)
+
+* [AWS ECR Container Scanning Findings Low Informational Unknown](detections.md#aws-ecr-container-scanning-findings-low-informational-unknown)
+
+* [AWS ECR Container Scanning Findings Medium](detections.md#aws-ecr-container-scanning-findings-medium)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1204.003 | Malicious Image | Execution |
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Reference
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+_version_: 1
+</details>
+
+---
+
 ### GCP Cross Account Activity
 Track when a user assumes an IAM role in another GCP account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
 
@@ -3590,6 +3959,8 @@ Track when a user assumes an IAM role in another GCP account to obtain cross-acc
 #### Detection Profile
 
 * [GCP Detect gcploit framework](detections.md#gcp-detect-gcploit-framework)
+
+* [Get Notable History](detections.md#get-notable-history)
 
 
 #### ATT&CK
@@ -3628,9 +3999,15 @@ This story addresses detection against Kubernetes cluster fingerprint scan and a
 
 * [Amazon EKS Kubernetes Pod scan detection](detections.md#amazon-eks-kubernetes-pod-scan-detection)
 
+* [Amazon EKS Kubernetes activity by src ip](detections.md#amazon-eks-kubernetes-activity-by-src-ip)
+
 * [Amazon EKS Kubernetes cluster scan detection](detections.md#amazon-eks-kubernetes-cluster-scan-detection)
 
+* [GCP Kubernetes activity by src ip](detections.md#gcp-kubernetes-activity-by-src-ip)
+
 * [GCP Kubernetes cluster pod scan detection](detections.md#gcp-kubernetes-cluster-pod-scan-detection)
+
+* [Get Notable History](detections.md#get-notable-history)
 
 
 #### ATT&CK
@@ -3666,6 +4043,8 @@ This story addresses detection and response of accounts acccesing Kubernetes clu
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Get Notable History](detections.md#get-notable-history)
 
 * [Kubernetes AWS detect suspicious kubectl calls](detections.md#kubernetes-aws-detect-suspicious-kubectl-calls)
 
@@ -3773,11 +4152,17 @@ Monitor your AWS authentication events using your CloudTrail logs. Searches with
 
 #### Detection Profile
 
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
 * [Detect AWS Console Login by User from New City](detections.md#detect-aws-console-login-by-user-from-new-city)
 
 * [Detect AWS Console Login by User from New Country](detections.md#detect-aws-console-login-by-user-from-new-country)
 
 * [Detect AWS Console Login by User from New Region](detections.md#detect-aws-console-login-by-user-from-new-region)
+
+* [Previously seen users in CloudTrail](detections.md#previously-seen-users-in-cloudtrail)
+
+* [Update previously seen users in CloudTrail](detections.md#update-previously-seen-users-in-cloudtrail)
 
 
 #### ATT&CK
@@ -3814,6 +4199,12 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 
 #### Detection Profile
 
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
+* [AWS S3 Bucket details via bucketName](detections.md#aws-s3-bucket-details-via-bucketname)
+
+* [Baseline of S3 Bucket deletion activity by ARN](detections.md#baseline-of-s3-bucket-deletion-activity-by-arn)
+
 * [Detect New Open S3 Buckets over AWS CLI](detections.md#detect-new-open-s3-buckets-over-aws-cli)
 
 * [Detect New Open S3 buckets](detections.md#detect-new-open-s3-buckets)
@@ -3821,6 +4212,14 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 * [Detect S3 access from a new IP](detections.md#detect-s3-access-from-a-new-ip)
 
 * [Detect Spike in S3 Bucket deletion](detections.md#detect-spike-in-s3-bucket-deletion)
+
+* [Get All AWS Activity From IP Address](detections.md#get-all-aws-activity-from-ip-address)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Investigate AWS activities via region name](detections.md#investigate-aws-activities-via-region-name)
+
+* [Previously seen S3 bucket access by remote IP](detections.md#previously-seen-s3-bucket-access-by-remote-ip)
 
 
 #### ATT&CK
@@ -3850,7 +4249,7 @@ _version_: 2
 Leverage these searches to monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors, such as a spike in blocked outbound traffic in your virtual private cloud (VPC).
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: Endpoint, Network_Traffic
 - **ATT&CK**: 
 - **Last Updated**: 2018-05-07
 
@@ -3859,7 +4258,29 @@ Leverage these searches to monitor your AWS network traffic for evidence of anom
 
 #### Detection Profile
 
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
+* [AWS Network ACL Details from ID](detections.md#aws-network-acl-details-from-id)
+
+* [AWS Network Interface details via resourceId](detections.md#aws-network-interface-details-via-resourceid)
+
+* [Baseline of blocked outbound traffic from AWS](detections.md#baseline-of-blocked-outbound-traffic-from-aws)
+
 * [Detect Spike in blocked Outbound Traffic from your AWS](detections.md#detect-spike-in-blocked-outbound-traffic-from-your-aws)
+
+* [Get All AWS Activity From IP Address](detections.md#get-all-aws-activity-from-ip-address)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
+* [Get DNS traffic ratio](detections.md#get-dns-traffic-ratio)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
+
+* [Get Process Responsible For The DNS Traffic](detections.md#get-process-responsible-for-the-dns-traffic)
 
 
 #### ATT&CK
@@ -3907,6 +4328,18 @@ Monitor your cloud authentication events. Searches within this Analytic Story le
 
 * [Detect AWS Console Login by User from New Region](detections.md#detect-aws-console-login-by-user-from-new-region)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Investigate AWS User Activities by user field](detections.md#investigate-aws-user-activities-by-user-field)
+
+* [Previously Seen AWS Cross Account Activity - Initial](detections.md#previously-seen-aws-cross-account-activity---initial)
+
+* [Previously Seen AWS Cross Account Activity - Update](detections.md#previously-seen-aws-cross-account-activity---update)
+
+* [Previously Seen Users In CloudTrail - Update](detections.md#previously-seen-users-in-cloudtrail---update)
+
+* [Previously Seen Users in CloudTrail - Initial](detections.md#previously-seen-users-in-cloudtrail---initial)
+
 
 #### ATT&CK
 
@@ -3944,13 +4377,25 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 #### Detection Profile
 
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
 * [Abnormally High Number Of Cloud Instances Destroyed](detections.md#abnormally-high-number-of-cloud-instances-destroyed)
 
 * [Abnormally High Number Of Cloud Instances Launched](detections.md#abnormally-high-number-of-cloud-instances-launched)
 
+* [Baseline Of Cloud Instances Destroyed](detections.md#baseline-of-cloud-instances-destroyed)
+
+* [Baseline Of Cloud Instances Launched](detections.md#baseline-of-cloud-instances-launched)
+
 * [Cloud Instance Modified By Previously Unseen User](detections.md#cloud-instance-modified-by-previously-unseen-user)
 
 * [Detect shared ec2 snapshot](detections.md#detect-shared-ec2-snapshot)
+
+* [Get All AWS Activity From IP Address](detections.md#get-all-aws-activity-from-ip-address)
+
+* [Previously Seen Cloud Instance Modifications By User - Initial](detections.md#previously-seen-cloud-instance-modifications-by-user---initial)
+
+* [Previously Seen Cloud Instance Modifications By User - Update](detections.md#previously-seen-cloud-instance-modifications-by-user---update)
 
 
 #### ATT&CK
@@ -3996,6 +4441,12 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 * [Cloud Provisioning Activity From Previously Unseen Region](detections.md#cloud-provisioning-activity-from-previously-unseen-region)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Previously Seen Cloud Provisioning Activity Sources - Initial](detections.md#previously-seen-cloud-provisioning-activity-sources---initial)
+
+* [Previously Seen Cloud Provisioning Activity Sources - Update](detections.md#previously-seen-cloud-provisioning-activity-sources---update)
+
 
 #### ATT&CK
 
@@ -4031,11 +4482,21 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 
 * [AWS IAM AccessDenied Discovery Events](detections.md#aws-iam-accessdenied-discovery-events)
 
+* [AWS Investigate User Activities By ARN](detections.md#aws-investigate-user-activities-by-arn)
+
 * [Abnormally High Number Of Cloud Infrastructure API Calls](detections.md#abnormally-high-number-of-cloud-infrastructure-api-calls)
 
 * [Abnormally High Number Of Cloud Security Group API Calls](detections.md#abnormally-high-number-of-cloud-security-group-api-calls)
 
+* [Baseline Of Cloud Infrastructure API Calls Per User](detections.md#baseline-of-cloud-infrastructure-api-calls-per-user)
+
+* [Baseline Of Cloud Security Group API Calls Per User](detections.md#baseline-of-cloud-security-group-api-calls-per-user)
+
 * [Cloud API Calls From Previously Unseen User Roles](detections.md#cloud-api-calls-from-previously-unseen-user-roles)
+
+* [Previously Seen Cloud API Calls Per User Role - Initial](detections.md#previously-seen-cloud-api-calls-per-user-role---initial)
+
+* [Previously Seen Cloud API Calls Per User Role - Update](detections.md#previously-seen-cloud-api-calls-per-user-role---update)
 
 
 #### ATT&CK
@@ -4081,6 +4542,8 @@ Use the searches in this Analytic Story to monitor your GCP Storage buckets for 
 * [Detect GCP Storage access from a new IP](detections.md#detect-gcp-storage-access-from-a-new-ip)
 
 * [Detect New Open GCP Storage Buckets](detections.md#detect-new-open-gcp-storage-buckets)
+
+* [Get Notable History](detections.md#get-notable-history)
 
 
 #### ATT&CK
@@ -4270,7 +4733,7 @@ _version_: 1
 Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: Network_Traffic
 - **ATT&CK**: 
 - **Last Updated**: 2019-01-09
 
@@ -4278,6 +4741,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Investigate Network Traffic From src ip](detections.md#investigate-network-traffic-from-src-ip)
 
 * [Processes Tapping Keyboard Events](detections.md#processes-tapping-keyboard-events)
 
@@ -4319,6 +4786,8 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 #### Detection Profile
 
+* [Baseline of SMB Traffic - MLTK](detections.md#baseline-of-smb-traffic---mltk)
+
 * [Create local admin accounts using net exe](detections.md#create-local-admin-accounts-using-net-exe)
 
 * [Detect New Local Admin account](detections.md#detect-new-local-admin-account)
@@ -4329,7 +4798,19 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 * [Detect Renamed PSExec](detections.md#detect-renamed-psexec)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process File Activity](detections.md#get-process-file-activity)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
+
 * [Malicious PowerShell Process - Execution Policy Bypass](detections.md#malicious-powershell-process---execution-policy-bypass)
+
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
 
 * [Processes launching netsh](detections.md#processes-launching-netsh)
 
@@ -4483,7 +4964,7 @@ _version_: 1
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint, Network_Resolution
+- **Datamodel**: Endpoint, Network_Resolution, Network_Traffic
 - **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/), [T1189](https://attack.mitre.org/techniques/T1189/)
 - **Last Updated**: 2018-09-06
 
@@ -4497,6 +4978,14 @@ Detect and investigate hosts in your environment that may be communicating with 
 * [Detect hosts connecting to dynamic domain providers](detections.md#detect-hosts-connecting-to-dynamic-domain-providers)
 
 * [Excessive Usage of NSLOOKUP App](detections.md#excessive-usage-of-nslookup-app)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
+* [Get DNS traffic ratio](detections.md#get-dns-traffic-ratio)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Process Responsible For The DNS Traffic](detections.md#get-process-responsible-for-the-dns-traffic)
 
 
 #### ATT&CK
@@ -4553,6 +5042,8 @@ Detect rarely used executables, specific registry paths that may confer malware 
 
 #### Detection Profile
 
+* [Baseline of SMB Traffic - MLTK](detections.md#baseline-of-smb-traffic---mltk)
+
 * [Detect Rare Executables](detections.md#detect-rare-executables)
 
 * [Detect Use of cmd exe to Launch Script Interpreters](detections.md#detect-use-of-cmd-exe-to-launch-script-interpreters)
@@ -4560,6 +5051,16 @@ Detect rarely used executables, specific registry paths that may confer malware 
 * [Detection of tools built by NirSoft](detections.md#detection-of-tools-built-by-nirsoft)
 
 * [Email Attachments With Lots Of Spaces](detections.md#email-attachments-with-lots-of-spaces)
+
+* [Get History Of Email Sources](detections.md#get-history-of-email-sources)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
 
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
@@ -4611,7 +5112,7 @@ _version_: 1
 Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint, Network_Resolution, Network_Traffic
+- **Datamodel**: Authentication, Email, Endpoint, Network_Resolution, Network_Traffic
 - **ATT&CK**: [T1021.001](https://attack.mitre.org/techniques/T1021.001/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1048.003](https://attack.mitre.org/techniques/T1048.003/), [T1070.005](https://attack.mitre.org/techniques/T1070.005/), [T1071.002](https://attack.mitre.org/techniques/T1071.002/), [T1071.004](https://attack.mitre.org/techniques/T1071.004/)
 - **Last Updated**: 2020-01-22
 
@@ -4620,6 +5121,10 @@ Monitor for and investigate activities, including the creation or deletion of hi
 
 #### Detection Profile
 
+* [Baseline of DNS Query Length - MLTK](detections.md#baseline-of-dns-query-length---mltk)
+
+* [Baseline of SMB Traffic - MLTK](detections.md#baseline-of-smb-traffic---mltk)
+
 * [Create or delete windows shares using net exe](detections.md#create-or-delete-windows-shares-using-net-exe)
 
 * [DNS Query Length Outliers - MLTK](detections.md#dns-query-length-outliers---mltk)
@@ -4627,6 +5132,28 @@ Monitor for and investigate activities, including the creation or deletion of hi
 * [DNS Query Length With High Standard Deviation](detections.md#dns-query-length-with-high-standard-deviation)
 
 * [Detect Outbound SMB Traffic](detections.md#detect-outbound-smb-traffic)
+
+* [Get DNS Server History for a host](detections.md#get-dns-server-history-for-a-host)
+
+* [Get DNS traffic ratio](detections.md#get-dns-traffic-ratio)
+
+* [Get History Of Email Sources](detections.md#get-history-of-email-sources)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Outbound Emails to Hidden Cobra Threat Actors](detections.md#get-outbound-emails-to-hidden-cobra-threat-actors)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
+
+* [Get Process Responsible For The DNS Traffic](detections.md#get-process-responsible-for-the-dns-traffic)
+
+* [Investigate Successful Remote Desktop Authentications](detections.md#investigate-successful-remote-desktop-authentications)
+
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
 
 * [Remote Desktop Network Traffic](detections.md#remote-desktop-network-traffic)
 
@@ -4706,6 +5233,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Office Product Spawning MSHTA](detections.md#office-product-spawning-mshta)
 
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
+
 * [Registry Keys Used For Persistence](detections.md#registry-keys-used-for-persistence)
 
 * [Rundll32 Create Remote Thread To A Process](detections.md#rundll32-create-remote-thread-to-a-process)
@@ -4781,7 +5310,7 @@ _version_: 1
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: Email, Endpoint
 - **ATT&CK**: [T1543.003](https://attack.mitre.org/techniques/T1543.003/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/)
 - **Last Updated**: 2020-01-22
 
@@ -4791,6 +5320,20 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 #### Detection Profile
 
 * [First Time Seen Running Windows Service](detections.md#first-time-seen-running-windows-service)
+
+* [Get History Of Email Sources](detections.md#get-history-of-email-sources)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Previously Seen Running Windows Services - Initial](detections.md#previously-seen-running-windows-services---initial)
+
+* [Previously Seen Running Windows Services - Update](detections.md#previously-seen-running-windows-services---update)
+
+* [Previously seen command line arguments](detections.md#previously-seen-command-line-arguments)
 
 * [Sc exe Manipulating Windows Services](detections.md#sc-exe-manipulating-windows-services)
 
@@ -4829,7 +5372,7 @@ _version_: 2
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint, Network_Traffic
+- **Datamodel**: Email, Endpoint, Network_Traffic
 - **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1027.005](https://attack.mitre.org/techniques/T1027.005/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1059.005](https://attack.mitre.org/techniques/T1059.005/), [T1069.001](https://attack.mitre.org/techniques/T1069.001/), [T1069.002](https://attack.mitre.org/techniques/T1069.002/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1070.004](https://attack.mitre.org/techniques/T1070.004/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1087.001](https://attack.mitre.org/techniques/T1087.001/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1222](https://attack.mitre.org/techniques/T1222/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1531](https://attack.mitre.org/techniques/T1531/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1562.007](https://attack.mitre.org/techniques/T1562.007/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/), [T1574.002](https://attack.mitre.org/techniques/T1574.002/), [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2020-02-04
 
@@ -4849,6 +5392,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Attempt To delete Services](detections.md#attempt-to-delete-services)
 
 * [BCDEdit Failure Recovery Modification](detections.md#bcdedit-failure-recovery-modification)
+
+* [Baseline of Command Line Length - MLTK](detections.md#baseline-of-command-line-length---mltk)
+
+* [Baseline of SMB Traffic - MLTK](detections.md#baseline-of-smb-traffic---mltk)
 
 * [CMLUA Or CMSTPLUA UAC Bypass](detections.md#cmlua-or-cmstplua-uac-bypass)
 
@@ -4893,6 +5440,20 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Excessive Usage Of SC Service Utility](detections.md#excessive-usage-of-sc-service-utility)
 
 * [Execute Javascript With Jscript COM CLSID](detections.md#execute-javascript-with-jscript-com-clsid)
+
+* [Get Backup Logs For Endpoint](detections.md#get-backup-logs-for-endpoint)
+
+* [Get History Of Email Sources](detections.md#get-history-of-email-sources)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
+
+* [Get Sysmon WMI Activity for Host](detections.md#get-sysmon-wmi-activity-for-host)
 
 * [ICACLS Grant Command](detections.md#icacls-grant-command)
 
@@ -5051,6 +5612,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [AWS Detect Users with KMS keys performing encryption S3](detections.md#aws-detect-users-with-kms-keys-performing-encryption-s3)
 
+* [Get Notable History](detections.md#get-notable-history)
+
 
 #### ATT&CK
 
@@ -5156,6 +5719,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Common Ransomware Notes](detections.md#common-ransomware-notes)
 
+* [Get Notable History](detections.md#get-notable-history)
+
 * [NLTest Domain Trust Discovery](detections.md#nltest-domain-trust-discovery)
 
 * [Remote Desktop Network Bruteforce](detections.md#remote-desktop-network-bruteforce)
@@ -5228,7 +5793,7 @@ _version_: 1
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint, Network_Traffic, Web
+- **Datamodel**: Authentication, Email, Endpoint, Network_Traffic, Web
 - **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1021.001](https://attack.mitre.org/techniques/T1021.001/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1036.005](https://attack.mitre.org/techniques/T1036.005/), [T1082](https://attack.mitre.org/techniques/T1082/), [T1204.002](https://attack.mitre.org/techniques/T1204.002/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1486](https://attack.mitre.org/techniques/T1486/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/), [T1595](https://attack.mitre.org/techniques/T1595/)
 - **Last Updated**: 2018-12-13
 
@@ -5256,6 +5821,20 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Detect malicious requests to exploit JBoss servers](detections.md#detect-malicious-requests-to-exploit-jboss-servers)
 
 * [File with Samsam Extension](detections.md#file-with-samsam-extension)
+
+* [Get Backup Logs For Endpoint](detections.md#get-backup-logs-for-endpoint)
+
+* [Get History Of Email Sources](detections.md#get-history-of-email-sources)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
+* [Get Process Information For Port Activity](detections.md#get-process-information-for-port-activity)
+
+* [Investigate Successful Remote Desktop Authentications](detections.md#investigate-successful-remote-desktop-authentications)
 
 * [Remote Desktop Network Bruteforce](detections.md#remote-desktop-network-bruteforce)
 
@@ -5443,6 +6022,8 @@ Quickly identify systems running new or unusual processes in your environment th
 
 * [Attacker Tools On Endpoint](detections.md#attacker-tools-on-endpoint)
 
+* [Baseline of Command Line Length - MLTK](detections.md#baseline-of-command-line-length---mltk)
+
 * [Credential Extraction indicative of FGDump and CacheDump with s option](detections.md#credential-extraction-indicative-of-fgdump-and-cachedump-with-s-option)
 
 * [Credential Extraction indicative of FGDump and CacheDump with v option](detections.md#credential-extraction-indicative-of-fgdump-and-cachedump-with-v-option)
@@ -5458,6 +6039,12 @@ Quickly identify systems running new or unusual processes in your environment th
 * [Detect processes used for System Network Configuration Discovery](detections.md#detect-processes-used-for-system-network-configuration-discovery)
 
 * [First time seen command line argument](detections.md#first-time-seen-command-line-argument)
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
 
 * [More than usual number of LOLBAS applications in short time period](detections.md#more-than-usual-number-of-lolbas-applications-in-short-time-period)
 
@@ -5553,6 +6140,12 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 
 * [Execution of File with Multiple Extensions](detections.md#execution-of-file-with-multiple-extensions)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
 
 #### ATT&CK
 
@@ -5596,9 +6189,19 @@ Windows services are often used by attackers for persistence and the ability to 
 
 * [First Time Seen Running Windows Service](detections.md#first-time-seen-running-windows-service)
 
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Get Parent Process Info](detections.md#get-parent-process-info)
+
+* [Get Process Info](detections.md#get-process-info)
+
 * [Illegal Service and Process Control via Mimikatz modules](detections.md#illegal-service-and-process-control-via-mimikatz-modules)
 
 * [Illegal Service and Process Control via PowerSploit modules](detections.md#illegal-service-and-process-control-via-powersploit-modules)
+
+* [Previously Seen Running Windows Services - Initial](detections.md#previously-seen-running-windows-services---initial)
+
+* [Previously Seen Running Windows Services - Update](detections.md#previously-seen-running-windows-services---update)
 
 * [Reg exe Manipulating Windows Services Registry Keys](detections.md#reg-exe-manipulating-windows-services-registry-keys)
 
@@ -5777,7 +6380,7 @@ _version_: 1
 Detect and investigate activities--such as unusually long `Content-Type` length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: Endpoint, Web
 - **ATT&CK**: [T1082](https://attack.mitre.org/techniques/T1082/)
 - **Last Updated**: 2018-12-06
 
@@ -5785,6 +6388,12 @@ Detect and investigate activities--such as unusually long `Content-Type` length,
   <summary>details</summary>
 
 #### Detection Profile
+
+* [Get Notable History](detections.md#get-notable-history)
+
+* [Investigate Suspicious Strings in HTTP Header](detections.md#investigate-suspicious-strings-in-http-header)
+
+* [Investigate Web POSTs From src](detections.md#investigate-web-posts-from-src)
 
 * [Suspicious Java Classes](detections.md#suspicious-java-classes)
 
@@ -5834,6 +6443,8 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 * [Detect attackers scanning for vulnerable JBoss servers](detections.md#detect-attackers-scanning-for-vulnerable-jboss-servers)
 
 * [Detect malicious requests to exploit JBoss servers](detections.md#detect-malicious-requests-to-exploit-jboss-servers)
+
+* [Get Notable History](detections.md#get-notable-history)
 
 
 #### ATT&CK
