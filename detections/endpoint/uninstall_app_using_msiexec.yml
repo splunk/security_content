@@ -1,0 +1,66 @@
+name: Uninstall App Using MsiExec
+id: 1fca2b28-f922-11eb-b2dd-acde48001122
+version: 1
+date: '2021-08-09'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious un-installation of application
+  using msiexec. This technique was seen in conti leak tool and script where it tries
+  to uninstall AV product using this commandline. This commandline to uninstall product
+  is not a common practice in enterprise network.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msiexec.exe
+  Processes.process= "* /qn *" Processes.process= "*/X*" Processes.process= "*REBOOT=*"
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `uninstall_app_using_msiexec_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: unknown.
+references:
+- https://threadreaderapp.com/thread/1423361119926816776.html
+tags:
+  analytic_story:
+  - Ransomware
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1218.007
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_id
+  security_domain: endpoint
+  impact: 50
+  confidence: 60
+  risk_score: 30
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: process $process_name$ with a cmdline $process$ in host $dest$
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: process name
+    role:
+    - Attacker
+  automated_detection_testing: passed

@@ -5,16 +5,17 @@ date: '2021-08-17'
 author: Patrick Bareiss, Splunk
 type: TTP
 datamodel: []
-description: This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR).
-  You need to activate image scanning in order to get the event DescribeImageScanFindings with the results.
-search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings 
-  | spath path=responseElements.imageScanFindings.findings{} output=findings 
-  | mvexpand findings | spath input=findings| search severity=HIGH
-  | rename name as finding_name, description as finding_description, 
-  requestParameters.imageId.imageDigest as imageDigest, requestParameters.repositoryName as repositoryName
-  | eval finding = finding_name.", ".finding_description
-  | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, repositoryName, user, userName, src_ip, finding
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+description: This search looks for AWS CloudTrail events from AWS Elastic Container
+  Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings
+  with the results.
+search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings
+  | spath path=responseElements.imageScanFindings.findings{} output=findings | mvexpand
+  findings | spath input=findings| search severity=HIGH | rename name as finding_name,
+  description as finding_description, requestParameters.imageId.imageDigest as imageDigest,
+  requestParameters.repositoryName as repositoryName | eval finding = finding_name.",
+  ".finding_description | stats min(_time) as firstTime max(_time) as lastTime by
+  awsRegion, eventName, eventSource, imageDigest, repositoryName, user, userName,
+  src_ip, finding | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `aws_ecr_container_scanning_findings_high_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.

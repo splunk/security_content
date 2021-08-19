@@ -1,0 +1,59 @@
+name: Powershell Execute COM Object
+id: 65711630-f9bf-11eb-8d72-acde48001122
+version: 1
+date: '2021-08-10'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This search is to detect a COM CLSID execution through powershell. This
+  technique was seen in several adversaries and malware like ransomware conti where
+  it has a feature to execute command using COM Object. This technique may use by
+  network operator at some cases but a good indicator if some application want to
+  gain privilege escalation or bypass uac.
+search: '`powershell` EventCode=4104 Message = "*CreateInstance([type]::GetTypeFromCLSID*"
+  OR Message = "*CreateInstance([Type]::GetTypeFromProgID*"| stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_execute_com_object_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA.
+known_false_positives: network operrator may use this command.
+references:
+- https://threadreaderapp.com/thread/1423361119926816776.html
+tags:
+  analytic_story:
+  - Malicious PowerShell
+  - Ransomware
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-powershell.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1546.015
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 10
+  confidence: 50
+  risk_score: 5
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  message: A suspicious powershell script contains COM CLSID command in $Message$
+    with EventCode $EventCode$ in host $ComputerName$
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  automated_detection_testing: passed

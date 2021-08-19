@@ -1,22 +1,23 @@
-author: Bhavin Patel, Splunk
-datamodel: 
-- Network_Sessions
+name: Get First Occurrence and Last Occurrence of a MAC Address
+id: bc91a8cf-35e7-4bb2-8140-e756cc06fd33
+version: 1
 date: '2017-09-13'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel:
+- Network_Sessions
 description: This search allows you to gather more context around a notable which
   has detected a new device connecting to your network. Use this search to determine
   the first and last occurrences of the suspicious device attempting to connect with
   your network.
-how_to_implement: To successfully implement this search, you must be ingesting the
-  logs from your DHCP server.
-id: bc91a8cf-35e7-4bb2-8140-e756cc06fd33
-inputs:
-- src_mac
-known_false_positives: ''
-name: Get First Occurrence and Last Occurrence of a MAC Address
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST
-  All_Sessions.src_mac= $src_mac$ by All_Sessions.src_ip All_Sessions.user
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`'
+  All_Sessions.src_mac= $src_mac$ by All_Sessions.src_ip All_Sessions.user | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)`'
+how_to_implement: To successfully implement this search, you must be ingesting the
+  logs from your DHCP server.
+known_false_positives: ''
+references: []
 tags:
   analytic_story:
   - Asset Tracking
@@ -30,5 +31,3 @@ tags:
   - All_Sessions.src_ip
   - All_Sessions.user
   security_domain: network
-type: Investigation
-version: 1

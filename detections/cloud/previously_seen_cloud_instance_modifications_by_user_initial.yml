@@ -10,9 +10,9 @@ description: This search builds a table of previously seen users that have modif
   a cloud instance.
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
   from datamodel=Change where All_Changes.action=modified All_Changes.change_type=EC2
-  c=success by All_Changes.user | `drop_dm_object_name("All_Changes")`
-  | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
-  <= relative_time(now(), "-7d@d"), 1, 0) | outputlookup previously_seen_cloud_instance_modifications_by_user'
+  c=success by All_Changes.user | `drop_dm_object_name("All_Changes")` | eventstats
+  min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime <=
+  relative_time(now(), "-7d@d"), 1, 0) | outputlookup previously_seen_cloud_instance_modifications_by_user'
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the latest Change Datamodel accelerated.
 known_false_positives: none

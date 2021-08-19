@@ -34,11 +34,11 @@ tags:
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
   - Unusual Processes
+  deployments:
+  - Daily Cache Updates
   detections:
   - Detect Prohibited Applications Spawning cmd.exe
   - Unusually Long Command Line - MLTK
-  deployments:
-  - Daily Cache Updates
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
