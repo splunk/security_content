@@ -15,7 +15,7 @@ search: '`gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb",
   destination{}.service num_message_attachments  subject destination{}.address source.address
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `gsuite_suspicious_attachment_filter`'
+  | `gsuite_email_suspicious_attachment_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite having the file attachment metadata like file type, file 
   extension, source email, destination email, num of attachment and etc.
