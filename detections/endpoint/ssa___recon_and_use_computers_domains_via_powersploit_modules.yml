@@ -35,27 +35,6 @@ tags:
   cis20:
   - CIS 16
   - CIS 20
-  kill_chain_phases:
-  - Actions on Objectives
-  mitre_attack_id:
-  - T1592
-  - T1590
-  - T1087
-  nist:
-  - PR.AC
-  - PR.IP
-  product:
-  - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - process
-  - dest_device_id
-  - dest_user_id
-  risk_severity: high
-  security_domain: endpoint
-  message: PowerSploit malware is seaching for or accessing domain controllers, computers, file servers, etc. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
-  risk_score: 80
-  impact: 80
   confidence: 100
   context:
   - Source:AD
@@ -63,6 +42,19 @@ tags:
   - Stage:Recon
   - Stage:Command And Control
   - Consequence:Loss Of Control
+  impact: 80
+  kill_chain_phases:
+  - Actions on Objectives
+  message: PowerSploit malware is seaching for or accessing domain controllers, computers,
+    file servers, etc. Operation is performed at the device $dest_device_id$, by the
+    account $dest_user_id$ via command $cmd_line$
+  mitre_attack_id:
+  - T1592
+  - T1590
+  - T1087
+  nist:
+  - PR.AC
+  - PR.IP
   observable:
   - name: dest_user_id
     type: User
@@ -76,3 +68,13 @@ tags:
     type: processname
     role:
     - Others
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - process
+  - dest_device_id
+  - dest_user_id
+  risk_score: 80
+  risk_severity: high
+  security_domain: endpoint
