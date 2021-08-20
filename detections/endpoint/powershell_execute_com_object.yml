@@ -26,27 +26,20 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - Ransomware
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-powershell.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1546.015
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: endpoint
-  impact: 10
+  automated_detection_testing: passed
   confidence: 50
-  risk_score: 5
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-powershell.log
+  impact: 10
+  kill_chain_phases:
+  - Exploitation
   message: A suspicious powershell script contains COM CLSID command in $Message$
     with EventCode $EventCode$ in host $ComputerName$
+  mitre_attack_id:
+  - T1546.015
   observable:
   - name: ComputerName
     type: Hostname
@@ -56,4 +49,11 @@ tags:
     type: User
     role:
     - Victim
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  risk_score: 5
+  security_domain: endpoint
