@@ -9,7 +9,7 @@ datamodel:
 description: This search is to detect a pushed or commit to master or main branch. 
   This is to avoid unwanted modification to master without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a 
   PR for review. of course in some cases admin of the project may did a changes directly to master branch
-search: 'index=github branches{}.name = main
+search: '`github` branches{}.name = main
   |  stats count min(_time) as firstTime max(_time) as lastTime  by commit.author.html_url commit.commit.author.email commit.author.login commit.commit.message repository.pushed_at commit.commit.committer.date
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
