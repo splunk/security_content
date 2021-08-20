@@ -9,8 +9,10 @@ datamodel:
 - Email
 - Updates
 description: This search is to detect a gsuite email contains suspicious subject having known file type used in spear phishing.
-  This technique is really a very common and effective entry vector of attacker to compromise a network by clicking or running the suspicous attachment 
-  send from external email account. 
+  This technique is a common and effective entry vector of attacker to compromise a network by luring the user to click or execute the suspicious attachment 
+  send from external email account because of the effective social engineering of subject related to delivery, bank and so on.
+  On the other hand this detection may catch a normal email traffic related to legitimate transaction so better to check the email sender, spelling and etc.
+  avoid click link or opening the attachment if you are not expecting this type of e-mail. 
 search: '`gsuite_gmail` num_message_attachments > 0  
   subject IN ("*dhl*", "* ups *”, “*delivery*”, “*parcel*”, “*label*”, “*invoice*”, “*postal*”, “* fedex *”, “* usps *”, “* express *”, “*shipment*”, “*Banking/Tax*”,”*shipment*”, “*new order*”) 
   attachment{}.file_extension_type IN ("doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "zip", "rar”, “html”,”htm”,”hta”) 
@@ -33,7 +35,7 @@ tags:
   analytic_story:
   - DevSecOps
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
