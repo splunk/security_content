@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `protocols_passing_authentication_in_cleartext_filter`'
 how_to_implement: This search requires you to be ingesting your network traffic, and
   populating the Network_Traffic data model.
-  For more accurate result it's better to limit destination to organization private and public IP range, like:
+  For more accurate result it's better to limit destination to organization private and public IP range, like
     All_Traffic.dest IN(192.168.0.0/16,172.16.0.0/12,10.0.0.0/8, x.x.x.x/22)
   
 known_false_positives: Some networks may use kerberized FTP or telnet servers, however,
