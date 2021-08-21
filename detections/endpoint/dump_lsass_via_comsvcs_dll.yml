@@ -3,7 +3,7 @@ id: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
 version: 1
 date: '2020-02-21'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: Detect the usage of comsvcs.dll for dumping the lsass process.

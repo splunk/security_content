@@ -3,7 +3,7 @@ id: 20ba6c32-c733-4a32-b64e-2688cf231399
 version: 1
 date: '2021-02-22'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: 'The following analytic identifies the use of a native MacOS utility,
   PlistBuddy, creating or modifying a properly list (.plist) file. In the instance

@@ -3,7 +3,7 @@ id: 61e7b44a-6088-4f26-b788-9a96ba13b37a
 version: 1
 date: '2021-02-04'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies rundll32.exe loading setupapi.dll and

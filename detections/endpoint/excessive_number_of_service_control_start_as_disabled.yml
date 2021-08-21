@@ -3,7 +3,7 @@ id: 77592bec-d5cc-11eb-9e60-acde48001122
 version: 1
 date: '2021-06-25'
 author: Michael Hart, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This detection targets behaviors observed when threat actors have used

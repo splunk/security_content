@@ -17,20 +17,19 @@ SLEEP_TIME_CREATE_INDEX = 10
 SLEEP_TIME_ACTIVATE_PIPELINE = 10
 SLEEP_TIME_SEND_DATA = 30
 WAIT_CYCLE = 20
-MAX_EXECUTION_TIME_LIMIT = 300  # per detection test
+MAX_EXECUTION_TIME_LIMIT = 600  # per detection test
 
 TEST_DATASET = 'windows-security_small.txt'
 
 
 class SSADetectionTesting:
 
-    def __init__(self, env, tenant, header_token):
+    def __init__(self, env, tenant, token):
         self.execution_passed = True
         self.max_execution_time = MAX_EXECUTION_TIME_LIMIT
         self.env = env
         self.tenant = tenant
-        self.header_token = f"Bearer {header_token}"
-        self.api = DSPApi(env, tenant, self.header_token)
+        self.api = DSPApi(env, tenant, token)
         self.test_results = {}
 
     def test_dsp_pipeline(self):
@@ -121,15 +120,21 @@ class SSADetectionTesting:
         spl = manipulate_spl(self.api.env, spl, self.results_index)
         assert spl is not None, "fail to manipulate spl file"
 
-        pipeline_id = self.api.create_pipeline_from_spl(spl)
+        upl = self.api.compile_spl(spl)
+        assert upl is not None, "failed to compile spl"
+
+        validated_upl = self.api.validate_upl(upl)
+        assert validated_upl is not None, "failed to validate upl"
+
+        pipeline_id = self.api.create_pipeline(validated_upl)
         assert pipeline_id is not None, "failed to create a pipeline"
 
         _pipeline_status = self.api.pipeline_status(pipeline_id)
         assert _pipeline_status == "CREATED", f"Current status of pipeline {pipeline_id} should be CREATED"
         self.created_pipelines.append(pipeline_id)
 
-        response_body = self.api.activate_pipeline(pipeline_id)
-        assert response_body.get("activated") == pipeline_id, f"pipeline {pipeline_id} should be successfully activate."
+        pipeline_activated = self.api.activate_pipeline(pipeline_id)
+        assert pipeline_activated, f"pipeline {pipeline_id} should be activated."
         self.activated_pipelines.append(pipeline_id)
 
         self.wait_time(SLEEP_TIME_ACTIVATE_PIPELINE)
@@ -145,8 +150,8 @@ class SSADetectionTesting:
 
         assert len(data) > 0, "No events to send, skip to next test."
 
-        for d in data:
-            response_body = self.api.ingest_data(d)
+        data_uploaded = self.api.ingest_data(data)
+        assert data_uploaded, "Failed to upload test data"
 
         self.wait_time(SLEEP_TIME_SEND_DATA)
 
@@ -197,7 +202,7 @@ class SSADetectionTesting:
         self.activated_pipelines = [p for p in self.activated_pipelines if not deactivate_pipeline(p)]
         self.created_pipelines = [p for p in self.created_pipelines if not delete_pipeline(p)]
         if len(self.activated_pipelines) > 0 or len(self.created_pipelines) > 0 or not delete_index(self.results_index):
-            LOGGER.warning("Not all SCS resources fred up")
+            LOGGER.warning("Not all SCS resources freed up")
             LOGGER.info(f"Created Pipelines: {','.join(self.created_pipelines)}")
             LOGGER.info(f"Active Pipelines: {','.join(self.activated_pipelines)}")
             LOGGER.info(f"Result Indexes: {self.results_index}")

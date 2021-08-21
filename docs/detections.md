@@ -9,6 +9,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [AWS Create Policy Version to allow all resources](#aws-create-policy-version-to-allow-all-resources)
 
 
@@ -30,6 +32,26 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [AWS Detect Users with KMS keys performing encryption S3](#aws-detect-users-with-kms-keys-performing-encryption-s3)
+
+
+
+- [AWS ECR Container Scanning Findings High](#aws-ecr-container-scanning-findings-high)
+
+
+
+- [AWS ECR Container Scanning Findings Low Informational Unknown](#aws-ecr-container-scanning-findings-low-informational-unknown)
+
+
+
+- [AWS ECR Container Scanning Findings Medium](#aws-ecr-container-scanning-findings-medium)
+
+
+
+- [AWS ECR Container Upload Outside Business Hours](#aws-ecr-container-upload-outside-business-hours)
+
+
+
+- [AWS ECR Container Upload Unknown User](#aws-ecr-container-upload-unknown-user)
 
 
 
@@ -57,11 +79,35 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [AWS Investigate Security Hub alerts by dest](#aws-investigate-security-hub-alerts-by-dest)
+
+
+
+- [AWS Investigate User Activities By ARN](#aws-investigate-user-activities-by-arn)
+
+
+
+- [AWS Investigate User Activities By AccessKeyId](#aws-investigate-user-activities-by-accesskeyid)
+
+
+
+- [AWS Network ACL Details from ID](#aws-network-acl-details-from-id)
+
+
+
 - [AWS Network Access Control List Created with All Open Ports](#aws-network-access-control-list-created-with-all-open-ports)
 
 
 
 - [AWS Network Access Control List Deleted](#aws-network-access-control-list-deleted)
+
+
+
+- [AWS Network Interface details via resourceId](#aws-network-interface-details-via-resourceid)
+
+
+
+- [AWS S3 Bucket details via bucketName](#aws-s3-bucket-details-via-bucketname)
 
 
 
@@ -111,7 +157,13 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Amazon EKS Kubernetes Pod scan detection](#amazon-eks-kubernetes-pod-scan-detection)
+
+
+
+- [Amazon EKS Kubernetes activity by src ip](#amazon-eks-kubernetes-activity-by-src-ip)
 
 
 
@@ -146,6 +198,58 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+- [Baseline Of Cloud Infrastructure API Calls Per User](#baseline-of-cloud-infrastructure-api-calls-per-user)
+
+
+
+- [Baseline Of Cloud Instances Destroyed](#baseline-of-cloud-instances-destroyed)
+
+
+
+- [Baseline Of Cloud Instances Launched](#baseline-of-cloud-instances-launched)
+
+
+
+- [Baseline Of Cloud Security Group API Calls Per User](#baseline-of-cloud-security-group-api-calls-per-user)
+
+
+
+- [Baseline of API Calls per User ARN](#baseline-of-api-calls-per-user-arn)
+
+
+
+
+
+
+
+- [Baseline of Excessive AWS Instances Launched by User - MLTK](#baseline-of-excessive-aws-instances-launched-by-user---mltk)
+
+
+
+- [Baseline of Excessive AWS Instances Terminated by User - MLTK](#baseline-of-excessive-aws-instances-terminated-by-user---mltk)
+
+
+
+- [Baseline of Network ACL Activity by ARN](#baseline-of-network-acl-activity-by-arn)
+
+
+
+- [Baseline of S3 Bucket deletion activity by ARN](#baseline-of-s3-bucket-deletion-activity-by-arn)
+
+
+
+
+
+- [Baseline of Security Group Activity by ARN](#baseline-of-security-group-activity-by-arn)
+
+
+
+- [Baseline of blocked outbound traffic from AWS](#baseline-of-blocked-outbound-traffic-from-aws)
 
 
 
@@ -231,6 +335,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Create a list of approved AWS service accounts](#create-a-list-of-approved-aws-service-accounts)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -294,6 +410,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Detect AWS Console Login by User from New Region](#detect-aws-console-login-by-user-from-new-region)
+
+
 
 
 
@@ -473,6 +591,16 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Detect shared ec2 snapshot](#detect-shared-ec2-snapshot)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -579,7 +707,79 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [GCP Kubernetes activity by src ip](#gcp-kubernetes-activity-by-src-ip)
+
+
+
 - [GCP Kubernetes cluster pod scan detection](#gcp-kubernetes-cluster-pod-scan-detection)
+
+
+
+
+
+
+
+- [Get All AWS Activity From City](#get-all-aws-activity-from-city)
+
+
+
+- [Get All AWS Activity From Country](#get-all-aws-activity-from-country)
+
+
+
+- [Get All AWS Activity From IP Address](#get-all-aws-activity-from-ip-address)
+
+
+
+- [Get All AWS Activity From Region](#get-all-aws-activity-from-region)
+
+
+
+
+
+
+
+
+
+
+
+- [Get EC2 Instance Details by instanceId](#get-ec2-instance-details-by-instanceid)
+
+
+
+- [Get EC2 Launch Details](#get-ec2-launch-details)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -629,7 +829,59 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+- [Investigate AWS User Activities by user field](#investigate-aws-user-activities-by-user-field)
+
+
+
+- [Investigate AWS activities via region name](#investigate-aws-activities-via-region-name)
+
+
+
+
+
+
+
+- [Investigate Okta Activity by IP Address](#investigate-okta-activity-by-ip-address)
+
+
+
+- [Investigate Okta Activity by app](#investigate-okta-activity-by-app)
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Investigate User Activities In Okta](#investigate-user-activities-in-okta)
+
+
+
+
+
+
+
+
+
 - [Kubernetes AWS detect suspicious kubectl calls](#kubernetes-aws-detect-suspicious-kubectl-calls)
+
+
+
+
+
+
+
+
 
 
 
@@ -803,72 +1055,95 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Previously Seen AWS Cross Account Activity](#previously-seen-aws-cross-account-activity)
 
 
 
+- [Previously Seen AWS Cross Account Activity - Initial](#previously-seen-aws-cross-account-activity---initial)
 
 
 
+- [Previously Seen AWS Cross Account Activity - Update](#previously-seen-aws-cross-account-activity---update)
 
 
 
+- [Previously Seen AWS Provisioning Activity Sources](#previously-seen-aws-provisioning-activity-sources)
 
 
 
+- [Previously Seen AWS Regions](#previously-seen-aws-regions)
 
 
 
+- [Previously Seen Cloud API Calls Per User Role - Initial](#previously-seen-cloud-api-calls-per-user-role---initial)
 
 
 
+- [Previously Seen Cloud API Calls Per User Role - Update](#previously-seen-cloud-api-calls-per-user-role---update)
 
 
 
+- [Previously Seen Cloud Compute Creations By User - Initial](#previously-seen-cloud-compute-creations-by-user---initial)
 
 
 
+- [Previously Seen Cloud Compute Creations By User - Update](#previously-seen-cloud-compute-creations-by-user---update)
 
 
 
+- [Previously Seen Cloud Compute Images - Initial](#previously-seen-cloud-compute-images---initial)
 
 
 
+- [Previously Seen Cloud Compute Images - Update](#previously-seen-cloud-compute-images---update)
 
 
 
+- [Previously Seen Cloud Compute Instance Types - Initial](#previously-seen-cloud-compute-instance-types---initial)
 
 
 
+- [Previously Seen Cloud Compute Instance Types - Update](#previously-seen-cloud-compute-instance-types---update)
 
 
 
+- [Previously Seen Cloud Instance Modifications By User - Initial](#previously-seen-cloud-instance-modifications-by-user---initial)
 
 
 
+- [Previously Seen Cloud Instance Modifications By User - Update](#previously-seen-cloud-instance-modifications-by-user---update)
 
 
 
+- [Previously Seen Cloud Provisioning Activity Sources - Initial](#previously-seen-cloud-provisioning-activity-sources---initial)
 
 
 
+- [Previously Seen Cloud Provisioning Activity Sources - Update](#previously-seen-cloud-provisioning-activity-sources---update)
 
 
 
+- [Previously Seen Cloud Regions - Initial](#previously-seen-cloud-regions---initial)
 
 
 
+- [Previously Seen Cloud Regions - Update](#previously-seen-cloud-regions---update)
 
 
 
+- [Previously Seen EC2 AMIs](#previously-seen-ec2-amis)
 
 
 
+- [Previously Seen EC2 Instance Types](#previously-seen-ec2-instance-types)
 
 
 
+- [Previously Seen EC2 Launches By User](#previously-seen-ec2-launches-by-user)
 
 
 
+- [Previously Seen EC2 Modifications By User](#previously-seen-ec2-modifications-by-user)
 
 
 
@@ -876,9 +1151,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Previously Seen Users In CloudTrail - Update](#previously-seen-users-in-cloudtrail---update)
 
 
 
+- [Previously Seen Users in CloudTrail - Initial](#previously-seen-users-in-cloudtrail---initial)
 
 
 
@@ -886,14 +1163,17 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Previously seen API call per user roles in CloudTrail](#previously-seen-api-call-per-user-roles-in-cloudtrail)
 
 
 
+- [Previously seen S3 bucket access by remote IP](#previously-seen-s3-bucket-access-by-remote-ip)
 
 
 
 
 
+- [Previously seen users in CloudTrail](#previously-seen-users-in-cloudtrail)
 
 
 
@@ -1036,6 +1316,148 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Update previously seen users in CloudTrail](#update-previously-seen-users-in-cloudtrail)
 
 
 
@@ -1122,6 +1544,32 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [7zip CommandLine To SMB Share Path](#7zip-commandline-to-smb-share-path)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1174,6 +1622,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [All backup logs for host](#all-backup-logs-for-host)
+
+
+
 - [Allow File And Printing Sharing In Firewall](#allow-file-and-printing-sharing-in-firewall)
 
 
@@ -1191,6 +1643,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Allow Operation with Consent Admin](#allow-operation-with-consent-admin)
+
+
 
 
 
@@ -1262,7 +1716,41 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+- [Baseline of Command Line Length - MLTK](#baseline-of-command-line-length---mltk)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Batch File Write to System32](#batch-file-write-to-system32)
+
+
+
+- [CHCP Command Execution](#chcp-command-execution)
 
 
 
@@ -1342,11 +1830,23 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+- [Count of assets by category](#count-of-assets-by-category)
+
+
+
+- [Create Remote Thread In Shell Application](#create-remote-thread-in-shell-application)
+
+
+
 - [Create Remote Thread into LSASS](#create-remote-thread-into-lsass)
 
 
 
 - [Create Service In Suspicious File Path](#create-service-in-suspicious-file-path)
+
+
 
 
 
@@ -1430,6 +1930,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [DSQuery Domain Discovery](#dsquery-domain-discovery)
 
 
@@ -1489,6 +1991,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Detect Computer Changed with Anonymous Account](#detect-computer-changed-with-anonymous-account)
+
+
+
+- [Detect Copy of ShadowCopy with Script Block Logging](#detect-copy-of-shadowcopy-with-script-block-logging)
 
 
 
@@ -1728,6 +2234,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Detection of tools built by NirSoft](#detection-of-tools-built-by-nirsoft)
 
 
@@ -1804,7 +2312,13 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Download Files Using Telegram](#download-files-using-telegram)
+
+
+
+- [Drop IcedID License dat](#drop-icedid-license-dat)
 
 
 
@@ -1924,6 +2438,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Fsutil Zeroing File](#fsutil-zeroing-file)
+
+
+
+
+
 
 
 
@@ -1932,7 +2452,89 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [GSuite Email Suspicious Attachment](#gsuite-email-suspicious-attachment)
+
+
+
+
+
+
+
+
+
+
+
+- [Get Backup Logs For Endpoint](#get-backup-logs-for-endpoint)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Get Logon Rights Modifications For Endpoint](#get-logon-rights-modifications-for-endpoint)
+
+
+
+- [Get Logon Rights Modifications For User](#get-logon-rights-modifications-for-user)
+
+
+
+- [Get Notable History](#get-notable-history)
+
+
+
+
+
+- [Get Parent Process Info](#get-parent-process-info)
+
+
+
+- [Get Process File Activity](#get-process-file-activity)
+
+
+
+- [Get Process Info](#get-process-info)
+
+
+
+- [Get Process Information For Port Activity](#get-process-information-for-port-activity)
+
+
+
+- [Get Process Responsible For The DNS Traffic](#get-process-responsible-for-the-dns-traffic)
+
+
+
+- [Get Sysmon WMI Activity for Host](#get-sysmon-wmi-activity-for-host)
+
+
+
+
+
 - [Grant Permission Using Cacls Utility](#grant-permission-using-cacls-utility)
+
+
+
+- [Gsuite Drive Share In External Email](#gsuite-drive-share-in-external-email)
+
+
+
+- [Gsuite Outbound Email With Attachment To External Domain](#gsuite-outbound-email-with-attachment-to-external-domain)
 
 
 
@@ -1961,6 +2563,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Icacls Deny Command](#icacls-deny-command)
+
+
+
+- [IcedID Exfiltrated Archived File Creation](#icedid-exfiltrated-archived-file-creation)
+
+
+
+
+
+
+
+- [Identify Systems Using Remote Desktop](#identify-systems-using-remote-desktop)
 
 
 
@@ -2001,6 +2615,42 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Illegal Service and Process Control via PowerSploit modules](#illegal-service-and-process-control-via-powersploit-modules)
+
+
+
+
+
+
+
+- [Investigate Failed Logins for Multiple Destinations](#investigate-failed-logins-for-multiple-destinations)
+
+
+
+
+
+
+
+
+
+- [Investigate Pass the Hash Attempts](#investigate-pass-the-hash-attempts)
+
+
+
+- [Investigate Pass the Ticket Attempts](#investigate-pass-the-ticket-attempts)
+
+
+
+- [Investigate Previous Unseen User](#investigate-previous-unseen-user)
+
+
+
+- [Investigate Successful Remote Desktop Authentications](#investigate-successful-remote-desktop-authentications)
+
+
+
+
+
+
 
 
 
@@ -2062,9 +2712,21 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Monitor Successful Backups](#monitor-successful-backups)
+
+
+
+- [Monitor Unsuccessful Backups](#monitor-unsuccessful-backups)
+
+
+
 
 
 - [More than usual number of LOLBAS applications in short time period](#more-than-usual-number-of-lolbas-applications-in-short-time-period)
+
+
+
+- [Mshta spawning Rundll32 OR Regsvr32 Process](#mshta-spawning-rundll32-or-regsvr32-process)
 
 
 
@@ -2108,6 +2770,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [NET Profiler UAC bypass](#net-profiler-uac-bypass)
+
+
+
 - [NLTest Domain Trust Discovery](#nltest-domain-trust-discovery)
 
 
@@ -2146,6 +2812,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Office Application Spawn Regsvr32 process](#office-application-spawn-regsvr32-process)
+
+
+
 - [Office Application Spawn rundll32 process](#office-application-spawn-rundll32-process)
 
 
@@ -2159,6 +2829,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Office Document Spawned Child Process To Download](#office-document-spawned-child-process-to-download)
+
+
+
+- [Office Product Spawn CMD Process](#office-product-spawn-cmd-process)
 
 
 
@@ -2224,6 +2898,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Powershell Execute COM Object](#powershell-execute-com-object)
+
+
+
 - [Powershell Fileless Process Injection via GetProcAddress](#powershell-fileless-process-injection-via-getprocaddress)
 
 
@@ -2245,6 +2923,82 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Prevent Automatic Repair Mode using Bcdedit](#prevent-automatic-repair-mode-using-bcdedit)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Previously Seen Running Windows Services - Initial](#previously-seen-running-windows-services---initial)
+
+
+
+- [Previously Seen Running Windows Services - Update](#previously-seen-running-windows-services---update)
+
+
+
+
+
+
+
+- [Previously Seen Zoom Child Processes - Initial](#previously-seen-zoom-child-processes---initial)
+
+
+
+- [Previously Seen Zoom Child Processes - Update](#previously-seen-zoom-child-processes---update)
+
+
+
+
+
+
+
+- [Previously seen command line arguments](#previously-seen-command-line-arguments)
+
+
 
 
 
@@ -2422,6 +3176,26 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Rundll32 Create Remote Thread To A Process](#rundll32-create-remote-thread-to-a-process)
+
+
+
+- [Rundll32 CreateRemoteThread In Browser](#rundll32-createremotethread-in-browser)
+
+
+
+- [Rundll32 DNSQuery](#rundll32-dnsquery)
+
+
+
+- [Rundll32 LockWorkStation](#rundll32-lockworkstation)
+
+
+
+- [Rundll32 Process Creating Exe Dll Files](#rundll32-process-creating-exe-dll-files)
+
+
+
 - [Rundll32 with no Command Line Arguments with Network](#rundll32-with-no-command-line-arguments-with-network)
 
 
@@ -2431,6 +3205,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Ryuk Wake on LAN Command](#ryuk-wake-on-lan-command)
+
+
+
+- [SAM Database File Access Attempt](#sam-database-file-access-attempt)
 
 
 
@@ -2484,6 +3262,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Sdclt UAC Bypass](#sdclt-uac-bypass)
+
+
+
 - [SearchProtocolHost with no Command Line with Network](#searchprotocolhost-with-no-command-line-with-network)
 
 
@@ -2524,6 +3306,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [SilentCleanup UAC Bypass](#silentcleanup-uac-bypass)
+
+
+
 - [Single Letter Process On Endpoint](#single-letter-process-on-endpoint)
 
 
@@ -2549,6 +3335,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Spoolsv Writing a DLL - Sysmon](#spoolsv-writing-a-dll---sysmon)
+
+
+
+- [Sqlite Module In Temp Folder](#sqlite-module-in-temp-folder)
 
 
 
@@ -2584,6 +3374,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Suspicious IcedID Regsvr32 Cmdline](#suspicious-icedid-regsvr32-cmdline)
+
+
+
+- [Suspicious IcedID Rundll32 Cmdline](#suspicious-icedid-rundll32-cmdline)
+
+
+
 
 
 - [Suspicious MSBuild Rename](#suspicious-msbuild-rename)
@@ -2611,6 +3409,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Suspicious Regsvr32 Register Suspicious Path](#suspicious-regsvr32-register-suspicious-path)
+
+
+
+- [Suspicious Rundll32 PluginInit](#suspicious-rundll32-plugininit)
 
 
 
@@ -2682,9 +3484,21 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Systems Ready for Spectre-Meltdown Windows Patch](#systems-ready-for-spectre-meltdown-windows-patch)
+
+
+
 
 
 - [Trickbot Named Pipe](#trickbot-named-pipe)
+
+
+
+- [UAC Bypass MMC Load Unsigned Dll](#uac-bypass-mmc-load-unsigned-dll)
+
+
+
+- [UAC Bypass With Colorui COM Object](#uac-bypass-with-colorui-com-object)
 
 
 
@@ -2693,6 +3507,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Unified Messaging Service Spawning a Process](#unified-messaging-service-spawning-a-process)
+
+
+
+- [Uninstall App Using MsiExec](#uninstall-app-using-msiexec)
 
 
 
@@ -2713,6 +3531,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Unusually Long Command Line - MLTK](#unusually-long-command-line---mltk)
+
+
 
 
 
@@ -2739,6 +3559,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [WMI Temporary Event Subscription](#wmi-temporary-event-subscription)
+
+
+
+- [WSReset UAC Bypass](#wsreset-uac-bypass)
 
 
 
@@ -2793,6 +3617,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Windows Security Account Manager Stopped](#windows-security-account-manager-stopped)
+
+
+
+- [Windows Updates Install Failures](#windows-updates-install-failures)
+
+
+
+- [Windows Updates Install Successes](#windows-updates-install-successes)
 
 
 
@@ -2967,7 +3799,79 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Baseline of DNS Query Length - MLTK](#baseline-of-dns-query-length---mltk)
 
+
+
+
+
+
+
+
+
+
+
+- [Baseline of SMB Traffic - MLTK](#baseline-of-smb-traffic---mltk)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Count of Unique IPs Connecting to Ports](#count-of-unique-ips-connecting-to-ports)
 
 
 
@@ -3027,6 +3931,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [DNSTwist Domain Names](#dnstwist-domain-names)
+
+
+
 
 
 
@@ -3040,6 +3948,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Detect ARP Poisoning](#detect-arp-poisoning)
+
+
 
 
 
@@ -3275,6 +4185,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Discover DNS records](#discover-dns-records)
+
+
+
+
+
+
+
 
 
 
@@ -3357,6 +4275,84 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+- [Get Certificate logs for a domain](#get-certificate-logs-for-a-domain)
+
+
+
+- [Get DNS Server History for a host](#get-dns-server-history-for-a-host)
+
+
+
+- [Get DNS traffic ratio](#get-dns-traffic-ratio)
+
+
+
+
+
+
+
+- [Get Email Info](#get-email-info)
+
+
+
+- [Get Emails From Specific Sender](#get-emails-from-specific-sender)
+
+
+
+- [Get First Occurrence and Last Occurrence of a MAC Address](#get-first-occurrence-and-last-occurrence-of-a-mac-address)
+
+
+
+- [Get History Of Email Sources](#get-history-of-email-sources)
+
+
+
+
+
+
+
+
+
+- [Get Outbound Emails to Hidden Cobra Threat Actors](#get-outbound-emails-to-hidden-cobra-threat-actors)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Get Web Session Information via session id](#get-web-session-information-via-session-id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Hosts receiving high volume of network traffic from email server](#hosts-receiving-high-volume-of-network-traffic-from-email-server)
 
 
@@ -3367,6 +4363,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Identify Systems Creating Remote Desktop Traffic](#identify-systems-creating-remote-desktop-traffic)
+
+
+
+- [Identify Systems Receiving Remote Desktop Traffic](#identify-systems-receiving-remote-desktop-traffic)
 
 
 
@@ -3382,6 +4383,45 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Investigate Network Traffic From src ip](#investigate-network-traffic-from-src-ip)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Investigate Suspicious Strings in HTTP Header](#investigate-suspicious-strings-in-http-header)
+
+
+
+
+
+- [Investigate Web POSTs From src](#investigate-web-posts-from-src)
 
 
 
@@ -3425,7 +4465,19 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Multiple Archive Files Http Post Traffic](#multiple-archive-files-http-post-traffic)
+
+
+
+
+
+
 
 
 
@@ -3555,6 +4607,74 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Prohibited Network Traffic Allowed](#prohibited-network-traffic-allowed)
 
 
@@ -3620,6 +4740,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Remote Desktop Network Traffic](#remote-desktop-network-traffic)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3779,7 +4911,27 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [TOR Traffic](#tor-traffic)
+
+
+
+
+
+
 
 
 
@@ -3862,11 +5014,89 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 </details>
 
 ## Application
 <details>
   <summary>details</summary>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4288,6 +5518,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Email Attachments With Lots Of Spaces](#email-attachments-with-lots-of-spaces)
 
 
@@ -4297,6 +5533,100 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Email servers sending high volume traffic to hosts](#email-servers-sending-high-volume-traffic-to-hosts)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4442,6 +5772,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Multiple Okta Users With Invalid Credentials From The Same IP](#multiple-okta-users-with-invalid-credentials-from-the-same-ip)
 
 
@@ -4462,7 +5798,13 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [No Windows Updates in a time frame](#no-windows-updates-in-a-time-frame)
+
+
+
+
 
 
 
@@ -4726,6 +6068,92 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Suspicious Email Attachment Extensions](#suspicious-email-attachment-extensions)
 
 
@@ -4734,7 +6162,25 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Suspicious Java Classes](#suspicious-java-classes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4867,11 +6313,85 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 </details>
 
 ## Web
 <details>
   <summary>details</summary>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5429,7 +6949,199 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5711,7 +7423,35 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
 - [Supernova Webshell](#supernova-webshell)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -5860,6 +7600,88 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+### 7zip CommandLine To SMB Share Path
+This search is to detect a suspicious 7z process with commandline pointing to SMB network share. This technique was seen in CONTI LEAK tools where it use 7z to archive a sensitive files and place it in network share tmp folder. This search is a good hunting query that may give analyst a hint why specific user try to archive a file pointing to SMB user which is un usual.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1560.001](https://attack.mitre.org/techniques/T1560/001/)
+- **Last Updated**: 2021-08-17
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name ="7z.exe" OR Processes.process_name = "7za.exe" OR Processes.original_file_name = "7z.exe" OR Processes.original_file_name =  "7za.exe") AND (Processes.process="*\\C$\\*" OR Processes.process="*\\Admin$\\*" OR Processes.process="*\\IPC$\\*") by Processes.original_file_name Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.parent_process_id Processes.process_id  Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `7zip_commandline_to_smb_share_path_filter`
+```
+#### Associated Analytic Story
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed 7z.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1560.001 | Archive via Utility | Collection |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://threadreaderapp.com/thread/1423361119926816776.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log
+
+
+_version_: 1
+</details>
+
+---
 
 ### AWS Create Policy Version to allow all resources
 This search looks for AWS CloudTrail events where a user created a policy version that allows them to access any resource in their account
@@ -6336,6 +8158,421 @@ _version_: 1
 
 ---
 
+### AWS ECR Container Scanning Findings High
+This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings with the results.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204/003/)
+- **Last Updated**: 2021-08-17
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings 
+| spath path=responseElements.imageScanFindings.findings{} output=findings 
+| mvexpand findings 
+| spath input=findings
+| search severity=HIGH 
+| rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest as imageDigest, requestParameters.repositoryName as repositoryName 
+| eval finding = finding_name.", ".finding_description 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, repositoryName, user, userName, src_ip, finding 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_ecr_container_scanning_findings_high_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+#### Required field
+
+* eventSource
+
+* eventName
+
+* responseElements.imageScanFindings.findings{}
+
+* awsRegion
+
+* requestParameters.imageId.imageDigest
+
+* requestParameters.repositoryName
+
+* user
+
+* userName
+
+* src_ip
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1204.003 | Malicious Image | Execution |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS ECR Container Scanning Findings Low Informational Unknown
+This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings with the results.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204/003/)
+- **Last Updated**: 2021-08-17
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings 
+| spath path=responseElements.imageScanFindings.findings{} output=findings 
+| mvexpand findings 
+| spath input=findings
+| search severity IN (LOW, INFORMATIONAL, UNKNWON) 
+| rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest as imageDigest, requestParameters.repositoryName as repositoryName 
+| eval finding = finding_name.", ".finding_description 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, repositoryName, user, userName, src_ip, finding 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_ecr_container_scanning_findings_low_informational_unknown_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+#### Required field
+
+* eventSource
+
+* eventName
+
+* responseElements.imageScanFindings.findings{}
+
+* awsRegion
+
+* requestParameters.imageId.imageDigest
+
+* requestParameters.repositoryName
+
+* user
+
+* userName
+
+* src_ip
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1204.003 | Malicious Image | Execution |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS ECR Container Scanning Findings Medium
+This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings with the results.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204/003/)
+- **Last Updated**: 2021-08-17
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings 
+| spath path=responseElements.imageScanFindings.findings{} output=findings 
+| mvexpand findings 
+| spath input=findings
+| search severity=MEDIUM 
+| rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest as imageDigest, requestParameters.repositoryName as repositoryName 
+| eval finding = finding_name.", ".finding_description 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, repositoryName, user, userName, src_ip, finding 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_ecr_container_scanning_findings_medium_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+#### Required field
+
+* eventSource
+
+* eventName
+
+* responseElements.imageScanFindings.findings{}
+
+* awsRegion
+
+* requestParameters.imageId.imageDigest
+
+* requestParameters.repositoryName
+
+* user
+
+* userName
+
+* src_ip
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1204.003 | Malicious Image | Execution |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS ECR Container Upload Outside Business Hours
+This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done during business hours. When done outside business hours, we want to take a look into it.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204/003/)
+- **Last Updated**: 2021-08-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20 OR date_hour<8 NOT (date_wday=saturday OR date_wday=sunday) 
+| rename requestParameters.* as * 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, user, userName, src_ip, imageTag, registryId, repositoryName 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_ecr_container_upload_outside_business_hours_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+#### Required field
+
+* eventSource
+
+* eventName
+
+* awsRegion
+
+* requestParameters.imageTag
+
+* requestParameters.registryId
+
+* requestParameters.repositoryName
+
+* user
+
+* userName
+
+* src_ip
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1204.003 | Malicious Image | Execution |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+When your development is spreaded in different time zones, applying this rule can be difficult.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1204/003/
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS ECR Container Upload Unknown User
+This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done from only a few known users. When the user was never seen before, we should have a closer look into the event.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204/003/)
+- **Last Updated**: 2021-08-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage NOT `aws_ecr_users` 
+| rename requestParameters.* as * 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, user, userName, src_ip, imageTag, registryId, repositoryName 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_ecr_container_upload_unknown_user_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+#### Required field
+
+* eventSource
+
+* eventName
+
+* awsRegion
+
+* requestParameters.imageTag
+
+* requestParameters.registryId
+
+* requestParameters.repositoryName
+
+* user
+
+* userName
+
+* src_ip
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1204.003 | Malicious Image | Execution |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1204/003/
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### AWS Excessive Security Scanning
 This search looks for AWS CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
 
@@ -6794,6 +9031,302 @@ _version_: 1
 
 ---
 
+### AWS Investigate Security Hub alerts by dest
+This search retrieves the all the alerts created by AWS Security Hub for a specific dest(instance_id).
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-06-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`aws_securityhub_firehose` "findings{}.Resources{}.Type"=AWSEC2Instance 
+| rex field=findings{}.Resources{}.Id .*instance/(?<instance>.*)
+| rename instance as dest
+| search dest = $dest$ 
+|rename findings{}.* as * 
+| rename Remediation.Recommendation.Text as Remediation 
+|  table dest Title ProductArn Description FirstObservedAt RecordState Remediation
+```
+#### Associated Analytic Story
+
+* Cloud Compute Instance
+
+* Cloud Cryptomining
+
+* Suspicious AWS EC2 Activities
+
+* AWS Suspicious Provisioning Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* findings{}.Resources{}.Type
+
+* findings{}.Resources{}.Id
+
+* instance
+
+* Remediation.Recommendation.Text
+
+* Title
+
+* ProductArn
+
+* Description
+
+* FirstObservedAt
+
+* RecordState
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS Investigate User Activities By ARN
+This search lists all the logged CloudTrail activities by a specific user ARN and will create a table containing the source of the user, the region of the activity, the name and type of the event, the action taken, and all the user's identity information.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2019-04-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` 
+| search user=$user$
+| table _time userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+* AWS Network ACL Activity
+
+* Cloud Cryptomining
+
+* Command and Control
+
+* Suspicious AWS EC2 Activities
+
+* Suspicious AWS Login Activities
+
+* Suspicious AWS S3 Activities
+
+* Suspicious AWS Traffic
+
+* Unusual AWS EC2 Modifications
+
+* Suspicious Cloud User Activities
+
+* AWS Suspicious Provisioning Activities
+
+* Suspicious Cloud Instance Activities
+
+* AWS Security Hub Alerts
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* user
+
+* userIdentity.type
+
+* userIdentity.userName
+
+* userIdentity.arn
+
+* aws_account_id
+
+* src
+
+* awsRegion
+
+* eventName
+
+* eventType
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### AWS Investigate User Activities By AccessKeyId
+This search retrieves the times, ARN, source IPs, AWS regions, event names, and the result of the event for specific credentials.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-06-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` 
+| rename userIdentity.accessKeyId as accessKeyId
+| search accessKeyId=$accessKeyId$ 
+| spath output=user path=userIdentity.arn  
+| rename sourceIPAddress as src_ip 
+| table _time, user, src_ip, awsRegion, eventName, errorCode, errorMessage
+```
+#### Associated Analytic Story
+
+* AWS Cross Account Activity
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* userIdentity.accessKeyId
+
+* userIdentity.arn
+
+* sourceIPAddress
+
+* awsRegion
+
+* eventName
+
+* errorCode
+
+* errorMessage
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS Network ACL Details from ID
+This search queries AWS description logs and returns all the information about a specific network ACL via network ACL ID
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-01-22
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`aws_description` 
+| rename id as networkAclId 
+| search  networkAclId=$networkAclId$ 
+| table id account_id vpc_id network_acl_entries{}.*
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* Command and Control
+
+* Suspicious AWS Traffic
+
+
+#### How To Implement
+In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.
+
+#### Required field
+
+* _time
+
+* id
+
+* account_id
+
+* vpc_id
+
+* network_acl_entries{}.*
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### AWS Network Access Control List Created with All Open Ports
 The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
@@ -6949,6 +9482,136 @@ It's possible that a user has legitimately deleted a network ACL.
 
 
 _version_: 2
+</details>
+
+---
+
+### AWS Network Interface details via resourceId
+This search queries AWS configuration logs and returns the information about a specific network interface via network interface ID. The information will include the ARN of the network interface, its relationships with other AWS resources, the public and the private IP associated with the network interface.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-05-07
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`aws_config` resourceId=$resourceId$ 
+| table _time ARN relationships{}.resourceType relationships{}.name relationships{}.resourceId  configuration.privateIpAddresses{}.privateIpAddress configuration.privateIpAddresses{}.association.publicIp
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* Command and Control
+
+* Suspicious AWS Traffic
+
+
+#### How To Implement
+In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS configuration inputs
+
+#### Required field
+
+* _time
+
+* resourceId
+
+* ARN
+
+* relationships{}.resourceType
+
+* relationships{}.name
+
+* relationships{}.resourceId
+
+* configuration.privateIpAddresses{}.privateIpAddress
+
+* configuration.privateIpAddresses{}.association.publicIp
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### AWS S3 Bucket details via bucketName
+This search queries AWS configuration logs and returns the information about a specific S3 bucket. The information returned includes the time the S3 bucket was created, the resource ID, the region it belongs to, the value of action performed, AWS account ID, and configuration values of the access-control lists associated with the bucket.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-06-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`aws_config` 
+| rename resourceId as bucketName 
+|search bucketName=$bucketName$ 
+| table resourceCreationTime bucketName vendor_region action aws_account_id supplementaryConfiguration.AccessControlList
+```
+#### Associated Analytic Story
+
+* Suspicious AWS S3 Activities
+
+
+#### How To Implement
+To implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later) and configure your AWS inputs.
+
+#### Required field
+
+* _time
+
+* resourceId
+
+* bucketName
+
+* resourceCreationTime
+
+* vendor_region
+
+* action
+
+* aws_account_id
+
+* supplementaryConfiguration.AccessControlList
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
 </details>
 
 ---
@@ -7701,6 +10364,8 @@ this search is to detect a potential account discovery series of command used by
 
 * Trickbot
 
+* IcedID
+
 
 #### How To Implement
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
@@ -7749,11 +10414,63 @@ admin or power user may used this series of command.
 
 * https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
 
+* https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/
+
 
 
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### All backup logs for host
+Retrieve the backup logs for the last 2 weeks for a specific host in order to investigate why backups are not completing successfully.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| search `netbackup` dest=$dest$
+```
+#### Associated Analytic Story
+
+* Monitor Backup Solution
+
+
+#### How To Implement
+The successfully implement this search you must first send your backup logs to Splunk.
+
+#### Required field
+
+* _time
+
+* dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
 
 
 _version_: 1
@@ -7941,7 +10658,7 @@ The following analytic identifies suspicious PowerShell command to allow inbound
 
 #### Search
 ```
-`powershell` EventCode=4104 Message = "*firewall*" Message = "*Public*" Message = "*Inbound*" Message = "*Allow*"  Message = "*-LocalPort*" 
+`powershell` EventCode=4104 Message = "*firewall*" Message = "*Inbound*" Message = "*Allow*"  Message = "*-LocalPort*" 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -8233,6 +10950,68 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, UA and source IPs and direct request to API provide context.
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Amazon EKS Kubernetes activity by src ip
+This search provides investigation data about requests via user agent, authentication request URI, verb and cluster name data against Kubernetes cluster from a specific IP address
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-04-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`aws_cloudwatchlogs_eks` 
+|rename sourceIPs{} as src_ip 
+|search src_ip=$src_ip$ 
+| stats count min(_time) as firstTime max(_time) as lastTime values(user.username) values(requestURI) values(verb) values(userAgent) by source annotations.authorization.k8s.io/decision src_ip
+```
+#### Associated Analytic Story
+
+* Kubernetes Scanning Activity
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Cloud Watch EKS inputs.
+
+#### Required field
+
+* _time
+
+* sourceIPs{}
+
+* user.username
+
+* requestURI
+
+* verb
+
+* userAgent
+
+* annotations.authorization.k8s.io/decision
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
 
 #### Reference
 
@@ -8612,10 +11391,10 @@ This detection indicates use of Mimikatz modules that facilitate Pass-the-Token 
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)kerberos::ptt/)=true OR match_regex(cmd_line, /(?i)kerberos::golden/)=true OR match_regex(cmd_line, /(?i)kerberos::silver/)=true OR match_regex(cmd_line, /(?i)misc::skeleton/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -8698,10 +11477,10 @@ Stolen credentials are applied by methods such as user impersonation, credential
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Invoke-CredentialInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-TokenManipulation/)=true OR match_regex(cmd_line, /(?i)Invoke-UserImpersonation/)=true OR match_regex(cmd_line, /(?i)Get-System/)=true OR match_regex(cmd_line, /(?i)Invoke-RevertToSelf/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -8782,10 +11561,10 @@ This detection identifies use of DSInternals modules that verify password streng
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Test-PasswordQuality/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -9025,9 +11804,9 @@ This analytic will identify suspicious series of command-line to disable several
 
 | from read_ssa_enriched_events() 
 | eval _datamodels=ucast(map_get(input_event, "_datamodels"), "collection<string>", []), body={} 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%disabled%") AND like(cmd_line, "%config%") AND process_name="sc.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -9193,9 +11972,9 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%delete%") AND process_name = "sc.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -9356,10 +12135,10 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
  
 | from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
+| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where process_name="cmd.exe" OR process_name="reg.exe" 
 | where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events(); 
 ```
 #### Associated Analytic Story
@@ -9685,6 +12464,865 @@ _version_: 1
 
 ---
 
+### Baseline Of Cloud Infrastructure API Calls Per User
+This search is used to build a Machine Learning Toolkit (MLTK) model for how many API calls are performed by each user. By default, the search uses the last 90 days of data to build the model and the model is rebuilt weekly. The model created by this search is then used in the corresponding detection search, which identifies subsequent outliers in the number of instances created in a small time window.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-09-07
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats count as api_calls from datamodel=Change where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time span=1h 
+| `drop_dm_object_name("All_Changes")` 
+| eval HourOfDay=strftime(_time, "%H") 
+| eval HourOfDay=floor(HourOfDay/4)*4 
+| eval DayOfWeek=strftime(_time, "%w") 
+| eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) 
+| table _time api_calls, user, HourOfDay, isWeekend 
+| eventstats dc(api_calls) as api_calls by user, HourOfDay, isWeekend 
+| where api_calls >= 1 
+| fit DensityFunction api_calls by "user,HourOfDay,isWeekend" into cloud_excessive_api_calls_v1 dist=norm show_density=true
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud User Activities
+
+
+#### How To Implement
+You must have Enterprise Security 6.0 or later, if not you will need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 90 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.
+
+#### Required field
+
+* _time
+
+* All_Changes.user
+
+* All_Changes.status
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline Of Cloud Instances Destroyed
+This search is used to build a Machine Learning Toolkit (MLTK) model for how many instances are destroyed in the environment. By default, the search uses the last 90 days of data to build the model and the model is rebuilt weekly. The model created by this search is then used in the corresponding detection search, which identifies subsequent outliers in the number of instances destroyed in a small time window.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-25
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats count as instances_destroyed from datamodel=Change where All_Changes.action=deleted AND All_Changes.status=success AND All_Changes.object_category=instance by _time span=1h 
+| makecontinuous span=1h _time 
+| eval instances_destroyed=coalesce(instances_destroyed, (random()%2)*0.0000000001) 
+| eval HourOfDay=strftime(_time, "%H") 
+| eval HourOfDay=floor(HourOfDay/4)*4 
+| eval DayOfWeek=strftime(_time, "%w") 
+| eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) 
+| table _time instances_destroyed, HourOfDay, isWeekend 
+| fit DensityFunction instances_destroyed by "HourOfDay,isWeekend" into cloud_excessive_instances_destroyed_v1 dist=expon show_density=true
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Instance Activities
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must have Enterprise Security 6.0 or later, if not you will need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.\
+More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.status
+
+* All_Changes.object_category
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline Of Cloud Instances Launched
+This search is used to build a Machine Learning Toolkit (MLTK) model for how many instances are created in the environment. By default, the search uses the last 90 days of data to build the model and the model is rebuilt weekly. The model created by this search is then used in the corresponding detection search, which identifies subsequent outliers in the number of instances created in a small time window.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats count as instances_launched from datamodel=Change where (All_Changes.action=created) AND All_Changes.status=success AND All_Changes.object_category=instance by _time span=1h 
+| makecontinuous span=1h _time 
+| eval instances_launched=coalesce(instances_launched, (random()%2)*0.0000000001) 
+| eval HourOfDay=strftime(_time, "%H") 
+| eval HourOfDay=floor(HourOfDay/4)*4 
+| eval DayOfWeek=strftime(_time, "%w") 
+| eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) 
+| table _time instances_launched, HourOfDay, isWeekend 
+| fit DensityFunction instances_launched by "HourOfDay,isWeekend" into cloud_excessive_instances_created_v1 dist=expon show_density=true
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+* Suspicious Cloud Instance Activities
+
+
+#### How To Implement
+You must have Enterprise Security 6.0 or later, if not you will need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 90 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.\
+More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.status
+
+* All_Changes.object_category
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline Of Cloud Security Group API Calls Per User
+This search is used to build a Machine Learning Toolkit (MLTK) model for how many API calls for security groups are performed by each user. By default, the search uses the last 90 days of data to build the model and the model is rebuilt weekly.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-09-07
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats count as security_group_api_calls from datamodel=Change where All_Changes.object_category=firewall All_Changes.status=success by All_Changes.user _time span=1h 
+| `drop_dm_object_name("All_Changes")` 
+| eval HourOfDay=strftime(_time, "%H") 
+| eval HourOfDay=floor(HourOfDay/4)*4 
+| eval DayOfWeek=strftime(_time, "%w") 
+| eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) 
+| table _time security_group_api_calls, user, HourOfDay, isWeekend 
+| eventstats dc(security_group_api_calls) as security_group_api_calls by user, HourOfDay, isWeekend 
+| where security_group_api_calls >= 1 
+| fit DensityFunction security_group_api_calls by "user,HourOfDay,isWeekend" into cloud_excessive_security_group_api_calls_v1 dist=norm show_density=true
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud User Activities
+
+
+#### How To Implement
+You must have Enterprise Security 6.0 or later, if not you will need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 90 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.
+
+#### Required field
+
+* _time
+
+* All_Changes.user
+
+* All_Changes.status
+
+* All_Changes.object_category
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of API Calls per User ARN
+This search establishes, on a per-hour basis, the average and the standard deviation of the number of API calls made by each user. Also recorded is the number of data points for each user. This table is then outputted to a lookup file to allow the detection search to operate quickly.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-04-09
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventType=AwsApiCall 
+| spath output=arn path=userIdentity.arn 
+| bucket _time span=1h 
+| stats count as apiCalls by _time, arn 
+| stats count(apiCalls) as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls, stdev(apiCalls) as stdevApiCalls by arn 
+| table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls 
+| outputlookup api_call_by_user_baseline 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS User Monitoring
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* eventType
+
+* userIdentity.arn
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of Command Line Length - MLTK
+This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the length of the command lines observed for each user in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which identifies outliers in the length of the command line.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2019-05-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as start_time max(_time) as end_time FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process 
+| `drop_dm_object_name(Processes)` 
+| search user!=unknown 
+| `security_content_ctime(start_time)`
+| `security_content_ctime(end_time)`
+| eval processlen=len(process) 
+| fit DensityFunction processlen by user into cmdline_pdfmodel
+```
+#### Associated Analytic Story
+
+* Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+
+* Ransomware
+
+* Suspicious Command-Line Executions
+
+* Suspicious MSHTA Activity
+
+* Unusual Processes
+
+
+#### How To Implement
+You must be ingesting endpoint data and populating the Endpoint data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data. More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+
+#### Required field
+
+* _time
+
+* Processes.user
+
+* Processes.dest
+
+* Processes.process_name
+
+* Processes.process
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of DNS Query Length - MLTK
+This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the length of the DNS queries for each DNS record type observed in the environment. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search, which uses it to identify outliers in the length of the DNS query.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Network_Resolution
+- **ATT&CK**: 
+- **Last Updated**: 2019-05-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count from datamodel=Network_Resolution by DNS.query DNS.record_type 
+| search DNS.record_type=* 
+| `drop_dm_object_name("DNS")` 
+| eval query_length = len(query) 
+| fit DensityFunction query_length by record_type into dns_query_pdfmodel
+```
+#### Associated Analytic Story
+
+* Command and Control
+
+* Hidden Cobra Malware
+
+* Suspicious DNS Traffic
+
+
+#### How To Implement
+To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data. More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+
+#### Required field
+
+* _time
+
+* DNS.query
+
+* DNS.record_type
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of Excessive AWS Instances Launched by User - MLTK
+This search is used to build a Machine Learning Toolkit (MLTK) model for how many RunInstances users do in the environment. By default, the search uses the last 90 days of data to build the model. The model created by this search is then used in the corresponding detection search, which identifies subsequent outliers in the number of RunInstances performed by a user in a small time window.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2019-11-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=RunInstances errorCode=success `ec2_excessive_runinstances_mltk_input_filter` 
+| bucket span=10m _time 
+| stats count as instances_launched by _time src_user 
+| fit DensityFunction instances_launched threshold=0.0005 into ec2_excessive_runinstances_v1
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+* Suspicious AWS EC2 Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.\
+In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.\
+More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* errorCode
+
+* src_user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of Excessive AWS Instances Terminated by User - MLTK
+This search is used to build a Machine Learning Toolkit (MLTK) model for how many TerminateInstances users do in the environment. By default, the search uses the last 90 days of data to build the model. The model created by this search is then used in the corresponding detection search, which identifies subsequent outliers in the number of TerminateInstances performed by a user in a small time window.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2019-11-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=TerminateInstances errorCode=success `ec2_excessive_terminateinstances_mltk_input_filter` 
+| bucket span=10m _time 
+| stats count as instances_terminated by _time src_user 
+| fit DensityFunction instances_terminated threshold=0.0005 into ec2_excessive_terminateinstances_v1
+```
+#### Associated Analytic Story
+
+* Suspicious AWS EC2 Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.\
+In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.\
+More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* errorCode
+
+* src_user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of Network ACL Activity by ARN
+This search establishes, on a per-hour basis, the average and the standard deviation of the number of API calls that were related to network ACLs made by each user. Also recorded is the number of data points for each user. This table is then outputted to a lookup file to allow the detection search to operate quickly.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-05-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` `network_acl_events` 
+| spath output=arn path=userIdentity.arn 
+| bucket _time span=1h 
+| stats count as apiCalls by _time, arn 
+| stats count(apiCalls) as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls, stdev(apiCalls) as stdevApiCalls by arn 
+| table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls 
+| outputlookup network_acl_activity_baseline 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs. To add or remove API event names for network ACLs, edit the macro `network_acl_events`.
+
+#### Required field
+
+* _time
+
+* userIdentity.arn
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of S3 Bucket deletion activity by ARN
+This search establishes, on a per-hour basis, the average and standard deviation for the number of API calls related to deleting an S3 bucket by each user. Also recorded is the number of data points for each user. This table is then outputted to a lookup file to allow the detection search to operate quickly.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-07-17
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=DeleteBucket 
+| spath output=arn path=userIdentity.arn 
+| bucket _time span=1h 
+| stats count as apiCalls by _time, arn 
+| stats count(apiCalls) as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls, stdev(apiCalls) as stdevApiCalls by arn 
+| table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls 
+| outputlookup s3_deletion_baseline 
+| stats count
+```
+#### Associated Analytic Story
+
+* Suspicious AWS S3 Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* userIdentity.arn
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of SMB Traffic - MLTK
+This search is used to build a Machine Learning Toolkit (MLTK) model to characterize the number of SMB connections observed each hour for every day of week. By default, the search uses the last 30 days of data to build the model. The model created by this search is then used in the corresponding detection search to identify outliers in the number of SMB connections for that hour and day of the week.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Network_Traffic
+- **ATT&CK**: 
+- **Last Updated**: 2019-05-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb by _time span=10m, All_Traffic.src 
+| eval HourOfDay=strftime(_time, "%H") 
+| eval DayOfWeek=strftime(_time, "%A") 
+| `drop_dm_object_name("All_Traffic")` 
+| fit DensityFunction count by "HourOfDay,DayOfWeek" into smb_pdfmodel
+```
+#### Associated Analytic Story
+
+* DHS Report TA18-074A
+
+* Disabling Security Tools
+
+* Emotet Malware  DHS Report TA18-201A 
+
+* Hidden Cobra Malware
+
+* Netsh Abuse
+
+* Ransomware
+
+
+#### How To Implement
+You must be ingesting network traffic and populating the Network_Traffic data model. In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. To improve your results, you may consider adding "src" to the by clause, which will build the model for each unique source in your enviornment. However, if you have a large number of hosts in your environment, this search may be very resource intensive. In this case, you may need to raise the value of max_inputs and/or max_groups in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data. More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
+
+#### Required field
+
+* _time
+
+* All_Traffic.dest_port
+
+* All_Traffic.app
+
+* All_Traffic.src
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of Security Group Activity by ARN
+This search establishes, on a per-hour basis, the average and the standard deviation for the number of API calls related to security groups made by each user. Also recorded is the number of data points for each user. This table is then outputted to a lookup file to allow the detection search to operate quickly.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-04-17
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` `security_group_api_calls` 
+| spath output=arn path=userIdentity.arn 
+| bucket _time span=1h 
+| stats count as apiCalls by _time, arn 
+| stats count(apiCalls) as numDataPoints, latest(apiCalls) as latestCount, avg(apiCalls) as avgApiCalls, stdev(apiCalls) as stdevApiCalls by arn 
+| table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls 
+| outputlookup security_group_activity_baseline 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS User Monitoring
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs. To add or remove API event names for security groups, edit the macro `security_group_api_calls`.
+
+#### Required field
+
+* _time
+
+* userIdentity.arn
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Baseline of blocked outbound traffic from AWS
+This search establishes, on a per-hour basis, the average and the standard deviation of the number of outbound connections blocked in your VPC flow logs by each source IP address (IP address of your EC2 instances). Also recorded is the number of data points for each source IP. This table outputs to a lookup file to allow the detection search to operate quickly.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-05-07
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudwatchlogs_vpcflow` action=blocked (src_ip=10.0.0.0/8 OR src_ip=172.16.0.0/12 OR src_ip=192.168.0.0/16) ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16) 
+| bucket _time span=1h 
+| stats count as numberOfBlockedConnections by _time, src_ip 
+| stats count(numberOfBlockedConnections) as numDataPoints, latest(numberOfBlockedConnections) as latestCount, avg(numberOfBlockedConnections) as avgBlockedConnections, stdev(numberOfBlockedConnections) as stdevBlockedConnections by src_ip 
+| table src_ip, latestCount, numDataPoints, avgBlockedConnections, stdevBlockedConnections 
+| outputlookup baseline_blocked_outbound_connections 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* Command and Control
+
+* Suspicious AWS Traffic
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your `VPC flow logs.`.
+
+#### Required field
+
+* _time
+
+* action
+
+* src_ip
+
+* dest_ip
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Batch File Write to System32
 The search looks for a batch file (.bat) written to the Windows system directory tree.
 
@@ -9750,6 +13388,90 @@ It is possible for this search to generate a notable event for a batch file writ
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### CHCP Command Execution
+This search is to detect execution of chcp.exe application. this utility is used to change the active code page of the console. This technique was seen in icedid malware to know the locale region/language/country of the compromise host.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/)
+- **Last Updated**: 2021-07-27
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=chcp.com Processes.parent_process_name = cmd.exe Processes.parent_process=*/c* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `chcp_command_execution_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed chcp.com may be used.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process
+
+* parent_process_name
+
+* parent_process
+
+* process_id
+
+* parent_process_id
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1059 | Command and Scripting Interpreter | Execution |
+
+
+#### Kill Chain Phase
+
+* Reconnaissance
+
+
+#### Known False Positives
+other tools or script may used this to change code page to UTF-* or others
+
+#### Reference
+
+
+* https://ss64.com/nt/chcp.html
+
+* https://twitter.com/tccontre18/status/1419941156633329665?s=20
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
 
 
 _version_: 1
@@ -11725,6 +15447,191 @@ _version_: 1
 
 ---
 
+### Count of Unique IPs Connecting to Ports
+The search counts the number of times a connection was observed to each destination port, and the number of unique source IPs connecting to them.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Network_Traffic
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count dc(All_Traffic.src) as numberOfUniqueHosts from datamodel=Network_Traffic by All_Traffic.dest_port 
+| `drop_dm_object_name("All_Traffic")` 
+| sort - count
+```
+#### Associated Analytic Story
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting network traffic, and populating the Network_Traffic data model.
+
+#### Required field
+
+* _time
+
+* All_Traffic.dest_port
+
+* All_Traffic.src
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Count of assets by category
+This search shows you every asset category you have and the assets that belong to those categories.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from datamodel Identity_Management.All_Assets 
+| stats count values(nt_host) by category 
+| sort -count
+```
+#### Associated Analytic Story
+
+* Asset Tracking
+
+
+#### How To Implement
+To successfully implement this search you must first leverage the Assets and Identity framework in Enterprise Security to populate your assets_by_str.csv file which should then be mapped to the Identity_Management data model. The Identity_Management data model will contain a list of known authorized company assets. Ensure that all inventoried systems are constantly vetted and updated.
+
+#### Required field
+
+* _time
+
+* Identity_Management.All_Assets
+
+* category
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Create Remote Thread In Shell Application
+This search is to detect suspicious process injection in command shell. This technique was seen in IcedID where it execute cmd.exe process to inject its shellcode as part of its execution as banking trojan. It is really uncommon to have a create remote thread execution in the following application.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-08-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId SourceProcessId  EventCode StartAddress SourceImage Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `create_remote_thread_in_shell_application_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* SourceImage
+
+* TargetImage
+
+* TargetProcessId
+
+* SourceProcessId
+
+* StartAddress
+
+* EventCode
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://thedfirreport.com/2021/07/19/icedid-and-cobalt-strike-vs-antivirus/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Create Remote Thread into LSASS
 Detect remote thread creation into LSASS consistent with credential dumping.
 
@@ -11878,6 +15785,64 @@ unknown
 
 
 _version_: 1
+</details>
+
+---
+
+### Create a list of approved AWS service accounts
+This search looks for successful API activity in CloudTrail within the last 30 days, filters out known users from the identity table, and outputs values of users into `aws_service_accounts.csv` lookup file.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-12-03
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` errorCode=success 
+| rename userName as identity 
+| search NOT [inputlookup identity_lookup_expanded 
+| fields identity] 
+| stats count by identity 
+| table identity 
+| outputlookup aws_service_accounts 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS User Monitoring
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Please validate the service account entires in `aws_service_accounts.csv`, which is a lookup file created as a result of running this support search. Please remove the entries of service accounts that are not legitimate.
+
+#### Required field
+
+* _time
+
+* errorCode
+
+* userName
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
 </details>
 
 ---
@@ -12507,10 +16472,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND process_name != null AND parent_process_name != null AND match_regex(parent_process_name, /(?i)System32\\services.exe/)=true AND match_regex(process_name, /(?i)cachedump\d{0,2}.exe/)=true AND match_regex(process_path, /(?i)\\Temp/)=true AND match_regex(cmd_line, /(?i)\-s/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12585,10 +16550,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND process_name != null AND process_path != null AND match_regex(process_name, /(?i)cachedump\d{0,2}.exe/)=true AND match_regex(process_path, /(?i)\\Temp/)=true AND match_regex(cmd_line, /(?i)\-v/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12661,10 +16626,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND match_regex(cmd_line, /(?i)all\s+\-oA\s+\-output/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12732,10 +16697,10 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)ConvertFrom-ADManagedPasswordBlob/)=true OR match_regex(cmd_line, /(?i)ConvertFrom-GPPrefPassword/)=true OR match_regex(cmd_line, /(?i)ConvertFrom-UnicodePassword/)=true OR match_regex(cmd_line, /(?i)ConvertTo-GPPrefPassword/)=true OR match_regex(cmd_line, /(?i)ConvertTo-KerberosKey/)=true OR match_regex(cmd_line, /(?i)ConvertTo-LMHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-NTHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-OrgIdHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-UnicodePassword/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12814,10 +16779,10 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ADDBBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-ADDBDomainController/)=true OR match_regex(cmd_line, /(?i)Get-ADDBKdsRootKey/)=true OR match_regex(cmd_line, /(?i)Get-ADDBSchemaAttribute/)=true OR match_regex(cmd_line, /(?i)Get-ADKeyCredential/)=true OR match_regex(cmd_line, /(?i)Get-ADReplAccount/)=true OR match_regex(cmd_line, /(?i)Get-ADReplBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-ADSIAccount/)=true OR match_regex(cmd_line, /(?i)Get-AzureADUserEx/)=true OR match_regex(cmd_line, /(?i)Get-BootKey/)=true OR match_regex(cmd_line, /(?i)Get-LsaBackupKey/)=true OR match_regex(cmd_line, /(?i)Get-LsaPolicyInformation/)=true OR match_regex(cmd_line, /(?i)Get-SamPasswordPolicy/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12896,10 +16861,10 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)CRYPTO::Certificates/)=true OR match_regex(cmd_line, /(?i)CRYPTO::keys/)=true OR match_regex(cmd_line, /(?i)kerberos::list/)=true OR match_regex(cmd_line, /(?i)kerberos::tgt/)=true OR match_regex(cmd_line, /(?i)lsadump::sam/)=true OR match_regex(cmd_line, /(?i)lsadump::secrets/)=true OR match_regex(cmd_line, /(?i)lsadump::cache/)=true OR match_regex(cmd_line, /(?i)lsadump::lsa/)=true OR match_regex(cmd_line, /(?i)lsadump::trust/)=true OR match_regex(cmd_line, /(?i)lsadump::backupkeys/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -12972,10 +16937,10 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ApplicationHost/)=true OR match_regex(cmd_line, /(?i)Get-CachedGPPPassword/)=true OR match_regex(cmd_line, /(?i)Get-GPPAutologon/)=true OR match_regex(cmd_line, /(?i)Get-GPPPassword/)=true OR match_regex(cmd_line, /(?i)Get-RegistryAutoLogon/)=true OR match_regex(cmd_line, /(?i)Get-SiteListPassword/)=true OR match_regex(cmd_line, /(?i)Get-SPNTicket/)=true OR match_regex(cmd_line, /(?i)Request-SPNTicket/)=true OR match_regex(cmd_line, /(?i)Get-VaultCredential/)=true OR match_regex(cmd_line, /(?i)Invoke-Kerberoast/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13048,10 +17013,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND parent_process_name != null AND process_name != null  AND ( match_regex(parent_process_name, /(?i)ntkd\.exe/)=true OR match_regex(parent_process_name, /(?i)livekd\.exe/)=true ) AND match_regex(process_name, /(?i)conhost\.exe/)=true AND match_regex(cmd_line, /(?i)0xffffffff/)=true AND match_regex(cmd_line, /(?i)\-ForceV1/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13128,10 +17093,10 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND process_name != null AND ( match_regex(process_name, /^(?i)ntkd\.exe/)=true OR match_regex(process_name, /^(?i)kd\.exe/)=true ) AND match_regex(cmd_line, /(?i)\-z\s+/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13202,11 +17167,11 @@ Credential extraction is often an illegal recovery of credential material from s
  
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND match_regex(cmd_line, /(?i)Get-ADDBAccount/)=true AND match_regex(cmd_line, /(?i)\-dbpath[\s;:\.\
 |]+/)=true
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -13534,7 +17499,7 @@ This search allows you to identify DNS requests and compute the standard deviati
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Resolution
 - **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
-- **Last Updated**: 2021-01-18
+- **Last Updated**: 2021-07-21
 
 <details>
   <summary>details</summary>
@@ -13542,8 +17507,8 @@ This search allows you to identify DNS requests and compute the standard deviati
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count from datamodel=Network_Resolution by DNS.query 
-|  `drop_dm_object_name("DNS")` 
+| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where NOT DNS.message_type IN("Pointer","PTR") by DNS.query 
+| `drop_dm_object_name("DNS")` 
 | eval query_length = len(query) 
 | table query query_length record_type count 
 | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50
@@ -13595,6 +17560,61 @@ It's possible there can be long domain names that are legitimate.
 
 
 _version_: 3
+</details>
+
+---
+
+### DNSTwist Domain Names
+This search creates permutations of your existing domains, removes the valid domain names and stores them in a specified lookup file so they can be checked for in the associated detection searches.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-10-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| dnstwist domainlist=domains.csv 
+| `remove_valid_domains` 
+| eval domain_abuse="true" 
+| table domain, domain_abuse 
+| outputlookup brandMonitoring_lookup 
+| stats count
+```
+#### Associated Analytic Story
+
+* Brand Monitoring
+
+* Suspicious Emails
+
+
+#### How To Implement
+To successfully implement this search you need to update the file called domains.csv in the DA-ESS-SOC/lookup directory. Or `cim_corporate_email_domains.csv` and `cim_corporate_web_domains.csv` from **Splunk\_SA\_CIM**.
+
+#### Required field
+
+* _time
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
 </details>
 
 ---
@@ -13705,9 +17725,9 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%/delete%") AND (process_name="net1.exe" OR process_name="net.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -14042,9 +18062,9 @@ This analytic identifies a potential adversary that changes the security permiss
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)deny/)=true AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -15003,6 +19023,85 @@ _version_: 1
 
 ---
 
+### Detect Copy of ShadowCopy with Script Block Logging
+The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
+This analytic identifies `copy` or `[System.IO.File]::Copy` being used to capture the SAM, SYSTEM or SECURITY hives identified in script block. This will catch the most basic use cases for credentials being taken for offline cracking. \
+During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-07-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`powershell` EventCode=4104 Message IN ("*copy*","*[System.IO.File]::Copy*") AND Message IN ("*System32\\config\\SAM*", "*System32\\config\\SYSTEM*","*System32\\config\\SECURITY*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `detect_copy_of_shadowcopy_with_script_block_logging_filter`
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+
+#### Required field
+
+* _time
+
+* Message
+
+* OpCode
+
+* ComputerName
+
+* User
+
+* EventCode
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hives.
+
+#### Reference
+
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36934
+
+* https://github.com/GossiTheDog/HiveNightmare
+
+* https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Detect Credential Dumping through LSASS access
 This search looks for reading lsass memory consistent with credential dumping.
 
@@ -15098,9 +19197,9 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 ```
 
 | from read_ssa_enriched_events() 
-| eval tenant=ucast(map_get(input_event, "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"), "string", null)) 
+| eval tenant=ucast(map_get(input_event, "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine), body=create_map(["process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine), body=create_map(["event_id", event_id, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -16114,11 +20213,11 @@ This search detects a potential kerberoasting attack via service principal name 
 ```
  
 | from read_ssa_enriched_events() 
-| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
+| eval _time=map_get(input_event, "_time"), EventCode=map_get(input_event, "event_code"), TicketOptions=map_get(input_event, "ticket_options"), TicketEncryptionType=map_get(input_event, "ticket_encryption_type"), ServiceName=map_get(input_event, "service_name"), ServiceID=map_get(input_event, "service_id"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" 
 | first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"] 
 | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID 
-| eval start_time=_time, end_time=_time, body=create_map(["EventCode", EventCode, "ServiceName", ServiceName, "TicketOptions", TicketOptions, "TicketEncryptionType", TicketEncryptionType]), entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
+| eval start_time=_time, end_time=_time, body=create_map(["event_id", event_id, "EventCode", EventCode, "ServiceName", ServiceName, "TicketOptions", TicketOptions, "TicketEncryptionType", TicketEncryptionType]), entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
 | select start_time, end_time, entities, body 
 | into write_ssa_detected_events();
 ```
@@ -16748,7 +20847,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 #### Search
 ```
-`cloudtrail` eventSource="s3.amazonaws.com" eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers","*AllUsers") 
+`cloudtrail` eventSource="s3.amazonaws.com" (userAgent="[aws-cli*" OR userAgent=aws-cli* ) eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write-acp IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-full-control IN ("*AuthenticatedUsers","*AllUsers") 
 | rename requestParameters.bucketName AS bucketName 
 | fillnull 
 | stats count min(_time) as firstTime max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent bucketName requestParameters.accessControlList.x-amz-grant-read requestParameters.accessControlList.x-amz-grant-read-acp requestParameters.accessControlList.x-amz-grant-write requestParameters.accessControlList.x-amz-grant-write-acp requestParameters.accessControlList.x-amz-grant-full-control 
@@ -16843,7 +20942,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers") 
 | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL") 
 | rename requestParameters.bucketName AS bucketName 
-| stats count min(_time) as firstTime max(_time) as lastTime by userIdentity.userName userIdentity.principalId userAgent uri permission bucketName 
+| stats count min(_time) as firstTime max(_time) as lastTime by user_arn userIdentity.principalId userAgent uri permission bucketName 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `detect_new_open_s3_buckets_filter` 
@@ -16866,7 +20965,7 @@ You must install the AWS App for Splunk.
 
 * requestParameters.bucketName
 
-* userIdentity.userName
+* user_arn
 
 * userIdentity.principalId
 
@@ -17088,11 +21187,11 @@ This search looks for specific authentication events from the Windows Security E
 | from read_ssa_enriched_events()
 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval signature_id=map_get(input_event, "signature_id"), authentication_type=map_get(input_event, "authentication_type"), authentication_method=map_get(input_event, "authentication_method"), origin_device_domain=map_get(input_event, "origin_device_domain"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+| eval signature_id=map_get(input_event, "signature_id"), authentication_type=map_get(input_event, "authentication_type"), authentication_method=map_get(input_event, "authentication_method"), origin_device_domain=map_get(input_event, "origin_device_domain"), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
 
 | where (authentication_type="3" AND authentication_method="NtLmSsp") OR (authentication_type="9" AND authentication_method="seclogo")
 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["authentication_type", authentication_type, "authentication_method", authentication_method]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "authentication_type", authentication_type, "authentication_method", authentication_method]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -17442,13 +21541,13 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 | from read_ssa_enriched_events()
 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null)
+| eval process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null)
 
 | where process_name="cmd.exe" 
 | rex field=parent_process "(?<field0>[^\\\\]+)$" 
 | where field0="winword.exe" OR field0="excel.exe" OR field0="outlook.exe" OR field0="powerpnt.exe" OR field0="visio.exe" OR field0="mspub.exe" OR field0="acrobat.exe" OR field0="acrord32.exe" OR field0="chrome.exe" OR field0="iexplore.exe" OR field0="opera.exe" OR field0="firefox.exe" OR field0="java.exe" OR field0="powershell.exe"
 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map([ "process_name", process_name, "parent_process_name", parent_process]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name, "parent_process_name", parent_process]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -18476,7 +22575,7 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 
 #### Search
 ```
-`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe) 
+`sysmon` EventID=1 (OriginalFileName=psexec.c process_name!=psexec.exe process_name!=PsExec64.exe) 
 | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -18654,7 +22753,7 @@ The following analtyic identifies renamed instances of `WinRAR.exe`. In most cas
 
 #### Search
 ```
-`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe 
+`sysmon` EventID=1 (Product=WinRAR OR OriginalFileName=WinRAR.exe) process_name!=rar.exe process_name!=winrar.exe 
 | stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -20869,7 +24968,7 @@ This search looks for fast execution of processes used for system network config
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.process_name Processes.user _time 
+| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where NOT Processes.user IN ("","unknown") by Processes.dest Processes.process_name Processes.user _time 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `drop_dm_object_name(Processes)` 
@@ -20940,6 +25039,89 @@ It is uncommon for normal users to execute a series of commands used for network
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log
+
+
+_version_: 2
+</details>
+
+---
+
+### Detect shared ec2 snapshot
+The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1537](https://attack.mitre.org/techniques/T1537/)
+- **Last Updated**: 2021-07-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=ModifySnapshotAttribute 
+| rename requestParameters.createVolumePermission.add.items{}.userId as requested_account_id 
+| search requested_account_id != NULL 
+| eval match=if(requested_account_id==aws_account_id,"Match","No Match") 
+| table _time user_arn src_ip requestParameters.attributeType requested_account_id aws_account_id match vendor_region user_agent 
+| where match = "No Match" 
+| `detect_shared_ec2_snapshot_filter` 
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Instance Activities
+
+* Data Exfiltration
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* user_arn
+
+* src_ip
+
+* requestParameters.attributeType
+
+* aws_account_id
+
+* vendor_region
+
+* user_agent
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1537 | Transfer Data to Cloud Account | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+It is possible that an AWS admin has legitimately shared a snapshot with others for  a specific purpose.
+
+#### Reference
+
+
+* https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
 
 
 _version_: 2
@@ -21268,9 +25450,9 @@ This analytic will identify a suspicious command-line that disables a user accou
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%/active:no%") AND (process_name="net1.exe" OR process_name="net.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -22454,6 +26636,74 @@ _version_: 1
 
 ---
 
+### Discover DNS records
+The search takes corporate and common cloud provider domains configured under `cim_corporate_email_domains.csv`, `cim_corporate_web_domains.csv`, and `cloud_domains.csv` finds their responses across the last 30 days from data in the `Network_Resolution ` datamodel, then stores the output under the `discovered_dns_records.csv` lookup
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Network_Resolution
+- **ATT&CK**: 
+- **Last Updated**: 2019-02-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| inputlookup cim_corporate_email_domains.csv 
+| inputlookup append=T cim_corporate_web_domains.csv 
+| inputlookup append=T cim_cloud_domains.csv 
+| eval domain = trim(replace(domain, "\*", "")) 
+| join domain [
+|tstats `security_content_summariesonly` count values(DNS.record_type) as type, values(DNS.answer) as answer from datamodel=Network_Resolution where DNS.message_type=RESPONSE DNS.answer!="unknown" DNS.answer!="" by DNS.query 
+| rename DNS.query as query 
+| where query!="unknown" 
+| rex field=query "(?<domain>\w+\.\w+?)(?:$
+|/)"] 
+| makemv delim=" " answer 
+|  makemv delim=" " type 
+| sort -count 
+| table count,domain,type,query,answer 
+| outputlookup createinapp=true discovered_dns_records
+```
+#### Associated Analytic Story
+
+* DNS Hijacking
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting DNS logs, and populating the Network_Resolution data model. Also make sure that the cim_corporate_web_domains and cim_corporate_email_domains lookups are populated with the domains owned by your corporation
+
+#### Required field
+
+* _time
+
+* DNS.record_type
+
+* DNS.answer
+
+* DNS.query
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Download Files Using Telegram
 The following analytic will identify a suspicious download by the Telegram application on a Windows system. This behavior was identified on a honeypot where the adversary gained access, installed Telegram and followed through with downloading different network scanners (port, bruteforcer, masscan) to the system and later used to mapped the whole network and further move laterally.
 
@@ -22524,6 +26774,71 @@ normal download of file in telegram app. (if it was a common app in network)
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Drop IcedID License dat
+This search is to detect dropping a suspicious file named as "license.dat" in %appdata%. This behavior seen in latest IcedID malware that contain the actual core bot that will be injected in other process to do banking stealing.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1204.002](https://attack.mitre.org/techniques/T1204/002/)
+- **Last Updated**: 2021-07-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*" OR TargetFilename="*\\programdata\\*") 
+|stats count min(_time) as firstTime max(_time) as lastTime by TargetFilename EventCode process_id  process_name Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `drop_icedid_license_dat_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1204.002 | Malicious File | Execution |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.cisecurity.org/white-papers/security-primer-icedid/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
 
 
 _version_: 1
@@ -23184,6 +27499,8 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 #### Associated Analytic Story
 
 * Windows Defense Evasion Tactics
+
+* IcedID
 
 
 #### How To Implement
@@ -24821,12 +29138,12 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
 | eval dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), cmd_line_norm=lower(cmd_line), cmd_line_norm=replace(cmd_line_norm, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/, "GUID"), cmd_line_norm=replace(cmd_line_norm, /(?<=\s)+\\[^:]*(?=\\.*\.\w{3}(\s
 |$)+)/, "\\PATH"), /* replaces " \\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s
-|$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\d+/, "N") 
+|$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where process_name="cmd.exe" AND match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true 
 | select process_name, cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id 
 | first_time_event input_columns=["cmd_line_norm"] 
 | where first_time_cmd_line_norm 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -24909,6 +29226,8 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 
 * Windows Defense Evasion Tactics
 
+* IcedID
+
 
 #### How To Implement
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -24969,6 +29288,84 @@ Limited to no false positives are expected.
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Fsutil Zeroing File
+This search is to detect a suspicious fsutil process to zeroing a target file. This technique was seen in lockbit ransomware where it tries to zero out its malware path as part of its defense evasion after encrypting the compromised host.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1070](https://attack.mitre.org/techniques/T1070/)
+- **Last Updated**: 2021-08-11
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe Processes.process="*setzerodata*" by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  Processes.process Processes.parent_process 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `fsutil_zeroing_file_filter`
+```
+#### Associated Analytic Story
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Processes.user
+
+* Processes.process_name
+
+* Processes.parent_process_name
+
+* Processes.dest
+
+* Processes.process
+
+* Processes.parent_process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1070 | Indicator Removal on Host | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-sysmon.log
 
 
 _version_: 1
@@ -25045,6 +29442,72 @@ Payload.request.function.timeout value can possibly be match with other function
 
 * https://www.youtube.com/watch?v=Ml09R38jpok
 
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### GCP Kubernetes activity by src ip
+This search provides investigation data about requests via user agent, authentication request URI, resource path and cluster name data against Kubernetes cluster from a specific IP address
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-04-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`google_gcp_pubsub_message` 
+| rename data.protoPayload.requestMetadata.callerIp as src_ip 
+| search src_ip =$src_ip$ 
+| stats count min(_time) as firstTime max(_time) as lastTime values(data.protoPayload.methodName) as method_names values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent) as http_user_agent values(data.protoPayload.authenticationInfo.principalEmail) as user values(data.protoPayload.status.message) by src_ip data.resource.labels.cluster_name data.resource.type
+```
+#### Associated Analytic Story
+
+* Kubernetes Scanning Activity
+
+
+#### How To Implement
+You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk. You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection to filter out FPs.
+
+#### Required field
+
+* _time
+
+* data.protoPayload.requestMetadata.callerIp
+
+* data.protoPayload.methodName
+
+* data.protoPayload.resourceName
+
+* data.protoPayload.requestMetadata.callerSuppliedUserAgent
+
+* data.protoPayload.authenticationInfo.principalEmail
+
+* data.protoPayload.status.message
+
+* data.resource.labels.cluster_name
+
+* data.resource.type
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
 
 
 #### Test Dataset
@@ -25216,6 +29679,1989 @@ _version_: 1
 
 ---
 
+### GSuite Email Suspicious Attachment
+This search is to detect a suspicious attachment file extension in Gsuite email that may related to spear phishing attack. This file type is commonly used by malware to lure user to click on it to execute malicious code to compromised targetted machine. But this search can also catch some normal files related to this file type that maybe send by employee or network admin.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-08-16
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh", "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go") 
+| stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by destination{}.service num_message_attachments  subject destination{}.address source.address 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_email_suspicious_attachment_filter`
+```
+#### Associated Analytic Story
+
+* DevSecOps
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+#### Required field
+
+* _time
+
+* attachment{}.file_extension_type
+
+* attachment{}.sha256
+
+* destination{}.service
+
+* num_message_attachments
+
+* payload_size
+
+* subject
+
+* destination{}.address
+
+* source.address
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
+
+#### Reference
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_attachment_ext/gsuite_gmail_file_ext.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Get All AWS Activity From City
+This search retrieves all the activity from a specific city and will create a table containing the time, city, ARN, username, the type of user, the source IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` 
+| iplocation sourceIPAddress 
+| search City=$City$ 
+| spath output=user path=userIdentity.arn 
+| spath output=awsUserName path=userIdentity.userName 
+| spath output=userType path=userIdentity.type 
+| rename sourceIPAddress as src_ip 
+| table _time, City, user, userName, userType, src_ip, awsRegion, eventName, errorCode
+```
+#### Associated Analytic Story
+
+* AWS Suspicious Provisioning Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* sourceIPAddress
+
+* userIdentity.arn
+
+* userIdentity.userName
+
+* userIdentity.type
+
+* awsRegion
+
+* eventName
+
+* errorCode
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get All AWS Activity From Country
+This search retrieves all the activity from a specific country and will create a table containing the time, country, ARN, username, the type of user, the source IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` 
+| iplocation sourceIPAddress 
+| search Country=$Country$ 
+| spath output=user path=userIdentity.arn 
+| spath output=awsUserName path=userIdentity.userName 
+| spath output=userType path=userIdentity.type 
+| rename sourceIPAddress as src_ip 
+| table _time, Country, user, userName, userType, src_ip, awsRegion, eventName, errorCode
+```
+#### Associated Analytic Story
+
+* AWS Suspicious Provisioning Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* sourceIPAddress
+
+* userIdentity.arn
+
+* userIdentity.userName
+
+* userIdentity.type
+
+* awsRegion
+
+* eventName
+
+* errorCode
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get All AWS Activity From IP Address
+This search retrieves all the activity from a specific IP address and will create a table containing the time, ARN, username, the type of user, the IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` 
+| iplocation sourceIPAddress 
+| search src_ip=$src_ip$ 
+| spath output=user path=userIdentity.arn 
+| spath output=awsUserName path=userIdentity.userName 
+| spath output=userType path=userIdentity.type 
+| rename sourceIPAddress as src_ip 
+| table _time, user, userName, userType, src_ip, awsRegion, eventName, errorCode
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* AWS Suspicious Provisioning Activities
+
+* Command and Control
+
+* Suspicious AWS S3 Activities
+
+* Suspicious AWS Traffic
+
+* Suspicious Cloud Instance Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* sourceIPAddress
+
+* userIdentity.arn
+
+* userIdentity.userName
+
+* userIdentity.type
+
+* awsRegion
+
+* eventName
+
+* errorCode
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get All AWS Activity From Region
+This search retrieves all the activity from a specific geographic region and will create a table containing the time, geographic region, ARN, username, the type of user, the source IP address, the AWS region the activity was in, the API called, and whether or not the API call was successful.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` 
+| iplocation sourceIPAddress 
+| search Region=$Region$ 
+| spath output=user path=userIdentity.arn 
+| spath output=awsUserName path=userIdentity.userName 
+| spath output=userType path=userIdentity.type 
+| rename sourceIPAddress as src_ip 
+| table _time, Region, user, userName, userType, src_ip, awsRegion, eventName, errorCode
+```
+#### Associated Analytic Story
+
+* AWS Suspicious Provisioning Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* sourceIPAddress
+
+* userIdentity.arn
+
+* userIdentity.userName
+
+* userIdentity.type
+
+* awsRegion
+
+* eventName
+
+* errorCode
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get Backup Logs For Endpoint
+This search will tell you the backup status from your netbackup_logs of a specific endpoint for the last week.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`netbackup` COMPUTERNAME=$dest$ 
+| rename COMPUTERNAME as dest, MESSAGE as signature 
+| table _time, dest, signature
+```
+#### Associated Analytic Story
+
+* Ransomware
+
+* SamSam Ransomware
+
+
+#### How To Implement
+You must be ingesting your backup logs.
+
+#### Required field
+
+* _time
+
+* COMPUTERNAME
+
+* MESSAGE
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get Certificate logs for a domain
+This search queries the Certificates datamodel and give you all the information for a specific domain. Please note that the certificates issued by "Let's Encrypt" are widely used by attackers.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2019-04-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates where All_Certificates.SSL.ssl_subject_common_name=*$domain$  by All_Certificates.dest All_Certificates.src All_Certificates.SSL.ssl_issuer_common_name All_Certificates.SSL.ssl_subject_common_name All_Certificates.SSL.ssl_hash 
+| `drop_dm_object_name(All_Certificates)` 
+| `drop_dm_object_name(SSL)` 
+| rename ssl_subject_common_name as domain 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+```
+#### Associated Analytic Story
+
+* Common Phishing Frameworks
+
+
+#### How To Implement
+You must be ingesting your certificates or SSL logs from your network traffic into your Certificates datamodel. Please note the wildcard(*) before domain in the search syntax, we use to match for all domain and subdomain combinations
+
+#### Required field
+
+* _time
+
+* All_Certificates.SSL.ssl_subject_common_name
+
+* All_Certificates.dest
+
+* All_Certificates.src
+
+* All_Certificates.SSL.ssl_issuer_common_name
+
+* All_Certificates.SSL.ssl_hash
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get DNS Server History for a host
+While investigating any detections it is important to understand which and how many DNS servers a host has connected to in the past. This search uses data that is tagged as DNS and gives you a count and list of DNS servers that a particular host has connected to the previous 24 hours.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-11-09
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| search tag=dns src_ip=$src_ip$ dest_port=53 
+| streamstats time_window=1d count values(dest_ip) as dcip by src_ip 
+| table date_mday src_ip dcip count 
+| sort -count
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* Command and Control
+
+* DNS Hijacking
+
+* Data Protection
+
+* Dynamic DNS
+
+* Hidden Cobra Malware
+
+* Host Redirection
+
+* Prohibited Traffic Allowed or Protocol Mismatch
+
+* Suspicious AWS Traffic
+
+* Suspicious DNS Traffic
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting your DNS traffic
+
+#### Required field
+
+* _time
+
+* src_ip
+
+* dest_port
+
+* dest_ip
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get DNS traffic ratio
+This search calculates the ratio of DNS traffic originating and coming from a host to a list of DNS servers over the last 24 hours. A high value of this ratio could be very useful to quickly understand if a src_ip (host) is sending a high volume of data out via port 53, could be an indicator of data exfiltration via DNS.  
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Network_Traffic
+- **ATT&CK**: 
+- **Last Updated**: 2017-11-09
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats allow_old_summaries=true sum(All_Traffic.bytes_out) as "bytes_out" sum(All_Traffic.bytes_in) as "bytes_in" from datamodel=Network_Traffic where nodename=All_Traffic All_Traffic.dest_port=53 by All_Traffic.src All_Traffic.dest
+| `drop_dm_object_name(All_Traffic)` 
+| rename src as src_ip 
+| rename dest as dest_ip 
+| search src_ip=$src_ip$ 
+| search dest_ip = $dest_ip 
+| eval ratio = (bytes_out/bytes_in) 
+| table ratio
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* Command and Control
+
+* Data Protection
+
+* Dynamic DNS
+
+* Hidden Cobra Malware
+
+* Suspicious AWS Traffic
+
+* Suspicious DNS Traffic
+
+
+#### How To Implement
+You must be ingesting your network traffic
+
+#### Required field
+
+* _time
+
+* All_Traffic.bytes_out
+
+* All_Traffic.bytes_in
+
+* All_Traffic.dest_port
+
+* All_Traffic.src
+
+* All_Traffic.dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get EC2 Instance Details by instanceId
+This search queries AWS description logs and returns all the information about a specific instance via the instanceId field
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-02-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`aws_description` 
+| dedup id sortby -_time 
+|rename id as instanceId
+|  search instanceId=$instanceId$ 
+| spath output=tags path=tags 
+| eval tags=mvzip(key,value," = "), ip_address=if((ip_address == "null"),private_ip_address,ip_address) 
+| table id, tags.Name, aws_account_id, placement, instance_type, key_name, ip_address, launch_time, state, vpc_id, subnet_id, tags 
+| rename aws_account_id as "Account ID", id as ID, instance_type as Type, ip_address as "IP Address", key_name as "Key Pair", launch_time as "Launch Time", placement as "Availability Zone", state as State, subnet_id as Subnet, "tags.Name" as Name, vpc_id as VPC
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+* Cloud Cryptomining
+
+* Suspicious AWS EC2 Activities
+
+* Unusual AWS EC2 Modifications
+
+* AWS Security Hub Alerts
+
+
+#### How To Implement
+In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.
+
+#### Required field
+
+* _time
+
+* id
+
+* ip_address
+
+* tags
+
+* aws_account_id
+
+* placement
+
+* instance_type
+
+* key_name
+
+* launch_time
+
+* state
+
+* vpc_id
+
+* subnet_id
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get EC2 Launch Details
+This search returns some of the launch details for a EC2 instance.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` dest=$dest$ 
+|rename userIdentity.arn as arn, responseElements.instancesSet.items{}.instanceId as dest, responseElements.instancesSet.items{}.privateIpAddress as privateIpAddress, responseElements.instancesSet.items{}.imageId as amiID, responseElements.instancesSet.items{}.architecture as architecture, responseElements.instancesSet.items{}.keyName as keyName 
+| table arn, awsRegion, dest, architecture, privateIpAddress, amiID, keyName
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+* Cloud Cryptomining
+
+* Suspicious AWS EC2 Activities
+
+* AWS Security Hub Alerts
+
+
+#### How To Implement
+In order to implement this search, you must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS(version 4.4.0 or later) and configure your AWS description inputs.
+
+#### Required field
+
+* _time
+
+* dest
+
+* userIdentity.arn
+
+* responseElements.instancesSet.items{}.instanceId
+
+* responseElements.instancesSet.items{}.privateIpAddress
+
+* responseElements.instancesSet.items{}.imageId
+
+* responseElements.instancesSet.items{}.architecture
+
+* responseElements.instancesSet.items{}.keyName
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get Email Info
+This search returns all the information Splunk might have collected a specific email message over the last 2 hours.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-11-09
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from datamodel Email.All_Email 
+| search message_id=$message_id$
+```
+#### Associated Analytic Story
+
+* Brand Monitoring
+
+* Suspicious Emails
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting your email logs or capturing unencrypted network traffic which contains email communications.
+
+#### Required field
+
+* _time
+
+* message
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get Emails From Specific Sender
+This search returns all the emails from a specific sender over the last 24 and next hours.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-11-09
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from datamodel Email.All_Email 
+| search src_user=$src_user$
+```
+#### Associated Analytic Story
+
+* Brand Monitoring
+
+* Suspicious Emails
+
+* Web Fraud Detection
+
+
+#### How To Implement
+To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.
+
+#### Required field
+
+* _time
+
+* src_user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get First Occurrence and Last Occurrence of a MAC Address
+This search allows you to gather more context around a notable which has detected a new device connecting to your network. Use this search to determine the first and last occurrences of the suspicious device attempting to connect with your network.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Network_Sessions
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.signature=DHCPREQUEST All_Sessions.src_mac= $src_mac$ by All_Sessions.src_ip All_Sessions.user 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)`
+```
+#### Associated Analytic Story
+
+* Asset Tracking
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting the logs from your DHCP server.
+
+#### Required field
+
+* _time
+
+* All_Sessions.DHCP
+
+* All_Sessions.signature
+
+* All_Sessions.src_mac
+
+* All_Sessions.src_ip
+
+* All_Sessions.user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get History Of Email Sources
+This search returns a list of all email sources seen in the 48 hours prior to the notable event to 24 hours after, and the number of emails from each source.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Email
+- **ATT&CK**: 
+- **Last Updated**: 2019-02-21
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+|tstats `security_content_summariesonly` values(All_Email.dest) as dest values(All_Email.recipient) as recepient  min(_time) as firstTime max(_time) as lastTime count from datamodel=Email.All_Email by All_Email.src 
+|`drop_dm_object_name(All_Email)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| search src=$src$
+```
+#### Associated Analytic Story
+
+* Emotet Malware  DHS Report TA18-201A 
+
+* Hidden Cobra Malware
+
+* Lateral Movement
+
+* Malicious PowerShell
+
+* Orangeworm Attack Group
+
+* Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+
+* Ransomware
+
+* SamSam Ransomware
+
+
+#### How To Implement
+To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.
+
+#### Required field
+
+* _time
+
+* All_Email.dest
+
+* All_Email.recipient
+
+* All_Email.src
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get Logon Rights Modifications For Endpoint
+This search allows you to retrieve any modifications to logon rights associated with a specific host.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` (signature_id=4718 OR signature_id=4717) dest=$dest$ 
+| rename user as "Account Modified" 
+| table _time, dest, "Account Modified", Access_Right, signature
+```
+#### Associated Analytic Story
+
+* Account Monitoring and Controls
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting your Windows event logs
+
+#### Required field
+
+* _time
+
+* signature_id
+
+* dest
+
+* user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get Logon Rights Modifications For User
+This search allows you to retrieve any modifications to logon rights for a specific user account.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2019-02-27
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` (signature_id=4718 OR signature_id=4717) user=$user$ 
+| rename user as "Account Modified" 
+| table _time, dest, "Account Modified", Access_Right, signature
+```
+#### Associated Analytic Story
+
+* Account Monitoring and Controls
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting your Windows event logs
+
+#### Required field
+
+* _time
+
+* signature_id
+
+* dest
+
+* user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get Notable History
+This search queries the notable index and returns all the Notable Events for the particular destination host, giving the analyst an overview of the incidents that may have occurred with the host under investigation.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| search `notable` 
+| search dest=$dest$ 
+| table _time, dest, rule_name, owner, priority, severity, status_description
+```
+#### Associated Analytic Story
+
+* AWS Cross Account Activity
+
+* AWS Cryptomining
+
+* AWS Network ACL Activity
+
+* AWS User Monitoring
+
+* Account Monitoring and Controls
+
+* Apache Struts Vulnerability
+
+* Asset Tracking
+
+* Brand Monitoring
+
+* Cloud Cryptomining
+
+* ColdRoot MacOS RAT
+
+* Collection and Staging
+
+* Command and Control
+
+* DHS Report TA18-074A
+
+* DNS Amplification Attacks
+
+* Data Protection
+
+* Disabling Security Tools
+
+* Dynamic DNS
+
+* Emotet Malware  DHS Report TA18-201A 
+
+* Hidden Cobra Malware
+
+* Host Redirection
+
+* JBoss Vulnerability
+
+* Kubernetes Scanning Activity
+
+* Lateral Movement
+
+* Malicious PowerShell
+
+* Monitor Backup Solution
+
+* Monitor for Unauthorized Software
+
+* Monitor for Updates
+
+* Netsh Abuse
+
+* Orangeworm Attack Group
+
+* Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+
+* Prohibited Traffic Allowed or Protocol Mismatch
+
+* Ransomware
+
+* Router and Infrastructure Security
+
+* SQL Injection
+
+* SamSam Ransomware
+
+* Spectre And Meltdown Vulnerabilities
+
+* Splunk Enterprise Vulnerability
+
+* Splunk Enterprise Vulnerability CVE-2018-11409
+
+* Suspicious AWS EC2 Activities
+
+* Suspicious AWS S3 Activities
+
+* Suspicious AWS Traffic
+
+* Suspicious Cloud Authentication Activities
+
+* Suspicious Command-Line Executions
+
+* Suspicious DNS Traffic
+
+* Suspicious Emails
+
+* Suspicious MSHTA Activity
+
+* Suspicious WMI Use
+
+* Suspicious Windows Registry Activities
+
+* Unusual AWS EC2 Modifications
+
+* Unusual Processes
+
+* Use of Cleartext Protocols
+
+* Web Fraud Detection
+
+* Windows Defense Evasion Tactics
+
+* Windows File Extension and Association Abuse
+
+* Windows Log Manipulation
+
+* Windows Persistence Techniques
+
+* Windows Privilege Escalation
+
+* Windows Service Abuse
+
+* Data Exfiltration
+
+* F5 TMUI RCE CVE-2020-5902
+
+* Detect Zerologon Attack
+
+* GCP Cross Account Activity
+
+* Kubernetes Sensitive Object Access Activity
+
+* Kubernetes Sensitive Role Activity
+
+* Ransomware Cloud
+
+* Ryuk Ransomware
+
+* Suspicious Cloud Provisioning Activities
+
+* Suspicious GCP Storage Activities
+
+* Windows DNS SIGRed CVE-2020-1350
+
+
+#### How To Implement
+If you are using Enterprise Security you are likely already creating notable events with your correlation rules. No additional configuration is necessary.
+
+#### Required field
+
+* _time
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get Outbound Emails to Hidden Cobra Threat Actors
+This search returns the information of the users that sent emails to the accounts controlled by the Hidden Cobra Threat Actors: specifically to `misswang8107@gmail.com`, and from `redhat@gmail.com`.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Email
+- **ATT&CK**: 
+- **Last Updated**: 2018-06-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from datamodel Email.All_Email 
+| search recipient=misswang8107@gmail.com OR src_user=redhat@gmail.com 
+| stats count earliest(_time) as firstTime, latest(_time) as lastTime values(dest) values(src) by src_user recipient 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+```
+#### Associated Analytic Story
+
+* Hidden Cobra Malware
+
+
+#### How To Implement
+To successfully implement this search you must ingest your email logs or capture unencrypted email communications within network traffic, and populate the Email data model.
+
+#### Required field
+
+* _time
+
+* recipient
+
+* src_user
+
+* dest
+
+* sec
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get Parent Process Info
+This search queries the Endpoint data model to give you details about the parent process of a process running on a host which is under investigation. Enter the values of the process name in question and the dest
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2019-02-28
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| search  parent_process_name= $parent_process_name$ 
+|search dest = $dest$ 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+```
+#### Associated Analytic Story
+
+* Collection and Staging
+
+* Command and Control
+
+* DHS Report TA18-074A
+
+* Disabling Security Tools
+
+* Emotet Malware  DHS Report TA18-201A 
+
+* Hidden Cobra Malware
+
+* Lateral Movement
+
+* Malicious PowerShell
+
+* Monitor for Unauthorized Software
+
+* Netsh Abuse
+
+* Orangeworm Attack Group
+
+* Phishing Payloads
+
+* Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+
+* Prohibited Traffic Allowed or Protocol Mismatch
+
+* Ransomware
+
+* SamSam Ransomware
+
+* Suspicious Command-Line Executions
+
+* Suspicious DNS Traffic
+
+* Suspicious MSHTA Activity
+
+* Suspicious WMI Use
+
+* Suspicious Windows Registry Activities
+
+* Unusual Processes
+
+* Windows Defense Evasion Tactics
+
+* Windows File Extension and Association Abuse
+
+* Windows Log Manipulation
+
+* Windows Persistence Techniques
+
+* Windows Privilege Escalation
+
+* Windows Service Abuse
+
+
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+
+#### Required field
+
+* _time
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get Process File Activity
+This search returns the file activity for a specific process on a specific endpoint
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2019-11-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Filesystem.file_name) as file_name values(Filesystem.dest) as dest, values(Filesystem.process_name) as process_name from datamodel=Endpoint.Filesystem by Filesystem.dest Filesystem.process_name Filesystem.file_path, Filesystem.action, _time 
+| `drop_dm_object_name(Filesystem)`  
+| search dest=$dest$  
+| search process_name=$process_name$ 
+| table _time, process_name, dest, action, file_name, file_path
+```
+#### Associated Analytic Story
+
+* DHS Report TA18-074A
+
+* Suspicious Zoom Child Processes
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting endpoint data and populating the Endpoint data model.
+
+#### Required field
+
+* _time
+
+* Filesystem.file_name
+
+* Filesystem.dest
+
+* Filesystem.process_name
+
+* Filesystem.file_path
+
+* Filesystem.action
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get Process Info
+This search queries the Endpoint data model to give you details about the process running on a host which is under investigation. To gather the process info, enter the values for the process name in question and the destination IP address.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2019-04-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.parent_process_name Processes.process_name Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| search  process_name= $process_name$ 
+| search dest = $dest$ 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* Collection and Staging
+
+* Command and Control
+
+* DHS Report TA18-074A
+
+* Data Protection
+
+* Disabling Security Tools
+
+* Emotet Malware  DHS Report TA18-201A 
+
+* Hidden Cobra Malware
+
+* Lateral Movement
+
+* Malicious PowerShell
+
+* Monitor for Unauthorized Software
+
+* Netsh Abuse
+
+* Orangeworm Attack Group
+
+* Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+
+* Prohibited Traffic Allowed or Protocol Mismatch
+
+* Ransomware
+
+* SamSam Ransomware
+
+* Suspicious AWS Traffic
+
+* Suspicious Command-Line Executions
+
+* Suspicious DNS Traffic
+
+* Suspicious MSHTA Activity
+
+* Suspicious WMI Use
+
+* Suspicious Windows Registry Activities
+
+* Unusual Processes
+
+* Windows Defense Evasion Tactics
+
+* Windows File Extension and Association Abuse
+
+* Windows Log Manipulation
+
+* Windows Persistence Techniques
+
+* Windows Privilege Escalation
+
+* Windows Service Abuse
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting endpoint data and populating the Endpoint data model.
+
+#### Required field
+
+* _time
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get Process Information For Port Activity
+This search will return information about the process associated with observed network traffic to a specific destination port from a specific host.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2019-04-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.process_name Processes.user Processes.dest Processes.process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| search dest=$dest$ 
+| join dest type=inner [
+| tstats `security_content_summariesonly` count from datamodel=Endpoint.Ports by Ports.process_id Ports.src Ports.dest_port 
+| `drop_dm_object_name(Ports)` 
+| search dest_port=$dest_port$ 
+| rename src as dest]
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* Command and Control
+
+* DHS Report TA18-074A
+
+* Emotet Malware  DHS Report TA18-201A 
+
+* Hidden Cobra Malware
+
+* Lateral Movement
+
+* Prohibited Traffic Allowed or Protocol Mismatch
+
+* Ransomware
+
+* SamSam Ransomware
+
+* Suspicious AWS Traffic
+
+* Use of Cleartext Protocols
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting endpoint data that associates processes with network events and populate the Endpoint Datamodel
+
+#### Required field
+
+* _time
+
+* Processes.user
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.dest
+
+* Ports.process_id
+
+* Ports.src
+
+* Ports.dest_port
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get Process Responsible For The DNS Traffic
+While investigating, an analyst will want to know what process and parent_process is responsible for generating suspicious DNS traffic. Use the following search and enter the value of `dest` in the search to get specific details on the process responsible for creating the DNS traffic.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2019-04-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.parent_process Processes.process_name Processes.user Processes.dest Processes.process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| search dest = $dest$ 
+| join dest type=inner [
+| tstats `security_content_summariesonly` count from datamodel=Endpoint.Ports where Ports.dest_port=53 by Ports.process_id Ports.src 
+| `drop_dm_object_name(Ports)` 
+| rename src as dest]
+```
+#### Associated Analytic Story
+
+* AWS Network ACL Activity
+
+* Brand Monitoring
+
+* Command and Control
+
+* Data Protection
+
+* Dynamic DNS
+
+* Hidden Cobra Malware
+
+* Suspicious AWS Traffic
+
+* Suspicious DNS Traffic
+
+
+#### How To Implement
+You must be ingesting endpoint data that associates processes with network events into the Endpoint datamodel. This can come from endpoint protection products such as carbon black, or endpoint data sources such as Sysmon.
+
+#### Required field
+
+* _time
+
+* Processes.user
+
+* Processes.process_id
+
+* Processes.process_name
+
+* Processes.dest
+
+* Processes.parent_process
+
+* Ports.process_id
+
+* Ports.src
+
+* Ports.dest_port
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Get Sysmon WMI Activity for Host
+This search queries Sysmon WMI events for the host of interest.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-10-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode>18 EventCode<22 
+| rename host as dest 
+| search dest=$dest$
+| table _time, dest, user, Name, Operation, EventType, Type, Query, Consumer, Filter
+```
+#### Associated Analytic Story
+
+* Ransomware
+
+* Suspicious WMI Use
+
+
+#### How To Implement
+To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate events for WMI activity. In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* user
+
+* Name
+
+* Operation
+
+* EventType
+
+* Type
+
+* Query
+
+* Consumer
+
+* Filter
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Get Web Session Information via session id
+This search helps an analyst investigate a notable event to find out more about a specific web session. The search looks for a specific web session ID in the HTTP web traffic and outputs the URL and user agents, grouped by source IP address and HTTP status code.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-10-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`stream_http` session_id  = $session_id$ 
+| stats values(url) values(http_user_agent) by src_ip status
+```
+#### Associated Analytic Story
+
+* Web Fraud Detection
+
+
+#### How To Implement
+This search leverages data extracted from Stream:HTTP. You must configure the HTTP stream using the Splunk Stream App on your Splunk Stream deployment server.
+
+#### Required field
+
+* _time
+
+* session_id
+
+* http_user_agent
+
+* src_ip
+
+* status
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Grant Permission Using Cacls Utility
 This analytic identifies potential adversaries that modify the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft, ransomware and coinminer scripts to evade detections and restrict access to their component files.
 
@@ -25231,9 +31677,9 @@ This analytic identifies potential adversaries that modify the security permissi
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND match_regex(cmd_line, /(?i)grant/)=true AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -25287,6 +31733,158 @@ network administrator may use this windows utility but this is not a common prac
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Gsuite Drive Share In External Email
+This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1567.002](https://attack.mitre.org/techniques/T1567/002/)
+- **Last Updated**: 2021-08-16
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`gsuite_drive` NOT (email IN("", "null")) 
+| rex field=parameters.owner "[^@]+@(?<src_domain>[^@]+)" 
+| rex field=email "[^@]+@(?<dest_domain>[^@]+)" 
+| where src_domain = "internal_test_email.com" and not dest_domain = "internal_test_email.com" 
+| stats values(parameters.doc_title) as doc_title, values(parameters.doc_type) as doc_types, values(email) as dst_email_list, values(parameters.visibility) as visibility, count min(_time) as firstTime max(_time) as lastTime by parameters.owner 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_drive_share_in_external_email_filter`
+```
+#### Associated Analytic Story
+
+* DevSecOps
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+#### Required field
+
+* _time
+
+* parameters.doc_title
+
+* src_domain
+
+* dest_domain
+
+* email
+
+* parameters.visibility
+
+* parameters.owner
+
+* parameters.doc_type
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1567.002 | Exfiltration to Cloud Storage | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Exfiltration
+
+
+#### Known False Positives
+network admin or normal user may share files to customer and external team.
+
+#### Reference
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Gsuite Outbound Email With Attachment To External Domain
+This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic < 20 with attachment.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint, Email
+- **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
+- **Last Updated**: 2021-08-17
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`gsuite_gmail` num_message_attachments > 0 
+| rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" 
+| rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)" 
+| where source_domain="internal_test_email.com" and not dest_domain="internal_test_email.com" 
+| stats values(subject) as subject, values(source.from_header_address) as src_domain_list, count as numEvents, dc(source.from_header_address) as numSrcAddresses, min(_time) as firstTime max(_time) as lastTime by dest_domain 
+| where numSrcAddresses < 20 
+|sort - numSrcAddresses 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_outbound_email_with_attachment_to_external_domain_filter`
+```
+#### Associated Analytic Story
+
+* DevSecOps
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+#### Required field
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
+
+#### Reference
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
 
 
 _version_: 1
@@ -25905,6 +32503,237 @@ _version_: 1
 
 ---
 
+### IcedID Exfiltrated Archived File Creation
+This search is to detect a suspicious file creation namely passff.tar and cookie.tar. This files are possible archived of stolen browser information like history and cookies in a compromised machine with IcedID.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1560.001](https://attack.mitre.org/techniques/T1560/001/)
+- **Last Updated**: 2021-07-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename = "*\\cookie.tar") 
+|stats count min(_time) as firstTime max(_time) as lastTime by TargetFilename EventCode process_id  process_name Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `icedid_exfiltrated_archived_file_creation_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* TargetFilename
+
+* EventCode
+
+* process_id
+
+* process_name
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1560.001 | Archive via Utility | Collection |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.cisecurity.org/white-papers/security-primer-icedid/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Identify Systems Creating Remote Desktop Traffic
+This search counts the numbers of times the system has generated remote desktop traffic.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Network_Traffic
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=3389 by All_Traffic.src 
+| `drop_dm_object_name("All_Traffic")` 
+| sort - count
+```
+#### Associated Analytic Story
+
+
+#### How To Implement
+To successfully implement this search, you must ingest network traffic and populate the Network_Traffic data model.
+
+#### Required field
+
+* _time
+
+* All_Traffic.dest_port
+
+* All_Traffic.src
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Identify Systems Receiving Remote Desktop Traffic
+This search counts the numbers of times the system has created remote desktop traffic
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Network_Traffic
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=3389 by All_Traffic.dest 
+| `drop_dm_object_name("All_Traffic")` 
+| sort - count
+```
+#### Associated Analytic Story
+
+
+#### How To Implement
+To successfully implement this search you must ingest network traffic and populate the Network_Traffic data model. If a system receives a lot of remote desktop traffic, you can apply the category common_rdp_destination to it.
+
+#### Required field
+
+* _time
+
+* All_Traffic.dest_port
+
+* All_Traffic.dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Identify Systems Using Remote Desktop
+This search counts the numbers of times the remote desktop process, mstsc.exe, has run on each system.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2019-04-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes where Processes.process_name="*mstsc.exe*" by Processes.dest Processes.process_name 
+| `drop_dm_object_name(Processes)` 
+| sort - count
+```
+#### Associated Analytic Story
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting endpoint data that records process activity.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Illegal Access To User Content via PowerSploit modules
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
@@ -25921,10 +32750,10 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-HttpStatus/)=true OR match_regex(cmd_line, /(?i)Get-Keystrokes/)=true OR match_regex(cmd_line, /(?i)Get-MicrophoneAudio/)=true OR match_regex(cmd_line, /(?i)Get-NetRDPSession/)=true OR match_regex(cmd_line, /(?i)Get-TimedScreenshot/)=true OR match_regex(cmd_line, /(?i)Get-WebConfig/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -25998,10 +32827,10 @@ This detection identifies access to PowerSploit modules that create accounts ill
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)New-DomainUser/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26072,10 +32901,10 @@ This detection identifies access to PowerSploit modules that delete event logs.
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)event::drop/)=true OR match_regex(cmd_line, /(?i)event::clear/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26146,10 +32975,10 @@ This detection identifies use of DSInternals modules that enable or disable acco
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Disable-ADDBAccount/)=true OR match_regex(cmd_line, /(?i)Enable-ADDBAccount/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26221,10 +33050,10 @@ This detection identifies use of DSInternals modules for illegal management of A
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Remove-ADDBObject/)=true OR match_regex(cmd_line, /(?i)Set-ADDBDomainController/)=true OR match_regex(cmd_line, /(?i)Set-ADDBPrimaryGroup/)=true OR match_regex(cmd_line, /(?i)Set-LsaPolicyInformation/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26297,11 +33126,11 @@ This detection identifies access to PowerSploit modules that enable illegal mana
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Set-DomainObject/)=true OR match_regex(cmd_line, /(?i)Set-ADObject/)=true OR match_regex(cmd_line, /(?i)Set-DomainObjectOwner/)=true OR match_regex(cmd_line, /(?i)Set-MasterBootRecord/)=true )
 
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26374,10 +33203,10 @@ This detection identifies access to PowerSploit modules that illegaly elevate ge
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Add-DomainObjectAcl/)=true OR match_regex(cmd_line, /(?i)Add-ObjectAcl/)=true OR match_regex(cmd_line, /(?i)Enable-Privilege/)=true OR match_regex(cmd_line, /(?i)New-ElevatedPersistenceOption/)=true OR match_regex(cmd_line, /(?i)New-UserPersistenceOption/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26452,10 +33281,10 @@ This detection identifies use of Mimikatz modules for illegal privilege elevatio
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)privilege::debug/)=true OR match_regex(cmd_line, /(?i)token::elevate/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26527,10 +33356,10 @@ This detection identifies use of Mimikatz modules for illegal control over servi
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)process::start/)=true OR match_regex(cmd_line, /(?i)service::\+/)=true OR match_regex(cmd_line, /(?i)service::\-/)=true OR match_regex(cmd_line, /(?i)service::start/)=true OR match_regex(cmd_line, /(?i)service::stop/)=true OR match_regex(cmd_line, /(?i)service::suspend/)=true OR match_regex(cmd_line, /(?i)misc::memssp/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26603,11 +33432,11 @@ This detection identifies access to PowerSploit modules that enable illegal cont
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Install-SSP/)=true OR match_regex(cmd_line, /(?i)Set-CriticalProcess/)=true OR match_regex(cmd_line, /(?i)Install-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Restore-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Write-ServiceBinary/)=true OR match_regex(cmd_line, /(?i)Set-ServiceBinaryPath/)=true OR match_regex(cmd_line, /(?i)Invoke-ReflectivePEInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-DllInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-ServiceAbuse/)=true OR match_regex(cmd_line, /(?i)Invoke-Shellcode/)=true OR match_regex(cmd_line, /(?i)Invoke-WScriptUACBypass/)=true OR match_regex(cmd_line, /(?i)Invoke-WmiCommand/)=true OR match_regex(cmd_line, /(?i)Write-HijackDll/)=true OR match_regex(cmd_line, /(?i)Add-ServiceDacl/)=true )
 
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -26659,6 +33488,828 @@ None identified.
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate AWS User Activities by user field
+This search lists all the logged CloudTrail activities by a specific user and will create a table containing the source of the user, the region of the activity, the name and type of the event, the action taken, and the user's identity information.
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` user=$user$ 
+| table _time userIdentity.type userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType 
+```
+#### Associated Analytic Story
+
+* AWS User Monitoring
+
+* Suspicious Cloud Authentication Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* user
+
+* userIdentity.type
+
+* userIdentity.userName
+
+* userIdentity.arn
+
+* aws_account_id
+
+* src
+
+* awsRegion
+
+* eventName
+
+* eventType
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate AWS activities via region name
+This search lists all the user activities logged by CloudTrail for a specific region in question and will create a table of the values of parameters requested, the type of the event and the response from the AWS API by each user
+
+- **Product**: Splunk Phantom, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-02-09
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` vendor_region=$vendor_region$
+| rename requestParameters.instancesSet.items{}.instanceId as instanceId 
+| stats values(eventName) by user instanceId vendor_region
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+* Cloud Cryptomining
+
+* Suspicious AWS EC2 Activities
+
+* Suspicious AWS S3 Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* vendor_region
+
+* requestParameters.instancesSet.items{}.instanceId
+
+* eventName
+
+* user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Failed Logins for Multiple Destinations
+This search returns failed logins to multiple destinations by user.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Authentication
+- **ATT&CK**: 
+- **Last Updated**: 2019-12-10
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats count `security_content_summariesonly` earliest(_time) as first_login latest(_time) as last_login dc(Authentication.dest) AS distinct_count_dest values(Authentication.dest) AS Authentication.dest values(Authentication.app) AS Authentication.app  from datamodel=Authentication where Authentication.action=failure by Authentication.user 
+| where distinct_count_dest > 1 
+| `security_content_ctime(first_login)` 
+| `security_content_ctime(last_login)` 
+| `drop_dm_object_name("Authentication")` 
+| search user=$user$
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.
+
+#### Required field
+
+* _time
+
+* Authentication.dest
+
+* Authentication.app
+
+* Authentication.action
+
+* Authentication.user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Network Traffic From src ip
+This search allows you to find all the network traffic from a specific IP address.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Network_Traffic
+- **ATT&CK**: 
+- **Last Updated**: 2018-06-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| from datamodel Network_Traffic.All_Traffic 
+| search src_ip=$src_ip$
+```
+#### Associated Analytic Story
+
+* ColdRoot MacOS RAT
+
+* Splunk Enterprise Vulnerability CVE-2018-11409
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.
+
+#### Required field
+
+* _time
+
+* src_ip
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Okta Activity by IP Address
+This search returns all okta events from a specific IP address.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-04-02
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`okta` src_ip={src_ip} 
+| rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city 
+| table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason
+```
+#### Associated Analytic Story
+
+* Suspicious Okta Activity
+
+
+#### How To Implement
+You must be ingesting Okta logs
+
+#### Required field
+
+* _time
+
+* app
+
+* client.geographicalContext.country
+
+* client.geographicalContext.state
+
+* client.geographicalContext.city
+
+* user
+
+* displayMessage
+
+* src_ip
+
+* result
+
+* outcome.reason
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Okta Activity by app
+This search returns all okta events associated with a specific app
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-04-02
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`okta` app=$app$ 
+| rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city 
+| table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason
+```
+#### Associated Analytic Story
+
+* Suspicious Okta Activity
+
+
+#### How To Implement
+You must be ingesting Okta logs
+
+#### Required field
+
+* _time
+
+* app
+
+* client.geographicalContext.country
+
+* client.geographicalContext.state
+
+* client.geographicalContext.city
+
+* user
+
+* displayMessage
+
+* src_ip
+
+* result
+
+* outcome.reason
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Pass the Hash Attempts
+This search hunts for dumped NTLM hashes used for pass the hash.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2019-12-10
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4624 Logon_Type=9 AuthenticationPackageName=Negotiate 
+| stats count earliest(_time) as first_login latest(_time) as last_login by src_user dest 
+| `security_content_ctime(first_login)` 
+| `security_content_ctime(last_login)` 
+| search dest=$dest$
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search you need be ingesting windows security logs. This search uses an input macro named `wineventlog_security`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Security logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Logon_Type
+
+* AuthenticationPackageName
+
+* src_user
+
+* dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Pass the Ticket Attempts
+This search hunts for dumped kerberos ticket from LSASS memory.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2019-12-10
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4768 OR EventCode=4769 
+| rex field=user "(?<new_user>[^\@]+)" 
+| stats count BY new_user, dest, EventCode 
+| stats max(count) AS max_count sum(count) AS sum_count BY new_user, dest
+| search dest=$dest$ 
+| where sum_count/max_count!=2 
+| rename new_user AS user 
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting windows security logs. This search uses an input macro named `wineventlog_security`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Security logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* user
+
+* dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Previous Unseen User
+This search returns previous unseen user, which didn't log in for 30 days.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Authentication
+- **ATT&CK**: 
+- **Last Updated**: 2019-12-10
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats count `security_content_summariesonly` earliest(_time) as first_login latest(_time) as last_login values(Authentication.dest) AS Authentication.dest values(Authentication.app) AS Authentication.app values(Authentication.action) AS Authentication.action from datamodel=Authentication where Authentication.action=success by _time, Authentication.user 
+| bucket _time span=30d 
+| stats count min(first_login) as first_login max(last_login) as last_login values(Authentication.dest) AS Authentication.dest by Authentication.user 
+| where count=1 
+| where first_login >= relative_time(now(), "-30d") 
+| `security_content_ctime(first_login)` 
+| `security_content_ctime(last_login)` 
+| `drop_dm_object_name("Authentication")` 
+| search dest=$dest$
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.
+
+#### Required field
+
+* _time
+
+* Authentication.dest
+
+* Authentication.app
+
+* Authentication.action
+
+* Authentication.user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Successful Remote Desktop Authentications
+This search returns the source, destination, and user for all successful remote-desktop authentications. A successful authentication after a brute-force attack on a destination machine is suspicious behavior. 
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Authentication
+- **ATT&CK**: 
+- **Last Updated**: 2018-12-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication where Authentication.signature_id=4624 Authentication.app=win:remote by Authentication.src Authentication.dest Authentication.app Authentication.user Authentication.signature Authentication.src_nt_domain 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `drop_dm_object_name("Authentication")` 
+| search dest=$dest$ 
+| table firstTime lastTime src src_nt_domain dest user app count 
+| sort count
+```
+#### Associated Analytic Story
+
+* Hidden Cobra Malware
+
+* Lateral Movement
+
+* SamSam Ransomware
+
+
+#### How To Implement
+You must be populating the Authentication data model with security events from your Windows event logs.
+
+#### Required field
+
+* _time
+
+* Authentication.signature_id
+
+* Authentication.app
+
+* Authentication.src
+
+* Authentication.dest
+
+* Authentication.user
+
+* Authentication.signature
+
+* Authentication.src_nt_domain
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Suspicious Strings in HTTP Header
+This search helps an analyst investigate a notable event related to a potential Apache Struts exploitation. To investigate, we will want to isolate and analyze the "payload" or the commands that were passed to the vulnerable hosts by creating a few regular expressions to carve out the commands focusing on common keywords from the payload, such as cmd.exe, /bin/bash and whois. The search returns these suspicious strings found in the HTTP logs of the system of interest.
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-10-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`stream_http` 
+| search src_ip=$src_ip$ 
+| search dest_ip=$dest_ip$ 
+| eval cs_content_type_length = len(cs_content_type) 
+| search cs_content_type_length > 100 
+| rex field="cs_content_type" (?<suspicious_strings>cmd.exe) 
+| eval suspicious_strings_found=if(match(cs_content_type, "application"), "True", "False")  
+| rename suspicious_strings_found AS "Suspicious Content-Type Found" 
+| fields "Suspicious Content-Type Found", dest_ip, src_ip, suspicious_strings, cs_content_type, cs_content_type_length, url
+```
+#### Associated Analytic Story
+
+* Apache Struts Vulnerability
+
+
+#### How To Implement
+This particular search leverages data extracted from Stream:HTTP. You must configure the http stream using the Splunk Stream App on your Splunk Stream deployment server to extract the cs_content_type field.
+
+#### Required field
+
+* _time
+
+* src_ip
+
+* dest_ip
+
+* cs_content_type
+
+* url
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate User Activities In Okta
+This search returns all okta events by a specific user
+
+- **Product**: Splunk Phantom
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-04-02
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`okta` user=$user$ 
+| rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city 
+| table _time, user, displayMessage, app, src_ip, state, city, result, outcome.reason
+```
+#### Associated Analytic Story
+
+* Suspicious Okta Activity
+
+
+#### How To Implement
+You must be ingesting Okta logs
+
+#### Required field
+
+* _time
+
+* client.geographicalContext.country
+
+* client.geographicalContext.state
+
+* client.geographicalContext.city
+
+* user
+
+* displayMessage
+
+* src_ip
+
+* result
+
+* outcome.reason
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Investigate Web POSTs From src
+This investigative search retrieves POST requests from a specified source IP or hostname. Identifying the POST requests, as well as their associated destination URLs and user agent(s), may help you scope and characterize the suspicious traffic. 
+
+- **Product**: Splunk Phantom
+- **Datamodel**: Web
+- **ATT&CK**: 
+- **Last Updated**: 2018-12-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` values(Web.url) as url from datamodel=Web by Web.src,Web.http_user_agent,Web.http_method 
+| `drop_dm_object_name("Web")`
+| search http_method, "POST" 
+| search src=$src$
+```
+#### Associated Analytic Story
+
+* Apache Struts Vulnerability
+
+
+#### How To Implement
+To successfully implement this search, you must be ingesting your web-traffic logs and populating the web data model.
+
+#### Required field
+
+* _time
+
+* Web.url
+
+* Web.src
+
+* Web.http_user_agent
+
+* Web.http_method
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+
+
+#### Reference
+
+
+#### Test Dataset
 
 
 _version_: 1
@@ -27670,9 +35321,9 @@ This analytic identifies suspicious modification of ACL permission to a files or
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%/G%") AND (match_regex(cmd_line, /(?i)everyone:/)=true OR match_regex(cmd_line, /(?i)SYSTEM:/)=true) AND (process_name="cacls.exe" OR process_name="xcacls.exe" OR process_name="icacls.exe") 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -27874,6 +35525,104 @@ _version_: 2
 
 ---
 
+### Monitor Successful Backups
+This search is intended to give you a feel for how often successful backups are conducted in your environment. Fluctuations in these numbers will allow you to determine when you should investigate.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`netbackup` "Disk/Partition backup completed successfully." 
+| bucket _time span=1d 
+| stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by _time, MESSAGE
+```
+#### Associated Analytic Story
+
+* Monitor Backup Solution
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting your backup logs.
+
+#### Required field
+
+* _time
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Monitor Unsuccessful Backups
+This search is intended to give you a feel for how often backup failures happen in your environments.  Fluctuations in these numbers will allow you to determine when you should investigate.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`netbackup` "An error occurred, failed to backup." 
+| bucket _time span=1d 
+| stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by _time, MESSAGE
+```
+#### Associated Analytic Story
+
+* Monitor Backup Solution
+
+
+#### How To Implement
+To successfully implement this search you must be ingesting your backup logs.
+
+#### Required field
+
+* _time
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Monitor Web Traffic For Brand Abuse
 This search looks for Web requests to faux domains similar to the one that you want to have monitored for abuse.
 
@@ -28003,6 +35752,84 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 
 
 _version_: 2
+</details>
+
+---
+
+### Mshta spawning Rundll32 OR Regsvr32 Process
+This search is to detect a suspicious mshta.exe process that spawn rundll32 or regsvr32 child process. This technique was seen in several malware nowadays like trickbot to load its initial .dll stage loader to execute and download the the actual trickbot payload.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
+- **Last Updated**: 2021-07-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = "mshta.exe"  (Processes.process_name=rundll32.exe OR Processes.process_name=regsvr32.exe) by Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `mshta_spawning_rundll32_or_regsvr32_process_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed mshta.exe may be used.
+
+#### Required field
+
+* _time
+
+* parent_process
+
+* process_name
+
+* process
+
+* process_id
+
+* process_guid
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.005 | Mshta | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+limitted. this anomaly behavior is not commonly seen in clean host.
+
+#### Reference
+
+
+* https://twitter.com/cyb3rops/status/1416050325870587910?s=21
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -28924,6 +36751,80 @@ _version_: 1
 
 ---
 
+### NET Profiler UAC bypass
+This search is to detect modification of registry to bypass UAC windows feature. This technique is to add a payload dll path on .NET COR file path that will be loaded by mmc.exe as soon it was executed. This detection rely on monitoring the registry key and values in the detection area. It may happened that windows update some dll related to mmc.exe and add dll path in this registry. In this case filtering is needed.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH" Registry.registry_value_name = "*.dll" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `net_profiler_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+limited false positive. It may trigger by some windows update that will modify this registry.
+
+#### Reference
+
+
+* https://offsec.almond.consulting/UAC-bypass-dotnet.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### NLTest Domain Trust Discovery
 This search looks for the execution of `nltest.exe` with command-line arguments utilized to query for Domain Trust information. Two arguments `/domain trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current domain to assist with further understanding where to pivot next.
 
@@ -28949,6 +36850,8 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 * Ryuk Ransomware
 
 * Domain Trust Discovery
+
+* IcedID
 
 
 #### How To Implement
@@ -30190,6 +38093,88 @@ _version_: 1
 
 ---
 
+### Office Application Spawn Regsvr32 process
+this detection was designed to identifies suspicious spawned process of known MS office application due to macro or malicious code. this technique can be seen in so many malware like IcedID that used MS office as its weapon or attack vector to initially infect the machines.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-07-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe" OR Processes.parent_process_name = "outlook.exe") Processes.process_name=regsvr32.exe by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `office_application_spawn_regsvr32_process_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.process_guid
+
+* Processes.user
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.joesandbox.com/analysis/380662/0/html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/phish_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Office Application Spawn rundll32 process
 this detection was designed to identifies suspicious spawned process of known MS office application due to macro or malicious code. this technique can be seen in so many malware like trickbot that used MS office as its weapon or attack vector to initially infect the machines.
 
@@ -30215,6 +38200,8 @@ this detection was designed to identifies suspicious spawned process of known MS
 * Spearphishing Attachments
 
 * Trickbot
+
+* IcedID
 
 
 #### How To Implement
@@ -30380,6 +38367,8 @@ this detection was designed to identifies suspicious office documents that using
 
 * Trickbot
 
+* IcedID
+
 
 #### How To Implement
 To successfully implement this search, you need to be ingesting logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Also be sure to include those monitored dll to your own sysmon config.
@@ -30517,6 +38506,82 @@ default browser not in the filter list
 
 
 _version_: 2
+</details>
+
+---
+
+### Office Product Spawn CMD Process
+this search is to detect a suspicious office product process that spawn cmd child process. This is commonly seen in a ms office product having macro to execute shell command to download or execute malicious lolbin relative to its malicious code. This is seen in trickbot spear phishing doc where it execute shell cmd to run mshta payload.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
+- **Last Updated**: 2021-07-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name= "excel.exe" OR Processes.parent_process_name = "powerpnt.exe") Processes.process_name=cmd.exe by Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `office_product_spawn_cmd_process_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* parent_process
+
+* process_name
+
+* process
+
+* process_id
+
+* process_guid
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.005 | Mshta | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+IT or network admin may create an document automation that will run shell script.
+
+#### Reference
+
+
+* https://twitter.com/cyb3rops/status/1416050325870587910?s=21
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -30702,6 +38767,8 @@ The following detection identifies the latest behavior utilized by different mal
 #### Associated Analytic Story
 
 * Spearphishing Attachments
+
+* IcedID
 
 
 #### How To Implement
@@ -31895,6 +39962,73 @@ _version_: 1
 
 ---
 
+### Powershell Execute COM Object
+This search is to detect a COM CLSID execution through powershell. This technique was seen in several adversaries and malware like ransomware conti where it has a feature to execute command using COM Object. This technique may use by network operator at some cases but a good indicator if some application want to gain privilege escalation or bypass uac.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1546.015](https://attack.mitre.org/techniques/T1546/015/)
+- **Last Updated**: 2021-08-10
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`powershell` EventCode=4104 Message = "*CreateInstance([type]::GetTypeFromCLSID*" OR Message = "*CreateInstance([Type]::GetTypeFromProgID*"
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `powershell_execute_com_object_filter`
+```
+#### Associated Analytic Story
+
+* Malicious PowerShell
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1546.015 | Component Object Model Hijacking | Privilege Escalation, Persistence |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+network operrator may use this command.
+
+#### Reference
+
+
+* https://threadreaderapp.com/thread/1423361119926816776.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-powershell.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Powershell Fileless Process Injection via GetProcAddress
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
 This analytic identifies `GetProcAddress` in the script block. This is not normal to be used by most PowerShell scripts and is typically unsafe/malicious. Many attack toolkits use GetProcAddress to obtain code execution. \
@@ -32398,6 +40532,1979 @@ _version_: 1
 
 ---
 
+### Previously Seen AWS Cross Account Activity
+This search looks for **AssumeRole** events where the requesting account differs from the requested account, then writes these relationships to a lookup file.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-06-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=AssumeRole 
+| spath output=requestingAccountId path=userIdentity.accountId 
+| spath output=requestedAccountId path=resources{}.accountId 
+| search requestingAccountId=* 
+| where requestingAccountId!=requestedAccountId 
+| stats earliest(_time) as firstTime latest(_time) as lastTime by requestingAccountId, requestedAccountId 
+| outputlookup previously_seen_aws_cross_account_activity 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS Cross Account Activity
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`, a lookup file created by this support search.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* userIdentity.accountId
+
+* resources{}.accountId
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen AWS Cross Account Activity - Initial
+This search looks for **AssumeRole** events where the requesting account differs from the requested account, then writes these relationships to a lookup file.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Authentication
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role 
+|  `drop_dm_object_name(Authentication)` 
+| rex field=user_role "arn:aws:sts:*:(?<dest_account>.*):" 
+|  where  vendor_account != dest_account 
+| rename vendor_account as requestingAccountId dest_account as requestedAccountId 
+| table requestingAccountId requestedAccountId firstTime lastTime 
+| outputlookup previously_seen_aws_cross_account_activity
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Authentication Activities
+
+
+#### How To Implement
+You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later)and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`, a lookup file created by this support search.
+
+#### Required field
+
+* _time
+
+* Authentication.signature
+
+* Authentication.vendor_account
+
+* Authentication.user
+
+* Authentication.src
+
+* Authentication.user_role
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen AWS Cross Account Activity - Update
+This search looks for **AssumeRole** events where the requesting account differs from the requested account, then writes these relationships to a lookup file.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Authentication
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role 
+| `drop_dm_object_name(Authentication)` 
+| rex field=user_role "arn:aws:sts:*:(?<dest_account>.*):" 
+| where vendor_account != dest_account 
+| rename vendor_account as requestingAccountId dest_account as requestedAccountId 
+| inputlookup append=t previously_seen_aws_cross_account_activity 
+| stats min(firstTime) as firstTime max(lastTime) as lastTime by requestingAccountId requestedAccountId 
+| outputlookup previously_seen_aws_cross_account_activity
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Authentication Activities
+
+
+#### How To Implement
+You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Validate the user name entries in `previously_seen_aws_cross_account_activity.csv`, a lookup file created by this support search.
+
+#### Required field
+
+* _time
+
+* Authentication.signature
+
+* Authentication.vendor_account
+
+* Authentication.user
+
+* Authentication.src
+
+* Authentication.user_role
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen AWS Provisioning Activity Sources
+This search builds a table of the first and last times seen for every IP address (along with its physical location) previously associated with cloud-provisioning activity. This is broadly defined as any event that runs or creates something.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-16
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` (eventName=Run* OR eventName=Create*) 
+| iplocation sourceIPAddress 
+| stats earliest(_time) as firstTime, latest(_time) as lastTime by sourceIPAddress, City, Region, Country 
+| outputlookup previously_seen_provisioning_activity_src.csv 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS Suspicious Provisioning Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* sourceIPAddress
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen AWS Regions
+This search looks for CloudTrail events where an AWS instance is started and creates a baseline of most recent time (latest) and the first time (earliest) we've seen this region in our dataset grouped by the value awsRegion for the last 30 days
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-01-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` StartInstances 
+| stats earliest(_time) as earliest latest(_time) as latest by awsRegion 
+| outputlookup previously_seen_aws_regions.csv 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+* Suspicious AWS EC2 Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* awsRegion
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud API Calls Per User Role - Initial
+This search builds a table of the first and last times seen for every user role and command combination. This is broadly defined as any event that runs or creates something. This table is then cached.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-09-03
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user, All_Changes.command 
+| `drop_dm_object_name("All_Changes")` 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| table user, command, firstTimeSeen, lastTimeSeen, enough_data 
+| outputlookup previously_seen_cloud_api_calls_per_user_role
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud User Activities
+
+
+#### How To Implement
+You must be ingesting Cloud infrastructure logs from your cloud provider.
+
+#### Required field
+
+* _time
+
+* All_Changes.user_type
+
+* All_Changes.status
+
+* All_Changes.user
+
+* All_Changes.command
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud API Calls Per User Role - Update
+This search updates the table of the first and last times seen for every user role and command combination.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-09-03
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user, All_Changes.command 
+| `drop_dm_object_name("All_Changes")` 
+| table user, command, firstTimeSeen, lastTimeSeen 
+| inputlookup previously_seen_cloud_api_calls_per_user_role append=t 
+| stats min(firstTimeSeen) as firstTimeSeen, max(lastTimeSeen) as lastTimeSeen by user, command 
+| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_api_calls_per_user_role_forget_window`) 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| table user, command, firstTimeSeen, lastTimeSeen, enough_data 
+| outputlookup previously_seen_cloud_api_calls_per_user_role
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud User Activities
+
+
+#### How To Implement
+You must be ingesting Cloud infrastructure logs from your cloud provider.
+
+#### Required field
+
+* _time
+
+* All_Changes.user_type
+
+* All_Changes.status
+
+* All_Changes.user
+
+* All_Changes.command
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Compute Creations By User - Initial
+This search builds a table of previously seen users that have launched a cloud compute instance.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created AND All_Changes.object_category=instance by All_Changes.user 
+| `drop_dm_object_name("All_Changes")` 
+| outputlookup previously_seen_cloud_compute_creations_by_user 
+| stats count
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs and have the proper TAs installed.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.object_category
+
+* All_Changes.user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Compute Creations By User - Update
+This search builds a table of previously seen users that have launched a cloud compute instance.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created AND All_Changes.object_category=instance by All_Changes.user
+| `drop_dm_object_name("All_Changes")` 
+| inputlookup append=t previously_seen_cloud_compute_creations_by_user 
+| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by user 
+| where lastTimeSeen > relative_time(now(), "-90d@d") 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_compute_creations_by_user
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs and have the proper TAs installed.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.object_category
+
+* All_Changes.user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Compute Images - Initial
+This search builds a table of previously seen images used to launch cloud compute instances
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-10-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created  by All_Changes.Instance_Changes.image_id 
+| `drop_dm_object_name("All_Changes")` 
+| `drop_dm_object_name("Instance_Changes")` 
+| where image_id != "unknown" 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_compute_images
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs and have the latest Change Datamodel accelerated
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.Instance_Changes.image_id
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Compute Images - Update
+This search builds a table of previously seen images used to launch cloud compute instances
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.image_id 
+| `drop_dm_object_name("All_Changes")` 
+| `drop_dm_object_name("Instance_Changes")` 
+| where image_id != "unknown" 
+| inputlookup append=t previously_seen_cloud_compute_images 
+| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by image_id 
+| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_images_forget_window`) 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_compute_images
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.Instance_Changes.image_id
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Compute Instance Types - Initial
+This search builds a table of previously seen cloud compute instance types
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-9-03
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type 
+| `drop_dm_object_name("All_Changes.Instance_Changes")` 
+| where instance_type != "unknown" 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_compute_instance_types
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs and have the Security Research cloud data model installed.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.Instance_Changes.instance_type
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Compute Instance Types - Update
+This search builds a table of previously seen cloud compute instance types
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-9-03
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type 
+| `drop_dm_object_name("All_Changes.Instance_Changes")` 
+| where instance_type != "unknown" 
+| inputlookup append=t previously_seen_cloud_compute_instance_types 
+| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by instance_type 
+| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_instance_type_forget_window`) 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_compute_instance_types
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.Instance_Changes.instance_type
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Instance Modifications By User - Initial
+This search builds a table of previously seen users that have modified a cloud instance.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-07-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=modified All_Changes.change_type=EC2 c=success by All_Changes.user 
+| `drop_dm_object_name("All_Changes")` 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_instance_modifications_by_user
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Instance Activities
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs and have the latest Change Datamodel accelerated.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.change_type
+
+* All_Changes.status
+
+* All_Changes.user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Instance Modifications By User - Update
+This search updates a table of previously seen Cloud Instance modifications that have been made by a user
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-07-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=modified All_Changes.change_type=EC2 All_Changes.status=success by All_Changes.user 
+| `drop_dm_object_name("All_Changes")` 
+| inputlookup append=t previously_seen_cloud_instance_modifications_by_user 
+| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by user 
+| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_compute_images_forget_window`) 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_instance_modifications_by_user
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Instance Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.change_type
+
+* All_Changes.status
+
+* All_Changes.user
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Provisioning Activity Sources - Initial
+This search builds a table of the first and last times seen for every IP address (along with its physical location) previously associated with cloud-provisioning activity. This is broadly defined as any event that runs or creates something. This table is then cached.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success by All_Changes.src 
+| `drop_dm_object_name("All_Changes")` 
+| iplocation src 
+| where isnotnull(Country) 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| table src, City, Country, Region, firstTimeSeen, lastTimeSeen, enough_data 
+| outputlookup previously_seen_cloud_provisioning_activity_sources
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Provisioning Activities
+
+
+#### How To Implement
+You must be ingesting Cloud infrastructure logs from your cloud provider.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.src
+
+* All_Changes.status
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Provisioning Activity Sources - Update
+This returns the first and last times seen for every IP address (along with its physical location) previously associated with cloud-provisioning activity within the last day. Cloud provisioning is broadly defined as any event that runs or creates something.  It then updates this information with historical data and filters out locations that have not been seen within the specified time window. This updated table is then cached.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-08-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success by All_Changes.src 
+| `drop_dm_object_name("All_Changes")` 
+| iplocation src 
+| where isnotnull(Country) 
+| table src, firstTimeSeen, lastTimeSeen, City, Country, Region 
+| inputlookup previously_seen_cloud_provisioning_activity_sources append=t 
+| stats min(firstTimeSeen) as firstTimeSeen, max(lastTimeSeen) as lastTimeSeen by src, City, Country, Region 
+| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_provisioning_activity_forget_window`) 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0) 
+| table src, City, Country, Region, firstTimeSeen, lastTimeSeen, enough_data 
+| outputlookup previously_seen_cloud_provisioning_activity_sources
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Provisioning Activities
+
+
+#### How To Implement
+You must be ingesting Cloud infrastructure logs from your cloud provider.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.src
+
+* All_Changes.status
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Regions - Initial
+This search looks for cloud compute events where a compute instance is started and creates a baseline of most recent time, `lastTime` and the first time `firstTime` we've seen this region in our dataset grouped by the region for the last 30 days
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-09-02
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region 
+| `drop_dm_object_name("All_Changes")` 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_regions
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs and have the Security Research cloud data model installed.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.vendor_region
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Cloud Regions - Update
+This search looks for cloud compute events where a compute instance is started and creates a baseline of most recent time, `lastTime` and the first time `firstTime` we've seen this region in our dataset grouped by the region for the last 30 days
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2020-09-02
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region 
+| `drop_dm_object_name("All_Changes")` 
+| inputlookup append=t previously_seen_cloud_regions 
+| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by vendor_region 
+| where lastTimeSeen > relative_time(now(), `previously_seen_cloud_region_forget_window`) 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) 
+| outputlookup previously_seen_cloud_regions 
+| stats count
+```
+#### Associated Analytic Story
+
+* Cloud Cryptomining
+
+
+#### How To Implement
+You must be ingesting the approrpiate cloud infrastructure logs and have the Security Research cloud data model installed.
+
+#### Required field
+
+* _time
+
+* All_Changes.action
+
+* All_Changes.vendor_region
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen EC2 AMIs
+This search builds a table of previously seen AMIs used to launch EC2 instances
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=RunInstances errorCode=success 
+| rename requestParameters.instancesSet.items{}.imageId as amiID 
+| stats earliest(_time) as firstTime latest(_time) as lastTime by amiID 
+| outputlookup previously_seen_ec2_amis.csv 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* errorCode
+
+* requestParameters.instancesSet.items{}.imageId
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen EC2 Instance Types
+This search builds a table of previously seen EC2 instance types
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=RunInstances errorCode=success 
+| rename requestParameters.instanceType as instanceType 
+| fillnull value="m1.small" instanceType 
+| stats earliest(_time) as earliest latest(_time) as latest by instanceType 
+| outputlookup previously_seen_ec2_instance_types.csv 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* errorCode
+
+* requestParameters.instanceType
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen EC2 Launches By User
+This search builds a table of previously seen ARNs that have launched a EC2 instance.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-03-15
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=RunInstances errorCode=success 
+| rename userIdentity.arn as arn 
+| stats earliest(_time) as firstTime latest(_time) as lastTime by arn 
+| outputlookup previously_seen_ec2_launches_by_user.csv 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS Cryptomining
+
+* Suspicious AWS EC2 Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* errorCode
+
+* requestParameters.instanceType
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen EC2 Modifications By User
+This search builds a table of previously seen ARNs that have launched a EC2 instance.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-04-05
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` `ec2_modification_api_calls` errorCode=success 
+| spath output=arn userIdentity.arn 
+| stats earliest(_time) as firstTime latest(_time) as lastTime by arn 
+| outputlookup previously_seen_ec2_modifications_by_user 
+| stats count
+```
+#### Associated Analytic Story
+
+* Unusual AWS EC2 Modifications
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs. To add or remove APIs that modify an EC2 instance, edit the macro `ec2_modification_api_calls`.
+
+#### Required field
+
+* _time
+
+* userIdentity.arn
+
+* errorCode
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Running Windows Services - Initial
+This collects the services that have been started across your entire enterprise.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-06-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_system` EventCode=7036 
+| rex field=Message "The (?<service>[-\(\)\s\w]+) service entered the (?<state>\w+) state" 
+| where state="running" 
+| stats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen by service 
+| outputlookup previously_seen_running_windows_services
+```
+#### Associated Analytic Story
+
+* Orangeworm Attack Group
+
+* Windows Service Abuse
+
+* NOBELIUM Group
+
+
+#### How To Implement
+While this search does not require you to adhere to Splunk CIM, you must be ingesting your Windows security-event logs for it to execute successfully. Please ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Message
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 3
+</details>
+
+---
+
+### Previously Seen Running Windows Services - Update
+This search returns the first and last time a Windows service was seen across your enterprise within the last hour. It then updates this information with historical data and filters out Windows services pairs that have not been seen within the specified time window. This updated table is then cached.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-06-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_system` EventCode=7036 
+| rex field=Message "The (?<service>[-\(\)\s\w]+) service entered the (?<state>\w+) state" 
+| where state="running" 
+| stats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen by service 
+| inputlookup previously_seen_running_windows_services append=t 
+| stats min(firstTimeSeen) as firstTimeSeen, max(lastTimeSeen) as lastTimeSeen by service 
+| where lastTimeSeen > relative_time(now(), "`previously_seen_windows_service_forget_window`") 
+| outputlookup previously_seen_running_windows_services
+```
+#### Associated Analytic Story
+
+* Orangeworm Attack Group
+
+* Windows Service Abuse
+
+* NOBELIUM Group
+
+
+#### How To Implement
+While this search does not require you to adhere to Splunk CIM, you must be ingesting your Windows security-event logs for it to execute successfully. Please ensure that the Splunk Add-on for Microsoft Windows is version 8.0.0 or above.
+
+#### Required field
+
+* _time
+
+* EventCode
+
+* Message
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 3
+</details>
+
+---
+
+### Previously Seen Users In CloudTrail - Update
+This search looks for CloudTrail events where a user logs into the console, then updates the baseline of the latest and earliest times, City, Region, and Country we have encountered this user in our dataset, grouped by user, within the last hour.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Authentication
+- **ATT&CK**: 
+- **Last Updated**: 2020-05-28
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src 
+| iplocation Authentication.src 
+| rename Authentication.user as user Authentication.src as src 
+| table user src City Region Country firstTime lastTime 
+| inputlookup append=t previously_seen_users_console_logins 
+| stats min(firstTime) as firstTime max(lastTime) as lastTime by user src City Region Country 
+| outputlookup previously_seen_users_console_logins
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Authentication Activities
+
+
+#### How To Implement
+You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Validate the user name entries in `previously_seen_users_console_logins`, which is a lookup file created by this support search.
+
+#### Required field
+
+* _time
+
+* Authentication.signature
+
+* Authentication.user
+
+* Authentication.src
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Users in CloudTrail - Initial
+This search looks for CloudTrail events where a user logs into the console, then creates a baseline of the latest and earliest times, City, Region, and Country we have encountered this user in our dataset, grouped by username, within the last 30 days.
+
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Authentication
+- **ATT&CK**: 
+- **Last Updated**: 2020-05-28
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src 
+| iplocation Authentication.src 
+| rename Authentication.user as user Authentication.src as src 
+| table user src City Region Country firstTime lastTime 
+| outputlookup previously_seen_users_console_logins 
+| stats count
+```
+#### Associated Analytic Story
+
+* Suspicious Cloud Authentication Activities
+
+
+#### How To Implement
+You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Validate the user name entries in `previously_seen_users_console_logins`, which is a lookup file created by this support search.
+
+#### Required field
+
+* _time
+
+* Authentication.signature
+
+* Authentication.user
+
+* Authentication.src
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Zoom Child Processes - Initial
+This search returns the first and last time a process was seen per endpoint with a parent process of zoom.exe (Windows) or zoom.us (macOS). This table is then cached.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2020-05-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` min(_time) as firstTimeSeen max(_time) as lastTimeSeen from datamodel=Endpoint.Processes where (Processes.parent_process_name=zoom.exe OR Processes.parent_process_name=zoom.us) by Processes.process_name Processes.dest
+| `drop_dm_object_name(Processes)` 
+| table dest, process_name, firstTimeSeen, lastTimeSeen 
+| outputlookup zoom_first_time_child_process
+```
+#### Associated Analytic Story
+
+* Suspicious Zoom Child Processes
+
+
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously Seen Zoom Child Processes - Update
+This search returns the first and last time a process was seen per endpoint with a parent process of zoom.exe (Windows) or zoom.us (macOS) within the last hour. It then updates this information with historical data and filters out proces_name and endpoint pairs that have not been seen within the specified time window. This updated table is outputed to disk.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2020-05-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` min(_time) as firstTimeSeen max(_time) as lastTimeSeen from datamodel=Endpoint.Processes where (Processes.parent_process_name=zoom.exe OR Processes.parent_process_name=zoom.us) by Processes.process_name Processes.dest
+| `drop_dm_object_name(Processes)` 
+| table firstTimeSeen, lastTimeSeen, process_name, dest 
+| inputlookup zoom_first_time_child_process append=t 
+| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by process_name, dest 
+| where lastTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_forget_window`") 
+| outputlookup zoom_first_time_child_process
+```
+#### Associated Analytic Story
+
+* Suspicious Zoom Child Processes
+
+
+#### How To Implement
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node.
+
+#### Required field
+
+* _time
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.dest
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously seen API call per user roles in CloudTrail
+This search looks for successful API calls made by different user roles, then creates a baseline of the earliest and latest times we have encountered this user role. It also returns the name of the API call in our dataset--grouped by user role and name of the API call--that occurred within the last 30 days. In this support search, we are only looking for events where the user identity is Assumed Role.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-04-16
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=AssumedRole 
+| stats earliest(_time) as earliest latest(_time) as latest by userName eventName 
+| outputlookup previously_seen_api_calls_from_user_roles 
+| stats count
+```
+#### Associated Analytic Story
+
+* AWS User Monitoring
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Please validate the user role entries in `previously_seen_api_calls_from_user_roles.csv`, which is a lookup file created as a result of running this support search.
+
+#### Required field
+
+* _time
+
+* eventType
+
+* errorCode
+
+* userIdentity.type
+
+* userName
+
+* eventName
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously seen S3 bucket access by remote IP
+This search looks for successful access to S3 buckets from remote IP addresses, then creates a baseline of the earliest and latest times we have encountered this remote IP within the last 30 days. In this support search, we are only looking for S3 access events where the HTTP response code from AWS is "200"
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-06-28
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`aws_s3_accesslogs` http_status=200  
+| stats  earliest(_time) as earliest latest(_time) as latest by bucket_name remote_ip 
+| outputlookup previously_seen_S3_access_from_remote_ip 
+| stats count
+```
+#### Associated Analytic Story
+
+* Suspicious AWS S3 Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access-logs inputs. You must validate the remote IP and bucket name entries in `previously_seen_S3_access_from_remote_ip.csv`, which is a lookup file created as a result of running this support search.
+
+#### Required field
+
+* _time
+
+* http_status
+
+* bucket_name
+
+* remote_ip
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Previously seen command line arguments
+This search looks for command-line arguments where `cmd.exe /c` is used to execute a program, then creates a baseline of the earliest and latest times we have encountered this command-line argument in our dataset within the last 30 days.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: 
+- **Last Updated**: 2019-03-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe AND Processes.process="* /c *" by Processes.process 
+| `drop_dm_object_name(Processes)`
+```
+#### Associated Analytic Story
+
+* DHS Report TA18-074A
+
+* Disabling Security Tools
+
+* Hidden Cobra Malware
+
+* Netsh Abuse
+
+* Orangeworm Attack Group
+
+* Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+
+* Suspicious Command-Line Executions
+
+* Suspicious MSHTA Activity
+
+* IcedID
+
+
+#### How To Implement
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must be ingesting logs with both the process name and command line from your endpoints. The complete process name with command-line arguments are mapped to the "process" field in the Endpoint data model.
+
+#### Required field
+
+* _time
+
+* Processes.process_name
+
+* Processes.process
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 2
+</details>
+
+---
+
+### Previously seen users in CloudTrail
+This search looks for CloudTrail events where a user logs into the console, then creates a baseline of the latest and earliest times, City, Region, and Country we have encountered this user in our dataset, grouped by ARN, within the last 30 days. NOTE - This baseline search is deprecated and has been updated to use the Authentication Datamodel
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-04-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=ConsoleLogin 
+| rename userIdentity.arn as user 
+| iplocation src 
+| eval City=if(City LIKE "",src,City),Region=if(Region LIKE "",src,Region) 
+| stats earliest(_time) as firstTime latest(_time) as lastTime by user src City Region Country 
+| outputlookup previously_seen_users_console_logins_cloudtrail 
+| stats count
+```
+#### Associated Analytic Story
+
+* Suspicious AWS Login Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Please validate the user name entries in `previously_seen_users_console_logins_cloudtrail`, which is a lookup file created as a result of running this support search.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* userIdentity.arn
+
+* src
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Print Spooler Adding A Printer Driver
 The following analytic identifies new printer drivers being load by utilizing the Windows PrintService operational logs, EventCode 316. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
 Within the proof of concept code, the following event will occur - "Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required." \
@@ -32573,10 +42680,10 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Test-AdminAccess/)=true OR match_regex(cmd_line, /(?i)Invoke-CheckLocalAdminAccess/)=true OR match_regex(cmd_line, /(?i)Test-ServiceDaclPermission/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -33414,7 +43521,7 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 
 | from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), parent_process_name=mvindex(split(parent_process, "\\"), -1), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null) 
+| eval parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), parent_process_name=mvindex(split(parent_process, "\\"), -1), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where parent_process_name!=null 
 | select parent_process_name, process_name, cmd_line, timestamp, dest_device_id, dest_user_id 
 | conditional_anomaly conditional="parent_process_name" target="process_name" 
@@ -33492,7 +43599,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### Search
 ```
-`powershell` EventCode=4104 Message = "*SELECT*" AND (Message = "*AntiVirusProduct*" OR Message = "*AntiSpywareProduct*") 
+`powershell` EventCode=4104 (Message = "*SELECT*" OR Message = "*WMIC*") AND (Message = "*AntiVirusProduct*" OR Message = "*AntiSpywareProduct*") 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -33659,10 +43766,10 @@ This detection identifies access to PowerSploit modules that discover accounts, 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainLocalGroupMember/)=true OR match_regex(cmd_line, /(?i)Invoke-EnumerateLocalAdmin/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserEvent/)=true OR match_regex(cmd_line, /(?i)Invoke-EventHunter/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserLocation/)=true OR match_regex(cmd_line, /(?i)Invoke-UserHunter/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignGroupMember/)=true OR match_regex(cmd_line, /(?i)Find-ForeignGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignUser/)=true OR match_regex(cmd_line, /(?i)Find-ForeignUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPO/)=true OR match_regex(cmd_line, /(?i)Get-NetGPO/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOComputerLocalGroupMapping/)=true OR match_regex(cmd_line, /(?i)Find-GPOComputerAdmin/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGPOGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOUserLocalGroupMapping/)=true OR match_regex(cmd_line, /(?i)Find-GPOLocation/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-NetGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-DomainManagedSecurityGroup/)=true OR match_regex(cmd_line, /(?i)Find-ManagedSecurityGroups/)=true OR match_regex(cmd_line, /(?i)Get-DomainOU/)=true OR match_regex(cmd_line, /(?i)Get-NetOU/)=true OR match_regex(cmd_line, /(?i)Get-DomainUser/)=true OR match_regex(cmd_line, /(?i)Get-NetUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainUserEvent/)=true OR match_regex(cmd_line, /(?i)Get-UserEvent/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-NetLoggedon/)=true OR match_regex(cmd_line, /(?i)Get-RegLoggedOn/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegLastLoggedOn/)=true OR match_regex(cmd_line, /(?i)Get-LastLoggedOn/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -33733,10 +43840,10 @@ This detection identifies use of Mimikatz modules for discovery of accounts and 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::user/)=true OR match_regex(cmd_line, /(?i)net::group/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -33807,10 +43914,10 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-DomainSID/)=true OR match_regex(cmd_line, /(?i)Get-DomainSite/)=true OR match_regex(cmd_line, /(?i)Get-NetSite/)=true OR match_regex(cmd_line, /(?i)Get-DomainSubnet/)=true OR match_regex(cmd_line, /(?i)Get-NetSubnet/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrustMapping/)=true OR match_regex(cmd_line, /(?i)Invoke-MapDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-Forest/)=true OR match_regex(cmd_line, /(?i)Get-NetForest/)=true OR match_regex(cmd_line, /(?i)Get-ForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-NetForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-ForestGlobalCatalog/)=true OR match_regex(cmd_line, /(?i)Get-NetForestCatalog/)=true OR match_regex(cmd_line, /(?i)Get-ForestTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetForestTrust/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -33883,10 +43990,10 @@ This detection identifies access to PowerSploit modules that discover computers,
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ComputerDetail/)=true OR match_regex(cmd_line, /(?i)Get-Domain/)=true OR match_regex(cmd_line, /(?i)Get-NetDomain/)=true OR match_regex(cmd_line, /(?i)Get-DomainComputer/)=true OR match_regex(cmd_line, /(?i)Get-NetComputer/)=true OR match_regex(cmd_line, /(?i)Get-DomainController/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainController/)=true OR match_regex(cmd_line, /(?i)Get-DomainFileServer/)=true OR match_regex(cmd_line, /(?i)Get-NetFileServer/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -33957,10 +44064,10 @@ This detection identifies use of Mimikatz modules for discovery of computers and
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::ServerInfo/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34029,10 +44136,10 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainProcess/)=true OR match_regex(cmd_line, /(?i)Invoke-ProcessHunter/)=true OR match_regex(cmd_line, /(?i)Get-ServiceDetail/)=true OR match_regex(cmd_line, /(?i)Get-WMIProcess/)=true OR match_regex(cmd_line, /(?i)Get-NetProcess/)=true OR match_regex(cmd_line, /(?i)Get-SecurityPackage/)=true OR match_regex(cmd_line, /(?i)Find-DomainObjectPropertyOutlier/)=true OR match_regex(cmd_line, /(?i)Get-DomainObject/)=true OR match_regex(cmd_line, /(?i)Get-ADObject/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegMountedDrive/)=true OR match_regex(cmd_line, /(?i)Get-RegistryMountedDrive/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34108,10 +44215,10 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)process::list/)=true OR match_regex(cmd_line, /(?i)service::list/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34182,10 +44289,10 @@ This detection identifies use of Mimikatz modules for discovery and access to ne
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::share/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34256,10 +44363,10 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainShare/)=true OR match_regex(cmd_line, /(?i)Invoke-ShareFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainShareFile/)=true OR match_regex(cmd_line, /(?i)Invoke-FileFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingFile/)=true OR match_regex(cmd_line, /(?i)Get-DomainDFSShare/)=true OR match_regex(cmd_line, /(?i)Get-DFSshare/)=true OR match_regex(cmd_line, /(?i)Get-NetShare/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34330,10 +44437,10 @@ This detection identifies use of PowerSploit modules that discover opportunities
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-LocalAdminAccess/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainAcl/)=true OR match_regex(cmd_line, /(?i)Invoke-ACLScanner/)=true OR match_regex(cmd_line, /(?i)Find-PathDLLHijack/)=true OR match_regex(cmd_line, /(?i)Find-ProcessDLLHijack/)=true OR match_regex(cmd_line, /(?i)Get-DomainObjectAcl/)=true OR match_regex(cmd_line, /(?i)Get-ObjectAcl/)=true OR match_regex(cmd_line, /(?i)Get-DomainPolicy/)=true OR match_regex(cmd_line, /(?i)Get-ModifiablePath/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableRegistryAutoRun/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableScheduledTaskFile/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableService/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableServiceFile/)=true OR match_regex(cmd_line, /(?i)Get-PathAcl/)=true OR match_regex(cmd_line, /(?i)Get-UnattendedInstallFile/)=true OR match_regex(cmd_line, /(?i)Get-UnquotedService/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34407,10 +44514,10 @@ This detection identifies access to PowerSploit modules for reconnaissance of co
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-DomainDNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DomainDNSZone/)=true OR match_regex(cmd_line, /(?i)Get-DNSZone/)=true OR match_regex(cmd_line, /(?i)Invoke-ReverseDnsLookup/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegCachedRDPConnection/)=true OR match_regex(cmd_line, /(?i)Get-CachedRDPConnection/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegProxy/)=true OR match_regex(cmd_line, /(?i)Get-Proxy/)=true OR match_regex(cmd_line, /(?i)Invoke-Portscan/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34481,10 +44588,10 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)crypto::capi/)=true OR match_regex(cmd_line, /(?i)crypto::cng/)=true OR match_regex(cmd_line, /(?i)crypto::providers/)=true OR match_regex(cmd_line, /(?i)crypto::stores/)=true OR match_regex(cmd_line, /(?i)crypto::sc/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34558,10 +44665,10 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-AVSignature/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34631,10 +44738,10 @@ This detection identifies use of PowerSploit modules for assessment of privilege
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Invoke-PrivescAudit/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34705,10 +44812,10 @@ This detection identifies use of Mimikatz modules for discovery of process or se
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::detours/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -34956,6 +45063,8 @@ The search looks for modifications to registry keys that can be used to launch a
 * Windows Persistence Techniques
 
 * Emotet Malware  DHS Report TA18-201A 
+
+* IcedID
 
 
 #### How To Implement
@@ -35623,9 +45732,9 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "%resize%") AND like(cmd_line, "%shadowstorage%") AND like(cmd_line, "%maxsize%") AND process_name="vssadmin.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -35704,7 +45813,7 @@ This analytic identifies suspicious commandline parameter that are commonly used
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*-nolan*" OR Processes.process = "*-nolocal*" OR Processes.process = "*-fast*" OR Processes.process = "*-full*" by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "* -nolan *" OR Processes.process = "* -nolocal *" OR Processes.process = "* -fast *" OR Processes.process = "* -full *" by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -35771,7 +45880,7 @@ third party tool may have same command line parameters as revil ransomware.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -35924,6 +46033,398 @@ While not common, loading a DLL under %AppData% and calling a function by ordina
 
 
 _version_: 4
+</details>
+
+---
+
+### Rundll32 Create Remote Thread To A Process
+This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to cmd.exe process . This technique was seen in IcedID malware to execute its malicious code in normal process for defense evasion and to steal sensitive information the the compromised host. browser process.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-07-29
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe" 
+| stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId StartAddress EventCode Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_create_remote_thread_to_a_process_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* SourceImage
+
+* TargetImage
+
+* TargetProcessId
+
+* SourceProcessId
+
+* StartAddress
+
+* EventCode
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.joesandbox.com/analysis/380662/0/html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Rundll32 CreateRemoteThread In Browser
+This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to "firefox.exe" and "chrome.exe" browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1055](https://attack.mitre.org/techniques/T1055/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") 
+| stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId StartAddress EventCode Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_createremotethread_in_browser_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* SourceImage
+
+* TargetImage
+
+* TargetProcessId
+
+* SourceProcessId
+
+* StartAddress
+
+* EventCode
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1055 | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.joesandbox.com/analysis/380662/0/html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Rundll32 DNSQuery
+This search is to detect a suspicious rundll32.exe process having a http connection and do a dns query in some web domain. This technique was seen in IcedID malware where the rundll32 that execute its payload will contact amazon.com to check internet connect and to communicate to its C&C server to download config and other file component.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=22 process_name="rundll32.exe" 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId direction Computer 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_dnsquery_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and eventcode = 22 dnsquery executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* Image
+
+* QueryName
+
+* QueryStatus
+
+* ProcessId
+
+* direction
+
+* Computer
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://any.run/malware-trends/icedid
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Rundll32 LockWorkStation
+This search is to detect a suspicious rundll32 commandline to lock the workstation through command line. This technique was seen in CONTI leak tooling and script as part of its defense evasion. This technique is not a common practice to lock a screen and maybe a good indicator of compromise.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-08-09
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process= "*user32.dll,LockWorkStation*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_lockworkstation_filter`
+```
+#### Associated Analytic Story
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://threadreaderapp.com/thread/1423361119926816776.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Rundll32 Process Creating Exe Dll Files
+This search is to detect a suspicious rundll32 process that drops executable (.exe or .dll) files. this behavior seen in rundll32 process of IcedID that tries to drop copy of itself in temp folder or download executable drop it either appdata or programdata as part of its execution.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=11 process_name="rundll32.exe" TargetFilename IN ("*.exe", "*.dll",) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image TargetFilename ProcessGuid dest user_id 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_process_creating_exe_dll_files_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, TargetFilename, and eventcode 11 executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* Image
+
+* TargetFilename
+
+* ProcessGuid
+
+* dest
+
+* user_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://any.run/malware-trends/icedid
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -36173,6 +46674,85 @@ Limited to no known false positives.
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ryuk/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### SAM Database File Access Attempt
+The following analytic identifies access to SAM, SYSTEM or SECURITY databases' within the file path of `windows\system32\config` using Windows Security EventCode 4663. This particular behavior is related to credential access, an attempt to either use a Shadow Copy or recent CVE-2021-36934 to access the SAM database. The Security Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7, 8.1 and 10 that stores users' passwords.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-07-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*") 
+| stats values(Accesses) count by process_name Object_Name  dest user 
+| `sam_database_file_access_attempt_filter`
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+
+#### Required field
+
+* _time
+
+* process_name
+
+* Object_Name
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Natively, `dllhost.exe` will access the files. Every environment will have additional native processes that do as well. Filter by process_name. As an aside, one can remove process_name entirely and add `Object_Name=*ShadowCopy*`.
+
+#### Reference
+
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4663
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36934
+
+* https://github.com/GossiTheDog/HiveNightmare
+
+* https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
+
+* https://en.wikipedia.org/wiki/Security_Account_Manager
+
+
+
+#### Test Dataset
 
 
 _version_: 1
@@ -36847,6 +47427,8 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 
 * Trickbot
 
+* IcedID
+
 
 #### How To Implement
 To successfully implement this search, you need to be ingesting logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and filter known instances of Task schedule used in your environment.
@@ -37279,6 +47861,84 @@ _version_: 4
 
 ---
 
+### Sdclt UAC Bypass
+This search is to detect a suspicious sdclt.exe registry modification. This technique is commonly seen when attacker try to bypassed UAC by using sdclt.exe application by modifying some registry that sdclt.exe tries to open or query with payload file path on it to be executed.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "IsolatedCommand") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `sdclt_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited to no false positives are expected.
+
+#### Reference
+
+
+* https://enigma0x3.net/2017/03/17/fileless-uac-bypass-using-sdclt-exe/
+
+* https://github.com/hfiref0x/UACME
+
+* https://www.cyborgsecurity.com/cyborg_labs/threat-hunt-deep-dives-user-account-control-bypass-via-registry-modification/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### SearchProtocolHost with no Command Line with Network
 The following analytic identifies searchprotocolhost.exe with no command line arguments and with a network connection. It is unusual for searchprotocolhost.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. searchprotocolhost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
@@ -37621,10 +48281,10 @@ This detection identifies illegal setting of credentials via DSInternals modules
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Add-ADDBSidHistory/)=true OR match_regex(cmd_line, /(?i)Add-ADReplNgcKey/)=true OR match_regex(cmd_line, /(?i)Set-ADDBAccountPassword/)=true OR match_regex(cmd_line, /(?i)Set-ADDBAccountPasswordHash/)=true OR match_regex(cmd_line, /(?i)Set-ADDBBootKey/)=true OR match_regex(cmd_line, /(?i)Set-SamAccountPasswordHash/)=true OR match_regex(cmd_line, /(?i)Set-AzureADUserEx/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -37703,10 +48363,10 @@ This detection identifies illegal setting of credentials via Mimikatz modules.
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::addsid/)=true OR match_regex(cmd_line, /(?i)CRYPTO::scauth/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -37779,10 +48439,10 @@ This detection identifies illegal setting of credentials via PowerSploit modules
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Set-DomainUserPassword/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map([ "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -38048,6 +48708,82 @@ It is possible that an administrator created and deleted an account in a short t
 
 
 _version_: 2
+</details>
+
+---
+
+### SilentCleanup UAC Bypass
+This search is to detect a suspicious modification of registry that may related to UAC bypassed. This registry will be trigger once the attacker abuse the silentcleanup task schedule to gain high privilege execution that will bypass User control account.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\windir" Registry.registry_value_name = "*.exe*" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `silentcleanup_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://github.com/hfiref0x/UACME
+
+* https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+
+
+_version_: 1
 </details>
 
 ---
@@ -38594,6 +49330,81 @@ Limited false positives. Filter as needed.
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Sqlite Module In Temp Folder
+This search is to detect a suspicious file creation of sqlite3.dll in %temp% folder. This behavior was seen in IcedID malware where it download sqlite module to parse browser database like for chrome or firefox to stole browser information related to bank, credit card or credentials.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1005](https://attack.mitre.org/techniques/T1005/)
+- **Last Updated**: 2021-08-03
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") 
+|stats count min(_time) as firstTime max(_time) as lastTime by process_name TargetFilename EventCode ProcessId Image 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `sqlite_module_in_temp_folder_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* TargetFilename
+
+* EventCode
+
+* ProcessId
+
+* Image
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1005 | Data from Local System | Collection |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.cisecurity.org/white-papers/security-primer-icedid/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
 
 
 _version_: 1
@@ -39307,6 +50118,170 @@ _version_: 1
 
 ---
 
+### Suspicious IcedID Regsvr32 Cmdline
+this search is to detect a suspicious regsvr32 commandline "-s" to execute a dll files. This technique was seen in IcedID malware to execute its initial downloader dll that will download the 2nd stage loader that will download and decrypt the config payload.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.010](https://attack.mitre.org/techniques/T1218/010/)
+- **Last Updated**: 2021-07-27
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=regsvr32.exe Processes.process=*-s* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `suspicious_icedid_regsvr32_cmdline_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed regsvr32.exe may be used.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process
+
+* parent_process_name
+
+* parent_process
+
+* process_id
+
+* parent_process_id
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.010 | Regsvr32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+minimal. but network operator can use this application to load dll.
+
+#### Reference
+
+
+* https://app.any.run/tasks/56680cba-2bbc-4b34-8633-5f7878ddf858/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Suspicious IcedID Rundll32 Cmdline
+This search is to detect a suspicious rundll32.exe commandline to execute dll file. This technique was seen in IcedID malware to load its payload dll with the following parameter to load encrypted dll payload which is the license.dat.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*/i:* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `suspicious_icedid_rundll32_cmdline_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process
+
+* parent_process_name
+
+* parent_process
+
+* process_id
+
+* parent_process_id
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+limitted. this parameter is not commonly used by windows application but can be used by the network operator.
+
+#### Reference
+
+
+* https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Suspicious Java Classes
 This search looks for suspicious Java classes that are often used to exploit remote command execution in common Java frameworks, such as Apache Struts.
 
@@ -39904,6 +50879,8 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 * Suspicious Regsvr32 Activity
 
+* Iceid
+
 
 #### How To Implement
 You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model. Tune the query by filtering additional extensions found to be used by  legitimate processes.
@@ -39963,6 +50940,88 @@ Limited false positives with the query restricted to specified paths. Add more w
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Suspicious Rundll32 PluginInit
+This search is to detect a suspicious rundll32.exe process with plugininit parameter. This technique is commonly seen in IceID malware to execute its initial dll stager to download another payload to the compromised machine.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.011](https://attack.mitre.org/techniques/T1218/011/)
+- **Last Updated**: 2021-07-26
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*PluginInit* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `suspicious_rundll32_plugininit_filter`
+```
+#### Associated Analytic Story
+
+* IcedID
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+#### Required field
+
+* _time
+
+* process_name
+
+* process
+
+* parent_process_name
+
+* parent_process
+
+* process_id
+
+* parent_process_id
+
+* dest
+
+* user
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+third party application may used this dll export name to execute function.
+
+#### Reference
+
+
+* https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
 
 
 _version_: 1
@@ -41253,7 +52312,7 @@ An attacker tries might try to use different version of a system command without
 ```
  $ssa_input = 
 | from read_ssa_enriched_events() 
-| eval device=ucast(map_get(input_event, "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"), "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string", null));
+| eval device=ucast(map_get(input_event, "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"), "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);
 $cond_1 = 
 | from $ssa_input 
 | where process_name="arp.exe" OR process_name="adaptertroubleshooter.exe" OR process_name="applicationframehost.exe" OR process_name="atbroker.exe" OR process_name="authhost.exe" OR process_name="autoworkplace.exe" OR process_name="axinstui.exe" OR process_name="backgroundtransferhost.exe" OR process_name="bdehdcfg.exe" OR process_name="bdeuisrv.exe" OR process_name="bdeunlockwizard.exe" OR process_name="bitlockerdeviceencryption.exe" OR process_name="bitlockerwizard.exe" OR process_name="bitlockerwizardelev.exe" OR process_name="bytecodegenerator.exe" OR process_name="camerasettingsuihost.exe" OR process_name="castsrv.exe" OR process_name="certenrollctrl.exe" OR process_name="checknetisolation.exe" OR process_name="clipup.exe" OR process_name="cloudexperiencehostbroker.exe" OR process_name="cloudnotifications.exe" OR process_name="cloudstoragewizard.exe" OR process_name="compmgmtlauncher.exe" OR process_name="compattelrunner.exe" OR process_name="computerdefaults.exe" OR process_name="credentialuibroker.exe" OR process_name="dfdwiz.exe" OR process_name="dwwin.exe" OR process_name="dataexchangehost.exe" OR process_name="defrag.exe" OR process_name="devicedisplayobjectprovider.exe" OR process_name="deviceeject.exe" OR process_name="deviceenroller.exe" OR process_name="devicepairingwizard.exe" OR process_name="deviceproperties.exe" OR process_name="disksnapshot.exe" OR process_name="dism.exe" OR process_name="displayswitch.exe" OR process_name="dmnotificationbroker.exe" OR process_name="dmomacpmo.exe" OR process_name="dpiscaling.exe" OR process_name="dsmusertask.exe" OR process_name="dxpserver.exe" OR process_name="edpcleanup.exe" OR process_name="eosnotify.exe" OR process_name="eap3host.exe" OR process_name="easpoliciesbrokerhost.exe" OR process_name="easeofaccessdialog.exe" OR process_name="ehstorauthn.exe" OR process_name="fxscover.exe" OR process_name="fxssvc.exe" OR process_name="fxsunatd.exe" OR process_name="filehistory.exe" OR process_name="fondue.exe" OR process_name="gamepanel.exe" OR process_name="genvalobj.exe" OR process_name="gettingstarted.exe" OR process_name="hostname.exe" OR process_name="icsentitlementhost.exe" OR process_name="infdefaultinstall.exe" OR process_name="installagent.exe" OR process_name="languagecomponentsinstallercomhandler.exe" OR process_name="launchtm.exe" OR process_name="launchwinapp.exe" OR process_name="legacynetuxhost.exe" OR process_name="licensemanagershellext.exe" OR process_name="licensingui.exe" OR process_name="locationnotificationwindows.exe" OR process_name="locationnotifications.exe" OR process_name="locator.exe" OR process_name="lockapphost.exe" OR process_name="lockscreencontentserver.exe" OR process_name="logonui.exe" OR process_name="lsaiso.exe" OR process_name="mdeserver.exe" OR process_name="mdmagent.exe" OR process_name="mdmappinstaller.exe" OR process_name="mrinfo.exe" OR process_name="mrt.exe" OR process_name="mschedexe.exe" OR process_name="magnify.exe" OR process_name="mbaeparsertask.exe" OR process_name="mdres.exe" OR process_name="mdsched.exe" OR process_name="migautoplay.exe" OR process_name="mpsigstub.exe" OR process_name="msspellcheckinghost.exe" OR process_name="muiunattend.exe" OR process_name="multidigimon.exe" OR process_name="musnotification.exe" OR process_name="musnotificationux.exe" OR process_name="napstat.exe" OR process_name="netstat.exe" OR process_name="narrator.exe" OR process_name="netcfgnotifyobjecthost.exe" OR process_name="netevtfwdr.exe" OR process_name="netproj.exe" OR process_name="netplwiz.exe" OR process_name="networkuxbroker.exe";
@@ -41280,7 +52339,7 @@ $cond_6 =
 | union $cond_5 
 | union $cond_6 
 | where match_regex(process_path, /(?i)\\windows\\system32/)=false AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["process_path", process_path, "process_name", process_name]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path", process_path, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -41422,6 +52481,69 @@ This detection may require tuning based on third party applications utilizing na
 
 
 _version_: 6
+</details>
+
+---
+
+### Systems Ready for Spectre-Meltdown Windows Patch
+Some AV applications can cause the Spectre/Meltdown patch for Windows not to install successfully. This registry key is supposed to be created by the AV engine when it has been patched to be able to handle the Windows patch. If this key has been written, the system can then be patched for Spectre and Meltdown.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Change
+- **ATT&CK**: 
+- **Last Updated**: 2018-01-08
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change_Analysis.All_Changes where All_Changes.object_category=registry AND (All_Changes.object_path="HKLM\Software\Microsoft\Windows\CurrentVersion\QualityCompat*") by All_Changes.dest, All_Changes.command, All_Changes.user, All_Changes.object, All_Changes.object_path 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)` 
+| `drop_dm_object_name("All_Changes")`
+```
+#### Associated Analytic Story
+
+* Spectre And Meltdown Vulnerabilities
+
+
+#### How To Implement
+You need to be ingesting logs with both the process name and command-line from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* All_Changes.object_category
+
+* All_Changes.object_path
+
+* All_Changes.dest
+
+* All_Changes.command
+
+* All_Changes.user
+
+* All_Changes.object
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
 </details>
 
 ---
@@ -41583,6 +52705,166 @@ _version_: 1
 
 ---
 
+### UAC Bypass MMC Load Unsigned Dll
+This search is to detect a suspicious loaded unsigned dll by MMC.exe application. This technique is commonly seen in attacker that tries to bypassed UAC feature or gain privilege escalation. This is done by modifying some CLSID registry that will trigger the mmc.exe to load the dll path
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-12
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false Company != "Microsoft Corporation" 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed ProcessId OriginalFileName Computer EventCode Company 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `uac_bypass_mmc_load_unsigned_dll_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Image
+
+* ImageLoaded
+
+* Signed
+
+* ProcessId
+
+* OriginalFileName
+
+* Computer
+
+* EventCode
+
+* Company
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown. all of the dll loaded by mmc.exe is microsoft signed dll.
+
+#### Reference
+
+
+* https://offsec.almond.consulting/UAC-bypass-dotnet.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
+
+
+_version_: 1
+</details>
+
+---
+
+### UAC Bypass With Colorui COM Object
+This search is to detect a possible uac bypass using the colorui.dll COM Object. this technique was seen in so many malware and ransomware like lockbit where it make use of the colorui.dll COM CLSID to bypass UAC.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.003](https://attack.mitre.org/techniques/T1218/003/)
+- **Last Updated**: 2021-08-13
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe" NOT(Image IN("*\\windows\\*", "*\\program files*")) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `uac_bypass_with_colorui_com_object_filter`
+```
+#### Associated Analytic Story
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Image
+
+* ImageLoaded
+
+* process_name
+
+* Computer
+
+* EventCode
+
+* Signed
+
+* ProcessId
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.003 | CMSTP | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+not so common. but 3rd part app may load this dll.
+
+#### Reference
+
+
+* https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/uac_colorui/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### USN Journal Deletion
 The fsutil.exe application is a legitimate Windows utility used to perform tasks related to the file allocation table (FAT) and NTFS file systems. The update sequence number (USN) change journal provides a log of all changes made to the files on the disk. This search looks for fsutil.exe deleting the USN journal.
 
@@ -41737,6 +53019,88 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_umservices.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Uninstall App Using MsiExec
+This search is to detect a suspicious un-installation of application using msiexec. This technique was seen in conti leak tool and script where it tries to uninstall AV product using this commandline. This commandline to uninstall product is not a common practice in enterprise network.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.007](https://attack.mitre.org/techniques/T1218/007/)
+- **Last Updated**: 2021-08-09
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msiexec.exe Processes.process= "* /qn *" Processes.process= "*/X*" Processes.process= "*REBOOT=*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `uninstall_app_using_msiexec_filter`
+```
+#### Associated Analytic Story
+
+* Ransomware
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.007 | Msiexec | Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown.
+
+#### Reference
+
+
+* https://threadreaderapp.com/thread/1423361119926816776.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
 
 
 _version_: 1
@@ -41918,7 +53282,7 @@ Command lines that are extremely long may be indicative of malicious activity on
  
 | from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null) 
+| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line!=null and dest_user_id!=null 
 | eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
 |(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
@@ -41927,7 +53291,7 @@ Command lines that are extremely long may be indicative of malicious activity on
 | where label AND quantile>0.99 
 | first_time_event input_columns=["dest_device_id", "cmd_line"] 
 | where first_time_dest_device_id_cmd_line 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["cmd_line", cmd_line, "process_name", process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -42172,6 +53536,66 @@ This particular search leverages data extracted from Stream:HTTP. You must confi
 
 #### Known False Positives
 Very few legitimate Content-Type fields will have a length greater than 100 characters.
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Update previously seen users in CloudTrail
+This search looks for CloudTrail events where a user logs into the console, then updates the baseline of the latest and earliest times, City, Region, and Country we have encountered this user in our dataset, grouped by ARN, within the last hour. NOTE - This baseline search is deprecated and has been updated to use the Authentication Datamodel
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2018-04-30
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`cloudtrail` eventName=ConsoleLogin 
+| rename userIdentity.arn as user 
+| iplocation src 
+| eval City=if(City LIKE "",src,City),Region=if(Region LIKE "",src,Region) 
+| stats earliest(_time) AS firstTime latest(_time) AS lastTime by user src City Region Country 
+| inputlookup append=t previously_seen_users_console_logins_cloudtrail 
+| stats min(firstTime) as firstTime max(lastTime) as lastTime by user src City Region Country 
+| outputlookup previously_seen_users_console_logins_cloudtrail
+```
+#### Associated Analytic Story
+
+* Suspicious AWS Login Activities
+
+
+#### How To Implement
+You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs. Please validate the user name entries in `previously_seen_users_console_logins_cloudtrail`, which is a lookup file created as a result of running this support search.
+
+#### Required field
+
+* _time
+
+* eventName
+
+* userIdentity.arn
+
+* src
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
 
 #### Reference
 
@@ -42653,6 +54077,82 @@ _version_: 1
 
 ---
 
+### WSReset UAC Bypass
+This search is to detect a suspicious modification of registry related to UAC bypass. This technique is to modify the registry in this detection, create a registry value with the path of the payload and run WSreset.exe to bypass User account Control.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1548.002](https://attack.mitre.org/techniques/T1548/002/)
+- **Last Updated**: 2021-07-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*" (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "DelegateExecute") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `wsreset_uac_bypass_filter`
+```
+#### Associated Analytic Story
+
+* Windows Defense Evasion Tactics
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+#### Required field
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.registry_value_name
+
+* Registry.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1548.002 | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://github.com/hfiref0x/UACME
+
+* https://blog.morphisec.com/trickbot-uses-a-new-windows-10-uac-bypass
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Wbemprox COM Object Execution
 this search is designed to detect potential malicious process loading COM object to wbemprox.dll,
 
@@ -43071,9 +54571,9 @@ The wevtutil.exe application is the windows event log utility. This searches for
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "% cl %") AND (match_regex(cmd_line, /(?i)security/)=true OR match_regex(cmd_line, /(?i)system/)=true OR match_regex(cmd_line, /(?i)sysmon/)=true OR match_regex(cmd_line, /(?i)application/)=true OR match_regex(cmd_line, /(?i)setup/)=true OR match_regex(cmd_line, /(?i)powershell/)=true) AND process_name="wevtutil.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -43153,9 +54653,9 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line IS NOT NULL AND like(cmd_line, "% sl %") AND like(cmd_line, "%/e:false%") AND process_name="wevtutil.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -43250,6 +54750,8 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or was it v
 * Ransomware
 
 * Ryuk Ransomware
+
+* IcedID
 
 
 #### How To Implement
@@ -43790,6 +55292,106 @@ SAM is a critical windows service, stopping it would cause major issues on an en
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Windows Updates Install Failures
+This search is intended to give you a feel for how often Windows updates fail to install in your environment. Fluctuations in these numbers will allow you to determine when you should be concerned.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` dc(Updates.dest) as count FROM datamodel=Updates where Updates.vendor_product="Microsoft Windows" AND Updates.status=failure by _time span=1d
+```
+#### Associated Analytic Story
+
+
+#### How To Implement
+You must be ingesting your Windows Update Logs
+
+#### Required field
+
+* _time
+
+* Updates.vendor_product
+
+* Updates.status
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Windows Updates Install Successes
+This search is intended to give you a feel for how often successful Windows updates are applied in your environments. Fluctuations in these numbers will allow you to determine when you should be concerned.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-14
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` dc(Updates.dest) as count FROM datamodel=Updates where Updates.vendor_product="Microsoft Windows" AND Updates.status=installed by _time span=1d
+```
+#### Associated Analytic Story
+
+
+#### How To Implement
+You must be ingesting your Windows Update Logs
+
+#### Required field
+
+* _time
+
+* Updates.vendor_product
+
+* Updates.status
+
+
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+none
+
+#### Reference
+
+
+#### Test Dataset
 
 
 _version_: 1

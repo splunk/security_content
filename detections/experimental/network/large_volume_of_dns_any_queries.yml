@@ -3,7 +3,7 @@ id: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
 version: 1
 date: '2017-09-20'
 author: Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Network_Resolution
 description: The search is used to identify attempts to use your DNS Infrastructure

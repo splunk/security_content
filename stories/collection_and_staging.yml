@@ -3,7 +3,6 @@ id: 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
 version: 1
 date: '2020-02-03'
 author: Rico Valdez, Splunk
-type: batch
 description: 'Monitor for and investigate activities--such as suspicious writes to
   the Windows Recycling Bin or email servers sending high amounts of traffic to specific
   hosts, for example--that may indicate that an adversary is harvesting and exfiltrating

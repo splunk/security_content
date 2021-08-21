@@ -3,7 +3,7 @@ id: 9cf8fe08-7ad8-11eb-9819-acde48001122
 version: 1
 date: '2021-03-01'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following search identifies Eventvwr bypass by identifying the registry
@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - IcedID
   automated_detection_testing: passed
   confidence: 100
   context:

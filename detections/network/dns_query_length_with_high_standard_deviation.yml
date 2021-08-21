@@ -3,7 +3,7 @@ id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
 version: 3
 date: '2021-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Network_Resolution
 description: This search allows you to identify DNS requests and compute the standard

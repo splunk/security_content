@@ -3,7 +3,7 @@ id: 0d718b52-c9f1-11eb-bc61-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104 that is processing compressed stream data. This is typically
