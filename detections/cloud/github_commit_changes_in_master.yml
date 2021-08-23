@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-20'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect a pushed or commit to master or main branch. 
   This is to avoid unwanted modification to master without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a 
   PR for review. of course in some cases admin of the project may did a changes directly to master branch

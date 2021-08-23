@@ -1,7 +1,7 @@
 name: Github Commit Changes In Master Unit Test
 tests:
 - name: Github Commit Changes In Master
-  file: endpoint/github_commit_changes_in_master.yml
+  file: cloud/github_commit_changes_in_master.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
