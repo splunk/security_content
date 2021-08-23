@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-16'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect a suspicious attachment file extension in Gsuite
   email that may related to spear phishing attack. This file type is commonly used
   by malware to lure user to click on it to execute malicious code to compromised
