@@ -10,7 +10,7 @@ datamodel:
 description: This search is to detect a shared file in google drive with suspicious file name that are commonly used by spear phishing campaign. 
   This technique is very popular to lure the user by running a malicious document or click a malicious link within the shared file that will redirected to malicious website.
   This detection can also catch some normal email communication between organization and its external customer.
-search: 'index=obs-gsuite sourcetype=gsuite:drive:json parameters.owner_is_team_drive=false "parameters.doc_title" IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet", "presentation")
+search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title" IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet", "presentation")
   | rex field=parameters.owner "[^@]+@(?<source_domain>[^@]+)"  
   | rex field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)"  
   | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
