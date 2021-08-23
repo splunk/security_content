@@ -33,7 +33,7 @@ references:
 tags:
   analytic_story:
   - Trickbot
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 50
   context:

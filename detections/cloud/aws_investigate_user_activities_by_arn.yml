@@ -1,20 +1,21 @@
-author: Bhavin Patel, Splunk
-datamodel: []
+name: AWS Investigate User Activities By ARN
+id: bc91a8cd-35e7-4bb2-6140-e756cc46fd72
+version: 2
 date: '2019-04-30'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel: []
 description: This search lists all the logged CloudTrail activities by a specific
   user ARN and will create a table containing the source of the user, the region of
   the activity, the name and type of the event, the action taken, and all the user's
   identity information.
+search: '`cloudtrail` | search user=$user$| table _time userIdentity.type userIdentity.userName
+  userIdentity.arn aws_account_id src awsRegion eventName eventType'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
   inputs.
-id: bc91a8cd-35e7-4bb2-6140-e756cc46fd72
-inputs:
-- user
 known_false_positives: ''
-name: AWS Investigate User Activities By ARN
-search: '`cloudtrail` | search user=$user$| table _time userIdentity.type
-  userIdentity.userName userIdentity.arn aws_account_id src awsRegion eventName eventType'
+references: []
 tags:
   analytic_story:
   - AWS Cryptomining
@@ -45,5 +46,3 @@ tags:
   - eventName
   - eventType
   security_domain: network
-type: Investigation
-version: 2

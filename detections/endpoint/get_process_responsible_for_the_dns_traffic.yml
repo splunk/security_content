@@ -1,19 +1,15 @@
-author: Bhavin Patel, Splunk
-datamodel: 
-- Endpoint
+name: Get Process Responsible For The DNS Traffic
+id: 910e6512-edc9-4f93-ba24-5b786f47a672
+version: 2
 date: '2019-04-01'
+author: Bhavin Patel, Splunk
+type: Investigation
+datamodel:
+- Endpoint
 description: While investigating, an analyst will want to know what process and parent_process
   is responsible for generating suspicious DNS traffic. Use the following search and
   enter the value of `dest` in the search to get specific details on the process responsible
   for creating the DNS traffic.
-how_to_implement: You must be ingesting endpoint data that associates processes with
-  network events into the Endpoint datamodel. This can come from endpoint protection
-  products such as carbon black, or endpoint data sources such as Sysmon.
-id: 910e6512-edc9-4f93-ba24-5b786f47a672
-inputs:
-- dest
-known_false_positives: ''
-name: Get Process Responsible For The DNS Traffic
 search: '| tstats `security_content_summariesonly` count min(_time) max(_time) as
   lastTime from datamodel=Endpoint.Processes by Processes.parent_process Processes.process_name
   Processes.user Processes.dest Processes.process_id | `drop_dm_object_name(Processes)`
@@ -21,6 +17,11 @@ search: '| tstats `security_content_summariesonly` count min(_time) max(_time) a
   dest = $dest$ | join dest type=inner [| tstats `security_content_summariesonly`
   count from datamodel=Endpoint.Ports where Ports.dest_port=53 by Ports.process_id
   Ports.src | `drop_dm_object_name(Ports)` | rename src as dest]'
+how_to_implement: You must be ingesting endpoint data that associates processes with
+  network events into the Endpoint datamodel. This can come from endpoint protection
+  products such as carbon black, or endpoint data sources such as Sysmon.
+known_false_positives: ''
+references: []
 tags:
   analytic_story:
   - AWS Network ACL Activity
@@ -44,5 +45,3 @@ tags:
   - Ports.src
   - Ports.dest_port
   security_domain: endpoint
-type: Investigation
-version: 2

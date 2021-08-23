@@ -1,4 +1,4 @@
-name: Icedid
+name: IcedID
 id: 1d2cc747-63d7-49a9-abb8-93aa36305603
 version: 1
 date: '2021-07-29'
@@ -15,7 +15,7 @@ references:
 - https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/
 - https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/
 tags:
-  analytic_story: Icedid
+  analytic_story: IcedID
   category:
   - Malware
   product:
