@@ -25,12 +25,24 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Exploitation
+  message: Possible file data deletion on $dest$ using $process$
   mitre_attack_id:
   - T1070
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -43,17 +55,5 @@ tags:
   - Processes.dest
   - Processes.process
   - Processes.parent_process
-  security_domain: endpoint
-  impact: 60
-  confidence: 90
   risk_score: 54
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: Possible file data deletion on $dest$ using $process$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

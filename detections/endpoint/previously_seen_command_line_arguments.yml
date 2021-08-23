@@ -30,8 +30,6 @@ tags:
   - Suspicious Command-Line Executions
   - Suspicious MSHTA Activity
   - IcedID
-  detections:
-  - First time seen command line argument
   deployments:
   - Daily Cache Updates
   detections:
