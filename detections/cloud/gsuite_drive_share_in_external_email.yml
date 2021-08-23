@@ -4,8 +4,7 @@ version: 1
 date: '2021-08-16'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
 description: This search is to detect suspicious google drive or google docs files
   shared outside or externally. This behavior might be a good hunting query to monitor
   exfitration of data made by an attacker or insider to a targetted machine.
