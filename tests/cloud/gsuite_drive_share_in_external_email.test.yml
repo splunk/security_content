@@ -1,7 +1,7 @@
 name: Gsuite Drive Share In External Email Unit Test
 tests:
 - name: Gsuite Drive Share In External Email
-  file: endpoint/gsuite_drive_share_in_external_email.yml
+  file: cloud/gsuite_drive_share_in_external_email.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
