@@ -1776,6 +1776,176 @@ unknown
 
 ----
 
+===Aws ecr container upload outside business hours===
+This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done during business hours. When done outside business hours, we want to take a look into it.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204/003/ T1204.003]
+* '''Last Updated''': 2021-08-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20 OR date_hour<8 NOT (date_wday=saturday OR date_wday=sunday) 
+| rename requestParameters.* as * 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, user, userName, src_ip, imageTag, registryId, repositoryName 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_ecr_container_upload_outside_business_hours_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Dev_Sec_Ops|Dev Sec Ops]]
+
+
+====How To Implement====
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+====Required field====
+
+* eventSource
+
+* eventName
+
+* awsRegion
+
+* requestParameters.imageTag
+
+* requestParameters.registryId
+
+* requestParameters.repositoryName
+
+* user
+
+* userName
+
+* src_ip
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1204.003
+| Malicious Image
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Known False Positives====
+When your development is spreaded in different time zones, applying this rule can be difficult.
+
+====Reference====
+
+
+* https://attack.mitre.org/techniques/T1204/003/
+
+
+
+====Test Dataset====
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Aws ecr container upload unknown user===
+This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done from only a few known users. When the user was never seen before, we should have a closer look into the event.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204/003/ T1204.003]
+* '''Last Updated''': 2021-08-19
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage NOT `aws_ecr_users` 
+| rename requestParameters.* as * 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, user, userName, src_ip, imageTag, registryId, repositoryName 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_ecr_container_upload_unknown_user_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Dev_Sec_Ops|Dev Sec Ops]]
+
+
+====How To Implement====
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+
+====Required field====
+
+* eventSource
+
+* eventName
+
+* awsRegion
+
+* requestParameters.imageTag
+
+* requestParameters.registryId
+
+* requestParameters.repositoryName
+
+* user
+
+* userName
+
+* src_ip
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1204.003
+| Malicious Image
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://attack.mitre.org/techniques/T1204/003/
+
+
+
+====Test Dataset====
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Aws excessive security scanning===
 This search looks for AWS CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
 
@@ -10712,6 +10882,93 @@ Sts:GetSessionToken can be very noisy as in certain environments numerous calls 
 ==Endpoint==
 
 
+===7zip commandline to smb share path===
+This search is to detect a suspicious 7z process with commandline pointing to SMB network share. This technique was seen in CONTI LEAK tools where it use 7z to archive a sensitive files and place it in network share tmp folder. This search is a good hunting query that may give analyst a hint why specific user try to archive a file pointing to SMB user which is un usual.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1560/001/ T1560.001]
+* '''Last Updated''': 2021-08-17
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name ="7z.exe" OR Processes.process_name = "7za.exe" OR Processes.original_file_name = "7z.exe" OR Processes.original_file_name =  "7za.exe") AND (Processes.process="*\\C$\\*" OR Processes.process="*\\Admin$\\*" OR Processes.process="*\\IPC$\\*") by Processes.original_file_name Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.parent_process_id Processes.process_id  Processes.dest Processes.user 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `7zip_commandline_to_smb_share_path_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed 7z.exe may be used.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1560.001
+| Archive via Utility
+| Collection
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://threadreaderapp.com/thread/1423361119926816776.html
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Access lsass memory for dump creation===
 Detect memory dumping of the LSASS process.
 
@@ -10821,7 +11078,7 @@ this search is to detect a potential account discovery series of command used by
 
 * [[Documentation:ESSOC:stories:UseCase#Trickbot|Trickbot]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -11130,7 +11387,7 @@ The following analytic identifies suspicious PowerShell command to allow inbound
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>`powershell` EventCode=4104 Message = "*firewall*" Message = "*Public*" Message = "*Inbound*" Message = "*Allow*"  Message = "*-LocalPort*" 
+<search>`powershell` EventCode=4104 Message = "*firewall*" Message = "*Inbound*" Message = "*Allow*"  Message = "*-LocalPort*" 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -13060,7 +13317,7 @@ This search is to detect execution of chcp.exe application. this utility is used
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -14481,7 +14738,7 @@ This search is to detect suspicious process injection in command shell. This tec
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -23494,7 +23751,7 @@ This search is to detect dropping a suspicious file named as "license.dat" in %a
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -24009,7 +24266,7 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 
 * [[Documentation:ESSOC:stories:UseCase#Windows_Defense_Evasion_Tactics|Windows Defense Evasion Tactics]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -25768,7 +26025,7 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 
 * [[Documentation:ESSOC:stories:UseCase#Windows_Defense_Evasion_Tactics|Windows Defense Evasion Tactics]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -25838,6 +26095,89 @@ Limited to no false positives are expected.
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Fsutil zeroing file===
+This search is to detect a suspicious fsutil process to zeroing a target file. This technique was seen in lockbit ransomware where it tries to zero out its malware path as part of its defense evasion after encrypting the compromised host.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1070/ T1070]
+* '''Last Updated''': 2021-08-11
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe Processes.process="*setzerodata*" by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  Processes.process Processes.parent_process 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `fsutil_zeroing_file_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Processes.user
+
+* Processes.process_name
+
+* Processes.parent_process_name
+
+* Processes.dest
+
+* Processes.process
+
+* Processes.parent_process
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1070
+| Indicator Removal on Host
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://app.any.run/tasks/e0ac072d-58c9-4f53-8a3b-3e491c7ac5db/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070/fsutil_file_zero/windows-sysmon.log
 
 
 ''version'': 1
@@ -25929,6 +26269,92 @@ Limited false positives may be present in small environments. Tuning may be requ
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Gsuite email suspicious attachment===
+This search is to detect a suspicious attachment file extension in Gsuite email that may related to spear phishing attack. This file type is commonly used by malware to lure user to click on it to execute malicious code to compromised targetted machine. But this search can also catch some normal files related to this file type that maybe send by employee or network admin.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1566/001/ T1566.001]
+* '''Last Updated''': 2021-08-16
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh", "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go") 
+| stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by destination{}.service num_message_attachments  subject destination{}.address source.address 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_email_suspicious_attachment_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#DevSecOps|DevSecOps]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+====Required field====
+
+* _time
+
+* attachment{}.file_extension_type
+
+* attachment{}.sha256
+
+* destination{}.service
+
+* num_message_attachments
+
+* payload_size
+
+* subject
+
+* destination{}.address
+
+* source.address
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
+
+====Reference====
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_attachment_ext/gsuite_gmail_file_ext.log
 
 
 ''version'': 1
@@ -26916,6 +27342,168 @@ network administrator may use this windows utility but this is not a common prac
 
 ----
 
+===Gsuite drive share in external email===
+This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1567/002/ T1567.002]
+* '''Last Updated''': 2021-08-16
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`gsuite_drive` NOT (email IN("", "null")) 
+| rex field=parameters.owner "[^@]+@(?<src_domain>[^@]+)" 
+| rex field=email "[^@]+@(?<dest_domain>[^@]+)" 
+| where src_domain = "internal_test_email.com" and not dest_domain = "internal_test_email.com" 
+| stats values(parameters.doc_title) as doc_title, values(parameters.doc_type) as doc_types, values(email) as dst_email_list, values(parameters.visibility) as visibility, count min(_time) as firstTime max(_time) as lastTime by parameters.owner 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_drive_share_in_external_email_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#DevSecOps|DevSecOps]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+====Required field====
+
+* _time
+
+* parameters.doc_title
+
+* src_domain
+
+* dest_domain
+
+* email
+
+* parameters.visibility
+
+* parameters.owner
+
+* parameters.doc_type
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1567.002
+| Exfiltration to Cloud Storage
+| Exfiltration
+|}
+
+
+====Kill Chain Phase====
+
+* Exfiltration
+
+
+====Known False Positives====
+network admin or normal user may share files to customer and external team.
+
+====Reference====
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Gsuite outbound email with attachment to external domain===
+This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic < 20 with attachment.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint, Email
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1048/003/ T1048.003]
+* '''Last Updated''': 2021-08-17
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`gsuite_gmail` num_message_attachments > 0 
+| rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" 
+| rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)" 
+| where source_domain="internal_test_email.com" and not dest_domain="internal_test_email.com" 
+| stats values(subject) as subject, values(source.from_header_address) as src_domain_list, count as numEvents, dc(source.from_header_address) as numSrcAddresses, min(_time) as firstTime max(_time) as lastTime by dest_domain 
+| where numSrcAddresses < 20 
+|sort - numSrcAddresses 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_outbound_email_with_attachment_to_external_domain_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#DevSecOps|DevSecOps]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+====Required field====
+
+* _time
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1048.003
+| Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+| Exfiltration
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
+
+====Reference====
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Hide user account from sign-in screen===
 This analytic identifies a suspicious registry modification to hide a user account on the Windows Login screen. This technique was seen in some tradecraft where the adversary will create a hidden user account with Admin privileges in login screen to avoid noticing by the user that they already compromise and to persist on that said machine.
 
@@ -27429,7 +28017,7 @@ This search is to detect a suspicious file creation namely passff.tar and cookie
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -29990,7 +30578,7 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 
 * [[Documentation:ESSOC:stories:UseCase#Trickbot|Trickbot]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -30951,7 +31539,7 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 
 * [[Documentation:ESSOC:stories:UseCase#Domain_Trust_Discovery|Domain Trust Discovery]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -31216,7 +31804,7 @@ Highly possible Server Administrators will troubleshoot with ntdsutil.exe, gener
 ----
 
 ===Office application spawn regsvr32 process===
-this detection was designed to identifies suspicious spawned process of known MS office application due to macro or malicious code. this technique can be seen in so many malware like Icedid that used MS office as its weapon or attack vector to initially infect the machines.
+this detection was designed to identifies suspicious spawned process of known MS office application due to macro or malicious code. this technique can be seen in so many malware like IcedID that used MS office as its weapon or attack vector to initially infect the machines.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
@@ -31236,7 +31824,7 @@ this detection was designed to identifies suspicious spawned process of known MS
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -31327,7 +31915,7 @@ this detection was designed to identifies suspicious spawned process of known MS
 
 * [[Documentation:ESSOC:stories:UseCase#Trickbot|Trickbot]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -31503,7 +32091,7 @@ this detection was designed to identifies suspicious office documents that using
 
 * [[Documentation:ESSOC:stories:UseCase#Trickbot|Trickbot]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -31929,7 +32517,7 @@ The following detection identifies the latest behavior utilized by different mal
 
 * [[Documentation:ESSOC:stories:UseCase#Spearphishing_Attachments|Spearphishing Attachments]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -32841,6 +33429,78 @@ network operator may enable or disable this windows feature.
 
 ----
 
+===Powershell execute com object===
+This search is to detect a COM CLSID execution through powershell. This technique was seen in several adversaries and malware like ransomware conti where it has a feature to execute command using COM Object. This technique may use by network operator at some cases but a good indicator if some application want to gain privilege escalation or bypass uac.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1546/015/ T1546.015]
+* '''Last Updated''': 2021-08-10
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`powershell` EventCode=4104 Message = "*CreateInstance([type]::GetTypeFromCLSID*" OR Message = "*CreateInstance([Type]::GetTypeFromProgID*"
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `powershell_execute_com_object_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Malicious_PowerShell|Malicious PowerShell]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1546.015
+| Component Object Model Hijacking
+| Privilege Escalation, Persistence
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+network operrator may use this command.
+
+====Reference====
+
+
+* https://threadreaderapp.com/thread/1423361119926816776.html
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-powershell.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Powershell fileless process injection via getprocaddress===
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
 This analytic identifies `GetProcAddress` in the script block. This is not normal to be used by most PowerShell scripts and is typically unsafe/malicious. Many attack toolkits use GetProcAddress to obtain code execution. \
@@ -33652,7 +34312,7 @@ This search looks for command-line arguments where `cmd.exe /c` is used to execu
 
 * [[Documentation:ESSOC:stories:UseCase#Suspicious_MSHTA_Activity|Suspicious MSHTA Activity]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -36310,7 +36970,7 @@ The search looks for modifications to registry keys that can be used to launch a
 
 * [[Documentation:ESSOC:stories:UseCase#Emotet_Malware__DHS_Report_TA18-201A_|Emotet Malware  DHS Report TA18-201A ]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -37208,7 +37868,7 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -37292,7 +37952,7 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -37376,7 +38036,7 @@ This search is to detect a suspicious rundll32.exe process having a http connect
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -37438,6 +38098,93 @@ unknown
 
 ----
 
+===Rundll32 lockworkstation===
+This search is to detect a suspicious rundll32 commandline to lock the workstation through command line. This technique was seen in CONTI leak tooling and script as part of its defense evasion. This technique is not a common practice to lock a screen and maybe a good indicator of compromise.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218/011/ T1218.011]
+* '''Last Updated''': 2021-08-09
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process= "*user32.dll,LockWorkStation*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `rundll32_lockworkstation_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.011
+| Rundll32
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://threadreaderapp.com/thread/1423361119926816776.html
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Rundll32 process creating exe dll files===
 This search is to detect a suspicious rundll32 process that drops executable (.exe or .dll) files. this behavior seen in rundll32 process of IcedID that tries to drop copy of itself in temp folder or download executable drop it either appdata or programdata as part of its execution.
 
@@ -37458,7 +38205,7 @@ This search is to detect a suspicious rundll32 process that drops executable (.e
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -38329,7 +39076,7 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 
 * [[Documentation:ESSOC:stories:UseCase#Trickbot|Trickbot]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -40398,7 +41145,7 @@ This search is to detect a suspicious file creation of sqlite3.dll in %temp% fol
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -41074,7 +41821,7 @@ this search is to detect a suspicious regsvr32 commandline "-s" to execute a dll
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -41161,7 +41908,7 @@ This search is to detect a suspicious rundll32.exe commandline to execute dll fi
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -41879,7 +42626,7 @@ This search is to detect a suspicious rundll32.exe process with plugininit param
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -43730,6 +44477,90 @@ unknown. all of the dll loaded by mmc.exe is microsoft signed dll.
 
 ----
 
+===Uac bypass with colorui com object===
+This search is to detect a possible uac bypass using the colorui.dll COM Object. this technique was seen in so many malware and ransomware like lockbit where it make use of the colorui.dll COM CLSID to bypass UAC.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218/003/ T1218.003]
+* '''Last Updated''': 2021-08-13
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`sysmon` EventCode=7 ImageLoaded="*\\colorui.dll" process_name != "colorcpl.exe" NOT(Image IN("*\\windows\\*", "*\\program files*")) 
+| stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `uac_bypass_with_colorui_com_object_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Image
+
+* ImageLoaded
+
+* process_name
+
+* Computer
+
+* EventCode
+
+* Signed
+
+* ProcessId
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.003
+| CMSTP
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+not so common. but 3rd part app may load this dll.
+
+====Reference====
+
+
+* https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/uac_colorui/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Usn journal deletion===
 The fsutil.exe application is a legitimate Windows utility used to perform tasks related to the file allocation table (FAT) and NTFS file systems. The update sequence number (USN) change journal provides a log of all changes made to the files on the disk. This search looks for fsutil.exe deleting the USN journal.
 
@@ -43893,6 +44724,93 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_umservices.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Uninstall app using msiexec===
+This search is to detect a suspicious un-installation of application using msiexec. This technique was seen in conti leak tool and script where it tries to uninstall AV product using this commandline. This commandline to uninstall product is not a common practice in enterprise network.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218/007/ T1218.007]
+* '''Last Updated''': 2021-08-09
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msiexec.exe Processes.process= "* /qn *" Processes.process= "*/X*" Processes.process= "*REBOOT=*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `uninstall_app_using_msiexec_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+
+====How To Implement====
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
+* Processes.parent_process_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.007
+| Msiexec
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown.
+
+====Reference====
+
+
+* https://threadreaderapp.com/thread/1423361119926816776.html
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
 
 
 ''version'': 1
@@ -45425,7 +46343,7 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or was it v
 
 * [[Documentation:ESSOC:stories:UseCase#Ryuk_Ransomware|Ryuk Ransomware]]
 
-* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+* [[Documentation:ESSOC:stories:UseCase#IcedID|IcedID]]
 
 
 ====How To Implement====
@@ -50589,7 +51507,7 @@ There might be false positives associted with this detection since items like ar
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-08-18 16:47:28.828137 UTC''
+# On Date: 2021-08-20 22:13:26.476807 UTC''
 # Author: Splunk Security Research''
 # Contact: research@splunk.com''
 #############

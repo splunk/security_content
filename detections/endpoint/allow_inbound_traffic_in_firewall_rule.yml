@@ -10,11 +10,10 @@ description: The following analytic identifies suspicious PowerShell command to 
   inbound traffic inbound to a specific local port within the public profile. This
   technique was seen in some attacker want to have a remote access to a machine by
   allowing the traffic in firewall rule.
-search: '`powershell` EventCode=4104 Message = "*firewall*" Message = "*Inbound*" Message = "*Allow*"  Message = "*-LocalPort*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `allow_inbound_traffic_in_firewall_rule_filter`'
+search: '`powershell` EventCode=4104 Message = "*firewall*" Message = "*Inbound*"
+  Message = "*Allow*"  Message = "*-LocalPort*" | stats count min(_time) as firstTime
+  max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `allow_inbound_traffic_in_firewall_rule_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the powershell logs  from your endpoints. make sure you enable needed
   registry to monitor this event.
