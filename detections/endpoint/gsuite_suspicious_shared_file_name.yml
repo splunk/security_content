@@ -3,7 +3,7 @@ id: 07eed200-03f5-11ec-98fb-acde48001122
 version: 1
 date: '2021-08-23'
 author: Teoderick Contreras, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 - Email
