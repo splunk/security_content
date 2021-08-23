@@ -1,0 +1,56 @@
+name: GSuite suspicious calendar invite
+id: b842f557-c7b3-4b92-aa34-8243217a6685
+version: 1
+date: '2021-08-19'
+author: Rod Soto, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+- Email
+- Updates
+description: This search can help the detection of compromised accounts or internal users sending suspcious calendar invites via GSuite calendar. These
+invites may contain malicious links or attachments.
+search: 'sourcetype="gsuite:calendar:json" email=* parameters.event_title!=null | stats  count by email ip_address source name parameters.api_kind parameters.event_title parameters.organizer_calendar_id parameters.target_calendar_id parameters.user_agent parameters.event_response_status   | convert  timeformat="%Y-%m-%dT%H:%M:%S" ctime(firstTime)
+| convert  timeformat="%Y-%m-%dT%H:%M:%S" ctime(lastTime)| `gsuite_suspicious_calendar_invite_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite (gsuite:drive:json) having the file sharing metadata like file type, source owner, destination target user, description, etc.
+known_false_positives: This search will also produce normal activity statistics. Fields such as email, ip address, name, parameters.organizer_calendar_id, parameters.target_calendar_id and parameters.event_title may give away
+phishing intent.
+references:
+- https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/
+tags:
+  analytic_story:
+  - DevSecOps
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1566
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - email
+  - parameters.organizer_calendar_id
+  - parameters.target_calendar_id
+  - parameters.event_title
+  security_domain: Cloud
+  impact: 50
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 25
+  context:
+  - Source:Cloud
+  - Stage:Initial Access
+  message: N/A
+  observable:
+  - name: parameters.organizer_calendar_id
+    type: User
+    role:
+    - attacker
+  - name: parameters.target_calendar_id 
+    type: User
+    role:
+    - Victim

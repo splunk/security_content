@@ -6,17 +6,16 @@ author: Patrick Bareiss, Splunk
 type: Anomaly
 datamodel: []
 description: This search looks for AWS CloudTrail events from AWS Elastic Container
-  Service (ECR). A upload of a new container is normally done during business hours. 
+  Service (ECR). A upload of a new container is normally done during business hours.
   When done outside business hours, we want to take a look into it.
-search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20 OR date_hour<8 
-  NOT (date_wday=saturday OR date_wday=sunday) | rename requestParameters.* as *
-  | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, user, 
-  userName, src_ip, imageTag, registryId, repositoryName
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `aws_ecr_container_upload_outside_business_hours_filter`'
+search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage date_hour>=20
+  OR date_hour<8 NOT (date_wday=saturday OR date_wday=sunday) | rename requestParameters.*
+  as * | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName,
+  eventSource, user, userName, src_ip, imageTag, registryId, repositoryName | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `aws_ecr_container_upload_outside_business_hours_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
-known_false_positives: When your development is spreaded in different time zones, 
+known_false_positives: When your development is spreaded in different time zones,
   applying this rule can be difficult.
 references:
 - https://attack.mitre.org/techniques/T1204/003/
