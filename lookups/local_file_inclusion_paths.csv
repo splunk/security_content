@@ -1,1009 +1,1009 @@
-local_file_inclusion_paths
-*/apache2/logs/access.log*
-*/apache2/logs/error.log*
-*/apache/conf/httpd.conf*
-*/apache/logs/access.log*
-*/apache/logs/error.log*
-*/apache/php/php.ini*
-*/apachephpphp.ini*
-*/bin/php.ini*
-*/boot/grub/grub.cfg*
-*/boot/grub/menu.lst*
-*/etc/adduser.conf*
-*/etc/alias*
-*/etc/apache22/conf/httpd.conf*
-*/etc/apache22/httpd.conf*
-*/etc/apache2/apache2.conf*
-*/etc/apache2/apache.conf*
-*/etc/apache2/conf/httpd.conf*
-*/etc/apache2/default-server.conf*
-*/etc/apache2/envvars*
-*/etc/apache2/httpd2.conf*
-*/etc/apache2/httpd.conf*
-*/etc/apache2/mods-available/autoindex.conf*
-*/etc/apache2/mods-available/deflate.conf*
-*/etc/apache2/mods-available/dir.conf*
-*/etc/apache2/mods-available/mem_cache.conf*
-*/etc/apache2/mods-available/mime.conf*
-*/etc/apache2/mods-available/proxy.conf*
-*/etc/apache2/mods-available/setenvif.conf*
-*/etc/apache2/mods-available/ssl.conf*
-*/etc/apache2/mods-enabled/alias.conf*
-*/etc/apache2/mods-enabled/deflate.conf*
-*/etc/apache2/mods-enabled/dir.conf*
-*/etc/apache2/mods-enabled/mime.conf*
-*/etc/apache2/mods-enabled/negotiation.conf*
-*/etc/apache2/mods-enabled/php5.conf*
-*/etc/apache2/mods-enabled/status.conf*
-*/etc/apache2/ports.conf*
-*/etc/apache2/sites-available/default*
-*/etc/apache2/sites-available/default-ssl*
-*/etc/apache2/sites-enabled/000-default*
-*/etc/apache2/sites-enabled/default*
-*/etc/apache2/ssl-global.conf*
-*/etc/apache/access.conf*
-*/etc/apache/apache.conf*
-*/etc/apache/conf/httpd.conf*
-*/etc/apache/default-server.conf*
-*/etc/apache/httpd.conf*
-*/etc/apt/apt.conf*
-*/etc/avahi/avahi-daemon.conf*
-*/etc/bash.bashrc*
-*/etc/bluetooth/input.conf*
-*/etc/bluetooth/main.conf*
-*/etc/bluetooth/network.conf*
-*/etc/bluetooth/rfcomm.conf*
-*/etc/ca-certificates.conf*
-*/etc/ca-certificates.conf.dpkg-old*
-*/etc/casper.conf*
-*/etc/chkrootkit.conf*
-*/etc/chrootUsers*
-*/etc/clamav/clamd.conf*
-*/etc/clamav/freshclam.conf*
-*/etc/crontab*
-*/etc/crypttab*
-*/etc/cups/acroread.conf*
-*/etc/cups/cupsd.conf*
-*/etc/cups/cupsd.conf.default*
-*/etc/cups/pdftops.conf*
-*/etc/cups/printers.conf*
-*/etc/cvs-cron.conf*
-*/etc/cvs-pserver.conf*
-*/etc/debconf.conf*
-*/etc/debian_version*
-*/etc/default/grub*
-*/etc/deluser.conf*
-*/etc/dhcp3/dhclient.conf*
-*/etc/dhcp3/dhcpd.conf*
-*/etc/dhcp/dhclient.conf*
-*/etc/dns2tcpd.conf*
-*/etc/e2fsck.conf*
-*/etc/esound/esd.conf*
-*/etc/etter.conf*
-*/etc/exports*
-*/etc/fedora-release*
-*/etc/firewall.rules*
-*/etc/foremost.conf*
-*/etc/fstab*
-*/etc/ftpchroot*
-*/etc/ftphosts*
-*/etc/ftpusers*
-*/etc/fuse.conf*
-*/etc/group*
-*/etc/group-*
-*/etc/hdparm.conf*
-*/etc/host.conf*
-*/etc/hostname*
-*/etc/hosts*
-*/etc/hosts.allow*
-*/etc/hosts.deny*
-*/etc/http/conf/httpd.conf*
-*/etc/httpd/apache2.conf*
-*/etc/httpd/apache.conf*
-*/etc/httpd.conf*
-*/etc/httpd/conf*
-*/etc/httpd/conf/apache2.conf*
-*/etc/httpd/conf/apache.conf*
-*/etc/httpd/conf.d*
-*/etc/httpd/conf/httpd.conf*
-*/etc/httpd/extra/httpd-ssl.conf*
-*/etc/httpd/httpd.conf*
-*/etc/httpd/logs/acces.log*
-*/etc/httpd/logs/acces_log*
-*/etc/httpd/logs/access.log*
-*/etc/httpd/logs/access_log*
-*/etc/httpd/logs/error.log*
-*/etc/httpd/logs/error_log*
-*/etc/httpd/mod_php.conf*
-*/etc/httpd/php.ini*
-*/etc/http/httpd.conf*
-*/etc/inetd.conf*
-*/etc/init.d*
-*/etc/inittab*
-*/etc/ipfw.conf*
-*/etc/ipfw.rules*
-*/etc/issue*
-*/etc/issue.net*
-*/etc/kbd/config*
-*/etc/kernel-img.conf*
-*/etc/kernel-pkg.conf*
-*/etc/ldap/ldap.conf*
-*/etc/ld.so.conf*
-*/etc/lighttpd/lighthttpd.conf*
-*/etc/login.defs*
-*/etc/logrotate.conf*
-*/etc/ltrace.conf*
-*/etc/mail/sendmail.conf*
-*/etc/mandrake-release*
-*/etc/manpath.config*
-*/etc/miredo.conf*
-*/etc/miredo/miredo.conf*
-*/etc/miredo/miredo-server.conf*
-*/etc/miredo-server.conf*
-*/etc/modules*
-*/etc/mono/config*
-*/etc/motd*
-*/etc/mtab*
-*/etc/mtools.conf*
-*/etc/muddleftpd.com*
-*/etc/muddleftpd/muddleftpd.conf*
-*/etc/muddleftpd/muddleftpd.passwd*
-*/etc/muddleftpd/mudlog*
-*/etc/muddleftpd/mudlogd.conf*
-*/etc/muddleftpd/passwd*
-*/etc/my.cnf*
-*/etc/mysql/my.cnf*
-*/etc/networks*
-*/etc/nginx/nginx.conf*
-*/etc/openldap/ldap.conf*
-*/etc/os-release*
-*/etc/osxhttpd/osxhttpd.conf*
-*/etc/pam.conf*
-*/etc/passwd*
-*/etc/passwd-*
-*/etc/passwd~*
-*/etc/password.master*
-*/etc/php4/apache2/php.ini*
-*/etc/php4/apache/php.ini*
-*/etc/php4/cgi/php.ini*
-*/etc/php5/apache2/php.ini*
-*/etc/php5/apache/php.ini*
-*/etc/php5/cgi/php.ini*
-*/etc/php/apache2/php.ini*
-*/etc/php/apache/php.ini*
-*/etc/php/cgi/php.ini*
-*/etc/php.ini*
-*/etc/phpmyadmin/config.inc.php*
-*/etc/php/php4/php.ini*
-*/etc/php/php.ini*
-*/etc/postgresql/pg_hba.conf*
-*/etc/postgresql/postgresql.conf*
-*/etc/profile*
-*/etc/proftp.conf*
-*/etc/proftpd/modules.conf*
-*/etc/protpd/proftpd.conf*
-*/etc/pulse/client.conf*
-*/etc/pure-ftpd.conf*
-*/etc/pureftpd.passwd*
-*/etc/pureftpd.pdb*
-*/etc/pure-ftpd/pure-ftpd.conf*
-*/etc/pure-ftpd/pure-ftpd.pdb*
-*/etc/pure-ftpd/pureftpd.pdb*
-*/etc/rc.conf*
-*/etc/redhat-release*
-*/etc/resolv.conf*
-*/etc/samba/dhcp.conf*
-*/etc/samba/netlogon*
-*/etc/samba/private/smbpasswd*
-*/etc/samba/samba.conf*
-*/etc/samba/smb.conf*
-*/etc/samba/smb.conf.user*
-*/etc/samba/smbpasswd*
-*/etc/samba/smbusers*
-*/etc/security/access.conf*
-*/etc/security/environ*
-*/etc/security/failedlogin*
-*/etc/security/group*
-*/etc/security/group.conf*
-*/etc/security/lastlog*
-*/etc/security/limits*
-*/etc/security/limits.conf*
-*/etc/security/namespace.conf*
-*/etc/security/opasswd*
-*/etc/security/pam_env.conf*
-*/etc/security/passwd*
-*/etc/security/passwd*
-*/etc/security/sepermit.conf*
-*/etc/security/time.conf*
-*/etc/security/user*
-*/etc/sensors3.conf*
-*/etc/sensors.conf*
-*/etc/shadow*
-*/etc/shadow-*
-*/etc/shadow~*
-*/etc/slackware-release*
-*/etc/smb.conf*
-*/etc/smbpasswd*
-*/etc/smi.conf*
-*/etc/squirrelmail/apache.conf*
-*/etc/squirrelmail/config/config.php*
-*/etc/squirrelmail/config_default.php*
-*/etc/squirrelmail/config_local.php*
-*/etc/squirrelmail/config.php*
-*/etc/squirrelmail/default_pref*
-*/etc/squirrelmail/filters_setup.php*
-*/etc/squirrelmail/index.php*
-*/etc/squirrelmail/sqspell_config.php*
-*/etc/ssh/sshd_config*
-*/etc/sso/sso_config.ini*
-*/etc/stunnel/stunnel.conf*
-*/etc/sudoers*
-*/etc/SUSE-release*
-*/etc/sysconfig/network-scripts/ifcfg-eth0*
-*/etc/sysctl.conf*
-*/etc/syslog.conf*
-*/etc/timezone*
-*/etc/tinyproxy/tinyproxy.conf*
-*/etc/tor/tor-tsocks.conf*
-*/etc/tsocks.conf*
-*/etc/updatedb.conf*
-*/etc/updatedb.conf.BeforeVMwareToolsInstall*
-*/etc/utmp*
-*/etc/vhcs2/proftpd/proftpd.conf*
-*/etc/vmware-tools/config*
-*/etc/vmware-tools/tpvmlp.conf*
-*/etc/vmware-tools/vmware-tools-libraries.conf*
-*/etc/vsftpd.chroot_list*
-*/etc/vsftpd.conf*
-*/etc/vsftpd/vsftpd.conf*
-*/etc/webmin/miniserv.conf*
-*/etc/webmin/miniserv.users*
-*/etc/wicd/dhclient.conf.template.default*
-*/etc/wicd/manager-settings.conf*
-*/etc/wicd/wired-settings.conf*
-*/etc/wicd/wireless-settings.conf*
-*/etc/wu-ftpd/ftpaccess*
-*/etc/wu-ftpd/ftphosts*
-*/etc/wu-ftpd/ftpusers*
-*/etc/X11/xorg.conf*
-*/etc/X11/xorg.conf.BeforeVMwareToolsInstall*
-*/etc/X11/xorg.conf.orig*
-*/etc/X11/xorg.conf-vesa*
-*/etc/X11/xorg.conf-vmware*
-*/home2/bin/stable/apache/php.ini*
-*/home2binstableapachephp.ini*
-*/home/bin/stable/apache/php.ini*
-*/homebinstableapachephp.ini*
-*/home/postgres/data/pg_hba.conf*
-*/home/postgres/data/pg_ident.conf*
-*/home/postgres/data/PG_VERSION*
-*/home/postgres/data/postgresql.conf*
-*/home/user/lighttpd/lighttpd.conf*
-*/http/httpd.conf*
-*/[JBOSS]/server/default/conf/jboss-minimal.xml*
-*/[JBOSS]/server/default/conf/jboss-service.xml*
-*/[JBOSS]/server/default/conf/jndi.properties*
-*/[JBOSS]/server/default/conf/log4j.xml*
-*/[JBOSS]/server/default/conf/login-config.xml*
-*/[JBOSS]/server/default/conf/server.log.properties*
-*/[JBOSS]/server/default/conf/standardjaws.xml*
-*/[JBOSS]/server/default/conf/standardjboss.xml*
-*/[JBOSS]/server/default/deploy/jboss-logging.xml*
-*/[JBOSS]/server/default/log/boot.log*
-*/[JBOSS]/server/default/log/server.log*
-*/Library/WebServer/Documents/default.htm*
-*/Library/WebServer/Documents/default.html*
-*/Library/WebServer/Documents/default.php*
-*/Library/WebServer/Documents/.htaccess*
-*/Library/WebServer/Documents/index.htm*
-*/Library/WebServer/Documents/index.html*
-*/Library/WebServer/Documents/index.php*
-*/logs/access.log*
-*/logs/access_log*
-*/logs/error.log*
-*/logs/error_log*
-*/logs/pure-ftpd.log*
-*/logs/security_debug_log*
-*/logs/security_log*
-*/mysql/bin/my.ini*
-*/MySQL/data/{HOST}.err*
-*/MySQL/data/mysql-bin.index*
-*/MySQL/data/mysql-bin.log*
-*/MySQL/data/mysql.err*
-*/MySQL/data/mysql.log*
-*/MySQL/my.cnf*
-*/MySQL/my.ini*
-*/NetServer/bin/stable/apache/php.ini*
-*/NetServerbinstableapachephp.ini*
-*/opt/apache22/conf/httpd.conf*
-*/opt/apache2/apache2.conf*
-*/opt/apache2/apache.conf*
-*/opt/apache2/conf/apache2.conf*
-*/opt/apache2/conf/apache.conf*
-*/opt/apache2/conf/httpd.conf*
-*/opt/apache/apache2.conf*
-*/opt/apache/apache.conf*
-*/opt/apache/conf/apache2.conf*
-*/opt/apache/conf/apache.conf*
-*/opt/apache/conf/httpd.conf*
-*/opt/httpd/apache2.conf*
-*/opt/httpd/apache.conf*
-*/opt/httpd/conf/apache2.conf*
-*/opt/httpd/conf/apache.conf*
-*/opt/[JBOSS]/server/default/conf/jboss-minimal.xml*
-*/opt/[JBOSS]/server/default/conf/jboss-service.xml*
-*/opt/[JBOSS]/server/default/conf/jndi.properties*
-*/opt/[JBOSS]/server/default/conf/log4j.xml*
-*/opt/[JBOSS]/server/default/conf/login-config.xml*
-*/opt/[JBOSS]/server/default/conf/server.log.properties*
-*/opt/[JBOSS]/server/default/conf/standardjaws.xml*
-*/opt/[JBOSS]/server/default/conf/standardjboss.xml*
-*/opt/[JBOSS]/server/default/deploy/jboss-logging.xml*
-*/opt/[JBOSS]/server/default/log/boot.log*
-*/opt/[JBOSS]/server/default/log/server.log*
-*/opt/lampp/etc/httpd.conf*
-*/opt/lampp/logs/access.log*
-*/opt/lampp/logs/access_log*
-*/opt/lampp/logs/error.log*
-*/opt/lampp/logs/error_log*
-*/opt/lsws/conf/httpd_conf.xml*
-*/opt/lsws/logs/access.log*
-*/opt/lsws/logs/error.log*
-*/opt/tomcat/logs/catalina.err*
-*/opt/tomcat/logs/catalina.out*
-*/opt/xampp/etc/php.ini*
-*/opt/xampp/logs/access.log*
-*/opt/xampp/logs/access_log*
-*/opt/xampp/logs/error.log*
-*/opt/xampp/logs/error_log*
-*/private/etc/httpd/apache2.conf*
-*/private/etc/httpd/apache.conf*
-*/private/etc/httpd/httpd.conf*
-*/private/etc/httpd/httpd.conf.default*
-*/private/etc/squirrelmail/config/config.php*
-*/private/tmp/[JBOSS]/server/default/conf/jboss-minimal.xml*
-*/private/tmp/[JBOSS]/server/default/conf/jboss-service.xml*
-*/private/tmp/[JBOSS]/server/default/conf/jndi.properties*
-*/private/tmp/[JBOSS]/server/default/conf/log4j.xml*
-*/private/tmp/[JBOSS]/server/default/conf/login-config.xml*
-*/private/tmp/[JBOSS]/server/default/conf/server.log.properties*
-*/private/tmp/[JBOSS]/server/default/conf/standardjaws.xml*
-*/private/tmp/[JBOSS]/server/default/conf/standardjboss.xml*
-*/private/tmp/[JBOSS]/server/default/deploy/jboss-logging.xml*
-*/private/tmp/[JBOSS]/server/default/log/boot.log*
-*/private/tmp/[JBOSS]/server/default/log/server.log*
-*/proc/cpuinfo*
-*/proc/devices*
-*/proc/meminfo*
-*/proc/net/tcp*
-*/proc/net/udp*
-*/proc/self/cmdline*
-*/proc/self/environ*
-*/proc/self/mounts*
-*/proc/self/stat*
-*/proc/self/status*
-*/proc/version*
-*/Program Files/Apache Group/Apache2/conf/apache2.conf*
-*/Program Files/Apache Group/Apache2/conf/apache.conf*
-*/Program Files/Apache Group/Apache2/conf/httpd.conf*
-*/Program FilesApache GroupApache2confhttpd.conf*
-*/Program Files/Apache Group/Apache/apache2.conf*
-*/Program Files/Apache Group/Apache/apache.conf*
-*/Program Files/Apache Group/Apache/conf/apache2.conf*
-*/Program Files/Apache Group/Apache/conf/apache.conf*
-*/Program Files/Apache Group/Apache/conf/httpd.conf*
-*/Program FilesApache GroupApacheconfhttpd.conf*
-*/Program Files/Apache Group/Apache/logs/access.log*
-*/Program FilesApache GroupApachelogsaccess.log*
-*/Program Files/Apache Group/Apache/logs/error.log*
-*/Program FilesApache GroupApachelogserror.log*
-*/Program Files/[JBOSS]/server/default/conf/jboss-minimal.xml*
-*/Program Files/[JBOSS]/server/default/conf/jboss-service.xml*
-*/Program Files/[JBOSS]/server/default/conf/jndi.properties*
-*/Program Files/[JBOSS]/server/default/conf/log4j.xml*
-*/Program Files/[JBOSS]/server/default/conf/login-config.xml*
-*/Program Files/[JBOSS]/server/default/conf/server.log.properties*
-*/Program Files/[JBOSS]/server/default/conf/standardjaws.xml*
-*/Program Files/[JBOSS]/server/default/conf/standardjboss.xml*
-*/Program Files/[JBOSS]/server/default/deploy/jboss-logging.xml*
-*/Program Files/[JBOSS]/server/default/log/boot.log*
-*/Program Files/[JBOSS]/server/default/log/server.log*
-*/Program Files/MySQL/data/{HOST}.err*
-*/Program Files/MySQL/data/mysql-bin.index*
-*/Program Files/MySQL/data/mysql-bin.log*
-*/Program Files/MySQL/data/mysql.err*
-*/Program Files/MySQL/data/mysql.log*
-*/Program Files/MySQL/my.cnf*
-*/Program Files/MySQL/my.ini*
-*/Program Files/Vidalia Bundle/Polipo/polipo.conf*
-*/Program Files/xampp/apache/conf/apache2.conf*
-*/Program Files/xampp/apache/conf/apache.conf*
-*/Program Files/xampp/apache/conf/httpd.conf*
-*/Program Filesxamppapacheconfhttpd.conf*
-*/root/.bash_config*
-*/root/.bash_history*
-*/root/.bash_logout*
-*/root/.bashrc*
-*/root/.ksh_history*
-*/root/.Xauthority*
-*/srv/www/htdos/squirrelmail/config/config.php*
-*/tmp/access.log*
-*/tmp/[JBOSS]/server/default/conf/jboss-minimal.xml*
-*/tmp/[JBOSS]/server/default/conf/jboss-service.xml*
-*/tmp/[JBOSS]/server/default/conf/jndi.properties*
-*/tmp/[JBOSS]/server/default/conf/log4j.xml*
-*/tmp/[JBOSS]/server/default/conf/login-config.xml*
-*/tmp/[JBOSS]/server/default/conf/server.log.properties*
-*/tmp/[JBOSS]/server/default/conf/standardjaws.xml*
-*/tmp/[JBOSS]/server/default/conf/standardjboss.xml*
-*/tmp/[JBOSS]/server/default/deploy/jboss-logging.xml*
-*/tmp/[JBOSS]/server/default/log/boot.log*
-*/tmp/[JBOSS]/server/default/log/server.log*
-*/usr/apache2/conf/httpd.conf*
-*/usr/apache/conf/httpd.conf*
-*/usr/etc/pure-ftpd.conf*
-*/usr/home/user/lighttpd/lighttpd.conf*
-*/usr/home/user/var/log/apache.log*
-*/usr/home/user/var/log/lighttpd.error.log*
-*/usr/internet/pgsql/data/pg_hba.conf*
-*/usr/internet/pgsql/data/postmaster.log*
-*/usr/lib/cron/log*
-*/usr/lib/php.ini*
-*/usr/lib/php/php.ini*
-*/usr/lib/security/mkuser.default*
-*/usr/local/apache22/conf/httpd.conf*
-*/usr/local/apache22/httpd.conf*
-*/usr/local/apache2/apache2.conf*
-*/usr/local/apache2/apache.conf*
-*/usr/local/apache2/conf/apache2.conf*
-*/usr/local/apache2/conf/apache.conf*
-*/usr/local/apache2/conf/extra/httpd-ssl.conf*
-*/usr/local/apache2/conf/httpd.conf*
-*/usr/local/apache2/conf/modsec.conf*
-*/usr/local/apache2/conf/ssl.conf*
-*/usr/local/apache2/conf/vhosts.conf*
-*/usr/local/apache2/conf/vhosts-custom.conf*
-*/usr/local/apache2/httpd.conf*
-*/usr/local/apache2/logs/access.log*
-*/usr/local/apache2/logs/access_log*
-*/usr/local/apache2/logs/audit_log*
-*/usr/local/apache2/logs/error.log*
-*/usr/local/apache2/logs/error_log*
-*/usr/local/apache2/logs/lighttpd.error.log*
-*/usr/local/apache2/logs/lighttpd.log*
-*/usr/local/apache/apache2.conf*
-*/usr/local/apache/apache.conf*
-*/usr/local/apache/conf/access.conf*
-*/usr/local/apache/conf/apache2.conf*
-*/usr/local/apache/conf/apache.conf*
-*/usr/local/apache/conf/httpd.conf*
-*/usr/local/apache/conf/httpd.conf.default*
-*/usr/local/apache/conf/modsec.conf*
-*/usr/local/apache/conf/php.ini*
-*/usr/local/apache/conf/vhosts.conf*
-*/usr/local/apache/conf/vhosts-custom.conf*
-*/usr/local/apache/httpd.conf*
-*/usr/local/apache/logs/access.log*
-*/usr/local/apache/logs/access_log*
-*/usr/local/apache/logs/audit_log*
-*/usr/local/apache/logs/error.log*
-*/usr/local/apache/logs/error_log*
-*/usr/local/apache/logs/lighttpd.error.log*
-*/usr/local/apache/logs/lighttpd.log*
-*/usr/local/apache/logs/mod_jk.log*
-*/usr/local/apps/apache22/conf/httpd.conf*
-*/usr/local/apps/apache2/conf/httpd.conf*
-*/usr/local/apps/apache/conf/httpd.conf*
-*/usr/local/cpanel/logs*
-*/usr/local/cpanel/logs/access_log*
-*/usr/local/cpanel/logs/error_log*
-*/usr/local/cpanel/logs/license_log*
-*/usr/local/cpanel/logs/login_log*
-*/usr/local/cpanel/logs/stats_log*
-*/usr/local/etc/apache22/conf/httpd.conf*
-*/usr/local/etc/apache22/httpd.conf*
-*/usr/local/etc/apache2/conf/httpd.conf*
-*/usr/local/etc/apache2/httpd.conf*
-*/usr/local/etc/apache2/vhosts.conf*
-*/usr/local/etc/apache/conf/httpd.conf*
-*/usr/local/etc/apache/httpd.conf*
-*/usr/local/etc/apache/vhosts.conf*
-*/usr/local/etc/httpd/conf*
-*/usr/local/etc/httpd/conf/httpd.conf*
-*/usr/local/etc/lighttpd.conf*
-*/usr/local/etc/lighttpd.conf.new*
-*/usr/local/etc/nginx/nginx.conf*
-*/usr/local/etc/php.ini*
-*/usr/local/etc/pure-ftpd.conf*
-*/usr/local/etc/pureftpd.pdb*
-*/usr/local/etc/smb.conf*
-*/usr/local/etc/webmin/miniserv.conf*
-*/usr/local/etc/webmin/miniserv.users*
-*/usr/local/httpd/conf/httpd.conf*
-*/usr/local/jakarta/dist/tomcat/conf/context.xml*
-*/usr/local/jakarta/dist/tomcat/conf/jakarta.conf*
-*/usr/local/jakarta/dist/tomcat/conf/logging.properties*
-*/usr/local/jakarta/dist/tomcat/conf/server.xml*
-*/usr/local/jakarta/dist/tomcat/conf/workers.properties*
-*/usr/local/jakarta/dist/tomcat/logs/mod_jk.log*
-*/usr/local/jakarta/tomcat/conf/context.xml*
-*/usr/local/jakarta/tomcat/conf/jakarta.conf*
-*/usr/local/jakarta/tomcat/conf/logging.properties*
-*/usr/local/jakarta/tomcat/conf/server.xml*
-*/usr/local/jakarta/tomcat/conf/workers.properties*
-*/usr/local/jakarta/tomcat/logs/catalina.err*
-*/usr/local/jakarta/tomcat/logs/catalina.out*
-*/usr/local/jakarta/tomcat/logs/mod_jk.log*
-*/usr/local/[JBOSS]/server/default/conf/jboss-minimal.xml*
-*/usr/local/[JBOSS]/server/default/conf/jboss-service.xml*
-*/usr/local/[JBOSS]/server/default/conf/jndi.properties*
-*/usr/local/[JBOSS]/server/default/conf/log4j.xml*
-*/usr/local/[JBOSS]/server/default/conf/login-config.xml*
-*/usr/local/[JBOSS]/server/default/conf/server.log.properties*
-*/usr/local/[JBOSS]/server/default/conf/standardjaws.xml*
-*/usr/local/[JBOSS]/server/default/conf/standardjboss.xml*
-*/usr/local/[JBOSS]/server/default/deploy/jboss-logging.xml*
-*/usr/local/[JBOSS]/server/default/log/boot.log*
-*/usr/local/[JBOSS]/server/default/log/server.log*
-*/usr/local/lib/php.ini*
-*/usr/local/lighttpd/conf/lighttpd.conf*
-*/usr/local/lighttpd/log/access.log*
-*/usr/local/lighttpd/log/lighttpd.error.log*
-*/usr/local/logs/access.log*
-*/usr/local/logs/samba.log*
-*/usr/local/lsws/conf/httpd_conf.xml*
-*/usr/local/lsws/logs/error.log*
-*/usr/local/mysql/data/{HOST}.err*
-*/usr/local/mysql/data/mysql-bin.index*
-*/usr/local/mysql/data/mysql-bin.log*
-*/usr/local/mysql/data/mysqlderror.log*
-*/usr/local/mysql/data/mysql.err*
-*/usr/local/mysql/data/mysql.log*
-*/usr/local/mysql/data/mysql-slow.log*
-*/usr/local/nginx/conf/nginx.conf*
-*/usr/local/pgsql/bin/pg_passwd*
-*/usr/local/pgsql/data/passwd*
-*/usr/local/pgsql/data/pg_hba.conf*
-*/usr/local/pgsql/data/pg_log*
-*/usr/local/pgsql/data/postgresql.conf*
-*/usr/local/pgsql/data/postgresql.log*
-*/usr/local/php4/apache2.conf*
-*/usr/local/php4/apache2.conf.php*
-*/usr/local/php4/apache.conf*
-*/usr/local/php4/apache.conf.php*
-*/usr/local/php4/httpd.conf*
-*/usr/local/php4/httpd.conf.php*
-*/usr/local/php4/lib/php.ini*
-*/usr/local/php5/apache2.conf*
-*/usr/local/php5/apache2.conf.php*
-*/usr/local/php5/apache.conf*
-*/usr/local/php5/apache.conf.php*
-*/usr/local/php5/httpd.conf*
-*/usr/local/php5/httpd.conf.php*
-*/usr/local/php5/lib/php.ini*
-*/usr/local/php/apache2.conf*
-*/usr/local/php/apache2.conf.php*
-*/usr/local/php/apache.conf*
-*/usr/local/php/apache.conf.php*
-*/usr/local/php/httpd.conf*
-*/usr/local/php/httpd.conf.php*
-*/usr/local/php/lib/php.ini*
-*/usr/local/psa/admin/conf/php.ini*
-*/usr/local/psa/admin/conf/site_isolation_settings.ini*
-*/usr/local/psa/admin/htdocs/domains/databases/phpMyAdmin/libraries/config.default.php*
-*/usr/local/psa/admin/logs/httpsd_access_log*
-*/usr/local/psa/admin/logs/panel.log*
-*/usr/local/pureftpd/etc/pure-ftpd.conf*
-*/usr/local/pureftpd/etc/pureftpd.pdb*
-*/usr/local/pureftpd/sbin/pure-config.pl*
-*/usr/local/samba/lib/log.user*
-*/usr/local/samba/lib/smb.conf.user*
-*/usr/local/sb/config*
-*/usr/local/Zend/etc/php.ini*
-*/usr/local/zeus/web/global.cfg*
-*/usr/local/zeus/web/log/errors*
-*/usr/pkg/etc/httpd/httpd.conf*
-*/usr/pkg/etc/httpd/httpd-default.conf*
-*/usr/pkg/etc/httpd/httpd-vhosts.conf*
-*/usr/pkgsrc/net/pureftpd/*
-*/usr/pkgsrc/net/pureftpd/pure-ftpd.conf*
-*/usr/pkgsrc/net/pureftpd/pureftpd.passwd*
-*/usr/pkgsrc/net/pureftpd/pureftpd.pdb*
-*/usr/ports/contrib/pure-ftpd/*
-*/usr/ports/contrib/pure-ftpd/pure-ftpd.conf*
-*/usr/ports/contrib/pure-ftpd/pureftpd.passwd*
-*/usr/ports/contrib/pure-ftpd/pureftpd.pdb*
-*/usr/ports/ftp/pure-ftpd/*
-*/usr/ports/ftp/pure-ftpd/pure-ftpd.conf*
-*/usr/ports/ftp/pure-ftpd/pureftpd.passwd*
-*/usr/ports/ftp/pure-ftpd/pureftpd.pdb*
-*/usr/ports/net/pure-ftpd/*
-*/usr/ports/net/pure-ftpd/pure-ftpd.conf*
-*/usr/ports/net/pure-ftpd/pureftpd.passwd*
-*/usr/ports/net/pure-ftpd/pureftpd.pdb*
-*/usr/sbin/mudlogd*
-*/usr/sbin/mudpasswd*
-*/usr/sbin/pure-config.pl*
-*/usr/share/adduser/adduser.conf*
-*/usr/share/logs/catalina.err*
-*/usr/share/logs/catalina.out*
-*/usr/share/squirrelmail/config/config.php*
-*/usr/share/squirrelmail/plugins/squirrel_logger/setup.php*
-*/usr/share/tomcat6/conf/context.xml*
-*/usr/share/tomcat6/conf/logging.properties*
-*/usr/share/tomcat6/conf/server.xml*
-*/usr/share/tomcat6/conf/workers.properties*
-*/usr/share/tomcat6/logs/catalina.err*
-*/usr/share/tomcat6/logs/catalina.out*
-*/usr/share/tomcat/logs/catalina.err*
-*/usr/share/tomcat/logs/catalina.out*
-*/usr/spool/lp/log*
-*/usr/spool/mqueue/syslog*
-*/var/adm/acct/sum/loginlog*
-*/var/adm/aculog*
-*/var/adm/aculogs*
-*/var/adm/crash/unix*
-*/var/adm/crash/vmcore*
-*/var/adm/cron/log*
-*/var/adm/dtmp*
-*/var/adm/lastlog/username*
-*/var/adm/log/asppp.log*
-*/var/adm/loginlog*
-*/var/adm/log/xferlog*
-*/var/adm/lp/lpd-errs*
-*/var/adm/messages*
-*/var/adm/pacct*
-*/var/adm/qacct*
-*/var/adm/ras/bootlog*
-*/var/adm/ras/errlog*
-*/var/adm/sulog*
-*/var/adm/SYSLOG*
-*/var/adm/utmp*
-*/var/adm/utmpx*
-*/var/adm/vold.log*
-*/var/adm/wtmp*
-*/var/adm/wtmpx*
-*/var/adm/X0msgs*
-*/var/apache/conf/httpd.conf*
-*/var/cpanel/cpanel.config*
-*/var/cpanel/tomcat.options*
-*/var/cron/log*
-*/var/data/mysql-bin.index*
-*/var/lib/mysql/my.cnf*
-*/var/lib/pgsql/data/postgresql.conf*
-*/var/lib/squirrelmail/prefs/squirrelmail.log*
-*/var/lighttpd.log*
-*/var/local/www/conf/php.ini*
-*/var/log/access.log*
-*/var/log/access_log*
-*/var/log/apache2/access.log*
-*/var/log/apache2/access_log*
-*/var/log/apache2/error.log*
-*/var/log/apache2/error_log*
-*/var/log/apache2/squirrelmail.err.log*
-*/var/log/apache2/squirrelmail.log*
-*/var/log/apache/access.log*
-*/var/log/apache/access_log*
-*/var/log/apache/error.log*
-*/var/log/apache/error_log*
-*/var/log/auth.log*
-*/var/log/authlog*
-*/var/log/boot.log*
-*/var/log/cron/var/log/postgres.log*
-*/var/log/daemon.log*
-*/var/log/daemon.log.1*
-*/var/log/data/mysql-bin.index*
-*/var/log/dmessage*
-*/var/log/error.log*
-*/var/log/error_log*
-*/var/log/exim/mainlog*
-*/var/log/exim_mainlog*
-*/var/log/exim/paniclog*
-*/var/log/exim_paniclog*
-*/var/log/exim/rejectlog*
-*/var/log/exim_rejectlog*
-*/var/log/ftplog*
-*/var/log/ftp-proxy*
-*/var/log/ftp-proxy/ftp-proxy.log*
-*/var/log/httpd-access.log*
-*/var/log/httpd/access.log*
-*/var/log/httpd/access_log*
-*/var/log/httpd/error.log*
-*/var/log/httpd/error_log*
-*/var/log/ipfw*
-*/var/log/ipfw/ipfw.log*
-*/var/log/ipfw.log*
-*/var/log/ipfw.today*
-*/var/log/kern.log*
-*/var/log/kern.log.1*
-*/var/log/lighttpd/*
-*/var/log/lighttpd.access.log*
-*/var/log/lighttpd/access.log*
-*/var/log/lighttpd/access.www.log*
-*/var/log/lighttpd/{DOMAIN}/access.log*
-*/var/log/lighttpd/{DOMAIN}/error.log*
-*/var/log/lighttpd.error.log*
-*/var/log/lighttpd/error.log*
-*/var/log/lighttpd/error.www.log*
-*/var/log/log.smb*
-*/var/log/mail.err*
-*/var/log/mail.info*
-*/var/log/mail.log*
-*/var/log/maillog*
-*/var/log/mail.warn*
-*/var/log/messages*
-*/var/log/messages.1*
-*/var/log/muddleftpd*
-*/var/log/muddleftpd.conf*
-*/var/log/mysql-bin.index*
-*/var/log/mysql/data/mysql-bin.index*
-*/var/log/mysqlderror.log*
-*/var/log/mysql.err*
-*/var/log/mysql.log*
-*/var/log/mysql/mysql-bin.index*
-*/var/log/mysql/mysql-bin.log*
-*/var/log/mysql/mysql.log*
-*/var/log/mysql/mysql-slow.log*
-*/var/log/news.all*
-*/var/log/news/news.all*
-*/var/log/news/news.crit*
-*/var/log/news/news.err*
-*/var/log/news/news.notice*
-*/var/log/news/suck.err*
-*/var/log/news/suck.notice*
-*/var/log/nginx.access_log*
-*/var/log/nginx/access.log*
-*/var/log/nginx/access_log*
-*/var/log/nginx.error_log*
-*/var/log/nginx/error.log*
-*/var/log/nginx/error_log*
-*/var/log/pgsql8.log*
-*/var/log/pgsql_log*
-*/var/log/pgsql/pgsql.log*
-*/var/log/pm-powersave.log*
-*/var/log/POPlog*
-*/var/log/postgres/pg_backup.log*
-*/var/log/postgres/postgres.log*
-*/var/log/postgresql.log*
-*/var/log/postgresql/main.log*
-*/var/log/postgresql/postgres.log*
-*/var/log/postgresql/postgresql-8.1-main.log*
-*/var/log/postgresql/postgresql-8.3-main.log*
-*/var/log/postgresql/postgresql-8.4-main.log*
-*/var/log/postgresql/postgresql-9.0-main.log*
-*/var/log/postgresql/postgresql-9.1-main.log*
-*/var/log/postgresql/postgresql.log*
-*/var/log/proftpd*
-*/var/log/proftpd.access_log*
-*/var/log/proftpd.xferlog*
-*/var/log/proftpd/xferlog.legacy*
-*/var/log/pureftpd.log*
-*/var/log/pure-ftpd/pure-ftpd.log*
-*/var/logs/access.log*
-*/var/log/samba.log*
-*/var/log/samba.log1*
-*/var/log/samba.log2*
-*/var/log/samba/log.nmbd*
-*/var/log/samba/log.smbd*
-*/var/log/squirrelmail.log*
-*/var/log/sso/sso.log*
-*/var/log/sw-cp-server/error_log*
-*/var/log/syslog*
-*/var/log/syslog.1*
-*/var/log/tomcat6/catalina.out*
-*/var/log/ufw.log*
-*/var/log/user.log*
-*/var/log/user.log.1*
-*/var/log/vmware/hostd-1.log*
-*/var/log/vmware/hostd.log*
-*/var/log/vsftpd.log*
-*/var/log/webmin/miniserv.log*
-*/var/log/xferlog*
-*/var/log/Xorg.0.log*
-*/var/lp/logs/lpNet*
-*/var/lp/logs/lpsched*
-*/var/lp/logs/requests*
-*/var/mail/root*
-*/var/mysql-bin.index*
-*/var/mysql.log*
-*/var/nm2/postgresql.conf*
-*/var/postgresql/db/postgresql.conf*
-*/var/postgresql/log/postgresql.log*
-*/var/saf/_log*
-*/var/saf/port/log*
-*/var/spool/cron/crontabs/root*
-*/var/spool/cron/crontabs/root*
-*/var/www/conf*
-*/var/www/conf/httpd.conf*
-*/var/www/html/squirrelmail/config/config.php*
-*/var/www/.lighttpdpassword*
-*/var/www/logs/access.log*
-*/var/www/logs/access_log*
-*/var/www/logs/error.log*
-*/var/www/logs/error_log*
-*/var/www/squirrelmail/config/config.php*
-*/Volumes/Macintosh_HD1/opt/apache2/conf/httpd.conf*
-*/Volumes/Macintosh_HD1/opt/apache/conf/httpd.conf*
-*/Volumes/Macintosh_HD1/opt/httpd/conf/httpd.conf*
-*/Volumes/Macintosh_HD1/usr/local/php4/httpd.conf.php*
-*/Volumes/Macintosh_HD1/usr/local/php5/httpd.conf.php*
-*/Volumes/Macintosh_HD1/usr/local/php/httpd.conf.php*
-*/Volumes/Macintosh_HD1/usr/local/php/lib/php.ini*
-*/Volumes/webBackup/opt/apache2/conf/httpd.conf*
-*/Volumes/webBackup/private/etc/httpd/httpd.conf*
-*/Volumes/webBackup/private/etc/httpd/httpd.conf.default*
-*/wamp/bin/apache/apache2.2.21/conf/httpd.conf*
-*/wamp/bin/apache/apache2.2.21/logs/access.log*
-*/wamp/bin/apache/apache2.2.21/logs/error.log*
-*/wamp/bin/apache/apache2.2.21/wampserver.conf*
-*/wamp/bin/apache/apache2.2.22/conf/httpd.conf*
-*/wamp/bin/apache/apache2.2.22/conf/wampserver.conf*
-*/wamp/bin/apache/apache2.2.22/logs/access.log*
-*/wamp/bin/apache/apache2.2.22/logs/error.log*
-*/wamp/bin/apache/apache2.2.22/wampserver.conf*
-*/wamp/bin/mysql/mysql5.5.16/data/mysql-bin.index*
-*/wamp/bin/mysql/mysql5.5.16/my.ini*
-*/wamp/bin/mysql/mysql5.5.16/wampserver.conf*
-*/wamp/bin/mysql/mysql5.5.24/data/mysql-bin.index*
-*/wamp/bin/mysql/mysql5.5.24/my.ini*
-*/wamp/bin/mysql/mysql5.5.24/wampserver.conf*
-*/wamp/logs/access.log*
-*/wamp/logs/apache_error.log*
-*/wamp/logs/genquery.log*
-*/wamp/logs/mysql.log*
-*/wamp/logs/slowquery.log*
-*/web/conf/php.ini*
-*/WINDOWS/php.ini*
-*/WINDOWSphp.ini*
-*/WINDOWS/system32/logfiles/MSFTPSVC*
-*/WINDOWS/system32/logfiles/MSFTPSVC1*
-*/WINDOWS/system32/logfiles/MSFTPSVC2*
-*/WINDOWS/system32/logfiles/SMTPSVC*
-*/WINDOWS/system32/logfiles/SMTPSVC1*
-*/WINDOWS/system32/logfiles/SMTPSVC2*
-*/WINDOWS/system32/logfiles/SMTPSVC3*
-*/WINDOWS/system32/logfiles/SMTPSVC4*
-*/WINDOWS/system32/logfiles/SMTPSVC5*
-*/WINDOWS/system32/logfiles/W3SVC1/inetsvn1.log*
-*/WINDOWS/system32/logfiles/W3SVC2/inetsvn1.log*
-*/WINDOWS/system32/logfiles/W3SVC3/inetsvn1.log*
-*/WINDOWS/system32/logfiles/W3SVC/inetsvn1.log*
-*/WINNT/php.ini*
-*/WINNTphp.ini*
-*/WINNT/system32/logfiles/MSFTPSVC*
-*/WINNT/system32/logfiles/MSFTPSVC1*
-*/WINNT/system32/logfiles/MSFTPSVC2*
-*/WINNT/system32/logfiles/SMTPSVC*
-*/WINNT/system32/logfiles/SMTPSVC1*
-*/WINNT/system32/logfiles/SMTPSVC2*
-*/WINNT/system32/logfiles/SMTPSVC3*
-*/WINNT/system32/logfiles/SMTPSVC4*
-*/WINNT/system32/logfiles/SMTPSVC5*
-*/WINNT/system32/logfiles/W3SVC1/inetsvn1.log*
-*/WINNT/system32/logfiles/W3SVC2/inetsvn1.log*
-*/WINNT/system32/logfiles/W3SVC3/inetsvn1.log*
-*/WINNT/system32/logfiles/W3SVC/inetsvn1.log*
-*/www/apache/conf/httpd.conf*
-*/www/conf/httpd.conf*
-*/www/logs/freebsddiary-access_log*
-*/www/logs/freebsddiary-error.log*
-*/www/logs/proftpd.system.log*
-*/xampp/apache/bin/php.ini*
-*/xamppapachebinphp.ini*
-*/xampp/apache/conf/httpd.conf*
-*/xampp/apache/logs/access.log*
-*/xampp/apache/logs/error.log*
-*/xampp/FileZillaFTP/FileZilla Server.xml*
-*/xampp/htdocs/aca.txt*
-*/xampp/htdocs/admin.php*
-*/xampp/htdocs/leer.txt*
-*/xampp/MercuryMail/mercury.ini*
-*/xampp/mysql/data/{HOST}.err*
-*/xampp/mysql/data/mysql-bin.index*
-*/xampp/mysql/data/mysql.err*
-*/xampp/phpMyAdmin/config.inc.php*
-*/xampp/php/php.ini*
-*/xampp/sendmail/sendmail.ini*
-*/xampp/sendmail/sendmail.log*
-*/xampp/webalizer/webalizer.conf*
-*/proc/self/fd/0*
-*/proc/self/fd/1*
-*/proc/self/fd/2*
-*/proc/self/fd/3*
-*/proc/self/fd/4*
-*/proc/self/fd/5*
-*/proc/self/fd/6*
-*/proc/self/fd/7*
-*/proc/self/fd/8*
-*/proc/self/fd/9*
-*/proc/self/fd/10*
-*/proc/self/fd/11*
-*/proc/self/fd/12*
-*/proc/self/fd/13*
-*/proc/self/fd/14*
-*/proc/self/fd/15*
-*/proc/self/fd/16*
-*/proc/self/fd/17*
-*/proc/self/fd/18*
-*/proc/self/fd/19*
-*/proc/self/fd/20*
-*/proc/self/fd/21*
-*/proc/self/fd/22*
-*/proc/self/fd/23*
-*/proc/self/fd/24*
-*/proc/self/fd/25*
-*/proc/self/fd/26*
-*/proc/self/fd/27*
-*/proc/self/fd/28*
-*/proc/self/fd/29*
-*/proc/self/fd/30*
-*/proc/self/fd/31*
-*/proc/self/fd/32*
-*/proc/self/fd/33*
-*/proc/self/fd/34*
-*/proc/self/fd/35*
-*/proc/self/fd/36*
-*/proc/self/fd/37*
-*/proc/self/fd/38*
-*/proc/self/fd/39*
-*/proc/self/fd/40*
-*/proc/self/fd/41*
-*/proc/self/fd/42*
-*/proc/self/fd/43*
-*/proc/self/fd/44*
-*/proc/self/fd/45*
-*/proc/self/fd/46*
-*/proc/self/fd/47*
-*/proc/self/fd/48*
-*/proc/self/fd/49*
-*/proc/self/fd/50*
-*/proc/self/fd/51*
-*/proc/self/fd/52*
-*/proc/self/fd/53*
-*/proc/self/fd/54*
-*/proc/self/fd/55*
-*/proc/self/fd/56*
-*/proc/self/fd/57*
-*/proc/self/fd/58*
-*/proc/self/fd/59*
-*/proc/self/fd/60*
-*/proc/self/fd/61*
-*/proc/self/fd/62*
-*/proc/self/fd/63*
-*/proc/self/fd/64*
-*/proc/self/fd/65*
-*/proc/self/fd/66*
-*/proc/self/fd/67*
-*/proc/self/fd/68*
-*/proc/self/fd/69*
-*/proc/self/fd/70*
-*/proc/self/fd/71*
-*/proc/self/fd/72*
-*/proc/self/fd/73*
-*/proc/self/fd/74*
-*/proc/self/fd/75*
-*/proc/self/fd/76*
-*/proc/self/fd/77*
-*/proc/self/fd/78*
-*/proc/self/fd/79*
-*/proc/self/fd/80*
-*/proc/self/fd/81*
-*/proc/self/fd/82*
-*/proc/self/fd/83*
-*/proc/self/fd/84*
-*/proc/self/fd/85*
-*/proc/self/fd/86*
-*/proc/self/fd/87*
-*/proc/self/fd/88*
-*/proc/self/fd/89*
-*/proc/self/fd/90*
-*/proc/self/fd/91*
-*/proc/self/fd/92*
-*/proc/self/fd/93*
-*/proc/self/fd/94*
-*/proc/self/fd/95*
-*/proc/self/fd/96*
-*/proc/self/fd/97*
-*/proc/self/fd/98*
-*/proc/self/fd/99*
-*/proc/self/fd/100*
+local_file_inclusion_paths, lfi_path
+*/apache2/logs/access.log*, yes
+*/apache2/logs/error.log*, yes
+*/apache/conf/httpd.conf*, yes
+*/apache/logs/access.log*, yes
+*/apache/logs/error.log*, yes
+*/apache/php/php.ini*, yes
+*/apachephpphp.ini*, yes
+*/bin/php.ini*, yes
+*/boot/grub/grub.cfg*, yes
+*/boot/grub/menu.lst*, yes
+*/etc/adduser.conf*, yes
+*/etc/alias*, yes
+*/etc/apache22/conf/httpd.conf*, yes
+*/etc/apache22/httpd.conf*, yes
+*/etc/apache2/apache2.conf*, yes
+*/etc/apache2/apache.conf*, yes
+*/etc/apache2/conf/httpd.conf*, yes
+*/etc/apache2/default-server.conf*, yes
+*/etc/apache2/envvars*, yes
+*/etc/apache2/httpd2.conf*, yes
+*/etc/apache2/httpd.conf*, yes
+*/etc/apache2/mods-available/autoindex.conf*, yes
+*/etc/apache2/mods-available/deflate.conf*, yes
+*/etc/apache2/mods-available/dir.conf*, yes
+*/etc/apache2/mods-available/mem_cache.conf*, yes
+*/etc/apache2/mods-available/mime.conf*, yes
+*/etc/apache2/mods-available/proxy.conf*, yes
+*/etc/apache2/mods-available/setenvif.conf*, yes
+*/etc/apache2/mods-available/ssl.conf*, yes
+*/etc/apache2/mods-enabled/alias.conf*, yes
+*/etc/apache2/mods-enabled/deflate.conf*, yes
+*/etc/apache2/mods-enabled/dir.conf*, yes
+*/etc/apache2/mods-enabled/mime.conf*, yes
+*/etc/apache2/mods-enabled/negotiation.conf*, yes
+*/etc/apache2/mods-enabled/php5.conf*, yes
+*/etc/apache2/mods-enabled/status.conf*, yes
+*/etc/apache2/ports.conf*, yes
+*/etc/apache2/sites-available/default*, yes
+*/etc/apache2/sites-available/default-ssl*, yes
+*/etc/apache2/sites-enabled/000-default*, yes
+*/etc/apache2/sites-enabled/default*, yes
+*/etc/apache2/ssl-global.conf*, yes
+*/etc/apache/access.conf*, yes
+*/etc/apache/apache.conf*, yes
+*/etc/apache/conf/httpd.conf*, yes
+*/etc/apache/default-server.conf*, yes
+*/etc/apache/httpd.conf*, yes
+*/etc/apt/apt.conf*, yes
+*/etc/avahi/avahi-daemon.conf*, yes
+*/etc/bash.bashrc*, yes
+*/etc/bluetooth/input.conf*, yes
+*/etc/bluetooth/main.conf*, yes
+*/etc/bluetooth/network.conf*, yes
+*/etc/bluetooth/rfcomm.conf*, yes
+*/etc/ca-certificates.conf*, yes
+*/etc/ca-certificates.conf.dpkg-old*, yes
+*/etc/casper.conf*, yes
+*/etc/chkrootkit.conf*, yes
+*/etc/chrootUsers*, yes
+*/etc/clamav/clamd.conf*, yes
+*/etc/clamav/freshclam.conf*, yes
+*/etc/crontab*, yes
+*/etc/crypttab*, yes
+*/etc/cups/acroread.conf*, yes
+*/etc/cups/cupsd.conf*, yes
+*/etc/cups/cupsd.conf.default*, yes
+*/etc/cups/pdftops.conf*, yes
+*/etc/cups/printers.conf*, yes
+*/etc/cvs-cron.conf*, yes
+*/etc/cvs-pserver.conf*, yes
+*/etc/debconf.conf*, yes
+*/etc/debian_version*, yes
+*/etc/default/grub*, yes
+*/etc/deluser.conf*, yes
+*/etc/dhcp3/dhclient.conf*, yes
+*/etc/dhcp3/dhcpd.conf*, yes
+*/etc/dhcp/dhclient.conf*, yes
+*/etc/dns2tcpd.conf*, yes
+*/etc/e2fsck.conf*, yes
+*/etc/esound/esd.conf*, yes
+*/etc/etter.conf*, yes
+*/etc/exports*, yes
+*/etc/fedora-release*, yes
+*/etc/firewall.rules*, yes
+*/etc/foremost.conf*, yes
+*/etc/fstab*, yes
+*/etc/ftpchroot*, yes
+*/etc/ftphosts*, yes
+*/etc/ftpusers*, yes
+*/etc/fuse.conf*, yes
+*/etc/group*, yes
+*/etc/group-*, yes
+*/etc/hdparm.conf*, yes
+*/etc/host.conf*, yes
+*/etc/hostname*, yes
+*/etc/hosts*, yes
+*/etc/hosts.allow*, yes
+*/etc/hosts.deny*, yes
+*/etc/http/conf/httpd.conf*, yes
+*/etc/httpd/apache2.conf*, yes
+*/etc/httpd/apache.conf*, yes
+*/etc/httpd.conf*, yes
+*/etc/httpd/conf*, yes
+*/etc/httpd/conf/apache2.conf*, yes
+*/etc/httpd/conf/apache.conf*, yes
+*/etc/httpd/conf.d*, yes
+*/etc/httpd/conf/httpd.conf*, yes
+*/etc/httpd/extra/httpd-ssl.conf*, yes
+*/etc/httpd/httpd.conf*, yes
+*/etc/httpd/logs/acces.log*, yes
+*/etc/httpd/logs/acces_log*, yes
+*/etc/httpd/logs/access.log*, yes
+*/etc/httpd/logs/access_log*, yes
+*/etc/httpd/logs/error.log*, yes
+*/etc/httpd/logs/error_log*, yes
+*/etc/httpd/mod_php.conf*, yes
+*/etc/httpd/php.ini*, yes
+*/etc/http/httpd.conf*, yes
+*/etc/inetd.conf*, yes
+*/etc/init.d*, yes
+*/etc/inittab*, yes
+*/etc/ipfw.conf*, yes
+*/etc/ipfw.rules*, yes
+*/etc/issue*, yes
+*/etc/issue.net*, yes
+*/etc/kbd/config*, yes
+*/etc/kernel-img.conf*, yes
+*/etc/kernel-pkg.conf*, yes
+*/etc/ldap/ldap.conf*, yes
+*/etc/ld.so.conf*, yes
+*/etc/lighttpd/lighthttpd.conf*, yes
+*/etc/login.defs*, yes
+*/etc/logrotate.conf*, yes
+*/etc/ltrace.conf*, yes
+*/etc/mail/sendmail.conf*, yes
+*/etc/mandrake-release*, yes
+*/etc/manpath.config*, yes
+*/etc/miredo.conf*, yes
+*/etc/miredo/miredo.conf*, yes
+*/etc/miredo/miredo-server.conf*, yes
+*/etc/miredo-server.conf*, yes
+*/etc/modules*, yes
+*/etc/mono/config*, yes
+*/etc/motd*, yes
+*/etc/mtab*, yes
+*/etc/mtools.conf*, yes
+*/etc/muddleftpd.com*, yes
+*/etc/muddleftpd/muddleftpd.conf*, yes
+*/etc/muddleftpd/muddleftpd.passwd*, yes
+*/etc/muddleftpd/mudlog*, yes
+*/etc/muddleftpd/mudlogd.conf*, yes
+*/etc/muddleftpd/passwd*, yes
+*/etc/my.cnf*, yes
+*/etc/mysql/my.cnf*, yes
+*/etc/networks*, yes
+*/etc/nginx/nginx.conf*, yes
+*/etc/openldap/ldap.conf*, yes
+*/etc/os-release*, yes
+*/etc/osxhttpd/osxhttpd.conf*, yes
+*/etc/pam.conf*, yes
+*/etc/passwd*, yes
+*/etc/passwd-*, yes
+*/etc/passwd~*, yes
+*/etc/password.master*, yes
+*/etc/php4/apache2/php.ini*, yes
+*/etc/php4/apache/php.ini*, yes
+*/etc/php4/cgi/php.ini*, yes
+*/etc/php5/apache2/php.ini*, yes
+*/etc/php5/apache/php.ini*, yes
+*/etc/php5/cgi/php.ini*, yes
+*/etc/php/apache2/php.ini*, yes
+*/etc/php/apache/php.ini*, yes
+*/etc/php/cgi/php.ini*, yes
+*/etc/php.ini*, yes
+*/etc/phpmyadmin/config.inc.php*, yes
+*/etc/php/php4/php.ini*, yes
+*/etc/php/php.ini*, yes
+*/etc/postgresql/pg_hba.conf*, yes
+*/etc/postgresql/postgresql.conf*, yes
+*/etc/profile*, yes
+*/etc/proftp.conf*, yes
+*/etc/proftpd/modules.conf*, yes
+*/etc/protpd/proftpd.conf*, yes
+*/etc/pulse/client.conf*, yes
+*/etc/pure-ftpd.conf*, yes
+*/etc/pureftpd.passwd*, yes
+*/etc/pureftpd.pdb*, yes
+*/etc/pure-ftpd/pure-ftpd.conf*, yes
+*/etc/pure-ftpd/pure-ftpd.pdb*, yes
+*/etc/pure-ftpd/pureftpd.pdb*, yes
+*/etc/rc.conf*, yes
+*/etc/redhat-release*, yes
+*/etc/resolv.conf*, yes
+*/etc/samba/dhcp.conf*, yes
+*/etc/samba/netlogon*, yes
+*/etc/samba/private/smbpasswd*, yes
+*/etc/samba/samba.conf*, yes
+*/etc/samba/smb.conf*, yes
+*/etc/samba/smb.conf.user*, yes
+*/etc/samba/smbpasswd*, yes
+*/etc/samba/smbusers*, yes
+*/etc/security/access.conf*, yes
+*/etc/security/environ*, yes
+*/etc/security/failedlogin*, yes
+*/etc/security/group*, yes
+*/etc/security/group.conf*, yes
+*/etc/security/lastlog*, yes
+*/etc/security/limits*, yes
+*/etc/security/limits.conf*, yes
+*/etc/security/namespace.conf*, yes
+*/etc/security/opasswd*, yes
+*/etc/security/pam_env.conf*, yes
+*/etc/security/passwd*, yes
+*/etc/security/passwd*, yes
+*/etc/security/sepermit.conf*, yes
+*/etc/security/time.conf*, yes
+*/etc/security/user*, yes
+*/etc/sensors3.conf*, yes
+*/etc/sensors.conf*, yes
+*/etc/shadow*, yes
+*/etc/shadow-*, yes
+*/etc/shadow~*, yes
+*/etc/slackware-release*, yes
+*/etc/smb.conf*, yes
+*/etc/smbpasswd*, yes
+*/etc/smi.conf*, yes
+*/etc/squirrelmail/apache.conf*, yes
+*/etc/squirrelmail/config/config.php*, yes
+*/etc/squirrelmail/config_default.php*, yes
+*/etc/squirrelmail/config_local.php*, yes
+*/etc/squirrelmail/config.php*, yes
+*/etc/squirrelmail/default_pref*, yes
+*/etc/squirrelmail/filters_setup.php*, yes
+*/etc/squirrelmail/index.php*, yes
+*/etc/squirrelmail/sqspell_config.php*, yes
+*/etc/ssh/sshd_config*, yes
+*/etc/sso/sso_config.ini*, yes
+*/etc/stunnel/stunnel.conf*, yes
+*/etc/sudoers*, yes
+*/etc/SUSE-release*, yes
+*/etc/sysconfig/network-scripts/ifcfg-eth0*, yes
+*/etc/sysctl.conf*, yes
+*/etc/syslog.conf*, yes
+*/etc/timezone*, yes
+*/etc/tinyproxy/tinyproxy.conf*, yes
+*/etc/tor/tor-tsocks.conf*, yes
+*/etc/tsocks.conf*, yes
+*/etc/updatedb.conf*, yes
+*/etc/updatedb.conf.BeforeVMwareToolsInstall*, yes
+*/etc/utmp*, yes
+*/etc/vhcs2/proftpd/proftpd.conf*, yes
+*/etc/vmware-tools/config*, yes
+*/etc/vmware-tools/tpvmlp.conf*, yes
+*/etc/vmware-tools/vmware-tools-libraries.conf*, yes
+*/etc/vsftpd.chroot_list*, yes
+*/etc/vsftpd.conf*, yes
+*/etc/vsftpd/vsftpd.conf*, yes
+*/etc/webmin/miniserv.conf*, yes
+*/etc/webmin/miniserv.users*, yes
+*/etc/wicd/dhclient.conf.template.default*, yes
+*/etc/wicd/manager-settings.conf*, yes
+*/etc/wicd/wired-settings.conf*, yes
+*/etc/wicd/wireless-settings.conf*, yes
+*/etc/wu-ftpd/ftpaccess*, yes
+*/etc/wu-ftpd/ftphosts*, yes
+*/etc/wu-ftpd/ftpusers*, yes
+*/etc/X11/xorg.conf*, yes
+*/etc/X11/xorg.conf.BeforeVMwareToolsInstall*, yes
+*/etc/X11/xorg.conf.orig*, yes
+*/etc/X11/xorg.conf-vesa*, yes
+*/etc/X11/xorg.conf-vmware*, yes
+*/home2/bin/stable/apache/php.ini*, yes
+*/home2binstableapachephp.ini*, yes
+*/home/bin/stable/apache/php.ini*, yes
+*/homebinstableapachephp.ini*, yes
+*/home/postgres/data/pg_hba.conf*, yes
+*/home/postgres/data/pg_ident.conf*, yes
+*/home/postgres/data/PG_VERSION*, yes
+*/home/postgres/data/postgresql.conf*, yes
+*/home/user/lighttpd/lighttpd.conf*, yes
+*/http/httpd.conf*, yes
+*/[JBOSS]/server/default/conf/jboss-minimal.xml*, yes
+*/[JBOSS]/server/default/conf/jboss-service.xml*, yes
+*/[JBOSS]/server/default/conf/jndi.properties*, yes
+*/[JBOSS]/server/default/conf/log4j.xml*, yes
+*/[JBOSS]/server/default/conf/login-config.xml*, yes
+*/[JBOSS]/server/default/conf/server.log.properties*, yes
+*/[JBOSS]/server/default/conf/standardjaws.xml*, yes
+*/[JBOSS]/server/default/conf/standardjboss.xml*, yes
+*/[JBOSS]/server/default/deploy/jboss-logging.xml*, yes
+*/[JBOSS]/server/default/log/boot.log*, yes
+*/[JBOSS]/server/default/log/server.log*, yes
+*/Library/WebServer/Documents/default.htm*, yes
+*/Library/WebServer/Documents/default.html*, yes
+*/Library/WebServer/Documents/default.php*, yes
+*/Library/WebServer/Documents/.htaccess*, yes
+*/Library/WebServer/Documents/index.htm*, yes
+*/Library/WebServer/Documents/index.html*, yes
+*/Library/WebServer/Documents/index.php*, yes
+*/logs/access.log*, yes
+*/logs/access_log*, yes
+*/logs/error.log*, yes
+*/logs/error_log*, yes
+*/logs/pure-ftpd.log*, yes
+*/logs/security_debug_log*, yes
+*/logs/security_log*, yes
+*/mysql/bin/my.ini*, yes
+*/MySQL/data/{HOST}.err*, yes
+*/MySQL/data/mysql-bin.index*, yes
+*/MySQL/data/mysql-bin.log*, yes
+*/MySQL/data/mysql.err*, yes
+*/MySQL/data/mysql.log*, yes
+*/MySQL/my.cnf*, yes
+*/MySQL/my.ini*, yes
+*/NetServer/bin/stable/apache/php.ini*, yes
+*/NetServerbinstableapachephp.ini*, yes
+*/opt/apache22/conf/httpd.conf*, yes
+*/opt/apache2/apache2.conf*, yes
+*/opt/apache2/apache.conf*, yes
+*/opt/apache2/conf/apache2.conf*, yes
+*/opt/apache2/conf/apache.conf*, yes
+*/opt/apache2/conf/httpd.conf*, yes
+*/opt/apache/apache2.conf*, yes
+*/opt/apache/apache.conf*, yes
+*/opt/apache/conf/apache2.conf*, yes
+*/opt/apache/conf/apache.conf*, yes
+*/opt/apache/conf/httpd.conf*, yes
+*/opt/httpd/apache2.conf*, yes
+*/opt/httpd/apache.conf*, yes
+*/opt/httpd/conf/apache2.conf*, yes
+*/opt/httpd/conf/apache.conf*, yes
+*/opt/[JBOSS]/server/default/conf/jboss-minimal.xml*, yes
+*/opt/[JBOSS]/server/default/conf/jboss-service.xml*, yes
+*/opt/[JBOSS]/server/default/conf/jndi.properties*, yes
+*/opt/[JBOSS]/server/default/conf/log4j.xml*, yes
+*/opt/[JBOSS]/server/default/conf/login-config.xml*, yes
+*/opt/[JBOSS]/server/default/conf/server.log.properties*, yes
+*/opt/[JBOSS]/server/default/conf/standardjaws.xml*, yes
+*/opt/[JBOSS]/server/default/conf/standardjboss.xml*, yes
+*/opt/[JBOSS]/server/default/deploy/jboss-logging.xml*, yes
+*/opt/[JBOSS]/server/default/log/boot.log*, yes
+*/opt/[JBOSS]/server/default/log/server.log*, yes
+*/opt/lampp/etc/httpd.conf*, yes
+*/opt/lampp/logs/access.log*, yes
+*/opt/lampp/logs/access_log*, yes
+*/opt/lampp/logs/error.log*, yes
+*/opt/lampp/logs/error_log*, yes
+*/opt/lsws/conf/httpd_conf.xml*, yes
+*/opt/lsws/logs/access.log*, yes
+*/opt/lsws/logs/error.log*, yes
+*/opt/tomcat/logs/catalina.err*, yes
+*/opt/tomcat/logs/catalina.out*, yes
+*/opt/xampp/etc/php.ini*, yes
+*/opt/xampp/logs/access.log*, yes
+*/opt/xampp/logs/access_log*, yes
+*/opt/xampp/logs/error.log*, yes
+*/opt/xampp/logs/error_log*, yes
+*/private/etc/httpd/apache2.conf*, yes
+*/private/etc/httpd/apache.conf*, yes
+*/private/etc/httpd/httpd.conf*, yes
+*/private/etc/httpd/httpd.conf.default*, yes
+*/private/etc/squirrelmail/config/config.php*, yes
+*/private/tmp/[JBOSS]/server/default/conf/jboss-minimal.xml*, yes
+*/private/tmp/[JBOSS]/server/default/conf/jboss-service.xml*, yes
+*/private/tmp/[JBOSS]/server/default/conf/jndi.properties*, yes
+*/private/tmp/[JBOSS]/server/default/conf/log4j.xml*, yes
+*/private/tmp/[JBOSS]/server/default/conf/login-config.xml*, yes
+*/private/tmp/[JBOSS]/server/default/conf/server.log.properties*, yes
+*/private/tmp/[JBOSS]/server/default/conf/standardjaws.xml*, yes
+*/private/tmp/[JBOSS]/server/default/conf/standardjboss.xml*, yes
+*/private/tmp/[JBOSS]/server/default/deploy/jboss-logging.xml*, yes
+*/private/tmp/[JBOSS]/server/default/log/boot.log*, yes
+*/private/tmp/[JBOSS]/server/default/log/server.log*, yes
+*/proc/cpuinfo*, yes
+*/proc/devices*, yes
+*/proc/meminfo*, yes
+*/proc/net/tcp*, yes
+*/proc/net/udp*, yes
+*/proc/self/cmdline*, yes
+*/proc/self/environ*, yes
+*/proc/self/mounts*, yes
+*/proc/self/stat*, yes
+*/proc/self/status*, yes
+*/proc/version*, yes
+*/Program Files/Apache Group/Apache2/conf/apache2.conf*, yes
+*/Program Files/Apache Group/Apache2/conf/apache.conf*, yes
+*/Program Files/Apache Group/Apache2/conf/httpd.conf*, yes
+*/Program FilesApache GroupApache2confhttpd.conf*, yes
+*/Program Files/Apache Group/Apache/apache2.conf*, yes
+*/Program Files/Apache Group/Apache/apache.conf*, yes
+*/Program Files/Apache Group/Apache/conf/apache2.conf*, yes
+*/Program Files/Apache Group/Apache/conf/apache.conf*, yes
+*/Program Files/Apache Group/Apache/conf/httpd.conf*, yes
+*/Program FilesApache GroupApacheconfhttpd.conf*, yes
+*/Program Files/Apache Group/Apache/logs/access.log*, yes
+*/Program FilesApache GroupApachelogsaccess.log*, yes
+*/Program Files/Apache Group/Apache/logs/error.log*, yes
+*/Program FilesApache GroupApachelogserror.log*, yes
+*/Program Files/[JBOSS]/server/default/conf/jboss-minimal.xml*, yes
+*/Program Files/[JBOSS]/server/default/conf/jboss-service.xml*, yes
+*/Program Files/[JBOSS]/server/default/conf/jndi.properties*, yes
+*/Program Files/[JBOSS]/server/default/conf/log4j.xml*, yes
+*/Program Files/[JBOSS]/server/default/conf/login-config.xml*, yes
+*/Program Files/[JBOSS]/server/default/conf/server.log.properties*, yes
+*/Program Files/[JBOSS]/server/default/conf/standardjaws.xml*, yes
+*/Program Files/[JBOSS]/server/default/conf/standardjboss.xml*, yes
+*/Program Files/[JBOSS]/server/default/deploy/jboss-logging.xml*, yes
+*/Program Files/[JBOSS]/server/default/log/boot.log*, yes
+*/Program Files/[JBOSS]/server/default/log/server.log*, yes
+*/Program Files/MySQL/data/{HOST}.err*, yes
+*/Program Files/MySQL/data/mysql-bin.index*, yes
+*/Program Files/MySQL/data/mysql-bin.log*, yes
+*/Program Files/MySQL/data/mysql.err*, yes
+*/Program Files/MySQL/data/mysql.log*, yes
+*/Program Files/MySQL/my.cnf*, yes
+*/Program Files/MySQL/my.ini*, yes
+*/Program Files/Vidalia Bundle/Polipo/polipo.conf*, yes
+*/Program Files/xampp/apache/conf/apache2.conf*, yes
+*/Program Files/xampp/apache/conf/apache.conf*, yes
+*/Program Files/xampp/apache/conf/httpd.conf*, yes
+*/Program Filesxamppapacheconfhttpd.conf*, yes
+*/root/.bash_config*, yes
+*/root/.bash_history*, yes
+*/root/.bash_logout*, yes
+*/root/.bashrc*, yes
+*/root/.ksh_history*, yes
+*/root/.Xauthority*, yes
+*/srv/www/htdos/squirrelmail/config/config.php*, yes
+*/tmp/access.log*, yes
+*/tmp/[JBOSS]/server/default/conf/jboss-minimal.xml*, yes
+*/tmp/[JBOSS]/server/default/conf/jboss-service.xml*, yes
+*/tmp/[JBOSS]/server/default/conf/jndi.properties*, yes
+*/tmp/[JBOSS]/server/default/conf/log4j.xml*, yes
+*/tmp/[JBOSS]/server/default/conf/login-config.xml*, yes
+*/tmp/[JBOSS]/server/default/conf/server.log.properties*, yes
+*/tmp/[JBOSS]/server/default/conf/standardjaws.xml*, yes
+*/tmp/[JBOSS]/server/default/conf/standardjboss.xml*, yes
+*/tmp/[JBOSS]/server/default/deploy/jboss-logging.xml*, yes
+*/tmp/[JBOSS]/server/default/log/boot.log*, yes
+*/tmp/[JBOSS]/server/default/log/server.log*, yes
+*/usr/apache2/conf/httpd.conf*, yes
+*/usr/apache/conf/httpd.conf*, yes
+*/usr/etc/pure-ftpd.conf*, yes
+*/usr/home/user/lighttpd/lighttpd.conf*, yes
+*/usr/home/user/var/log/apache.log*, yes
+*/usr/home/user/var/log/lighttpd.error.log*, yes
+*/usr/internet/pgsql/data/pg_hba.conf*, yes
+*/usr/internet/pgsql/data/postmaster.log*, yes
+*/usr/lib/cron/log*, yes
+*/usr/lib/php.ini*, yes
+*/usr/lib/php/php.ini*, yes
+*/usr/lib/security/mkuser.default*, yes
+*/usr/local/apache22/conf/httpd.conf*, yes
+*/usr/local/apache22/httpd.conf*, yes
+*/usr/local/apache2/apache2.conf*, yes
+*/usr/local/apache2/apache.conf*, yes
+*/usr/local/apache2/conf/apache2.conf*, yes
+*/usr/local/apache2/conf/apache.conf*, yes
+*/usr/local/apache2/conf/extra/httpd-ssl.conf*, yes
+*/usr/local/apache2/conf/httpd.conf*, yes
+*/usr/local/apache2/conf/modsec.conf*, yes
+*/usr/local/apache2/conf/ssl.conf*, yes
+*/usr/local/apache2/conf/vhosts.conf*, yes
+*/usr/local/apache2/conf/vhosts-custom.conf*, yes
+*/usr/local/apache2/httpd.conf*, yes
+*/usr/local/apache2/logs/access.log*, yes
+*/usr/local/apache2/logs/access_log*, yes
+*/usr/local/apache2/logs/audit_log*, yes
+*/usr/local/apache2/logs/error.log*, yes
+*/usr/local/apache2/logs/error_log*, yes
+*/usr/local/apache2/logs/lighttpd.error.log*, yes
+*/usr/local/apache2/logs/lighttpd.log*, yes
+*/usr/local/apache/apache2.conf*, yes
+*/usr/local/apache/apache.conf*, yes
+*/usr/local/apache/conf/access.conf*, yes
+*/usr/local/apache/conf/apache2.conf*, yes
+*/usr/local/apache/conf/apache.conf*, yes
+*/usr/local/apache/conf/httpd.conf*, yes
+*/usr/local/apache/conf/httpd.conf.default*, yes
+*/usr/local/apache/conf/modsec.conf*, yes
+*/usr/local/apache/conf/php.ini*, yes
+*/usr/local/apache/conf/vhosts.conf*, yes
+*/usr/local/apache/conf/vhosts-custom.conf*, yes
+*/usr/local/apache/httpd.conf*, yes
+*/usr/local/apache/logs/access.log*, yes
+*/usr/local/apache/logs/access_log*, yes
+*/usr/local/apache/logs/audit_log*, yes
+*/usr/local/apache/logs/error.log*, yes
+*/usr/local/apache/logs/error_log*, yes
+*/usr/local/apache/logs/lighttpd.error.log*, yes
+*/usr/local/apache/logs/lighttpd.log*, yes
+*/usr/local/apache/logs/mod_jk.log*, yes
+*/usr/local/apps/apache22/conf/httpd.conf*, yes
+*/usr/local/apps/apache2/conf/httpd.conf*, yes
+*/usr/local/apps/apache/conf/httpd.conf*, yes
+*/usr/local/cpanel/logs*, yes
+*/usr/local/cpanel/logs/access_log*, yes
+*/usr/local/cpanel/logs/error_log*, yes
+*/usr/local/cpanel/logs/license_log*, yes
+*/usr/local/cpanel/logs/login_log*, yes
+*/usr/local/cpanel/logs/stats_log*, yes
+*/usr/local/etc/apache22/conf/httpd.conf*, yes
+*/usr/local/etc/apache22/httpd.conf*, yes
+*/usr/local/etc/apache2/conf/httpd.conf*, yes
+*/usr/local/etc/apache2/httpd.conf*, yes
+*/usr/local/etc/apache2/vhosts.conf*, yes
+*/usr/local/etc/apache/conf/httpd.conf*, yes
+*/usr/local/etc/apache/httpd.conf*, yes
+*/usr/local/etc/apache/vhosts.conf*, yes
+*/usr/local/etc/httpd/conf*, yes
+*/usr/local/etc/httpd/conf/httpd.conf*, yes
+*/usr/local/etc/lighttpd.conf*, yes
+*/usr/local/etc/lighttpd.conf.new*, yes
+*/usr/local/etc/nginx/nginx.conf*, yes
+*/usr/local/etc/php.ini*, yes
+*/usr/local/etc/pure-ftpd.conf*, yes
+*/usr/local/etc/pureftpd.pdb*, yes
+*/usr/local/etc/smb.conf*, yes
+*/usr/local/etc/webmin/miniserv.conf*, yes
+*/usr/local/etc/webmin/miniserv.users*, yes
+*/usr/local/httpd/conf/httpd.conf*, yes
+*/usr/local/jakarta/dist/tomcat/conf/context.xml*, yes
+*/usr/local/jakarta/dist/tomcat/conf/jakarta.conf*, yes
+*/usr/local/jakarta/dist/tomcat/conf/logging.properties*, yes
+*/usr/local/jakarta/dist/tomcat/conf/server.xml*, yes
+*/usr/local/jakarta/dist/tomcat/conf/workers.properties*, yes
+*/usr/local/jakarta/dist/tomcat/logs/mod_jk.log*, yes
+*/usr/local/jakarta/tomcat/conf/context.xml*, yes
+*/usr/local/jakarta/tomcat/conf/jakarta.conf*, yes
+*/usr/local/jakarta/tomcat/conf/logging.properties*, yes
+*/usr/local/jakarta/tomcat/conf/server.xml*, yes
+*/usr/local/jakarta/tomcat/conf/workers.properties*, yes
+*/usr/local/jakarta/tomcat/logs/catalina.err*, yes
+*/usr/local/jakarta/tomcat/logs/catalina.out*, yes
+*/usr/local/jakarta/tomcat/logs/mod_jk.log*, yes
+*/usr/local/[JBOSS]/server/default/conf/jboss-minimal.xml*, yes
+*/usr/local/[JBOSS]/server/default/conf/jboss-service.xml*, yes
+*/usr/local/[JBOSS]/server/default/conf/jndi.properties*, yes
+*/usr/local/[JBOSS]/server/default/conf/log4j.xml*, yes
+*/usr/local/[JBOSS]/server/default/conf/login-config.xml*, yes
+*/usr/local/[JBOSS]/server/default/conf/server.log.properties*, yes
+*/usr/local/[JBOSS]/server/default/conf/standardjaws.xml*, yes
+*/usr/local/[JBOSS]/server/default/conf/standardjboss.xml*, yes
+*/usr/local/[JBOSS]/server/default/deploy/jboss-logging.xml*, yes
+*/usr/local/[JBOSS]/server/default/log/boot.log*, yes
+*/usr/local/[JBOSS]/server/default/log/server.log*, yes
+*/usr/local/lib/php.ini*, yes
+*/usr/local/lighttpd/conf/lighttpd.conf*, yes
+*/usr/local/lighttpd/log/access.log*, yes
+*/usr/local/lighttpd/log/lighttpd.error.log*, yes
+*/usr/local/logs/access.log*, yes
+*/usr/local/logs/samba.log*, yes
+*/usr/local/lsws/conf/httpd_conf.xml*, yes
+*/usr/local/lsws/logs/error.log*, yes
+*/usr/local/mysql/data/{HOST}.err*, yes
+*/usr/local/mysql/data/mysql-bin.index*, yes
+*/usr/local/mysql/data/mysql-bin.log*, yes
+*/usr/local/mysql/data/mysqlderror.log*, yes
+*/usr/local/mysql/data/mysql.err*, yes
+*/usr/local/mysql/data/mysql.log*, yes
+*/usr/local/mysql/data/mysql-slow.log*, yes
+*/usr/local/nginx/conf/nginx.conf*, yes
+*/usr/local/pgsql/bin/pg_passwd*, yes
+*/usr/local/pgsql/data/passwd*, yes
+*/usr/local/pgsql/data/pg_hba.conf*, yes
+*/usr/local/pgsql/data/pg_log*, yes
+*/usr/local/pgsql/data/postgresql.conf*, yes
+*/usr/local/pgsql/data/postgresql.log*, yes
+*/usr/local/php4/apache2.conf*, yes
+*/usr/local/php4/apache2.conf.php*, yes
+*/usr/local/php4/apache.conf*, yes
+*/usr/local/php4/apache.conf.php*, yes
+*/usr/local/php4/httpd.conf*, yes
+*/usr/local/php4/httpd.conf.php*, yes
+*/usr/local/php4/lib/php.ini*, yes
+*/usr/local/php5/apache2.conf*, yes
+*/usr/local/php5/apache2.conf.php*, yes
+*/usr/local/php5/apache.conf*, yes
+*/usr/local/php5/apache.conf.php*, yes
+*/usr/local/php5/httpd.conf*, yes
+*/usr/local/php5/httpd.conf.php*, yes
+*/usr/local/php5/lib/php.ini*, yes
+*/usr/local/php/apache2.conf*, yes
+*/usr/local/php/apache2.conf.php*, yes
+*/usr/local/php/apache.conf*, yes
+*/usr/local/php/apache.conf.php*, yes
+*/usr/local/php/httpd.conf*, yes
+*/usr/local/php/httpd.conf.php*, yes
+*/usr/local/php/lib/php.ini*, yes
+*/usr/local/psa/admin/conf/php.ini*, yes
+*/usr/local/psa/admin/conf/site_isolation_settings.ini*, yes
+*/usr/local/psa/admin/htdocs/domains/databases/phpMyAdmin/libraries/config.default.php*, yes
+*/usr/local/psa/admin/logs/httpsd_access_log*, yes
+*/usr/local/psa/admin/logs/panel.log*, yes
+*/usr/local/pureftpd/etc/pure-ftpd.conf*, yes
+*/usr/local/pureftpd/etc/pureftpd.pdb*, yes
+*/usr/local/pureftpd/sbin/pure-config.pl*, yes
+*/usr/local/samba/lib/log.user*, yes
+*/usr/local/samba/lib/smb.conf.user*, yes
+*/usr/local/sb/config*, yes
+*/usr/local/Zend/etc/php.ini*, yes
+*/usr/local/zeus/web/global.cfg*, yes
+*/usr/local/zeus/web/log/errors*, yes
+*/usr/pkg/etc/httpd/httpd.conf*, yes
+*/usr/pkg/etc/httpd/httpd-default.conf*, yes
+*/usr/pkg/etc/httpd/httpd-vhosts.conf*, yes
+*/usr/pkgsrc/net/pureftpd/*, yes
+*/usr/pkgsrc/net/pureftpd/pure-ftpd.conf*, yes
+*/usr/pkgsrc/net/pureftpd/pureftpd.passwd*, yes
+*/usr/pkgsrc/net/pureftpd/pureftpd.pdb*, yes
+*/usr/ports/contrib/pure-ftpd/*, yes
+*/usr/ports/contrib/pure-ftpd/pure-ftpd.conf*, yes
+*/usr/ports/contrib/pure-ftpd/pureftpd.passwd*, yes
+*/usr/ports/contrib/pure-ftpd/pureftpd.pdb*, yes
+*/usr/ports/ftp/pure-ftpd/*, yes
+*/usr/ports/ftp/pure-ftpd/pure-ftpd.conf*, yes
+*/usr/ports/ftp/pure-ftpd/pureftpd.passwd*, yes
+*/usr/ports/ftp/pure-ftpd/pureftpd.pdb*, yes
+*/usr/ports/net/pure-ftpd/*, yes
+*/usr/ports/net/pure-ftpd/pure-ftpd.conf*, yes
+*/usr/ports/net/pure-ftpd/pureftpd.passwd*, yes
+*/usr/ports/net/pure-ftpd/pureftpd.pdb*, yes
+*/usr/sbin/mudlogd*, yes
+*/usr/sbin/mudpasswd*, yes
+*/usr/sbin/pure-config.pl*, yes
+*/usr/share/adduser/adduser.conf*, yes
+*/usr/share/logs/catalina.err*, yes
+*/usr/share/logs/catalina.out*, yes
+*/usr/share/squirrelmail/config/config.php*, yes
+*/usr/share/squirrelmail/plugins/squirrel_logger/setup.php*, yes
+*/usr/share/tomcat6/conf/context.xml*, yes
+*/usr/share/tomcat6/conf/logging.properties*, yes
+*/usr/share/tomcat6/conf/server.xml*, yes
+*/usr/share/tomcat6/conf/workers.properties*, yes
+*/usr/share/tomcat6/logs/catalina.err*, yes
+*/usr/share/tomcat6/logs/catalina.out*, yes
+*/usr/share/tomcat/logs/catalina.err*, yes
+*/usr/share/tomcat/logs/catalina.out*, yes
+*/usr/spool/lp/log*, yes
+*/usr/spool/mqueue/syslog*, yes
+*/var/adm/acct/sum/loginlog*, yes
+*/var/adm/aculog*, yes
+*/var/adm/aculogs*, yes
+*/var/adm/crash/unix*, yes
+*/var/adm/crash/vmcore*, yes
+*/var/adm/cron/log*, yes
+*/var/adm/dtmp*, yes
+*/var/adm/lastlog/username*, yes
+*/var/adm/log/asppp.log*, yes
+*/var/adm/loginlog*, yes
+*/var/adm/log/xferlog*, yes
+*/var/adm/lp/lpd-errs*, yes
+*/var/adm/messages*, yes
+*/var/adm/pacct*, yes
+*/var/adm/qacct*, yes
+*/var/adm/ras/bootlog*, yes
+*/var/adm/ras/errlog*, yes
+*/var/adm/sulog*, yes
+*/var/adm/SYSLOG*, yes
+*/var/adm/utmp*, yes
+*/var/adm/utmpx*, yes
+*/var/adm/vold.log*, yes
+*/var/adm/wtmp*, yes
+*/var/adm/wtmpx*, yes
+*/var/adm/X0msgs*, yes
+*/var/apache/conf/httpd.conf*, yes
+*/var/cpanel/cpanel.config*, yes
+*/var/cpanel/tomcat.options*, yes
+*/var/cron/log*, yes
+*/var/data/mysql-bin.index*, yes
+*/var/lib/mysql/my.cnf*, yes
+*/var/lib/pgsql/data/postgresql.conf*, yes
+*/var/lib/squirrelmail/prefs/squirrelmail.log*, yes
+*/var/lighttpd.log*, yes
+*/var/local/www/conf/php.ini*, yes
+*/var/log/access.log*, yes
+*/var/log/access_log*, yes
+*/var/log/apache2/access.log*, yes
+*/var/log/apache2/access_log*, yes
+*/var/log/apache2/error.log*, yes
+*/var/log/apache2/error_log*, yes
+*/var/log/apache2/squirrelmail.err.log*, yes
+*/var/log/apache2/squirrelmail.log*, yes
+*/var/log/apache/access.log*, yes
+*/var/log/apache/access_log*, yes
+*/var/log/apache/error.log*, yes
+*/var/log/apache/error_log*, yes
+*/var/log/auth.log*, yes
+*/var/log/authlog*, yes
+*/var/log/boot.log*, yes
+*/var/log/cron/var/log/postgres.log*, yes
+*/var/log/daemon.log*, yes
+*/var/log/daemon.log.1*, yes
+*/var/log/data/mysql-bin.index*, yes
+*/var/log/dmessage*, yes
+*/var/log/error.log*, yes
+*/var/log/error_log*, yes
+*/var/log/exim/mainlog*, yes
+*/var/log/exim_mainlog*, yes
+*/var/log/exim/paniclog*, yes
+*/var/log/exim_paniclog*, yes
+*/var/log/exim/rejectlog*, yes
+*/var/log/exim_rejectlog*, yes
+*/var/log/ftplog*, yes
+*/var/log/ftp-proxy*, yes
+*/var/log/ftp-proxy/ftp-proxy.log*, yes
+*/var/log/httpd-access.log*, yes
+*/var/log/httpd/access.log*, yes
+*/var/log/httpd/access_log*, yes
+*/var/log/httpd/error.log*, yes
+*/var/log/httpd/error_log*, yes
+*/var/log/ipfw*, yes
+*/var/log/ipfw/ipfw.log*, yes
+*/var/log/ipfw.log*, yes
+*/var/log/ipfw.today*, yes
+*/var/log/kern.log*, yes
+*/var/log/kern.log.1*, yes
+*/var/log/lighttpd/*, yes
+*/var/log/lighttpd.access.log*, yes
+*/var/log/lighttpd/access.log*, yes
+*/var/log/lighttpd/access.www.log*, yes
+*/var/log/lighttpd/{DOMAIN}/access.log*, yes
+*/var/log/lighttpd/{DOMAIN}/error.log*, yes
+*/var/log/lighttpd.error.log*, yes
+*/var/log/lighttpd/error.log*, yes
+*/var/log/lighttpd/error.www.log*, yes
+*/var/log/log.smb*, yes
+*/var/log/mail.err*, yes
+*/var/log/mail.info*, yes
+*/var/log/mail.log*, yes
+*/var/log/maillog*, yes
+*/var/log/mail.warn*, yes
+*/var/log/messages*, yes
+*/var/log/messages.1*, yes
+*/var/log/muddleftpd*, yes
+*/var/log/muddleftpd.conf*, yes
+*/var/log/mysql-bin.index*, yes
+*/var/log/mysql/data/mysql-bin.index*, yes
+*/var/log/mysqlderror.log*, yes
+*/var/log/mysql.err*, yes
+*/var/log/mysql.log*, yes
+*/var/log/mysql/mysql-bin.index*, yes
+*/var/log/mysql/mysql-bin.log*, yes
+*/var/log/mysql/mysql.log*, yes
+*/var/log/mysql/mysql-slow.log*, yes
+*/var/log/news.all*, yes
+*/var/log/news/news.all*, yes
+*/var/log/news/news.crit*, yes
+*/var/log/news/news.err*, yes
+*/var/log/news/news.notice*, yes
+*/var/log/news/suck.err*, yes
+*/var/log/news/suck.notice*, yes
+*/var/log/nginx.access_log*, yes
+*/var/log/nginx/access.log*, yes
+*/var/log/nginx/access_log*, yes
+*/var/log/nginx.error_log*, yes
+*/var/log/nginx/error.log*, yes
+*/var/log/nginx/error_log*, yes
+*/var/log/pgsql8.log*, yes
+*/var/log/pgsql_log*, yes
+*/var/log/pgsql/pgsql.log*, yes
+*/var/log/pm-powersave.log*, yes
+*/var/log/POPlog*, yes
+*/var/log/postgres/pg_backup.log*, yes
+*/var/log/postgres/postgres.log*, yes
+*/var/log/postgresql.log*, yes
+*/var/log/postgresql/main.log*, yes
+*/var/log/postgresql/postgres.log*, yes
+*/var/log/postgresql/postgresql-8.1-main.log*, yes
+*/var/log/postgresql/postgresql-8.3-main.log*, yes
+*/var/log/postgresql/postgresql-8.4-main.log*, yes
+*/var/log/postgresql/postgresql-9.0-main.log*, yes
+*/var/log/postgresql/postgresql-9.1-main.log*, yes
+*/var/log/postgresql/postgresql.log*, yes
+*/var/log/proftpd*, yes
+*/var/log/proftpd.access_log*, yes
+*/var/log/proftpd.xferlog*, yes
+*/var/log/proftpd/xferlog.legacy*, yes
+*/var/log/pureftpd.log*, yes
+*/var/log/pure-ftpd/pure-ftpd.log*, yes
+*/var/logs/access.log*, yes
+*/var/log/samba.log*, yes
+*/var/log/samba.log1*, yes
+*/var/log/samba.log2*, yes
+*/var/log/samba/log.nmbd*, yes
+*/var/log/samba/log.smbd*, yes
+*/var/log/squirrelmail.log*, yes
+*/var/log/sso/sso.log*, yes
+*/var/log/sw-cp-server/error_log*, yes
+*/var/log/syslog*, yes
+*/var/log/syslog.1*, yes
+*/var/log/tomcat6/catalina.out*, yes
+*/var/log/ufw.log*, yes
+*/var/log/user.log*, yes
+*/var/log/user.log.1*, yes
+*/var/log/vmware/hostd-1.log*, yes
+*/var/log/vmware/hostd.log*, yes
+*/var/log/vsftpd.log*, yes
+*/var/log/webmin/miniserv.log*, yes
+*/var/log/xferlog*, yes
+*/var/log/Xorg.0.log*, yes
+*/var/lp/logs/lpNet*, yes
+*/var/lp/logs/lpsched*, yes
+*/var/lp/logs/requests*, yes
+*/var/mail/root*, yes
+*/var/mysql-bin.index*, yes
+*/var/mysql.log*, yes
+*/var/nm2/postgresql.conf*, yes
+*/var/postgresql/db/postgresql.conf*, yes
+*/var/postgresql/log/postgresql.log*, yes
+*/var/saf/_log*, yes
+*/var/saf/port/log*, yes
+*/var/spool/cron/crontabs/root*, yes
+*/var/spool/cron/crontabs/root*, yes
+*/var/www/conf*, yes
+*/var/www/conf/httpd.conf*, yes
+*/var/www/html/squirrelmail/config/config.php*, yes
+*/var/www/.lighttpdpassword*, yes
+*/var/www/logs/access.log*, yes
+*/var/www/logs/access_log*, yes
+*/var/www/logs/error.log*, yes
+*/var/www/logs/error_log*, yes
+*/var/www/squirrelmail/config/config.php*, yes
+*/Volumes/Macintosh_HD1/opt/apache2/conf/httpd.conf*, yes
+*/Volumes/Macintosh_HD1/opt/apache/conf/httpd.conf*, yes
+*/Volumes/Macintosh_HD1/opt/httpd/conf/httpd.conf*, yes
+*/Volumes/Macintosh_HD1/usr/local/php4/httpd.conf.php*, yes
+*/Volumes/Macintosh_HD1/usr/local/php5/httpd.conf.php*, yes
+*/Volumes/Macintosh_HD1/usr/local/php/httpd.conf.php*, yes
+*/Volumes/Macintosh_HD1/usr/local/php/lib/php.ini*, yes
+*/Volumes/webBackup/opt/apache2/conf/httpd.conf*, yes
+*/Volumes/webBackup/private/etc/httpd/httpd.conf*, yes
+*/Volumes/webBackup/private/etc/httpd/httpd.conf.default*, yes
+*/wamp/bin/apache/apache2.2.21/conf/httpd.conf*, yes
+*/wamp/bin/apache/apache2.2.21/logs/access.log*, yes
+*/wamp/bin/apache/apache2.2.21/logs/error.log*, yes
+*/wamp/bin/apache/apache2.2.21/wampserver.conf*, yes
+*/wamp/bin/apache/apache2.2.22/conf/httpd.conf*, yes
+*/wamp/bin/apache/apache2.2.22/conf/wampserver.conf*, yes
+*/wamp/bin/apache/apache2.2.22/logs/access.log*, yes
+*/wamp/bin/apache/apache2.2.22/logs/error.log*, yes
+*/wamp/bin/apache/apache2.2.22/wampserver.conf*, yes
+*/wamp/bin/mysql/mysql5.5.16/data/mysql-bin.index*, yes
+*/wamp/bin/mysql/mysql5.5.16/my.ini*, yes
+*/wamp/bin/mysql/mysql5.5.16/wampserver.conf*, yes
+*/wamp/bin/mysql/mysql5.5.24/data/mysql-bin.index*, yes
+*/wamp/bin/mysql/mysql5.5.24/my.ini*, yes
+*/wamp/bin/mysql/mysql5.5.24/wampserver.conf*, yes
+*/wamp/logs/access.log*, yes
+*/wamp/logs/apache_error.log*, yes
+*/wamp/logs/genquery.log*, yes
+*/wamp/logs/mysql.log*, yes
+*/wamp/logs/slowquery.log*, yes
+*/web/conf/php.ini*, yes
+*/WINDOWS/php.ini*, yes
+*/WINDOWSphp.ini*, yes
+*/WINDOWS/system32/logfiles/MSFTPSVC*, yes
+*/WINDOWS/system32/logfiles/MSFTPSVC1*, yes
+*/WINDOWS/system32/logfiles/MSFTPSVC2*, yes
+*/WINDOWS/system32/logfiles/SMTPSVC*, yes
+*/WINDOWS/system32/logfiles/SMTPSVC1*, yes
+*/WINDOWS/system32/logfiles/SMTPSVC2*, yes
+*/WINDOWS/system32/logfiles/SMTPSVC3*, yes
+*/WINDOWS/system32/logfiles/SMTPSVC4*, yes
+*/WINDOWS/system32/logfiles/SMTPSVC5*, yes
+*/WINDOWS/system32/logfiles/W3SVC1/inetsvn1.log*, yes
+*/WINDOWS/system32/logfiles/W3SVC2/inetsvn1.log*, yes
+*/WINDOWS/system32/logfiles/W3SVC3/inetsvn1.log*, yes
+*/WINDOWS/system32/logfiles/W3SVC/inetsvn1.log*, yes
+*/WINNT/php.ini*, yes
+*/WINNTphp.ini*, yes
+*/WINNT/system32/logfiles/MSFTPSVC*, yes
+*/WINNT/system32/logfiles/MSFTPSVC1*, yes
+*/WINNT/system32/logfiles/MSFTPSVC2*, yes
+*/WINNT/system32/logfiles/SMTPSVC*, yes
+*/WINNT/system32/logfiles/SMTPSVC1*, yes
+*/WINNT/system32/logfiles/SMTPSVC2*, yes
+*/WINNT/system32/logfiles/SMTPSVC3*, yes
+*/WINNT/system32/logfiles/SMTPSVC4*, yes
+*/WINNT/system32/logfiles/SMTPSVC5*, yes
+*/WINNT/system32/logfiles/W3SVC1/inetsvn1.log*, yes
+*/WINNT/system32/logfiles/W3SVC2/inetsvn1.log*, yes
+*/WINNT/system32/logfiles/W3SVC3/inetsvn1.log*, yes
+*/WINNT/system32/logfiles/W3SVC/inetsvn1.log*, yes
+*/www/apache/conf/httpd.conf*, yes
+*/www/conf/httpd.conf*, yes
+*/www/logs/freebsddiary-access_log*, yes
+*/www/logs/freebsddiary-error.log*, yes
+*/www/logs/proftpd.system.log*, yes
+*/xampp/apache/bin/php.ini*, yes
+*/xamppapachebinphp.ini*, yes
+*/xampp/apache/conf/httpd.conf*, yes
+*/xampp/apache/logs/access.log*, yes
+*/xampp/apache/logs/error.log*, yes
+*/xampp/FileZillaFTP/FileZilla Server.xml*, yes
+*/xampp/htdocs/aca.txt*, yes
+*/xampp/htdocs/admin.php*, yes
+*/xampp/htdocs/leer.txt*, yes
+*/xampp/MercuryMail/mercury.ini*, yes
+*/xampp/mysql/data/{HOST}.err*, yes
+*/xampp/mysql/data/mysql-bin.index*, yes
+*/xampp/mysql/data/mysql.err*, yes
+*/xampp/phpMyAdmin/config.inc.php*, yes
+*/xampp/php/php.ini*, yes
+*/xampp/sendmail/sendmail.ini*, yes
+*/xampp/sendmail/sendmail.log*, yes
+*/xampp/webalizer/webalizer.conf*, yes
+*/proc/self/fd/0*, yes
+*/proc/self/fd/1*, yes
+*/proc/self/fd/2*, yes
+*/proc/self/fd/3*, yes
+*/proc/self/fd/4*, yes
+*/proc/self/fd/5*, yes
+*/proc/self/fd/6*, yes
+*/proc/self/fd/7*, yes
+*/proc/self/fd/8*, yes
+*/proc/self/fd/9*, yes
+*/proc/self/fd/10*, yes
+*/proc/self/fd/11*, yes
+*/proc/self/fd/12*, yes
+*/proc/self/fd/13*, yes
+*/proc/self/fd/14*, yes
+*/proc/self/fd/15*, yes
+*/proc/self/fd/16*, yes
+*/proc/self/fd/17*, yes
+*/proc/self/fd/18*, yes
+*/proc/self/fd/19*, yes
+*/proc/self/fd/20*, yes
+*/proc/self/fd/21*, yes
+*/proc/self/fd/22*, yes
+*/proc/self/fd/23*, yes
+*/proc/self/fd/24*, yes
+*/proc/self/fd/25*, yes
+*/proc/self/fd/26*, yes
+*/proc/self/fd/27*, yes
+*/proc/self/fd/28*, yes
+*/proc/self/fd/29*, yes
+*/proc/self/fd/30*, yes
+*/proc/self/fd/31*, yes
+*/proc/self/fd/32*, yes
+*/proc/self/fd/33*, yes
+*/proc/self/fd/34*, yes
+*/proc/self/fd/35*, yes
+*/proc/self/fd/36*, yes
+*/proc/self/fd/37*, yes
+*/proc/self/fd/38*, yes
+*/proc/self/fd/39*, yes
+*/proc/self/fd/40*, yes
+*/proc/self/fd/41*, yes
+*/proc/self/fd/42*, yes
+*/proc/self/fd/43*, yes
+*/proc/self/fd/44*, yes
+*/proc/self/fd/45*, yes
+*/proc/self/fd/46*, yes
+*/proc/self/fd/47*, yes
+*/proc/self/fd/48*, yes
+*/proc/self/fd/49*, yes
+*/proc/self/fd/50*, yes
+*/proc/self/fd/51*, yes
+*/proc/self/fd/52*, yes
+*/proc/self/fd/53*, yes
+*/proc/self/fd/54*, yes
+*/proc/self/fd/55*, yes
+*/proc/self/fd/56*, yes
+*/proc/self/fd/57*, yes
+*/proc/self/fd/58*, yes
+*/proc/self/fd/59*, yes
+*/proc/self/fd/60*, yes
+*/proc/self/fd/61*, yes
+*/proc/self/fd/62*, yes
+*/proc/self/fd/63*, yes
+*/proc/self/fd/64*, yes
+*/proc/self/fd/65*, yes
+*/proc/self/fd/66*, yes
+*/proc/self/fd/67*, yes
+*/proc/self/fd/68*, yes
+*/proc/self/fd/69*, yes
+*/proc/self/fd/70*, yes
+*/proc/self/fd/71*, yes
+*/proc/self/fd/72*, yes
+*/proc/self/fd/73*, yes
+*/proc/self/fd/74*, yes
+*/proc/self/fd/75*, yes
+*/proc/self/fd/76*, yes
+*/proc/self/fd/77*, yes
+*/proc/self/fd/78*, yes
+*/proc/self/fd/79*, yes
+*/proc/self/fd/80*, yes
+*/proc/self/fd/81*, yes
+*/proc/self/fd/82*, yes
+*/proc/self/fd/83*, yes
+*/proc/self/fd/84*, yes
+*/proc/self/fd/85*, yes
+*/proc/self/fd/86*, yes
+*/proc/self/fd/87*, yes
+*/proc/self/fd/88*, yes
+*/proc/self/fd/89*, yes
+*/proc/self/fd/90*, yes
+*/proc/self/fd/91*, yes
+*/proc/self/fd/92*, yes
+*/proc/self/fd/93*, yes
+*/proc/self/fd/94*, yes
+*/proc/self/fd/95*, yes
+*/proc/self/fd/96*, yes
+*/proc/self/fd/97*, yes
+*/proc/self/fd/98*, yes
+*/proc/self/fd/99*, yes
+*/proc/self/fd/100*, yes
