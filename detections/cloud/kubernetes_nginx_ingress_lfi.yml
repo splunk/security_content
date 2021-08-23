@@ -8,8 +8,9 @@ datamodel: []
 description: This search uses the Kubernetes logs from a nginx ingress controller to
   detect local file inclusion attacks.
 search: '`kubernetes_container_controller` 
-| rex field=_raw "^(?<remote_addr>\S+)\s+-\s+(?<remote_user>\S+)\s+\[(?<time_local>[^\]]*+)\]\s+\"\s*(?<request_method>[^\s\"]+)\s+(?<access_request>\S+)\s+(?<protocol>\S+)\"\s+(?<status>\S+)\s+(?<body_bytes_sent>\S+)\s\"(?<http_referer>[^\"]*+)\"\s\"(?<http_user_agent>[^\"]*+)\"\s(?<request_length>\S+)\s(?<request_time>\S+)\s\[(?<proxy_upstream_name>[^\]]+)\]\s\[(?<proxy_alternative_upstream_name>[^\]]*+)\]\s(?<upstream_addr>\S+)\s+(?<upstream_response_length>\S+)\s(?<upstream_request_time>\S+)\s(?<upstream_status>\S+)\s+(?<req_id>[^\s]+)"
-| `kubernetes_nginx_ingress_lfi_filter`'
+  | rex field=_raw "^(?<remote_addr>\S+)\s+-\s+-\s+\[(?<time_local>[^\]]*)\]\s\"(?<request>[^\"]*)\"\s(?<status>\S*)\s(?<body_bytes_sent>\S*)\s\"(?<http_referer>[^\"]*)\"\s\"(?<http_user_agent>[^\"]*)\"\s(?<request_length>\S*)\s(?<request_time>\S*)\s\[(?<proxy_upstream_name>[^\]]*)\]\s\[(?<proxy_alternative_upstream_name>[^\]]*)\]\s(?<upstream_addr>\S*)\s(?<upstream_response_length>\S*)\s(?<upstream_response_time>\S*)\s(?<upstream_status>\S*)\s(?<req_id>\S*)"
+  | lookup local_file_inclusion_paths local_file_inclusion_paths AS request OUTPUT local_file_inclusion_paths
+  | `kubernetes_nginx_ingress_lfi_filter`'
 how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 known_false_positives: unknown
 references:
