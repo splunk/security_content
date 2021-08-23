@@ -23,11 +23,11 @@ tags:
   analytic_story:
   - DevSecOps
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
-  - T1003.002
+  - T1199
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
