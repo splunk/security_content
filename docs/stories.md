@@ -1265,6 +1265,7 @@ Adversaries may transfer tools or other files from an external system into a com
 | T1569 | System Services | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
 | T1027.005 | Indicator Removal from Tools | Defense Evasion |
+| T1546.015 | Component Object Model Hijacking | Privilege Escalation, Persistence |
 | T1140 | Deobfuscate/Decode Files or Information | Defense Evasion |
 | T1592 | Gather Victim Host Information | Reconnaissance |
 | T1562 | Impair Defenses | Defense Evasion |
@@ -1365,7 +1366,7 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Email, Endpoint
-- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1021](https://attack.mitre.org/techniques/T1021/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1027.005](https://attack.mitre.org/techniques/T1027.005/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1113](https://attack.mitre.org/techniques/T1113/), [T1123](https://attack.mitre.org/techniques/T1123/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1140](https://attack.mitre.org/techniques/T1140/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1562](https://attack.mitre.org/techniques/T1562/), [T1563](https://attack.mitre.org/techniques/T1563/), [T1569](https://attack.mitre.org/techniques/T1569/), [T1592](https://attack.mitre.org/techniques/T1592/)
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1021](https://attack.mitre.org/techniques/T1021/), [T1027](https://attack.mitre.org/techniques/T1027/), [T1027.005](https://attack.mitre.org/techniques/T1027.005/), [T1053](https://attack.mitre.org/techniques/T1053/), [T1055](https://attack.mitre.org/techniques/T1055/), [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1106](https://attack.mitre.org/techniques/T1106/), [T1113](https://attack.mitre.org/techniques/T1113/), [T1123](https://attack.mitre.org/techniques/T1123/), [T1134](https://attack.mitre.org/techniques/T1134/), [T1140](https://attack.mitre.org/techniques/T1140/), [T1546.015](https://attack.mitre.org/techniques/T1546.015/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1562](https://attack.mitre.org/techniques/T1562/), [T1563](https://attack.mitre.org/techniques/T1563/), [T1569](https://attack.mitre.org/techniques/T1569/), [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2017-08-23
 
 <details>
@@ -1417,6 +1418,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * [Powershell Enable SMB1Protocol Feature](detections.md#powershell-enable-smb1protocol-feature)
 
+* [Powershell Execute COM Object](detections.md#powershell-execute-com-object)
+
 * [Powershell Fileless Process Injection via GetProcAddress](detections.md#powershell-fileless-process-injection-via-getprocaddress)
 
 * [Powershell Fileless Script Contains Base64 Encoded Content](detections.md#powershell-fileless-script-contains-base64-encoded-content)
@@ -1456,6 +1459,7 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 | T1569 | System Services | Execution |
 | T1027 | Obfuscated Files or Information | Defense Evasion |
 | T1027.005 | Indicator Removal from Tools | Defense Evasion |
+| T1546.015 | Component Object Model Hijacking | Privilege Escalation, Persistence |
 | T1140 | Deobfuscate/Decode Files or Information | Defense Evasion |
 | T1592 | Gather Victim Host Information | Reconnaissance |
 | T1562 | Impair Defenses | Defense Evasion |
@@ -3923,6 +3927,10 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 
 * [AWS ECR Container Scanning Findings Medium](detections.md#aws-ecr-container-scanning-findings-medium)
 
+* [AWS ECR Container Upload Outside Business Hours](detections.md#aws-ecr-container-upload-outside-business-hours)
+
+* [AWS ECR Container Upload Unknown User](detections.md#aws-ecr-container-upload-unknown-user)
+
 
 #### ATT&CK
 
@@ -5194,7 +5202,7 @@ _version_: 2
 
 ---
 
-### Icedid
+### IcedID
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the IcedID banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -5373,13 +5381,15 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Email, Endpoint, Network_Traffic
-- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1027.005](https://attack.mitre.org/techniques/T1027.005/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1059.005](https://attack.mitre.org/techniques/T1059.005/), [T1069.001](https://attack.mitre.org/techniques/T1069.001/), [T1069.002](https://attack.mitre.org/techniques/T1069.002/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1070.004](https://attack.mitre.org/techniques/T1070.004/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1087.001](https://attack.mitre.org/techniques/T1087.001/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1222](https://attack.mitre.org/techniques/T1222/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1531](https://attack.mitre.org/techniques/T1531/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1562.007](https://attack.mitre.org/techniques/T1562.007/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/), [T1574.002](https://attack.mitre.org/techniques/T1574.002/), [T1592](https://attack.mitre.org/techniques/T1592/)
+- **ATT&CK**: [T1020](https://attack.mitre.org/techniques/T1020/), [T1021.002](https://attack.mitre.org/techniques/T1021.002/), [T1027.005](https://attack.mitre.org/techniques/T1027.005/), [T1036.003](https://attack.mitre.org/techniques/T1036.003/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1048](https://attack.mitre.org/techniques/T1048/), [T1053.005](https://attack.mitre.org/techniques/T1053.005/), [T1059.005](https://attack.mitre.org/techniques/T1059.005/), [T1069.001](https://attack.mitre.org/techniques/T1069.001/), [T1069.002](https://attack.mitre.org/techniques/T1069.002/), [T1070](https://attack.mitre.org/techniques/T1070/), [T1070.001](https://attack.mitre.org/techniques/T1070.001/), [T1070.004](https://attack.mitre.org/techniques/T1070.004/), [T1071.001](https://attack.mitre.org/techniques/T1071.001/), [T1087.001](https://attack.mitre.org/techniques/T1087.001/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1112](https://attack.mitre.org/techniques/T1112/), [T1204](https://attack.mitre.org/techniques/T1204/), [T1218.003](https://attack.mitre.org/techniques/T1218.003/), [T1218.007](https://attack.mitre.org/techniques/T1218.007/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1222](https://attack.mitre.org/techniques/T1222/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1485](https://attack.mitre.org/techniques/T1485/), [T1489](https://attack.mitre.org/techniques/T1489/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1531](https://attack.mitre.org/techniques/T1531/), [T1546.015](https://attack.mitre.org/techniques/T1546.015/), [T1547.001](https://attack.mitre.org/techniques/T1547.001/), [T1548](https://attack.mitre.org/techniques/T1548/), [T1560.001](https://attack.mitre.org/techniques/T1560.001/), [T1562.001](https://attack.mitre.org/techniques/T1562.001/), [T1562.007](https://attack.mitre.org/techniques/T1562.007/), [T1569.002](https://attack.mitre.org/techniques/T1569.002/), [T1574.002](https://attack.mitre.org/techniques/T1574.002/), [T1592](https://attack.mitre.org/techniques/T1592/)
 - **Last Updated**: 2020-02-04
 
 <details>
   <summary>details</summary>
 
 #### Detection Profile
+
+* [7zip CommandLine To SMB Share Path](detections.md#7zip-commandline-to-smb-share-path)
 
 * [Allow File And Printing Sharing In Firewall](detections.md#allow-file-and-printing-sharing-in-firewall)
 
@@ -5441,6 +5451,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Execute Javascript With Jscript COM CLSID](detections.md#execute-javascript-with-jscript-com-clsid)
 
+* [Fsutil Zeroing File](detections.md#fsutil-zeroing-file)
+
 * [Get Backup Logs For Endpoint](detections.md#get-backup-logs-for-endpoint)
 
 * [Get History Of Email Sources](detections.md#get-history-of-email-sources)
@@ -5469,6 +5481,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Powershell Enable SMB1Protocol Feature](detections.md#powershell-enable-smb1protocol-feature)
 
+* [Powershell Execute COM Object](detections.md#powershell-execute-com-object)
+
 * [Prevent Automatic Repair Mode using Bcdedit](detections.md#prevent-automatic-repair-mode-using-bcdedit)
 
 * [Prohibited Network Traffic Allowed](detections.md#prohibited-network-traffic-allowed)
@@ -5486,6 +5500,8 @@ Leverage searches that allow you to detect and investigate unusual activities th
 * [Revil Common Exec Parameter](detections.md#revil-common-exec-parameter)
 
 * [Revil Registry Entry](detections.md#revil-registry-entry)
+
+* [Rundll32 LockWorkStation](detections.md#rundll32-lockworkstation)
 
 * [SMB Traffic Spike](detections.md#smb-traffic-spike)
 
@@ -5507,7 +5523,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [TOR Traffic](detections.md#tor-traffic)
 
+* [UAC Bypass With Colorui COM Object](detections.md#uac-bypass-with-colorui-com-object)
+
 * [USN Journal Deletion](detections.md#usn-journal-deletion)
+
+* [Uninstall App Using MsiExec](detections.md#uninstall-app-using-msiexec)
 
 * [Unusually Long Command Line](detections.md#unusually-long-command-line)
 
@@ -5532,6 +5552,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
+| T1560.001 | Archive via Utility | Collection |
 | T1562.007 | Disable or Modify Cloud Firewall | Defense Evasion |
 | T1548 | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 | T1489 | Service Stop | Impact |
@@ -5551,20 +5572,23 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | T1531 | Account Access Removal | Impact |
 | T1569.002 | Service Execution | Execution |
 | T1059.005 | Visual Basic | Execution |
+| T1070 | Indicator Removal on Host | Defense Evasion |
 | T1222 | File and Directory Permissions Modification | Defense Evasion |
 | T1491 | Defacement | Impact |
 | T1574.002 | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
 | T1027.005 | Indicator Removal from Tools | Defense Evasion |
+| T1546.015 | Component Object Model Hijacking | Privilege Escalation, Persistence |
 | T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
 | T1592 | Gather Victim Host Information | Reconnaissance |
 | T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 | T1047 | Windows Management Instrumentation | Execution |
 | T1112 | Modify Registry | Defense Evasion |
+| T1218.011 | Rundll32 | Defense Evasion |
 | T1021.002 | SMB/Windows Admin Shares | Lateral Movement |
 | T1053.005 | Scheduled Task | Execution, Persistence, Privilege Escalation |
 | T1036.003 | Rename System Utilities | Defense Evasion |
 | T1071.001 | Web Protocols | Command And Control |
-| T1070 | Indicator Removal on Host | Defense Evasion |
+| T1218.007 | Msiexec | Defense Evasion |
 
 #### Kill Chain Phase
 
