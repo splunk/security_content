@@ -11,7 +11,7 @@ search: '`gsuite_gmail` "link_domain{}" IN ("*pastebin.com*", "*discord*", "*tel
 | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)"  
   | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"  
    | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
-  |stats values(link_domain{}) as link_domains min(_time) as firstTime max(_time) as lastTime count by is_spam source.address source.from_header_address src_user subject destination{}.address
+  |stats values(link_domain{}) as link_domains min(_time) as firstTime max(_time) as lastTime count by is_spam source.address source.from_header_address subject destination{}.address
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `gsuite_email_with_known_abuse_web_service_link_filter`'
