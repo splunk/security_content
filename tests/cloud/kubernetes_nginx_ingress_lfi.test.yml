@@ -6,7 +6,7 @@ tests:
   earliest_time: '-365d'
   latest_time: 'now'
   attack_data:
-  - file_name: kuberntest_nginx_lfi_attack.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kuberntest_nginx_lfi_attack/kuberntest_nginx_lfi_attack.log
+  - file_name: kubernetes_nginx_lfi_attack.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kubernetes_nginx_lfi_attack/kubernetes_nginx_lfi_attack.log
     sourcetype: kube:container:controller
     source: kubernetess
