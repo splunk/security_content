@@ -50,7 +50,7 @@ tags:
     type: User
     role:
     - attacker
-  - name: parameters.target_calendar_id 
+  - name: parameters.target_calendar_id
     type: User
     role:
     - Victim

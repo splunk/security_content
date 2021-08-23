@@ -14,7 +14,7 @@ search: 'sourcetype="gsuite:drive:json" parameters.target_user=* name=change_use
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite (gsuite:drive:json) having the file sharing metadata like file type, source owner, destination target user, description, etc.
 known_false_positives: This search will also produce normal activity statistics. Fields such as parameters.doc_type and parameters.doc_title may give away
-phishing intent. 
+phishing intent.
 references:
 - https://www.csoonline.com/article/3274546/cybercriminals-impersonate-popular-file-sharing-services-to-take-over-email-accounts.html
 tags:
