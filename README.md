@@ -3,7 +3,7 @@
     <a href="https://github.com/splunk/security_content/releases">
         <img src="https://img.shields.io/github/v/release/splunk/security_content" /></a>
     <a href="https://github.com/splunk/security_content/actions/workflows/validate-and-build.yml/badge.svg?branch=develop">
-        </a>
+        <img src="https://img.shields.io/circleci/build/github/splunk/security_content?token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269" /></a>
     <a href="https://github.com/splunk/security_content">
         <img src="https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_count.svg" /></a>
     <a href="https://github.com/splunk/security_content">
