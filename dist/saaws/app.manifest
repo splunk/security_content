@@ -5,7 +5,7 @@
     "id": {
       "group": null, 
       "name": "DA-ESS_AmazonWebServices_Content", 
-      "version": "10.1.26"
+      "version": "3.27.0"
     }, 
     "author": [
       {

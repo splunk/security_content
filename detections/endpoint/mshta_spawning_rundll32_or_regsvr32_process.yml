@@ -27,7 +27,7 @@ references:
 tags:
   analytic_story:
   - Trickbot
-  - Icedid
+  - IcedID
   confidence: 80
   context:
   - source:endpoint
