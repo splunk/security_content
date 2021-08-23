@@ -1,0 +1,47 @@
+name: Kubernetes Nginx Ingress LFI
+id: 0f83244b-425b-4528-83db-7a88c5f66e48
+version: 1
+date: '2021-08-20'
+author: Patrick Bareiss, Splunk
+type: TTP
+datamodel: []
+description: This search uses the Kubernetes logs from a nginx ingress controller to
+  detect local file inclusion attacks.
+search: '`kubernetes_container_controller` 
+| rex field=_raw "^(?<remote_addr>\S+)\s+-\s+(?<remote_user>\S+)\s+\[(?<time_local>[^\]]*+)\]\s+\"\s*(?<request_method>[^\s\"]+)\s+(?<access_request>\S+)\s+(?<protocol>\S+)\"\s+(?<status>\S+)\s+(?<body_bytes_sent>\S+)\s\"(?<http_referer>[^\"]*+)\"\s\"(?<http_user_agent>[^\"]*+)\"\s(?<request_length>\S+)\s(?<request_time>\S+)\s\[(?<proxy_upstream_name>[^\]]+)\]\s\[(?<proxy_alternative_upstream_name>[^\]]*+)\]\s(?<upstream_addr>\S+)\s+(?<upstream_response_length>\S+)\s(?<upstream_request_time>\S+)\s(?<upstream_status>\S+)\s+(?<req_id>[^\s]+)"
+| `kubernetes_nginx_ingress_lfi_filter`'
+how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+known_false_positives: unknown
+references:
+- https://github.com/splunk/splunk-connect-for-kubernetes
+- https://www.offensive-security.com/metasploit-unleashed/file-inclusion-vulnerabilities/
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  asset_type: Kubernetes
+  cis20:
+  - CIS 13
+  confidence: 70
+  impact: 70
+  kill_chain_phases:
+  - Actions on Objectives
+  message: Local File Inclusion Attack detected on
+  mitre_attack_id:
+  - T1212
+  nist:
+  - PR.DS
+  - PR.AC
+  - DE.CM
+  observable:
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - raw
+  risk_score: 49
+  security_domain: network
