@@ -1,7 +1,7 @@
 name: GSuite Email Suspicious Attachment Unit Test
 tests:
 - name: GSuite Email Suspicious Attachment
-  file: endpoint/gsuite_email_suspicious_attachment.yml
+  file: cloud/gsuite_email_suspicious_attachment.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

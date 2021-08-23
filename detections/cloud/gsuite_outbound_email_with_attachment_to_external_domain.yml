@@ -4,9 +4,7 @@ version: 1
 date: '2021-08-17'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
-- Email
+datamodel: []
 description: This search is to detect a suspicious outbound e-mail from internal email
   to external email domain. This can be a good hunting query to monitor insider or
   outbound email traffic for not common domain e-mail. The idea is to parse the domain
