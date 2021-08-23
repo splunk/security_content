@@ -4,10 +4,7 @@ version: 1
 date: '2021-08-19'
 author: Teoderick Contreras, Splunk
 type: Anomaly
-datamodel:
-- Endpoint
-- Email
-- Updates
+datamodel: []
 description: This search is to detect a gsuite email contains suspicious subject having known file type used in spear phishing.
   This technique is a common and effective entry vector of attacker to compromise a network by luring the user to click or execute the suspicious attachment 
   send from external email account because of the effective social engineering of subject related to delivery, bank and so on.

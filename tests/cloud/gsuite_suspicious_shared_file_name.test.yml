@@ -1,7 +1,7 @@
 name: Gsuite Suspicious Shared File Name Unit Test
 tests:
 - name: Gsuite Suspicious Shared File Name
-  file: endpoint/gsuite_suspicious_shared_file_name.yml
+  file: cloud/gsuite_suspicious_shared_file_name.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
