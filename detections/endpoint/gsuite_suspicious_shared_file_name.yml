@@ -1,0 +1,69 @@
+name: Gsuite Suspicious Shared File Name
+id: 07eed200-03f5-11ec-98fb-acde48001122
+version: 1
+date: '2021-08-23'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+- Email
+description: This search is to detect a shared file in google drive with suspicious file name that are commonly used by spear phishing campaign. 
+  This technique is very popular to lure the user by running a malicious document or click a malicious link within the shared file that will redirected to malicious website.
+  This detection can also catch some normal email communication between organization and its external customer.
+search: 'index=obs-gsuite sourcetype=gsuite:drive:json parameters.owner_is_team_drive=false "parameters.doc_title" IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet", "presentation")
+  | rex field=parameters.owner "[^@]+@(?<source_domain>[^@]+)"  
+  | rex field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)"  
+  | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by email parameters.owner parameters.target_user parameters.doc_title parameters.doc_type
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `gsuite_suspicious_shared_file_name_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite having the file attachment metadata like file type, file 
+  extension, source email, destination email, num of attachment and etc.
+known_false_positives: normal user or normal transaction may contain the subject and file type attachment that 
+  this detection try to search
+references:
+- https://www.redhat.com/en/topics/devops/what-is-devsecops
+- https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf
+tags:
+  analytic_story:
+  - DevSecOps
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1566.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - parameters.doc_title
+  - src_domain
+  - dest_domain
+  - email
+  - parameters.visibility
+  - parameters.owner
+  - parameters.doc_type
+  security_domain: endpoint
+  impact: 30
+  confidence: 30
+  # (impact * confidence)/100
+  risk_score: 9
+  context:
+  - Source:Endpoint
+  - Stage:Reconnaissance
+  message: suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$
+  observable:
+  - name: parameters.owner
+    type: User
+    role:
+    - attacker
+  - name: email
+    type: User
+    role:
+    - Victim
+  
