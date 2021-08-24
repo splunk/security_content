@@ -64,13 +64,26 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
             'name': 'detection_type',
             'choices': [
                 {
-                    'name': 'batch'
+                    'name': 'TTP'
                 },
                 {
-                    'name': 'streaming'
+                    'name': 'Anomaly'
                 },
+                {
+                    'name': 'Hunting'
+                },
+                {
+                    'name': 'Baseline'
+                },
+                {
+                    'name': 'Investigation'
+                },
+                {
+                    'name': 'Correlation'
+                }
+
             ],
-            'default': 'batch'
+            'default': 'TTP'
         },
         {
             # get provider
@@ -203,11 +216,13 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                      trim_blocks=True, autoescape=True)
+    answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
+    answers['references'] = []
 
-    if answers['detection_type'] == 'batch':
-        answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
-    elif answers['detection_type'] == 'streaming':
-        answers['products'] = ['Splunk Behavioral Analytics']
+    # if answers['detection_type'] == 'batch':
+    #     answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
+    # elif answers['detection_type'] == 'streaming':
+    #     answers['products'] = ['Splunk Behavioral Analytics']
 
     # grab some vars for the test
     detection_kind = answers['detection_kind']
@@ -221,7 +236,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
     author=answers['detection_author'], name=answers['detection_name'],
     description='|\n\tUPDATE_DESCRIPTION\n\tWHAT IS THIS?\n\tWHAT DOES IT LOOK LIKE?\n\tHOW DO YOU TRIAGE IT?', how_to_implement='UPDATE_HOW_TO_IMPLEMENT', known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
-    references='',datamodels=answers['datamodels'],
+    references=' ',datamodels=answers['datamodels'],
     search= answers['detection_search'] + ' | `' + detection_file_name + '_filter`',
     type=answers['detection_type'], analytic_story_name='UPDATE_STORY_NAME', mitre_attack_id=mitre_attack_id,
     kill_chain_phases=answers['kill_chain_phases'], dataset_url='UPDATE_DATASET_URL',
@@ -270,7 +285,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
         output_path = path.join(security_content_path, 'tests/' + detection_kind + '/' + test_name)
         output = template.render(name=detection_name + ' Unit Test',
         detection_name=detection_name,
-        detection_path='detections/' + detection_kind + '/' + detection_file_name + '.yml', pass_condition=answers['pass_condition'],
+        detection_path= detection_kind + '/' + detection_file_name + '.yml', pass_condition=answers['pass_condition'],
         earliest_time=answers['earliest_time'], latest_time=answers['latest_time'], file_name='UPDATE_FILE_NAME',
         splunk_source='UPDATE_SPLUNK_SOURCE',splunk_sourcetype='UPDATE_SPLUNK_SOURCETYPE',dataset_url='UPDATE_DATASET_URL')
         with open(output_path, 'w', encoding="utf-8") as f:
