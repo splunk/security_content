@@ -9,7 +9,7 @@ datamodel:
 - Email
 - Updates
 description: This search can help the detection of compromised accounts or internal users sending malicious documents via GSuite file sharing.
-search: 'sourcetype="gsuite:drive:json" parameters.target_user=* name=change_user_access parameters.target_user > 100 | spath "parameters.owner" | search "parameters.owner"="*" | stats  count by src_ip parameters.owner parameters.target_user parameters.doc_type parameters.doc_title | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+search: 'sourcetype="gsuite:drive:json" name=change_user_access parameters.target_user > 100 | spath "parameters.owner" | search "parameters.owner"="*" | stats  count by src_ip parameters.owner parameters.target_user parameters.doc_type parameters.doc_title | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `gdrive_suspicious_file_sharing_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite (gsuite:drive:json) having the file sharing metadata like file type, source owner, destination target user, description, etc.
