@@ -20,11 +20,11 @@ The search queries the authentication logs for assets that are categorized as ro
 ====Search====
 <search>
 | tstats `security_content_summariesonly` count earliest(_time) as earliest latest(_time) as latest from datamodel=Authentication where Authentication.dest_category=router by Authentication.dest Authentication.user
-| eval isOutlier=if(earliest >= relative_time(now(), "-30d@d"), 1, 0) 
+| eval isOutlier=if(earliest &gt;= relative_time(now(), &#34;-30d@d&#34;), 1, 0) 
 | where isOutlier=1
 | `security_content_ctime(earliest)`
 | `security_content_ctime(latest)` 
-| `drop_dm_object_name("Authentication")` 
+| `drop_dm_object_name(&#34;Authentication&#34;)` 
 | `detect_new_login_attempts_to_routers_filter`</search>
 
 ====Associated Analytic Story====
@@ -33,7 +33,7 @@ The search queries the authentication logs for assets that are categorized as ro
 
 
 ====How To Implement====
-To successfully implement this search, you must ensure the network router devices are categorized as "router" in the Assets and identity table. You must also populate the Authentication data model with logs related to users authenticating to routing infrastructure.
+To successfully implement this search, you must ensure the network router devices are categorized as &#34;router&#34; in the Assets and identity table. You must also populate the Authentication data model with logs related to users authenticating to routing infrastructure.
 
 ====Required field====
 
@@ -69,7 +69,7 @@ Legitimate router connections may appear as new connections
 ----
 
 ===Email attachments with lots of spaces===
-Attackers often use spaces as a means to obfuscate an attachment's file extension. This search looks for messages with email attachments that have many spaces within the file names.
+Attackers often use spaces as a means to obfuscate an attachment&#39;s file extension. This search looks for messages with email attachments that have many spaces within the file names.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Email
@@ -81,13 +81,13 @@ Attackers often use spaces as a means to obfuscate an attachment's file extensio
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count values(All_Email.recipient) as recipient_address min(_time) as firstTime max(_time) as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user, All_Email.file_name All_Email.message_id 
+| tstats `security_content_summariesonly` count values(All_Email.recipient) as recipient_address min(_time) as firstTime max(_time) as lastTime from datamodel=Email where All_Email.file_name=&#34;*&#34; by All_Email.src_user, All_Email.file_name All_Email.message_id 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Email")` 
-| eval space_ratio = (mvcount(split(file_name," "))-1)/len(file_name) 
-| search space_ratio >= 0.1 
-|  rex field=recipient_address "(?<recipient_user>.*)@" 
+| `drop_dm_object_name(&#34;All_Email&#34;)` 
+| eval space_ratio = (mvcount(split(file_name,&#34; &#34;))-1)/len(file_name) 
+| search space_ratio &gt;= 0.1 
+|  rex field=recipient_address &#34;(?&lt;recipient_user&gt;.*)@&#34; 
 | `email_attachments_with_lots_of_spaces_filter`</search>
 
 ====Associated Analytic Story====
@@ -98,9 +98,9 @@ Attackers often use spaces as a means to obfuscate an attachment's file extensio
 
 
 ====How To Implement====
-You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model. The threshold ratio is set to 10%, but this value can be configured to suit each environment. \
+You need to ingest data from emails. Specifically, the sender&#39;s address and the file names of any attachments must be mapped to the Email data model. The threshold ratio is set to 10%, but this value can be configured to suit each environment. \
  **Splunk Phantom Playbook Integration**\
-If Splunk Phantom is also configured in your environment, a playbook called "Suspicious Email Attachment Investigate and Delete" can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/` and add the correct hostname to the "Phantom Instance" field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user's inbox.
+If Splunk Phantom is also configured in your environment, a playbook called &#34;Suspicious Email Attachment Investigate and Delete&#34; can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/` and add the correct hostname to the &#34;Phantom Instance&#34; field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user&#39;s inbox.
 
 ====Required field====
 
@@ -152,8 +152,8 @@ The search looks at the change-analysis data model and detects email files creat
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path != "C:\\Users\\*\\My Documents\\Outlook Files\\*"  Filesystem.file_path!="C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*" by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest 
-| `drop_dm_object_name("Filesystem")` 
+| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path != &#34;C:\\Users\\*\\My Documents\\Outlook Files\\*&#34;  Filesystem.file_path!=&#34;C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*&#34; by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest 
+| `drop_dm_object_name(&#34;Filesystem&#34;)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
 | `email_files_written_outside_of_the_outlook_directory_filter` </search>
@@ -228,11 +228,11 @@ This search looks for an increase of data transfers from your email server to yo
 ====Search====
 <search>
 | tstats `security_content_summariesonly` sum(All_Traffic.bytes_out) as bytes_out from datamodel=Network_Traffic where All_Traffic.src_category=email_server by All_Traffic.dest_ip _time span=1d 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | eventstats avg(bytes_out) as avg_bytes_out stdev(bytes_out) as stdev_bytes_out 
-| eventstats count as num_data_samples avg(eval(if(_time < relative_time(now(), "@d"), bytes_out, null))) as per_source_avg_bytes_out stdev(eval(if(_time < relative_time(now(), "@d"), bytes_out, null))) as per_source_stdev_bytes_out by dest_ip 
+| eventstats count as num_data_samples avg(eval(if(_time &lt; relative_time(now(), &#34;@d&#34;), bytes_out, null))) as per_source_avg_bytes_out stdev(eval(if(_time &lt; relative_time(now(), &#34;@d&#34;), bytes_out, null))) as per_source_stdev_bytes_out by dest_ip 
 | eval minimum_data_samples = 4, deviation_threshold = 3 
-| where num_data_samples >= minimum_data_samples AND bytes_out > (avg_bytes_out + (deviation_threshold * stdev_bytes_out)) AND bytes_out > (per_source_avg_bytes_out + (deviation_threshold * per_source_stdev_bytes_out)) AND _time >= relative_time(now(), "@d") 
+| where num_data_samples &gt;= minimum_data_samples AND bytes_out &gt; (avg_bytes_out + (deviation_threshold * stdev_bytes_out)) AND bytes_out &gt; (per_source_avg_bytes_out + (deviation_threshold * per_source_stdev_bytes_out)) AND _time &gt;= relative_time(now(), &#34;@d&#34;) 
 | eval num_standard_deviations_away_from_server_average = round(abs(bytes_out - avg_bytes_out) / stdev_bytes_out, 2), num_standard_deviations_away_from_client_average = round(abs(bytes_out - per_source_avg_bytes_out) / per_source_stdev_bytes_out, 2) 
 | table dest_ip, _time, bytes_out, avg_bytes_out, per_source_avg_bytes_out, num_standard_deviations_away_from_server_average, num_standard_deviations_away_from_client_average 
 | `email_servers_sending_high_volume_traffic_to_hosts_filter`</search>
@@ -245,7 +245,7 @@ This search looks for an increase of data transfers from your email server to yo
 
 
 ====How To Implement====
-This search requires you to be ingesting your network traffic and populating the Network_Traffic data model.  Your email servers must be categorized as "email_server" for the search to work, as well. You may need to adjust the deviation_threshold and minimum_data_samples values based on the network traffic in your environment. The "deviation_threshold" field is a multiplying factor to control how much variation you're willing to tolerate. The "minimum_data_samples" field is the minimum number of connections of data samples required for the statistic to be valid.
+This search requires you to be ingesting your network traffic and populating the Network_Traffic data model.  Your email servers must be categorized as &#34;email_server&#34; for the search to work, as well. You may need to adjust the deviation_threshold and minimum_data_samples values based on the network traffic in your environment. The &#34;deviation_threshold&#34; field is a multiplying factor to control how much variation you&#39;re willing to tolerate. The &#34;minimum_data_samples&#34; field is the minimum number of connections of data samples required for the statistic to be valid.
 
 ====Required field====
 
@@ -305,10 +305,10 @@ This search looks for emails claiming to be sent from a domain similar to one th
 ====Search====
 <search>
 | tstats `security_content_summariesonly` values(All_Email.recipient) as recipients, min(_time) as firstTime, max(_time) as lastTime from datamodel=Email by All_Email.src_user, All_Email.message_id 
-| `drop_dm_object_name("All_Email")` 
+| `drop_dm_object_name(&#34;All_Email&#34;)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| eval temp=split(src_user, "@") 
+| eval temp=split(src_user, &#34;@&#34;) 
 | eval email_domain=mvindex(temp, 1) 
 | lookup update=true brandMonitoring_lookup domain as email_domain OUTPUT domain_abuse 
 | search domain_abuse=true 
@@ -323,7 +323,7 @@ This search looks for emails claiming to be sent from a domain similar to one th
 
 
 ====How To Implement====
-You need to ingest email header data. Specifically the sender's address (src_user) must be populated.  You also need to have run the search "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that will be checked for.
+You need to ingest email header data. Specifically the sender&#39;s address (src_user) must be populated.  You also need to have run the search &#34;ESCU - DNSTwist Domain Names&#34;, which creates the permutations of the domain that will be checked for.
 
 ====Required field====
 
@@ -375,7 +375,7 @@ This search detects Okta login failures due to bad credentials for multiple user
 | stats min(_time) as firstTime max(_time) as lastTime dc(user) as distinct_users values(user) as users by src_ip, displayMessage, outcome.reason, country, state, city  
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-|  search distinct_users > 5
+|  search distinct_users &gt; 5
 | `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter` </search>
 
 ====Associated Analytic Story====
@@ -449,15 +449,15 @@ This search looks for Windows endpoints that have not generated an event indicat
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates where Updates.status=Installed Updates.vendor_product="Microsoft Windows" by Updates.dest Updates.status Updates.vendor_product 
+| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates where Updates.status=Installed Updates.vendor_product=&#34;Microsoft Windows&#34; by Updates.dest Updates.status Updates.vendor_product 
 | rename Updates.dest as Host 
-| rename Updates.status as "Update Status" 
+| rename Updates.status as &#34;Update Status&#34; 
 | rename Updates.vendor_product as Product 
-| eval isOutlier=if(lastTime <= relative_time(now(), "-60d@d"), 1, 0)  
+| eval isOutlier=if(lastTime &lt;= relative_time(now(), &#34;-60d@d&#34;), 1, 0)  
 | `security_content_ctime(lastTime)`  
 | search isOutlier=1 
-| rename lastTime as "Last Update Time", 
-| table Host, "Update Status", Product, "Last Update Time" 
+| rename lastTime as &#34;Last Update Time&#34;, 
+| table Host, &#34;Update Status&#34;, Product, &#34;Last Update Time&#34; 
 | `no_windows_updates_in_a_time_frame_filter`</search>
 
 ====Associated Analytic Story====
@@ -466,7 +466,7 @@ This search looks for Windows endpoints that have not generated an event indicat
 
 
 ====How To Implement====
-To successfully implement this search, it requires that the 'Update' data model is being populated. This can be accomplished by ingesting Windows events or the Windows Update log via a universal forwarder on the Windows endpoints you wish to monitor. The Windows add-on should be also be installed and configured to properly parse Windows events in Splunk. There may be other data sources which can populate this data model, including vulnerability management systems.
+To successfully implement this search, it requires that the &#39;Update&#39; data model is being populated. This can be accomplished by ingesting Windows events or the Windows Update log via a universal forwarder on the Windows endpoints you wish to monitor. The Windows add-on should be also be installed and configured to properly parse Windows events in Splunk. There may be other data sources which can populate this data model, including vulnerability management systems.
 
 ====Required field====
 
@@ -511,7 +511,7 @@ Detect Okta user lockout events
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>`okta` displayMessage="Max sign in attempts exceeded" 
+<search>`okta` displayMessage=&#34;Max sign in attempts exceeded&#34; 
 | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city 
 | table _time, user, country, state, city, src_ip 
 | `okta_account_lockout_events_filter` </search>
@@ -580,7 +580,7 @@ Detect failed Okta SSO events
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>`okta` displayMessage="User attempted unauthorized access to app" 
+<search>`okta` displayMessage=&#34;User attempted unauthorized access to app&#34; 
 | stats  min(_time) as firstTime max(_time) as lastTime values(app) as Apps count by user, result ,displayMessage, src_ip 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -652,12 +652,12 @@ This search detects logins from the same user from different cities in a 24 hour
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>`okta` displayMessage="User login to Okta" client.geographicalContext.city!=null 
+<search>`okta` displayMessage=&#34;User login to Okta&#34; client.geographicalContext.city!=null 
 | stats min(_time) as firstTime max(_time) as lastTime dc(client.geographicalContext.city) as locations values(client.geographicalContext.city) as cities values(client.geographicalContext.state) as states by user 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `okta_user_logins_from_multiple_cities_filter` 
-| search locations > 1</search>
+| search locations &gt; 1</search>
 
 ====Associated Analytic Story====
 
@@ -712,7 +712,7 @@ Users in your enviornment may legitmately be travelling and loggin in from diffe
 ----
 
 ===Phishing email detection by machine learning method - ssa===
-Malicious mails can conduct phishing that induces readers to open attachment, click links or trigger third party service. This detect uses Natural Language Processing (NLP) approach to analyze an email message's content (Sender, Subject and Body) and judge whether it is a phishing email. The detection adopts a deep learning (neural network) model that employs character level embeddings plus LSTM layers to perform classification. The model is pre-trained and then published as ONNX format. Current sample model is trained using the dataset published at https://github.com/splunk/attack_data/tree/master/datasets/T1566_Phishing_Email/splunk_train.json User are expected to re-train the model by combining with their own training data for better accuracy using the provided model file (SMLE notebook). DSP pipeline then processes the email message and passes it as an event to Apply ML Models function, which returns the probability of a phishing email. Current implementation assumes the email is fed to DSP in JSON format contains at least email's sender, subject and its message body, including reply content, if any.
+Malicious mails can conduct phishing that induces readers to open attachment, click links or trigger third party service. This detect uses Natural Language Processing (NLP) approach to analyze an email message&#39;s content (Sender, Subject and Body) and judge whether it is a phishing email. The detection adopts a deep learning (neural network) model that employs character level embeddings plus LSTM layers to perform classification. The model is pre-trained and then published as ONNX format. Current sample model is trained using the dataset published at https://github.com/splunk/attack_data/tree/master/datasets/T1566_Phishing_Email/splunk_train.json User are expected to re-train the model by combining with their own training data for better accuracy using the provided model file (SMLE notebook). DSP pipeline then processes the email message and passes it as an event to Apply ML Models function, which returns the probability of a phishing email. Current implementation assumes the email is fed to DSP in JSON format contains at least email&#39;s sender, subject and its message body, including reply content, if any.
 
 * '''Product''': Splunk Behavioral Analytics
 * '''Datamodel''': 
@@ -725,14 +725,14 @@ Malicious mails can conduct phishing that induces readers to open attachment, cl
 ====Search====
 <search>
 | from read_ssa_enriched_events() 
-| eval eventLine=concat(ucast(map_get(input_event, "From"), "string", " "), " ", ucast(map_get(input_event, "Subject"), "string", " "), " ", ucast(map_get(input_event, "Content"), "string", " "), "                                                                                                                                "), _time=map_get(input_event, "_time") 
+| eval eventLine=concat(ucast(map_get(input_event, &#34;From&#34;), &#34;string&#34;, &#34; &#34;), &#34; &#34;, ucast(map_get(input_event, &#34;Subject&#34;), &#34;string&#34;, &#34; &#34;), &#34; &#34;, ucast(map_get(input_event, &#34;Content&#34;), &#34;string&#34;, &#34; &#34;), &#34;                                                                                                                                &#34;), _time=map_get(input_event, &#34;_time&#34;) 
 | where eventLine IS NOT NULL 
-| eval mapC={" ": 32, "!": 33, "\"": 34, "#": 35, "$": 36, "%": 37, "&": 38, "`": 39, "(": 40, ")": 41, "*": 42, "+": 43, ",": 44, "-": 45, ".": 46, "/": 47, "0": 48, "1": 49, "2": 50, "3": 51, "4": 52, "5": 53, "6": 54, "7": 55, "8": 56, "9": 57, ":": 58, ";": 59, "<": 60, "=": 61, ">": 62, "?": 63, "@": 64, "A": 65, "B": 66, "C": 67, "D": 68, "E": 69, "F": 70, "G": 71, "H": 72, "I": 73, "J": 74, "K": 75, "L": 76, "M": 77, "N": 78, "O": 79, "P": 80, "Q": 81, "R": 82, "S": 83, "T": 84, "U": 85, "V": 86, "W": 87, "X": 88, "Y": 89, "Z": 90, "[": 91, "\\": 92, "]": 93, "^": 94, "_": 95, "`": 96, "a": 97, "b": 98, "c": 99, "d": 100, "e": 101, "f": 102, "g": 103, "h": 104, "i": 105, "j": 106, "k": 107, "l": 108, "m": 109, "n": 110, "o": 111, "p": 112, "q": 113, "r": 114, "s": 115, "t": 116, "u": 117, "v": 118, "w": 119, "x": 120, "y": 121, "z": 122, "{": 123, "
-|": 124, "}": 125, "~": 126}, ml_in = for_each(iterator(mvrange(1,129), "i"), cast(map_get(mapC, substr(eventLine, i, 1)), "float") ) 
-| apply_model connection_id="YOUR_S3_ONNX_CONNECTOR_ID" name="phishing_email_v8" path="s3://smle-experiments/models/phishing_email" 
+| eval mapC={&#34; &#34;: 32, &#34;!&#34;: 33, &#34;\&#34;&#34;: 34, &#34;#&#34;: 35, &#34;$&#34;: 36, &#34;%&#34;: 37, &#34;&amp;&#34;: 38, &#34;`&#34;: 39, &#34;(&#34;: 40, &#34;)&#34;: 41, &#34;*&#34;: 42, &#34;+&#34;: 43, &#34;,&#34;: 44, &#34;-&#34;: 45, &#34;.&#34;: 46, &#34;/&#34;: 47, &#34;0&#34;: 48, &#34;1&#34;: 49, &#34;2&#34;: 50, &#34;3&#34;: 51, &#34;4&#34;: 52, &#34;5&#34;: 53, &#34;6&#34;: 54, &#34;7&#34;: 55, &#34;8&#34;: 56, &#34;9&#34;: 57, &#34;:&#34;: 58, &#34;;&#34;: 59, &#34;&lt;&#34;: 60, &#34;=&#34;: 61, &#34;&gt;&#34;: 62, &#34;?&#34;: 63, &#34;@&#34;: 64, &#34;A&#34;: 65, &#34;B&#34;: 66, &#34;C&#34;: 67, &#34;D&#34;: 68, &#34;E&#34;: 69, &#34;F&#34;: 70, &#34;G&#34;: 71, &#34;H&#34;: 72, &#34;I&#34;: 73, &#34;J&#34;: 74, &#34;K&#34;: 75, &#34;L&#34;: 76, &#34;M&#34;: 77, &#34;N&#34;: 78, &#34;O&#34;: 79, &#34;P&#34;: 80, &#34;Q&#34;: 81, &#34;R&#34;: 82, &#34;S&#34;: 83, &#34;T&#34;: 84, &#34;U&#34;: 85, &#34;V&#34;: 86, &#34;W&#34;: 87, &#34;X&#34;: 88, &#34;Y&#34;: 89, &#34;Z&#34;: 90, &#34;[&#34;: 91, &#34;\\&#34;: 92, &#34;]&#34;: 93, &#34;^&#34;: 94, &#34;_&#34;: 95, &#34;`&#34;: 96, &#34;a&#34;: 97, &#34;b&#34;: 98, &#34;c&#34;: 99, &#34;d&#34;: 100, &#34;e&#34;: 101, &#34;f&#34;: 102, &#34;g&#34;: 103, &#34;h&#34;: 104, &#34;i&#34;: 105, &#34;j&#34;: 106, &#34;k&#34;: 107, &#34;l&#34;: 108, &#34;m&#34;: 109, &#34;n&#34;: 110, &#34;o&#34;: 111, &#34;p&#34;: 112, &#34;q&#34;: 113, &#34;r&#34;: 114, &#34;s&#34;: 115, &#34;t&#34;: 116, &#34;u&#34;: 117, &#34;v&#34;: 118, &#34;w&#34;: 119, &#34;x&#34;: 120, &#34;y&#34;: 121, &#34;z&#34;: 122, &#34;{&#34;: 123, &#34;
+|&#34;: 124, &#34;}&#34;: 125, &#34;~&#34;: 126}, ml_in = for_each(iterator(mvrange(1,129), &#34;i&#34;), cast(map_get(mapC, substr(eventLine, i, 1)), &#34;float&#34;) ) 
+| apply_model connection_id=&#34;YOUR_S3_ONNX_CONNECTOR_ID&#34; name=&#34;phishing_email_v8&#34; path=&#34;s3://smle-experiments/models/phishing_email&#34; 
 | eval probability = mvindex(ml_out, 0) 
-| where probability > 0.5 
-| eval start_time=_time, end_time=_time, entities="TBD", body="TBD" 
+| where probability &gt; 0.5 
+| eval start_time=_time, end_time=_time, entities=&#34;TBD&#34;, body=&#34;TBD&#34; 
 | select probability, body, entities, start_time, end_time 
 | into write_ssa_detected_events();</search>
 
@@ -740,7 +740,7 @@ Malicious mails can conduct phishing that induces readers to open attachment, cl
 
 
 ====How To Implement====
-Events are fed to DSP contains at least email's sender, subject and its message body.
+Events are fed to DSP contains at least email&#39;s sender, subject and its message body.
 
 ====Required field====
 
@@ -791,10 +791,10 @@ This search looks for emails that have attachments with suspicious file extensio
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user, All_Email.file_name All_Email.message_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Email where All_Email.file_name=&#34;*&#34; by All_Email.src_user, All_Email.file_name All_Email.message_id 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Email")` 
+| `drop_dm_object_name(&#34;All_Email&#34;)` 
 | `suspicious_email_attachments` 
 | `suspicious_email_attachment_extensions_filter` </search>
 
@@ -806,9 +806,9 @@ This search looks for emails that have attachments with suspicious file extensio
 
 
 ====How To Implement====
-You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model. \
+You need to ingest data from emails. Specifically, the sender&#39;s address and the file names of any attachments must be mapped to the Email data model. \
  **Splunk Phantom Playbook Integration**\
-If Splunk Phantom is also configured in your environment, a Playbook called "Suspicious Email Attachment Investigate and Delete" can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`, and add the correct hostname to the "Phantom Instance" field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user's inbox.
+If Splunk Phantom is also configured in your environment, a Playbook called &#34;Suspicious Email Attachment Investigate and Delete&#34; can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`, and add the correct hostname to the &#34;Phantom Instance&#34; field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user&#39;s inbox.
 
 ====Required field====
 
@@ -866,9 +866,9 @@ This search looks for suspicious Java classes that are often used to exploit rem
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>`stream_http` http_method=POST http_content_length>1 
-| regex form_data="(?i)java\.lang\.(?:runtime
-|processbuilder)" 
+<search>`stream_http` http_method=POST http_content_length&gt;1 
+| regex form_data=&#34;(?i)java\.lang\.(?:runtime
+|processbuilder)&#34; 
 | rename src_ip as src 
 | stats count earliest(_time) as firstTime, latest(_time) as lastTime, values(url) as uri, values(status) as status, values(http_user_agent) as http_user_agent by src, dest 
 | `security_content_ctime(firstTime)` 
@@ -939,7 +939,7 @@ This search looks for suspicious processes on all systems labeled as web servers
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.dest_category="web_server" AND (Processes.process="*whoami*" OR Processes.process="*ping*" OR Processes.process="*iptables*" OR Processes.process="*wget*" OR Processes.process="*service*" OR Processes.process="*curl*") by Processes.process Processes.process_name, Processes.dest Processes.user
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.dest_category=&#34;web_server&#34; AND (Processes.process=&#34;*whoami*&#34; OR Processes.process=&#34;*ping*&#34; OR Processes.process=&#34;*iptables*&#34; OR Processes.process=&#34;*wget*&#34; OR Processes.process=&#34;*service*&#34; OR Processes.process=&#34;*curl*&#34;) by Processes.process Processes.process_name, Processes.dest Processes.user
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -951,7 +951,7 @@ This search looks for suspicious processes on all systems labeled as web servers
 
 
 ====How To Implement====
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model. In addition, web servers will need to be identified in the Assets and Identity Framework of Enterprise Security.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. In addition, web servers will need to be identified in the Assets and Identity Framework of Enterprise Security.
 
 ====Required field====
 
@@ -1022,7 +1022,7 @@ This search looks for AWS CloudTrail events where a user created a policy versio
 | spath input=requestParameters.policyDocument output=key_policy_statements path=Statement{} 
 | mvexpand key_policy_statements 
 | spath input=key_policy_statements output=key_policy_action_1 path=Action 
-| search key_policy_action_1 = "*" 
+| search key_policy_action_1 = &#34;*&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime values(key_policy_statements) as policy_added by eventName eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
@@ -1271,12 +1271,12 @@ This search looks for AssumeRole events where an IAM role in a different account
 <search>
 | tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role 
 | `drop_dm_object_name(Authentication)` 
-| rex field=user_role "arn:aws:sts:*:(?<dest_account>.*):" 
+| rex field=user_role &#34;arn:aws:sts:*:(?&lt;dest_account&gt;.*):&#34; 
 | where vendor_account != dest_account 
 | rename vendor_account as requestingAccountId dest_account as requestedAccountId 
 | lookup previously_seen_aws_cross_account_activity requestingAccountId, requestedAccountId, OUTPUTNEW firstTime 
-| eval status = if(firstTime > relative_time(now(), "-24h@h"),"New Cross Account Activity","Previously Seen") 
-|  where status = "New Cross Account Activity" 
+| eval status = if(firstTime &gt; relative_time(now(), &#34;-24h@h&#34;),&#34;New Cross Account Activity&#34;,&#34;Previously Seen&#34;) 
+|  where status = &#34;New Cross Account Activity&#34; 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
 | `aws_cross_account_activity_from_previously_unseen_account_filter`</search>
@@ -1312,7 +1312,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 
 
 ====Known False Positives====
-Using multiple AWS accounts and roles is perfectly valid behavior. It's suspicious when an account requests privileges of an account it hasn't before. You should validate with the account owner that this is a legitimate request.
+Using multiple AWS accounts and roles is perfectly valid behavior. It&#39;s suspicious when an account requests privileges of an account it hasn&#39;t before. You should validate with the account owner that this is a legitimate request.
 
 ====Reference====
 
@@ -1347,7 +1347,7 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 | spath input=key_policy_statements output=key_policy_action_2 path=Action{} 
 | eval key_policy_action=mvappend(key_policy_action_1, key_policy_action_2) 
 | spath input=key_policy_statements output=key_policy_principal path=Principal.AWS 
-| search key_policy_action="kms:Encrypt" AND key_policy_principal="*" 
+| search key_policy_action=&#34;kms:Encrypt&#34; AND key_policy_principal=&#34;*&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by eventName eventSource eventID awsRegion userIdentity.principalId 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -1431,7 +1431,7 @@ This search provides detection of users with KMS keys performing encryption spec
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms" 
+<search>`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption=&#34;aws:kms&#34; 
 | rename requestParameters.bucketName AS bucket_name, requestParameters.x-amz-copy-source AS src_file, requestParameters.key AS dest_file 
 | stats count min(_time) as firstTime max(_time) as lastTime values(src_file) AS src_file values(dest_file) AS dest_file values(userAgent) AS userAgent values(region) AS region values(src) AS src by user 
 | `security_content_ctime(firstTime)`
@@ -3022,7 +3022,6 @@ To implement this search, you must install the AWS App for Splunk (version 5.1.0
 
 ====Known False Positives====
 
-
 ====Reference====
 
 
@@ -3081,6 +3080,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 * userAgent
 
+* All_Changes.object_category
 
 
 ====ATT&CK====
@@ -3147,6 +3147,8 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 
 * [[Documentation:ESSOC:stories:UseCase#Cloud_Federated_Credential_Abuse|Cloud Federated Credential Abuse]]
 
+* [[Documentation:ESSOC:stories:UseCase#Suspicious_Cloud_Instance_Activities|Suspicious Cloud Instance Activities]]
+
 
 ====How To Implement====
 You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
@@ -3169,6 +3171,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 * userIdentity.principalId
 
+* All_Changes.object_category
 
 
 ====ATT&CK====
@@ -3426,16 +3429,6 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 
 
-====ATT&CK====
-{|
-! style="text-align:left;"| ID
-! Technique
-! Tactic
-|-
-| T1078.004
-| Cloud Accounts
-| Defense Evasion, Persistence, Privilege Escalation, Initial Access
-|}
 
 
 ====Kill Chain Phase====
@@ -3445,13 +3438,10 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 ====Known False Positives====
 
-
 ====Reference====
 
 
 ====Test Dataset====
-
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
 ''version'': 1
@@ -3703,13 +3693,10 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 ====Known False Positives====
 
-
 ====Reference====
 
 
 ====Test Dataset====
-
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
 ''version'': 1
@@ -4007,7 +3994,7 @@ none
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -4136,6 +4123,8 @@ none
 
 ====Test Dataset====
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+
 
 ''version'': 1
 </div>
@@ -4198,6 +4187,8 @@ none
 
 
 ====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
 ''version'': 1
@@ -4375,6 +4366,8 @@ none
 
 ====Test Dataset====
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+
 
 ''version'': 1
 </div>
@@ -4418,6 +4411,16 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * userIdentity.arn
 
 
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078
+| Valid Accounts
+| Defense Evasion, Persistence, Privilege Escalation, Initial Access
+|}
 
 
 ====Kill Chain Phase====
@@ -4474,6 +4477,16 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 * userIdentity.arn
 
 
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078
+| Valid Accounts
+| Defense Evasion, Persistence, Privilege Escalation, Initial Access
+|}
 
 
 ====Kill Chain Phase====
@@ -4487,6 +4500,7 @@ none
 
 ====Test Dataset====
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 ''version'': 1
 </div>
@@ -4529,6 +4543,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 * userIdentity.arn
 
+* userName
 
 
 
@@ -4544,7 +4559,7 @@ none
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -4553,10 +4568,10 @@ none
 ===Baseline of blocked outbound traffic from aws===
 This search establishes, on a per-hour basis, the average and the standard deviation of the number of outbound connections blocked in your VPC flow logs by each source IP address (IP address of your EC2 instances). Also recorded is the number of data points for each source IP. This table outputs to a lookup file to allow the detection search to operate quickly.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': 
+* '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Authentication
 * '''ATT&CK''': 
-* '''Last Updated''': 2018-05-07
+* '''Last Updated''': 2020-05-28
 
 <div class="toccolours mw-collapsible mw-collapsed">
 <div class="mw-collapsible-content">
@@ -4586,11 +4601,9 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 * _time
 
-* action
+* Authentication.signature
 
-* src_ip
-
-* dest_ip
+* Authentication.user
 
 
 
@@ -4605,6 +4618,8 @@ none
 
 
 ====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
 ''version'': 1
@@ -4969,6 +4984,17 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 
 
 
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1530
+| Data from Cloud Storage Object
+| Collection
+|}
+
 
 ====Kill Chain Phase====
 
@@ -5054,6 +5080,8 @@ This search has a dependency on other searches to create and update a baseline o
 
 ====Kill Chain Phase====
 
+* Actions on Objectives
+
 
 ====Known False Positives====
 It's possible that a new user will start to modify EC2 instances when they haven't before for any number of reasons. Verify with the user that is modifying instances that this is the intended behavior.
@@ -5066,7 +5094,7 @@ It's possible that a new user will start to modify EC2 instances when they haven
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -5151,7 +5179,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -5290,6 +5318,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 
 * All_Changes.command
 
+* dest
 
 
 ====ATT&CK====
@@ -5404,7 +5433,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -5611,7 +5640,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -5751,7 +5780,9 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 
 * Authentication.src
 
+* data.protoPayload.resourceName
 
+* data.protoPayload.requestMetadata.callerSuppliedUserAgent
 
 ====ATT&CK====
 {|
@@ -5765,9 +5796,9 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 |}
 
 
-====Kill Chain Phase====
 
-* Actions on Objectives
+
+====Kill Chain Phase====
 
 
 ====Known False Positives====
@@ -5857,7 +5888,7 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Reconnaissance
 
 
 ====Known False Positives====
@@ -5929,7 +5960,9 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 
 * data.protoPayload.serviceData.policyDelta.bindingDeltas{}.member
 
+* userIdentity.userName
 
+* userIdentity.type
 
 ====ATT&CK====
 {|
@@ -5942,10 +5975,12 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 | Collection
 |}
 
+* errorCode
+
+
+
 
 ====Kill Chain Phase====
-
-* Actions on Objectives
 
 
 ====Known False Positives====
@@ -6017,7 +6052,9 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 * bucketName
 
+* userIdentity.arn
 
+* userIdentity.userName
 
 ====ATT&CK====
 {|
@@ -6030,8 +6067,11 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | Collection
 |}
 
+* awsRegion
 
-====Kill Chain Phase====
+* eventName
+
+* errorCode
 
 * Actions on Objectives
 
@@ -6084,13 +6124,14 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 
 * [[Documentation:ESSOC:stories:UseCase#Suspicious_AWS_S3_Activities|Suspicious AWS S3 Activities]]
 
+* [[Documentation:ESSOC:stories:UseCase#AWS_Suspicious_Provisioning_Activities|AWS Suspicious Provisioning Activities]]
 
 ====How To Implement====
 You must install the AWS App for Splunk.
 
-====Required field====
+* [[Documentation:ESSOC:stories:UseCase#Suspicious_AWS_S3_Activities|Suspicious AWS S3 Activities]]
 
-* _time
+* [[Documentation:ESSOC:stories:UseCase#Suspicious_AWS_Traffic|Suspicious AWS Traffic]]
 
 * eventSource
 
@@ -6102,13 +6143,15 @@ You must install the AWS App for Splunk.
 
 * userIdentity.principalId
 
-* userAgent
+* _time
 
 * uri
 
 * permission
 
+* eventName
 
+* errorCode
 
 ====ATT&CK====
 {|
@@ -6122,7 +6165,6 @@ You must install the AWS App for Splunk.
 |}
 
 
-====Kill Chain Phase====
 
 * Actions on Objectives
 
@@ -6147,7 +6189,7 @@ While this search has no known false positives, it is possible that an AWS admin
 ===Detect s3 access from a new ip===
 This search looks at S3 bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed an S3 bucket.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Phantom, Splunk Security Analytics for AWS
 * '''Datamodel''': 
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1530/ T1530]
 * '''Last Updated''': 2018-06-28
@@ -6189,6 +6231,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 * remote_ip
 
+* errorCode
 
 
 ====ATT&CK====
@@ -6297,7 +6340,7 @@ None
 ===Detect spike in aws security hub alerts for user===
 This search looks for a spike in number of of AWS security Hub alerts for an AWS IAM User in 4 hours intervals.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Phantom, Splunk Security Analytics for AWS
 * '''Datamodel''': 
 * '''ATT&CK''': 
 * '''Last Updated''': 2021-01-26
@@ -6321,13 +6364,13 @@ This search looks for a spike in number of of AWS security Hub alerts for an AWS
 
 * [[Documentation:ESSOC:stories:UseCase#AWS_Security_Hub_Alerts|AWS Security Hub Alerts]]
 
+* [[Documentation:ESSOC:stories:UseCase#Cloud_Cryptomining|Cloud Cryptomining]]
 
 ====How To Implement====
 You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
 
-====Required field====
+* [[Documentation:ESSOC:stories:UseCase#AWS_Security_Hub_Alerts|AWS Security Hub Alerts]]
 
-* _time
 
 * findings{}.Resources{}.Type
 
@@ -6547,9 +6590,9 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 ====How To Implement====
 You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 
-====Required field====
+* [[Documentation:ESSOC:stories:UseCase#Cloud_Cryptomining|Cloud Cryptomining]]
 
-* _time
+* [[Documentation:ESSOC:stories:UseCase#Suspicious_AWS_EC2_Activities|Suspicious AWS EC2 Activities]]
 
 * eventName
 
@@ -6565,6 +6608,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 * user_agent
 
+* user
 
 
 ====ATT&CK====
@@ -6592,6 +6636,7 @@ It is possible that an AWS admin has legitimately shared a snapshot with others 
 
 * https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
 
+====Reference====
 
 
 ====Test Dataset====
@@ -6649,7 +6694,9 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 
 * http_user_agent
 
+* displayMessage
 
+* src_ip
 
 ====ATT&CK====
 {|
@@ -6662,8 +6709,8 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 | Defense Evasion, Persistence, Privilege Escalation, Initial Access
 |}
 
+* outcome.reason
 
-====Kill Chain Phase====
 
 * Lateral Movement
 
@@ -6671,8 +6718,8 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 ====Known False Positives====
 Payload.request.function.timeout value can possibly be match with other functions or requests however the source user and target request account may indicate an attempt to move laterally accross acounts or projects
 
-====Reference====
 
+====Known False Positives====
 
 * https://github.com/dxa4481/gcploit
 
@@ -6745,8 +6792,8 @@ You must install the GCP App for Splunk (version 2.0.0 or later), then configure
 
 ====Reference====
 
+====Reference====
 
-====Test Dataset====
 
 
 ''version'': 1
@@ -6801,6 +6848,7 @@ You must install the GCP App for Splunk (version 2.0.0 or later), then configure
 
 * properties.pod
 
+* outcome.reason
 
 
 ====ATT&CK====
@@ -7195,7 +7243,7 @@ In order to implement this search, you must install the AWS App for Splunk (vers
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -7294,7 +7342,6 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 ====How To Implement====
 
-
 ====Required field====
 
 * _time
@@ -7335,7 +7382,7 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Not Applicable
 
 
 ====Known False Positives====
@@ -7345,6 +7392,8 @@ unknown
 
 
 ====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
 
 
 ''version'': 1
@@ -7410,6 +7459,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 
 ====Reference====
+
+
+* https://stealthbits.com/blog/bypassing-mfa-with-pass-the-cookie/
+
 
 
 ====Test Dataset====
@@ -7854,6 +7907,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * ResultStatus
 
+* Authentication.user_role
 
 
 ====ATT&CK====
@@ -7942,6 +7996,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * ActorIpAddress
 
+====Reference====
 
 
 ====ATT&CK====
@@ -7956,16 +8011,27 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 |}
 
 
-====Kill Chain Phase====
+''version'': 1
+</div>
+</div>
 
 * Actions on Objective
 
+===Previously seen aws provisioning activity sources===
+This search builds a table of the first and last times seen for every IP address (along with its physical location) previously associated with cloud-provisioning activity. This is broadly defined as any event that runs or creates something.
 
 ====Known False Positives====
 The creation of a new Federation is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
 
-====Reference====
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
 
+====Search====
+<search>`cloudtrail` (eventName=Run* OR eventName=Create*) 
+| iplocation sourceIPAddress 
+| stats earliest(_time) as firstTime, latest(_time) as lastTime by sourceIPAddress, City, Region, Country 
+| outputlookup previously_seen_provisioning_activity_src.csv 
+| stats count</search>
 
 * https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 
@@ -7975,9 +8041,18 @@ The creation of a new Federation is not necessarily malicious, however these eve
 
 * https://www.sygnia.co/golden-saml-advisory
 
+====Required field====
+
+* _time
+
+* eventName
+
+* sourceIPAddress
 
 
-====Test Dataset====
+
+
+====Kill Chain Phase====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_add_service_principal/o365_add_service_principal.json
 
@@ -8041,7 +8116,11 @@ You must install Splunk Microsoft Office 365 add-on. This search works with o365
 
 * action
 
+''version'': 1
+</div>
+</div>
 
+----
 
 ====ATT&CK====
 {|
@@ -8054,25 +8133,33 @@ You must install Splunk Microsoft Office 365 add-on. This search works with o365
 | Defense Evasion
 |}
 
+* '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Change
+* '''ATT&CK''': 
+* '''Last Updated''': 2020-09-03
 
-====Kill Chain Phase====
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
 
 * Actions on Objective
 
+====Associated Analytic Story====
 
 ====Known False Positives====
 Unless it is a special case, it is uncommon to continually update Trusted IPs to MFA configuration.
 
-====Reference====
 
+====How To Implement====
+You must be ingesting Cloud infrastructure logs from your cloud provider.
 
 * https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
 
 * https://attack.mitre.org/techniques/T1562/007/
 
+* All_Changes.user
 
+* All_Changes.command
 
-====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/o365_bypass_mfa_via_trusted_ip/o365_bypass_mfa_via_trusted_ip.json
 
@@ -8127,6 +8214,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * ResultStatus
 
+* All_Changes.command
 
 
 ====ATT&CK====
@@ -8208,8 +8296,9 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * src_ip
 
-* user
+* All_Changes.object_category
 
+* All_Changes.user
 
 
 ====ATT&CK====
@@ -8293,6 +8382,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * UserId
 
+====Test Dataset====
 
 
 ====ATT&CK====
@@ -8306,23 +8396,36 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 | Credential Access, Defense Evasion, Persistence
 |}
 
+----
 
-====Kill Chain Phase====
+===Previously seen cloud compute images - initial===
+This search builds a table of previously seen images used to launch cloud compute instances
 
 * Actions on Objective
 
+====Search====
+<search>
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created  by All_Changes.Instance_Changes.image_id 
+| `drop_dm_object_name(&#34;All_Changes&#34;)` 
+| `drop_dm_object_name(&#34;Instance_Changes&#34;)` 
+| where image_id != &#34;unknown&#34; 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime &lt;= relative_time(now(), &#34;-7d@d&#34;), 1, 0) 
+| outputlookup previously_seen_cloud_compute_images</search>
 
 ====Known False Positives====
 Logon errors may not be malicious in nature however it may indicate attempts to reuse a token or password obtained via credential access attack.
 
-====Reference====
+* [[Documentation:ESSOC:stories:UseCase#Cloud_Cryptomining|Cloud Cryptomining]]
 
 
 * https://stealthbits.com/blog/bypassing-mfa-with-pass-the-cookie/
 
+* _time
 
+* All_Changes.action
 
-====Test Dataset====
+* All_Changes.Instance_Changes.image_id
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors.json
 
@@ -8381,6 +8484,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * UserKey
 
+* All_Changes.Instance_Changes.image_id
 
 
 ====ATT&CK====
@@ -8474,6 +8578,9 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * Operation
 
 
+''version'': 1
+</div>
+</div>
 
 ====ATT&CK====
 {|
@@ -8486,23 +8593,40 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 | Collection
 |}
 
+===Previously seen cloud compute instance types - update===
+This search builds a table of previously seen cloud compute instance types
 
-====Kill Chain Phase====
+* '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Change
+* '''ATT&CK''': 
+* '''Last Updated''': 2020-9-03
 
 * Actions on Objective
 
+====Search====
+<search>
+| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type 
+| `drop_dm_object_name(&#34;All_Changes.Instance_Changes&#34;)` 
+| where instance_type != &#34;unknown&#34; 
+| inputlookup append=t previously_seen_cloud_compute_instance_types 
+| stats min(firstTimeSeen) as firstTimeSeen max(lastTimeSeen) as lastTimeSeen by instance_type 
+| where lastTimeSeen &gt; relative_time(now(), `previously_seen_cloud_compute_instance_type_forget_window`) 
+| eventstats min(firstTimeSeen) as globalFirstTime 
+| eval enough_data = if(globalFirstTime &lt;= relative_time(now(), &#34;-14d@d&#34;), 1, 0) 
+| outputlookup previously_seen_cloud_compute_instance_types</search>
 
 ====Known False Positives====
 PST export can be done for legitimate purposes but due to the sensitive nature of its content it must be monitored.
 
-====Reference====
+* [[Documentation:ESSOC:stories:UseCase#Cloud_Cryptomining|Cloud Cryptomining]]
 
 
 * https://attack.mitre.org/techniques/T1114/
 
+* All_Changes.action
 
+* All_Changes.Instance_Changes.instance_type
 
-====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json
 
@@ -8553,6 +8677,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * Parameters
 
+* All_Changes.user
 
 
 ====ATT&CK====
@@ -8626,6 +8751,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * Parameters
 
+* All_Changes.user
 
 
 ====ATT&CK====
@@ -8782,6 +8908,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 ====Kill Chain Phase====
 
+* All_Changes.status
 
 ====Known False Positives====
 none
@@ -8906,16 +9033,24 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 
 * Authentication.user_role
 
+''version'': 1
+</div>
+</div>
 
 
+===Previously seen ec2 amis===
+This search builds a table of previously seen AMIs used to launch EC2 instances
 
-====Kill Chain Phase====
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2018-03-12
 
 
 ====Known False Positives====
 none
 
-====Reference====
+* [[Documentation:ESSOC:stories:UseCase#AWS_Cryptomining|AWS Cryptomining]]
 
 
 ====Test Dataset====
@@ -9435,20 +9570,28 @@ You must be ingesting the approrpiate cloud infrastructure logs and have the Sec
 
 * All_Changes.Instance_Changes.instance_type
 
+====Test Dataset====
 
 
+''version'': 1
+</div>
+</div>
 
-====Kill Chain Phase====
+----
 
 
 ====Known False Positives====
 none
 
-====Reference====
+====Search====
+<search>`aws_cloudwatchlogs_eks` attach policy
+| spath requestParameters.policyArn 
+| table sourceIPAddress user_access_key userIdentity.arn userIdentity.sessionContext.sessionIssuer.arn eventName errorCode errorMessage status action requestParameters.policyArn userIdentity.sessionContext.attributes.mfaAuthenticated userIdentity.sessionContext.attributes.creationDate  
+| `aws_detect_attach_to_role_policy_filter`</search>
 
+====Associated Analytic Story====
 
-====Test Dataset====
-
+* [[Documentation:ESSOC:stories:UseCase#AWS_Cross_Account_Activity|AWS Cross Account Activity]]
 
 ''version'': 1
 </div>
@@ -9759,7 +9902,7 @@ none
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -9929,6 +10072,12 @@ none
 ====Reference====
 
 
+* https://kb.fortinet.com/kb/documentLink.do?externalID=FD52469
+
+* https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/
+
+
+
 ====Test Dataset====
 
 
@@ -9985,6 +10134,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 none
 
 ====Reference====
+
+
+* https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
+
 
 
 ====Test Dataset====
@@ -10334,6 +10487,14 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 none
 
 ====Reference====
+
+
+* https://docs.microsoft.com/en-us/dotnet/api/system.net.webclient.downloadstring?view=net-5.0
+
+* https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
+
 
 
 ====Test Dataset====
@@ -10703,7 +10864,7 @@ CreateRole is not very common in common users. This search can be adjusted to pr
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 6
 </div>
 </div>
 
@@ -10871,7 +11032,7 @@ Sts:GetSessionToken can be very noisy as in certain environments numerous calls 
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -10885,7 +11046,7 @@ Sts:GetSessionToken can be very noisy as in certain environments numerous calls 
 ===7zip commandline to smb share path===
 This search is to detect a suspicious 7z process with commandline pointing to SMB network share. This technique was seen in CONTI LEAK tools where it use 7z to archive a sensitive files and place it in network share tmp folder. This search is a good hunting query that may give analyst a hint why specific user try to archive a file pointing to SMB user which is un usual.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Behavioral Analytics
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1560/001/ T1560.001]
 * '''Last Updated''': 2021-08-17
@@ -10921,9 +11082,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Processes.parent_process_name
 
-* Processes.process_name
+* process_path
 
-* Processes.process
+* dest_user_id
 
 * Processes.process_id
 
@@ -11413,7 +11574,9 @@ To successfully implement this search, you need to be ingesting logs with the po
 
 * User
 
+* Processes.dest
 
+* Processes.process_name
 
 ====ATT&CK====
 {|
@@ -11427,9 +11590,9 @@ To successfully implement this search, you need to be ingesting logs with the po
 |}
 
 
-====Kill Chain Phase====
 
-* Exploitation
+
+====Kill Chain Phase====
 
 
 ====Known False Positives====
@@ -11518,7 +11681,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Delivery
 
 
 ====Known False Positives====
@@ -11676,7 +11839,9 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.parent_process_id
 
+* Processes.process_name
 
+* Processes.process
 
 ====ATT&CK====
 {|
@@ -11693,6 +11858,8 @@ To successfully implement this search you need to be ingesting information on pr
 ====Kill Chain Phase====
 
 * Actions on Objective
+
+* Privilege Escalation
 
 
 ====Known False Positives====
@@ -12190,6 +12357,19 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 * dest_user_id
 
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
 
 
 ====ATT&CK====
@@ -12238,9 +12418,7 @@ None identified.
 * https://github.com/MichaelGrafnetter/DSInternals
 
 
-
 ====Test Dataset====
-
 
 ''version'': 1
 </div>
@@ -12561,9 +12739,9 @@ You must be ingesting data that records the file-system activity from your hosts
 
 * Processes.process_name
 
-* Processes.process
+* _time
 
-* Processes.process_id
+* parent_process_name
 
 * Processes.parent_process_id
 
@@ -12715,7 +12893,13 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Credential_Dumping|Credential Dumping]]
+* [[Documentation:ESSOC:stories:UseCase#SamSam_Ransomware|SamSam Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ryuk_Ransomware|Ryuk Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Clop_Ransomware|Clop Ransomware]]
 
 * [[Documentation:ESSOC:stories:UseCase#DarkSide_Ransomware|DarkSide Ransomware]]
 
@@ -12768,6 +12952,11 @@ None identified.
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.002/T1003.002.md#atomic-test-1---registry-dump-of-sam-creds-and-secrets
 
+
+====Known False Positives====
+It&#39;s possible that a legitimate file could be created with the same name used by ransomware note files.
+
+====Reference====
 
 
 ====Test Dataset====
@@ -12903,6 +13092,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * Processes.user
 
+* category
 
 
 ====ATT&CK====
@@ -12918,8 +13108,6 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 
 ====Kill Chain Phase====
-
-* Actions on Objectives
 
 
 ====Known False Positives====
@@ -12995,6 +13183,8 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.process_path
 
 * Processes.parent_process_id
+
+* Computer
 
 
 
@@ -13136,6 +13326,7 @@ Limited false positives, however it may be required to filter based on parent pr
 
 * https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
 
 
 ====Test Dataset====
@@ -13190,7 +13381,7 @@ You must be ingesting endpoint data and populating the Endpoint data model. In a
 
 * _time
 
-* Processes.user
+* Service_Start_Type
 
 * Processes.dest
 
@@ -13210,7 +13401,15 @@ none
 ====Reference====
 
 
+* https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+
+* https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+
+
+
 ====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log
 
 
 ''version'': 1
@@ -13290,7 +13489,7 @@ It is possible for this search to generate a notable event for a batch file writ
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log
 
 
-''version'': 1
+''version'': 4
 </div>
 </div>
 
@@ -13458,7 +13657,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 * Privilege Escalation
 
@@ -13504,17 +13703,19 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 | `security_content_ctime(lastTime)` 
 | `cmlua_or_cmstplua_uac_bypass_filter`</search>
 
-====Associated Analytic Story====
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 * [[Documentation:ESSOC:stories:UseCase#DarkSide_Ransomware|DarkSide Ransomware]]
 
 * [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
 
+* Processes.parent_process_name
 
 ====How To Implement====
 To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
-====Required field====
+* Processes.original_file_name
 
 * _time
 
@@ -13548,7 +13749,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -13605,27 +13806,15 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.dest
+* EventID
 
-* Processes.user
+* process_name
 
-* Processes.parent_process_name
+* TargetFilename
 
-* Processes.parent_process
+* Computer
 
-* Processes.original_file_name
-
-* Processes.process_name
-
-* Processes.process
-
-* Processes.process_id
-
-* Processes.parent_process_path
-
-* Processes.process_path
-
-* Processes.parent_process_id
+* object_category
 
 
 
@@ -13698,7 +13887,7 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 
 
 ====How To Implement====
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 ====Required field====
 
@@ -13898,7 +14087,7 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 
 
 ====How To Implement====
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
 
 ====Required field====
 
@@ -13906,7 +14095,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.dest
 
-* Processes.user
+* parent_process_name
 
 * Processes.parent_process_name
 
@@ -13918,7 +14107,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.process
 
-* Processes.process_id
+* dest_user_id
 
 * Processes.parent_process_path
 
@@ -14150,7 +14339,7 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 
 
 ====How To Implement====
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
 
 ====Required field====
 
@@ -14158,7 +14347,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.dest
 
-* Processes.user
+* process_name
 
 * Processes.parent_process_name
 
@@ -14168,9 +14357,9 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.process_name
 
-* Processes.process
+* process_path
 
-* Processes.process_id
+* dest_user_id
 
 * Processes.parent_process_path
 
@@ -14308,7 +14497,7 @@ unknown
 The following analytic identifies the use of default or publicly known named pipes used with Cobalt Strike. A named pipe is a named, one-way or duplex pipe for communication between the pipe server and one or more pipe clients. Cobalt Strike uses named pipes in many ways and has default values used with the Artifact Kit and Malleable C2 Profiles. The following query assists with identifying these default named pipes. Each EDR product presents named pipes a little different. Consider taking the values and generating a query based on the product of choice. \
 Upon triage, review the process performing the named pipe. If it is explorer.exe, It is possible it was injected into by another process. Review recent parallel processes to identify suspicious patterns or behaviors. A parallel process may have a network connection, review and follow the connection back to identify any file modifications.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Behavioral Analytics
 * '''Datamodel''': 
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1055/ T1055]
 * '''Last Updated''': 2021-02-22
@@ -14338,9 +14527,11 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 ====Required field====
 
-* _time
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| where cmd_line != null AND ( match_regex(cmd_line, /(?i)CRYPTO::Certificates/)=true OR match_regex(cmd_line, /(?i)CRYPTO::keys/)=true OR match_regex(cmd_line, /(?i)kerberos::list/)=true OR match_regex(cmd_line, /(?i)kerberos::tgt/)=true OR match_regex(cmd_line, /(?i)lsadump::sam/)=true OR match_regex(cmd_line, /(?i)lsadump::secrets/)=true OR match_regex(cmd_line, /(?i)lsadump::cache/)=true OR match_regex(cmd_line, /(?i)lsadump::lsa/)=true OR match_regex(cmd_line, /(?i)lsadump::trust/)=true OR match_regex(cmd_line, /(?i)lsadump::backupkeys/)=true )
 
-* EventID
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line]) 
+| into write_ssa_detected_events();</search>
 
 * PipeName
 
@@ -14348,7 +14539,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * process_name
 
-* process_path
+* process
 
 * process_id
 
@@ -14667,7 +14858,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 ===Count of assets by category===
 This search shows you every asset category you have and the assets that belong to those categories.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Behavioral Analytics
 * '''Datamodel''': 
 * '''ATT&CK''': 
 * '''Last Updated''': 2017-09-13
@@ -14863,7 +15054,7 @@ This search needs Sysmon Logs with a Sysmon configuration, which includes EventC
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -14972,7 +15163,7 @@ unknown
 ===Create local admin accounts using net exe===
 This search looks for the creation of local administrator accounts using net.exe.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Behavioral Analytics
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1136/001/ T1136.001]
 * '''Last Updated''': 2020-07-21
@@ -15000,11 +15191,9 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * _time
 
-* Processes.dest
+* dest_device_id
 
-* Processes.user
-
-* Processes.parent_process_name
+* process_name
 
 * Processes.parent_process
 
@@ -15012,9 +15201,9 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Processes.process_name
 
-* Processes.process
+* process_path
 
-* Processes.process_id
+* dest_user_id
 
 * Processes.parent_process_path
 
@@ -15038,7 +15227,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -15100,7 +15289,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Processes.parent_process_name
 
-* Processes.parent_process
+* User
 
 * Processes.original_file_name
 
@@ -15272,6 +15461,8 @@ This search detects the use of wmic and Powershell to create a shadow copy.
 
 * [[Documentation:ESSOC:stories:UseCase#Credential_Dumping|Credential Dumping]]
 
+* [[Documentation:ESSOC:stories:UseCase#Clop_Ransomware|Clop Ransomware]]
+
 
 ====How To Implement====
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -15336,7 +15527,7 @@ Legtimate administrator usage of wmic to create a shadow copy.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
 
 
-''version'': 1
+''version'': 4
 </div>
 </div>
 
@@ -15551,27 +15742,15 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * _time
 
-* Processes.dest
+* file_path
 
-* Processes.user
+* dest
 
-* Processes.parent_process_name
+* file_name
 
-* Processes.parent_process
+* process_id
 
-* Processes.original_file_name
-
-* Processes.process_name
-
-* Processes.process
-
-* Processes.process_id
-
-* Processes.parent_process_path
-
-* Processes.process_path
-
-* Processes.parent_process_id
+* file_create_time
 
 
 
@@ -15719,7 +15898,7 @@ Credential extraction is often an illegal recovery of credential material from s
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Unusual_Processes|Unusual Processes]]
+* [[Documentation:ESSOC:stories:UseCase#Baron_Samedit_CVE-2021-3156|Baron Samedit CVE-2021-3156]]
 
 * [[Documentation:ESSOC:stories:UseCase#Credential_Dumping|Credential Dumping]]
 
@@ -15766,7 +15945,7 @@ None identified.
 ====Reference====
 
 
-====Test Dataset====
+* https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logFgdump.log
 
@@ -15845,10 +16024,13 @@ None identified.
 ====Reference====
 
 
+* https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
+
+
+
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logLazagneCredDump.log
-
 
 ''version'': 1
 </div>
@@ -16017,9 +16199,10 @@ None identified.
 
 * https://github.com/MichaelGrafnetter/DSInternals
 
+* https://github.com/GossiTheDog/HiveNightmare
 
+* https://github.com/JumpsecLabs/Guidance-Advice/tree/main/SAM_Permissions
 
-====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllDSInternalsModules.log
 
@@ -16186,7 +16369,7 @@ None identified.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -16316,7 +16499,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 * dest_device_id
 
-* dest_user_id
+* dest_device_id
 
 * process
 
@@ -16600,8 +16783,6 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 ====Kill Chain Phase====
 
-* Exploitation
-
 
 ====Known False Positives====
 admin nslookup usage
@@ -16621,8 +16802,68 @@ admin nslookup usage
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
 
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
 
-''version'': 1
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where nodename=All_Changes.Account_Management All_Changes.result=&#34;lockout&#34; by All_Changes.user All_Changes.result 
+|`drop_dm_object_name(&#34;All_Changes&#34;)` 
+|`drop_dm_object_name(&#34;Account_Management&#34;)`
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| search count &gt; 5 
+| `detect_excessive_user_account_lockouts_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Account_Monitoring_and_Controls|Account Monitoring and Controls]]
+
+
+====How To Implement====
+ou must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment.
+
+====Required field====
+
+* _time
+
+* All_Changes.result
+
+* nodename
+
+* All_Changes.user
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1078.003
+| Local Accounts
+| Defense Evasion, Persistence, Privilege Escalation, Initial Access
+|}
+
+
+====Kill Chain Phase====
+
+
+====Known False Positives====
+It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.
+
+====Reference====
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log
+
+
+''version'': 3
 </div>
 </div>
 
@@ -16718,7 +16959,7 @@ Limited false positives. If there is a true false positive, filter based on comm
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/atomic_red_team/windows-sysmon.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -27002,8 +27243,8 @@ To successfully implement this search you must be ingesting endpoint data and po
 
 ====Reference====
 
+* https://lolbas-project.github.io/lolbas/Binaries/Hh/
 
-====Test Dataset====
 
 
 ''version'': 2
@@ -27082,6 +27323,7 @@ To successfully implement this search you must be ingesting endpoint data that a
 
 * Ports.dest_port
 
+* https://lolbas-project.github.io/lolbas/Binaries/Hh/
 
 
 
@@ -27169,7 +27411,9 @@ You must be ingesting endpoint data that associates processes with network event
 * Ports.dest_port
 
 
+* https://lolbas-project.github.io/lolbas/Binaries/Hh/
 
+* https://blog.sevagas.com/?Hacking-around-HTA-files
 
 ====Kill Chain Phase====
 
@@ -27239,7 +27483,7 @@ To successfully implement this search, you must be collecting Sysmon data using 
 * Filter
 
 
-
+* _time
 
 ====Kill Chain Phase====
 
@@ -27250,10 +27494,15 @@ To successfully implement this search, you must be collecting Sysmon data using 
 ====Reference====
 
 
+
+
+====Reference====
+
+
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -27282,13 +27531,14 @@ This analytic identifies potential adversaries that modify the security permissi
 
 * [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
 
+* [[Documentation:ESSOC:stories:UseCase#Command_and_Control|Command and Control]]
 
 ====How To Implement====
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed icacls.exe may be used.
 
-====Required field====
+* [[Documentation:ESSOC:stories:UseCase#Emotet_Malware__DHS_Report_TA18-201A_|Emotet Malware  DHS Report TA18-201A ]]
 
-* _time
+* [[Documentation:ESSOC:stories:UseCase#Hidden_Cobra_Malware|Hidden Cobra Malware]]
 
 * dest_device_id
 
@@ -27302,7 +27552,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * process
 
+====Required field====
 
+* _time
 
 ====ATT&CK====
 {|
@@ -27315,28 +27567,33 @@ To successfully implement this search, you need to be ingesting logs with the pr
 | Defense Evasion
 |}
 
+* Processes.process_id
 
-====Kill Chain Phase====
+* Processes.process_name
 
-* Exploitation
+* Processes.dest
 
+* Ports.process_id
 
 ====Known False Positives====
 network administrator may use this windows utility but this is not a common practice.
 
-====Reference====
+* Ports.dest_port
 
 
 * https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 
 
+====Kill Chain Phase====
 
-====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
 
 
-''version'': 1
+====Test Dataset====
+
+
+''version'': 2
 </div>
 </div>
 
@@ -27345,7 +27602,7 @@ network administrator may use this windows utility but this is not a common prac
 ===Gsuite drive share in external email===
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Phantom
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1567/002/ T1567.002]
 * '''Last Updated''': 2021-08-16
@@ -27367,13 +27624,14 @@ This search is to detect suspicious google drive or google docs files shared out
 
 * [[Documentation:ESSOC:stories:UseCase#DevSecOps|DevSecOps]]
 
+* [[Documentation:ESSOC:stories:UseCase#Brand_Monitoring|Brand Monitoring]]
 
 ====How To Implement====
 To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
 
-====Required field====
+* [[Documentation:ESSOC:stories:UseCase#Data_Protection|Data Protection]]
 
-* _time
+* [[Documentation:ESSOC:stories:UseCase#Dynamic_DNS|Dynamic DNS]]
 
 * parameters.doc_title
 
@@ -27389,7 +27647,9 @@ To successfully implement this search, you need to be ingesting logs related to 
 
 * parameters.doc_type
 
+====Required field====
 
+* _time
 
 ====ATT&CK====
 {|
@@ -27402,28 +27662,33 @@ To successfully implement this search, you need to be ingesting logs related to 
 | Exfiltration
 |}
 
+* Processes.process_id
 
-====Kill Chain Phase====
+* Processes.process_name
 
 * Exfiltration
 
+* Ports.process_id
 
 ====Known False Positives====
 network admin or normal user may share files to customer and external team.
 
-====Reference====
+* Ports.dest_port
 
 
 * https://www.redhat.com/en/topics/devops/what-is-devsecops
 
 
+====Kill Chain Phase====
 
-====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
 
 
-''version'': 1
+====Test Dataset====
+
+
+''version'': 2
 </div>
 </div>
 
@@ -27465,6 +27730,7 @@ To successfully implement this search, you need to be ingesting logs related to 
 * _time
 
 
+* Query
 
 ====ATT&CK====
 {|
@@ -27477,20 +27743,20 @@ To successfully implement this search, you need to be ingesting logs related to 
 | Exfiltration
 |}
 
+* Filter
 
-====Kill Chain Phase====
 
-* Exploitation
 
 
 ====Known False Positives====
 network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
 
-====Reference====
 
+====Known False Positives====
 
 * https://www.redhat.com/en/topics/devops/what-is-devsecops
 
+====Reference====
 
 
 ====Test Dataset====
@@ -27507,7 +27773,7 @@ network admin and normal user may send this file attachment as part of their day
 ===Hide user account from sign-in screen===
 This analytic identifies a suspicious registry modification to hide a user account on the Windows Login screen. This technique was seen in some tradecraft where the adversary will create a hidden user account with Admin privileges in login screen to avoid noticing by the user that they already compromise and to persist on that said machine.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Behavioral Analytics
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1562/001/ T1562.001]
 * '''Last Updated''': 2021-05-05
@@ -27535,9 +27801,9 @@ To successfully implement this search, you must be ingesting data that records r
 
 * _time
 
-* Registry.registry_key_name
+* dest_device_id
 
-* Registry.registry_path
+* process_name
 
 * Registry.registry_value_name
 
@@ -27551,8 +27817,8 @@ To successfully implement this search, you must be ingesting data that records r
 ! Technique
 ! Tactic
 |-
-| T1562.001
-| Disable or Modify Tools
+| T1222
+| File and Directory Permissions Modification
 | Defense Evasion
 |}
 
@@ -27642,7 +27908,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -27651,12 +27917,16 @@ Some applications and users may legitimately use attrib.exe to interact with the
 ====Reference====
 
 
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
+
+
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/atomic_red_team/windows-sysmon.log
 
 
-''version'': 4
+''version'': 1
 </div>
 </div>
 
@@ -27684,6 +27954,8 @@ This search looks for high frequency of file deletion relative to process name a
 ====Associated Analytic Story====
 
 * [[Documentation:ESSOC:stories:UseCase#Clop_Ransomware|Clop Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Windows_Persistence_Techniques|Windows Persistence Techniques]]
 
 
 ====How To Implement====
@@ -27721,7 +27993,7 @@ To successfully implement this search, you need to be ingesting logs with the de
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -27741,7 +28013,7 @@ user may delete bunch of pictures or files in a folder.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
 
 
-''version'': 1
+''version'': 4
 </div>
 </div>
 
@@ -27850,7 +28122,7 @@ This analytic identifies potential adversaries that modify the security permissi
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
+* [[Documentation:ESSOC:stories:UseCase#Clop_Ransomware|Clop Ransomware]]
 
 * [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
 
@@ -27899,7 +28171,9 @@ Unknown. Filter as needed.
 ====Reference====
 
 
-* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+* https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
+
+* https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 
 
 
@@ -28168,6 +28442,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 * _time
 
+* Processes.dest
 
 
 ====ATT&CK====
@@ -28196,11 +28471,9 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
-
 
 ====Known False Positives====
-None identified.
+none
 
 ====Reference====
 
@@ -29147,12 +29420,14 @@ To successfully implement this search you need to be ingesting windows security 
 
 
 
+====Kill Chain Phase====
 
 ====Kill Chain Phase====
 
 
 ====Known False Positives====
 
+====Reference====
 
 ====Reference====
 
@@ -29344,7 +29619,9 @@ You must be ingesting endpoint data that tracks process activity, and include th
 
 * service_id
 
+* Authentication.dest
 
+* Authentication.user
 
 ====ATT&CK====
 {|
@@ -29357,8 +29634,8 @@ You must be ingesting endpoint data that tracks process activity, and include th
 | Credential Access
 |}
 
+* Authentication.src_nt_domain
 
-====Kill Chain Phase====
 
 * Actions on Objectives
 
@@ -29366,13 +29643,14 @@ You must be ingesting endpoint data that tracks process activity, and include th
 ====Known False Positives====
 Older systems that support kerberos RC4 by default NetApp may generate false positives
 
-====Reference====
 
+====Known False Positives====
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1208/T1208.md
 
 * https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity
 
+====Reference====
 
 
 ====Test Dataset====
@@ -29440,7 +29718,7 @@ To successfully implement this search, you need to be ingesting logs with the 70
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -29460,7 +29738,7 @@ Admin activities or installing related updates may do a sudden stop to list of s
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -29570,6 +29848,9 @@ To successfully implement this search, you need to be ingesting logs with the po
 
 * User
 
+* Processes.parent_process_name
+
+* Processes.dest
 
 
 ====ATT&CK====
@@ -29739,6 +30020,16 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.process_id
 
 
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059.001
+| PowerShell
+| Execution
+|}
 
 ====ATT&CK====
 {|
@@ -29820,6 +30111,8 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.user
 
 * Processes.dest
+
+* Processes.process_id
 
 
 
@@ -30215,7 +30508,7 @@ administrators may use this command. Filter as needed.
 ===Modify acls permission of files or folders===
 This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone or to a specific user. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior is a good indicator if this command seen on a machine utilized by an account with no permission to do so.
 
-* '''Product''': Splunk Behavioral Analytics
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1222/ T1222]
 * '''Last Updated''': 2021-06-15
@@ -30243,17 +30536,17 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * _time
 
-* dest_device_id
+* Processes.parent_process_name
 
-* process_name
+* Processes.process_name
 
-* parent_process_name
+* Processes.dest
 
-* process_path
+* Processes.user
 
-* dest_user_id
+* Processes.process
 
-* process
+* Processes.process_id
 
 
 
@@ -30286,7 +30579,7 @@ network administrator may use this windows utility. filter is needed.
 
 ====Test Dataset====
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
 
 
 ''version'': 1
@@ -30328,7 +30621,7 @@ To successfully implement this search, you must be ingesting data that records r
 
 * Registry.action
 
-* Registry.registry_path
+* process_name
 
 * Registry.dest
 
@@ -30614,8 +30907,6 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 ====Kill Chain Phase====
 
-* Exploitation
-
 
 ====Known False Positives====
 limitted. this anomaly behavior is not commonly seen in clean host.
@@ -30696,8 +30987,6 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 ====Kill Chain Phase====
-
-* Exploitation
 
 
 ====Known False Positives====
@@ -30799,7 +31088,7 @@ A host failing to authenticate with multiple disabled domain users is not a comm
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_disabled_users_kerberos/windows-security.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -31773,7 +32062,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -32013,7 +32302,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Computer
 
-* EventCode
+* Processes.process_name
 
 * Image
 
@@ -32041,7 +32330,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -32130,6 +32419,17 @@ To successfully implement this search, you need to be ingesting logs with the pr
 | Initial Access
 |}
 
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|}
+
 
 ====Kill Chain Phase====
 
@@ -32184,6 +32484,10 @@ this search is to detect potential malicious office document executing lolbin ch
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances office application and browser may be used.
 
 ====Required field====
+
+* Processes.process
+
+* Processes.parent_process_name
 
 * _time
 
@@ -32274,7 +32578,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 ====Required field====
 
-* _time
+* ImageLoaded
 
 * parent_process
 
@@ -32355,7 +32659,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Required field====
 
-* _time
+* ImageLoaded
 
 * process_name
 
@@ -32883,9 +33187,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 ! Technique
 ! Tactic
 |-
-| T1222
-| File and Directory Permissions Modification
-| Defense Evasion
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
 |}
 
 
@@ -33061,7 +33365,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -33230,7 +33534,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Reconnaissance
 
 
 ====Known False Positives====
@@ -33381,7 +33685,7 @@ To successfully implement this search, you need to be ingesting logs with the po
 
 * _time
 
-* EventCode
+* Processes.process
 
 * Message
 
@@ -33534,11 +33838,17 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 
 * _time
 
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process
+
 * Message
 
 * OpCode
 
-* ComputerName
+* Processes.parent_process_id
 
 * User
 
@@ -33719,7 +34029,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 
 * _time
 
-* EventCode
+* Message
 
 * Message
 
@@ -33844,6 +34154,8 @@ To successfully implement this search, you need to be ingesting logs with the pr
 ====Kill Chain Phase====
 
 * Exploitation
+
+* Privilege Escalation
 
 
 ====Known False Positives====
@@ -34327,16 +34639,23 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.process
 
 
+====Test Dataset====
 
 
 ====Kill Chain Phase====
 
+----
 
 ====Known False Positives====
 none
 
-====Reference====
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2020-06-23
 
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
 
 ====Test Dataset====
 
@@ -34402,8 +34721,6 @@ You will need to ensure PrintService Admin and Operational logs are being logged
 
 
 ====Kill Chain Phase====
-
-* Exploitation
 
 
 ====Known False Positives====
@@ -34490,8 +34807,6 @@ You will need to ensure PrintService Admin and Operational logs are being logged
 
 ====Kill Chain Phase====
 
-* Exploitation
-
 
 ====Known False Positives====
 False positives are unknown and filtering may be required.
@@ -34541,11 +34856,12 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 
 * [[Documentation:ESSOC:stories:UseCase#Windows_Privilege_Escalation|Windows Privilege Escalation]]
 
+* [[Documentation:ESSOC:stories:UseCase#Disabling_Security_Tools|Disabling Security Tools]]
 
 ====How To Implement====
 You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
 
-====Required field====
+* [[Documentation:ESSOC:stories:UseCase#Netsh_Abuse|Netsh Abuse]]
 
 * _time
 
@@ -34555,7 +34871,9 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 * dest_device_id
 
+* Processes.process_name
 
+* Processes.process
 
 ====ATT&CK====
 {|
@@ -34573,7 +34891,6 @@ You must be ingesting Windows Security logs from devices of interest, including 
 |}
 
 
-====Kill Chain Phase====
 
 * Actions on Objectives
 
@@ -34591,7 +34908,7 @@ None identified.
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -34772,9 +35089,9 @@ unknown
 
 * https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 
+* https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 
 
-====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
 
@@ -34921,7 +35238,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Installation
+
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -34939,7 +35258,7 @@ Unknown.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
 
 
-''version'': 1
+''version'': 4
 </div>
 </div>
 
@@ -34975,7 +35294,7 @@ In order to properly run this search, Splunk needs to ingest data from your osqu
 
 ====Required field====
 
-* _time
+* EventCode
 
 * app
 
@@ -35231,6 +35550,7 @@ Collect endpoint data such as sysmon or 4688 events.
 
 * dest_user_id
 
+* host
 
 
 ====ATT&CK====
@@ -35259,7 +35579,7 @@ Collect endpoint data such as sysmon or 4688 events.
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Command and Control
 
 
 ====Known False Positives====
@@ -35483,7 +35803,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 ====Required field====
 
-* _time
+* process
 
 * process
 
@@ -35526,6 +35846,7 @@ None identified.
 
 * https://github.com/PowerShellMafia/PowerSploit
 
+====Reference====
 
 
 ====Test Dataset====
@@ -36700,7 +37021,7 @@ This detection identifies use of Mimikatz modules for discovery of process or se
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::detours/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();</search>
 
 ====Associated Analytic Story====
@@ -37013,7 +37334,7 @@ There are many legitimate applications that must execute on system startup and w
 ====Reference====
 
 
-====Test Dataset====
+* https://github.com/gentilkiwi/mimikatz
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log
 
@@ -37066,6 +37387,10 @@ To successfully implement this search, you must be ingesting data that records r
 * Registry.dest
 
 * Registry.user
+
+* Processes.dest
+
+* Processes.user
 
 
 
@@ -37161,6 +37486,17 @@ To successfully implement this search, you must populate the Change_Analysis dat
 | Privilege Escalation, Persistence
 |}
 
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1574.011
+| Services Registry Permissions Weakness
+| Persistence, Privilege Escalation, Defense Evasion
+|}
+
 
 ====Kill Chain Phase====
 
@@ -37209,6 +37545,16 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 
 * [[Documentation:ESSOC:stories:UseCase#Lateral_Movement|Lateral Movement]]
 
+* [[Documentation:ESSOC:stories:UseCase#Possible_Backdoor_Activity_Associated_With_MUDCARP_Espionage_Campaigns|Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Windows_Persistence_Techniques|Windows Persistence Techniques]]
+
+* [[Documentation:ESSOC:stories:UseCase#Emotet_Malware__DHS_Report_TA18-201A_|Emotet Malware  DHS Report TA18-201A ]]
+
+* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
+
 
 ====How To Implement====
 To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. The search requires you to identify systems that do not commonly use remote desktop. You can use the included support search "Identify Systems Using Remote Desktop" to identify these systems. After identifying them, you will need to add the "common_rdp_source" category to that system using the Enterprise Security Assets and Identities framework. This can be done by adding an entry in the assets.csv file located in `SA-IdentityManagement/lookups`.
@@ -37223,7 +37569,7 @@ To successfully implement this search, you must be ingesting data that records p
 
 * Processes.dest
 
-* Processes.user
+* Registry.dest
 
 
 
@@ -37384,6 +37730,7 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.process_id
 
 
+* Registry.registry_path
 
 ====ATT&CK====
 {|
@@ -37502,7 +37849,7 @@ network admin can resize the shadowstorage for valid purposes.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
 
 
-''version'': 1
+''version'': 5
 </div>
 </div>
 
@@ -37589,7 +37936,7 @@ network admin can resize the shadowstorage for valid purposes.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
 
 
-''version'': 1
+''version'': 5
 </div>
 </div>
 
@@ -37717,6 +38064,10 @@ to successfully implement this search, you need to be ingesting logs with the Im
 
 ====Required field====
 
+* Processes.process
+
+* Process.parent_process_name
+
 * _time
 
 * Registry.dest
@@ -37811,6 +38162,8 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.dest
 
 * Processes.user
+
+* process
 
 
 
@@ -37926,7 +38279,7 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -38092,7 +38445,7 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
 
 
-''version'': 1
+''version'': 4
 </div>
 </div>
 
@@ -38458,7 +38811,7 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 | `security_content_ctime(lastTime)` 
 | `ryuk_wake_on_lan_command_filter`</search>
 
-====Associated Analytic Story====
+* [[Documentation:ESSOC:stories:UseCase#Cobalt_Strike|Cobalt Strike]]
 
 * [[Documentation:ESSOC:stories:UseCase#Ryuk_Ransomware|Ryuk Ransomware]]
 
@@ -38608,6 +38961,8 @@ Natively, `dllhost.exe` will access the files. Every environment will have addit
 
 
 ====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
 
 
 ''version'': 1
@@ -38924,9 +39279,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.parent_process_name
 
-* Processes.dest
-
-* Processes.user
+* Processes.parent_process_id
 
 
 
@@ -39203,7 +39556,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -39245,6 +39598,10 @@ This analytic identifies an on demand run of a Windows Schedule Task through she
 ====Associated Analytic Story====
 
 * [[Documentation:ESSOC:stories:UseCase#XMRig|XMRig]]
+
+* [[Documentation:ESSOC:stories:UseCase#Trickbot|Trickbot]]
+
+* [[Documentation:ESSOC:stories:UseCase#Icedid|Icedid]]
 
 
 ====How To Implement====
@@ -39345,9 +39702,13 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Processes.parent_process_name
 
-* Processes.dest
+* Processes.process_name
 
 * Processes.user
+
+* Processes.parent_process_name
+
+* Processes.dest
 
 
 
@@ -39444,13 +39805,17 @@ To successfully implement this search you need to be ingesting logs with both th
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
 Administrators may create jobs on systems forcing reboots to perform updates, maintenance, etc.
 
 ====Reference====
+
+
+* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+
 
 
 ====Test Dataset====
@@ -39485,7 +39850,9 @@ This search looks for scripts launched via WMI.
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Suspicious_WMI_Use|Suspicious WMI Use]]
+* [[Documentation:ESSOC:stories:UseCase#Lateral_Movement|Lateral Movement]]
+
+* [[Documentation:ESSOC:stories:UseCase#NOBELIUM_Group|NOBELIUM Group]]
 
 
 ====How To Implement====
@@ -39509,9 +39876,9 @@ You must be ingesting endpoint data that tracks process activity, including pare
 ! Technique
 ! Tactic
 |-
-| T1047
-| Windows Management Instrumentation
-| Execution
+| T1053.005
+| Scheduled Task
+| Execution, Persistence, Privilege Escalation
 |}
 
 
@@ -39596,7 +39963,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -39618,7 +39985,7 @@ Limited to no false positives are expected.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
 
 
-''version'': 1
+''version'': 4
 </div>
 </div>
 
@@ -39687,7 +40054,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -39705,7 +40072,7 @@ Limited false positives may be present in small environments. Tuning may be requ
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
 
 
-''version'': 1
+''version'': 4
 </div>
 </div>
 
@@ -39736,27 +40103,19 @@ This analytic detects a potential usage of secretsdump.py tool for dumping crede
 
 
 ====How To Implement====
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 ====Required field====
 
 * _time
 
-* Processes.process_name
+* Registry.registry_path
 
-* Processes.process
+* Registry.registry_key_name
 
-* Processes.parent_process_name
+* Registry.registry_value_name
 
-* Processes.parent_process
-
-* Processes.dest
-
-* Processes.user
-
-* Processes.process_id
-
-* Processes.process_guid
+* Registry.dest
 
 
 
@@ -39932,6 +40291,10 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Registry.dest
 
+* Processes.process_id
+
+* Processes.process_guid
+
 
 
 ====ATT&CK====
@@ -39948,7 +40311,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 ====Kill Chain Phase====
 
-* Installation
+* Exploitation
 
 * Actions on Objectives
 
@@ -39957,6 +40320,10 @@ You must be ingesting data that records process activity from your hosts to popu
 Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass" as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 
 ====Reference====
+
+
+* https://github.com/SecureAuthCorp/impacket/blob/master/examples/secretsdump.py
+
 
 
 ====Test Dataset====
@@ -40040,6 +40407,8 @@ You must be ingesting Windows Security logs from devices of interest, including 
 ====Kill Chain Phase====
 
 * Actions on Objectives
+
+* Privilege Escalation
 
 
 ====Known False Positives====
@@ -40144,7 +40513,7 @@ None identified.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllMimikatzModules.log
 
 
-''version'': 1
+''version'': 6
 </div>
 </div>
 
@@ -40331,7 +40700,8 @@ This search detects the process execution and arguments required to silently cre
 | `security_content_ctime(lastTime)` 
 | `shim_database_installation_with_suspicious_parameters_filter`</search>
 
-====Associated Analytic Story====
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| where cmd_line != null AND ( match_regex(cmd_line, /(?i)Set-DomainUserPassword/)=true )
 
 * [[Documentation:ESSOC:stories:UseCase#Windows_Persistence_Techniques|Windows Persistence Techniques]]
 
@@ -40347,7 +40717,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Processes.parent_process_name
 
-* Processes.dest
+* _time
 
 * Processes.user
 
@@ -40540,7 +40910,7 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log
 
 
-''version'': 1
+''version'': 4
 </div>
 </div>
 
@@ -40703,7 +41073,6 @@ The following analytic identifies a suspicious child process, `rundll32.exe`, wi
 <search>
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe Processes.process_name=rundll32.exe by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `spoolsv_spawning_rundll32_filter`</search>
 
@@ -40713,7 +41082,7 @@ The following analytic identifies a suspicious child process, `rundll32.exe`, wi
 
 
 ====How To Implement====
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 ====Required field====
 
@@ -40723,15 +41092,9 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.user
 
-* Processes.parent_process
-
-* Processes.process_name
-
 * Processes.process
 
-* Processes.process_id
-
-* Processes.parent_process_id
+* Processes.process_name
 
 
 
@@ -40749,7 +41112,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -40771,7 +41134,7 @@ Limited false positives have been identified. There are limited instances where 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -40799,6 +41162,10 @@ This search is to detect suspicious loading of dll in specific path relative to 
 ====Associated Analytic Story====
 
 * [[Documentation:ESSOC:stories:UseCase#PrintNightmare_CVE-2021-34527|PrintNightmare CVE-2021-34527]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ryuk_Ransomware|Ryuk Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
 
 
 ====How To Implement====
@@ -40850,7 +41217,7 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -41339,7 +41706,7 @@ This detection relies on sysmon logs with the Event ID 7, Driver loaded. Please 
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -41398,9 +41765,9 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.process
 
-* Processes.dest
+* Registry.registry_value_name
 
-* Processes.user
+* Registry.dest
 
 * Processes.parent_process
 
@@ -41424,7 +41791,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -41598,7 +41965,7 @@ To successfully implement this search, you need to be ingesting logs with the dr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -41734,7 +42101,7 @@ The following analytic identifies gpupdate.exe with no command line arguments. I
 
 
 ====How To Implement====
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search, you need to be ingesting logs with the driver loaded and Signature from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 ====Required field====
 
@@ -42184,7 +42551,7 @@ Upon triage, capture the property list file being written to disk and review for
 | `security_content_ctime(lastTime)` 
 |  `suspicious_plistbuddy_usage_filter`</search>
 
-====Associated Analytic Story====
+* [[Documentation:ESSOC:stories:UseCase#Cobalt_Strike|Cobalt Strike]]
 
 * [[Documentation:ESSOC:stories:UseCase#Silver_Sparrow|Silver Sparrow]]
 
@@ -42226,7 +42593,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -42302,7 +42669,7 @@ OSQuery must be installed and configured to pick up process events (info at http
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -42341,7 +42708,7 @@ The following analytic will detect a suspicious process running in a file path w
 <search>
 | tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*" OR Processes.process_path = "*\\windows\\temp\\*" OR Processes.process_path = "*\\users\\public\\*" OR Processes.process_path = "*\\windows\\debug\\*" OR Processes.process_path.file_path = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*" OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path = "*Recycle.bin*" OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" by Processes.parent_process_name Processes.parent_process Processes.process_path Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)` 
+| `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `suspicious_process_file_path_filter`</search>
 
@@ -42370,6 +42737,12 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.dest
 
 * Processes.user
+
+* Processes.parent_process
+
+* Processes.process_id
+
+* Processes.parent_process_id
 
 
 
@@ -42742,6 +43115,16 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * CommandLine
 
 
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.010
+| Regsvr32
+| Defense Evasion
+|}
 
 ====ATT&CK====
 {|
@@ -42818,7 +43201,7 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 
 
 ====How To Implement====
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 
 ====Required field====
 
@@ -42830,13 +43213,15 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.dest
 
-* Processes.user
+* process
 
-* Processes.parent_process
+* parent_process_name
 
 * Processes.process_id
 
-* Processes.parent_process_id
+* dest
+
+* user
 
 
 
@@ -43148,7 +43533,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 ====Known False Positives====
-Unknown.
+This is likely to produce false positives and will require some filtering. Tune the query by adding command line paths to known good DLLs, or filtering based on parent process names.
 
 ====Reference====
 
@@ -43235,7 +43620,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 * Privilege Escalation
 
@@ -43287,7 +43672,7 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 
 
 ====How To Implement====
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 ====Required field====
 
@@ -43327,7 +43712,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 ====Kill Chain Phase====
 
-* Exploitation
+* Actions on Objectives
 
 
 ====Known False Positives====
@@ -43378,6 +43763,10 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 
 * [[Documentation:ESSOC:stories:UseCase#Masquerading_-_Rename_System_Utilities|Masquerading - Rename System Utilities]]
 
+* [[Documentation:ESSOC:stories:UseCase#Ryuk_Ransomware|Ryuk Ransomware]]
+
+* [[Documentation:ESSOC:stories:UseCase#Windows_Persistence_Techniques|Windows Persistence Techniques]]
+
 
 ====How To Implement====
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
@@ -43423,6 +43812,8 @@ To successfully implement this search, you need to be ingesting logs with the pr
 ====Kill Chain Phase====
 
 * Exploitation
+
+* Privilege Escalation
 
 
 ====Known False Positives====
@@ -43560,21 +43951,21 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 
 
 ====How To Implement====
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 ====Required field====
 
 * _time
 
-* Processes.process_name
+* EventID
 
-* Processes.process
+* OriginalFileName
 
 * Processes.process_path
 
 * Processes.dest
 
-* Processes.parent_process
+* User
 
 * Processes.user
 
@@ -43649,7 +44040,7 @@ The following analytic identifies child processes spawning from  "mshta.exe". Th
 
 
 ====How To Implement====
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 ====Required field====
 
@@ -43817,11 +44208,7 @@ The wevtutil.exe application is the windows event log utility. This searches for
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#Windows_Log_Manipulation|Windows Log Manipulation]]
-
-* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
-
-* [[Documentation:ESSOC:stories:UseCase#Clop_Ransomware|Clop Ransomware]]
+* [[Documentation:ESSOC:stories:UseCase#Suspicious_MSHTA_Activity|Suspicious MSHTA Activity]]
 
 
 ====How To Implement====
@@ -43849,15 +44236,15 @@ You must be ingesting data that records process activity from your hosts to popu
 ! Technique
 ! Tactic
 |-
-| T1070.001
-| Clear Windows Event Logs
+| T1218.005
+| Mshta
 | Defense Evasion
 |}
 
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -44038,7 +44425,7 @@ Administrators debugging servers
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/atomic_red_team/windows-sysmon.log
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -44102,7 +44489,7 @@ Collect endpoint data such as sysmon or 4688 events.
 
 * dest_device_id
 
-* process_name
+* Filesystem.file_path
 
 * _time
 
@@ -44299,7 +44686,7 @@ none
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 3
 </div>
 </div>
 
@@ -44385,7 +44772,8 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/namedpipe/windows-sysmon.log
 
 
-''version'': 1
+
+''version'': 6
 </div>
 </div>
 
@@ -44438,6 +44826,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Company
 
 
+* All_Changes.object_path
 
 ====ATT&CK====
 {|
@@ -44450,8 +44839,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 | Privilege Escalation, Defense Evasion
 |}
 
+* All_Changes.command
 
-====Kill Chain Phase====
+* All_Changes.user
 
 * Exploitation
 
@@ -44459,11 +44849,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 ====Known False Positives====
 unknown. all of the dll loaded by mmc.exe is microsoft signed dll.
 
-====Reference====
 
+====Kill Chain Phase====
 
 * https://offsec.almond.consulting/UAC-bypass-dotnet.html
 
+====Reference====
 
 
 ====Test Dataset====
@@ -44589,7 +44980,7 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 
 
 ====How To Implement====
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 ====Required field====
 
@@ -44599,13 +44990,13 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Processes.parent_process
 
-* Processes.process_name
+* ImageLoaded
 
-* Processes.user
+* Signed
 
-* Processes.parent_process_name
+* ProcessId
 
-* Processes.dest
+* OriginalFileName
 
 
 
@@ -44623,7 +45014,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 ====Kill Chain Phase====
 
-* Actions on Objectives
+* Exploitation
 
 
 ====Known False Positives====
@@ -44674,19 +45065,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * _time
 
-* Processes.process_name
-
 * Processes.process
-
-* Processes.dest
-
-* Processes.user
 
 * Processes.parent_process
 
 * Processes.process_id
 
-* Processes.parent_process_id
+* Processes.parent_process_name
+
+* Processes.dest
 
 
 
@@ -44726,7 +45113,7 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_umservices.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -45018,11 +45405,12 @@ Command lines that are extremely long may be indicative of malicious activity on
 
 * [[Documentation:ESSOC:stories:UseCase#Unusual_Processes|Unusual Processes]]
 
+* [[Documentation:ESSOC:stories:UseCase#Unusual_Processes|Unusual Processes]]
 
 ====How To Implement====
 You must be ingesting sysmon endpoint data that monitors command lines.
 
-====Required field====
+* [[Documentation:ESSOC:stories:UseCase#Ransomware|Ransomware]]
 
 * process_name
 
@@ -45051,7 +45439,7 @@ This detection may flag suspiciously long command lines when there is not suffic
 ====Test Dataset====
 
 
-''version'': 1
+''version'': 5
 </div>
 </div>
 
@@ -45060,7 +45448,7 @@ This detection may flag suspiciously long command lines when there is not suffic
 ===Unusually long command line===
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Behavioral Analytics
 * '''Datamodel''': 
 * '''ATT&CK''': 
 * '''Last Updated''': 2020-12-08
@@ -48947,6 +49335,7 @@ unknown
 
 * https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472
 
+* https://portal.msrc.microsoft.com/en-US/security-guidance/advisory/CVE-2020-1472
 
 
 ====Test Dataset====
@@ -50133,9 +50522,9 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest" 
-| `drop_dm_object_name("DNS")` 
-| where count>200 
+| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where nodename=DNS &#34;DNS.message_type&#34;=&#34;QUERY&#34; &#34;DNS.record_type&#34;=&#34;ANY&#34; by &#34;DNS.dest&#34; 
+| `drop_dm_object_name(&#34;DNS&#34;)` 
+| where count&gt;200 
 | `large_volume_of_dns_any_queries_filter`</search>
 
 ====Associated Analytic Story====
@@ -50206,7 +50595,7 @@ This search is designed to detect high frequency of archive files data exfiltrat
 |eval archive_hdr1=substr(form_data,1,2) 
 | eval archive_hdr2 = substr(form_data,1,4) 
 |stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent uri_path url bytes_in bytes_out archive_hdr1 archive_hdr2 
-|where count >20 AND (archive_hdr1 = "7z" OR archive_hdr1 = "PK" OR archive_hdr2="Rar!") 
+|where count &gt;20 AND (archive_hdr1 = &#34;7z&#34; OR archive_hdr1 = &#34;PK&#34; OR archive_hdr2=&#34;Rar!&#34;) 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `multiple_archive_files_http_post_traffic_filter`</search>
@@ -50299,7 +50688,7 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 <div class="mw-collapsible-content">
 
 ====Search====
-<search>`stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*", "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") 
+<search>`stream_http` http_method=POST form_data IN (&#34;*wermgr.exe*&#34;,&#34;*svchost.exe*&#34;, &#34;*name=\&#34;proclist\&#34;*&#34;,&#34;*ipconfig*&#34;, &#34;*name=\&#34;sysinfo\&#34;*&#34;, &#34;*net view*&#34;) 
 |stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method http_user_agent uri_path url bytes_in bytes_out 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -50372,7 +50761,7 @@ unknown
 ----
 
 ===Prohibited network traffic allowed===
-This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table "lookup_interesting_ports", that is marked as prohibited, and has an associated 'allow' action in the Network_Traffic data model. This could be indicative of a misconfigured network device.
+This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table &#34;lookup_interesting_ports&#34;, that is marked as prohibited, and has an associated &#39;allow&#39; action in the Network_Traffic data model. This could be indicative of a misconfigured network device.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Network_Traffic
@@ -50389,7 +50778,7 @@ This search looks for network traffic defined by port and transport layer protoc
 | search is_prohibited=true 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `prohibited_network_traffic_allowed_filter`</search>
 
 ====Associated Analytic Story====
@@ -50402,7 +50791,7 @@ This search looks for network traffic defined by port and transport layer protoc
 
 
 ====How To Implement====
-In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an 'action' taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
+In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an &#39;action&#39; taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
 
 ====Required field====
 
@@ -50468,7 +50857,7 @@ This search looks for network traffic on common ports where a higher layer proto
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where (All_Traffic.app=dns NOT All_Traffic.dest_port=53) OR ((All_Traffic.app=web-browsing OR All_Traffic.app=http) NOT (All_Traffic.dest_port=80 OR All_Traffic.dest_port=8080 OR All_Traffic.dest_port=8000)) OR (All_Traffic.app=ssl NOT (All_Traffic.dest_port=443 OR All_Traffic.dest_port=8443)) OR (All_Traffic.app=smtp NOT All_Traffic.dest_port=25) by All_Traffic.src_ip, All_Traffic.dest_ip, All_Traffic.app, All_Traffic.dest_port 
 |`security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `protocol_or_port_mismatch_filter`</search>
 
 ====Associated Analytic Story====
@@ -50540,10 +50929,10 @@ This search looks for cleartext protocols at risk of leaking credentials. Curren
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.transport="tcp" AND (All_Traffic.dest_port="23" OR All_Traffic.dest_port="143" OR All_Traffic.dest_port="110" OR (All_Traffic.dest_port="21" AND All_Traffic.user != "anonymous")) by All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.transport=&#34;tcp&#34; AND (All_Traffic.dest_port=&#34;23&#34; OR All_Traffic.dest_port=&#34;143&#34; OR All_Traffic.dest_port=&#34;110&#34; OR (All_Traffic.dest_port=&#34;21&#34; AND All_Traffic.user != &#34;anonymous&#34;)) by All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `protocols_passing_authentication_in_cleartext_filter`</search>
 
 ====Associated Analytic Story====
@@ -50608,7 +50997,7 @@ This search looks for RDP application network traffic and filters any source/des
 <search>
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
 | eventstats stdev(count) AS stdev avg(count) AS avg p50(count) AS p50 
-| where count>(avg + stdev*2) 
+| where count&gt;(avg + stdev*2) 
 | rename All_Traffic.src AS src All_Traffic.dest AS dest 
 | table firstTime lastTime src dest count avg p50 stdev 
 | `remote_desktop_network_bruteforce_filter`</search>
@@ -50657,7 +51046,7 @@ You must ensure that your network traffic data is populating the Network_Traffic
 
 
 ====Known False Positives====
-RDP gateways may have unusually high amounts of traffic from all other hosts' RDP applications in the network.
+RDP gateways may have unusually high amounts of traffic from all other hosts&#39; RDP applications in the network.
 
 ====Reference====
 
@@ -50685,7 +51074,7 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 ====Search====
 <search>
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source by All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `remote_desktop_network_traffic_filter` </search>
@@ -50702,7 +51091,7 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 
 
 ====How To Implement====
-To successfully implement this search you need to identify systems that commonly originate remote desktop traffic and that commonly receive remote desktop traffic. You can use the included support search "Identify Systems Creating Remote Desktop Traffic" to identify systems that originate the traffic and the search "Identify Systems Receiving Remote Desktop Traffic" to identify systems that receive a lot of remote desktop traffic. After identifying these systems, you will need to add the "common_rdp_source" or "common_rdp_destination" category to that system depending on the usage, using the Enterprise Security Assets and Identities framework.  This can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.
+To successfully implement this search you need to identify systems that commonly originate remote desktop traffic and that commonly receive remote desktop traffic. You can use the included support search &#34;Identify Systems Creating Remote Desktop Traffic&#34; to identify systems that originate the traffic and the search &#34;Identify Systems Receiving Remote Desktop Traffic&#34; to identify systems that receive a lot of remote desktop traffic. After identifying these systems, you will need to add the &#34;common_rdp_source&#34; or &#34;common_rdp_destination&#34; category to that system depending on the usage, using the Enterprise Security Assets and Identities framework.  This can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.
 
 ====Required field====
 
@@ -50768,10 +51157,10 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 ====Search====
 <search>
 | tstats `security_content_summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb by _time span=1h, All_Traffic.src 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | eventstats max(_time) as maxtime 
-| stats count as num_data_samples max(eval(if(_time >= relative_time(maxtime, "-70m@m"), count, null))) as count avg(eval(if(_time<relative_time(maxtime, "-70m@m"), count, null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-70m@m"), count, null))) as stdev by src 
-| eval upperBound=(avg+stdev*2), isOutlier=if(count > upperBound AND num_data_samples >=50, 1, 0) 
+| stats count as num_data_samples max(eval(if(_time &gt;= relative_time(maxtime, &#34;-70m@m&#34;), count, null))) as count avg(eval(if(_time&lt;relative_time(maxtime, &#34;-70m@m&#34;), count, null))) as avg stdev(eval(if(_time&lt;relative_time(maxtime, &#34;-70m@m&#34;), count, null))) as stdev by src 
+| eval upperBound=(avg+stdev*2), isOutlier=if(count &gt; upperBound AND num_data_samples &gt;=50, 1, 0) 
 | where isOutlier=1 
 | table src count 
 | `smb_traffic_spike_filter` </search>
@@ -50848,12 +51237,12 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 ====Search====
 <search>
 | tstats `security_content_summariesonly` count values(All_Traffic.dest_ip) as dest values(All_Traffic.dest_port) as port from datamodel=Network_Traffic where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb by _time span=1h, All_Traffic.src 
-| eval HourOfDay=strftime(_time, "%H") 
-| eval DayOfWeek=strftime(_time, "%A") 
+| eval HourOfDay=strftime(_time, &#34;%H&#34;) 
+| eval DayOfWeek=strftime(_time, &#34;%A&#34;) 
 | `drop_dm_object_name(All_Traffic)` 
 | apply smb_pdfmodel threshold=0.001 
-| rename "IsOutlier(count)" as isOutlier 
-| search isOutlier > 0 
+| rename &#34;IsOutlier(count)&#34; as isOutlier 
+| search isOutlier &gt; 0 
 | sort -count 
 | table _time src dest port count 
 | `smb_traffic_spike___mltk_filter` </search>
@@ -50870,8 +51259,8 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 
 
 ====How To Implement====
-To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search "Baseline of SMB Traffic - MLTK" must be executed before this detection search, because it builds a machine-learning (ML) model over the historical data used by this search. It is important that this search is run in the same app context as the associated support search, so that the model created by the support search is available for use. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.\
-This search produces a field (Number of events,count) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. This field contributes additional context to the notable. To see the additional metadata, add the following field, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry): \
+To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search &#34;Baseline of SMB Traffic - MLTK&#34; must be executed before this detection search, because it builds a machine-learning (ML) model over the historical data used by this search. It is important that this search is run in the same app context as the associated support search, so that the model created by the support search is available for use. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.\
+This search produces a field (Number of events,count) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. This field contributes additional context to the notable. To see the additional metadata, add the following field, if not already present, to Incident Review - Event Attributes (Configure &gt; Incident Management &gt; Incident Review Settings &gt; Add New Entry): \
 1. **Label:** Number of events, **Field:** count\
 Detailed documentation on how to create a new field within Incident Review is found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
 
@@ -50937,7 +51326,7 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=tor AND All_Traffic.action=allowed by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `tor_traffic_filter`</search>
 
 ====Associated Analytic Story====
@@ -50952,7 +51341,7 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 
 
 ====How To Implement====
-In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an 'action' taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
+In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an &#39;action&#39; taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
 
 ====Required field====
 
@@ -51016,7 +51405,7 @@ This search looks for unusually long strings in the Content-Type http header tha
 ====Search====
 <search>`stream_http` 
 | eval cs_content_type_length = len(cs_content_type) 
-| where cs_content_type_length > 100 
+| where cs_content_type_length &gt; 100 
 | table endtime src_ip dest_ip cs_content_type_length cs_content_type url 
 | `unusually_long_content_type_length_filter`</search>
 
@@ -51083,8 +51472,8 @@ This search detects remote code exploit attempts on F5 BIG-IP, BIG-IQ, and Traff
 
 ====Search====
 <search>`f5_bigip_rogue` 
-| regex _raw="(hsqldb;
-|.*\\.\\.;.*)" 
+| regex _raw=&#34;(hsqldb;
+|.*\\.\\.;.*)&#34; 
 | search `detect_f5_tmui_rce_cve_2020_5902_filter`</search>
 
 ====Associated Analytic Story====
@@ -51154,8 +51543,8 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method="GET" OR Web.http_method="HEAD") AND (Web.url="*/web-console/ServerInfo.jsp*" OR Web.url="*web-console*" OR Web.url="*jmx-console*" OR Web.url = "*invoker*") by Web.http_method, Web.url, Web.src, Web.dest 
-| `drop_dm_object_name("Web")` 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method=&#34;GET&#34; OR Web.http_method=&#34;HEAD&#34;) AND (Web.url=&#34;*/web-console/ServerInfo.jsp*&#34; OR Web.url=&#34;*web-console*&#34; OR Web.url=&#34;*jmx-console*&#34; OR Web.url = &#34;*invoker*&#34;) by Web.http_method, Web.url, Web.src, Web.dest 
+| `drop_dm_object_name(&#34;Web&#34;)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `detect_attackers_scanning_for_vulnerable_jboss_servers_filter`</search>
@@ -51202,7 +51591,7 @@ You must be ingesting data from the web server or network traffic that contains 
 
 
 ====Known False Positives====
-It's possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
+It&#39;s possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
 
 ====Reference====
 
@@ -51229,9 +51618,9 @@ This search is used to detect malicious HTTP requests crafted to exploit jmx-con
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method="GET" OR Web.http_method="HEAD") by Web.http_method, Web.url,Web.url_length Web.src, Web.dest 
-| search Web.url="*jmx-console/HtmlAdaptor?action=invokeOpByName&name=jboss.admin*import*" AND Web.url_length > 200 
-| `drop_dm_object_name("Web")` 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method=&#34;GET&#34; OR Web.http_method=&#34;HEAD&#34;) by Web.http_method, Web.url,Web.url_length Web.src, Web.dest 
+| search Web.url=&#34;*jmx-console/HtmlAdaptor?action=invokeOpByName&amp;name=jboss.admin*import*&#34; AND Web.url_length &gt; 200 
+| `drop_dm_object_name(&#34;Web&#34;)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | table src, dest_ip, http_method, url, firstTime, lastTime 
@@ -51298,7 +51687,7 @@ This search looks for Web requests to faux domains similar to the one that you w
 ====Search====
 <search>
 | tstats `security_content_summariesonly` values(Web.url) as urls min(_time) as firstTime from datamodel=Web by Web.src 
-| `drop_dm_object_name("Web")` 
+| `drop_dm_object_name(&#34;Web&#34;)` 
 | `security_content_ctime(firstTime)` 
 | `brand_abuse_web` 
 | `monitor_web_traffic_for_brand_abuse_filter`</search>
@@ -51309,7 +51698,7 @@ This search looks for Web requests to faux domains similar to the one that you w
 
 
 ====How To Implement====
-You need to ingest data from your web traffic. This can be accomplished by indexing data from a web proxy, or using a network traffic analysis tool, such as Bro or Splunk Stream. You also need to have run the search "ESCU - DNSTwist Domain Names", which creates the permutations of the domain that will be checked for.
+You need to ingest data from your web traffic. This can be accomplished by indexing data from a web proxy, or using a network traffic analysis tool, such as Bro or Splunk Stream. You also need to have run the search &#34;ESCU - DNSTwist Domain Names&#34;, which creates the permutations of the domain that will be checked for.
 
 ====Required field====
 
@@ -51355,10 +51744,10 @@ This search looks for long URLs that have several SQL commands visible within th
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count from datamodel=Web where Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent 
-| `drop_dm_object_name("Web")` 
-| eval num_sql_cmds=mvcount(split(url, "alter%20table")) + mvcount(split(url, "between")) + mvcount(split(url, "create%20table")) + mvcount(split(url, "create%20database")) + mvcount(split(url, "create%20index")) + mvcount(split(url, "create%20view")) + mvcount(split(url, "delete")) + mvcount(split(url, "drop%20database")) + mvcount(split(url, "drop%20index")) + mvcount(split(url, "drop%20table")) + mvcount(split(url, "exists")) + mvcount(split(url, "exec")) + mvcount(split(url, "group%20by")) + mvcount(split(url, "having")) + mvcount(split(url, "insert%20into")) + mvcount(split(url, "inner%20join")) + mvcount(split(url, "left%20join")) + mvcount(split(url, "right%20join")) + mvcount(split(url, "full%20join")) + mvcount(split(url, "select")) + mvcount(split(url, "distinct")) + mvcount(split(url, "select%20top")) + mvcount(split(url, "union")) + mvcount(split(url, "xp_cmdshell")) - 24 
-| where num_sql_cmds > 3 
+| tstats `security_content_summariesonly` count from datamodel=Web where Web.dest_category=web_server AND (Web.url_length &gt; 1024 OR Web.http_user_agent_length &gt; 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent 
+| `drop_dm_object_name(&#34;Web&#34;)` 
+| eval num_sql_cmds=mvcount(split(url, &#34;alter%20table&#34;)) + mvcount(split(url, &#34;between&#34;)) + mvcount(split(url, &#34;create%20table&#34;)) + mvcount(split(url, &#34;create%20database&#34;)) + mvcount(split(url, &#34;create%20index&#34;)) + mvcount(split(url, &#34;create%20view&#34;)) + mvcount(split(url, &#34;delete&#34;)) + mvcount(split(url, &#34;drop%20database&#34;)) + mvcount(split(url, &#34;drop%20index&#34;)) + mvcount(split(url, &#34;drop%20table&#34;)) + mvcount(split(url, &#34;exists&#34;)) + mvcount(split(url, &#34;exec&#34;)) + mvcount(split(url, &#34;group%20by&#34;)) + mvcount(split(url, &#34;having&#34;)) + mvcount(split(url, &#34;insert%20into&#34;)) + mvcount(split(url, &#34;inner%20join&#34;)) + mvcount(split(url, &#34;left%20join&#34;)) + mvcount(split(url, &#34;right%20join&#34;)) + mvcount(split(url, &#34;full%20join&#34;)) + mvcount(split(url, &#34;select&#34;)) + mvcount(split(url, &#34;distinct&#34;)) + mvcount(split(url, &#34;select%20top&#34;)) + mvcount(split(url, &#34;union&#34;)) + mvcount(split(url, &#34;xp_cmdshell&#34;)) - 24 
+| where num_sql_cmds &gt; 3 
 | `sql_injection_with_long_urls_filter`</search>
 
 ====Associated Analytic Story====
@@ -51407,7 +51796,7 @@ To successfully implement this search, you need to be monitoring network communi
 
 
 ====Known False Positives====
-It's possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
+It&#39;s possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
 
 ====Reference====
 
