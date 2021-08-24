@@ -24,7 +24,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log
   kill_chain_phases:
   - Reconnaissance
   mitre_attack_id:
