@@ -1,16 +1,17 @@
-author: Rico Valdez, Splunk
-datamodel: []
+name: All backup logs for host
+id: bc91a8cf-aaaa-4bb2-8140-e756cc06fd72
+version: 1
 date: '2017-09-12'
+author: Rico Valdez, Splunk
+type: Investigation
+datamodel: []
 description: Retrieve the backup logs for the last 2 weeks for a specific host in
   order to investigate why backups are not completing successfully.
+search: '| search `netbackup` dest=$dest$'
 how_to_implement: The successfully implement this search you must first send your
   backup logs to Splunk.
-id: bc91a8cf-aaaa-4bb2-8140-e756cc06fd72
-inputs:
-- dest
 known_false_positives: none
-name: All backup logs for host
-search: '| search `netbackup` dest=$dest$'
+references: []
 tags:
   analytic_story:
   - Monitor Backup Solution
@@ -20,5 +21,3 @@ tags:
   - _time
   - dest
   security_domain: endpoint
-type: Investigation
-version: 1

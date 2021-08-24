@@ -22,7 +22,7 @@ references:
 - https://www.cisecurity.org/white-papers/security-primer-icedid/
 tags:
   analytic_story:
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 90
   context:
