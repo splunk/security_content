@@ -28,9 +28,13 @@ known_false_positives: Baseline your environment before production. It is possib
   needed.
 references:
 - https://www.microsoft.com/security/blog/2020/02/04/ghost-in-the-shell-investigating-web-shell-attacks/
+- https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+- https://www.youtube.com/watch?v=FC6iHw258RI
+- https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 tags:
   analytic_story:
   - HAFNIUM Group
+  - ProxyShell
   automated_detection_testing: passed
   confidence: 80
   context:
