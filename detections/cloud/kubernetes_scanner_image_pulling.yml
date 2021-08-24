@@ -11,7 +11,7 @@ search: '`kube_objects_events` object.message IN ("Pulling image *kube-hunter*",
   | rename object.* AS *
   | rename involvedObject.* AS *
   | rename source.host AS host
-  | stats min(_time) as firstTime max(_time) as lastTime count by host, cluster_name, name, namespace, kind, reason, message
+  | stats min(_time) as firstTime max(_time) as lastTime count by host, name, namespace, kind, reason, message
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `kubernetes_scanner_image_pulling_filter`'
 how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
