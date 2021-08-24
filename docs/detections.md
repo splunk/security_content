@@ -717,6 +717,68 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Get All AWS Activity From City](#get-all-aws-activity-from-city)
+
+
+
+- [Get All AWS Activity From Country](#get-all-aws-activity-from-country)
+
+
+
+- [Get All AWS Activity From IP Address](#get-all-aws-activity-from-ip-address)
+
+
+
+- [Get All AWS Activity From Region](#get-all-aws-activity-from-region)
+
+
+
+
+
+
+
+
+
+
+
+- [Get EC2 Instance Details by instanceId](#get-ec2-instance-details-by-instanceid)
+
+
+
+- [Get EC2 Launch Details](#get-ec2-launch-details)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 - [Get All AWS Activity From City](#get-all-aws-activity-from-city)
@@ -1053,6 +1115,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Previously Seen AWS Cross Account Activity](#previously-seen-aws-cross-account-activity)
 
 
 - [Previously Seen AWS Cross Account Activity](#previously-seen-aws-cross-account-activity)
@@ -1072,6 +1135,111 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Previously Seen AWS Regions](#previously-seen-aws-regions)
+
+
+
+- [Previously Seen Cloud API Calls Per User Role - Initial](#previously-seen-cloud-api-calls-per-user-role---initial)
+
+
+
+- [Previously Seen Cloud API Calls Per User Role - Update](#previously-seen-cloud-api-calls-per-user-role---update)
+
+
+
+- [Previously Seen Cloud Compute Creations By User - Initial](#previously-seen-cloud-compute-creations-by-user---initial)
+
+
+
+- [Previously Seen Cloud Compute Creations By User - Update](#previously-seen-cloud-compute-creations-by-user---update)
+
+
+
+- [Previously Seen Cloud Compute Images - Initial](#previously-seen-cloud-compute-images---initial)
+
+
+
+- [Previously Seen Cloud Compute Images - Update](#previously-seen-cloud-compute-images---update)
+
+
+
+- [Previously Seen Cloud Compute Instance Types - Initial](#previously-seen-cloud-compute-instance-types---initial)
+
+
+
+- [Previously Seen Cloud Compute Instance Types - Update](#previously-seen-cloud-compute-instance-types---update)
+
+
+
+- [Previously Seen Cloud Instance Modifications By User - Initial](#previously-seen-cloud-instance-modifications-by-user---initial)
+
+
+
+- [Previously Seen Cloud Instance Modifications By User - Update](#previously-seen-cloud-instance-modifications-by-user---update)
+
+
+
+- [Previously Seen Cloud Provisioning Activity Sources - Initial](#previously-seen-cloud-provisioning-activity-sources---initial)
+
+
+
+- [Previously Seen Cloud Provisioning Activity Sources - Update](#previously-seen-cloud-provisioning-activity-sources---update)
+
+
+
+- [Previously Seen Cloud Regions - Initial](#previously-seen-cloud-regions---initial)
+
+
+
+- [Previously Seen Cloud Regions - Update](#previously-seen-cloud-regions---update)
+
+
+
+- [Previously Seen EC2 AMIs](#previously-seen-ec2-amis)
+
+
+
+- [Previously Seen EC2 Instance Types](#previously-seen-ec2-instance-types)
+
+
+
+- [Previously Seen EC2 Launches By User](#previously-seen-ec2-launches-by-user)
+
+
+
+- [Previously Seen EC2 Modifications By User](#previously-seen-ec2-modifications-by-user)
+
+
+
+
+
+
+
+- [Previously Seen Users In CloudTrail - Update](#previously-seen-users-in-cloudtrail---update)
+
+
+
+- [Previously Seen Users in CloudTrail - Initial](#previously-seen-users-in-cloudtrail---initial)
+
+
+
+
+
+
+- [Previously Seen AWS Cross Account Activity - Initial](#previously-seen-aws-cross-account-activity---initial)
+
+- [Previously seen API call per user roles in CloudTrail](#previously-seen-api-call-per-user-roles-in-cloudtrail)
+
+
+- [Previously Seen AWS Cross Account Activity - Update](#previously-seen-aws-cross-account-activity---update)
+
+- [Previously seen S3 bucket access by remote IP](#previously-seen-s3-bucket-access-by-remote-ip)
+
+
+- [Previously Seen AWS Provisioning Activity Sources](#previously-seen-aws-provisioning-activity-sources)
+
+
+
+- [Previously seen users in CloudTrail](#previously-seen-users-in-cloudtrail)
 
 
 
@@ -1403,6 +1571,31 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Update previously seen users in CloudTrail](#update-previously-seen-users-in-cloudtrail)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1541,6 +1734,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 ## Endpoint
 <details>
   <summary>details</summary>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2439,6 +2644,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Fsutil Zeroing File](#fsutil-zeroing-file)
+
+
 
 
 
@@ -3787,6 +3994,35 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Baseline of DNS Query Length - MLTK](#baseline-of-dns-query-length---mltk)
+
+
+
+
+
+
+
+
+
+
+
+- [Baseline of SMB Traffic - MLTK](#baseline-of-smb-traffic---mltk)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3845,6 +4081,33 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Count of Unique IPs Connecting to Ports](#count-of-unique-ips-connecting-to-ports)
 
 
 
@@ -4632,12 +4895,15 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Prohibited Network Traffic Allowed](#prohibited-network-traffic-allowed)
 
 
 
+- [Protocol or Port Mismatch](#protocol-or-port-mismatch)
 
 
 
+- [Protocols passing authentication in cleartext](#protocols-passing-authentication-in-cleartext)
 
 
 
@@ -4692,6 +4958,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Remote Desktop Network Bruteforce](#remote-desktop-network-bruteforce)
+
+
+
+- [Remote Desktop Network Traffic](#remote-desktop-network-traffic)
 
 
 
@@ -4731,13 +5002,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
-
-
-
+- [SMB Traffic Spike](#smb-traffic-spike)
 
 - [Remote Desktop Network Bruteforce](#remote-desktop-network-bruteforce)
 
 
+- [SMB Traffic Spike - MLTK](#smb-traffic-spike---mltk)
 
 - [Remote Desktop Network Traffic](#remote-desktop-network-traffic)
 
@@ -4880,6 +5150,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [TOR Traffic](#tor-traffic)
 
 
 
@@ -4969,59 +5240,6 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </details>
 
 ## Application
@@ -5079,19 +5297,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+</details>
 
-
-
-
-
-
-
-
-
-
-
-
-
+## Application
+<details>
+  <summary>details</summary>
 
 
 
@@ -5430,6 +5640,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Detect New Login Attempts to Routers](#detect-new-login-attempts-to-routers)
 
 
 
@@ -5465,6 +5676,74 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Email Attachments With Lots Of Spaces](#email-attachments-with-lots-of-spaces)
+
+
+
+- [Email files written outside of the Outlook directory](#email-files-written-outside-of-the-outlook-directory)
+
+
+
+- [Email servers sending high volume traffic to hosts](#email-servers-sending-high-volume-traffic-to-hosts)
 
 
 
@@ -5679,6 +5958,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Monitor Email For Brand Abuse](#monitor-email-for-brand-abuse)
 
 
 
@@ -5704,6 +5984,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Multiple Okta Users With Invalid Credentials From The Same IP](#multiple-okta-users-with-invalid-credentials-from-the-same-ip)
 
 
 
@@ -5725,6 +6006,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [No Windows Updates in a time frame](#no-windows-updates-in-a-time-frame)
 
 
 
@@ -5775,6 +6057,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Okta Account Lockout Events](#okta-account-lockout-events)
 
 
 
@@ -5782,6 +6065,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Okta User Logins From Multiple Cities](#okta-user-logins-from-multiple-cities)
 
 
 
@@ -5789,6 +6073,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Phishing Email Detection by Machine Learning Method - SSA](#phishing-email-detection-by-machine-learning-method---ssa)
 
 
 
@@ -6078,6 +6363,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Suspicious Email Attachment Extensions](#suspicious-email-attachment-extensions)
 
 
 
@@ -6089,6 +6375,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Suspicious Java Classes](#suspicious-java-classes)
 
 
 
@@ -6187,6 +6474,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Web Servers Executing Suspicious Processes](#web-servers-executing-suspicious-processes)
 
 
 
@@ -6237,7 +6525,11 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+</details>
 
+## Web
+<details>
+  <summary>details</summary>
 
 
 
@@ -6542,6 +6834,7 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Detect F5 TMUI RCE CVE-2020-5902](#detect-f5-tmui-rce-cve-2020-5902)
 
 
 
@@ -6662,6 +6955,15 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+- [Detect attackers scanning for vulnerable JBoss servers](#detect-attackers-scanning-for-vulnerable-jboss-servers)
+
+
+
+
+
+- [Detect malicious requests to exploit JBoss servers](#detect-malicious-requests-to-exploit-jboss-servers)
 
 
 
@@ -7430,8 +7732,6 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Supernova Webshell](#supernova-webshell)
-
-
 
 
 
@@ -9912,7 +10212,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Exploitation
 
 
 #### Known False Positives
@@ -9972,6 +10272,8 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 * Suspicious Cloud User Activities
 
+* DarkSide Ransomware
+
 
 #### How To Implement
 You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to create the probability density function.
@@ -10001,7 +10303,6 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 
 #### Known False Positives
-
 
 #### Reference
 
@@ -10069,8 +10370,8 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 * All_Changes.user
 
 
+* All_Changes.status
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10150,9 +10451,10 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 * All_Changes.user
 
+* All_Changes.status
 
+* All_Changes.object_category
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10229,9 +10531,10 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 * All_Changes.user
 
+* All_Changes.status
 
+* All_Changes.object_category
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10305,9 +10608,10 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 
 * SourceProcessId
 
+* All_Changes.status
 
+* All_Changes.object_category
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10391,8 +10695,8 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * Processes.user
 
 
+* userIdentity.arn
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10527,8 +10831,8 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_name
 
 
+* DNS.record_type
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10536,8 +10840,6 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 #### Kill Chain Phase
-
-* Exploitation
 
 
 #### Known False Positives
@@ -10611,9 +10913,10 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Registry.user
 
+* errorCode
 
+* src_user
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10621,8 +10924,6 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 #### Kill Chain Phase
-
-* Exploitation
 
 
 #### Known False Positives
@@ -10770,7 +11071,6 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10778,8 +11078,6 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 #### Kill Chain Phase
-
-* Exploitation
 
 
 #### Known False Positives
@@ -10826,7 +11124,7 @@ This analytic identifies a potential privilege escalation attempt to perform mal
 ```
 #### Associated Analytic Story
 
-* Ransomware
+* Suspicious AWS S3 Activities
 
 
 #### How To Implement
@@ -10846,7 +11144,6 @@ To successfully implement this search, you must be ingesting data that records r
 
 
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -10854,8 +11151,6 @@ To successfully implement this search, you must be ingesting data that records r
 
 
 #### Kill Chain Phase
-
-* Exploitation
 
 
 #### Known False Positives
@@ -10871,8 +11166,6 @@ unknown
 
 
 #### Test Dataset
-
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
 
 
 _version_: 1
@@ -10934,9 +11227,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 * user.groups{}
 
+* All_Traffic.app
 
+* All_Traffic.src
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -11076,9 +11370,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 * user.groups{}
 
+* src_ip
 
+* dest_ip
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -11694,6 +11989,16 @@ Some administrator activity can be potentially triggered, please add those users
 #### Reference
 
 
+* https://attack.mitre.org/techniques/T1140/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1140/T1140.md
+
+* https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/certutil
+
+* https://www.bleepingcomputer.com/news/security/certutilexe-could-allow-attackers-to-download-malware-while-bypassing-av/
+
+
+
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log
@@ -11752,9 +12057,16 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Processes.parent_process_id
 
+* Processes.process
 
+* Processes.process_id
 
-#### ATT&CK
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
+
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -11866,7 +12178,7 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log
 
 
-_version_: 1
+_version_: 3
 </details>
 
 ---
@@ -12069,6 +12381,10 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 #### Required field
 
+* EventCode
+
+* cmdline
+
 * _time
 
 * Processes.dest
@@ -12096,7 +12412,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Privilege Escalation
 
 
 #### Known False Positives
@@ -12114,7 +12430,7 @@ None identified.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log
 
 
-_version_: 4
+_version_: 1
 </details>
 
 ---
@@ -12266,7 +12582,7 @@ Administrators may modify the boot configuration.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -12423,9 +12739,10 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.parent_process_id
 
+* All_Changes.Instance_Changes.image_id
 
+* All_Changes.user
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -12824,8 +13141,7 @@ You must be ingesting endpoint data and populating the Endpoint data model. In a
 
 * Processes.process_name
 
-* Processes.process
-
+* All_Changes.status
 
 
 
@@ -12988,13 +13304,14 @@ This search is used to build a Machine Learning Toolkit (MLTK) model for how man
 
 * Suspicious AWS EC2 Activities
 
+* Ryuk Ransomware
 
 #### How To Implement
 You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail inputs.\
 In addition, you must have the Machine Learning Toolkit (MLTK) version >= 4.2 installed, along with any required dependencies. Depending on the number of users in your environment, you may also need to adjust the value for max_inputs in the MLTK settings for the DensityFunction algorithm, then ensure that the search completes in a reasonable timeframe. By default, the search builds the model using the past 30 days of data. You can modify the search window to build the model over a longer period of time, which may give you better results. You may also want to periodically re-run this search to rebuild the model with the latest data.\
 More information on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`.
 
-#### Required field
+* Clop Ransomware
 
 * _time
 
@@ -13019,7 +13336,7 @@ none
 #### Test Dataset
 
 
-_version_: 1
+_version_: 4
 </details>
 
 ---
@@ -13050,11 +13367,11 @@ This search establishes, on a per-hour basis, the average and the standard devia
 
 * AWS Network ACL Activity
 
+* Ryuk Ransomware
 
 #### How To Implement
 You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail inputs. To add or remove API event names for network ACLs, edit the macro `network_acl_events`.
 
-#### Required field
 
 * _time
 
@@ -13075,7 +13392,7 @@ none
 #### Test Dataset
 
 
-_version_: 1
+_version_: 4
 </details>
 
 ---
@@ -13126,6 +13443,10 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 none
 
 #### Reference
+
+
+* https://malpedia.caad.fkie.fraunhofer.de/details/win.conti
+
 
 
 #### Test Dataset
@@ -13534,8 +13855,8 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.parent_process_id
 
 
+* userName
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -13567,7 +13888,7 @@ Unknown. It is possible filtering may be required to ensure fidelity.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -13609,7 +13930,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * ImageLoaded
 
-* process_name
+* Processes.user
 
 * Computer
 
@@ -13630,7 +13951,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -13648,7 +13969,7 @@ Legitimate windows application that are not on the list loading this dll. Filter
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/darkside_cmstp_com/windows-sysmon.log
 
 
-_version_: 1
+_version_: 5
 </details>
 
 ---
@@ -13669,7 +13990,7 @@ Certutil.exe may download a file from a remote destination using `-urlcache`. Th
 
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe Processes.process=*urlcache* Processes.process=*split* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)` 
+| `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `certutil_download_with_urlcache_and_split_arguments_filter`
 ```
@@ -13720,7 +14041,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -13859,7 +14180,7 @@ CertUtil.exe may be used to `encode` and `decode` a file, including PE and scrip
 
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe Processes.process=*decode* by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)` 
+| `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `certutil_with_decode_argument_filter`
 ```
@@ -13869,7 +14190,7 @@ CertUtil.exe may be used to `encode` and `decode` a file, including PE and scrip
 
 
 #### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -13908,7 +14229,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -14047,7 +14368,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 #### Required field
 
-* _time
+* dest_device_id
 
 * Processes.process_name
 
@@ -14074,7 +14395,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -14121,29 +14442,17 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Required field
 
+* dest_device_id
+
+* process_name
+
 * _time
 
-* Processes.dest
+* process_path
 
-* Processes.user
+* dest_user_id
 
-* Processes.parent_process_name
-
-* Processes.parent_process
-
-* Processes.original_file_name
-
-* Processes.process_name
-
-* Processes.process
-
-* Processes.process_id
-
-* Processes.parent_process_path
-
-* Processes.process_path
-
-* Processes.parent_process_id
+* process
 
 
 
@@ -14156,7 +14465,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -14194,6 +14503,8 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 
 #### Search
 ```
+ 
+| from read_ssa_enriched_events()
 
 | tstats `security_content_summariesonly` values(Processes.process) as cmdline values(Processes.parent_process_name) as parent_process values(Processes.process_name) count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name != "*temp.dat*" Processes.process = "*runrun*" OR Processes.process = "*temp.dat*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
@@ -14211,29 +14522,13 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Required field
 
+* dest_device_id
+
+* dest_user_id
+
+* process
+
 * _time
-
-* Processes.dest
-
-* Processes.user
-
-* Processes.parent_process_name
-
-* Processes.parent_process
-
-* Processes.original_file_name
-
-* Processes.process_name
-
-* Processes.process
-
-* Processes.process_id
-
-* Processes.parent_process_path
-
-* Processes.process_path
-
-* Processes.parent_process_id
 
 
 
@@ -14416,6 +14711,10 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 #### Reference
 
 
+* https://github.com/MichaelGrafnetter/DSInternals
+
+
+
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
@@ -14461,6 +14760,12 @@ You must be ingesting the appropriate cloud-infrastructure logs Run the "Previou
 
 #### Required field
 
+* dest_device_id
+
+* dest_user_id
+
+* process
+
 * _time
 
 * All_Changes.object
@@ -14471,6 +14776,9 @@ You must be ingesting the appropriate cloud-infrastructure logs Run the "Previou
 
 * All_Changes.vendor_region
 
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003 | OS Credential Dumping | Credential Access |
 
 
 #### ATT&CK
@@ -14489,9 +14797,13 @@ It's possible that a user will start to create compute instances for the first t
 #### Reference
 
 
+* https://github.com/gentilkiwi/mimikatz
+
+
+
 #### Test Dataset
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllMimikatzModules.log
 
 
 _version_: 2
@@ -14534,7 +14846,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 
 #### Required field
 
-* _time
+* dest_device_id
 
 * All_Changes.object_id
 
@@ -14550,7 +14862,7 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1535 | Unused/Unsupported Cloud Regions | Defense Evasion |
+| T1003 | OS Credential Dumping | Credential Access |
 
 
 #### Kill Chain Phase
@@ -14564,9 +14876,13 @@ It's possible that a user has unknowingly started an instance in a new region. P
 #### Reference
 
 
+* https://github.com/PowerShellMafia/PowerSploit
+
+
+
 #### Test Dataset
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log
 
 
 _version_: 1
@@ -14587,6 +14903,8 @@ This search looks for cloud compute instances being created with previously unse
 
 #### Search
 ```
+ 
+| from read_ssa_enriched_events()
 
 | tstats count earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id) as dest from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.image_id, All_Changes.user 
 | `drop_dm_object_name("All_Changes")` 
@@ -14611,6 +14929,10 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 
 #### Required field
 
+* process_name
+
+* parent_process_name
+
 * _time
 
 * All_Changes.object_id
@@ -14633,9 +14955,13 @@ After a new image is created, the first systems created with that image will cau
 #### Reference
 
 
+* https://medium.com/@clermont1050/covid-19-cyber-infection-c615ead7c29
+
+
+
 #### Test Dataset
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logLiveKDFullKernelDump.log
 
 
 _version_: 1
@@ -14656,6 +14982,8 @@ Find EC2 instances being created with previously unseen instance types.
 
 #### Search
 ```
+ 
+| from read_ssa_enriched_events()
 
 | tstats earliest(_time) as firstTime, latest(_time) as lastTime values(All_Changes.object_id) as dest, count from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type, All_Changes.user 
 | `drop_dm_object_name("All_Changes")` 
@@ -14679,6 +15007,8 @@ Find EC2 instances being created with previously unseen instance types.
 You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen Cloud Compute Instance Types - Initial` to build the initial table of instance types observed and times. You must also enable the second baseline search `Previously Seen Cloud Compute Instance Types - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `cloud_compute_instance_created_with_previously_unseen_instance_type_filter` macro.
 
 #### Required field
+
+* process_name
 
 * _time
 
@@ -14704,7 +15034,7 @@ It is possible that an admin will create a new system using a new instance type 
 
 #### Test Dataset
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logLiveKDFullKernelDump.log
 
 
 _version_: 1
@@ -15022,7 +15352,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -15102,7 +15432,7 @@ This is a strictly behavioral search, so we define "false positive" slightly dif
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-_version_: 1
+_version_: 3
 </details>
 
 ---
@@ -15195,7 +15525,7 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -15263,7 +15593,7 @@ Detailed documentation on how to create a new field within Incident Review may b
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Exploitation
 
 
 #### Known False Positives
@@ -15493,6 +15823,8 @@ none
 
 #### Test Dataset
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+
 
 _version_: 1
 </details>
@@ -15535,20 +15867,24 @@ To successfully implement this search you must first leverage the Assets and Ide
 
 
 
+* Processes.parent_process_path
 
-#### Kill Chain Phase
+* Processes.process_path
 
 
 #### Known False Positives
 none
 
-#### Reference
+#### ATT&CK
 
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1490 | Inhibit System Recovery | Impact |
 
 #### Test Dataset
 
 
-_version_: 1
+_version_: 4
 </details>
 
 ---
@@ -15679,8 +16015,8 @@ This search needs Sysmon Logs with a Sysmon configuration, which includes EventC
 * dest
 
 
+* Authentication.user
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -15768,7 +16104,7 @@ To successfully implement this search, you need to be ingesting logs with the Se
 
 
 #### Known False Positives
-unknown
+When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 
 #### Reference
 
@@ -15840,6 +16176,8 @@ none
 
 
 #### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
 _version_: 2
@@ -15968,27 +16306,17 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * _time
 
-* Processes.dest
+* EventCode
 
-* Processes.user
+* Logon_Type
 
-* Processes.parent_process_name
+* Logon_Process
 
-* Processes.parent_process
+* WorkstationName
 
-* Processes.original_file_name
+* user
 
-* Processes.process_name
-
-* Processes.process
-
-* Processes.process_id
-
-* Processes.parent_process_path
-
-* Processes.process_path
-
-* Processes.parent_process_id
+* dest
 
 
 
@@ -16089,7 +16417,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Reconnaissance
 
 
 #### Known False Positives
@@ -16138,33 +16466,21 @@ This search detects the use of wmic and Powershell to create a shadow copy.
 
 
 #### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
 
 #### Required field
 
 * _time
 
-* Processes.dest
+* file_path
 
-* Processes.user
+* dest
 
-* Processes.parent_process_name
+* file_name
 
-* Processes.parent_process
+* process_id
 
-* Processes.original_file_name
-
-* Processes.process_name
-
-* Processes.process
-
-* Processes.process_id
-
-* Processes.parent_process_path
-
-* Processes.process_path
-
-* Processes.parent_process_id
+* file_create_time
 
 
 
@@ -16177,7 +16493,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Reconnaissance
 
 
 #### Known False Positives
@@ -16243,24 +16559,37 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 * object_category
 
 
+* https://blog.qualys.com/vulnerabilities-research/2021/01/26/cve-2021-3156-heap-based-buffer-overflow-in-sudo-baron-samedit
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1003.001 | LSASS Memory | Credential Access |
 
+#### Test Dataset
 
-#### Kill Chain Phase
 
 * Actions on Objectives
 
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/)
+- **Last Updated**: 2021-01-29
 
 #### Known False Positives
 Administrators can create memory dumps for debugging purposes, but memory dumps of the LSASS process would be unusual.
 
-#### Reference
+#### Search
+```
+`linux_hosts` 
+| search sudoedit segfault 
+| stats count min(_time) as firstTime max(_time) as lastTime by host 
+| search count &gt; 5 
+| `detect_baron_samedit_cve_2021_3156_segfault_filter`
+```
+#### Associated Analytic Story
 
+* Baron Samedit CVE-2021-3156
 
 * https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-5---dump-lsassexe-memory-using-windows-task-manager
 
@@ -16302,7 +16631,7 @@ This search detects credential dumping using copy command from a shadow copy.
 ```
 #### Associated Analytic Story
 
-* Credential Dumping
+* Baron Samedit CVE-2021-3156
 
 
 #### How To Implement
@@ -16345,7 +16674,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Exploitation
 
 
 #### Known False Positives
@@ -16361,7 +16690,6 @@ unknown
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
-
 
 _version_: 1
 </details>
@@ -16819,10 +17147,14 @@ You must be ingesting Windows Security logs from devices of interest, including 
 | ----------- | ----------- |--------------|
 | T1003 | OS Credential Dumping | Credential Access |
 
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1078.003 | Local Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 #### Kill Chain Phase
-
-* Actions on Objectives
 
 
 #### Known False Positives
@@ -16840,7 +17172,7 @@ None identified.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllDSInternalsModules.log
 
 
-_version_: 1
+_version_: 3
 </details>
 
 ---
@@ -16898,7 +17230,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Exploitation
 
 
 #### Known False Positives
@@ -16916,7 +17248,8 @@ None identified.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllMimikatzModules.log
 
 
-_version_: 1
+
+_version_: 2
 </details>
 
 ---
@@ -16974,7 +17307,7 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Exploitation
 
 
 #### Known False Positives
@@ -17141,6 +17474,14 @@ Although unlikely, using debuggers this way may be indicative of developers anal
 #### Reference
 
 
+* https://attack.mitre.org/techniques/T1218/001/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
+
+* https://lolbas-project.github.io/lolbas/Binaries/Hh/
+
+
+
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logLiveKDFullKernelDump.log
@@ -17212,6 +17553,18 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 #### Reference
+
+
+* https://attack.mitre.org/techniques/T1218/001/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.001/T1218.001.md
+
+* https://lolbas-project.github.io/lolbas/Binaries/Hh/
+
+* https://gist.github.com/mgeeky/cce31c8602a144d8f2172a73d510e0e7
+
+* https://cyberforensicator.com/2019/01/20/silence-dissecting-malicious-chm-files-and-performing-forensic-analysis/
+
 
 
 #### Test Dataset
@@ -17485,6 +17838,24 @@ If you are seeing more results than desired, you may consider reducing the value
 #### Reference
 
 
+* https://www.ciscolive.com/c/dam/r/ciscolive/emea/docs/2019/pdf/BRKSEC-3200.pdf
+
+* https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-ra-guard.html
+
+* https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-snooping.html
+
+* https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-dad-proxy.html
+
+* https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-nd-mcast-supp.html
+
+* https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-dhcpv6-guard.html
+
+* https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-src-guard.html
+
+* https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ipv6-dest-guard.html
+
+
+
 #### Test Dataset
 
 
@@ -17554,7 +17925,7 @@ It's possible there can be long domain names that are legitimate.
 #### Reference
 
 
-#### Test Dataset
+* Initial ESCU implementation by Jose Hernandez and Patrick Bareiss
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
 
@@ -17591,11 +17962,12 @@ This search creates permutations of your existing domains, removes the valid dom
 
 * Suspicious Emails
 
+* _time
 
 #### How To Implement
 To successfully implement this search you need to update the file called domains.csv in the DA-ESS-SOC/lookup directory. Or `cim_corporate_email_domains.csv` and `cim_corporate_web_domains.csv` from **Splunk\_SA\_CIM**.
 
-#### Required field
+* All_Traffic.bytes
 
 * _time
 
@@ -17734,7 +18106,11 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 
 * XMRig
 
-* Ransomware
+* Detect Zerologon Attack
+
+* Cloud Federated Credential Abuse
+
+* DarkSide Ransomware
 
 
 #### How To Implement
@@ -17833,6 +18209,7 @@ To successfully implement this search, you need to be ingesting logs with the po
 
 * User
 
+* EventCode
 
 
 #### ATT&CK
@@ -17915,7 +18292,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Processes.process
 
-* Processes.process_id
+* dest
 
 * Processes.parent_process_path
 
@@ -17936,6 +18313,8 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Exploitation
 
+* Command and Control
+
 
 #### Known False Positives
 System administrators or scripts may delete user accounts via this technique. Filter as needed.
@@ -17946,13 +18325,14 @@ System administrators or scripts may delete user accounts via this technique. Fi
 * https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
 
-#### Test Dataset
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -18017,9 +18397,10 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 * Processes.parent_process_id
 
+* Authentication.dest
 
+* Authentication.user
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -18085,7 +18466,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * parent_process_name
 
-* process_path
+* data.protoPayload.serviceData.policyDelta.bindingDeltas{}.role
 
 * dest_user_id
 
@@ -18200,7 +18581,7 @@ This search might be prone to high false positives if DHCP Snooping or ARP inspe
 #### Test Dataset
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -18264,7 +18645,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-_version_: 1
+_version_: 3
 </details>
 
 ---
@@ -18332,6 +18713,8 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 
 * Actions on Objectives
 
+* Command and Control
+
 
 #### Known False Positives
 When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
@@ -18344,7 +18727,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-_version_: 1
+_version_: 3
 </details>
 
 ---
@@ -18410,6 +18793,8 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 
 #### Kill Chain Phase
 
+* Installation
+
 * Actions on Objectives
 
 
@@ -18424,7 +18809,7 @@ When a legitimate new user logins for the first time, this activity will be dete
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
 
 
-_version_: 1
+_version_: 3
 </details>
 
 ---
@@ -18658,8 +19043,9 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown.
 
-#### Reference
+* Delivery
 
+* Exploitation
 
 * https://attack.mitre.org/software/S0521/
 
@@ -18669,6 +19055,7 @@ Unknown.
 
 * https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1
 
+#### Reference
 
 
 #### Test Dataset
@@ -18758,7 +19145,7 @@ False positives should be limited as the analytic is specific to a filename with
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
 
 
-_version_: 1
+_version_: 5
 </details>
 
 ---
@@ -18766,7 +19153,7 @@ _version_: 1
 ### Detect Baron Samedit CVE-2021-3156
 This search detects the heap-based buffer overflow of sudoedit
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **ATT&CK**: [T1068](https://attack.mitre.org/techniques/T1068/)
 - **Last Updated**: 2021-01-27
@@ -18884,7 +19271,7 @@ If sudoedit is throwing segfaults for other reasons this will pick those up too.
 #### Test Dataset
 
 
-_version_: 1
+_version_: 3
 </details>
 
 ---
@@ -18979,7 +19366,7 @@ This search requires audit computer account management to be enabled on the syst
 
 #### Required field
 
-* _time
+* Emotet Malware  DHS Report TA18-201A 
 
 * EventCode
 
@@ -18991,9 +19378,10 @@ This search requires audit computer account management to be enabled on the syst
 
 * user
 
+* Processes.user
 
+* Processes.process_name
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -19001,6 +19389,10 @@ This search requires audit computer account management to be enabled on the syst
 
 
 #### Kill Chain Phase
+
+* Installation
+
+* Command and Control
 
 * Actions on Objectives
 
@@ -19018,7 +19410,7 @@ None thus far found
 #### Test Dataset
 
 
-_version_: 1
+_version_: 5
 </details>
 
 ---
@@ -19077,7 +19469,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -19172,6 +19564,14 @@ The activity may be legitimate. Other tools can access lsass for legitimate reas
 #### Reference
 
 
+* https://attack.mitre.org/techniques/T1218/009/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.009/T1218.009.md
+
+* https://lolbas-project.github.io/lolbas/Binaries/Regasm/
+
+
+
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
@@ -19247,6 +19647,8 @@ None identified.
 
 
 #### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
 
 
 _version_: 1
@@ -19623,6 +20025,10 @@ unknown
 
 
 
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
+
+
+
 #### Test Dataset
 
 
@@ -19706,7 +20112,15 @@ GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow i
 #### Reference
 
 
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
+
+* https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
+
+
+
 #### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
 
 
 _version_: 1
@@ -19773,7 +20187,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Exfiltration
 
 
 #### Known False Positives
@@ -19961,7 +20375,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Exploitation
 
 
 #### Known False Positives
@@ -20147,6 +20561,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 * action
 
 
+* Processes.process_id
 
 #### ATT&CK
 
@@ -20157,11 +20572,15 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | T1557.002 | ARP Cache Poisoning | Credential Access, Collection |
 
 
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.011 | Rundll32 | Defense Evasion |
+
+
 #### Kill Chain Phase
-
-* Reconnaissance
-
-* Delivery
 
 * Actions on Objectives
 
@@ -20191,6 +20610,8 @@ None currently known
 
 
 #### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
 
 
 _version_: 1
@@ -30752,6 +31173,18 @@ To successfully implement this search you must be ingesting your Windows event l
 #### Reference
 
 
+* https://attack.mitre.org/techniques/T1218/011/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
+
+* https://lolbas-project.github.io/lolbas/Binaries/Rundll32
+
+* https://lolbas-project.github.io/lolbas/Libraries/Setupapi/
+
+* https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+
+
+
 #### Test Dataset
 
 
@@ -31049,11 +31482,24 @@ To successfully implement this search you must ingest your email logs or capture
 
 #### Known False Positives
 
-
 #### Reference
 
 
+* https://attack.mitre.org/software/S0521/
+
+* https://thedfirreport.com/?s=bloodhound
+
+* https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+
+* https://github.com/BloodHoundAD/SharpHound3
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+
+
+
 #### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
 
 
 _version_: 1
@@ -31168,6 +31614,18 @@ You must be ingesting endpoint data that tracks process activity, including pare
 #### Reference
 
 
+* https://attack.mitre.org/software/S0521/
+
+* https://thedfirreport.com/?s=bloodhound
+
+* https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+
+* https://github.com/BloodHoundAD/SharpHound3
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+
+
+
 #### Test Dataset
 
 
@@ -31221,6 +31679,15 @@ To successfully implement this search you must be ingesting endpoint data and po
 * Filesystem.action
 
 
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1087.002 | Domain Account | Discovery |
+| T1087.001 | Local Account | Discovery |
+| T1482 | Domain Trust Discovery | Discovery |
+| T1069.002 | Domain Groups | Discovery |
+| T1069.001 | Local Groups | Discovery |
 
 
 #### Kill Chain Phase
@@ -31232,7 +31699,21 @@ To successfully implement this search you must be ingesting endpoint data and po
 #### Reference
 
 
+* https://attack.mitre.org/software/S0521/
+
+* https://thedfirreport.com/?s=bloodhound
+
+* https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
+
+* https://github.com/BloodHoundAD/SharpHound3
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md#atomic-test-2---run-bloodhound-from-local-disk
+
+
+
 #### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
 
 
 _version_: 2
@@ -31347,6 +31828,11 @@ To successfully implement this search you must be ingesting endpoint data and po
 
 #### Known False Positives
 
+
+#### Reference
+
+#### Known False Positives
+None
 
 #### Reference
 
@@ -31630,9 +32116,9 @@ This search helps an analyst investigate a notable event to find out more about 
 #### How To Implement
 This search leverages data extracted from Stream:HTTP. You must configure the HTTP stream using the Splunk Stream App on your Splunk Stream deployment server.
 
-#### Required field
+* Command and Control
 
-* _time
+* DHS Report TA18-074A
 
 * session_id
 
@@ -31644,23 +32130,26 @@ This search leverages data extracted from Stream:HTTP. You must configure the HT
 
 
 
+* Orangeworm Attack Group
 
-#### Kill Chain Phase
+* Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
 
 
 #### Known False Positives
 
 
-#### Reference
+* Suspicious Command-Line Executions
 
+* Suspicious DNS Traffic
 
-#### Test Dataset
+* Suspicious MSHTA Activity
 
+* Suspicious WMI Use
 
 _version_: 1
 </details>
 
----
+* Unusual Processes
 
 ### Grant Permission Using Cacls Utility
 This analytic identifies potential adversaries that modify the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft, ransomware and coinminer scripts to evade detections and restrict access to their component files.
@@ -31670,11 +32159,9 @@ This analytic identifies potential adversaries that modify the security permissi
 - **ATT&CK**: [T1222](https://attack.mitre.org/techniques/T1222/)
 - **Last Updated**: 2021-06-14
 
-<details>
-  <summary>details</summary>
+* Windows Log Manipulation
 
-#### Search
-```
+* Windows Persistence Techniques
 
 | from read_ssa_enriched_events() 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
@@ -31706,9 +32193,10 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * process
 
+* Processes.process_name
 
+* Processes.dest
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -31716,8 +32204,6 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 
 #### Kill Chain Phase
-
-* Exploitation
 
 
 #### Known False Positives
@@ -31728,6 +32214,7 @@ network administrator may use this windows utility but this is not a common prac
 
 * https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 
+#### Reference
 
 
 #### Test Dataset
@@ -31735,7 +32222,7 @@ network administrator may use this windows utility but this is not a common prac
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -31743,7 +32230,7 @@ _version_: 1
 ### Gsuite Drive Share In External Email
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Phantom
 - **Datamodel**: Endpoint
 - **ATT&CK**: [T1567.002](https://attack.mitre.org/techniques/T1567/002/)
 - **Last Updated**: 2021-08-16
@@ -31765,6 +32252,12 @@ This search is to detect suspicious google drive or google docs files shared out
 #### Associated Analytic Story
 
 * DevSecOps
+
+* SamSam Ransomware
+
+* Suspicious AWS Traffic
+
+* Use of Cleartext Protocols
 
 
 #### How To Implement
@@ -31788,9 +32281,10 @@ To successfully implement this search, you need to be ingesting logs related to 
 
 * parameters.doc_type
 
+* Ports.src
 
+* Ports.dest_port
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -31810,6 +32304,7 @@ network admin or normal user may share files to customer and external team.
 
 * https://www.redhat.com/en/topics/devops/what-is-devsecops
 
+#### Reference
 
 
 #### Test Dataset
@@ -31817,7 +32312,7 @@ network admin or normal user may share files to customer and external team.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -31850,36 +32345,38 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 
 * DevSecOps
 
+* Brand Monitoring
 
 #### How To Implement
 To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
 
-#### Required field
+* Data Protection
 
-* _time
+* Dynamic DNS
 
 
+* Processes.parent_process
 
-#### ATT&CK
+* Ports.process_id
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1048.003 | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
+* Ports.dest_port
 
-#### Kill Chain Phase
 
-* Exploitation
 
 
 #### Known False Positives
 network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
 
-#### Reference
 
+#### Known False Positives
 
 * https://www.redhat.com/en/topics/devops/what-is-devsecops
 
+#### Reference
 
 
 #### Test Dataset
@@ -31887,7 +32384,7 @@ network admin and normal user may send this file attachment as part of their day
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -31932,18 +32429,19 @@ To successfully implement this search, you must be ingesting data that records r
 
 * Registry.dest Registry.user
 
+* Query
 
+* Consumer
 
-#### ATT&CK
+* Filter
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1562.001 | Disable or Modify Tools | Defense Evasion |
 
 
-#### Kill Chain Phase
 
-* Exploitation
+#### Kill Chain Phase
 
 
 #### Known False Positives
@@ -31952,8 +32450,8 @@ Unknown. Filter as needed.
 #### Reference
 
 
-* https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 
+#### Reference
 
 
 #### Test Dataset
@@ -31988,7 +32486,7 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 ```
 #### Associated Analytic Story
 
-* Windows Defense Evasion Tactics
+* Web Fraud Detection
 
 * Windows Persistence Techniques
 
@@ -32010,9 +32508,10 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Processes.dest
 
+* src_ip
 
+* status
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -32043,7 +32542,7 @@ _version_: 4
 ### High File Deletion Frequency
 This search looks for high frequency of file deletion relative to process name and process id. These events usually happen when the ransomware tries to encrypt the files with the ransomware file extensions and sysmon treat the original files to be deleted as soon it was replace as encrypted data.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Behavioral Analytics
 - **Datamodel**: Endpoint
 - **ATT&CK**: [T1485](https://attack.mitre.org/techniques/T1485/)
 - **Last Updated**: 2021-03-16
@@ -32185,7 +32684,7 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 
 #### Known False Positives
-unknown
+Unknown. Filter as needed.
 
 #### Reference
 
@@ -32250,7 +32749,7 @@ To successfully implement this search, you need to be ingesting logs with the Im
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -32270,7 +32769,7 @@ admin or user tool that can terminate multiple process.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
 
 
-_version_: 1
+_version_: 4
 </details>
 
 ---
@@ -32309,7 +32808,7 @@ This search requires you to be ingesting your network traffic and populating the
 
 #### Required field
 
-* _time
+* EventCode
 
 * All_Traffic.bytes_in
 
@@ -32402,7 +32901,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -32492,8 +32991,8 @@ Unknown. It is possible some administrative scripts use ICacls. Filter as needed
 * https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 
 
+* https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 
-#### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
 
@@ -32555,7 +33054,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -32573,7 +33072,7 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -32775,8 +33274,8 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+* All_Traffic.src
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -32787,8 +33286,6 @@ You must be ingesting Windows Security logs from devices of interest, including 
 
 
 #### Kill Chain Phase
-
-* Actions on Objectives
 
 
 #### Known False Positives
@@ -32852,8 +33349,8 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+* All_Traffic.dest
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -32926,8 +33423,8 @@ You must be ingesting Windows Security logs from devices of interest, including 
 * _time
 
 
+* Processes.dest
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -33523,7 +34020,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Required field
 
-* _time
+* dest_device_id
 
 * user
 
@@ -33551,12 +34048,16 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Known False Positives
 
-
 #### Reference
+
+
+* https://github.com/gentilkiwi/mimikatz
+
 
 
 #### Test Dataset
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/logAllMimikatzModules.log
 
 _version_: 1
 </details>
@@ -33651,13 +34152,16 @@ This search returns failed logins to multiple destinations by user.
 
 * Credential Dumping
 
+| from read_ssa_enriched_events()
 
 #### How To Implement
 To successfully implement this search you need to be ingesting authentication logs from your various systems and populating the Authentication data model.
 
-#### Required field
 
-* _time
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
 
 * Authentication.dest
 
@@ -33723,7 +34227,6 @@ To successfully implement this search, you must be ingesting your web-traffic lo
 
 
 
-#### Kill Chain Phase
 
 
 #### Known False Positives
@@ -33731,8 +34234,8 @@ To successfully implement this search, you must be ingesting your web-traffic lo
 
 #### Reference
 
+#### Reference
 
-#### Test Dataset
 
 
 _version_: 1
@@ -33977,7 +34480,6 @@ To successfully implement this search you need to be ingesting windows security 
 
 
 
-#### Kill Chain Phase
 
 
 #### Known False Positives
@@ -34041,7 +34543,6 @@ To successfully implement this search you need to be ingesting authentication lo
 
 
 
-#### Kill Chain Phase
 
 
 #### Known False Positives
@@ -34360,9 +34861,10 @@ You must be ingesting endpoint data that tracks process activity, and include th
 
 * service_id
 
+* cs_content_type
 
+* url
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -34384,6 +34886,7 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 
 * https://www.trimarcsecurity.com/post/trimarcresearch-detecting-kerberoasting-activity
 
+#### Reference
 
 
 #### Test Dataset
@@ -34435,30 +34938,32 @@ To successfully implement this search, you need to be ingesting logs with the 70
 
 * Type
 
+* user
 
+* displayMessage
 
-#### ATT&CK
+* src_ip
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1490 | Inhibit System Recovery | Impact |
 
+* outcome.reason
 
-#### Kill Chain Phase
 
-* Exploitation
 
 
 #### Known False Positives
 Admin activities or installing related updates may do a sudden stop to list of services we monitor.
 
-#### Reference
 
+#### Known False Positives
 
 * https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
 
 * https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
 
+#### Reference
 
 
 #### Test Dataset
@@ -34595,7 +35100,7 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 #### Test Dataset
 
 
-_version_: 1
+_version_: 3
 </details>
 
 ---
@@ -34705,9 +35210,10 @@ To successfully implement this search, you need to be ingesting logs with the po
 
 * User
 
+* verb
 
+* requestURI
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -34716,11 +35222,11 @@ To successfully implement this search, you need to be ingesting logs with the po
 
 #### Kill Chain Phase
 
-* Exploitation
+* Lateral Movement
 
 
 #### Known False Positives
-unknown
+Kubectl calls are not malicious by nature. However source IP, verb and Object can reveal potential malicious activity, specially anonymous suspicious IPs and sensitive objects such as configmaps or secrets
 
 #### Reference
 
@@ -34779,7 +35285,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 * Processes.process_name
 
-* Processes.user
+* DNS.record_type
 
 * Processes.parent_process_name
 
@@ -34864,8 +35370,8 @@ You must be ingesting data that records process activity from your hosts to popu
 * Processes.process_id
 
 
+* Processes.dest
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -34961,6 +35467,10 @@ You must be ingesting data that records process activity from your hosts to popu
 There may be legitimate reasons to bypass the PowerShell execution policy. The PowerShell script being run with this parameter should be validated to ensure that it is legitimate.
 
 #### Reference
+
+
+* https://www.blackhillsinfosec.com/introducing-mailsniper-a-tool-for-searching-every-users-email-for-sensitive-data/
+
 
 
 #### Test Dataset
@@ -35111,7 +35621,7 @@ To successfully implement this search, you need to be ingesting Windows System l
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1569.002 | Service Execution | Execution |
+| T1027 | Obfuscated Files or Information | Defense Evasion |
 
 
 #### Kill Chain Phase
@@ -35270,7 +35780,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Processes.process
 
-* Processes.process_id
+* Processes.parent_process_name
 
 
 
@@ -35283,7 +35793,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Command and Control
 
 
 #### Known False Positives
@@ -35301,7 +35811,7 @@ administrators may use this command. Filter as needed.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
 
 
-_version_: 1
+_version_: 4
 </details>
 
 ---
@@ -35443,7 +35953,15 @@ None at this time
 #### Reference
 
 
+* https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+
+* https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+
+
+
 #### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
 
 
 _version_: 2
@@ -35676,7 +36194,7 @@ None at this time
 #### Test Dataset
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -35800,31 +36318,46 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * process_guid
 
+#### Reference
 
 
-#### ATT&CK
+#### Test Dataset
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1218.005 | Mshta | Defense Evasion |
 
+_version_: 1
+</details>
 
-#### Kill Chain Phase
+---
 
-* Exploitation
+### Monitor Unsuccessful Backups
+This search is intended to give you a feel for how often backup failures happen in your environments.  Fluctuations in these numbers will allow you to determine when you should investigate.
 
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2017-09-12
 
 #### Known False Positives
 limitted. this anomaly behavior is not commonly seen in clean host.
 
-#### Reference
+#### Search
+```
+`netbackup` &#34;An error occurred, failed to backup.&#34; 
+| bucket _time span=1d 
+| stats dc(COMPUTERNAME) as count values(COMPUTERNAME) as dest by _time, MESSAGE
+```
+#### Associated Analytic Story
 
+* Monitor Backup Solution
 
 * https://twitter.com/cyb3rops/status/1416050325870587910?s=21
 
+* _time
 
 
-#### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
 
@@ -35907,7 +36440,7 @@ quite minimal false positive expected.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -36139,7 +36672,7 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 
 #### Kill Chain Phase
 
-* Exploitation
+* Exfiltration
 
 
 #### Known False Positives
@@ -36482,7 +37015,7 @@ A host failing to authenticate with multiple valid domain users is not a common 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_kerberos/windows-security.log
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -37189,7 +37722,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 #### Kill Chain Phase
 
-* Actions on Objectives
+* Exploitation
 
 
 #### Known False Positives
@@ -37265,9 +37798,10 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 
 * ResultStatus
 
+* Updates.vendor_product
 
+* Updates.dest
 
-#### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
@@ -37355,6 +37889,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1136.003 | Cloud Account | Persistence |
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.003 | NTDS | Credential Access |
 
 
 #### Kill Chain Phase
@@ -37524,6 +38064,7 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 * ResultStatus
 
 
+#### ATT&CK
 
 #### ATT&CK
 
@@ -37581,13 +38122,14 @@ This search detects when an excessive number of authentication failures occur th
 
 * Office 365 Detections
 
+* ModifiedProperties{}.Name
 
 #### How To Implement
 You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 
-#### Required field
+* ModifiedProperties{}.OldValue
 
-* _time
+* user
 
 * Workload
 
@@ -37630,7 +38172,7 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
 
 
-_version_: 1
+_version_: 2
 </details>
 
 ---
@@ -37944,6 +38486,18 @@ unknown
 #### Reference
 
 
+* https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+
+* https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+
+* https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
+
+* https://www.sygnia.co/golden-saml-advisory
+
+* https://o365blog.com/post/aadbackdoor/
+
+
+
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json
@@ -38133,7 +38687,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * Processes.process
 
-* Processes.process_id
+* Parameters
 
 * Processes.process_guid
 
@@ -38152,7 +38706,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -38234,7 +38788,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -38306,7 +38860,23 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 * _time
 
+* Processes.process
 
+* Processes.process_id
+
+* Processes.process_guid
+
+* Processes.user
+
+* Processes.dest
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
 
 #### ATT&CK
 
@@ -38456,6 +39026,112 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Required field
 
+* ImageLoaded
+
+* AllImageLoaded
+
+* Computer
+
+* EventCode
+
+* Image
+
+* process_name
+
+* ProcessId
+
+* ProcessGuid
+
+* _time
+
+* parent_process_name
+
+* process_name
+
+* parent_process
+
+* cmdline
+
+* process_id
+
+* OriginalFileName
+
+* ProcessGuid
+
+* Computer
+
+* EventCode
+
+* ProcessId
+
+* ProcessGuid
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+default browser not in the filter list
+
+#### Reference
+
+
+* https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/#
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets2/windows-sysmon.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Office Product Spawn CMD Process
+this search is to detect a suspicious office product process that spawn cmd child process. This is commonly seen in a ms office product having macro to execute shell command to download or execute malicious lolbin relative to its malicious code. This is seen in trickbot spear phishing doc where it execute shell cmd to run mshta payload.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-06-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name= "excel.exe" OR Processes.parent_process_name = "powerpnt.exe") Processes.process_name=cmd.exe by Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| `drop_dm_object_name("Processes")` 
+| `security_content_ctime(firstTime)` 
+|`security_content_ctime(lastTime)` 
+| `office_product_spawn_cmd_process_filter`
+```
+#### Associated Analytic Story
+
+* Trickbot
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+
 * _time
 
 * parent_process_name
@@ -38491,7 +39167,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 
 #### Known False Positives
-default browser not in the filter list
+IT or network admin may create an document automation that will run shell script.
 
 #### Reference
 
@@ -38506,82 +39182,6 @@ default browser not in the filter list
 
 
 _version_: 2
-</details>
-
----
-
-### Office Product Spawn CMD Process
-this search is to detect a suspicious office product process that spawn cmd child process. This is commonly seen in a ms office product having macro to execute shell command to download or execute malicious lolbin relative to its malicious code. This is seen in trickbot spear phishing doc where it execute shell cmd to run mshta payload.
-
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
-- **ATT&CK**: [T1218.005](https://attack.mitre.org/techniques/T1218/005/)
-- **Last Updated**: 2021-07-19
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
-
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name= "excel.exe" OR Processes.parent_process_name = "powerpnt.exe") Processes.process_name=cmd.exe by Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
-| `drop_dm_object_name("Processes")` 
-| `security_content_ctime(firstTime)` 
-|`security_content_ctime(lastTime)` 
-| `office_product_spawn_cmd_process_filter`
-```
-#### Associated Analytic Story
-
-* Trickbot
-
-
-#### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-
-#### Required field
-
-* _time
-
-* parent_process
-
-* process_name
-
-* process
-
-* process_id
-
-* process_guid
-
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1218.005 | Mshta | Defense Evasion |
-
-
-#### Kill Chain Phase
-
-* Exploitation
-
-
-#### Known False Positives
-IT or network admin may create an document automation that will run shell script.
-
-#### Reference
-
-
-* https://twitter.com/cyb3rops/status/1416050325870587910?s=21
-
-
-
-#### Test Dataset
-
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/spear_phish/windows-sysmon.log
-
-
-_version_: 1
 </details>
 
 ---
@@ -38992,9 +39592,9 @@ _version_: 1
 Detect Okta user lockout events
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
-- **ATT&CK**: [T1078.001](https://attack.mitre.org/techniques/T1078/001/)
-- **Last Updated**: 2020-07-21
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-04-26
 
 <details>
   <summary>details</summary>
@@ -39008,11 +39608,11 @@ Detect Okta user lockout events
 ```
 #### Associated Analytic Story
 
-* Suspicious Okta Activity
+* Spearphishing Attachments
 
 
 #### How To Implement
-This search is specific to Okta and requires Okta logs are being ingested in your Splunk deployment.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
 
@@ -39020,11 +39620,11 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 * displayMessage
 
-* client.geographicalContext.country
+* process_id
 
-* client.geographicalContext.state
+* parent_process_name
 
-* client.geographicalContext.city
+* dest
 
 
 
@@ -39032,10 +39632,12 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| T1078.001 | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| T1566.001 | Spearphishing Attachment | Initial Access |
 
 
 #### Kill Chain Phase
+
+* Exploitation
 
 
 #### Known False Positives
@@ -39044,10 +39646,20 @@ None. Account lockouts should be followed up on to determine if the actual user 
 #### Reference
 
 
+* https://app.any.run/tasks/fb894ab8-a966-4b72-920b-935f41756afd/
+
+* https://attack.mitre.org/techniques/T1047/
+
+* https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/T1047.md
+
+
+
 #### Test Dataset
 
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_macros.log
 
-_version_: 2
+
+_version_: 1
 </details>
 
 ---
@@ -39314,7 +39926,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Kill Chain Phase
 
-* Exploitation
+* Actions on Objectives
 
 
 #### Known False Positives
@@ -39332,7 +39944,7 @@ takeown.exe is a normal windows application that may used by network operator.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
 
 
-_version_: 1
+_version_: 4
 </details>
 
 ---
@@ -39672,7 +40284,7 @@ Start-BitsTransfer is the PowerShell "version" of BitsAdmin.exe. Similar functio
 
 
 #### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 
 #### Required field
 
@@ -39682,7 +40294,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.parent_process
 
-* Processes.process_name
+* ComputerName
 
 * Processes.user
 
@@ -39764,6 +40376,11 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 * User
 
 
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1197 | BITS Jobs | Defense Evasion, Persistence |
 
 #### ATT&CK
 
@@ -39843,7 +40460,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.user
 
-* Processes.parent_process
+* Message
 
 * Processes.process_name
 
@@ -39851,7 +40468,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 * Processes.process_id
 
-* Processes.parent_process_id
+* User
 
 
 
@@ -40704,7 +41321,6 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 
 
 
-#### Kill Chain Phase
 
 
 #### Known False Positives
@@ -41893,7 +42509,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 #### Known False Positives
 none
 
-#### Reference
+* errorCode
 
 
 #### Test Dataset
@@ -42507,7 +43123,7 @@ _version_: 1
 
 ### Print Spooler Adding A Printer Driver
 The following analytic identifies new printer drivers being load by utilizing the Windows PrintService operational logs, EventCode 316. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
-Within the proof of concept code, the following event will occur - "Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required." \
+Within the proof of concept code, the following event will occur - &#34;Printer driver 1234 for Windows x64 Version-3 was added or updated. Files:- UNIDRV.DLL, kernelbase.dll, evil.dll. No user action is required.&#34; \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events and review the source of where the exploitation began.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -42520,7 +43136,7 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 #### Search
 ```
-`printservice` EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" 
+`printservice` EventCode=316 category = &#34;Adding a printer driver&#34; Message = &#34;*kernelbase.dll,*&#34; Message = &#34;*UNIDRV.DLL,*&#34; Message = &#34;*.DLL.*&#34; 
 | stats  count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -42588,7 +43204,7 @@ _version_: 1
 
 ### Print Spooler Failed to Load a Plug-in
 The following analytic identifies driver load errors utilizing the Windows PrintService Admin logs. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \
-Within the proof of concept code, the following error will occur - "The print spooler failed to load a plug-in module C:\Windows\system32\spool\DRIVERS\x64\3\meterpreter.dll, error code 0x45A. See the event user data for context information." \
+Within the proof of concept code, the following error will occur - &#34;The print spooler failed to load a plug-in module C:\Windows\system32\spool\DRIVERS\x64\3\meterpreter.dll, error code 0x45A. See the event user data for context information.&#34; \
 The analytic is based on file path and failure to load the plug-in. \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
 
@@ -42602,7 +43218,7 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 #### Search
 ```
-`printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909")) OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\")) 
+`printservice` ((ErrorCode=&#34;0x45A&#34; (EventCode=&#34;808&#34; OR EventCode=&#34;4909&#34;)) OR (&#34;The print spooler failed to load a plug-in module&#34; OR &#34;\\drivers\\x64\\&#34;)) 
 | stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -42680,10 +43296,10 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Test-AdminAccess/)=true OR match_regex(cmd_line, /(?i)Invoke-CheckLocalAdminAccess/)=true OR match_regex(cmd_line, /(?i)Test-ServiceDaclPermission/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -42751,7 +43367,7 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk" AND Filesystem.file_path="C:\\Temp*"  by _time span=1h Filesystem.process_id Filesystem.file_name Filesystem.file_path Filesystem.file_hash Filesystem.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name=&#34;*.lnk&#34; AND Filesystem.file_path=&#34;C:\\Temp*&#34;  by _time span=1h Filesystem.process_id Filesystem.file_name Filesystem.file_path Filesystem.file_hash Filesystem.user 
 | `drop_dm_object_name(Filesystem)` 
 | rename process_id as lnk_pid 
 | join lnk_pid, _time [
@@ -42841,10 +43457,10 @@ This detection is to identify a suspicious process that tries to delete the proc
 
 #### Search
 ```
-`sysmon` EventCode=1 cmdline = "*/c del*" Image = "*\\cmd.exe" 
-|eval result = if(like(process,"%".parent_process."%"), "Found", "Not Found") 
+`sysmon` EventCode=1 cmdline = &#34;*/c del*&#34; Image = &#34;*\\cmd.exe&#34; 
+|eval result = if(like(process,&#34;%&#34;.parent_process.&#34;%&#34;), &#34;Found&#34;, &#34;Not Found&#34;) 
 | stats min(_time) as firstTime max(_time) as lastTime count by Computer user ParentImage ParentCommandLine Image cmdline EventCode ProcessID result 
-| where result = "Found" 
+| where result = &#34;Found&#34; 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `process_deleting_its_process_file_path_filter`
@@ -42855,7 +43471,7 @@ This detection is to identify a suspicious process that tries to delete the proc
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -42941,7 +43557,7 @@ The following analytic identifies `WmiPrvSE.exe` spawning a process. This typica
 
 
 #### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -43001,7 +43617,7 @@ The following analytic identifies the use of `wmic.exe` using `delete` to remove
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name = "wmic.exe" AND Processes.process="*process*" AND Processes.process="*executablepath*" AND Processes.process="*delete*" by  Processes.parent_process_name Processes.process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name = &#34;wmic.exe&#34; AND Processes.process=&#34;*process*&#34; AND Processes.process=&#34;*executablepath*&#34; AND Processes.process=&#34;*delete*&#34; by  Processes.parent_process_name Processes.process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -43147,7 +43763,7 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 ```
 
 | tstats `security_content_summariesonly` count values(Processes.process) AS Processes.process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process=*netsh* by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.user Processes.dest 
-|`drop_dm_object_name("Processes")` 
+|`drop_dm_object_name(&#34;Processes&#34;)` 
 |`security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
 |`processes_launching_netsh_filter`
@@ -43211,7 +43827,7 @@ _version_: 3
 ---
 
 ### Prohibited Network Traffic Allowed
-This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table "lookup_interesting_ports", that is marked as prohibited, and has an associated 'allow' action in the Network_Traffic data model. This could be indicative of a misconfigured network device.
+This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table &#34;lookup_interesting_ports&#34;, that is marked as prohibited, and has an associated &#39;allow&#39; action in the Network_Traffic data model. This could be indicative of a misconfigured network device.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
@@ -43229,7 +43845,7 @@ This search looks for network traffic defined by port and transport layer protoc
 | search is_prohibited=true 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `prohibited_network_traffic_allowed_filter`
 ```
 #### Associated Analytic Story
@@ -43242,7 +43858,7 @@ This search looks for network traffic defined by port and transport layer protoc
 
 
 #### How To Implement
-In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an 'action' taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
+In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an &#39;action&#39; taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
 
 #### Required field
 
@@ -43303,7 +43919,7 @@ This search looks for network traffic on common ports where a higher layer proto
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where (All_Traffic.app=dns NOT All_Traffic.dest_port=53) OR ((All_Traffic.app=web-browsing OR All_Traffic.app=http) NOT (All_Traffic.dest_port=80 OR All_Traffic.dest_port=8080 OR All_Traffic.dest_port=8000)) OR (All_Traffic.app=ssl NOT (All_Traffic.dest_port=443 OR All_Traffic.dest_port=8443)) OR (All_Traffic.app=smtp NOT All_Traffic.dest_port=25) by All_Traffic.src_ip, All_Traffic.dest_ip, All_Traffic.app, All_Traffic.dest_port 
 |`security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `protocol_or_port_mismatch_filter`
 ```
 #### Associated Analytic Story
@@ -43370,10 +43986,10 @@ This search looks for cleartext protocols at risk of leaking credentials. Curren
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.transport="tcp" AND (All_Traffic.dest_port="23" OR All_Traffic.dest_port="143" OR All_Traffic.dest_port="110" OR (All_Traffic.dest_port="21" AND All_Traffic.user != "anonymous")) by All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.transport=&#34;tcp&#34; AND (All_Traffic.dest_port=&#34;23&#34; OR All_Traffic.dest_port=&#34;143&#34; OR All_Traffic.dest_port=&#34;110&#34; OR (All_Traffic.dest_port=&#34;21&#34; AND All_Traffic.user != &#34;anonymous&#34;)) by All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `protocols_passing_authentication_in_cleartext_filter`
 ```
 #### Associated Analytic Story
@@ -43435,10 +44051,10 @@ The following analytics identifies a big number of instance of ransomware notes 
 
 #### Search
 ```
-`sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") 
+`sysmon` EventCode=11 file_name IN (&#34;*\.txt&#34;,&#34;*\.html&#34;,&#34;*\.hta&#34;) 
 |bin _time span=10s 
 | stats min(_time) as firstTime max(_time) as lastTime dc(TargetFilename) as unique_readme_path_count values(TargetFilename) as list_of_readme_path by Computer Image file_name 
-| where unique_readme_path_count >= 15 
+| where unique_readme_path_count &gt;= 15 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `ransomware_notes_bulk_creation_filter`
@@ -43520,16 +44136,16 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), parent_process_name=mvindex(split(parent_process, "\\"), -1), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
+| eval parent_process=lower(ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null)), parent_process_name=mvindex(split(parent_process, &#34;\\&#34;), -1), process_name=lower(ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where parent_process_name!=null 
 | select parent_process_name, process_name, cmd_line, timestamp, dest_device_id, dest_user_id 
-| conditional_anomaly conditional="parent_process_name" target="process_name" 
-| where (process_name="powershell.exe" OR process_name="regsvcs.exe" OR process_name="ftp.exe" OR process_name="dfsvc.exe" OR process_name="rasautou.exe" OR process_name="schtasks.exe" OR process_name="xwizard.exe" OR process_name="findstr.exe" OR process_name="esentutl.exe" OR process_name="cscript.exe" OR process_name="reg.exe" OR process_name="csc.exe" OR process_name="atbroker.exe" OR process_name="print.exe" OR process_name="pcwrun.exe" OR process_name="vbc.exe" OR process_name="rpcping.exe" OR process_name="wsreset.exe" OR process_name="ilasm.exe" OR process_name="certutil.exe" OR process_name="replace.exe" OR process_name="mshta.exe" OR process_name="bitsadmin.exe" OR process_name="wscript.exe" OR process_name="ieexec.exe" OR process_name="cmd.exe" OR process_name="microsoft.workflow.compiler.exe" OR process_name="runscripthelper.exe" OR process_name="makecab.exe" OR process_name="forfiles.exe" OR process_name="desktopimgdownldr.exe" OR process_name="control.exe" OR process_name="msbuild.exe" OR process_name="register-cimprovider.exe" OR process_name="tttracer.exe" OR process_name="ie4uinit.exe" OR process_name="sc.exe" OR process_name="bash.exe" OR process_name="hh.exe" OR process_name="cmstp.exe" OR process_name="mmc.exe" OR process_name="jsc.exe" OR process_name="scriptrunner.exe" OR process_name="odbcconf.exe" OR process_name="extexport.exe" OR process_name="msdt.exe" OR process_name="diskshadow.exe" OR process_name="extrac32.exe" OR process_name="eventvwr.exe" OR process_name="mavinject.exe" OR process_name="regasm.exe" OR process_name="gpscript.exe" OR process_name="rundll32.exe" OR process_name="regsvr32.exe" OR process_name="regedit.exe" OR process_name="msiexec.exe" OR process_name="gfxdownloadwrapper.exe" OR process_name="presentationhost.exe" OR process_name="regini.exe" OR process_name="wmic.exe" OR process_name="runonce.exe" OR process_name="syncappvpublishingserver.exe" OR process_name="verclsid.exe" OR process_name="psr.exe" OR process_name="infdefaultinstall.exe" OR process_name="explorer.exe" OR process_name="expand.exe" OR process_name="installutil.exe" OR process_name="netsh.exe" OR process_name="wab.exe" OR process_name="dnscmd.exe" OR process_name="at.exe" OR process_name="pcalua.exe" OR process_name="cmdkey.exe" OR process_name="msconfig.exe") 
+| conditional_anomaly conditional=&#34;parent_process_name&#34; target=&#34;process_name&#34; 
+| where (process_name=&#34;powershell.exe&#34; OR process_name=&#34;regsvcs.exe&#34; OR process_name=&#34;ftp.exe&#34; OR process_name=&#34;dfsvc.exe&#34; OR process_name=&#34;rasautou.exe&#34; OR process_name=&#34;schtasks.exe&#34; OR process_name=&#34;xwizard.exe&#34; OR process_name=&#34;findstr.exe&#34; OR process_name=&#34;esentutl.exe&#34; OR process_name=&#34;cscript.exe&#34; OR process_name=&#34;reg.exe&#34; OR process_name=&#34;csc.exe&#34; OR process_name=&#34;atbroker.exe&#34; OR process_name=&#34;print.exe&#34; OR process_name=&#34;pcwrun.exe&#34; OR process_name=&#34;vbc.exe&#34; OR process_name=&#34;rpcping.exe&#34; OR process_name=&#34;wsreset.exe&#34; OR process_name=&#34;ilasm.exe&#34; OR process_name=&#34;certutil.exe&#34; OR process_name=&#34;replace.exe&#34; OR process_name=&#34;mshta.exe&#34; OR process_name=&#34;bitsadmin.exe&#34; OR process_name=&#34;wscript.exe&#34; OR process_name=&#34;ieexec.exe&#34; OR process_name=&#34;cmd.exe&#34; OR process_name=&#34;microsoft.workflow.compiler.exe&#34; OR process_name=&#34;runscripthelper.exe&#34; OR process_name=&#34;makecab.exe&#34; OR process_name=&#34;forfiles.exe&#34; OR process_name=&#34;desktopimgdownldr.exe&#34; OR process_name=&#34;control.exe&#34; OR process_name=&#34;msbuild.exe&#34; OR process_name=&#34;register-cimprovider.exe&#34; OR process_name=&#34;tttracer.exe&#34; OR process_name=&#34;ie4uinit.exe&#34; OR process_name=&#34;sc.exe&#34; OR process_name=&#34;bash.exe&#34; OR process_name=&#34;hh.exe&#34; OR process_name=&#34;cmstp.exe&#34; OR process_name=&#34;mmc.exe&#34; OR process_name=&#34;jsc.exe&#34; OR process_name=&#34;scriptrunner.exe&#34; OR process_name=&#34;odbcconf.exe&#34; OR process_name=&#34;extexport.exe&#34; OR process_name=&#34;msdt.exe&#34; OR process_name=&#34;diskshadow.exe&#34; OR process_name=&#34;extrac32.exe&#34; OR process_name=&#34;eventvwr.exe&#34; OR process_name=&#34;mavinject.exe&#34; OR process_name=&#34;regasm.exe&#34; OR process_name=&#34;gpscript.exe&#34; OR process_name=&#34;rundll32.exe&#34; OR process_name=&#34;regsvr32.exe&#34; OR process_name=&#34;regedit.exe&#34; OR process_name=&#34;msiexec.exe&#34; OR process_name=&#34;gfxdownloadwrapper.exe&#34; OR process_name=&#34;presentationhost.exe&#34; OR process_name=&#34;regini.exe&#34; OR process_name=&#34;wmic.exe&#34; OR process_name=&#34;runonce.exe&#34; OR process_name=&#34;syncappvpublishingserver.exe&#34; OR process_name=&#34;verclsid.exe&#34; OR process_name=&#34;psr.exe&#34; OR process_name=&#34;infdefaultinstall.exe&#34; OR process_name=&#34;explorer.exe&#34; OR process_name=&#34;expand.exe&#34; OR process_name=&#34;installutil.exe&#34; OR process_name=&#34;netsh.exe&#34; OR process_name=&#34;wab.exe&#34; OR process_name=&#34;dnscmd.exe&#34; OR process_name=&#34;at.exe&#34; OR process_name=&#34;pcalua.exe&#34; OR process_name=&#34;cmdkey.exe&#34; OR process_name=&#34;msconfig.exe&#34;) 
 | eval input = (-1)*log(output) 
-| adaptive_threshold algorithm="gaussian" threshold=0.001 window=604800000L 
-| where label AND input > mean 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body = create_map(["process_name", process_name, "parent_process_name", parent_process_name, "input", input, "mean", mean, "variance", variance, "output", output, "cmd_line", cmd_line]) 
+| adaptive_threshold algorithm=&#34;gaussian&#34; threshold=0.001 window=604800000L 
+| where label AND input &gt; mean 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body = create_map([&#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process_name, &#34;input&#34;, input, &#34;mean&#34;, mean, &#34;variance&#34;, variance, &#34;output&#34;, output, &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -43572,7 +44188,7 @@ Collect endpoint data such as sysmon or 4688 events.
 
 
 #### Known False Positives
-Some custom tools used by admins could be used rarely to launch remotely applications. This might trigger false positives at the beginning when it hasn't collected yet enough data to construct the baseline.
+Some custom tools used by admins could be used rarely to launch remotely applications. This might trigger false positives at the beginning when it hasn&#39;t collected yet enough data to construct the baseline.
 
 
 #### Reference
@@ -43599,7 +44215,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### Search
 ```
-`powershell` EventCode=4104 (Message = "*SELECT*" OR Message = "*WMIC*") AND (Message = "*AntiVirusProduct*" OR Message = "*AntiSpywareProduct*") 
+`powershell` EventCode=4104 (Message = &#34;*SELECT*&#34; OR Message = &#34;*WMIC*&#34;) AND (Message = &#34;*AntiVirusProduct*&#34; OR Message = &#34;*AntiSpywareProduct*&#34;) 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -43682,7 +44298,7 @@ The following analytic identifies suspicious PowerShell via EventCode 4104, wher
 
 #### Search
 ```
-`powershell` EventCode=4104 (Message= "*SELECT*" OR Message= "*Get-WmiObject*") AND (Message= "*Win32_Bios*" OR Message= "*Win32_OperatingSystem*" OR Message= "*Win32_Processor*" OR Message= "*Win32_ComputerSystem*" OR Message= "*Win32_ComputerSystemProduct*" OR Message= "*Win32_ShadowCopy*") 
+`powershell` EventCode=4104 (Message= &#34;*SELECT*&#34; OR Message= &#34;*Get-WmiObject*&#34;) AND (Message= &#34;*Win32_Bios*&#34; OR Message= &#34;*Win32_OperatingSystem*&#34; OR Message= &#34;*Win32_Processor*&#34; OR Message= &#34;*Win32_ComputerSystem*&#34; OR Message= &#34;*Win32_ComputerSystemProduct*&#34; OR Message= &#34;*Win32_ShadowCopy*&#34;) 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -43766,10 +44382,10 @@ This detection identifies access to PowerSploit modules that discover accounts, 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainLocalGroupMember/)=true OR match_regex(cmd_line, /(?i)Invoke-EnumerateLocalAdmin/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserEvent/)=true OR match_regex(cmd_line, /(?i)Invoke-EventHunter/)=true OR match_regex(cmd_line, /(?i)Find-DomainUserLocation/)=true OR match_regex(cmd_line, /(?i)Invoke-UserHunter/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignGroupMember/)=true OR match_regex(cmd_line, /(?i)Find-ForeignGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainForeignUser/)=true OR match_regex(cmd_line, /(?i)Find-ForeignUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPO/)=true OR match_regex(cmd_line, /(?i)Get-NetGPO/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOComputerLocalGroupMapping/)=true OR match_regex(cmd_line, /(?i)Find-GPOComputerAdmin/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGPOGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGPOUserLocalGroupMapping/)=true OR match_regex(cmd_line, /(?i)Find-GPOLocation/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetGroup/)=true OR match_regex(cmd_line, /(?i)Get-DomainGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-NetGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-DomainManagedSecurityGroup/)=true OR match_regex(cmd_line, /(?i)Find-ManagedSecurityGroups/)=true OR match_regex(cmd_line, /(?i)Get-DomainOU/)=true OR match_regex(cmd_line, /(?i)Get-NetOU/)=true OR match_regex(cmd_line, /(?i)Get-DomainUser/)=true OR match_regex(cmd_line, /(?i)Get-NetUser/)=true OR match_regex(cmd_line, /(?i)Get-DomainUserEvent/)=true OR match_regex(cmd_line, /(?i)Get-UserEvent/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroup/)=true OR match_regex(cmd_line, /(?i)Get-NetLocalGroupMember/)=true OR match_regex(cmd_line, /(?i)Get-NetLoggedon/)=true OR match_regex(cmd_line, /(?i)Get-RegLoggedOn/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegLastLoggedOn/)=true OR match_regex(cmd_line, /(?i)Get-LastLoggedOn/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -43840,10 +44456,10 @@ This detection identifies use of Mimikatz modules for discovery of accounts and 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::user/)=true OR match_regex(cmd_line, /(?i)net::group/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -43914,10 +44530,10 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-DomainSID/)=true OR match_regex(cmd_line, /(?i)Get-DomainSite/)=true OR match_regex(cmd_line, /(?i)Get-NetSite/)=true OR match_regex(cmd_line, /(?i)Get-DomainSubnet/)=true OR match_regex(cmd_line, /(?i)Get-NetSubnet/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-DomainTrustMapping/)=true OR match_regex(cmd_line, /(?i)Invoke-MapDomainTrust/)=true OR match_regex(cmd_line, /(?i)Get-Forest/)=true OR match_regex(cmd_line, /(?i)Get-NetForest/)=true OR match_regex(cmd_line, /(?i)Get-ForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-NetForestDomain/)=true OR match_regex(cmd_line, /(?i)Get-ForestGlobalCatalog/)=true OR match_regex(cmd_line, /(?i)Get-NetForestCatalog/)=true OR match_regex(cmd_line, /(?i)Get-ForestTrust/)=true OR match_regex(cmd_line, /(?i)Get-NetForestTrust/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -43990,10 +44606,10 @@ This detection identifies access to PowerSploit modules that discover computers,
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-ComputerDetail/)=true OR match_regex(cmd_line, /(?i)Get-Domain/)=true OR match_regex(cmd_line, /(?i)Get-NetDomain/)=true OR match_regex(cmd_line, /(?i)Get-DomainComputer/)=true OR match_regex(cmd_line, /(?i)Get-NetComputer/)=true OR match_regex(cmd_line, /(?i)Get-DomainController/)=true OR match_regex(cmd_line, /(?i)Get-NetDomainController/)=true OR match_regex(cmd_line, /(?i)Get-DomainFileServer/)=true OR match_regex(cmd_line, /(?i)Get-NetFileServer/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44064,10 +44680,10 @@ This detection identifies use of Mimikatz modules for discovery of computers and
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::ServerInfo/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44136,10 +44752,10 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainProcess/)=true OR match_regex(cmd_line, /(?i)Invoke-ProcessHunter/)=true OR match_regex(cmd_line, /(?i)Get-ServiceDetail/)=true OR match_regex(cmd_line, /(?i)Get-WMIProcess/)=true OR match_regex(cmd_line, /(?i)Get-NetProcess/)=true OR match_regex(cmd_line, /(?i)Get-SecurityPackage/)=true OR match_regex(cmd_line, /(?i)Find-DomainObjectPropertyOutlier/)=true OR match_regex(cmd_line, /(?i)Get-DomainObject/)=true OR match_regex(cmd_line, /(?i)Get-ADObject/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegMountedDrive/)=true OR match_regex(cmd_line, /(?i)Get-RegistryMountedDrive/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44215,10 +44831,10 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)process::list/)=true OR match_regex(cmd_line, /(?i)service::list/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44289,10 +44905,10 @@ This detection identifies use of Mimikatz modules for discovery and access to ne
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)net::share/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44363,10 +44979,10 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainShare/)=true OR match_regex(cmd_line, /(?i)Invoke-ShareFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainShareFile/)=true OR match_regex(cmd_line, /(?i)Invoke-FileFinder/)=true OR match_regex(cmd_line, /(?i)Find-InterestingFile/)=true OR match_regex(cmd_line, /(?i)Get-DomainDFSShare/)=true OR match_regex(cmd_line, /(?i)Get-DFSshare/)=true OR match_regex(cmd_line, /(?i)Get-NetShare/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44437,10 +45053,10 @@ This detection identifies use of PowerSploit modules that discover opportunities
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-LocalAdminAccess/)=true OR match_regex(cmd_line, /(?i)Find-InterestingDomainAcl/)=true OR match_regex(cmd_line, /(?i)Invoke-ACLScanner/)=true OR match_regex(cmd_line, /(?i)Find-PathDLLHijack/)=true OR match_regex(cmd_line, /(?i)Find-ProcessDLLHijack/)=true OR match_regex(cmd_line, /(?i)Get-DomainObjectAcl/)=true OR match_regex(cmd_line, /(?i)Get-ObjectAcl/)=true OR match_regex(cmd_line, /(?i)Get-DomainPolicy/)=true OR match_regex(cmd_line, /(?i)Get-ModifiablePath/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableRegistryAutoRun/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableScheduledTaskFile/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableService/)=true OR match_regex(cmd_line, /(?i)Get-ModifiableServiceFile/)=true OR match_regex(cmd_line, /(?i)Get-PathAcl/)=true OR match_regex(cmd_line, /(?i)Get-UnattendedInstallFile/)=true OR match_regex(cmd_line, /(?i)Get-UnquotedService/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44514,10 +45130,10 @@ This detection identifies access to PowerSploit modules for reconnaissance of co
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Get-DomainDNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DNSRecord/)=true OR match_regex(cmd_line, /(?i)Get-DomainDNSZone/)=true OR match_regex(cmd_line, /(?i)Get-DNSZone/)=true OR match_regex(cmd_line, /(?i)Invoke-ReverseDnsLookup/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegCachedRDPConnection/)=true OR match_regex(cmd_line, /(?i)Get-CachedRDPConnection/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegProxy/)=true OR match_regex(cmd_line, /(?i)Get-Proxy/)=true OR match_regex(cmd_line, /(?i)Invoke-Portscan/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44588,10 +45204,10 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)crypto::capi/)=true OR match_regex(cmd_line, /(?i)crypto::cng/)=true OR match_regex(cmd_line, /(?i)crypto::providers/)=true OR match_regex(cmd_line, /(?i)crypto::stores/)=true OR match_regex(cmd_line, /(?i)crypto::sc/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44665,10 +45281,10 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-AVSignature/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44738,10 +45354,10 @@ This detection identifies use of PowerSploit modules for assessment of privilege
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Invoke-PrivescAudit/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44812,10 +45428,10 @@ This detection identifies use of Mimikatz modules for discovery of process or se
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::detours/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -44886,7 +45502,7 @@ This search is to detect a suspicious commandline designed to delete files or di
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe Processes.process=*/c*  Processes.process=* rd * Processes.process="*/s*" Processes.process="*/q*" by Processes.user Processes.process_name Processes.parent_process_name Processes.parent_process Processes.process Processes.process_id Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe Processes.process=*/c*  Processes.process=* rd * Processes.process=&#34;*/s*&#34; Processes.process=&#34;*/q*&#34; by Processes.user Processes.process_name Processes.parent_process_name Processes.parent_process Processes.process Processes.process_id Processes.dest 
 |`drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -44967,7 +45583,7 @@ The search looks for reg.exe modifying registry keys that define Windows service
 ```
 
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes where Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add* Processes.process=*Services* by Processes.process_id Processes.dest Processes.process 
-| `drop_dm_object_name("Processes")` 
+| `drop_dm_object_name(&#34;Processes&#34;)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `reg_exe_manipulating_windows_services_registry_keys_filter`
@@ -45042,7 +45658,7 @@ The search looks for modifications to registry keys that can be used to launch a
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*currentversion\\run* OR Registry.registry_path=*currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*currentversion\\policies\\explorer\\run* OR Registry.registry_path=*currentversion\\runservices* OR Registry.registry_path=*\\CurrentControlSet\\Control\\Lsa\\* OR Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*" OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\*) by Registry.dest Registry.user 
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*currentversion\\run* OR Registry.registry_path=*currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*currentversion\\policies\\explorer\\run* OR Registry.registry_path=*currentversion\\runservices* OR Registry.registry_path=*\\CurrentControlSet\\Control\\Lsa\\* OR Registry.registry_path=&#34;*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*&#34; OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\*) by Registry.dest Registry.user 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 
@@ -45113,7 +45729,7 @@ _version_: 5
 ---
 
 ### Registry Keys Used For Privilege Escalation
-This search looks for modifications to registry keys that can be used to elevate privileges. The registry keys under "Image File Execution Options" are used to intercept calls to an executable and can be used to attach malicious binaries to benign system binaries.
+This search looks for modifications to registry keys that can be used to elevate privileges. The registry keys under &#34;Image File Execution Options&#34; are used to intercept calls to an executable and can be used to attach malicious binaries to benign system binaries.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
@@ -45126,7 +45742,7 @@ This search looks for modifications to registry keys that can be used to elevate
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_key_name=GlobalFlag OR Registry.registry_key_name=Debugger) by Registry.dest  Registry.user Registry.registry_path Registry.registry_key_name 
+| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=&#34;*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*&#34;) AND (Registry.registry_key_name=GlobalFlag OR Registry.registry_key_name=Debugger) by Registry.dest  Registry.user Registry.registry_path Registry.registry_key_name 
 | `security_content_ctime(lastTime)`  
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 
@@ -45278,7 +45894,7 @@ This search looks for RDP application network traffic and filters any source/des
 
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
 | eventstats stdev(count) AS stdev avg(count) AS avg p50(count) AS p50 
-| where count>(avg + stdev*2) 
+| where count&gt;(avg + stdev*2) 
 | rename All_Traffic.src AS src All_Traffic.dest AS dest 
 | table firstTime lastTime src dest count avg p50 stdev 
 | `remote_desktop_network_bruteforce_filter`
@@ -45322,7 +45938,7 @@ You must ensure that your network traffic data is populating the Network_Traffic
 
 
 #### Known False Positives
-RDP gateways may have unusually high amounts of traffic from all other hosts' RDP applications in the network.
+RDP gateways may have unusually high amounts of traffic from all other hosts&#39; RDP applications in the network.
 
 #### Reference
 
@@ -45350,7 +45966,7 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 ```
 
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source by All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
 | `remote_desktop_network_traffic_filter` 
@@ -45367,7 +45983,7 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 
 
 #### How To Implement
-To successfully implement this search you need to identify systems that commonly originate remote desktop traffic and that commonly receive remote desktop traffic. You can use the included support search "Identify Systems Creating Remote Desktop Traffic" to identify systems that originate the traffic and the search "Identify Systems Receiving Remote Desktop Traffic" to identify systems that receive a lot of remote desktop traffic. After identifying these systems, you will need to add the "common_rdp_source" or "common_rdp_destination" category to that system depending on the usage, using the Enterprise Security Assets and Identities framework.  This can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.
+To successfully implement this search you need to identify systems that commonly originate remote desktop traffic and that commonly receive remote desktop traffic. You can use the included support search &#34;Identify Systems Creating Remote Desktop Traffic&#34; to identify systems that originate the traffic and the search &#34;Identify Systems Receiving Remote Desktop Traffic&#34; to identify systems that receive a lot of remote desktop traffic. After identifying these systems, you will need to add the &#34;common_rdp_source&#34; or &#34;common_rdp_destination&#34; category to that system depending on the usage, using the Enterprise Security Assets and Identities framework.  This can be done by adding an entry in the assets.csv file located in SA-IdentityManagement/lookups.
 
 #### Required field
 
@@ -45414,7 +46030,7 @@ _version_: 3
 ---
 
 ### Remote Desktop Process Running On System
-This search looks for the remote desktop process mstsc.exe running on systems upon which it doesn't typically run. This is accomplished by filtering out all systems that are noted in the `common_rdp_source category` in the Assets and Identity framework.
+This search looks for the remote desktop process mstsc.exe running on systems upon which it doesn&#39;t typically run. This is accomplished by filtering out all systems that are noted in the `common_rdp_source category` in the Assets and Identity framework.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -45441,7 +46057,7 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 
 
 #### How To Implement
-To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. The search requires you to identify systems that do not commonly use remote desktop. You can use the included support search "Identify Systems Using Remote Desktop" to identify these systems. After identifying them, you will need to add the "common_rdp_source" category to that system using the Enterprise Security Assets and Identities framework. This can be done by adding an entry in the assets.csv file located in `SA-IdentityManagement/lookups`.
+To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. The search requires you to identify systems that do not commonly use remote desktop. You can use the included support search &#34;Identify Systems Using Remote Desktop&#34; to identify these systems. After identifying them, you will need to add the &#34;common_rdp_source&#34; category to that system using the Enterprise Security Assets and Identities framework. This can be done by adding an entry in the assets.csv file located in `SA-IdentityManagement/lookups`.
 
 #### Required field
 
@@ -45497,7 +46113,7 @@ This search looks for wmic.exe being launched with parameters to spawn a process
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = wmic.exe Processes.process="*/node*" Processes.process="*process*" Processes.process="*call*" Processes.process="*create*"   by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = wmic.exe Processes.process=&#34;*/node*&#34; Processes.process=&#34;*process*&#34; Processes.process=&#34;*call*&#34; Processes.process=&#34;*create*&#34;   by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -45511,7 +46127,7 @@ This search looks for wmic.exe being launched with parameters to spawn a process
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -45542,7 +46158,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 
 #### Known False Positives
-The wmic.exe utility is a benign Windows application. It may be used legitimately by Administrators with these parameters for remote system administration, but it's relatively uncommon.
+The wmic.exe utility is a benign Windows application. It may be used legitimately by Administrators with these parameters for remote system administration, but it&#39;s relatively uncommon.
 
 #### Reference
 
@@ -45583,7 +46199,7 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model. Deprecated because duplicate of Remote Process Instantiation via WMI.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. Deprecated because duplicate of Remote Process Instantiation via WMI.
 
 #### Required field
 
@@ -45651,7 +46267,7 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as cmdline values(Processes.parent_process_name) as parent_process values(Processes.process_name) as process_name min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = "cmd.exe" OR Processes.parent_process_name = "powershell.exe" OR Processes.parent_process_name = "powershell_ise.exe" OR Processes.parent_process_name =  "wmic.exe" Processes.process_name = "vssadmin.exe" Processes.process="*resize*" Processes.process="*shadowstorage*" Processes.process="*/maxsize*" by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| tstats `security_content_summariesonly` values(Processes.process) as cmdline values(Processes.parent_process_name) as parent_process values(Processes.process_name) as process_name min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = &#34;cmd.exe&#34; OR Processes.parent_process_name = &#34;powershell.exe&#34; OR Processes.parent_process_name = &#34;powershell_ise.exe&#34; OR Processes.parent_process_name =  &#34;wmic.exe&#34; Processes.process_name = &#34;vssadmin.exe&#34; Processes.process=&#34;*resize*&#34; Processes.process=&#34;*shadowstorage*&#34; Processes.process=&#34;*/maxsize*&#34; by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.dest Processes.user Processes.process_id Processes.process_guid 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -45732,9 +46348,9 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where cmd_line IS NOT NULL AND like(cmd_line, "%resize%") AND like(cmd_line, "%shadowstorage%") AND like(cmd_line, "%maxsize%") AND process_name="vssadmin.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=lower(ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null)), process_name=lower(ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null)), process_path=ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null), parent_process_name=ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, &#34;%resize%&#34;) AND like(cmd_line, &#34;%shadowstorage%&#34;) AND like(cmd_line, &#34;%maxsize%&#34;) AND process_name=&#34;vssadmin.exe&#34; 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process_name, &#34;process_path&#34;, process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -45813,7 +46429,7 @@ This analytic identifies suspicious commandline parameter that are commonly used
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "* -nolan *" OR Processes.process = "* -nolocal *" OR Processes.process = "* -fast *" OR Processes.process = "* -full *" by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = &#34;* -nolan *&#34; OR Processes.process = &#34;* -nolocal *&#34; OR Processes.process = &#34;* -fast *&#34; OR Processes.process = &#34;* -full *&#34; by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -45899,7 +46515,7 @@ This analytic identifies suspicious modification in registry entry to keep some 
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*" OR Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*") AND (Registry.registry_value_name = "\.*" OR Registry.registry_value_name = "Binary Data") by Registry.registry_value_name Registry.dest Registry.user 
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=&#34;*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*&#34; OR Registry.registry_path=&#34;*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*&#34;) AND (Registry.registry_value_name = &#34;\.*&#34; OR Registry.registry_value_name = &#34;Binary Data&#34;) by Registry.registry_value_name Registry.dest Registry.user 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 
@@ -45991,7 +46607,7 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -46050,7 +46666,7 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 
 #### Search
 ```
-`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe" 
+`sysmon` EventCode=8 SourceImage = &#34;*\\rundll32.exe&#34; TargetImage = &#34;*.exe&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId StartAddress EventCode Computer 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -46117,7 +46733,7 @@ _version_: 1
 ---
 
 ### Rundll32 CreateRemoteThread In Browser
-This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to "firefox.exe" and "chrome.exe" browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
+This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to &#34;firefox.exe&#34; and &#34;chrome.exe&#34; browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -46129,7 +46745,7 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 
 #### Search
 ```
-`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") 
+`sysmon` EventCode=8 SourceImage = &#34;*\\rundll32.exe&#34; TargetImage IN (&#34;*\\firefox.exe&#34;, &#34;*\\chrome.exe&#34;, &#34;*\\iexplore.exe&#34;,&#34;*\\microsoftedgecp.exe&#34;) 
 | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId StartAddress EventCode Computer 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -46196,7 +46812,7 @@ _version_: 1
 ---
 
 ### Rundll32 DNSQuery
-This search is to detect a suspicious rundll32.exe process having a http connection and do a dns query in some web domain. This technique was seen in IcedID malware where the rundll32 that execute its payload will contact amazon.com to check internet connect and to communicate to its C&C server to download config and other file component.
+This search is to detect a suspicious rundll32.exe process having a http connection and do a dns query in some web domain. This technique was seen in IcedID malware where the rundll32 that execute its payload will contact amazon.com to check internet connect and to communicate to its C&amp;C server to download config and other file component.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -46208,7 +46824,7 @@ This search is to detect a suspicious rundll32.exe process having a http connect
 
 #### Search
 ```
-`sysmon` EventCode=22 process_name="rundll32.exe" 
+`sysmon` EventCode=22 process_name=&#34;rundll32.exe&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus ProcessId direction Computer 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -46367,7 +46983,7 @@ This search is to detect a suspicious rundll32 process that drops executable (.e
 
 #### Search
 ```
-`sysmon` EventCode=11 process_name="rundll32.exe" TargetFilename IN ("*.exe", "*.dll",) 
+`sysmon` EventCode=11 process_name=&#34;rundll32.exe&#34; TargetFilename IN (&#34;*.exe&#34;, &#34;*.dll&#34;,) 
 | stats count min(_time) as firstTime max(_time) as lastTime by Image TargetFilename ProcessGuid dest user_id 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -46447,9 +47063,9 @@ The following analytic identifies rundll32.exe with no command line arguments an
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| regex process="(rundll32\.exe.{0,4}$)" 
+| regex process=&#34;(rundll32\.exe.{0,4}$)&#34; 
 | join  process_id [
-| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id Ports.dest Ports.dest_port
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !=&#34;0&#34; by Ports.process_id Ports.dest Ports.dest_port
 | `drop_dm_object_name(Ports)` 
 | rename  dest as connection_to_CNC] 
 | table _time dest parent_process_name process_name process_path process process_id connection_to_CNC dest_port 
@@ -46539,7 +47155,7 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem WHERE "Filesystem.file_path"=C:\\*Ryuk* BY "Filesystem.dest", "Filesystem.user", "Filesystem.file_path" 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem WHERE &#34;Filesystem.file_path&#34;=C:\\*Ryuk* BY &#34;Filesystem.dest&#34;, &#34;Filesystem.user&#34;, &#34;Filesystem.file_path&#34; 
 | `drop_dm_object_name(Filesystem)` 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
@@ -46607,7 +47223,7 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process="*8 LAN*" OR Processes.process="*9 REP*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process=&#34;*8 LAN*&#34; OR Processes.process=&#34;*9 REP*&#34;) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -46682,7 +47298,7 @@ _version_: 1
 ---
 
 ### SAM Database File Access Attempt
-The following analytic identifies access to SAM, SYSTEM or SECURITY databases' within the file path of `windows\system32\config` using Windows Security EventCode 4663. This particular behavior is related to credential access, an attempt to either use a Shadow Copy or recent CVE-2021-36934 to access the SAM database. The Security Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7, 8.1 and 10 that stores users' passwords.
+The following analytic identifies access to SAM, SYSTEM or SECURITY databases&#39; within the file path of `windows\system32\config` using Windows Security EventCode 4663. This particular behavior is related to credential access, an attempt to either use a Shadow Copy or recent CVE-2021-36934 to access the SAM database. The Security Account Manager (SAM) is a database file in Windows XP, Windows Vista, Windows 7, 8.1 and 10 that stores users&#39; passwords.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -46694,7 +47310,7 @@ The following analytic identifies access to SAM, SYSTEM or SECURITY databases' w
 
 #### Search
 ```
-`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name IN ("*\\Windows\\System32\\config\\SAM*","*\\Windows\\System32\\config\\SYSTEM*","*\\Windows\\System32\\config\\SECURITY*") 
+`wineventlog_security` (EventCode=4663)  process_name!=*\\dllhost.exe Object_Name IN (&#34;*\\Windows\\System32\\config\\SAM*&#34;,&#34;*\\Windows\\System32\\config\\SYSTEM*&#34;,&#34;*\\Windows\\System32\\config\\SECURITY*&#34;) 
 | stats values(Accesses) count by process_name Object_Name  dest user 
 | `sam_database_file_access_attempt_filter`
 ```
@@ -46704,7 +47320,7 @@ The following analytic identifies access to SAM, SYSTEM or SECURITY databases' w
 
 
 #### How To Implement
-To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable &#34;Audit Object Access&#34; in Group Policy. Then check the two boxes listed for both &#34;Success&#34; and &#34;Failure.&#34;
 
 #### Required field
 
@@ -46951,10 +47567,10 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 ```
 
 | tstats `security_content_summariesonly` count from datamodel=Network_Traffic where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb by _time span=1h, All_Traffic.src 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | eventstats max(_time) as maxtime 
-| stats count as num_data_samples max(eval(if(_time >= relative_time(maxtime, "-70m@m"), count, null))) as count avg(eval(if(_time<relative_time(maxtime, "-70m@m"), count, null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-70m@m"), count, null))) as stdev by src 
-| eval upperBound=(avg+stdev*2), isOutlier=if(count > upperBound AND num_data_samples >=50, 1, 0) 
+| stats count as num_data_samples max(eval(if(_time &gt;= relative_time(maxtime, &#34;-70m@m&#34;), count, null))) as count avg(eval(if(_time&lt;relative_time(maxtime, &#34;-70m@m&#34;), count, null))) as avg stdev(eval(if(_time&lt;relative_time(maxtime, &#34;-70m@m&#34;), count, null))) as stdev by src 
+| eval upperBound=(avg+stdev*2), isOutlier=if(count &gt; upperBound AND num_data_samples &gt;=50, 1, 0) 
 | where isOutlier=1 
 | table src count 
 | `smb_traffic_spike_filter` 
@@ -47026,12 +47642,12 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 ```
 
 | tstats `security_content_summariesonly` count values(All_Traffic.dest_ip) as dest values(All_Traffic.dest_port) as port from datamodel=Network_Traffic where All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app=smb by _time span=1h, All_Traffic.src 
-| eval HourOfDay=strftime(_time, "%H") 
-| eval DayOfWeek=strftime(_time, "%A") 
+| eval HourOfDay=strftime(_time, &#34;%H&#34;) 
+| eval DayOfWeek=strftime(_time, &#34;%A&#34;) 
 | `drop_dm_object_name(All_Traffic)` 
 | apply smb_pdfmodel threshold=0.001 
-| rename "IsOutlier(count)" as isOutlier 
-| search isOutlier > 0 
+| rename &#34;IsOutlier(count)&#34; as isOutlier 
+| search isOutlier &gt; 0 
 | sort -count 
 | table _time src dest port count 
 | `smb_traffic_spike___mltk_filter` 
@@ -47048,8 +47664,8 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 
 
 #### How To Implement
-To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search "Baseline of SMB Traffic - MLTK" must be executed before this detection search, because it builds a machine-learning (ML) model over the historical data used by this search. It is important that this search is run in the same app context as the associated support search, so that the model created by the support search is available for use. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.\
-This search produces a field (Number of events,count) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. This field contributes additional context to the notable. To see the additional metadata, add the following field, if not already present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry): \
+To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model. In addition, the Machine Learning Toolkit (MLTK) version 4.2 or greater must be installed on your search heads, along with any required dependencies. Finally, the support search &#34;Baseline of SMB Traffic - MLTK&#34; must be executed before this detection search, because it builds a machine-learning (ML) model over the historical data used by this search. It is important that this search is run in the same app context as the associated support search, so that the model created by the support search is available for use. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.\
+This search produces a field (Number of events,count) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. This field contributes additional context to the notable. To see the additional metadata, add the following field, if not already present, to Incident Review - Event Attributes (Configure &gt; Incident Management &gt; Incident Review Settings &gt; Add New Entry): \
 1. **Label:** Number of events, **Field:** count\
 Detailed documentation on how to create a new field within Incident Review is found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`
 
@@ -47107,10 +47723,10 @@ This search looks for long URLs that have several SQL commands visible within th
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count from datamodel=Web where Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent 
-| `drop_dm_object_name("Web")` 
-| eval num_sql_cmds=mvcount(split(url, "alter%20table")) + mvcount(split(url, "between")) + mvcount(split(url, "create%20table")) + mvcount(split(url, "create%20database")) + mvcount(split(url, "create%20index")) + mvcount(split(url, "create%20view")) + mvcount(split(url, "delete")) + mvcount(split(url, "drop%20database")) + mvcount(split(url, "drop%20index")) + mvcount(split(url, "drop%20table")) + mvcount(split(url, "exists")) + mvcount(split(url, "exec")) + mvcount(split(url, "group%20by")) + mvcount(split(url, "having")) + mvcount(split(url, "insert%20into")) + mvcount(split(url, "inner%20join")) + mvcount(split(url, "left%20join")) + mvcount(split(url, "right%20join")) + mvcount(split(url, "full%20join")) + mvcount(split(url, "select")) + mvcount(split(url, "distinct")) + mvcount(split(url, "select%20top")) + mvcount(split(url, "union")) + mvcount(split(url, "xp_cmdshell")) - 24 
-| where num_sql_cmds > 3 
+| tstats `security_content_summariesonly` count from datamodel=Web where Web.dest_category=web_server AND (Web.url_length &gt; 1024 OR Web.http_user_agent_length &gt; 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent 
+| `drop_dm_object_name(&#34;Web&#34;)` 
+| eval num_sql_cmds=mvcount(split(url, &#34;alter%20table&#34;)) + mvcount(split(url, &#34;between&#34;)) + mvcount(split(url, &#34;create%20table&#34;)) + mvcount(split(url, &#34;create%20database&#34;)) + mvcount(split(url, &#34;create%20index&#34;)) + mvcount(split(url, &#34;create%20view&#34;)) + mvcount(split(url, &#34;delete&#34;)) + mvcount(split(url, &#34;drop%20database&#34;)) + mvcount(split(url, &#34;drop%20index&#34;)) + mvcount(split(url, &#34;drop%20table&#34;)) + mvcount(split(url, &#34;exists&#34;)) + mvcount(split(url, &#34;exec&#34;)) + mvcount(split(url, &#34;group%20by&#34;)) + mvcount(split(url, &#34;having&#34;)) + mvcount(split(url, &#34;insert%20into&#34;)) + mvcount(split(url, &#34;inner%20join&#34;)) + mvcount(split(url, &#34;left%20join&#34;)) + mvcount(split(url, &#34;right%20join&#34;)) + mvcount(split(url, &#34;full%20join&#34;)) + mvcount(split(url, &#34;select&#34;)) + mvcount(split(url, &#34;distinct&#34;)) + mvcount(split(url, &#34;select%20top&#34;)) + mvcount(split(url, &#34;union&#34;)) + mvcount(split(url, &#34;xp_cmdshell&#34;)) - 24 
+| where num_sql_cmds &gt; 3 
 | `sql_injection_with_long_urls_filter`
 ```
 #### Associated Analytic Story
@@ -47154,7 +47770,7 @@ To successfully implement this search, you need to be monitoring network communi
 
 
 #### Known False Positives
-It's possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
+It&#39;s possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
 
 #### Reference
 
@@ -47168,7 +47784,7 @@ _version_: 2
 ---
 
 ### Samsam Test File Write
-The search looks for a file named "test.txt" written to the windows system directory tree, which is consistent with Samsam propagation.
+The search looks for a file named &#34;test.txt&#34; written to the windows system directory tree, which is consistent with Samsam propagation.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -47251,7 +47867,7 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sc.exe (Processes.process="* create *" OR Processes.process="* config *") by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sc.exe (Processes.process=&#34;* create *&#34; OR Processes.process=&#34;* config *&#34;) by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -47320,7 +47936,7 @@ _version_: 4
 ---
 
 ### Schedule Task with HTTP Command Arguments
-The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with an arguments "HTTP" string that are unique entry of malware or attack that uses lolbin to download other file or payload to the infected machine. The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not. schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`. The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory. Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
+The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with an arguments &#34;HTTP&#34; string that are unique entry of malware or attack that uses lolbin to download other file or payload to the infected machine. The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not. schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`. The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory. Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.&#39;
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -47334,7 +47950,7 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 ```
 `wineventlog_security` EventCode=4698 
 | xmlkv Message
-| search Arguments IN ("*http*") 
+| search Arguments IN (&#34;*http*&#34;) 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden, Arguments 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -47401,7 +48017,7 @@ _version_: 1
 ---
 
 ### Schedule Task with Rundll32 Command Trigger
-The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed with a Rundll32. This technique is common in new trickbot that uses rundll32 to load is trickbot downloader. The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not. schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`. The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory. Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.'
+The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed with a Rundll32. This technique is common in new trickbot that uses rundll32 to load is trickbot downloader. The search will return the first time and last time the task was registered, as well as the `Command` to be executed, `Task Name`, `Author`, `Enabled`, and whether it is `Hidden` or not. schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`. The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory. Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.&#39;
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -47415,7 +48031,7 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 ```
 `wineventlog_security` EventCode=4698 
 | xmlkv Message 
-| search Command IN ("*rundll32*") 
+| search Command IN (&#34;*rundll32*&#34;) 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden, Arguments 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -47515,7 +48131,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 
 #### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -47577,7 +48193,7 @@ This analytic identifies an on demand run of a Windows Schedule Task through she
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "schtasks.exe" Processes.process = "*/run*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = &#34;schtasks.exe&#34; Processes.process = &#34;*/run*&#34; by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -47655,7 +48271,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = schtasks.exe Processes.process="*/create*" (Processes.process="* /s *" OR Processes.process="* /S *") by Processes.process_name Processes.process Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = schtasks.exe Processes.process=&#34;*/create*&#34; (Processes.process=&#34;* /s *&#34; OR Processes.process=&#34;* /S *&#34;) by Processes.process_name Processes.process Processes.parent_process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -47669,7 +48285,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -47729,7 +48345,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe Processes.process="*shutdown*" Processes.process="*/create *" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe Processes.process=&#34;*shutdown*&#34; Processes.process=&#34;*/create *&#34; by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -47815,7 +48431,7 @@ This search looks for scripts launched via WMI.
 
 
 #### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -47875,7 +48491,7 @@ This search is to detect a suspicious sdclt.exe registry modification. This tech
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "IsolatedCommand") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= &#34;*\\Windows\\CurrentVersion\\App Paths\\control.exe*&#34; OR Registry.registry_path= &#34;*\\exefile\\shell\\runas\\command\\*&#34;) (Registry.registry_key_name = &#34;(Default)&#34; OR Registry.registry_key_name = &#34;IsolatedCommand&#34;) by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -47957,9 +48573,9 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| regex process="(searchprotocolhost\.exe.{0,4}$)" 
+| regex process=&#34;(searchprotocolhost\.exe.{0,4}$)&#34; 
 | join  process_id [
-| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !="0" by Ports.process_id Ports.dest Ports.dest_port 
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports where Ports.dest_port !=&#34;0&#34; by Ports.process_id Ports.dest Ports.dest_port 
 | `drop_dm_object_name(Ports)` 
 | rename  dest as connection_to_CNC] 
 | table _time dest parent_process_name process_name process_path process process_id connection_to_CNC dest_port 
@@ -48035,7 +48651,7 @@ This analytic detects a potential usage of secretsdump.py tool for dumping crede
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "python*.exe" Processes.process = "*.py*" Processes.process = "*-ntds*" (Processes.process = "*-system*" OR Processes.process = "*-sam*" OR Processes.process = "*-security*" OR Processes.process = "*-bootkey*") by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = &#34;python*.exe&#34; Processes.process = &#34;*.py*&#34; Processes.process = &#34;*-ntds*&#34; (Processes.process = &#34;*-system*&#34; OR Processes.process = &#34;*-sam*&#34; OR Processes.process = &#34;*-security*&#34; OR Processes.process = &#34;*-bootkey*&#34;) by Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest Processes.user Processes.process_id Processes.process_guid 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -48190,7 +48806,7 @@ _version_: 1
 ---
 
 ### Set Default PowerShell Execution Policy To Unrestricted or Bypass
-Monitor for changes of the ExecutionPolicy in the registry to the values "unrestricted" or "bypass," which allows the execution of malicious scripts.
+Monitor for changes of the ExecutionPolicy in the registry to the values &#34;unrestricted&#34; or &#34;bypass,&#34; which allows the execution of malicious scripts.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -48250,7 +48866,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 
 #### Known False Positives
-Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass" as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
+Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to &#34;unrestricted&#34; or &#34;bypass&#34; as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 
 #### Reference
 
@@ -48281,10 +48897,10 @@ This detection identifies illegal setting of credentials via DSInternals modules
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), process_path=ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), parent_process_name=ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Add-ADDBSidHistory/)=true OR match_regex(cmd_line, /(?i)Add-ADReplNgcKey/)=true OR match_regex(cmd_line, /(?i)Set-ADDBAccountPassword/)=true OR match_regex(cmd_line, /(?i)Set-ADDBAccountPasswordHash/)=true OR match_regex(cmd_line, /(?i)Set-ADDBBootKey/)=true OR match_regex(cmd_line, /(?i)Set-SamAccountPasswordHash/)=true OR match_regex(cmd_line, /(?i)Set-AzureADUserEx/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -48363,10 +48979,10 @@ This detection identifies illegal setting of credentials via Mimikatz modules.
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)misc::addsid/)=true OR match_regex(cmd_line, /(?i)CRYPTO::scauth/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -48439,10 +49055,10 @@ This detection identifies illegal setting of credentials via PowerSploit modules
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Set-DomainUserPassword/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -48595,7 +49211,7 @@ This search detects the process execution and arguments required to silently cre
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -48656,7 +49272,7 @@ This search detects accounts that were created and deleted in a short time perio
 | tstats `security_content_summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h All_Changes.user All_Changes.dest 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
-| `drop_dm_object_name("All_Changes")` 
+| `drop_dm_object_name(&#34;All_Changes&#34;)` 
 | search result_id = 4720 result_id=4726 
 | transaction user connected=false maxspan=240m 
 | table firstTime lastTime count user dest result_id 
@@ -48726,7 +49342,7 @@ This search is to detect a suspicious modification of registry that may related 
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\windir" Registry.registry_value_name = "*.exe*" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= &#34;*\\Environment\\windir&#34; Registry.registry_value_name = &#34;*.exe*&#34; by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -48806,7 +49422,7 @@ This search looks for process names that consist only of a single letter.
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
-| eval process_name_length = len(process_name), endExe = if(substr(process_name, -4) == ".exe", 1, 0) 
+| eval process_name_length = len(process_name), endExe = if(substr(process_name, -4) == &#34;.exe&#34;, 1, 0) 
 | search process_name_length=5 AND endExe=1 
 | table count, firstTime, lastTime, dest, user, process, process_name 
 | `single_letter_process_on_endpoint_filter`
@@ -48817,7 +49433,7 @@ This search looks for process names that consist only of a single letter.
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -48878,8 +49494,8 @@ The search looks for a sharp increase in the number of files written to a partic
 | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where Filesystem.action=created by _time span=1h, Filesystem.dest 
 | `drop_dm_object_name(Filesystem)` 
 | eventstats max(_time) as maxtime 
-| stats count as num_data_samples max(eval(if(_time >= relative_time(maxtime, "-1d@d"), count, null))) as "count" avg(eval(if(_time<relative_time(maxtime, "-1d@d"), count,null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-1d@d"), count, null))) as stdev by "dest" 
-| eval upperBound=(avg+stdev*4), isOutlier=if((count > upperBound) AND num_data_samples >=20, 1, 0) 
+| stats count as num_data_samples max(eval(if(_time &gt;= relative_time(maxtime, &#34;-1d@d&#34;), count, null))) as &#34;count&#34; avg(eval(if(_time&lt;relative_time(maxtime, &#34;-1d@d&#34;), count,null))) as avg stdev(eval(if(_time&lt;relative_time(maxtime, &#34;-1d@d&#34;), count, null))) as stdev by &#34;dest&#34; 
+| eval upperBound=(avg+stdev*4), isOutlier=if((count &gt; upperBound) AND num_data_samples &gt;=20, 1, 0) 
 | search isOutlier=1 
 | `spike_in_file_writes_filter` 
 ```
@@ -49022,9 +49638,9 @@ This search is to detect suspicious loading of dll in specific path relative to 
 
 #### Search
 ```
-`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\System32\\spool\\drivers\\x64\\*" ImageLoaded = "*.dll" 
+`sysmon` EventCode=7 Image =&#34;*\\spoolsv.exe&#34; ImageLoaded=&#34;*\\Windows\\System32\\spool\\drivers\\x64\\*&#34; ImageLoaded = &#34;*.dll&#34; 
 | stats dc(ImageLoaded) as countImgloaded values(ImageLoaded) as ImgLoaded count min(_time) as firstTime max(_time) as lastTime by Image Computer process_id EventCode 
-| where countImgloaded >= 3 
+| where countImgloaded &gt;= 3 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `spoolsv_suspicious_loaded_modules_filter`
@@ -49096,7 +49712,7 @@ This analytic identifies a suspicious behavior related to PrintNightmare, or CVE
 
 #### Search
 ```
-`sysmon` EventCode=10 SourceImage = "*\\spoolsv.exe" CallTrace = "*\\Windows\\system32\\spool\\DRIVERS\\x64\\*" TargetImage IN ("*\\rundll32.exe", "*\\spoolsv.exe") GrantedAccess = 0x1fffff 
+`sysmon` EventCode=10 SourceImage = &#34;*\\spoolsv.exe&#34; CallTrace = &#34;*\\Windows\\system32\\spool\\DRIVERS\\x64\\*&#34; TargetImage IN (&#34;*\\rundll32.exe&#34;, &#34;*\\spoolsv.exe&#34;) GrantedAccess = 0x1fffff 
 | stats  count min(_time) as firstTime max(_time) as lastTime by Computer SourceImage TargetImage GrantedAccess CallTrace  EventCode ProcessID
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -49181,7 +49797,7 @@ The following analytic identifies a `.dll` being written by `spoolsv.exe`. This 
 | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=spoolsv.exe by _time Processes.process_id Processes.process_name Processes.dest 
 | `drop_dm_object_name(Processes)` 
 | join process_guid, _time [
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path="*\\spool\\drivers\\x64\\*" Filesystem.file_name="*.dll" by _time Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path=&#34;*\\spool\\drivers\\x64\\*&#34; Filesystem.file_name=&#34;*.dll&#34; by _time Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path 
 | `drop_dm_object_name(Filesystem)` 
 | fields _time dest file_create_time file_name file_path process_name process_path process] 
 | dedup file_create_time 
@@ -49267,7 +49883,7 @@ The following analytic identifies a `.dll` being written by `spoolsv.exe`. This 
 
 #### Search
 ```
-`sysmon` EventID=11 process_name=spoolsv.exe file_path="*\\spool\\drivers\\x64\\*" file_name=*.dll 
+`sysmon` EventID=11 process_name=spoolsv.exe file_path=&#34;*\\spool\\drivers\\x64\\*&#34; file_name=*.dll 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, UserID, process_name, file_path, file_name, TargetFilename, process_id 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -49350,7 +49966,7 @@ This search is to detect a suspicious file creation of sqlite3.dll in %temp% fol
 
 #### Search
 ```
-`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") 
+`sysmon` EventCode=11 (TargetFilename = &#34;*\\sqlite32.dll&#34; OR TargetFilename = &#34;*\\sqlite64.dll&#34;) (TargetFilename = &#34;*\\temp\\*&#34;) 
 |stats count min(_time) as firstTime max(_time) as lastTime by process_name TargetFilename EventCode ProcessId Image 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -49426,7 +50042,7 @@ This search is to detect a modification or registry add to the safeboot registry
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\System\\CurrentControlSet\\Control\\SafeBoot\\Minimal\*" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=&#34;*\\System\\CurrentControlSet\\Control\\SafeBoot\\Minimal\*&#34; by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -49729,7 +50345,7 @@ The following analytic identifies DLLHost.exe with no command line arguments. It
 #### Search
 ```
 `sysmon` EventID=1 (process_name=dllhost.exe OR OriginalFileName=dllhost.exe) 
-| regex CommandLine="(dllhost\.exe.{0,4}$)" 
+| regex CommandLine=&#34;(dllhost\.exe.{0,4}$)&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name, OriginalFileName, process_path, CommandLine 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -49815,7 +50431,7 @@ This analytic will detect suspicious driver loaded paths. This technique is comm
 
 #### Search
 ```
-`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*", "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) 
+`sysmon` EventCode=6 ImageLoaded = &#34;*.sys&#34; NOT (ImageLoaded IN(&#34;*\\WINDOWS\\inf&#34;,&#34;*\\WINDOWS\\System32\\drivers\\*&#34;, &#34;*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*&#34;)) 
 |  stats  min(_time) as firstTime max(_time) as lastTime count by Computer ImageLoaded Hashes IMPHASH Signature Signed 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -49895,10 +50511,10 @@ This search looks for emails that have attachments with suspicious file extensio
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user, All_Email.file_name All_Email.message_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Email where All_Email.file_name=&#34;*&#34; by All_Email.src_user, All_Email.file_name All_Email.message_id 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Email")` 
+| `drop_dm_object_name(&#34;All_Email&#34;)` 
 | `suspicious_email_attachments` 
 | `suspicious_email_attachment_extensions_filter` 
 ```
@@ -49910,9 +50526,9 @@ This search looks for emails that have attachments with suspicious file extensio
 
 
 #### How To Implement
-You need to ingest data from emails. Specifically, the sender's address and the file names of any attachments must be mapped to the Email data model. \
+You need to ingest data from emails. Specifically, the sender&#39;s address and the file names of any attachments must be mapped to the Email data model. \
  **Splunk Phantom Playbook Integration**\
-If Splunk Phantom is also configured in your environment, a Playbook called "Suspicious Email Attachment Investigate and Delete" can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`, and add the correct hostname to the "Phantom Instance" field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user's inbox.
+If Splunk Phantom is also configured in your environment, a Playbook called &#34;Suspicious Email Attachment Investigate and Delete&#34; can be configured to run when any results are found by this detection search. To use this integration, install the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`, and add the correct hostname to the &#34;Phantom Instance&#34; field in the Adaptive Response Actions when configuring this detection search. The notable event will be sent to Phantom and the playbook will gather further information about the file attachment and its network behaviors. If Phantom finds malicious behavior and an analyst approves of the results, the email will be deleted from the user&#39;s inbox.
 
 #### Required field
 
@@ -50045,7 +50661,7 @@ The following analytic identifies gpupdate.exe with no command line arguments. I
 #### Search
 ```
 `sysmon` EventID=1 (process_name=gpupdate.exe OR OriginalFileName=GPUpdate.exe) 
-| regex CommandLine="(gpupdate\.exe.{0,4}$)" 
+| regex CommandLine=&#34;(gpupdate\.exe.{0,4}$)&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name, OriginalFileName, process_path, CommandLine 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -50119,7 +50735,7 @@ _version_: 1
 ---
 
 ### Suspicious IcedID Regsvr32 Cmdline
-this search is to detect a suspicious regsvr32 commandline "-s" to execute a dll files. This technique was seen in IcedID malware to execute its initial downloader dll that will download the 2nd stage loader that will download and decrypt the config payload.
+this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execute a dll files. This technique was seen in IcedID malware to execute its initial downloader dll that will download the 2nd stage loader that will download and decrypt the config payload.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -50295,9 +50911,9 @@ This search looks for suspicious Java classes that are often used to exploit rem
 
 #### Search
 ```
-`stream_http` http_method=POST http_content_length>1 
-| regex form_data="(?i)java\.lang\.(?:runtime
-|processbuilder)" 
+`stream_http` http_method=POST http_content_length&gt;1 
+| regex form_data=&#34;(?i)java\.lang\.(?:runtime
+|processbuilder)&#34; 
 | rename src_ip as src 
 | stats count earliest(_time) as firstTime, latest(_time) as lastTime, values(url) as uri, values(status) as status, values(http_user_agent) as http_user_agent by src, dest 
 | `security_content_ctime(firstTime)` 
@@ -50527,12 +51143,12 @@ _version_: 1
 
 ### Suspicious PlistBuddy Usage
 The following analytic identifies the use of a native MacOS utility, PlistBuddy, creating or modifying a properly list (.plist) file. In the instance of Silver Sparrow, the following commands were executed:\
-- PlistBuddy -c "Add :Label string init_verx" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :RunAtLoad bool true" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :StartInterval integer 3600" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :ProgramArguments array" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :ProgramArguments:0 string /bin/sh" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :ProgramArguments:1 string -c" ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :Label string init_verx&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :RunAtLoad bool true&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :StartInterval integer 3600&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :ProgramArguments array&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :ProgramArguments:0 string /bin/sh&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :ProgramArguments:1 string -c&#34; ~/Library/Launchagents/init_verx.plist \
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -50614,12 +51230,12 @@ _version_: 1
 
 ### Suspicious PlistBuddy Usage via OSquery
 The following analytic identifies the use of a native MacOS utility, PlistBuddy, creating or modifying a properly list (.plist) file. In the instance of Silver Sparrow, the following commands were executed:\
-- PlistBuddy -c "Add :Label string init_verx" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :RunAtLoad bool true" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :StartInterval integer 3600" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :ProgramArguments array" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :ProgramArguments:0 string /bin/sh" ~/Library/Launchagents/init_verx.plist \
-- PlistBuddy -c "Add :ProgramArguments:1 string -c" ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :Label string init_verx&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :RunAtLoad bool true&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :StartInterval integer 3600&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :ProgramArguments array&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :ProgramArguments:0 string /bin/sh&#34; ~/Library/Launchagents/init_verx.plist \
+- PlistBuddy -c &#34;Add :ProgramArguments:1 string -c&#34; ~/Library/Launchagents/init_verx.plist \
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -50632,7 +51248,7 @@ Upon triage, capture the property list file being written to disk and review for
 
 #### Search
 ```
-`osquery_process` "columns.cmdline"="*LaunchAgents*" OR "columns.cmdline"="*RunAtLoad*" OR "columns.cmdline"="*true*" 
+`osquery_process` &#34;columns.cmdline&#34;=&#34;*LaunchAgents*&#34; OR &#34;columns.cmdline&#34;=&#34;*RunAtLoad*&#34; OR &#34;columns.cmdline&#34;=&#34;*true*&#34; 
 |  `suspicious_plistbuddy_usage_via_osquery_filter`
 ```
 #### Associated Analytic Story
@@ -50697,7 +51313,7 @@ The following analytic will detect a suspicious process running in a file path w
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*" OR Processes.process_path = "*\\windows\\temp\\*" OR Processes.process_path = "*\\users\\public\\*" OR Processes.process_path = "*\\windows\\debug\\*" OR Processes.process_path.file_path = "*\\Users\\Administrator\\Music\\*" OR Processes.process_path.file_path = "*\\Windows\\servicing\\*" OR Processes.process_path.file_path = "*\\Users\\Default\\*" OR Processes.process_path.file_path = "*Recycle.bin*" OR Processes.process_path = "*\\Windows\\Media\\*" OR Processes.process_path = "\\Windows\\repair\\*" OR Processes.process_path = "*\\temp\\*" by Processes.parent_process_name Processes.parent_process Processes.process_path Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path = &#34;*\\windows\\fonts\\*&#34; OR Processes.process_path = &#34;*\\windows\\temp\\*&#34; OR Processes.process_path = &#34;*\\users\\public\\*&#34; OR Processes.process_path = &#34;*\\windows\\debug\\*&#34; OR Processes.process_path.file_path = &#34;*\\Users\\Administrator\\Music\\*&#34; OR Processes.process_path.file_path = &#34;*\\Windows\\servicing\\*&#34; OR Processes.process_path.file_path = &#34;*\\Users\\Default\\*&#34; OR Processes.process_path.file_path = &#34;*Recycle.bin*&#34; OR Processes.process_path = &#34;*\\Windows\\Media\\*&#34; OR Processes.process_path = &#34;\\Windows\\repair\\*&#34; OR Processes.process_path = &#34;*\\temp\\*&#34; by Processes.parent_process_name Processes.parent_process Processes.process_path Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -50778,12 +51394,12 @@ This search looks for reg.exe being launched from a command prompt not started b
 ```
 
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name != explorer.exe Processes.process_name =cmd.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest Processes.process_id Processes.parent_process_id 
-| `drop_dm_object_name("Processes")` 
+| `drop_dm_object_name(&#34;Processes&#34;)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | search [
 | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe by Processes.parent_process_id Processes.dest Processes.process_name 
-| `drop_dm_object_name("Processes")` 
+| `drop_dm_object_name(&#34;Processes&#34;)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | rename parent_process_id as process_id 
@@ -50801,7 +51417,7 @@ This search looks for reg.exe being launched from a command prompt not started b
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -50836,7 +51452,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 
 #### Known False Positives
-It's possible for system administrators to write scripts that exhibit this behavior. If this is the case, the search will need to be modified to filter them out.
+It&#39;s possible for system administrators to write scripts that exhibit this behavior. If this is the case, the search will need to be modified to filter them out.
 
 #### Reference
 
@@ -50883,7 +51499,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 
 #### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model. Tune the query by filtering additional extensions found to be used by  legitimate processes.
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. Tune the query by filtering additional extensions found to be used by  legitimate processes.
 
 #### Required field
 
@@ -51316,7 +51932,7 @@ The following analytic identifies rundll32.exe with no command line arguments. I
 #### Search
 ```
 `sysmon` EventID=1 (process_name=rundll32.exe OR OriginalFileName=RUNDLL32.EXE) 
-| regex CommandLine="(rundll32\.exe.{0,4}$)" 
+| regex CommandLine=&#34;(rundll32\.exe.{0,4}$)&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name, OriginalFileName, process_path, CommandLine 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -51579,7 +52195,7 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 #### Search
 ```
 `sysmon` EventID=1 (process_name=searchprotocolhost.exe OR OriginalFileName=SearchProtocolHost.exe) 
-| regex CommandLine="(searchprotocolhost\.exe.{0,4}$)" 
+| regex CommandLine=&#34;(searchprotocolhost\.exe.{0,4}$)&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, User, ParentImage,ParentCommandLine, process_name, OriginalFileName, process_path, CommandLine 
 | rename Computer as dest 
 | `security_content_ctime(firstTime)` 
@@ -51881,7 +52497,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 #### Known False Positives
-Some legitimate applications may use a moved copy of msbuild.exe, triggering a false positive. Baselining of MSBuild.exe usage is recommended to better understand it's path usage. Visual Studio runs an instance out of a path that will need to be filtered on.
+Some legitimate applications may use a moved copy of msbuild.exe, triggering a false positive. Baselining of MSBuild.exe usage is recommended to better understand it&#39;s path usage. Visual Studio runs an instance out of a path that will need to be filtered on.
 
 #### Reference
 
@@ -51903,7 +52519,7 @@ _version_: 1
 ---
 
 ### Suspicious mshta child process
-The following analytic identifies child processes spawning from  "mshta.exe". The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, parent process "mshta.exe" and its child process.
+The following analytic identifies child processes spawning from  &#34;mshta.exe&#34;. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, parent process &#34;mshta.exe&#34; and its child process.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -52078,7 +52694,7 @@ The wevtutil.exe application is the windows event log utility. This searches for
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = wevtutil.exe Processes.process="*cl*" (Processes.process="*System*" OR Processes.process="*Security*" OR Processes.process="*Setup*" OR Processes.process="*Application*") by Processes.process_name Processes.parent_process_name Processes.dest Processes.user
+| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = wevtutil.exe Processes.process=&#34;*cl*&#34; (Processes.process=&#34;*System*&#34; OR Processes.process=&#34;*Security*&#34; OR Processes.process=&#34;*Setup*&#34; OR Processes.process=&#34;*Application*&#34;) by Processes.process_name Processes.parent_process_name Processes.dest Processes.user
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -52094,7 +52710,7 @@ The wevtutil.exe application is the windows event log utility. This searches for
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -52154,11 +52770,11 @@ This search detects writes to the recycle bin by a process other than explorer.e
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*$Recycle.Bin*" by Filesystem.process_id Filesystem.dest 
-| `drop_dm_object_name("Filesystem")`
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = &#34;*$Recycle.Bin*&#34; by Filesystem.process_id Filesystem.dest 
+| `drop_dm_object_name(&#34;Filesystem&#34;)`
 | search [
-| tstats `security_content_summariesonly` values(Processes.user) as user values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name != "explorer.exe" by Processes.process_id Processes.dest
-| `drop_dm_object_name("Processes")` 
+| tstats `security_content_summariesonly` values(Processes.user) as user values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name != &#34;explorer.exe&#34; by Processes.process_id Processes.dest
+| `drop_dm_object_name(&#34;Processes&#34;)` 
 | table process_id dest] 
 | `suspicious_writes_to_windows_recycle_bin_filter`
 ```
@@ -52234,10 +52850,10 @@ Detect system information discovery techniques used by attackers to understand c
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process="*wmic* qfe*" OR Processes.process=*systeminfo* OR Processes.process=*hostname*) by Processes.user Processes.process_name Processes.process Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process=&#34;*wmic* qfe*&#34; OR Processes.process=*systeminfo* OR Processes.process=*hostname*) by Processes.user Processes.process_name Processes.process Processes.dest 
 | `drop_dm_object_name(Processes)` 
 | eventstats dc(process) as dc_processes_by_dest by dest 
-| where dc_processes_by_dest > 2 
+| where dc_processes_by_dest &gt; 2 
 | stats values(process) min(firstTime) as firstTime max(lastTime) as lastTime by user, dest 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -52312,25 +52928,25 @@ An attacker tries might try to use different version of a system command without
 ```
  $ssa_input = 
 | from read_ssa_enriched_events() 
-| eval device=ucast(map_get(input_event, "dest_device_id"), "string", null), user=ucast(map_get(input_event, "dest_user_id"), "string", null), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=lower(ucast(map_get(input_event, "process_path"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null);
+| eval device=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), user=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), process_name=lower(ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null)), process_path=lower(ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null)), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null);
 $cond_1 = 
 | from $ssa_input 
-| where process_name="arp.exe" OR process_name="adaptertroubleshooter.exe" OR process_name="applicationframehost.exe" OR process_name="atbroker.exe" OR process_name="authhost.exe" OR process_name="autoworkplace.exe" OR process_name="axinstui.exe" OR process_name="backgroundtransferhost.exe" OR process_name="bdehdcfg.exe" OR process_name="bdeuisrv.exe" OR process_name="bdeunlockwizard.exe" OR process_name="bitlockerdeviceencryption.exe" OR process_name="bitlockerwizard.exe" OR process_name="bitlockerwizardelev.exe" OR process_name="bytecodegenerator.exe" OR process_name="camerasettingsuihost.exe" OR process_name="castsrv.exe" OR process_name="certenrollctrl.exe" OR process_name="checknetisolation.exe" OR process_name="clipup.exe" OR process_name="cloudexperiencehostbroker.exe" OR process_name="cloudnotifications.exe" OR process_name="cloudstoragewizard.exe" OR process_name="compmgmtlauncher.exe" OR process_name="compattelrunner.exe" OR process_name="computerdefaults.exe" OR process_name="credentialuibroker.exe" OR process_name="dfdwiz.exe" OR process_name="dwwin.exe" OR process_name="dataexchangehost.exe" OR process_name="defrag.exe" OR process_name="devicedisplayobjectprovider.exe" OR process_name="deviceeject.exe" OR process_name="deviceenroller.exe" OR process_name="devicepairingwizard.exe" OR process_name="deviceproperties.exe" OR process_name="disksnapshot.exe" OR process_name="dism.exe" OR process_name="displayswitch.exe" OR process_name="dmnotificationbroker.exe" OR process_name="dmomacpmo.exe" OR process_name="dpiscaling.exe" OR process_name="dsmusertask.exe" OR process_name="dxpserver.exe" OR process_name="edpcleanup.exe" OR process_name="eosnotify.exe" OR process_name="eap3host.exe" OR process_name="easpoliciesbrokerhost.exe" OR process_name="easeofaccessdialog.exe" OR process_name="ehstorauthn.exe" OR process_name="fxscover.exe" OR process_name="fxssvc.exe" OR process_name="fxsunatd.exe" OR process_name="filehistory.exe" OR process_name="fondue.exe" OR process_name="gamepanel.exe" OR process_name="genvalobj.exe" OR process_name="gettingstarted.exe" OR process_name="hostname.exe" OR process_name="icsentitlementhost.exe" OR process_name="infdefaultinstall.exe" OR process_name="installagent.exe" OR process_name="languagecomponentsinstallercomhandler.exe" OR process_name="launchtm.exe" OR process_name="launchwinapp.exe" OR process_name="legacynetuxhost.exe" OR process_name="licensemanagershellext.exe" OR process_name="licensingui.exe" OR process_name="locationnotificationwindows.exe" OR process_name="locationnotifications.exe" OR process_name="locator.exe" OR process_name="lockapphost.exe" OR process_name="lockscreencontentserver.exe" OR process_name="logonui.exe" OR process_name="lsaiso.exe" OR process_name="mdeserver.exe" OR process_name="mdmagent.exe" OR process_name="mdmappinstaller.exe" OR process_name="mrinfo.exe" OR process_name="mrt.exe" OR process_name="mschedexe.exe" OR process_name="magnify.exe" OR process_name="mbaeparsertask.exe" OR process_name="mdres.exe" OR process_name="mdsched.exe" OR process_name="migautoplay.exe" OR process_name="mpsigstub.exe" OR process_name="msspellcheckinghost.exe" OR process_name="muiunattend.exe" OR process_name="multidigimon.exe" OR process_name="musnotification.exe" OR process_name="musnotificationux.exe" OR process_name="napstat.exe" OR process_name="netstat.exe" OR process_name="narrator.exe" OR process_name="netcfgnotifyobjecthost.exe" OR process_name="netevtfwdr.exe" OR process_name="netproj.exe" OR process_name="netplwiz.exe" OR process_name="networkuxbroker.exe";
+| where process_name=&#34;arp.exe&#34; OR process_name=&#34;adaptertroubleshooter.exe&#34; OR process_name=&#34;applicationframehost.exe&#34; OR process_name=&#34;atbroker.exe&#34; OR process_name=&#34;authhost.exe&#34; OR process_name=&#34;autoworkplace.exe&#34; OR process_name=&#34;axinstui.exe&#34; OR process_name=&#34;backgroundtransferhost.exe&#34; OR process_name=&#34;bdehdcfg.exe&#34; OR process_name=&#34;bdeuisrv.exe&#34; OR process_name=&#34;bdeunlockwizard.exe&#34; OR process_name=&#34;bitlockerdeviceencryption.exe&#34; OR process_name=&#34;bitlockerwizard.exe&#34; OR process_name=&#34;bitlockerwizardelev.exe&#34; OR process_name=&#34;bytecodegenerator.exe&#34; OR process_name=&#34;camerasettingsuihost.exe&#34; OR process_name=&#34;castsrv.exe&#34; OR process_name=&#34;certenrollctrl.exe&#34; OR process_name=&#34;checknetisolation.exe&#34; OR process_name=&#34;clipup.exe&#34; OR process_name=&#34;cloudexperiencehostbroker.exe&#34; OR process_name=&#34;cloudnotifications.exe&#34; OR process_name=&#34;cloudstoragewizard.exe&#34; OR process_name=&#34;compmgmtlauncher.exe&#34; OR process_name=&#34;compattelrunner.exe&#34; OR process_name=&#34;computerdefaults.exe&#34; OR process_name=&#34;credentialuibroker.exe&#34; OR process_name=&#34;dfdwiz.exe&#34; OR process_name=&#34;dwwin.exe&#34; OR process_name=&#34;dataexchangehost.exe&#34; OR process_name=&#34;defrag.exe&#34; OR process_name=&#34;devicedisplayobjectprovider.exe&#34; OR process_name=&#34;deviceeject.exe&#34; OR process_name=&#34;deviceenroller.exe&#34; OR process_name=&#34;devicepairingwizard.exe&#34; OR process_name=&#34;deviceproperties.exe&#34; OR process_name=&#34;disksnapshot.exe&#34; OR process_name=&#34;dism.exe&#34; OR process_name=&#34;displayswitch.exe&#34; OR process_name=&#34;dmnotificationbroker.exe&#34; OR process_name=&#34;dmomacpmo.exe&#34; OR process_name=&#34;dpiscaling.exe&#34; OR process_name=&#34;dsmusertask.exe&#34; OR process_name=&#34;dxpserver.exe&#34; OR process_name=&#34;edpcleanup.exe&#34; OR process_name=&#34;eosnotify.exe&#34; OR process_name=&#34;eap3host.exe&#34; OR process_name=&#34;easpoliciesbrokerhost.exe&#34; OR process_name=&#34;easeofaccessdialog.exe&#34; OR process_name=&#34;ehstorauthn.exe&#34; OR process_name=&#34;fxscover.exe&#34; OR process_name=&#34;fxssvc.exe&#34; OR process_name=&#34;fxsunatd.exe&#34; OR process_name=&#34;filehistory.exe&#34; OR process_name=&#34;fondue.exe&#34; OR process_name=&#34;gamepanel.exe&#34; OR process_name=&#34;genvalobj.exe&#34; OR process_name=&#34;gettingstarted.exe&#34; OR process_name=&#34;hostname.exe&#34; OR process_name=&#34;icsentitlementhost.exe&#34; OR process_name=&#34;infdefaultinstall.exe&#34; OR process_name=&#34;installagent.exe&#34; OR process_name=&#34;languagecomponentsinstallercomhandler.exe&#34; OR process_name=&#34;launchtm.exe&#34; OR process_name=&#34;launchwinapp.exe&#34; OR process_name=&#34;legacynetuxhost.exe&#34; OR process_name=&#34;licensemanagershellext.exe&#34; OR process_name=&#34;licensingui.exe&#34; OR process_name=&#34;locationnotificationwindows.exe&#34; OR process_name=&#34;locationnotifications.exe&#34; OR process_name=&#34;locator.exe&#34; OR process_name=&#34;lockapphost.exe&#34; OR process_name=&#34;lockscreencontentserver.exe&#34; OR process_name=&#34;logonui.exe&#34; OR process_name=&#34;lsaiso.exe&#34; OR process_name=&#34;mdeserver.exe&#34; OR process_name=&#34;mdmagent.exe&#34; OR process_name=&#34;mdmappinstaller.exe&#34; OR process_name=&#34;mrinfo.exe&#34; OR process_name=&#34;mrt.exe&#34; OR process_name=&#34;mschedexe.exe&#34; OR process_name=&#34;magnify.exe&#34; OR process_name=&#34;mbaeparsertask.exe&#34; OR process_name=&#34;mdres.exe&#34; OR process_name=&#34;mdsched.exe&#34; OR process_name=&#34;migautoplay.exe&#34; OR process_name=&#34;mpsigstub.exe&#34; OR process_name=&#34;msspellcheckinghost.exe&#34; OR process_name=&#34;muiunattend.exe&#34; OR process_name=&#34;multidigimon.exe&#34; OR process_name=&#34;musnotification.exe&#34; OR process_name=&#34;musnotificationux.exe&#34; OR process_name=&#34;napstat.exe&#34; OR process_name=&#34;netstat.exe&#34; OR process_name=&#34;narrator.exe&#34; OR process_name=&#34;netcfgnotifyobjecthost.exe&#34; OR process_name=&#34;netevtfwdr.exe&#34; OR process_name=&#34;netproj.exe&#34; OR process_name=&#34;netplwiz.exe&#34; OR process_name=&#34;networkuxbroker.exe&#34;;
 $cond_2 = 
 | from $ssa_input 
-| where process_name="openwith.exe" OR process_name="optionalfeatures.exe" OR process_name="pathping.exe" OR process_name="ping.exe" OR process_name="passwordonwakesettingflyout.exe" OR process_name="pickerhost.exe" OR process_name="pkgmgr.exe" OR process_name="pnpunattend.exe" OR process_name="pnputil.exe" OR process_name="presentationhost.exe" OR process_name="presentationsettings.exe" OR process_name="printbrmui.exe" OR process_name="printdialoghost.exe" OR process_name="printdialoghost3d.exe" OR process_name="printisolationhost.exe" OR process_name="proximityuxhost.exe" OR process_name="rdspnf.exe" OR process_name="rmactivate.exe" OR process_name="rmactivate_isv.exe" OR process_name="rmactivate_ssp.exe" OR process_name="rmactivate_ssp_isv.exe" OR process_name="route.exe" OR process_name="rdpsa.exe" OR process_name="rdpsaproxy.exe" OR process_name="rdpsauachelper.exe" OR process_name="reagentc.exe" OR process_name="recoverydrive.exe" OR process_name="register-cimprovider.exe" OR process_name="registeriepkeys.exe" OR process_name="relpost.exe" OR process_name="remoteposworker.exe" OR process_name="rmclient.exe" OR process_name="robocopy.exe" OR process_name="rpcping.exe" OR process_name="runlegacycplelevated.exe" OR process_name="runtimebroker.exe" OR process_name="sihclient.exe" OR process_name="searchfilterhost.exe" OR process_name="searchindexer.exe" OR process_name="searchprotocolhost.exe" OR process_name="secedit.exe" OR process_name="sensordataservice.exe" OR process_name="setieinstalleddate.exe" OR process_name="settingsynchost.exe" OR process_name="slidetoshutdown.exe" OR process_name="smartscreensettings.exe" OR process_name="sndvol.exe" OR process_name="snippingtool.exe" OR process_name="soundrecorder.exe" OR process_name="spaceagent.exe" OR process_name="sppextcomobj.exe" OR process_name="srtasks.exe" OR process_name="stikynot.exe" OR process_name="synchost.exe" OR process_name="sysreseterr.exe" OR process_name="systempropertiesadvanced.exe" OR process_name="systempropertiescomputername.exe" OR process_name="systempropertiesdataexecutionprevention.exe" OR process_name="systempropertieshardware.exe" OR process_name="systempropertiesperformance.exe" OR process_name="systempropertiesprotection.exe" OR process_name="systempropertiesremote.exe" OR process_name="systemsettingsadminflows.exe" OR process_name="systemsettingsbroker.exe" OR process_name="systemsettingsremovedevice.exe" OR process_name="tcpsvcs.exe" OR process_name="tracert.exe" OR process_name="tstheme.exe" OR process_name="tswbprxy.exe" OR process_name="tapiunattend.exe" OR process_name="taskmgr.exe" OR process_name="thumbnailextractionhost.exe" OR process_name="tokenbrokercookies.exe" OR process_name="tpminit.exe" OR process_name="tswpfwrp.exe" OR process_name="ui0detect.exe" OR process_name="upgraderesultsui.exe" OR process_name="useraccountbroker.exe" OR process_name="useraccountcontrolsettings.exe" OR process_name="usoclient.exe" OR process_name="utilman.exe" OR process_name="vssvc.exe" OR process_name="vaultcmd.exe" OR process_name="vaultsysui.exe" OR process_name="wfs.exe" OR process_name="wmpdmc.exe" OR process_name="wpdshextautoplay.exe" OR process_name="wscollect.exe" OR process_name="wsmanhttpconfig.exe" OR process_name="wsreset.exe" OR process_name="wudfhost.exe" OR process_name="wwahost.exe" OR process_name="wallpaperhost.exe" OR process_name="webcache.exe" OR process_name="werfault.exe" OR process_name="werfaultsecure.exe" OR process_name="winsat.exe" OR process_name="windows.media.backgroundplayback.exe" OR process_name="windowsactiondialog.exe" OR process_name="windowsanytimeupgrade.exe" OR process_name="windowsanytimeupgraderesults.exe";
+| where process_name=&#34;openwith.exe&#34; OR process_name=&#34;optionalfeatures.exe&#34; OR process_name=&#34;pathping.exe&#34; OR process_name=&#34;ping.exe&#34; OR process_name=&#34;passwordonwakesettingflyout.exe&#34; OR process_name=&#34;pickerhost.exe&#34; OR process_name=&#34;pkgmgr.exe&#34; OR process_name=&#34;pnpunattend.exe&#34; OR process_name=&#34;pnputil.exe&#34; OR process_name=&#34;presentationhost.exe&#34; OR process_name=&#34;presentationsettings.exe&#34; OR process_name=&#34;printbrmui.exe&#34; OR process_name=&#34;printdialoghost.exe&#34; OR process_name=&#34;printdialoghost3d.exe&#34; OR process_name=&#34;printisolationhost.exe&#34; OR process_name=&#34;proximityuxhost.exe&#34; OR process_name=&#34;rdspnf.exe&#34; OR process_name=&#34;rmactivate.exe&#34; OR process_name=&#34;rmactivate_isv.exe&#34; OR process_name=&#34;rmactivate_ssp.exe&#34; OR process_name=&#34;rmactivate_ssp_isv.exe&#34; OR process_name=&#34;route.exe&#34; OR process_name=&#34;rdpsa.exe&#34; OR process_name=&#34;rdpsaproxy.exe&#34; OR process_name=&#34;rdpsauachelper.exe&#34; OR process_name=&#34;reagentc.exe&#34; OR process_name=&#34;recoverydrive.exe&#34; OR process_name=&#34;register-cimprovider.exe&#34; OR process_name=&#34;registeriepkeys.exe&#34; OR process_name=&#34;relpost.exe&#34; OR process_name=&#34;remoteposworker.exe&#34; OR process_name=&#34;rmclient.exe&#34; OR process_name=&#34;robocopy.exe&#34; OR process_name=&#34;rpcping.exe&#34; OR process_name=&#34;runlegacycplelevated.exe&#34; OR process_name=&#34;runtimebroker.exe&#34; OR process_name=&#34;sihclient.exe&#34; OR process_name=&#34;searchfilterhost.exe&#34; OR process_name=&#34;searchindexer.exe&#34; OR process_name=&#34;searchprotocolhost.exe&#34; OR process_name=&#34;secedit.exe&#34; OR process_name=&#34;sensordataservice.exe&#34; OR process_name=&#34;setieinstalleddate.exe&#34; OR process_name=&#34;settingsynchost.exe&#34; OR process_name=&#34;slidetoshutdown.exe&#34; OR process_name=&#34;smartscreensettings.exe&#34; OR process_name=&#34;sndvol.exe&#34; OR process_name=&#34;snippingtool.exe&#34; OR process_name=&#34;soundrecorder.exe&#34; OR process_name=&#34;spaceagent.exe&#34; OR process_name=&#34;sppextcomobj.exe&#34; OR process_name=&#34;srtasks.exe&#34; OR process_name=&#34;stikynot.exe&#34; OR process_name=&#34;synchost.exe&#34; OR process_name=&#34;sysreseterr.exe&#34; OR process_name=&#34;systempropertiesadvanced.exe&#34; OR process_name=&#34;systempropertiescomputername.exe&#34; OR process_name=&#34;systempropertiesdataexecutionprevention.exe&#34; OR process_name=&#34;systempropertieshardware.exe&#34; OR process_name=&#34;systempropertiesperformance.exe&#34; OR process_name=&#34;systempropertiesprotection.exe&#34; OR process_name=&#34;systempropertiesremote.exe&#34; OR process_name=&#34;systemsettingsadminflows.exe&#34; OR process_name=&#34;systemsettingsbroker.exe&#34; OR process_name=&#34;systemsettingsremovedevice.exe&#34; OR process_name=&#34;tcpsvcs.exe&#34; OR process_name=&#34;tracert.exe&#34; OR process_name=&#34;tstheme.exe&#34; OR process_name=&#34;tswbprxy.exe&#34; OR process_name=&#34;tapiunattend.exe&#34; OR process_name=&#34;taskmgr.exe&#34; OR process_name=&#34;thumbnailextractionhost.exe&#34; OR process_name=&#34;tokenbrokercookies.exe&#34; OR process_name=&#34;tpminit.exe&#34; OR process_name=&#34;tswpfwrp.exe&#34; OR process_name=&#34;ui0detect.exe&#34; OR process_name=&#34;upgraderesultsui.exe&#34; OR process_name=&#34;useraccountbroker.exe&#34; OR process_name=&#34;useraccountcontrolsettings.exe&#34; OR process_name=&#34;usoclient.exe&#34; OR process_name=&#34;utilman.exe&#34; OR process_name=&#34;vssvc.exe&#34; OR process_name=&#34;vaultcmd.exe&#34; OR process_name=&#34;vaultsysui.exe&#34; OR process_name=&#34;wfs.exe&#34; OR process_name=&#34;wmpdmc.exe&#34; OR process_name=&#34;wpdshextautoplay.exe&#34; OR process_name=&#34;wscollect.exe&#34; OR process_name=&#34;wsmanhttpconfig.exe&#34; OR process_name=&#34;wsreset.exe&#34; OR process_name=&#34;wudfhost.exe&#34; OR process_name=&#34;wwahost.exe&#34; OR process_name=&#34;wallpaperhost.exe&#34; OR process_name=&#34;webcache.exe&#34; OR process_name=&#34;werfault.exe&#34; OR process_name=&#34;werfaultsecure.exe&#34; OR process_name=&#34;winsat.exe&#34; OR process_name=&#34;windows.media.backgroundplayback.exe&#34; OR process_name=&#34;windowsactiondialog.exe&#34; OR process_name=&#34;windowsanytimeupgrade.exe&#34; OR process_name=&#34;windowsanytimeupgraderesults.exe&#34;;
 $cond_3 = 
 | from $ssa_input 
-| where process_name="windowsanytimeupgradeui.exe" OR process_name="windowsupdateelevatedinstaller.exe" OR process_name="workfolders.exe" OR process_name="wpcmon.exe" OR process_name="acu.exe" OR process_name="aitagent.exe" OR process_name="aitstatic.exe" OR process_name="alg.exe" OR process_name="appidcertstorecheck.exe" OR process_name="appidpolicyconverter.exe" OR process_name="at.exe" OR process_name="attrib.exe" OR process_name="audiodg.exe" OR process_name="auditpol.exe" OR process_name="autochk.exe" OR process_name="autoconv.exe" OR process_name="autofmt.exe" OR process_name="baaupdate.exe" OR process_name="backgroundtaskhost.exe" OR process_name="bcastdvr.exe" OR process_name="bcdboot.exe" OR process_name="bcdedit.exe" OR process_name="bdechangepin.exe" OR process_name="bdeunlock.exe" OR process_name="bitsadmin.exe" OR process_name="bootcfg.exe" OR process_name="bootim.exe" OR process_name="bootsect.exe" OR process_name="bridgeunattend.exe" OR process_name="browser_broker.exe" OR process_name="bthudtask.exe" OR process_name="cacls.exe" OR process_name="calc.exe" OR process_name="cdpreference.exe" OR process_name="certreq.exe" OR process_name="certutil.exe" OR process_name="change.exe" OR process_name="changepk.exe" OR process_name="charmap.exe" OR process_name="chglogon.exe" OR process_name="chgport.exe" OR process_name="chgusr.exe" OR process_name="chkdsk.exe" OR process_name="chkntfs.exe" OR process_name="choice.exe" OR process_name="cipher.exe" OR process_name="cleanmgr.exe" OR process_name="cliconfg.exe" OR process_name="clip.exe" OR process_name="cmd.exe" OR process_name="cmdkey.exe" OR process_name="cmdl32.exe" OR process_name="cmmon32.exe" OR process_name="cmstp.exe" OR process_name="cofire.exe" OR process_name="colorcpl.exe" OR process_name="comp.exe" OR process_name="compact.exe" OR process_name="conhost.exe" OR process_name="consent.exe" OR process_name="control.exe" OR process_name="convert.exe" OR process_name="credwiz.exe" OR process_name="cscript.exe" OR process_name="csrss.exe" OR process_name="ctfmon.exe" OR process_name="cttune.exe" OR process_name="cttunesvr.exe" OR process_name="dashost.exe" OR process_name="dccw.exe" OR process_name="dcomcnfg.exe" OR process_name="ddodiag.exe" OR process_name="dfrgui.exe" OR process_name="dialer.exe" OR process_name="diantz.exe" OR process_name="dinotify.exe" OR process_name="diskpart.exe" OR process_name="diskperf.exe" OR process_name="diskraid.exe" OR process_name="dispdiag.exe" OR process_name="djoin.exe" OR process_name="dllhost.exe" OR process_name="dllhst3g.exe" OR process_name="dmcertinst.exe" OR process_name="dmcfghost.exe" OR process_name="dmclient.exe" OR process_name="dnscacheugc.exe" OR process_name="doskey.exe" OR process_name="dpapimig.exe" OR process_name="dpnsvr.exe" OR process_name="driverquery.exe" OR process_name="drvcfg.exe" OR process_name="drvinst.exe" OR process_name="dsregcmd.exe" OR process_name="dstokenclean.exe" OR process_name="dvdplay.exe" OR process_name="dvdupgrd.exe" OR process_name="dwm.exe" OR process_name="dxdiag.exe" OR process_name="easinvoker.exe" OR process_name="efsui.exe";
+| where process_name=&#34;windowsanytimeupgradeui.exe&#34; OR process_name=&#34;windowsupdateelevatedinstaller.exe&#34; OR process_name=&#34;workfolders.exe&#34; OR process_name=&#34;wpcmon.exe&#34; OR process_name=&#34;acu.exe&#34; OR process_name=&#34;aitagent.exe&#34; OR process_name=&#34;aitstatic.exe&#34; OR process_name=&#34;alg.exe&#34; OR process_name=&#34;appidcertstorecheck.exe&#34; OR process_name=&#34;appidpolicyconverter.exe&#34; OR process_name=&#34;at.exe&#34; OR process_name=&#34;attrib.exe&#34; OR process_name=&#34;audiodg.exe&#34; OR process_name=&#34;auditpol.exe&#34; OR process_name=&#34;autochk.exe&#34; OR process_name=&#34;autoconv.exe&#34; OR process_name=&#34;autofmt.exe&#34; OR process_name=&#34;baaupdate.exe&#34; OR process_name=&#34;backgroundtaskhost.exe&#34; OR process_name=&#34;bcastdvr.exe&#34; OR process_name=&#34;bcdboot.exe&#34; OR process_name=&#34;bcdedit.exe&#34; OR process_name=&#34;bdechangepin.exe&#34; OR process_name=&#34;bdeunlock.exe&#34; OR process_name=&#34;bitsadmin.exe&#34; OR process_name=&#34;bootcfg.exe&#34; OR process_name=&#34;bootim.exe&#34; OR process_name=&#34;bootsect.exe&#34; OR process_name=&#34;bridgeunattend.exe&#34; OR process_name=&#34;browser_broker.exe&#34; OR process_name=&#34;bthudtask.exe&#34; OR process_name=&#34;cacls.exe&#34; OR process_name=&#34;calc.exe&#34; OR process_name=&#34;cdpreference.exe&#34; OR process_name=&#34;certreq.exe&#34; OR process_name=&#34;certutil.exe&#34; OR process_name=&#34;change.exe&#34; OR process_name=&#34;changepk.exe&#34; OR process_name=&#34;charmap.exe&#34; OR process_name=&#34;chglogon.exe&#34; OR process_name=&#34;chgport.exe&#34; OR process_name=&#34;chgusr.exe&#34; OR process_name=&#34;chkdsk.exe&#34; OR process_name=&#34;chkntfs.exe&#34; OR process_name=&#34;choice.exe&#34; OR process_name=&#34;cipher.exe&#34; OR process_name=&#34;cleanmgr.exe&#34; OR process_name=&#34;cliconfg.exe&#34; OR process_name=&#34;clip.exe&#34; OR process_name=&#34;cmd.exe&#34; OR process_name=&#34;cmdkey.exe&#34; OR process_name=&#34;cmdl32.exe&#34; OR process_name=&#34;cmmon32.exe&#34; OR process_name=&#34;cmstp.exe&#34; OR process_name=&#34;cofire.exe&#34; OR process_name=&#34;colorcpl.exe&#34; OR process_name=&#34;comp.exe&#34; OR process_name=&#34;compact.exe&#34; OR process_name=&#34;conhost.exe&#34; OR process_name=&#34;consent.exe&#34; OR process_name=&#34;control.exe&#34; OR process_name=&#34;convert.exe&#34; OR process_name=&#34;credwiz.exe&#34; OR process_name=&#34;cscript.exe&#34; OR process_name=&#34;csrss.exe&#34; OR process_name=&#34;ctfmon.exe&#34; OR process_name=&#34;cttune.exe&#34; OR process_name=&#34;cttunesvr.exe&#34; OR process_name=&#34;dashost.exe&#34; OR process_name=&#34;dccw.exe&#34; OR process_name=&#34;dcomcnfg.exe&#34; OR process_name=&#34;ddodiag.exe&#34; OR process_name=&#34;dfrgui.exe&#34; OR process_name=&#34;dialer.exe&#34; OR process_name=&#34;diantz.exe&#34; OR process_name=&#34;dinotify.exe&#34; OR process_name=&#34;diskpart.exe&#34; OR process_name=&#34;diskperf.exe&#34; OR process_name=&#34;diskraid.exe&#34; OR process_name=&#34;dispdiag.exe&#34; OR process_name=&#34;djoin.exe&#34; OR process_name=&#34;dllhost.exe&#34; OR process_name=&#34;dllhst3g.exe&#34; OR process_name=&#34;dmcertinst.exe&#34; OR process_name=&#34;dmcfghost.exe&#34; OR process_name=&#34;dmclient.exe&#34; OR process_name=&#34;dnscacheugc.exe&#34; OR process_name=&#34;doskey.exe&#34; OR process_name=&#34;dpapimig.exe&#34; OR process_name=&#34;dpnsvr.exe&#34; OR process_name=&#34;driverquery.exe&#34; OR process_name=&#34;drvcfg.exe&#34; OR process_name=&#34;drvinst.exe&#34; OR process_name=&#34;dsregcmd.exe&#34; OR process_name=&#34;dstokenclean.exe&#34; OR process_name=&#34;dvdplay.exe&#34; OR process_name=&#34;dvdupgrd.exe&#34; OR process_name=&#34;dwm.exe&#34; OR process_name=&#34;dxdiag.exe&#34; OR process_name=&#34;easinvoker.exe&#34; OR process_name=&#34;efsui.exe&#34;;
 $cond_4 = 
 | from $ssa_input 
-| where process_name="embeddedapplauncher.exe" OR process_name="esentutl.exe" OR process_name="eudcedit.exe" OR process_name="eventcreate.exe" OR process_name="eventvwr.exe" OR process_name="expand.exe" OR process_name="extrac32.exe" OR process_name="fc.exe" OR process_name="fhmanagew.exe" OR process_name="find.exe" OR process_name="findstr.exe" OR process_name="finger.exe" OR process_name="fixmapi.exe" OR process_name="fltmc.exe" OR process_name="fodhelper.exe" OR process_name="fontdrvhost.exe" OR process_name="fontview.exe" OR process_name="forfiles.exe" OR process_name="fsavailux.exe" OR process_name="fsquirt.exe" OR process_name="fsutil.exe" OR process_name="ftp.exe" OR process_name="fvenotify.exe" OR process_name="fveprompt.exe" OR process_name="getmac.exe" OR process_name="gpresult.exe" OR process_name="gpscript.exe" OR process_name="gpupdate.exe" OR process_name="grpconv.exe" OR process_name="hdwwiz.exe" OR process_name="help.exe" OR process_name="hwrcomp.exe" OR process_name="hwrreg.exe" OR process_name="icacls.exe" OR process_name="icardagt.exe" OR process_name="icsunattend.exe" OR process_name="ie4uinit.exe" OR process_name="ieunatt.exe" OR process_name="ieetwcollector.exe" OR process_name="iexpress.exe" OR process_name="immersivetpmvscmgrsvr.exe" OR process_name="ipconfig.exe" OR process_name="irftp.exe" OR process_name="iscsicli.exe" OR process_name="iscsicpl.exe" OR process_name="isoburn.exe" OR process_name="klist.exe" OR process_name="ksetup.exe" OR process_name="ktmutil.exe" OR process_name="label.exe" OR process_name="licensingdiag.exe" OR process_name="lodctr.exe" OR process_name="logagent.exe" OR process_name="logman.exe" OR process_name="logoff.exe" OR process_name="lpkinstall.exe" OR process_name="lpksetup.exe" OR process_name="lpremove.exe" OR process_name="lsass.exe" OR process_name="lsm.exe" OR process_name="makecab.exe" OR process_name="manage-bde.exe" OR process_name="mblctr.exe" OR process_name="mcbuilder.exe" OR process_name="mctadmin.exe" OR process_name="mfpmp.exe" OR process_name="mmc.exe" OR process_name="mobsync.exe" OR process_name="mountvol.exe" OR process_name="mpnotify.exe" OR process_name="msconfig.exe" OR process_name="msdt.exe" OR process_name="msdtc.exe" OR process_name="msfeedssync.exe" OR process_name="msg.exe" OR process_name="mshta.exe" OR process_name="msiexec.exe" OR process_name="msinfo32.exe" OR process_name="mspaint.exe" OR process_name="msra.exe" OR process_name="mstsc.exe" OR process_name="mtstocom.exe" OR process_name="nbtstat.exe" OR process_name="ndadmin.exe" OR process_name="net.exe" OR process_name="net1.exe" OR process_name="netbtugc.exe" OR process_name="netcfg.exe" OR process_name="netiougc.exe" OR process_name="netsh.exe" OR process_name="newdev.exe" OR process_name="nltest.exe" OR process_name="notepad.exe" OR process_name="nslookup.exe" OR process_name="ntoskrnl.exe" OR process_name="ntprint.exe" OR process_name="ocsetup.exe" OR process_name="odbcad32.exe" OR process_name="odbcconf.exe" OR process_name="omadmclient.exe" OR process_name="omadmprc.exe";
+| where process_name=&#34;embeddedapplauncher.exe&#34; OR process_name=&#34;esentutl.exe&#34; OR process_name=&#34;eudcedit.exe&#34; OR process_name=&#34;eventcreate.exe&#34; OR process_name=&#34;eventvwr.exe&#34; OR process_name=&#34;expand.exe&#34; OR process_name=&#34;extrac32.exe&#34; OR process_name=&#34;fc.exe&#34; OR process_name=&#34;fhmanagew.exe&#34; OR process_name=&#34;find.exe&#34; OR process_name=&#34;findstr.exe&#34; OR process_name=&#34;finger.exe&#34; OR process_name=&#34;fixmapi.exe&#34; OR process_name=&#34;fltmc.exe&#34; OR process_name=&#34;fodhelper.exe&#34; OR process_name=&#34;fontdrvhost.exe&#34; OR process_name=&#34;fontview.exe&#34; OR process_name=&#34;forfiles.exe&#34; OR process_name=&#34;fsavailux.exe&#34; OR process_name=&#34;fsquirt.exe&#34; OR process_name=&#34;fsutil.exe&#34; OR process_name=&#34;ftp.exe&#34; OR process_name=&#34;fvenotify.exe&#34; OR process_name=&#34;fveprompt.exe&#34; OR process_name=&#34;getmac.exe&#34; OR process_name=&#34;gpresult.exe&#34; OR process_name=&#34;gpscript.exe&#34; OR process_name=&#34;gpupdate.exe&#34; OR process_name=&#34;grpconv.exe&#34; OR process_name=&#34;hdwwiz.exe&#34; OR process_name=&#34;help.exe&#34; OR process_name=&#34;hwrcomp.exe&#34; OR process_name=&#34;hwrreg.exe&#34; OR process_name=&#34;icacls.exe&#34; OR process_name=&#34;icardagt.exe&#34; OR process_name=&#34;icsunattend.exe&#34; OR process_name=&#34;ie4uinit.exe&#34; OR process_name=&#34;ieunatt.exe&#34; OR process_name=&#34;ieetwcollector.exe&#34; OR process_name=&#34;iexpress.exe&#34; OR process_name=&#34;immersivetpmvscmgrsvr.exe&#34; OR process_name=&#34;ipconfig.exe&#34; OR process_name=&#34;irftp.exe&#34; OR process_name=&#34;iscsicli.exe&#34; OR process_name=&#34;iscsicpl.exe&#34; OR process_name=&#34;isoburn.exe&#34; OR process_name=&#34;klist.exe&#34; OR process_name=&#34;ksetup.exe&#34; OR process_name=&#34;ktmutil.exe&#34; OR process_name=&#34;label.exe&#34; OR process_name=&#34;licensingdiag.exe&#34; OR process_name=&#34;lodctr.exe&#34; OR process_name=&#34;logagent.exe&#34; OR process_name=&#34;logman.exe&#34; OR process_name=&#34;logoff.exe&#34; OR process_name=&#34;lpkinstall.exe&#34; OR process_name=&#34;lpksetup.exe&#34; OR process_name=&#34;lpremove.exe&#34; OR process_name=&#34;lsass.exe&#34; OR process_name=&#34;lsm.exe&#34; OR process_name=&#34;makecab.exe&#34; OR process_name=&#34;manage-bde.exe&#34; OR process_name=&#34;mblctr.exe&#34; OR process_name=&#34;mcbuilder.exe&#34; OR process_name=&#34;mctadmin.exe&#34; OR process_name=&#34;mfpmp.exe&#34; OR process_name=&#34;mmc.exe&#34; OR process_name=&#34;mobsync.exe&#34; OR process_name=&#34;mountvol.exe&#34; OR process_name=&#34;mpnotify.exe&#34; OR process_name=&#34;msconfig.exe&#34; OR process_name=&#34;msdt.exe&#34; OR process_name=&#34;msdtc.exe&#34; OR process_name=&#34;msfeedssync.exe&#34; OR process_name=&#34;msg.exe&#34; OR process_name=&#34;mshta.exe&#34; OR process_name=&#34;msiexec.exe&#34; OR process_name=&#34;msinfo32.exe&#34; OR process_name=&#34;mspaint.exe&#34; OR process_name=&#34;msra.exe&#34; OR process_name=&#34;mstsc.exe&#34; OR process_name=&#34;mtstocom.exe&#34; OR process_name=&#34;nbtstat.exe&#34; OR process_name=&#34;ndadmin.exe&#34; OR process_name=&#34;net.exe&#34; OR process_name=&#34;net1.exe&#34; OR process_name=&#34;netbtugc.exe&#34; OR process_name=&#34;netcfg.exe&#34; OR process_name=&#34;netiougc.exe&#34; OR process_name=&#34;netsh.exe&#34; OR process_name=&#34;newdev.exe&#34; OR process_name=&#34;nltest.exe&#34; OR process_name=&#34;notepad.exe&#34; OR process_name=&#34;nslookup.exe&#34; OR process_name=&#34;ntoskrnl.exe&#34; OR process_name=&#34;ntprint.exe&#34; OR process_name=&#34;ocsetup.exe&#34; OR process_name=&#34;odbcad32.exe&#34; OR process_name=&#34;odbcconf.exe&#34; OR process_name=&#34;omadmclient.exe&#34; OR process_name=&#34;omadmprc.exe&#34;;
 $cond_5 = 
 | from $ssa_input 
-| where process_name="openfiles.exe" OR process_name="osk.exe" OR process_name="p2phost.exe" OR process_name="pcalua.exe" OR process_name="pcaui.exe" OR process_name="pcawrk.exe" OR process_name="pcwrun.exe" OR process_name="perfmon.exe" OR process_name="phoneactivate.exe" OR process_name="plasrv.exe" OR process_name="poqexec.exe" OR process_name="powercfg.exe" OR process_name="prevhost.exe" OR process_name="print.exe" OR process_name="printfilterpipelinesvc.exe" OR process_name="printui.exe" OR process_name="proquota.exe" OR process_name="provtool.exe" OR process_name="psr.exe" OR process_name="pwlauncher.exe" OR process_name="qappsrv.exe" OR process_name="qprocess.exe" OR process_name="query.exe" OR process_name="quser.exe" OR process_name="qwinsta.exe" OR process_name="rasautou.exe" OR process_name="rasdial.exe" OR process_name="raserver.exe" OR process_name="rasphone.exe" OR process_name="rdpclip.exe" OR process_name="rdpinput.exe" OR process_name="rdrleakdiag.exe" OR process_name="recdisc.exe" OR process_name="recover.exe" OR process_name="reg.exe" OR process_name="regedt32.exe" OR process_name="regini.exe" OR process_name="regsvr32.exe" OR process_name="rekeywiz.exe" OR process_name="relog.exe" OR process_name="repair-bde.exe" OR process_name="replace.exe" OR process_name="reset.exe" OR process_name="resmon.exe" OR process_name="rmttpmvscmgrsvr.exe" OR process_name="rrinstaller.exe" OR process_name="rstrui.exe" OR process_name="runas.exe" OR process_name="rundll32.exe" OR process_name="runonce.exe" OR process_name="rwinsta.exe" OR process_name="sbunattend.exe" OR process_name="sc.exe" OR process_name="schtasks.exe" OR process_name="sdbinst.exe" OR process_name="sdchange.exe" OR process_name="sdclt.exe" OR process_name="sdiagnhost.exe" OR process_name="secinit.exe" OR process_name="services.exe" OR process_name="sessionmsg.exe" OR process_name="sethc.exe" OR process_name="setspn.exe" OR process_name="setupcl.exe" OR process_name="setupugc.exe" OR process_name="setx.exe" OR process_name="sfc.exe" OR process_name="shadow.exe" OR process_name="shrpubw.exe" OR process_name="shutdown.exe" OR process_name="sigverif.exe" OR process_name="sihost.exe" OR process_name="slui.exe" OR process_name="smss.exe" OR process_name="snmptrap.exe" OR process_name="sort.exe" OR process_name="spinstall.exe" OR process_name="spoolsv.exe" OR process_name="sppsvc.exe" OR process_name="spreview.exe" OR process_name="srdelayed.exe" OR process_name="subst.exe" OR process_name="svchost.exe" OR process_name="sxstrace.exe" OR process_name="syskey.exe" OR process_name="systeminfo.exe" OR process_name="systemreset.exe" OR process_name="systray.exe" OR process_name="tabcal.exe" OR process_name="takeown.exe" OR process_name="taskeng.exe" OR process_name="taskhost.exe" OR process_name="taskhostw.exe" OR process_name="taskkill.exe" OR process_name="tasklist.exe" OR process_name="taskmgr.exe" OR process_name="tcmsetup.exe" OR process_name="timeout.exe" OR process_name="tpmvscmgr.exe" OR process_name="tpmvscmgrsvr.exe";
+| where process_name=&#34;openfiles.exe&#34; OR process_name=&#34;osk.exe&#34; OR process_name=&#34;p2phost.exe&#34; OR process_name=&#34;pcalua.exe&#34; OR process_name=&#34;pcaui.exe&#34; OR process_name=&#34;pcawrk.exe&#34; OR process_name=&#34;pcwrun.exe&#34; OR process_name=&#34;perfmon.exe&#34; OR process_name=&#34;phoneactivate.exe&#34; OR process_name=&#34;plasrv.exe&#34; OR process_name=&#34;poqexec.exe&#34; OR process_name=&#34;powercfg.exe&#34; OR process_name=&#34;prevhost.exe&#34; OR process_name=&#34;print.exe&#34; OR process_name=&#34;printfilterpipelinesvc.exe&#34; OR process_name=&#34;printui.exe&#34; OR process_name=&#34;proquota.exe&#34; OR process_name=&#34;provtool.exe&#34; OR process_name=&#34;psr.exe&#34; OR process_name=&#34;pwlauncher.exe&#34; OR process_name=&#34;qappsrv.exe&#34; OR process_name=&#34;qprocess.exe&#34; OR process_name=&#34;query.exe&#34; OR process_name=&#34;quser.exe&#34; OR process_name=&#34;qwinsta.exe&#34; OR process_name=&#34;rasautou.exe&#34; OR process_name=&#34;rasdial.exe&#34; OR process_name=&#34;raserver.exe&#34; OR process_name=&#34;rasphone.exe&#34; OR process_name=&#34;rdpclip.exe&#34; OR process_name=&#34;rdpinput.exe&#34; OR process_name=&#34;rdrleakdiag.exe&#34; OR process_name=&#34;recdisc.exe&#34; OR process_name=&#34;recover.exe&#34; OR process_name=&#34;reg.exe&#34; OR process_name=&#34;regedt32.exe&#34; OR process_name=&#34;regini.exe&#34; OR process_name=&#34;regsvr32.exe&#34; OR process_name=&#34;rekeywiz.exe&#34; OR process_name=&#34;relog.exe&#34; OR process_name=&#34;repair-bde.exe&#34; OR process_name=&#34;replace.exe&#34; OR process_name=&#34;reset.exe&#34; OR process_name=&#34;resmon.exe&#34; OR process_name=&#34;rmttpmvscmgrsvr.exe&#34; OR process_name=&#34;rrinstaller.exe&#34; OR process_name=&#34;rstrui.exe&#34; OR process_name=&#34;runas.exe&#34; OR process_name=&#34;rundll32.exe&#34; OR process_name=&#34;runonce.exe&#34; OR process_name=&#34;rwinsta.exe&#34; OR process_name=&#34;sbunattend.exe&#34; OR process_name=&#34;sc.exe&#34; OR process_name=&#34;schtasks.exe&#34; OR process_name=&#34;sdbinst.exe&#34; OR process_name=&#34;sdchange.exe&#34; OR process_name=&#34;sdclt.exe&#34; OR process_name=&#34;sdiagnhost.exe&#34; OR process_name=&#34;secinit.exe&#34; OR process_name=&#34;services.exe&#34; OR process_name=&#34;sessionmsg.exe&#34; OR process_name=&#34;sethc.exe&#34; OR process_name=&#34;setspn.exe&#34; OR process_name=&#34;setupcl.exe&#34; OR process_name=&#34;setupugc.exe&#34; OR process_name=&#34;setx.exe&#34; OR process_name=&#34;sfc.exe&#34; OR process_name=&#34;shadow.exe&#34; OR process_name=&#34;shrpubw.exe&#34; OR process_name=&#34;shutdown.exe&#34; OR process_name=&#34;sigverif.exe&#34; OR process_name=&#34;sihost.exe&#34; OR process_name=&#34;slui.exe&#34; OR process_name=&#34;smss.exe&#34; OR process_name=&#34;snmptrap.exe&#34; OR process_name=&#34;sort.exe&#34; OR process_name=&#34;spinstall.exe&#34; OR process_name=&#34;spoolsv.exe&#34; OR process_name=&#34;sppsvc.exe&#34; OR process_name=&#34;spreview.exe&#34; OR process_name=&#34;srdelayed.exe&#34; OR process_name=&#34;subst.exe&#34; OR process_name=&#34;svchost.exe&#34; OR process_name=&#34;sxstrace.exe&#34; OR process_name=&#34;syskey.exe&#34; OR process_name=&#34;systeminfo.exe&#34; OR process_name=&#34;systemreset.exe&#34; OR process_name=&#34;systray.exe&#34; OR process_name=&#34;tabcal.exe&#34; OR process_name=&#34;takeown.exe&#34; OR process_name=&#34;taskeng.exe&#34; OR process_name=&#34;taskhost.exe&#34; OR process_name=&#34;taskhostw.exe&#34; OR process_name=&#34;taskkill.exe&#34; OR process_name=&#34;tasklist.exe&#34; OR process_name=&#34;taskmgr.exe&#34; OR process_name=&#34;tcmsetup.exe&#34; OR process_name=&#34;timeout.exe&#34; OR process_name=&#34;tpmvscmgr.exe&#34; OR process_name=&#34;tpmvscmgrsvr.exe&#34;;
 $cond_6 = 
 | from $ssa_input 
-| where process_name="tracerpt.exe" OR process_name="tscon.exe" OR process_name="tsdiscon.exe" OR process_name="tskill.exe" OR process_name="typeperf.exe" OR process_name="tzsync.exe" OR process_name="tzutil.exe" OR process_name="ucsvc.exe" OR process_name="unlodctr.exe" OR process_name="unregmp2.exe" OR process_name="upnpcont.exe" OR process_name="userinit.exe" OR process_name="vds.exe" OR process_name="vdsldr.exe" OR process_name="verclsid.exe" OR process_name="verifier.exe" OR process_name="verifiergui.exe" OR process_name="vmicsvc.exe" OR process_name="vssadmin.exe" OR process_name="w32tm.exe" OR process_name="waitfor.exe" OR process_name="wbadmin.exe" OR process_name="wbengine.exe" OR process_name="wecutil.exe" OR process_name="wermgr.exe" OR process_name="wevtutil.exe" OR process_name="wextract.exe" OR process_name="where.exe" OR process_name="whoami.exe" OR process_name="wiaacmgr.exe" OR process_name="wiawow64.exe" OR process_name="wifitask.exe" OR process_name="wimserv.exe" OR process_name="wininit.exe" OR process_name="winload.exe" OR process_name="winlogon.exe" OR process_name="winresume.exe" OR process_name="winrs.exe" OR process_name="winrshost.exe" OR process_name="winver.exe" OR process_name="wisptis.exe" OR process_name="wkspbroker.exe" OR process_name="wksprt.exe" OR process_name="wlanext.exe" OR process_name="wlrmdr.exe" OR process_name="wowreg32.exe" OR process_name="wpnpinst.exe" OR process_name="wpr.exe" OR process_name="write.exe" OR process_name="wscript.exe" OR process_name="wsmprovhost.exe" OR process_name="wsqmcons.exe" OR process_name="wuapihost.exe" OR process_name="wuapp.exe" OR process_name="wuauclt.exe" OR process_name="wusa.exe" OR process_name="xcopy.exe" OR process_name="xpsrchvw.exe" OR process_name="xwizard.exe";
+| where process_name=&#34;tracerpt.exe&#34; OR process_name=&#34;tscon.exe&#34; OR process_name=&#34;tsdiscon.exe&#34; OR process_name=&#34;tskill.exe&#34; OR process_name=&#34;typeperf.exe&#34; OR process_name=&#34;tzsync.exe&#34; OR process_name=&#34;tzutil.exe&#34; OR process_name=&#34;ucsvc.exe&#34; OR process_name=&#34;unlodctr.exe&#34; OR process_name=&#34;unregmp2.exe&#34; OR process_name=&#34;upnpcont.exe&#34; OR process_name=&#34;userinit.exe&#34; OR process_name=&#34;vds.exe&#34; OR process_name=&#34;vdsldr.exe&#34; OR process_name=&#34;verclsid.exe&#34; OR process_name=&#34;verifier.exe&#34; OR process_name=&#34;verifiergui.exe&#34; OR process_name=&#34;vmicsvc.exe&#34; OR process_name=&#34;vssadmin.exe&#34; OR process_name=&#34;w32tm.exe&#34; OR process_name=&#34;waitfor.exe&#34; OR process_name=&#34;wbadmin.exe&#34; OR process_name=&#34;wbengine.exe&#34; OR process_name=&#34;wecutil.exe&#34; OR process_name=&#34;wermgr.exe&#34; OR process_name=&#34;wevtutil.exe&#34; OR process_name=&#34;wextract.exe&#34; OR process_name=&#34;where.exe&#34; OR process_name=&#34;whoami.exe&#34; OR process_name=&#34;wiaacmgr.exe&#34; OR process_name=&#34;wiawow64.exe&#34; OR process_name=&#34;wifitask.exe&#34; OR process_name=&#34;wimserv.exe&#34; OR process_name=&#34;wininit.exe&#34; OR process_name=&#34;winload.exe&#34; OR process_name=&#34;winlogon.exe&#34; OR process_name=&#34;winresume.exe&#34; OR process_name=&#34;winrs.exe&#34; OR process_name=&#34;winrshost.exe&#34; OR process_name=&#34;winver.exe&#34; OR process_name=&#34;wisptis.exe&#34; OR process_name=&#34;wkspbroker.exe&#34; OR process_name=&#34;wksprt.exe&#34; OR process_name=&#34;wlanext.exe&#34; OR process_name=&#34;wlrmdr.exe&#34; OR process_name=&#34;wowreg32.exe&#34; OR process_name=&#34;wpnpinst.exe&#34; OR process_name=&#34;wpr.exe&#34; OR process_name=&#34;write.exe&#34; OR process_name=&#34;wscript.exe&#34; OR process_name=&#34;wsmprovhost.exe&#34; OR process_name=&#34;wsqmcons.exe&#34; OR process_name=&#34;wuapihost.exe&#34; OR process_name=&#34;wuapp.exe&#34; OR process_name=&#34;wuauclt.exe&#34; OR process_name=&#34;wusa.exe&#34; OR process_name=&#34;xcopy.exe&#34; OR process_name=&#34;xpsrchvw.exe&#34; OR process_name=&#34;xwizard.exe&#34;;
 
 | from $cond_1 
 | union $cond_2 
@@ -52339,7 +52955,7 @@ $cond_6 =
 | union $cond_5 
 | union $cond_6 
 | where match_regex(process_path, /(?i)\\windows\\system32/)=false AND match_regex(process_path, /(?i)\\windows\\syswow64/)=false 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map(["event_id", event_id, "process_path", process_path, "process_name", process_name]) 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(device, user), body=create_map([&#34;event_id&#34;, event_id, &#34;process_path&#34;, process_path, &#34;process_name&#34;, process_name]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -52410,8 +53026,8 @@ During triage, review the parallel processes - what process moved the native Win
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*" Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_hash 
-| `drop_dm_object_name("Processes")` 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !=&#34;C:\\Windows\\System32*&#34; Processes.process_path !=&#34;C:\\Windows\\SysWOW64*&#34; by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_hash 
+| `drop_dm_object_name(&#34;Processes&#34;)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
 | `is_windows_system_file` 
@@ -52565,7 +53181,7 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.app=tor AND All_Traffic.action=allowed by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `drop_dm_object_name("All_Traffic")` 
+| `drop_dm_object_name(&#34;All_Traffic&#34;)` 
 | `tor_traffic_filter`
 ```
 #### Associated Analytic Story
@@ -52580,7 +53196,7 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 
 
 #### How To Implement
-In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an 'action' taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
+In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an &#39;action&#39; taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
 
 #### Required field
 
@@ -52637,7 +53253,7 @@ this search is to detect potential trickbot infection through the create/connect
 
 #### Search
 ```
-`sysmon` EventCode IN (17,18) PipeName="\\pipe\\*lacesomepipe" 
+`sysmon` EventCode IN (17,18) PipeName=&#34;\\pipe\\*lacesomepipe&#34; 
 | stats  min(_time) as firstTime max(_time) as lastTime count by Computer user_id EventCode PipeName signature Image process_id 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -52718,7 +53334,7 @@ This search is to detect a suspicious loaded unsigned dll by MMC.exe application
 
 #### Search
 ```
-`sysmon` EventCode=7  ImageLoaded = "*.dll" Image = "*\\mmc.exe" Signed=false Company != "Microsoft Corporation" 
+`sysmon` EventCode=7  ImageLoaded = &#34;*.dll&#34; Image = &#34;*\\mmc.exe&#34; Signed=false Company != &#34;Microsoft Corporation&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed ProcessId OriginalFileName Computer EventCode Company 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -52883,7 +53499,7 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
-| search process="*deletejournal*" AND process="*usn*" 
+| search process=&#34;*deletejournal*&#34; AND process=&#34;*usn*&#34; 
 | `usn_journal_deletion_filter`
 ```
 #### Associated Analytic Story
@@ -52894,7 +53510,7 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -52943,7 +53559,7 @@ _version_: 2
 ---
 
 ### Unified Messaging Service Spawning a Process
-This detection identifies Microsoft Exchange Server's Unified Messaging services, umworkerprocess.exe and umservice.exe, spawning a child process, indicating possible exploitation of CVE-2021-26857 vulnerability. The query filters out werfault.exe and wermgr.exe mostly due to potential false positives, however, if there is an excessive amount of "wermgr.exe" or "WerFault.exe" failures, it may be due to the active exploitation. During triage, identify any additional suspicious parallel processes. Identify any recent out of place file modifications. Review Exchange logs following Microsofts guide. To contain, perform egress filtering or restrict public access to Exchange. In final, patch the vulnerablity and monitor.
+This detection identifies Microsoft Exchange Server&#39;s Unified Messaging services, umworkerprocess.exe and umservice.exe, spawning a child process, indicating possible exploitation of CVE-2021-26857 vulnerability. The query filters out werfault.exe and wermgr.exe mostly due to potential false positives, however, if there is an excessive amount of &#34;wermgr.exe&#34; or &#34;WerFault.exe&#34; failures, it may be due to the active exploitation. During triage, identify any additional suspicious parallel processes. Identify any recent out of place file modifications. Review Exchange logs following Microsofts guide. To contain, perform egress filtering or restrict public access to Exchange. In final, patch the vulnerablity and monitor.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -52956,7 +53572,7 @@ This detection identifies Microsoft Exchange Server's Unified Messaging services
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="umworkerprocess.exe" OR Processes.parent_process_name="UMService.exe" (Processes.process_name!="wermgr.exe" OR Processes.process_name!="werfault.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=&#34;umworkerprocess.exe&#34; OR Processes.parent_process_name=&#34;UMService.exe&#34; (Processes.process_name!=&#34;wermgr.exe&#34; OR Processes.process_name!=&#34;werfault.exe&#34;) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -53123,7 +53739,7 @@ Attackers often disable security tools to avoid detection. This search looks for
 ```
 
 | tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fltMC.exe AND Processes.process=*unload* AND Processes.process=*SysmonDrv*  by Processes.process_name Processes.process_id Processes.parent_process_name Processes.process Processes.dest Processes.user 
-| `drop_dm_object_name("Processes")` 
+| `drop_dm_object_name(&#34;Processes&#34;)` 
 | `security_content_ctime(firstTime)`
 |`security_content_ctime(lastTime)` 
 |`unload_sysmon_filter_driver_filter`
@@ -53135,7 +53751,7 @@ Attackers often disable security tools to avoid detection. This search looks for
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro, update this macro to filter out false positives.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. This search is also shipped with `unload_sysmon_filter_driver_filter` macro, update this macro to filter out false positives.
 
 #### Required field
 
@@ -53185,7 +53801,7 @@ _version_: 3
 
 ### Unloading AMSI via Reflection
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
-This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe("System.Management.Automation.Amsi"+"Utils")` taken from Powershell-Empire. \
+This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe(&#34;System.Management.Automation.Amsi&#34;+&#34;Utils&#34;)` taken from Powershell-Empire. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -53267,76 +53883,6 @@ _version_: 1
 ---
 
 ### Unusually Long Command Line
-Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
-
-- **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
-- **ATT&CK**: 
-- **Last Updated**: 2020-10-06
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
- 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where cmd_line!=null and dest_user_id!=null 
-| eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
-|(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
-| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
-| adaptive_threshold algorithm="quantile" entity="process_name" window=60480000 
-| where label AND quantile>0.99 
-| first_time_event input_columns=["dest_device_id", "cmd_line"] 
-| where first_time_dest_device_id_cmd_line 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
-| into write_ssa_detected_events();
-```
-#### Associated Analytic Story
-
-* Unusual Processes
-
-
-#### How To Implement
-You must be ingesting sysmon endpoint data that monitors command lines.
-
-#### Required field
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Known False Positives
-This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
-
-#### Reference
-
-
-#### Test Dataset
-
-
-_version_: 1
-</details>
-
----
-
-### Unusually Long Command Line
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -53351,7 +53897,7 @@ Command lines that are extremely long may be indicative of malicious activity on
 ```
 
 | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process 
-| `drop_dm_object_name("Processes")` 
+| `drop_dm_object_name(&#34;Processes&#34;)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
 |  eval processlen=len(process) 
@@ -53359,7 +53905,7 @@ Command lines that are extremely long may be indicative of malicious activity on
 | stats max(processlen) as maxlen, values(stdev) as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process 
 | `unusually_long_command_line_filter` 
 |eval threshold = 3 
-| where maxlen > ((threshold*stdevperhost) + avgperhost)
+| where maxlen &gt; ((threshold*stdevperhost) + avgperhost)
 ```
 #### Associated Analytic Story
 
@@ -53411,6 +53957,76 @@ _version_: 5
 
 ---
 
+### Unusually Long Command Line
+Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-10-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
+| eval cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| where cmd_line!=null and dest_user_id!=null 
+| eval cmd_line_norm=replace(cast(cmd_line, &#34;string&#34;), /\s(--?\w+)
+|(\/\w+)/, &#34; ARG&#34;), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, &#34;PATH&#34;), cmd_line_norm=replace(cmd_line_norm, /\d+/, &#34;N&#34;), input=parse_double(len(coalesce(cmd_line_norm, &#34;&#34;))) 
+| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
+| adaptive_threshold algorithm=&#34;quantile&#34; entity=&#34;process_name&#34; window=60480000 
+| where label AND quantile&gt;0.99 
+| first_time_event input_columns=[&#34;dest_device_id&#34;, &#34;cmd_line&#34;] 
+| where first_time_dest_device_id_cmd_line 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* Unusual Processes
+
+
+#### How To Implement
+You must be ingesting sysmon endpoint data that monitors command lines.
+
+#### Required field
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Unusually Long Command Line - MLTK
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.
 
@@ -53432,8 +54048,8 @@ Command lines that are extremely long may be indicative of malicious activity on
 | eval processlen=len(process) 
 | search user!=unknown 
 | apply cmdline_pdfmodel threshold=0.01 
-| rename "IsOutlier(processlen)" as isOutlier 
-| search isOutlier > 0 
+| rename &#34;IsOutlier(processlen)&#34; as isOutlier 
+| search isOutlier &gt; 0 
 | table firstTime lastTime user dest process_name process processlen count 
 | `unusually_long_command_line___mltk_filter`
 ```
@@ -53449,7 +54065,7 @@ Command lines that are extremely long may be indicative of malicious activity on
 
 
 #### How To Implement
-You must be ingesting endpoint data that monitors command lines and populates the Endpoint data model in the Processes node. The command-line arguments are mapped to the "process" field in the Endpoint data model. In addition, MLTK version >= 4.2 must be installed on your search heads, along with any required dependencies. Finally, the support search "Baseline of Command Line Length - MLTK" must be executed before this detection search, as it builds an ML model over the historical data used by this search. It is important that this search is run in the same app context as the associated support search, so that the model created by the support search is available for use. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.
+You must be ingesting endpoint data that monitors command lines and populates the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. In addition, MLTK version &gt;= 4.2 must be installed on your search heads, along with any required dependencies. Finally, the support search &#34;Baseline of Command Line Length - MLTK&#34; must be executed before this detection search, as it builds an ML model over the historical data used by this search. It is important that this search is run in the same app context as the associated support search, so that the model created by the support search is available for use. You should periodically re-run the support search to rebuild the model with the latest data available in your environment.
 
 #### Required field
 
@@ -53500,7 +54116,7 @@ This search looks for unusually long strings in the Content-Type http header tha
 ```
 `stream_http` 
 | eval cs_content_type_length = len(cs_content_type) 
-| where cs_content_type_length > 100 
+| where cs_content_type_length &gt; 100 
 | table endtime src_ip dest_ip cs_content_type_length cs_content_type url 
 | `unusually_long_content_type_length_filter`
 ```
@@ -53698,7 +54314,7 @@ This search looks for flags passed to wbadmin.exe (Windows Backup Administrator 
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wbadmin.exe Processes.process="*delete*" AND (Processes.process="*catalog*" OR Processes.process="*systemstatebackup*") by Processes.process_name Processes.process Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wbadmin.exe Processes.process=&#34;*delete*&#34; AND (Processes.process=&#34;*catalog*&#34; OR Processes.process=&#34;*systemstatebackup*&#34;) by Processes.process_name Processes.process Processes.parent_process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
@@ -53782,9 +54398,9 @@ This search looks for the creation of WMI permanent event subscriptions.
 #### Search
 ```
 `wmi` EventCode=5861 Binding 
-| rex field=Message "Consumer =\s+(?<consumer>[^;
-|^$]+)" 
-| search consumer!="NTEventLogEventConsumer=\"SCM Event Log Consumer\"" 
+| rex field=Message &#34;Consumer =\s+(?&lt;consumer&gt;[^;
+|^$]+)&#34; 
+| search consumer!=&#34;NTEventLogEventConsumer=\&#34;SCM Event Log Consumer\&#34;&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName, consumer, Message 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -53943,7 +54559,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### Search
 ```
-`powershell` EventCode=4104 Message= "*SELECT*" AND (Message="*Win32_Process*" OR Message="*Win32_Service*") 
+`powershell` EventCode=4104 Message= &#34;*SELECT*&#34; AND (Message=&#34;*Win32_Process*&#34; OR Message=&#34;*Win32_Service*&#34;) 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54023,9 +54639,9 @@ This search looks for the creation of WMI temporary event subscriptions.
 #### Search
 ```
 `wmi` EventCode=5860 Temporary 
-| rex field=Message "NotificationQuery =\s+(?<query>[^;
-|^$]+)" 
-| search query!="SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName = 'wsmprovhost.exe'" AND query!="SELECT * FROM __InstanceOperationEvent WHERE TargetInstance ISA 'AntiVirusProduct' OR TargetInstance ISA 'FirewallProduct' OR TargetInstance ISA 'AntiSpywareProduct'" 
+| rex field=Message &#34;NotificationQuery =\s+(?&lt;query&gt;[^;
+|^$]+)&#34; 
+| search query!=&#34;SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName = &#39;wsmprovhost.exe&#39;&#34; AND query!=&#34;SELECT * FROM __InstanceOperationEvent WHERE TargetInstance ISA &#39;AntiVirusProduct&#39; OR TargetInstance ISA &#39;FirewallProduct&#39; OR TargetInstance ISA &#39;AntiSpywareProduct&#39;&#34; 
 | stats count min(_time) as firstTime max(_time) as lastTime by ComputerName, query  
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -54091,7 +54707,7 @@ This search is to detect a suspicious modification of registry related to UAC by
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*" (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "DelegateExecute") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= &#34;*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*&#34; (Registry.registry_key_name = &#34;(Default)&#34; OR Registry.registry_key_name = &#34;DelegateExecute&#34;) by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54166,7 +54782,7 @@ this search is designed to detect potential malicious process loading COM object
 
 #### Search
 ```
-`sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll", "*\\wbemcomn.dll") NOT (process_name IN ("wmiprvse.exe", "WmiApSrv.exe", "unsecapp.exe")) NOT(Image IN("*\\windows\\*","*\\program files*", "*\\wbem\\*")) 
+`sysmon` EventCode=7  ImageLoaded IN (&#34;*\\fastprox.dll&#34;, &#34;*\\wbemprox.dll&#34;, &#34;*\\wbemcomn.dll&#34;) NOT (process_name IN (&#34;wmiprvse.exe&#34;, &#34;WmiApSrv.exe&#34;, &#34;unsecapp.exe&#34;)) NOT(Image IN(&#34;*\\windows\\*&#34;,&#34;*\\program files*&#34;, &#34;*\\wbem\\*&#34;)) 
 | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name Computer EventCode Signed ProcessId Hashes IMPHASH 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54254,7 +54870,7 @@ This search looks for suspicious processes on all systems labeled as web servers
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.dest_category="web_server" AND (Processes.process="*whoami*" OR Processes.process="*ping*" OR Processes.process="*iptables*" OR Processes.process="*wget*" OR Processes.process="*service*" OR Processes.process="*curl*") by Processes.process Processes.process_name, Processes.dest Processes.user
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.dest_category=&#34;web_server&#34; AND (Processes.process=&#34;*whoami*&#34; OR Processes.process=&#34;*ping*&#34; OR Processes.process=&#34;*iptables*&#34; OR Processes.process=&#34;*wget*&#34; OR Processes.process=&#34;*service*&#34; OR Processes.process=&#34;*curl*&#34;) by Processes.process Processes.process_name, Processes.dest Processes.user
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54266,7 +54882,7 @@ This search looks for suspicious processes on all systems labeled as web servers
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model. In addition, web servers will need to be identified in the Assets and Identity Framework of Enterprise Security.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. In addition, web servers will need to be identified in the Assets and Identity Framework of Enterprise Security.
 
 #### Required field
 
@@ -54323,7 +54939,7 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 
 #### Search
 ```
-`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfismyip.com", "*checkip.amazonaws.com", "*ipecho.net", "*ipinfo.io", "*api.ipify.org", "*icanhazip.com", "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net") 
+`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN (&#34;*wtfismyip.com&#34;, &#34;*checkip.amazonaws.com&#34;, &#34;*ipecho.net&#34;, &#34;*ipinfo.io&#34;, &#34;*api.ipify.org&#34;, &#34;*icanhazip.com&#34;, &#34;*ip.anysrc.com&#34;,&#34;*api.ip.sb&#34;, &#34;ident.me&#34;, &#34;www.myexternalip.com&#34;, &#34;*zen.spamhaus.org&#34;, &#34;*cbl.abuseat.org&#34;, &#34;*b.barracudacentral.org&#34;,&#34;*dnsbl-1.uceprotect.net&#34;, &#34;*spam.dnsbl.sorbs.net&#34;) 
 |  stats  min(_time) as firstTime max(_time) as lastTime count by  process_path process_name process_id QueryName QueryStatus QueryResults Computer EventCode 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54406,7 +55022,7 @@ this search is designed to detect potential malicious wermgr.exe process that dr
 
 #### Search
 ```
-`sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe" 
+`sysmon` EventCode=11 process_name = &#34;wermgr.exe&#34; TargetFilename = &#34;*.exe&#34; 
 | stats  min(_time) as firstTime max(_time) as lastTime count by  Image TargetFilename process_name dest EventCode ProcessId 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54486,7 +55102,7 @@ This search is designed to detect suspicious cmd and powershell process spawned 
 #### Search
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as cmdline min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = "wermgr.exe" Processes.process_name = "cmd.exe" OR Processes.process_name = "powershell.exe" by Processes.parent_process_name Processes.parent_process_id  Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as cmdline min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = &#34;wermgr.exe&#34; Processes.process_name = &#34;cmd.exe&#34; OR Processes.process_name = &#34;powershell.exe&#34; by Processes.parent_process_name Processes.parent_process_id  Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54571,9 +55187,9 @@ The wevtutil.exe application is the windows event log utility. This searches for
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where cmd_line IS NOT NULL AND like(cmd_line, "% cl %") AND (match_regex(cmd_line, /(?i)security/)=true OR match_regex(cmd_line, /(?i)system/)=true OR match_regex(cmd_line, /(?i)sysmon/)=true OR match_regex(cmd_line, /(?i)application/)=true OR match_regex(cmd_line, /(?i)setup/)=true OR match_regex(cmd_line, /(?i)powershell/)=true) AND process_name="wevtutil.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), process_path=ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null), parent_process_name=ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, &#34;% cl %&#34;) AND (match_regex(cmd_line, /(?i)security/)=true OR match_regex(cmd_line, /(?i)system/)=true OR match_regex(cmd_line, /(?i)sysmon/)=true OR match_regex(cmd_line, /(?i)application/)=true OR match_regex(cmd_line, /(?i)setup/)=true OR match_regex(cmd_line, /(?i)powershell/)=true) AND process_name=&#34;wevtutil.exe&#34; 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process_name, &#34;process_path&#34;, process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -54586,7 +55202,7 @@ The wevtutil.exe application is the windows event log utility. This searches for
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -54653,9 +55269,9 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where cmd_line IS NOT NULL AND like(cmd_line, "% sl %") AND like(cmd_line, "%/e:false%") AND process_name="wevtutil.exe" 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), process_path=ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null), parent_process_name=ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, &#34;% sl %&#34;) AND like(cmd_line, &#34;%/e:false%&#34;) AND process_name=&#34;wevtutil.exe&#34; 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process_name, &#34;process_path&#34;, process_path]) 
 | into write_ssa_detected_events();
 ```
 #### Associated Analytic Story
@@ -54666,7 +55282,7 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the "process" field in the Endpoint data model.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
 
@@ -54737,7 +55353,7 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or was it v
 ```
 `wineventlog_security` EventCode=4698 
 | xmlkv Message 
-| search Command IN ("*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*") 
+| search Command IN (&#34;*\\users\\public\\*&#34;, &#34;*\\programdata\\*&#34;, &#34;*\\temp\\*&#34;, &#34;*\\Windows\\Tasks\\*&#34;, &#34;*\\appdata\\*&#34;) 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54830,7 +55446,7 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 ```
 `wineventlog_security` EventCode=4698 
 | xmlkv Message 
-| search Command IN ("*powershell.exe*", "*wscript.exe*", "*cscript.exe*", "*cmd.exe*", "*sh.exe*", "*ksh.exe*", "*zsh.exe*", "*bash.exe*", "*scrcons.exe*", "*pwsh.exe*") 
+| search Command IN (&#34;*powershell.exe*&#34;, &#34;*wscript.exe*&#34;, &#34;*cscript.exe*&#34;, &#34;*cmd.exe*&#34;, &#34;*sh.exe*&#34;, &#34;*ksh.exe*&#34;, &#34;*zsh.exe*&#34;, &#34;*bash.exe*&#34;, &#34;*scrcons.exe*&#34;, &#34;*pwsh.exe*&#34;) 
 | stats count min(_time) as firstTime max(_time) as lastTime by dest, Task_Name, Command, Author, Enabled, Hidden 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -54914,7 +55530,7 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=wsmprovhost.exe Processes.process_name IN ("cmd.exe","sh.exe","bash.exe","powershell.exe","pwsh.exe","schtasks.exe","certutil.exe","whoami.exe","bitsadmin.exe","scp.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=wsmprovhost.exe Processes.process_name IN (&#34;cmd.exe&#34;,&#34;sh.exe&#34;,&#34;bash.exe&#34;,&#34;powershell.exe&#34;,&#34;pwsh.exe&#34;,&#34;schtasks.exe&#34;,&#34;certutil.exe&#34;,&#34;whoami.exe&#34;,&#34;bitsadmin.exe&#34;,&#34;scp.exe&#34;) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -55084,7 +55700,7 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_key_name="DisableAntiSpyware" AND Registry.registry_value_name="DWORD (0x00000001)" by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_key_name=&#34;DisableAntiSpyware&#34; AND Registry.registry_value_name=&#34;DWORD (0x00000001)&#34; by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
@@ -55243,7 +55859,7 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE ("Processes.process_name"="net*.exe" "Processes.process"="*stop \"samss\"*") BY "Processes.dest", "Processes.user", "Processes.process" 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE (&#34;Processes.process_name&#34;=&#34;net*.exe&#34; &#34;Processes.process&#34;=&#34;*stop \&#34;samss\&#34;*&#34;) BY &#34;Processes.dest&#34;, &#34;Processes.user&#34;, &#34;Processes.process&#34; 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
@@ -55491,7 +56107,7 @@ The following detection identifies Microsoft Word spawning PowerShell. Typically
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="winword.exe" Processes.process_name IN ("powershell.exe", "pwsh.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=&#34;winword.exe&#34; Processes.process_name IN (&#34;powershell.exe&#34;, &#34;pwsh.exe&#34;) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -55575,7 +56191,7 @@ The following detection identifies Microsoft Winword.exe spawning Windows Script
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="winword.exe" Processes.process_name IN ("cscript.exe", "wscript.exe") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=&#34;winword.exe&#34; Processes.process_name IN (&#34;cscript.exe&#34;, &#34;wscript.exe&#34;) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -55652,7 +56268,7 @@ This search is to detect suspicious dropping or creating an executable file in k
 
 #### Search
 ```
-`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll") Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask= "0x2" 
+`wineventlog_security` EventCode=5145 Relative_Target_Name IN (&#34;*.exe&#34;,&#34;*.dll&#34;) Object_Type=File Share_Name IN (&#34;\\\\*\\C$&#34;,&#34;\\\\*\\IPC$&#34;,&#34;\\\\*\\admin$&#34;) Access_Mask= &#34;0x2&#34; 
 | stats min(_time) as firstTime max(_time) as lastTime count by EventCode Share_Name Relative_Target_Name Object_Type Access_Mask user src_port Source_Address 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -55735,7 +56351,7 @@ This analytic identifies XMRIG coinminer driver installation on the system. The 
 
 #### Search
 ```
-`sysmon` EventCode=6 Signature="Noriyuki MIYAZAKI" OR ImageLoaded= "*\\WinRing0x64.sys" 
+`sysmon` EventCode=6 Signature=&#34;Noriyuki MIYAZAKI&#34; OR ImageLoaded= &#34;*\\WinRing0x64.sys&#34; 
 |  stats  min(_time) as firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature Signed 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -55874,7 +56490,7 @@ This search provides detection of accounts creating permanent keys. Permanent ke
 ```
 `aws_cloudwatchlogs_eks` CreateAccessKey 
 | spath eventName 
-| search eventName=CreateAccessKey "userIdentity.type"=IAMUser 
+| search eventName=CreateAccessKey &#34;userIdentity.type&#34;=IAMUser 
 | table sourceIPAddress userName userIdentity.type userAgent action status responseElements.accessKey.createDate responseElements.accessKey.status responseElements.accessKey.accessKeyId 
 |`aws_detect_permanent_key_creation_filter`
 ```
