@@ -1,0 +1,60 @@
+name: AdsiSearcher Account Discovery
+id: de7fcadc-04f3-11ec-a241-acde48001122
+version: 1
+date: '2021-08-24'
+author: Teoderick Contreras, Splunk
+type: batch
+datamodel:
+- Endpoint
+description: This search is to detect a powershell command adsisearcher to do user enumeration to the active directory. 
+  This command can be a normal query of a network admin but since the output of this is not so much structure and cannot give a concrete or 
+  specific information that admin may look upon this is still a good TTP to alert some malicious activities.
+search: '`powershell` EventCode=4104 Message = "*[adsisearcher]*" Message = "*objectcategory=user*" Message = "*.findAll()*" 
+ | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+ | `security_content_ctime(firstTime)`
+ | `security_content_ctime(lastTime)`
+ | `adsisearcher_account_discovery_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. 
+  Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, 
+  or PowerShell Script Block Logging.
+known_false_positives: not commonly seen as a normal command from network admin but possible noise may exist.
+references:
+- https://www.blackhillsinfosec.com/red-blue-purple/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1087.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message 
+  - ComputerName 
+  - User
+  security_domain: endpoint
+  impact: 50
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 25
+  context:
+  - source:endpoint
+  - stage:Reconnaissance
+  message: powershell process having commandline $Message$ for user enumeration
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  

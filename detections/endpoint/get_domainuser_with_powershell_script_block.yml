@@ -1,0 +1,61 @@
+name: Get DomainUser with PowerShell Script Block
+id: 61994268-04f4-11ec-865c-acde48001122
+version: 1
+date: '2021-08-24'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: his search is to detect a powershell command Get-DomainUser to do user enumeration to the active directory. 
+  This command is function seen in powerspoit and powerview tool that are designed to pentest active directory or domain controller for possible attack. 
+  This is a good TTP for alerting SOC if there is a pentest or recon happening on the system. try to look for lateral movement technique or credential 
+  dumping techniques in the system.
+search: '`powershell` EventCode=4104 Message = "*Get-DomainUser*"
+ | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+ | `security_content_ctime(firstTime)`
+ | `security_content_ctime(lastTime)` 
+ | `get_domainuser_with_powershell_script_block_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. 
+  Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, 
+  or PowerShell Script Block Logging.
+known_false_positives: unknown
+references:
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainUser/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1087.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message 
+  - ComputerName 
+  - User
+  security_domain: endpoint
+  impact: 50
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 25
+  context:
+  - source:endpoint
+  - stage:Reconnaissance
+  message: powershell process having commandline $Message$ for user enumeration
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  
