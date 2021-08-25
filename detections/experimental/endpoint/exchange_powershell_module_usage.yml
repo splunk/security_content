@@ -3,7 +3,7 @@ id: 2d10095e-05ae-11ec-8fdf-acde48001122
 version: 1
 date: '2021-08-25'
 author: Michael Haag
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'The following analytic identifies the usage of Exchange PowerShell modules that were recently used for a proof of concept related to ProxyShell. Currently, there is no active data shared or data we could re-produce relate to this part of the ProxyShell chain of exploits.  \
