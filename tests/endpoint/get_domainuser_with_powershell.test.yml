@@ -1,6 +1,6 @@
-name: Get_DomainUser with PowerShell Unit Test
+name: Get DomainUser with PowerShell Unit Test
 tests:
-- name: Get_DomainUser with PowerShell
+- name: Get DomainUser with PowerShell
   file: endpoint/get_domainuser_with_powershell.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'

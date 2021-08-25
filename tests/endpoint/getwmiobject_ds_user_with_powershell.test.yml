@@ -1,6 +1,6 @@
-name: GetWmiObject DS_User with PowerShell Unit Test
+name: GetWmiObject DS User with PowerShell Unit Test
 tests:
-- name: GetWmiObject DS_User with PowerShell
+- name: GetWmiObject DS User with PowerShell
   file: endpoint/getwmiobject_ds_user_with_powershell.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
