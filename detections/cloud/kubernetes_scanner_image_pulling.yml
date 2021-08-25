@@ -5,14 +5,13 @@ date: '2021-08-24'
 author: Patrick Bareiss, Splunk
 type: TTP
 datamodel: []
-description: This search uses the Kubernetes logs from Splunk Connect from Kubernetes to
-  detect Kubernetes Security Scanner.
-search: '`kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*")
-  | rename object.* AS *
-  | rename involvedObject.* AS *
-  | rename source.host AS host
-  | stats min(_time) as firstTime max(_time) as lastTime count by host, name, namespace, kind, reason, message
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+description: This search uses the Kubernetes logs from Splunk Connect from Kubernetes
+  to detect Kubernetes Security Scanner.
+search: '`kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling
+  image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*")
+  | rename object.* AS * | rename involvedObject.* AS * | rename source.host AS host
+  | stats min(_time) as firstTime max(_time) as lastTime count by host, name, namespace,
+  kind, reason, message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `kubernetes_scanner_image_pulling_filter`'
 how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 known_false_positives: unknown
@@ -52,3 +51,7 @@ tags:
   - object.reason
   risk_score: 49
   security_domain: network
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json
+
