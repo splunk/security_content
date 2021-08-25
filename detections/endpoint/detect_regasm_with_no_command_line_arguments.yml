@@ -3,7 +3,7 @@ id: c3bc1430-04e7-4178-835f-047d8e6e97df
 version: 1
 date: '2021-02-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies regasm.exe with no command line arguments.
   This particular behavior occurs when another process injects into regasm.exe, no

@@ -3,7 +3,7 @@ id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
 version: 1
 date: '2020-05-28'
 author: Rico Valdez, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Authentication
 description: This search looks for AWS CloudTrail events wherein a console login event

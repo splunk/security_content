@@ -3,7 +3,6 @@ id: 7678c968-d46e-11ea-87d0-0242ac130003
 version: 1
 date: '2020-08-02'
 author: Shannon Davis, Splunk
-type: batch
 description: Uncover activity consistent with CVE-2020-5902. Discovered by Positive
   Technologies researchers, this vulnerability affects F5 BIG-IP, BIG-IQ. and Traffix
   SDC devices (vulnerable versions in F5 support link below). This vulnerability allows

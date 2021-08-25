@@ -3,7 +3,7 @@ id: 3070f8e0-c528-11eb-b2a0-acde48001122
 version: 1
 date: '2021-06-04'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search detects a suspicioous termination of known services killed

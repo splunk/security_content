@@ -3,7 +3,7 @@ id: c661f6be-a38c-11eb-be57-acde48001122
 version: 1
 date: '2021-04-22'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following detection identifies the latest behavior utilized by IcedID

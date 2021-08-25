@@ -3,7 +3,6 @@ id: 507edc74-13d5-4339-878e-b9744ded1f35
 version: 1
 date: '2020-11-06'
 author: Jose Hernandez, Splunk
-type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the Ryuk ransomware, including looking for file writes associated
   with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification,

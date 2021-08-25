@@ -3,7 +3,7 @@ id: 2dbeee3a-f067-11eb-96c0-acde48001122
 version: 1
 date: '2021-07-29'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
@@ -23,7 +23,7 @@ references:
 - https://www.joesandbox.com/analysis/380662/0/html
 tags:
   analytic_story:
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 80
   context:

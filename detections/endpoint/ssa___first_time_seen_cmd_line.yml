@@ -3,7 +3,7 @@ id: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
 version: 3
 date: 2021-2-1
 author: Ignacio Bermudez Corrales, Splunk
-type: streaming
+type: Anomaly
 datamodel: []
 description: This search looks for command-line arguments that use a `/c` parameter
   to execute a command that has not previously been seen. This is an implementation

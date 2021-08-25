@@ -3,7 +3,7 @@ id: b44bebd6-bd39-467b-9321-73971bcd7aac
 version: 1
 date: '2020-08-11'
 author: Mikael Bjerkeland, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the
   organization's network devices, we will be able to detect ARP Poisoning attacks

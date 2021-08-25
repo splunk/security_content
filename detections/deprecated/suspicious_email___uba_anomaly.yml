@@ -3,7 +3,7 @@ id: 56e877a6-1455-4479-ad16-0550dc1e33f8
 version: 3
 date: '2020-07-22'
 author: Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - UEBA
 description: This detection looks for emails that are suspicious because of their

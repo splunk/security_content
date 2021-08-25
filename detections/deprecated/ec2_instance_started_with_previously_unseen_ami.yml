@@ -3,7 +3,7 @@ id: 347ec301-601b-48b9-81aa-9ddf9c829dd3
 version: 1
 date: '2018-03-12'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search looks for EC2 instances being created with previously unseen
   AMIs.  This search is deprecated and have been translated to use the latest Change

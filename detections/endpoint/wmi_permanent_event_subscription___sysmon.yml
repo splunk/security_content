@@ -3,7 +3,7 @@ id: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
 version: 3
 date: '2020-12-08'
 author: Rico Valdez, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: 'This analytic looks for the creation of WMI permanent event subscriptions.
   The following analytic identifies the use of WMI Event Subscription to establish

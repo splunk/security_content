@@ -3,7 +3,7 @@ id: ff86077c-9212-11eb-a1e6-acde48001122
 version: 1
 date: '2021-03-31'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this search is to identify modification in registry to disable cmd prompt

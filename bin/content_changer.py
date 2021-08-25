@@ -59,7 +59,7 @@ def analysis_detection(detections):
     sorted_dict = {k: v for k, v in sorted(parsed_fields.items(), key=lambda item: item[1], reverse=True)}
 
     with open('output_fields_ordered_by_usage.csv', mode='w') as csv_file:
-        writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 
         writer.writerow(['field_name', 'occurence'])
 
@@ -70,7 +70,7 @@ def analysis_detection(detections):
     sorted_dict_2 = sorted(parsed_fields.items())
 
     with open('output_fields_ordered_by_keys.csv', mode='w') as csv_file:
-        writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 
         writer.writerow(['field_name', 'occurence'])
 
@@ -90,7 +90,8 @@ def call_splunk_parser_api(detection):
         "q": spl,
         "parse_only": "true"
     }
-    response = requests.post(BASE_URL + SEARCH_PARSER_ENDPOINT, data=data, auth=(USER, PASSWORD), verify=False, headers={"Content-Type": "application/x-www-form-urlencoded"})
+    #Have semgrep ignore the following line.  It will complain about the verify=false, but the server is hosted on localhost
+    response = requests.post(BASE_URL + SEARCH_PARSER_ENDPOINT, data=data, auth=(USER, PASSWORD), verify=False, headers={"Content-Type": "application/x-www-form-urlencoded"}) # nosemgrep
     if response.status_code != 200:
         print(response.json())
         print('ERROR: parser endpoint problems')

@@ -3,7 +3,6 @@ id: 399d65dc-1f08-499b-a259-aad9051f38ad
 version: 2
 date: '2020-02-04'
 author: David Dorsey, Splunk
-type: batch
 description: Detect and investigate tactics, techniques, and procedures around how
   attackers move laterally within the enterprise. Because lateral movement can expose
   the adversary to detection, it should be an important focus for security analysts.
