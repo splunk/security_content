@@ -20,7 +20,7 @@
 ![security_content](docs/static/logo.png)
 =====
 
-Welcome to the Splunk Security Content
+Welcome to the Splunk Security CONTENT
 
 This project gives you access to our repository of Analytic Stories that are security guides the provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
 
