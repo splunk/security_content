@@ -3,7 +3,7 @@ id: 21432e40-04f4-11ec-b7e6-acde48001122
 version: 1
 date: '2021-08-24'
 author: Teoderick Contreras, Splunk
-type: Hunt
+type: Hunting
 datamodel:
 - Endpoint
 description: This search is to detect a powershell command get-aduser function to do user enumeration to the active directory. 

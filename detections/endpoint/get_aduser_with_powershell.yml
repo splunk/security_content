@@ -3,7 +3,7 @@ id: 0b6ee3f4-04e3-11ec-a87d-acde48001122
 version: 1
 date: '2021-08-24'
 author: Teoderick Contreras, Splunk
-type: Hunt
+type: Hunting
 datamodel:
 - Endpoint
 description: This search is to detect a suspicious commandline that commonly uses for enumerating users in active directory. 
