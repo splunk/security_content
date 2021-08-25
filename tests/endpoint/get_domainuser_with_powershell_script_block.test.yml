@@ -1,12 +1,12 @@
 name: Get DomainUser with PowerShell Script Block Unit Test
 tests:
 - name: Get DomainUser with PowerShell Script Block
-  file: detections/endpoint/get_domainuser_with_powershell_script_block.yml
+  file: endpoint/get_domainuser_with_powershell_script_block.yml
   pass_condition: '| stats count | where count &gt; 0'
   earliest_time: '-24h'
   latest_time: 'now'
   attack_data:
-  - file_name: UPDATE_FILE_NAME
-    data: UPDATE_DATASET_URL
-    source: UPDATE_SPLUNK_SOURCE
-    sourcetype: UPDATE_SPLUNK_SOURCETYPE
+  - file_name: windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell.log
+    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: WinEventLog
