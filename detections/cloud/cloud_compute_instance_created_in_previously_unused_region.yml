@@ -3,7 +3,7 @@ id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 version: 1
 date: '2020-09-02'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search looks at cloud-infrastructure events where an instance is

@@ -3,7 +3,7 @@ id: 24dd17b1-e2fb-4c31-878c-d4f746595bfa
 version: 1
 date: '2017-09-23'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: This search looks for DNS requests for faux domains similar to the domains

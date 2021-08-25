@@ -3,7 +3,7 @@ id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
 version: 4
 date: '2020-11-23'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search detects the process execution and arguments required to silently

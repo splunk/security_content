@@ -3,7 +3,6 @@ id: aa0e28b1-0521-4b6f-9d2a-7b87e34af246
 version: 1
 date: '2020-02-20'
 author: Rod Soto, Rico Valdez, Splunk
-type: batch
 description: Use the searches in this story to monitor your Kubernetes registry repositories
   for upload, and deployment of potentially vulnerable, backdoor, or implanted containers.
   These searches provide information on source users, destination path, container

@@ -3,7 +3,7 @@ id: e3d3f57a-c381-11eb-9e35-acde48001122
 version: 1
 date: '2021-06-02'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies suspicious modification in registry entry to

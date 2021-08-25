@@ -3,7 +3,7 @@ id: 0a69fdaa-a2b8-11eb-b16d-acde48001122
 version: 1
 date: '2021-04-21'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This search is to detect potential DNS exfiltration using nslookup application.

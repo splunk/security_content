@@ -3,7 +3,7 @@ id: 637e1b5c-9be1-11eb-9c32-acde48001122
 version: 1
 date: '2021-04-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following detection identifies Microsoft Winword.exe spawning Windows

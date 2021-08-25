@@ -3,7 +3,7 @@ id: 6e1ada88-7a0d-4ac1-92c6-03d354686079
 version: 1
 date: '2020-08-11'
 author: Mikael Bjerkeland, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: By enabling DHCP Snooping as a Layer 2 Security measure on the organization's
   network devices, we will be able to detect unauthorized DHCP servers handing out

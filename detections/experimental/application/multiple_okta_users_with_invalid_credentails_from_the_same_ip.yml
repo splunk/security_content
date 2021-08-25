@@ -3,7 +3,7 @@ id: 19cba45f-cad3-4032-8911-0c09e0444552
 version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search detects Okta login failures due to bad credentials for multiple
   users originating from the same ip address.

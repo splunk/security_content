@@ -3,7 +3,7 @@ id: 10399c1e-f51e-11eb-b920-acde48001122
 version: 1
 date: '2021-08-04'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect suspicious process injection in command shell.
@@ -23,7 +23,7 @@ references:
 - https://thedfirreport.com/2021/07/19/icedid-and-cobalt-strike-vs-antivirus/
 tags:
   analytic_story:
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 100
   context:

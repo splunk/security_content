@@ -3,7 +3,7 @@ id: c79c164f-4b21-4847-98f9-cf6a9f49179e
 version: 1
 date: '2021-01-11'
 author: Rod Soto, Patrick Bareiss Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search provides detection of KMS keys where action kms:Encrypt is
   accessible for everyone (also outside of your organization). This is an indicator

@@ -212,7 +212,7 @@ def generate_csv_file(matched_techniques, output):
     security_content_url = 'https://github.com/splunk/security_content/blob/develop/detections/'
 
     with open(output + '/detections.csv', 'w') as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
         writer.writerow(['Technique ID', 'Detection Available', 'Link', 'score'])
         for technique in matched_techniques:
             if len(technique['splunk_rules']) > 0:

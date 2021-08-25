@@ -3,12 +3,12 @@ id: 2d9fc90c-f11f-11eb-9300-acde48001122
 version: 1
 date: '2021-07-30'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: this detection was designed to identifies suspicious spawned process
   of known MS office application due to macro or malicious code. this technique can
-  be seen in so many malware like Icedid that used MS office as its weapon or attack
+  be seen in so many malware like IcedID that used MS office as its weapon or attack
   vector to initially infect the machines.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name
@@ -27,7 +27,7 @@ references:
 - https://www.joesandbox.com/analysis/380662/0/html
 tags:
   analytic_story:
-  - Icedid
+  - IcedID
   automated_detection_testing: passed
   confidence: 90
   context:

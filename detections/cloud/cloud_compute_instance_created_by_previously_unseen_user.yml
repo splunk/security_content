@@ -3,7 +3,7 @@ id: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
 version: 2
 date: '2021-07-13'
 author: Rico Valdez, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Change
 description: This search looks for cloud compute instances created by users who have

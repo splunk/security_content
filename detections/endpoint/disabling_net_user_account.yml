@@ -3,7 +3,7 @@ id: c0325326-acd6-11eb-98c2-acde48001122
 version: 1
 date: '2021-05-04'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic will identify a suspicious command-line that disables a

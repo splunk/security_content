@@ -3,7 +3,7 @@ id: 83776de4-921a-11eb-868a-acde48001122
 version: 1
 date: '2021-03-31'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to identify registry modification to disable folder options

@@ -3,7 +3,7 @@ id: 1297fb80-f42a-4q4a-9c8b-78c061417cf6
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for specific command-line arguments that may indicate

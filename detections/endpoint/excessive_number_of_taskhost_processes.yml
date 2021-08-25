@@ -3,7 +3,7 @@ id: f443dac2-c7cf-11eb-ab51-acde48001122
 version: 1
 date: '2021-06-07'
 author: Michael Hart
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: This detection targets behaviors observed in post exploit kits like Meterpreter
