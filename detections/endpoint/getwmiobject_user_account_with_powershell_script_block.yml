@@ -3,7 +3,7 @@ id: 640b0eda-0429-11ec-accd-acde48001122
 version: 1
 date: '2021-08-23'
 author: Mauricio Velazco, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Endpoint
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)

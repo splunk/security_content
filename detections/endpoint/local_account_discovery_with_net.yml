@@ -3,7 +3,7 @@ id: 5d0d4830-0133-11ec-bae3-acde48001122
 version: 1
 date: '2021-08-19'
 author: Mauricio Velazco, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Endpoint
 description: This analytic looks for the execution of `net.exe` or `net1.exe` with command-line
