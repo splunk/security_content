@@ -28,7 +28,7 @@ config_qs = dict(autoload=1)
         __requirejs_base_url = ${json_decode(make_url('/static/build'))};
         __splunkd_partials__ = ${json_decode(splunkd)};
         // this is uselful for finding static assets
-        // this can also be achived on client-side with __splunkd_partials__['/services/server/info'].entry[0].content.staticAssetId and __splunkd_partials__['/servicesNS/nobody/system/apps/local/splunk-dashboard-app'].entry[0].content.build
+        // this can also be achived on client-side with __splunkd_partials__['/services/server/info'].entry[0].content.staticAssetId and __splunkd_partials__['/servicesNS/nobody/system/apps/local/devsecops'].entry[0].content.build
         __webpack_public_path__ = ${json_decode(make_url('/static/app/devsecops/build/'))};
     </script>
     <script src="${make_url('/static/app/devsecops/build/runtime.js')}"></script>

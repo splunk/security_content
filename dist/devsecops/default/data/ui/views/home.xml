@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<view template="splunk-dashboard-app:/templates/home.html" type="html">
+<view template="devsecops:/templates/home.html" type="html">
     <label>Home</label>
 </view>

@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<view template="splunk-dashboard-app:/templates/dashboards.html" type="html">
+<view template="devsecops:/templates/dashboards.html" type="html">
     <label>Dashboards</label>
 </view>

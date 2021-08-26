@@ -28,8 +28,8 @@ config_qs = dict(autoload=1)
             __requirejs_base_url = ${json_decode(make_url('/static/build'))};
             __splunkd_partials__ = ${json_decode(splunkd)};
         </script>
-        <script src="${make_url('/static/app/splunk-dashboard-app/build/runtime.js')}"></script>
-        <script src="${make_url('/static/app/splunk-dashboard-app/build/vendors.js')}"></script>
+        <script src="${make_url('/static/app/devsecops/build/runtime.js')}"></script>
+        <script src="${make_url('/static/app/devsecops/build/vendors.js')}"></script>
         <script src="${make_url('/static/app/%s/build/%s.js' % (app_name, page))}"></script>
     </body>
 </html>

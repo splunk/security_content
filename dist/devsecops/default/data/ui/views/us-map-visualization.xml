@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
-<view template="splunk-dashboard-app:/templates/example-hub.html" type="html">
+<view template="devsecops:/templates/example-hub.html" type="html">
     <label>Choropleth - US Map</label>
 </view>

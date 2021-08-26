@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<view template="splunk-dashboard-app:/templates/dashboard.html" type="html" isDashboard="False"></view>
+<view template="devsecops:/templates/dashboard.html" type="html" isDashboard="False"></view>
