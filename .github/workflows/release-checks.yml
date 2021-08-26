@@ -9,7 +9,6 @@ on:
 jobs:
   run-appinspect:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package]
     #Only run when tagged
     if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
     steps:
@@ -79,7 +78,7 @@ jobs:
   
   create-report:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect]
+    needs: [run-appinspect]
     #Only run when tagged
     if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
     steps:
@@ -126,7 +125,7 @@ jobs:
       
   update-sources-github:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report]
+    needs: [run-appinspect, create-report]
     #Only run when tagged
     if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
     steps: 
@@ -221,7 +220,7 @@ jobs:
     #Github-maintained release action is in archived state: https://github.com/actions/create-release
     #They recommend several and we use the following with the most stars: https://github.com/softprops/action-gh-release
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github]
+    needs: [run-appinspect, create-report, update-sources-github]
     #Only run when tagged
     if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
     steps:
@@ -270,7 +269,7 @@ jobs:
 
   attack-range-update:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release]
+    needs: [run-appinspect, create-report, update-sources-github, publish-github-release]
     #Only run when tagged
     if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
     steps:  
@@ -298,7 +297,7 @@ jobs:
   
   master-api-update:
     runs-on: ubuntu-latest
-    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
+    needs: [run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
     #Only run when tagged
     if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
     steps:  
