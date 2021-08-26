@@ -123,7 +123,7 @@ jobs:
 
       - name: Upload Reporting 
         run: |
-          aws s3 cp bin/reporting s3://security-content/reporting --recursive --exclude "*" --include "*.svg"
+          aws s3 cp bin/reporting s3://security-content-testing/reporting --recursive --exclude "*" --include "*.svg"
       
   update-sources-github:
     runs-on: ubuntu-latest
@@ -293,9 +293,9 @@ jobs:
 
       - name: Sync latest ESCU to the Attack Range S3 bucket for apps
         run: |
-            aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/
+            aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries-testing/
             # make the file public since it is not by default
-            aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
+            aws s3api put-object-acl --bucket attack-range-appbinaries-testing --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
   
   master-api-update:
     runs-on: ubuntu-latest
@@ -337,16 +337,16 @@ jobs:
 
       - name: Update API sources
         run: |
-          aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
-          aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
-          aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
-          aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
-          aws s3 cp response_tasks s3://security-content/response_tasks --recursive --exclude "*" --include "*.yml"
-          aws s3 cp responses s3://security-content/responses --recursive --exclude "*" --include "*.yml"
-          aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
-          aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
-          aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
-          aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+          aws s3 rm s3://security-content-testing --recursive --exclude "*" --include "*.yml"
+          aws s3 cp stories s3://security-content-testing/stories --recursive --exclude "*" --include "*.yml"
+          aws s3 cp baselines s3://security-content-testing/baselines --recursive --exclude "*" --include "*.yml"
+          aws s3 cp detections s3://security-content-testing/detections --recursive --exclude "*" --include "*.yml"
+          aws s3 cp response_tasks s3://security-content-testing/response_tasks --recursive --exclude "*" --include "*.yml"
+          aws s3 cp responses s3://security-content-testing/responses --recursive --exclude "*" --include "*.yml"
+          aws s3 cp lookups s3://security-content-testing/lookups --recursive --exclude "*" --include "*.yml"
+          aws s3 cp lookups s3://security-content-testing/lookups --recursive --exclude "*" --include "*.csv"
+          aws s3 cp macros s3://security-content-testing/macros --recursive --exclude "*" --include "*.yml"
+          aws s3 cp deployments s3://security-content-testing/deployments --recursive --exclude "*" --include "*.yml"
       - name: Security Content API Smoke Test
         run: |
           API_URL='https://content.splunkresearch.com/detections'
