@@ -16,14 +16,14 @@ from os.path import join
 from splunk.clilib.bundle_paths import get_base_path
 from utils import IS_PYTHON_3, strip_uuid
 
-KVSTORE_ENDPOINT = '/servicesNS/nobody/devsecops/storage/collections/data'
+KVSTORE_ENDPOINT = '/servicesNS/nobody/splunk-dashboard-app/storage/collections/data'
 
 
 def modify_kvstore(folder_name, method, collection_name=None, session_key=None):
     # read files
     folder = join(
         get_base_path(),
-        'devsecops',
+        'splunk-dashboard-app',
         'appserver',
         'static',
         folder_name)
@@ -88,14 +88,24 @@ if __name__ == '__main__':
     try:
         session_key = sys.stdin.readline().strip()
         modify_kvstore(
+            folder_name='icons',
+            method='DELETE',
+            collection_name='splunk-dashboard-icons',
+            session_key=session_key)
+        modify_kvstore(
             folder_name='images',
             method='DELETE',
-            collection_name='devsecops-images',
+            collection_name='splunk-dashboard-images',
+            session_key=session_key)
+        modify_kvstore(
+            folder_name='icons',
+            method='POST',
+            collection_name='splunk-dashboard-icons',
             session_key=session_key)
         modify_kvstore(
             folder_name='images',
             method='POST',
-            collection_name='devsecops-images',
+            collection_name='splunk-dashboard-images',
             session_key=session_key)
     except SplunkdConnectionException:
         logging.error(str(e))

@@ -1,46 +1,54 @@
 {
-  "schemaVersion": "1.0.0", 
-  "info": {
-    "title": "Dev Sec Ops", 
-    "id": {
-      "group": null, 
-      "name": "devsecops", 
-      "version": "3.27.0"
-    }, 
-    "author": [
-      {
-        "name": "Splunk Security Research Team", 
-        "email": "research@splunk.com", 
-        "company": "Splunk"
-      }
-    ], 
-    "releaseDate": null, 
-    "description": "Explore the Analytic Stories included with ES Content Updates.", 
-    "classification": {
-      "intendedAudience": null, 
-      "categories": [], 
-      "developmentStatus": null
-    }, 
-    "commonInformationModels": null, 
-    "license": {
-      "name": null, 
-      "text": null, 
-      "uri": null
-    }, 
-    "privacyPolicy": {
-      "name": null, 
-      "text": null, 
-      "uri": null
-    }, 
-    "releaseNotes": {
-      "name": null, 
-      "text": "./README.md", 
-      "uri": null
-    }
-  }, 
-  "dependencies": null, 
-  "tasks": null, 
-  "inputGroups": null, 
-  "incompatibleApps": null, 
-  "platformRequirements": null
+    "schemaVersion": "2.0.0",
+    "info": {
+        "title": "Splunk Enterprise Dashboards Beta",
+        "id": {
+            "group": null,
+            "name": "splunk-dashboard-app",
+            "version": "0.9.0"
+        },
+        "author": [
+            {
+                "name": "Splunk",
+                "email": null,
+                "company": null
+            }
+        ],
+        "releaseDate": null,
+        "description": "Splunk dashboard app",
+        "classification": {
+            "intendedAudience": null,
+            "categories": [],
+            "developmentStatus": null
+        },
+        "commonInformationModels": null,
+        "license": {
+            "name": null,
+            "text": null,
+            "uri": null
+        },
+        "privacyPolicy": {
+            "name": null,
+            "text": null,
+            "uri": null
+        },
+        "releaseNotes": {
+            "name": null,
+            "text": null,
+            "uri": null
+        }
+    },
+    "dependencies": null,
+    "tasks": [
+        "script://$SPLUNK_HOME/etc/apps/splunk-dashboard-app/bin/save_image_and_icon_on_install.py"
+    ],
+    "inputGroups": null,
+    "incompatibleApps": null,
+    "platformRequirements": null,
+    "supportedDeployments": [
+        "_standalone",
+        "_distributed",
+        "_search_head_clustering"
+    ],
+    "targetWorkloads": ["_search_heads"]
 }

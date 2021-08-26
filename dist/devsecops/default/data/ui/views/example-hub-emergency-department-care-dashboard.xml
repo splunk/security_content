@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<view template="splunk-dashboard-app:/templates/example-hub.html" type="html">
+    <label>Emergency Department Care</label>
+</view>
+
+
+

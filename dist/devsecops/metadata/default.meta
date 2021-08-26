@@ -1,9 +1,28 @@
-## shared Application-level permissions
+# Application-level permissions
 []
-access = read : [ * ], write : [ admin ]
+access = read : [ * ], write : [ admin, power ]
+export = none
+
+
+
+### VIEWS
+
+[views/dashboards]
+access = read : [ * ], write : [ * ]
+export = none
+
+[views/home]
+export = none
+
+[views/dashboard]
 export = system
 
-[savedsearches]
-owner = admin
+### COLLECTIONS
 
+[collections/splunk-dashboard-icons]
+access = read : [ * ], write : [ admin, power, sc_admin ]
+export = none
 
+[collections/splunk-dashboard-images]
+access = read : [ * ], write : [ admin, power, sc_admin ]
+export = none

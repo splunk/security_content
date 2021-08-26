@@ -1,0 +1,26 @@
+<%!
+app_name = cherrypy.request.path_info.split('/')[3]
+app_root = "/" + "/".join(["static","app",app_name])
+config_qs = dict(autoload=1) %>\
+<!DOCTYPE html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <title>${_('Loading...')}</title>
+        <meta name="description" content="listen to your data" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+
+    <body>
+        <script src="${make_url('/config', _qs=config_qs)}"></script>
+        <script src="${make_url('/static/js/i18n.js')}"></script>
+        <script src="${make_url('/i18ncatalog?autoload=1')}"></script>
+        <script>
+            __splunkd_partials__ = ${ json_decode(splunkd) };
+        </script>
+        <script src="${make_url('/static/app/splunk-dashboard-app/build/examples/runtime.js')}"></script>
+        <script src="${make_url('/static/app/splunk-dashboard-app/build/examples/vendors.js')}"></script>
+        <script src="${make_url('/static/app/%s/build/examples/%s.js' % (app_name, page))}"></script>
+    </body>
+</html>
