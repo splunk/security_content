@@ -5,15 +5,13 @@ date: '2021-08-19'
 author: Rod Soto, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
-- Email
-- Updates
+- N/A
 description: This search can help the detection of compromised accounts or internal users sending suspcious calendar invites via GSuite calendar. These
 invites may contain malicious links or attachments.
 search: 'sourcetype="gsuite:calendar:json" email=* parameters.event_title!=null parameters.target_calendar_id > 100 | stats  count by email ip_address source name parameters.api_kind parameters.event_title parameters.organizer_calendar_id parameters.target_calendar_id parameters.event_response_status   | convert  timeformat="%Y-%m-%dT%H:%M:%S" ctime(firstTime)
 | convert  timeformat="%Y-%m-%dT%H:%M:%S" ctime(lastTime)| `gsuite_suspicious_calendar_invite_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting logs related to gsuite (gsuite:drive:json) having the file sharing metadata like file type, source owner, destination target user, description, etc. This search can also be made more specific by selecting specific emails, subdomains
-  timeframe, organizational units, targeted user, etc. 
+  timeframe, organizational units, targeted user, etc.
 known_false_positives: This search will also produce normal activity statistics. Fields such as email, ip address, name, parameters.organizer_calendar_id, parameters.target_calendar_id and parameters.event_title may give away
 phishing intent.For more specific results use email parameter,
 references:

@@ -1,0 +1,50 @@
+name: Detect Gdrive Doc Scanning
+id: 9fbddcb5-f302-4c98-8cc6-42d1293799f7
+version: 1
+date: '2021-08-26'
+author: Rod Soto, Splunk
+type: Anomaly
+datamodel:
+- N/A
+description: This search detects user accessing or scanning multiple documents in quick fashion, which may indicate active scanning against an organization user's private or public drive.
+search: 'sourcetype="gsuite:drive:json" type=access action=download OR action=view | stats values(action) as actions values("parameters.doc_title") as doc_title values("parameters.doc_type") as doc_types dc("parameters.doc_title") as doc_type_access_count count by parameters.owner type parameters.visibility
+ | `detect_gdrive_doc_scanning_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs related to gsuite (gsuite:drive:json) having the file sharing metadata like file type, source owner, destination target user, description, etc.
+known_false_positives: This search will also produce normal activity statistics.
+references:
+- https://www.netskope.com/blog/leaky-links-accidental-exposure-in-google-link-sharing
+tags:
+  analytic_story:
+  - DevSecOps
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Recoinnaisance
+  mitre_attack_id:
+  - T1595
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - parameters.doc_title
+  - parameters.owner
+  security_domain: Cloud
+  impact: 50
+  confidence: 50
+  # (impact * confidence)/100
+  risk_score: 25
+  context:
+  - Source: Cloud
+  - Stage: Recoinnaisance
+  message: N/A
+  observable:
+  - name: parameters.owner
+    type: User
+    role:
+    - victim
+  - name: parameters.doc_title
+    type: User
+    role:
+    - object
