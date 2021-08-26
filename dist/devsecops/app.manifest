@@ -1,5 +1,5 @@
 {
-    "schemaVersion": "2.0.0",
+    "schemaVersion": "1.0.0",
     "info": {
         "title": "Splunk Dev Sec Ops",
         "id": {
@@ -44,11 +44,5 @@
     ],
     "inputGroups": null,
     "incompatibleApps": null,
-    "platformRequirements": null,
-    "supportedDeployments": [
-        "_standalone",
-        "_distributed",
-        "_search_head_clustering"
-    ],
-    "targetWorkloads": ["_search_heads"]
+    "platformRequirements": null
 }
