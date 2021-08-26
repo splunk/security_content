@@ -53,6 +53,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   required_fields:
   - _time
   - attachment{}.file_extension_type
