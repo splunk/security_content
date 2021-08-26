@@ -34,10 +34,8 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           workflow: validate-and-build.yml
-          workflow_conclusion: success
           run_id: ${{ github.event.workflow_run.id }}
           name: tag-canary
-          path: .
       - name: Check for existence of canary
         run: |
           #If this file does not exist, then cat will return a nonzero status (failure)
