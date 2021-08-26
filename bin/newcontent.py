@@ -314,20 +314,6 @@ def story_wizard(security_content_path,type, TEMPLATE_PATH):
             'name': 'story_author',
         },
         {
-            'type': 'list',
-            'message': 'select a story type',
-            'name': 'story_type',
-            'choices': [
-                {
-                    'name': 'batch'
-                },
-                {
-                    'name': 'streaming'
-                },
-            ],
-            'default': 'batch'
-        },
-        {
             'type': 'checkbox',
             'message': 'select a category',
             'name': 'category',
@@ -393,19 +379,17 @@ def story_wizard(security_content_path,type, TEMPLATE_PATH):
     answers = prompt(questions)
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
                      trim_blocks=True, autoescape=True)
-    if answers['story_type'] == 'batch':
-        answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
-    elif answers['story_type'] == 'streaming':
-        answers['products'] = ['Splunk Behavioral Analytics']
+    
 
     template = j2_env.get_template('story.j2')
+    answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
+    answers['references'] = []
     story_name = answers['story_name']
     story_file_name =  story_name.replace(' ', '_').replace('-','_').replace('.','_').replace('/','_').lower()
     output_path = path.join(security_content_path, 'stories/' + story_file_name + '.yml')
     output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
     author=answers['story_author'], name=answers['story_name'], description='UPDATE_DESCRIPTION',
-    narrative='UPDATE_NARRATIVE', references=['https://www.destroyallsoftware.com/talks/wat'],
-    type=answers['story_type'], analytic_story_name=answers['story_name'],
+    narrative='UPDATE_NARRATIVE', references=['https://www.destroyallsoftware.com/talks/wat'],analytic_story_name=answers['story_name'],
     categories=answers['category'], usecase=answers['usecase'], products=answers['products'])
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
@@ -430,7 +414,7 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
         known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
         references=['https://html5zombo.com/'],
         datamodels=['Endpoint'], search='| UPDATE_SPL | `' + getpass.getuser() + '_' + type + '_filter`',
-        type='batch', analytic_story_name=' UPDATE_STORY_NAME', mitre_attack_id = 'T1003.01',
+        type='TTP', analytic_story_name=' UPDATE_STORY_NAME', mitre_attack_id = 'T1003.01',
         kill_chain_phases=['Exploitation'], dataset_url='UPDATE_DATASET_URL',
         products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
         with open(output_path, 'w', encoding="utf-8") as f:
@@ -459,36 +443,35 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
         author='UPDATE_AUTHOR', name=getpass.getuser().capitalize() + ' ' + type.capitalize(),
         description='UPDATE_DESCRIPTION',
         narrative='UPDATE_NARRATIVE',
-        references=['https://www.destroyallsoftware.com/talks/wat'],
-        type='batch', analytic_story_name=getpass.getuser().capitalize() + ' ' + type.capitalize(),
+        references=['https://www.destroyallsoftware.com/talks/wat'], analytic_story_name=getpass.getuser().capitalize() + ' ' + type.capitalize(),
         categories=['Adversary Tactics'], usecase='Advanced Threat Detection', products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
         with open(output_path, 'w', encoding="utf-8") as f:
             f.write(output)
         print("contentctl wrote a example story to: {0}".format(output_path))
 
-    elif type == 'baseline':
-        # write a baseline example
-        template = j2_env.get_template('baseline.j2')
-        baseline_name = getpass.getuser() + '_' + type + '.yml.example'
-        output_path = path.join(security_content_path, 'baselines/' + baseline_name)
-        output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
-        author='UPDATE_AUTHOR', name=getpass.getuser().capitalize() + ' ' + type.capitalize(),
-        description='UPDATE_DESCRIPTION',
-        how_to_implement='UPDATE_HOW_TO_IMPLENT',
-        known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
-        references=['https://html5zombo.com/'],
-        datamodels=['Endpoint'], search='| UPDATE_SPL',
-        type='batch', analytic_story_name='UPDATE_STORY_NAME',
-        detection_name = 'UPDATE_DETECTION_NAME', dataset_url='UPDATE_DATASET_URL',
-        products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
-        with open(output_path, 'w', encoding="utf-8") as f:
-            f.write(output)
-        print("contentctl wrote a example baseline to: {0}".format(output_path))
+    # elif type == 'baseline':
+    #     # write a baseline example
+    #     template = j2_env.get_template('baseline.j2')
+    #     baseline_name = getpass.getuser() + '_' + type + '.yml.example'
+    #     output_path = path.join(security_content_path, 'baselines/' + baseline_name)
+    #     output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
+    #     author='UPDATE_AUTHOR', name=getpass.getuser().capitalize() + ' ' + type.capitalize(),
+    #     description='UPDATE_DESCRIPTION',
+    #     how_to_implement='UPDATE_HOW_TO_IMPLENT',
+    #     known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
+    #     references=['https://html5zombo.com/'],
+    #     datamodels=['Endpoint'], search='| UPDATE_SPL',
+    #     type='batch', analytic_story_name='UPDATE_STORY_NAME',
+    #     detection_name = 'UPDATE_DETECTION_NAME', dataset_url='UPDATE_DATASET_URL',
+    #     products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
+    #     with open(output_path, 'w', encoding="utf-8") as f:
+    #         f.write(output)
+    #     print("contentctl wrote a example baseline to: {0}".format(output_path))
 
 
 def new(security_content_path, VERBOSE, type, example_only):
 
-    valid_content_objects = ['detection','story', 'baseline']
+    valid_content_objects = ['detection','story']
     if type not in valid_content_objects:
         print("ERROR: content type: {0} is not valid, please use: {1}".format(type, str(valid_content_objects)))
         sys.exit(1)
