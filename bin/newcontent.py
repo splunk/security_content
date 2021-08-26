@@ -219,11 +219,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
     answers['references'] = []
 
-    # if answers['detection_type'] == 'batch':
-    #     answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
-    # elif answers['detection_type'] == 'streaming':
-    #     answers['products'] = ['Splunk Behavioral Analytics']
-
+    
     # grab some vars for the test
     detection_kind = answers['detection_kind']
 
@@ -235,7 +231,7 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
     output_path = path.join(security_content_path, 'detections/' + detection_kind + '/' + detection_file_name + '.yml')
     output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
     author=answers['detection_author'], name=answers['detection_name'],
-    description='|\n\tUPDATE_DESCRIPTION\n\tWHAT IS THIS?\n\tWHAT DOES IT LOOK LIKE?\n\tHOW DO YOU TRIAGE IT?', how_to_implement='UPDATE_HOW_TO_IMPLEMENT', known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
+    description='\n\tUPDATE_DESCRIPTION\n\tWHAT IS THIS?\n\tWHAT DOES IT LOOK LIKE?\n\tHOW DO YOU TRIAGE IT?', how_to_implement='UPDATE_HOW_TO_IMPLEMENT', known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
     references=' ',datamodels=answers['datamodels'],
     search= answers['detection_search'] + ' | `' + detection_file_name + '_filter`',
     type=answers['detection_type'], analytic_story_name='UPDATE_STORY_NAME', mitre_attack_id=mitre_attack_id,
