@@ -272,4 +272,4 @@ jobs:
         with:
           name: tag-canary
           path: |
-            tag-canary.txt
+            build/tag-canary.txt
