@@ -33,14 +33,16 @@ jobs:
       - name: Try to get the canary
         uses: dawidd6/action-download-artifact@v2
         with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
           workflow: validate-and-build.yml
           run_id: ${{ github.event.workflow_run.id }}
           name: tag-canary
+          path: canary
       - name: Check for existence of canary
         run: |
           #If this file does not exist, then cat will return a nonzero status (failure)
           #and the entire workflow will fail
-          cat tag-canary.txt
+          cat canary/tag-canary.txt
 
   run-appinspect:
     runs-on: ubuntu-latest
