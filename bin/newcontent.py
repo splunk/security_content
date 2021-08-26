@@ -96,16 +96,10 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
                     'checked': True
                 },
                 {
-                    'name': 'Network_Traffic'
-                },
-                {
                     'name': 'Authentication'
                 },
                 {
                     'name': 'Change'
-                },
-                {
-                    'name': 'Change_Analysis'
                 },
                 {
                     'name': 'Email'
