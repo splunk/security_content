@@ -2,7 +2,8 @@ name: release-checks
 on:
   workflow_run:
     workflows: ["validate-and-build"]
-    types: [completed]
+    types:
+      - completed
       
 
 
@@ -34,8 +35,9 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: "${{ secrets.GITHUB_TOKEN }}"
-          workflow: validate-and-build.yml
-          run_id: ${{ github.event.workflow_run.id }}
+          workflow: ${{ github.event.workflow_run.workflow_id }}
+          #workflow: validate-and-build.yml
+          #run_id: ${{ github.event.workflow_run.id }}
           name: tag-canary
           path: canary
       - name: Check for existence of canary
