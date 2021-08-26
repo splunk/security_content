@@ -35,6 +35,7 @@ jobs:
         with:
           workflow: validate-and-build.yml
           workflow_conclusion: success
+          run_id: ${{ github.event.workflow_run.id }}
           name: tag-canary
           path: .
       - name: Check for existence of canary
@@ -60,6 +61,7 @@ jobs:
         with:
           workflow: validate-and-build.yml
           workflow_conclusion: success
+          run_id: ${{ github.event.workflow_run.id }}
           name: content-latest
           path: build/
 
@@ -179,6 +181,7 @@ jobs:
         with:
           workflow: validate-and-build.yml
           workflow_conclusion: success
+          run_id: ${{ github.event.workflow_run.id }}
           path: .
           name: content-latest
 
@@ -264,12 +267,14 @@ jobs:
         with:
           workflow: validate-and-build.yml
           workflow_conclusion: success
+          run_id: ${{ github.event.workflow_run.id }}
           path: .
           name: content-latest
       - uses: dawidd6/action-download-artifact@v2
         with:
           workflow: validate-and-build.yml
           workflow_conclusion: success
+          run_id: ${{ github.event.workflow_run.id }}
           path: .
           name: appinspect_reports
     
@@ -311,6 +316,7 @@ jobs:
         with:
           workflow: validate-and-build.yml
           workflow_conclusion: success
+          run_id: ${{ github.event.workflow_run.id }}
           path: .
           name: content-latest
 
