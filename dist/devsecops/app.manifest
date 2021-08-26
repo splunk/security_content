@@ -1,10 +1,10 @@
 {
     "schemaVersion": "2.0.0",
     "info": {
-        "title": "Splunk Enterprise Dashboards Beta",
+        "title": "Splunk Dev Sec Ops",
         "id": {
             "group": null,
-            "name": "splunk-dashboard-app",
+            "name": "devsecops",
             "version": "0.9.0"
         },
         "author": [
@@ -15,7 +15,7 @@
             }
         ],
         "releaseDate": null,
-        "description": "Splunk dashboard app",
+        "description": "Splunk Dev Sec Ops",
         "classification": {
             "intendedAudience": null,
             "categories": [],
@@ -40,7 +40,7 @@
     },
     "dependencies": null,
     "tasks": [
-        "script://$SPLUNK_HOME/etc/apps/splunk-dashboard-app/bin/save_image_and_icon_on_install.py"
+        "script://$SPLUNK_HOME/etc/apps/devsecops/bin/save_image_and_icon_on_install.py"
     ],
     "inputGroups": null,
     "incompatibleApps": null,

@@ -16,14 +16,14 @@ from os.path import join
 from splunk.clilib.bundle_paths import get_base_path
 from utils import IS_PYTHON_3, strip_uuid
 
-KVSTORE_ENDPOINT = '/servicesNS/nobody/splunk-dashboard-app/storage/collections/data'
+KVSTORE_ENDPOINT = '/servicesNS/nobody/devsecops/storage/collections/data'
 
 
 def modify_kvstore(folder_name, method, collection_name=None, session_key=None):
     # read files
     folder = join(
         get_base_path(),
-        'splunk-dashboard-app',
+        'devsecops',
         'appserver',
         'static',
         folder_name)
