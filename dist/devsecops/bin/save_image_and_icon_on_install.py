@@ -90,12 +90,12 @@ if __name__ == '__main__':
         modify_kvstore(
             folder_name='images',
             method='DELETE',
-            collection_name='splunk-dashboard-images',
+            collection_name='devsecops-images',
             session_key=session_key)
         modify_kvstore(
             folder_name='images',
             method='POST',
-            collection_name='splunk-dashboard-images',
+            collection_name='devsecops-images',
             session_key=session_key)
     except SplunkdConnectionException:
         logging.error(str(e))
