@@ -2,7 +2,7 @@ name: release-checks
 on:
   workflow_run:
     workflows: ["validate-and-build"]
-    branches: ["develop"]
+    branches: ["develop", "WorkflowSplit"]
     types:
       - completed
     
