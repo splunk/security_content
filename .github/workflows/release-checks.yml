@@ -13,16 +13,16 @@ jobs:
   check-validate-and-build-success:
     runs-on: ubuntu-latest
     steps:
-      - name: Check Failure
-        run: | 
-          if ${{ github.event.workflow_run.conclusion == 'success' }} ; then
-            echo "SUCCESS: validate-and-build.yml ran successfully. Continue"
-            exit 0
-          else
-            echo "FAIL: validate-and-build.yml DID NOT run successfully. Terminating..."
-            exit 1
-          fi  
-
+      - if: github.event.workflow_run.conclusion != 'success'
+        name: Abort if failed
+        run: |
+          echo "FAIL: validate-and-build.yml DID NOT run successfully. Terminating..."
+          exit 1
+      - name: Print Success     
+        run: |
+          echo "SUCCESS: validate-and-build.yml ran successfully. Continue"
+          exit 0
+          
 
   #Enusre that we are running on a tag.  There is no good way to see if this was
   #triggered from a tag/release, so we use the creation of an aritifact in the
