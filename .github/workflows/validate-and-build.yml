@@ -267,7 +267,7 @@ jobs:
             build/checksum.txt
       
       #Store the tag to indicate that this was a tagged build
-      - name: store_artifacts
+      - name: store_artifacts_three
         uses: actions/upload-artifact@v2
         with:
           name: tag-canary
