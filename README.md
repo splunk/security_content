@@ -2,8 +2,8 @@
 <p align="center">
     <a href="https://github.com/splunk/security_content/releases">
         <img src="https://img.shields.io/github/v/release/splunk/security_content" /></a>
-    <a href="https://circleci.com/gh/splunk/security_content/tree/develop">
-        <img src="https://img.shields.io/circleci/build/github/splunk/security_content?token=67ad1fa7779c57d7e5bcfc42bd617baf607ec269" /></a>
+    <a href="https://github.com/splunk/security_content/actions/workflows/validate-and-build.yml/badge.svg?branch=develop">
+        <img src="https://img.shields.io/github/workflow/status/splunk/security_content/validate-and-build/develop" /></a>
     <a href="https://github.com/splunk/security_content">
         <img src="https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_count.svg" /></a>
     <a href="https://github.com/splunk/security_content">
@@ -22,7 +22,7 @@
 
 Welcome to the Splunk Security Content
 
-This project gives you access to our repository of Analytic Stories that are security guides the provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
+This project gives you access to our repository of Analytic Stories, security guides that provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
 
 # Get Content🛡
 The latest Splunk Security Content can be obtained via:
