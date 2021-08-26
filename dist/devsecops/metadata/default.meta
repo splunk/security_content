@@ -6,18 +6,4 @@ export = system
 [savedsearches]
 owner = admin
 
-## Correlation Searches
-[correlationsearches]
-access = read : [ * ], write : [ * ]
-
-[governance]
-access = read : [ * ], write : [ * ]
-
-## Managed Configurations
-[managed_configurations]
-access = read : [ * ], write : [ * ]
-
-## Postprocess
-[postprocess]
-access = read : [ * ], write : [ * ]
 
