@@ -1,0 +1,359 @@
+name: release-checks
+on:
+  workflow_run:
+    workflows: ["validate-and-build"]
+    types: [completed]
+      
+    
+
+jobs:
+  run-appinspect:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources, build-package]
+    #Only run when tagged
+    if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
+    steps:
+
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: 'develop'
+
+      #Download the artifacts we want to check
+      - name: Restore Content-Pack Artifacts for AppInspect testing
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: validate-and-build.yml
+          workflow_conclusion: success
+          name: content-latest
+          path: build/
+
+
+
+      - name: Install System Packages
+        run: | 
+          sudo apt update -qq
+          sudo apt install jq -qq
+      
+
+
+      - name: Submit ESCU Package to AppInspect API
+        env:
+          APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
+          APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
+        run: |
+          cd bin
+          #Enclose in quotes in case there are any special characters in the username/password
+          #Better not to pass these arguments on the command line, if possible
+          ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD" 
+      
+      - name: Submit SAAWS Package to AppInspect API
+        env:
+          APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
+          APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
+        run: |
+          cd bin
+          ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
+      
+      - name: Create report artifact
+        if: always()
+        run: |
+          #Always create this, regardless of whether success or failure above
+          tar -cvzf report.tar.gz report/
+
+      - name: store_artifacts 
+        uses: actions/upload-artifact@v2
+        with:
+          name: appinspect_reports
+          path: |
+            report.tar.gz
+            
+      #Still store the report, even if we have failed (otherwise we don't know why/how we failed)
+      - name: store_artifacts_on_failure
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: appinspect_reports_failure
+          path: |
+            report.tar.gz
+  
+  create-report:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources, build-package, run-appinspect]
+    #Only run when tagged
+    if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: 'develop'
+      
+      
+      - name: Install System Packages
+        run: | 
+          sudo apt update -qq
+          sudo apt install jq -qq
+      
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+      - name: Install Python Dependencies
+        run: |
+          #Get the virtualenv set up
+          rm -rf venv
+          python3 -m venv --clear venv
+          source venv/bin/activate
+          python3 -m pip install -q -r requirements.txt
+      
+      - name: run reporting
+        run: | 
+          source venv/bin/activate
+          python3 bin/reporting.py
+      
+      #Official, Verified Amazon-AWS Github Account Provided Action
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
+          aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
+
+      - name: Upload Reporting 
+        run: |
+          aws s3 cp bin/reporting s3://security-content-testing/reporting --recursive --exclude "*" --include "*.svg"
+      
+  update-sources-github:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources, build-package, run-appinspect, create-report]
+    #Only run when tagged
+    if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
+    steps: 
+
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: 'develop'
+      
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+
+      - uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: validate-and-build.yml
+          workflow_conclusion: success
+          path: .
+          name: content-latest
+
+      - name: Stage artifacts in proper directories
+        run: |
+          mkdir latest-escu
+          tar -zxf DA-ESS-ContentUpdate-latest.tar.gz -C latest-escu --strip-components=1
+          mkdir latest-saaws
+          tar -zxf DA-ESS_AmazonWebServices_Content-latest.tar.gz -C latest-saaws --strip-components=1
+      - name: Install Python Dependencies
+        run: |
+          #Get the virtualenv set up
+          rm -rf venv
+          python3 -m venv --clear venv
+          source venv/bin/activate
+          python3 -m pip install -q -r requirements.txt
+      
+      - name: Get CTI Repo for Mitre context 
+        uses:  actions/checkout@v2  
+        with:
+          repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
+          path: "cti/"
+
+      - name: Get branch and PR required for detection testing main.py
+        id: vars
+        run: |
+          echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+      
+      - name: Run doc-gen 
+        run: |
+          source venv/bin/activate 
+          python3 bin/doc_gen.py --path . --output docs -v
+      
+      - name: Make YAMLs Pretty 
+        run: |
+          source venv/bin/activate
+          python3 bin/pretty_yaml.py --path . -v 
+
+      - name: Run generate-actors-map
+        run: |
+          source venv/bin/activate
+          python3 bin/generate-actors-map.py --projects_path . --output docs/mitre-map/
+      
+      - name: Run generate-coverage-map
+        run: |
+          source venv/bin/activate
+          python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
+      
+      - name: Update github with new docs and package bits
+        run: |
+          rm -rf dist
+          mkdir dist
+          echo "Directory layout 3"
+          pwd
+          ls -lah
+          mv latest-escu dist/escu
+          mv latest-saaws dist/saaws
+          # configure git to prep for commit
+          #git config credential.helper 'cache --timeout=120'
+          git config user.email "research@splunk.com"
+          git config user.name "research bot"
+          git config --global push.default simple
+          git add dist/*
+          git add docs/*
+          git add detections/*
+          git commit --allow-empty -m "updating docs and package bits [ci skip]"
+          # Push quietly to prevent showing the token in log
+          #No need to provide any credentials
+          git push
+      
+
+  publish-github-release:
+    #Github-maintained release action is in archived state: https://github.com/actions/create-release
+    #They recommend several and we use the following with the most stars: https://github.com/softprops/action-gh-release
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github]
+    #Only run when tagged
+    if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
+    steps:
+
+      #Get the artifacts that we need
+      - uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: validate-and-build.yml
+          workflow_conclusion: success
+          path: .
+          name: content-latest
+      - uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: validate-and-build.yml
+          workflow_conclusion: success
+          path: .
+          name: appinspect_reports
+    
+      #Rename those artifacts appropriately
+      - name: Set tag
+        id: vars
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/*/}"
+
+      - name: Rename the content-update appropriately 
+        run: |
+          cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
+          cp DA-ESS_AmazonWebServices_Content-latest.tar.gz DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
+          
+          #No checksum on the reports
+          cp report.tar.gz report-${{ steps.vars.outputs.tag }}.tar.gz
+          
+          cp checksum.txt checksum-${{ steps.vars.outputs.tag }}.txt
+      
+      #Upload all of the artifacts that we have created using the third party
+      #action recommended bu Github
+      - name: Upload Release Artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
+            DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
+            report-${{ steps.vars.outputs.tag }}.tar.gz
+            checksum-${{ steps.vars.outputs.tag }}.txt
+
+          
+
+  attack-range-update:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release]
+    #Only run when tagged
+    if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
+    steps:  
+      
+      - uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: validate-and-build.yml
+          workflow_conclusion: success
+          path: .
+          name: content-latest
+
+      #Official, Verified Amazon-AWS Github Account Provided Action
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
+          aws-region: us-west-1 #assume we will always use this, could make this an environment variable... 
+
+      - name: Sync latest ESCU to the Attack Range S3 bucket for apps
+        run: |
+            aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries-testing/
+            # make the file public since it is not by default
+            aws s3api put-object-acl --bucket attack-range-appbinaries-testing --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
+  
+  master-api-update:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
+    #Only run when tagged
+    if: ${{ startsWith(github.ref, 'refs/tags/v') && github.event.workflow_run.conclusion == 'success' }}
+    steps:  
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+        with:
+          ref: 'develop'
+
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+      - name: Install Python Dependencies
+        run: |
+          #Get the virtualenv set up
+          rm -rf venv
+          python3 -m venv --clear venv
+          source venv/bin/activate
+          python3 -m pip install -q -r requirements.txt
+
+      - name: Create Baseline Folder
+        run: |
+          source venv/bin/activate
+          python3 bin/create_baseline_folder.py   
+
+      #Official, Verified Amazon-AWS Github Account Provided Action
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
+          aws-region: us-west-1 #assume we will always use this, could make this an environment variable... 
+
+      - name: Update API sources
+        run: |
+          aws s3 rm s3://security-content-testing --recursive --exclude "*" --include "*.yml"
+          aws s3 cp stories s3://security-content-testing/stories --recursive --exclude "*" --include "*.yml"
+          aws s3 cp baselines s3://security-content-testing/baselines --recursive --exclude "*" --include "*.yml"
+          aws s3 cp detections s3://security-content-testing/detections --recursive --exclude "*" --include "*.yml"
+          aws s3 cp response_tasks s3://security-content-testing/response_tasks --recursive --exclude "*" --include "*.yml"
+          aws s3 cp responses s3://security-content-testing/responses --recursive --exclude "*" --include "*.yml"
+          aws s3 cp lookups s3://security-content-testing/lookups --recursive --exclude "*" --include "*.yml"
+          aws s3 cp lookups s3://security-content-testing/lookups --recursive --exclude "*" --include "*.csv"
+          aws s3 cp macros s3://security-content-testing/macros --recursive --exclude "*" --include "*.yml"
+          aws s3 cp deployments s3://security-content-testing/deployments --recursive --exclude "*" --include "*.yml"
+      - name: Security Content API Smoke Test
+        run: |
+          API_URL='https://content.splunkresearch.com/detections'
+          API_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $API_URL)
+          echo "Security Content API Status: $API_STATUS"
+          if [ "$API_STATUS" != "200" ]; then
+            echo "Error [Security Content API status: $API_STATUS]"
+            exit 1
+          fi
+
+  
