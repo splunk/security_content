@@ -250,6 +250,7 @@ jobs:
           cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
           sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz >> checksum.txt
 
+          touch tag-canary.txt
       - name: store_artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -264,3 +265,11 @@ jobs:
             build/DA-ESS-ContentUpdate-latest.tar.gz
             build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
             build/checksum.txt
+      
+      #Store the tag to indicate that this was a tagged build
+      - name: store_artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: tag-canary
+          path: |
+            tag-canary.txt
