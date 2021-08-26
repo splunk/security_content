@@ -1,0 +1,15 @@
+The Analytic Story Details dashboard renders all the details of the content related to a specific analytic story which
+can be chose via the drop down
+
+Each analytic story has attributes associated with it and the following:
+______________________________________________________________________
+
+
+	Analytic Story: name of the analytic story
+	Description	; description of the analytic story
+	Search Name	: The name of the searches belonging to the chosen analytic story
+	Search	: The search query which looks for an attack pattern corresponding to the analytic story
+	Search Description: The description of the search query
+	Asset Type: The analytic story specifies what asset in the infrastructure may be compromised
+	Category: The category that the search belongs to (malware, vulnerabilities, best practices, abuse)
+	Kill Chain Phase: The kill chain phase of the attack that the search is after.
