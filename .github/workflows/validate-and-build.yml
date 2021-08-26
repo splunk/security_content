@@ -196,11 +196,7 @@ jobs:
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
             tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
 
-            # update build number and version for saaws
-            sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/devsecops/default/app.conf
-            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/devsecops/default/app.conf
-            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/devsecops/app.manifest
-            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/devsecops/default/content-version.conf
+            # update build number and version for devsecops
             tar -czf content-pack-build-devsecops.tar.gz dist/devsecops/*
       
       - name: Persist to Workspace
