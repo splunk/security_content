@@ -3,7 +3,7 @@ id: a360d2b2-065a-11ec-b0bf-acde48001122
 version: 1
 date: '2021-08-26'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search is to detect a possible execution of powerview pentesting tool for domain controller recon. 
