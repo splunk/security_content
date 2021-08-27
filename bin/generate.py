@@ -10,7 +10,7 @@ import argparse
 from os import path
 import sys
 import datetime
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader
 import re
 from attackcti import attack_client
 import csv
@@ -590,7 +590,6 @@ def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
 def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
-    #select_autoescape(default_for_string=True, default=True)
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     objects = get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
