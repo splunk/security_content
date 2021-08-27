@@ -211,8 +211,8 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
 
     print(mitre_attack_id)
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                     trim_blocks=True, autoescape=True)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                     trim_blocks=True)
     answers['products'] = ['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud']
     answers['references'] = []
 
@@ -374,8 +374,8 @@ def story_wizard(security_content_path,type, TEMPLATE_PATH):
         },
     ]
     answers = prompt(questions)
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                     trim_blocks=True, autoescape=True)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                     trim_blocks=True)
     
 
     template = j2_env.get_template('story.j2')
@@ -394,8 +394,8 @@ def story_wizard(security_content_path,type, TEMPLATE_PATH):
 
 def create_example(security_content_path,type, TEMPLATE_PATH):
     getpass.getuser()
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True, autoescape=True)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                         trim_blocks=True)
 
     if type == 'detection':
 
