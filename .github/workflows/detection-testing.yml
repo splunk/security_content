@@ -1,0 +1,87 @@
+name: detection-testing
+on: [push, pull_request]
+jobs:
+
+  validate-tag-if-present:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: TAGGED, Validate that the tag is in the correct format
+        
+        run: |
+          echo "The GITHUB_REF: $GITHUB_REF"
+          #First check to see if the release is a tag
+          if [[ $GITHUB_REF =~ refs/tags/* ]]; then
+            #Yes, this is a tag, so we need to test to make sure that the tag
+            #is in the correct format (like v1.10.20)
+            if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
+              echo "PASS: Tagged release with good format"
+              exit 0
+            else
+              echo "FAIL: Tagged release with bad format"
+              exit 1
+            fi
+          else
+          echo "PASS: Not a tagged release"
+          exit 0
+          fi                    
+
+  detection-testing:
+      runs-on: ubuntu-latest
+      environment: Detection-Testing-Approval
+      needs: [validate-tag-if-present]
+      #Only run when tagged
+      if: startsWith(github.ref, 'refs/heads/')
+      steps:  
+
+          - name: Checkout Repo
+            uses: actions/checkout@v2
+            with:
+              ref: 'develop'
+          
+          - name: Install System Packages
+            run: | 
+              sudo apt update -qq
+              sudo apt install jq -qq          
+        
+          - uses: actions/setup-python@v2
+            with:
+              python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+              architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+          - name: Install Python Dependencies
+            run: |
+              #Get the virtualenv set up
+              rm -rf venv
+              python3 -m venv --clear venv
+              source venv/bin/activate
+              python3 -m pip install -q -r requirements.txt
+          
+          - name: Get branch and PR required for detection testing main.py
+            id: vars
+            run: |
+              echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+              
+          #Set up credentials in the environment so that boto will be able to find them
+          - uses: aws-actions/configure-aws-credentials@v1
+            with:
+              aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              #Right now the script is hard coded to EU because of the dev who originally wrote it...
+              #probably change that arg to None and set here?
+              aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
+
+          - name: Run Detection testing
+            timeout-minutes: 120
+            run: |
+              cd automated_detection_testing/ci/python_ci_code
+              python3 -m venv --clear venv
+              source venv/bin/activate 
+              pip install -q -r requirements.txt
+              
+              if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
+                  python3 main.py -b develop -pr ${{ github.event.issue.number }}
+                
+              else
+                  python3 main.py -b develop
+              fi
