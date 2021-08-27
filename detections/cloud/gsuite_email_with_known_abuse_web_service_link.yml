@@ -26,26 +26,19 @@ references:
 tags:
   analytic_story:
   - DevSecOps
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_url/gsuite_susp_url.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1566.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  security_domain: endpoint
-  impact: 50
+  automated_detection_testing: passed
   confidence: 50
-  risk_score: 25
   context:
   - Source:Endpoint
   - Stage:Reconnaissance
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_url/gsuite_susp_url.log
+  impact: 50
+  kill_chain_phases:
+  - Exploitation
   message: suspicious email from $source.address$ to $destination{}.address$
+  mitre_attack_id:
+  - T1566.001
   observable:
   - name: source.address
     type: User
@@ -55,4 +48,11 @@ tags:
     type: User
     role:
     - Victim
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  risk_score: 25
+  security_domain: endpoint
