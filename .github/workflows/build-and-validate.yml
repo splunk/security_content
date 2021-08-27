@@ -12,7 +12,7 @@
 
 
 
-name: validate-and-build
+name: build-and-validate
 on: [push, pull_request]
 jobs:
   validate-tag-if-present:
