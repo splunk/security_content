@@ -17,6 +17,10 @@ import csv
 import shutil
 
 
+# Global variable
+global_product = 'ESCU'
+
+
 def load_objects(file_path, VERBOSE, REPO_PATH):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
@@ -393,6 +397,10 @@ def add_rba(detection):
 
 def prepare_detections(detections, deployments, OUTPUT_PATH):
     for detection in detections:
+        # only for DevSecOps
+        if global_product == 'DevSecOps':
+            detection['search'] = detection['search'] + ' | collect index=findings'
+
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])
         if data_model:
@@ -594,7 +602,7 @@ def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     return objects
 
 def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
-
+    global_product = PRODUCT
     select_autoescape(default_for_string=True, default=True)
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
