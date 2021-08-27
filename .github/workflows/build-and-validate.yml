@@ -1,0 +1,275 @@
+#This file makes use of a number of useful, external Github Actions.
+#Check the links below for additional documentation on each of these:
+#https://github.com/actions/setup-python
+#https://github.com/actions/setup-node
+#https://github.com/actions/checkout
+#https://github.com/actions/upload-artifact
+
+#The mechanism for persisting data between jobs in a workflow is the same as for persisting it
+#permanently:
+#https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
+#In CircleCI, this was different (store_artifacts vs persist_to_workspace)
+
+
+
+name: build-and-validate
+on: [push, pull_request]
+jobs:
+  validate-tag-if-present:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: TAGGED, Validate that the tag is in the correct format
+        
+        run: |
+          echo "The GITHUB_REF: $GITHUB_REF"
+          #First check to see if the release is a tag
+          if [[ $GITHUB_REF =~ refs/tags/* ]]; then
+            #Yes, this is a tag, so we need to test to make sure that the tag
+            #is in the correct format (like v1.10.20)
+            if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
+              echo "PASS: Tagged release with good format"
+              exit 0 
+            else
+              echo "FAIL: Tagged release with bad format"
+              exit 1
+            fi
+          else
+          echo "PASS: Not a tagged release"
+          exit 0
+          fi
+
+  validate-content:
+    #Note that the CircleCI job used a Container.  The way to do this with Github Actions
+    #is to first start up a Virtual Machine, then we can by following:
+    # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idcontainer
+    runs-on: ubuntu-latest
+    needs: [validate-tag-if-present]
+    steps:
+      #Previous config chose which branch/tag to operate on. 
+      #I think Github is smart enough to choose based on whether it's a pull request or push + other info?
+      - name: Check out the repository code 
+        uses: actions/checkout@v2
+        #with:
+        #  repository: splunk/security-content #check out https://github.com/mitre/cti.git, defaults to HEAD
+        #  path: "security-content"
+      
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+
+      #TODO: CircleCI restore_cache equivalent
+
+      #don't need to install python3 or python3-dev since it was handled by the action above?  
+      #Also, no support for YAML anchors/aliases in Github Actions...
+      - name: Install System Packages
+        run: | 
+          sudo apt update -qq
+          sudo apt install jq -qq          
+      #TODO: CircleCI save_cache equivalent    
+      
+      - name: Install Python Dependencies
+        run: |
+          #Get the virtualenv set up
+          rm -rf venv
+          python3 -m venv --clear venv
+          source venv/bin/activate
+          python3 -m pip install -q -r requirements.txt
+      
+
+      - name: run validate  
+        run: | 
+          source venv/bin/activate
+          python3 contentctl.py --path . --verbose validate
+
+      - name: Get CTI Repo for Mitre context 
+        uses:  actions/checkout@v2  
+        with:
+          repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
+          path: "cti/"
+          
+
+      #Now generate the documentation (uses Node)
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14' #can easily be changed to a different version
+      - name: Generate documentation
+        run: |
+          ls -lah
+
+          #Enter the virtualenv and run the docgen
+          source venv/bin/activate
+          python3 bin/doc_gen.py --path . --output docs -v
+          
+          #Now generate the spec docs
+          npm install -g @adobe/jsonschema2md
+          jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
+
+          #Clean up extra properties on docs
+          rm -rf docs/spec/*-*.md
+          
+          echo "****** BRANCH INFORMATION ******"
+          git branch
+          git branch --show-current
+      
+  build-sources:
+    runs-on: ubuntu-latest
+    needs: validate-content
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Install System Packages
+        run: | 
+          sudo apt update -qq
+          sudo apt install jq -qq          
+      
+      - name: Install Python Dependencies
+        run: |
+          #Get the virtualenv set up
+          rm -rf venv
+          python3 -m venv --clear venv
+          source venv/bin/activate
+          python3 -m pip install -q -r requirements.txt
+
+      - name: Run Generate
+        run: | 
+          source venv/bin/activate
+          python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu
+          python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
+          #make a copy of use_case_lib in order to have ES work :-(
+          cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
+          cp dist/saaws/default/use_case_library.conf dist/saaws/default/analyticstories.conf
+
+      - name: Copy lookups .csv files
+        run: | 
+          # clean up current lookups
+          rm -rf dist/escu/lookups
+          rm -rf dist/saaws/lookups
+          mkdir dist/escu/lookups
+          mkdir dist/saaws/lookups
+          #copy over lookups
+          cd lookups
+          cp -rv *.csv ../dist/escu/lookups
+          cp -rv *.csv ../dist/saaws/lookups
+      
+      #Tag is '' for non-tagged push and the tag name for a tagged release
+      - name: Set tag
+        id: vars
+        run: |
+          if [ echo ${GITHUB_REF} | grep "^refs/tags/*" ]; then
+            #failed to find the refs/tags/ beginning, grab and set the tag
+            echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
+          else
+            #Not a tagged relese
+            echo "::set-output name=tag::"
+          fi
+
+      - name: Update Version and Build number
+        run : |
+            # check if tag is set, get build number from the tag if set
+            if [ -z "${{ steps.vars.outputs.tag }}" ]; then
+                CONTENT_VERSION=$(grep -oP "(\d+.\d+.\d+$)" dist/escu/default/content-version.conf)
+                echo "detected content version: $CONTENT_VERSION"
+            else
+                CONTENT_VERSION=$(echo ${{ steps.vars.outputs.tag }} | grep -oP "\d+.\d+.\d+")
+                echo "content version: $CONTENT_VERSION, set by tag: ${{ steps.vars.outputs.tag }}"
+            fi
+            # update build number and version for ESCU
+            sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/escu/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/app.conf
+            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
+            tar -czf content-pack-build-escu.tar.gz dist/escu/*
+            # update build number and version for saaws
+            sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/saaws/default/app.conf
+            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/app.conf
+            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/saaws/app.manifest
+            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
+            tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
+      
+      - name: Persist to Workspace
+        uses: actions/upload-artifact@v2
+        with:
+          name: content-pack-build
+          path: |
+            content-pack-build-escu.tar.gz
+            content-pack-build-saaws.tar.gz
+            
+
+  build-package:
+    runs-on: ubuntu-latest
+    needs: [validate-content, build-sources]
+    
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: content-pack-build
+          path: build/
+
+      #This explicitly uses a different version of python (2.7)
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '2.7' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+      
+      - name: Get virtualenv for Python 2.7
+        run: |
+          sudo apt install virtualenv 
+
+      - name: Grab Splunk Packaging Toolkit    
+        run : |
+          curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
+          mkdir slim-latest
+          tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1
+
+      - name: Install Splunk Packaging Toolkit (slim)
+        run: |
+          cd slim-latest
+          virtualenv --python=/usr/bin/python2.7 --clear venv
+          source venv/bin/activate
+          python -m pip install semantic_version
+          python -m pip install .
+      - name: Create a .spl for this Build Using Slim
+        run: |
+          source slim-latest/venv/bin/activate
+          cd build
+          tar -zxf content-pack-build-escu.tar.gz
+          tar -zxf content-pack-build-saaws.tar.gz
+          mv dist/escu DA-ESS-ContentUpdate
+          mv dist/saaws DA-ESS_AmazonWebServices_Content
+          slim package -o upload DA-ESS-ContentUpdate
+          slim package -o upload DA-ESS_AmazonWebServices_Content
+
+          cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
+          sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
+
+          cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
+          sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz >> checksum.txt
+
+          touch tag-canary.txt
+      - name: store_artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: package
+          path: |
+            build/upload
+      - name: store_artifacts_two
+        uses: actions/upload-artifact@v2
+        with:
+          name: content-latest
+          path: |
+            build/DA-ESS-ContentUpdate-latest.tar.gz
+            build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
+            build/checksum.txt
+      
+      #Store the tag to indicate that this was a tagged build
+      - name: store_artifacts_three
+        uses: actions/upload-artifact@v2
+        with:
+          name: tag-canary
+          path: |
+            build/tag-canary.txt
