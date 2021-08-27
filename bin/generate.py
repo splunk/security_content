@@ -602,6 +602,7 @@ def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     return objects
 
 def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
+    global global_product
     global_product = PRODUCT
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
