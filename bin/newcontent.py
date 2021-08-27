@@ -446,26 +446,6 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
             f.write(output)
         print("contentctl wrote a example story to: {0}".format(output_path))
 
-    # elif type == 'baseline':
-    #     # write a baseline example
-    #     template = j2_env.get_template('baseline.j2')
-    #     baseline_name = getpass.getuser() + '_' + type + '.yml.example'
-    #     output_path = path.join(security_content_path, 'baselines/' + baseline_name)
-    #     output = template.render(uuid=uuid.uuid1(), date=date.today().strftime('%Y-%m-%d'),
-    #     author='UPDATE_AUTHOR', name=getpass.getuser().capitalize() + ' ' + type.capitalize(),
-    #     description='UPDATE_DESCRIPTION',
-    #     how_to_implement='UPDATE_HOW_TO_IMPLENT',
-    #     known_false_positives='UPDATE_KNOWN_FALSE_POSITIVES',
-    #     references=['https://html5zombo.com/'],
-    #     datamodels=['Endpoint'], search='| UPDATE_SPL',
-    #     type='batch', analytic_story_name='UPDATE_STORY_NAME',
-    #     detection_name = 'UPDATE_DETECTION_NAME', dataset_url='UPDATE_DATASET_URL',
-    #     products=['Splunk Enterprise','Splunk Enterprise Security','Splunk Cloud'])
-    #     with open(output_path, 'w', encoding="utf-8") as f:
-    #         f.write(output)
-    #     print("contentctl wrote a example baseline to: {0}".format(output_path))
-
-
 def new(security_content_path, VERBOSE, type, example_only):
 
     valid_content_objects = ['detection','story']
