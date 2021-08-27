@@ -30,8 +30,9 @@ jobs:
       runs-on: ubuntu-latest
       environment: Detection-Testing-Approval
       needs: [validate-tag-if-present]
-      #Only run when tagged
-      if: startsWith(github.ref, 'refs/heads/')
+      #Only run when we are pushing to the head of a branch or on a PR.
+      #This implicitly means that we do not run on a tag
+      if: startsWith(github.ref, 'refs/heads/')  || startsWith(github.ref, 'refs/pull/')
       steps:  
 
           - name: Checkout Repo
