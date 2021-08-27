@@ -148,7 +148,7 @@ def main(args):
                     detection_obj['tags']['dataset'] = datasets
 
                 with open(file_path, 'w') as f:
-                    yaml.dump(detection_obj, f, sort_keys=False)
+                    yaml.dump(detection_obj, f, sort_keys=False, allow_unicode=True)
 
                 changed_file_path = 'detections/' + test['detection_result']['detection_file']
                 security_content_repo_obj.index.add([changed_file_path])
@@ -177,7 +177,7 @@ def main(args):
 
 
 def load_file(file_path):
-    with open(file_path, 'r') as stream:
+    with open(file_path, 'r', encoding="utf-8") as stream:
         try:
             file = list(yaml.safe_load_all(stream))[0]
         except yaml.YAMLError as exc:
