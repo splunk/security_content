@@ -12,9 +12,10 @@ description: This search is to detect a suspicious outbound e-mail from internal
 search: '`gsuite_gmail` num_message_attachments > 0 | rex field=source.from_header_address
   "[^@]+@(?<source_domain>[^@]+)" | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"
   | where source_domain="internal_test_email.com" and not dest_domain="internal_test_email.com"
+  | eval phase="plan"
   | stats values(subject) as subject, values(source.from_header_address) as src_domain_list,
   count as numEvents, dc(source.from_header_address) as numSrcAddresses, min(_time)
-  as firstTime max(_time) as lastTime by dest_domain | where numSrcAddresses < 20
+  as firstTime max(_time) as lastTime by dest_domain phase | where numSrcAddresses < 20
   |sort - numSrcAddresses | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `gsuite_outbound_email_with_attachment_to_external_domain_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting

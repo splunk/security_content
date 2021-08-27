@@ -12,9 +12,9 @@ description: This analytics is to detect a gmail containing a link that are know
 search: '`gsuite_gmail` "link_domain{}" IN ("*pastebin.com*", "*discord*", "*telegram*","t.me")
   | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" | rex field=destination{}.address
   "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com"
-  and dest_domain="internal_test_email.com" |stats values(link_domain{}) as link_domains
+  and dest_domain="internal_test_email.com" | eval phase="plan" |stats values(link_domain{}) as link_domains
   min(_time) as firstTime max(_time) as lastTime count by is_spam source.address source.from_header_address
-  subject destination{}.address | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  subject destination{}.address phase | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `gsuite_email_with_known_abuse_web_service_link_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite having the file attachment metadata like file type, file
