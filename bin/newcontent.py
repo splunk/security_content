@@ -122,6 +122,9 @@ def detection_wizard(security_content_path,type,TEMPLATE_PATH):
                 {
                     'name': 'Web'
                 },
+                {
+                    'name': 'Risk'
+                },
             ],
         },
         {
