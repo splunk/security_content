@@ -1,67 +1,8 @@
-<nav color="#5CC05C">
-    <view name="home" default="true"/>
-    <view name="search"/>
-    <view name="dashboards"/>
-    <collection label="Examples Hub">
-        <view name="example-hub-nav-visualizations"/>
-        <collection label="Visualizations">
-            <view name="area-chart-visualization"/>   
-            <view name="bar-chart-visualization"/>
-            <view name="bubble-chart-visualization"/> 
-            <view name="column-chart-visualization"/> 
-            <view name="choropleth-svg-visualization"/>     
-            <view name="us-map-visualization"/>
-            <view name="world-map-visualization"/> 
-            <view name="filler-gauge-visualization"/> 
-            <view name="icon-visualization"/>
-            <view name="image-visualization"/> 
-            <view name="line-chart-visualization"/>    
-            <view name="marker-gauge-visualization"/>  
-            <view name="pie-chart-visualization"/>   
-            <view name="punchcard-chart-visualization"/>   
-            <view name="scatter-chart-visualization"/> 
-            <view name="shape-visualization"/>
-            <view name="single-value-visualization"/>
-            <view name="single-value-radial-visualization"/>
-            <view name="table-chart-visualization"/> 
-            <view name="text-visualization"/>
-        </collection>
-        <collection label="Search and Data">
-            <view name="ad-hoc-data"/>
-            <view name="base-chain-data"/>
-            <view name="saved-data"/>
-            <view name="test-data"/>
-        </collection>
-        <collection label="Interactivity">
-            <collection label="Inputs">
-                <view name="time-range-input"/>
-                <view name="text-input"/>
-                <view name="dropdown-input"/>
-                <view name="multiselect-input"/>
-                <view name="cascading-inputs"/>
-            </collection>
-            <collection label="Drilldowns">
-                <view name="custom-url-drilldown"/>
-            </collection>
-        </collection>
-        <collection label="Dashboard Defaults">
-            <view name="visualization-datasource-defaults"/>
-        </collection>
-        <collection label="Complete Dashboards">
-            <view name="example-hub-airport-kpis-dashboard"/>
-            <view name="example-hub-assembly-line-dashboard"/>
-            <view name="example-hub-buttercup-games-dashboard"/>
-            <view name="example-hub-customer-satisfaction-dashboard"/>
-            <view name="example-hub-datacenter-dashboard"/>
-            <view name="example-hub-data-command-dashboard"/>
-            <view name="example-hub-data-streaming-dashboard"/>
-            <view name="example-hub-ecommerce-monitoring-dashboard"/>
-            <view name="example-hub-emergency-department-care-dashboard"/>
-            <view name="example-hub-europe-telecom-network-hub-dashboard"/>
-            <view name="example-hub-healthcare-dashboard"/>
-            <view name="example-hub-vpn-health-by-region-dashboard"/>
-            <view name="example-hub-workplace-readiness"/>
-            <view name="example-hub-workplace-readiness-detail"/>
-        </collection>
-    </collection>
+<nav search_view="search">
+  <view name="search" default='true' />
+  <view name="analytics_workspace" />
+  <view name="datasets" />
+  <view name="reports" />
+  <view name="alerts" />
+  <view name="dashboards" />
 </nav>

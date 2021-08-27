@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<view template="devsecops:/templates/example-hub.html" type="html">
-    <label>Search and Data Home</label>
-</view>

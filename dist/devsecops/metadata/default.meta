@@ -1,28 +1,35 @@
+
 # Application-level permissions
+
 []
 access = read : [ * ], write : [ admin, power ]
-export = none
 
+### EVENT TYPES
 
-
-### VIEWS
-
-[views/dashboards]
-access = read : [ * ], write : [ * ]
-export = none
-
-[views/home]
-export = none
-
-[views/dashboard]
+[eventtypes]
 export = system
 
-### COLLECTIONS
 
-[collections/splunk-dashboard-icons]
-access = read : [ * ], write : [ admin, power, sc_admin ]
-export = none
+### PROPS
 
-[collections/splunk-dashboard-images]
-access = read : [ * ], write : [ admin, power, sc_admin ]
-export = none
+[props]
+export = system
+
+
+### TRANSFORMS
+
+[transforms]
+export = system
+
+
+### LOOKUPS
+
+[lookups]
+export = system
+
+
+### VIEWSTATES: even normal users should be able to create shared viewstates
+
+[viewstates]
+access = read : [ * ], write : [ * ]
+export = system

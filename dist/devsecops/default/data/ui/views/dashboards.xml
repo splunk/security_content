@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<view template="devsecops:/templates/dashboards.html" type="html">
-    <label>Dashboards</label>
-</view>
