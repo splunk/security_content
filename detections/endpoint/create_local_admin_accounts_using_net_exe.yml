@@ -1,7 +1,7 @@
 name: Create local admin accounts using net exe
 id: b89919ed-fe5f-492c-b139-151bb162040e
-version: 4
-date: '2020-07-21'
+version: 5
+date: '2021-08-27'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
@@ -11,8 +11,7 @@ description: This search looks for the creation of local administrator accounts 
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as
   user values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=net.exe
-  OR Processes.process_name=net1.exe) AND (Processes.process=*localgroup* OR Processes.process=*/add*
-  OR Processes.process=*user*) by Processes.process Processes.process_name Processes.dest
+  OR Processes.process_name=net1.exe) AND (Processes.process=*localgroup* OR Processes.process=*user*) AND Processes.process=*/add* by Processes.process Processes.process_name Processes.dest
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   |`create_local_admin_accounts_using_net_exe_filter` '
 how_to_implement: You must be ingesting data that records process activity from your
