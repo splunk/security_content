@@ -6,18 +6,18 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: his search is to detect a powershell command Get-DomainUser to do user enumeration to the active directory. 
-  This command is function seen in powerspoit and powerview tool that are designed to pentest active directory or domain controller for possible attack. 
-  This is a good TTP for alerting SOC if there is a pentest or recon happening on the system. try to look for lateral movement technique or credential 
+description: his search is to detect a powershell command Get-DomainUser to do user
+  enumeration to the active directory. This command is function seen in powerspoit
+  and powerview tool that are designed to pentest active directory or domain controller
+  for possible attack. This is a good TTP for alerting SOC if there is a pentest or
+  recon happening on the system. try to look for lateral movement technique or credential
   dumping techniques in the system.
-search: '`powershell` EventCode=4104 Message = "*Get-DomainUser*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `get_domainuser_with_powershell_script_block_filter`'
-how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. 
-  Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, 
-  or PowerShell Script Block Logging.
+search: '`powershell` EventCode=4104 Message = "*Get-DomainUser*" | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `get_domainuser_with_powershell_script_block_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: unknown
 references:
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainUser/
@@ -37,13 +37,12 @@ tags:
   required_fields:
   - _time
   - EventCode
-  - Message 
-  - ComputerName 
+  - Message
+  - ComputerName
   - User
   security_domain: endpoint
   impact: 50
   confidence: 50
-  # (impact * confidence)/100
   risk_score: 25
   context:
   - source:endpoint
@@ -58,4 +57,4 @@ tags:
     type: User
     role:
     - Victim
-  
+  automated_detection_testing: passed
