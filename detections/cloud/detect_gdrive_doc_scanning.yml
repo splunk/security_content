@@ -9,9 +9,8 @@ datamodel:
 description: This search detects user accessing or scanning multiple documents in quick fashion, which may indicate active scanning against an organization user's private or public drive.
 search: 'sourcetype="gsuite:drive:json" type=access action=download OR action=view | stats values(action) as actions values("parameters.doc_title") as doc_title values("parameters.doc_type") as doc_types dc("parameters.doc_title") as doc_type_access_count count by parameters.owner type parameters.visibility
  | `detect_gdrive_doc_scanning_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs related to gsuite (gsuite:drive:json) having the file sharing metadata like file type, source owner, destination target user, description, etc.
-known_false_positives: This search will also produce normal activity statistics.
+how_to_implement: To successfully implement this search, ingestion of logs related to gsuite (gsuite:drive:json) is needed.
+known_false_positives: This search will also produce normal access activity which should not be standard as a large number of documents accessed in short timeframe is abnormal activity.
 references:
 - https://www.netskope.com/blog/leaky-links-accidental-exposure-in-google-link-sharing
 tags:
