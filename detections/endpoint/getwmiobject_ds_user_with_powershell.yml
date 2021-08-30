@@ -6,20 +6,22 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious execution wmi process that enumerate user in active directory. 
-  This technique can be used by attacker and pentester to mapped all the users as part of its recon to the targetted host.
-  Network Admin may seen executing this command but not often and also not common to see in user events.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where (Processes.process_name="cmd.exe" OR Processes.process_name="powershell*") AND Processes.process = "*get-wmiobject*" AND Processes.process = "*ds_user*" AND Processes.process = "*root\\directory\\ldap*" AND Processes.process = "*-namespace*"
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  Processes.parent_process_name | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `getwmiobject_ds_user_with_powershell_filter`'
+description: This search is to detect a suspicious execution wmi process that enumerate
+  user in active directory. This technique can be used by attacker and pentester to
+  mapped all the users as part of its recon to the targetted host. Network Admin may
+  seen executing this command but not often and also not common to see in user events.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="cmd.exe"
+  OR Processes.process_name="powershell*") AND Processes.process = "*get-wmiobject*"
+  AND Processes.process = "*ds_user*" AND Processes.process = "*root\\directory\\ldap*"
+  AND Processes.process = "*-namespace*" by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `getwmiobject_ds_user_with_powershell_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: network admin may execute this command.
 references:
 - https://jpcertcc.github.io/ToolAnalysisResultSheet/details/dsquery.htm
@@ -38,18 +40,17 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_id 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
   - Processes.parent_process_id
   - Processes.parent_process_name
   security_domain: endpoint
   impact: 50
-  confidence: 50 
-  # (impact * confidence)/100
+  confidence: 50
   risk_score: 25
   context:
   - Source:Endpoint
@@ -68,4 +69,4 @@ tags:
     type: Parent Process
     role:
     - Parent Process
-  
+  automated_detection_testing: passed
