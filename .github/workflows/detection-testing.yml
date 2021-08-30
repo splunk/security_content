@@ -82,8 +82,8 @@ jobs:
               
               if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
                 echo "Pull request from source branch [${{ github.event.pull_request.head.ref }}] for PR number [${{ github.event.issue.number }}]"
-                python3 main.py -b ${{ github.event.pull_request.head.ref }} -pr ${{ github.event.pull_request.number }}
+                #python3 main.py -b ${{ github.event.pull_request.head.ref }} -pr ${{ github.event.pull_request.number }}
               else
                 echo "Push from branch [${{ steps.vars.outputs.branch }}]"
-                python3 main.py -b ${{ steps.vars.outputs.branch }}
+                #python3 main.py -b ${{ steps.vars.outputs.branch }}
               fi
