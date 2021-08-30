@@ -10,7 +10,7 @@ description: The following analytic utilizes PowerShell Script Block Logging (Ev
   to identify the execution of the `Get-WmiObject` commandlet used with specific parameters. The `Win32_UserAccount` parameter is used 
   to return a list of all local users. 
   Red Teams and adversaries may leverage this commandlet to enumerate users for situational awareness and Active Directory Discovery.
-search: 'powershell` EventCode=4104 Message IN (*Get-WmiObject*, *Win32_UserAccount*)
+search: 'powershell` EventCode=4104 (Message="*Get-WmiObject*" AND Message="*Win32_UserAccount*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
   ComputerName User | `security_content_ctime(firstTime)` | `getwmiobject_user_account_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
