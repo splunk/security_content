@@ -62,10 +62,6 @@ jobs:
               source venv/bin/activate
               python3 -m pip install -q -r requirements.txt
           
-          - name: Get branch and PR required for detection testing main.py
-            id: vars
-            run: |
-              echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
               
           #Set up credentials in the environment so that boto will be able to find them
           - uses: aws-actions/configure-aws-credentials@v1
