@@ -1,7 +1,7 @@
 name: Create local admin accounts using net exe
 id: b89919ed-fe5f-492c-b139-151bb162040e
 version: 5
-date: '2021-08-27'
+date: '2021-08-28'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
