@@ -79,7 +79,7 @@ jobs:
               source venv/bin/activate 
               pip install -q -r requirements.txt
               
-              echo "First give the full ref GITHUB_REF: ${ GITHUB_REF }"
+              echo "First give the full ref GITHUB_REF: ${GITHUB_REF}"
               echo "Pull request's base branch is: ${BASE_BRANCH}"
               echo "Then give the github.event.pull_request.head.ref: ${{ github.event.pull_request.head.ref }}"
               
