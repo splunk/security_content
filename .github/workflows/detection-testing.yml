@@ -80,7 +80,12 @@ jobs:
               source venv/bin/activate 
               pip install -q -r requirements.txt
               
-              if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
+              echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
+              echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
+              echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
+              echo "github.event.pull_request.head.ref: [${{ github.event.pull_request.head.ref }}]"
+
+              if [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
                 echo "Pull request from source branch [${{ github.event.pull_request.head.ref }}] for PR number [${{ github.event.issue.number }}]"
                 python3 main.py -b ${{ github.event.pull_request.head.ref }} -pr ${{ github.event.pull_request.number }}
               else
