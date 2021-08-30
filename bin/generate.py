@@ -10,7 +10,7 @@ import argparse
 from os import path
 import sys
 import datetime
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader
 import re
 from attackcti import attack_client
 import csv
@@ -66,8 +66,8 @@ def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                         trim_blocks=True) 
     template = j2_env.get_template('transforms.j2')
     output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
@@ -82,7 +82,7 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('collections.j2')
     output_path = path.join(OUTPUT_PATH, 'default/collections.conf')
@@ -101,7 +101,7 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
@@ -116,7 +116,7 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
 def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('analytic_stories.j2')
     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
@@ -129,7 +129,7 @@ def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH
 def generate_use_case_library_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('use_case_library.j2')
     output_path = path.join(OUTPUT_PATH, 'default/use_case_library.conf')
@@ -154,7 +154,7 @@ def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('macros.j2')
     output_path = path.join(OUTPUT_PATH, 'default/macros.conf')
@@ -174,7 +174,7 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     response_file_name_xml = response_file_name + "___response_task.xml"
                     response_task['lowercase_name'] = response_file_name
                     workbench_panel_objects.append(response_task)
-                    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+                    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                                         trim_blocks=True)
                     template = j2_env.get_template('panel.j2')
                     file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml
@@ -186,14 +186,14 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     with open(output_path, 'w') as f:
                         f.write(output)
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('es_investigations.j2')
     output_path = path.join(OUTPUT_PATH, 'default/es_investigations.conf')
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
     output_path = path.join(OUTPUT_PATH, 'default/workflow_actions.conf')

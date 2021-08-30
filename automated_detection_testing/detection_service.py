@@ -156,7 +156,7 @@ def main(args):
                 counter = counter + 1
 
 
-        j2_env = Environment(loader=FileSystemLoader('templates'),trim_blocks=True, autoescape=True)
+        j2_env = Environment(loader=FileSystemLoader('templates'),trim_blocks=True) # nosemgrep
         template = j2_env.get_template('PR_template.j2')
         body = template.render(results=results)
 
