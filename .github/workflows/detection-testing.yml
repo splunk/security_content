@@ -30,9 +30,8 @@ jobs:
       runs-on: ubuntu-latest
       environment: Detection-Testing-Approval
       needs: [validate-tag-if-present]
-      #Only run when we are pushing to the head of a branch or on a PR.
-      #This implicitly means that we do not run on a tag
-      if: startsWith(github.ref, 'refs/heads/')  || startsWith(github.ref, 'refs/pull/')
+      #Only run when tagged
+      if: startsWith(github.ref, 'refs/heads/')
       steps:  
 
           - name: Checkout Repo
@@ -80,6 +79,11 @@ jobs:
               source venv/bin/activate 
               pip install -q -r requirements.txt
               
+              echo "First give the full ref GITHUB_REF: ${{ GITHUB_REF }}"
+              echo "Pull request's base branch is: ${BASE_BRANCH}"
+              echo "Then give the github.event.pull_request.head.ref: ${{ github.event.pull_request.head.ref }}"
+              
+
               if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
                   python3 main.py -b develop -pr ${{ github.event.issue.number }}
                 
