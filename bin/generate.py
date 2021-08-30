@@ -400,7 +400,7 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
         # only for DevSecOps
         if global_product == 'DevSecOps':
             if detection['tags']['risk_score']:
-                detection['search'] = detection['search'] + ' | eval risk_score=' + detection['tags']['risk_score']
+                detection['search'] = detection['search'] + ' | eval risk_score=' + str(detection['tags']['risk_score'])
 
             if detection['type'] == 'Anomaly':
                 detection['search'] = detection['search'] + ' | collect index=signals'
