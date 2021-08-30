@@ -11,10 +11,10 @@ description: his search is to detect a powershell command Get-DomainUser to do u
   This is a good TTP for alerting SOC if there is a pentest or recon happening on the system. try to look for lateral movement technique or credential 
   dumping techniques in the system.
 search: '`powershell` EventCode=4104 Message = "*Get-DomainUser*"
- | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
- | `security_content_ctime(firstTime)`
- | `security_content_ctime(lastTime)` 
- | `get_domainuser_with_powershell_script_block_filter`'
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `get_domainuser_with_powershell_script_block_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. 
   Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, 
   or PowerShell Script Block Logging.
