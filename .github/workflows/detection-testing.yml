@@ -30,8 +30,6 @@ jobs:
       runs-on: ubuntu-latest
       environment: Detection-Testing-Approval
       needs: [validate-tag-if-present]
-      #Only run when tagged
-      if: startsWith(github.ref, 'refs/heads/')
       steps:  
 
           - name: Checkout Repo
