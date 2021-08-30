@@ -399,7 +399,13 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
     for detection in detections:
         # only for DevSecOps
         if global_product == 'DevSecOps':
-            detection['search'] = detection['search'] + ' | collect index=findings'
+            if detection['tags']['risk_score']:
+                detection['search'] = detection['search'] + ' | eval risk_score=' + detection['tags']['risk_score']
+
+            if detection['type'] == 'Anomaly':
+                detection['search'] = detection['search'] + ' | collect index=signals'
+            elif detection['type'] == 'TTP':
+                detection['search'] = detection['search'] + ' | collect index=alerts'
 
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])

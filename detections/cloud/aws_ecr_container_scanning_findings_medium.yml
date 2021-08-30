@@ -13,9 +13,9 @@ search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanF
   findings | spath input=findings| search severity=MEDIUM | rename name as finding_name,
   description as finding_description, requestParameters.imageId.imageDigest as imageDigest,
   requestParameters.repositoryName as repositoryName | eval finding = finding_name.",
-  ".finding_description | eval phase="release" | stats min(_time) as firstTime max(_time) as lastTime by
+  ".finding_description | eval phase="release" | eval severity="medium" | stats min(_time) as firstTime max(_time) as lastTime by
   awsRegion, eventName, eventSource, imageDigest, repositoryName, user, userName,
-  src_ip, finding, phase | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  src_ip, finding, phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `aws_ecr_container_scanning_findings_medium_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
@@ -29,7 +29,7 @@ tags:
   cis20:
   - CIS 13
   confidence: 70
-  impact: 70
+  impact: 30
   kill_chain_phases:
   - Actions on Objectives
   message: Vulnerabilities with severity high found in repository $repositoryName$
@@ -59,5 +59,5 @@ tags:
   - user
   - userName
   - src_ip
-  risk_score: 49
+  risk_score: 21
   security_domain: network

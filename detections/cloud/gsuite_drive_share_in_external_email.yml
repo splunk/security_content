@@ -10,10 +10,10 @@ description: This search is to detect suspicious google drive or google docs fil
   exfitration of data made by an attacker or insider to a targetted machine.
 search: '`gsuite_drive` NOT (email IN("", "null")) | rex field=parameters.owner "[^@]+@(?<src_domain>[^@]+)"
   | rex field=email "[^@]+@(?<dest_domain>[^@]+)" | where src_domain = "internal_test_email.com"
-  and not dest_domain = "internal_test_email.com" | eval phase="plan" | stats values(parameters.doc_title)
+  and not dest_domain = "internal_test_email.com" | eval phase="plan" | eval severity="low" | stats values(parameters.doc_title)
   as doc_title, values(parameters.doc_type) as doc_types, values(email) as dst_email_list,
   values(parameters.visibility) as visibility, count min(_time) as firstTime max(_time)
-  as lastTime by parameters.owner phase | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  as lastTime by parameters.owner phase severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `gsuite_drive_share_in_external_email_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite having the file attachment metadata like file type, file
