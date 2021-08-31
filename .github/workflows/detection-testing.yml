@@ -1,5 +1,8 @@
 name: detection-testing
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
 jobs:
 
   validate-tag-if-present:
@@ -30,16 +33,20 @@ jobs:
       runs-on: ubuntu-latest
       environment: Detection-Testing-Approval
       needs: [validate-tag-if-present]
-      #Only run when we are pushing to the head of a branch or on a PR.
-      #This implicitly means that we do not run on a tag
-      if: startsWith(github.ref, 'refs/heads/')  || startsWith(github.ref, 'refs/pull/')
       steps:  
 
           - name: Checkout Repo
             uses: actions/checkout@v2
-            with:
-              ref: 'develop'
           
+
+          #The following branch name only works (and is only used) for a push
+          #to a branch. We used a different method for getting the source branch
+          #from a PR
+          - name: Get branch and PR required for detection testing main.py
+            id: vars
+            run: |
+              echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
           - name: Install System Packages
             run: | 
               sudo apt update -qq
@@ -58,10 +65,6 @@ jobs:
               source venv/bin/activate
               python3 -m pip install -q -r requirements.txt
           
-          - name: Get branch and PR required for detection testing main.py
-            id: vars
-            run: |
-              echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
               
           #Set up credentials in the environment so that boto will be able to find them
           - uses: aws-actions/configure-aws-credentials@v1
@@ -80,9 +83,15 @@ jobs:
               source venv/bin/activate 
               pip install -q -r requirements.txt
               
-              if [[ ! -z "${{ github.event.issue.pull_request }}" &&  ! -z "${{ github.event.issue.number }}" ]]; then
-                  python3 main.py -b develop -pr ${{ github.event.issue.number }}
-                
+              echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
+              echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
+              echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
+              echo "github.event.pull_request.head.ref: [${{ github.event.pull_request.head.ref }}]"
+
+              if [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
+                echo "Pull request from source branch [${{ github.event.pull_request.head.ref }}] for PR number [${{ github.event.issue.number }}]"
+                python3 main.py -b ${{ github.event.pull_request.head.ref }} -pr ${{ github.event.pull_request.number }}
               else
-                  python3 main.py -b develop
+                echo "Push from branch [${{ steps.vars.outputs.branch }}]"
+                python3 main.py -b ${{ steps.vars.outputs.branch }}
               fi
