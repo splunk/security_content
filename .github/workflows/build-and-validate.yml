@@ -13,7 +13,10 @@
 
 
 name: build-and-validate
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
 jobs:
   validate-tag-if-present:
     runs-on: ubuntu-latest
