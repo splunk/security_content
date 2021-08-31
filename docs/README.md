@@ -7,8 +7,8 @@ This project gives you access to our repository of Analytic Stories that are sec
 
 ## View Our Content
 
-* [Analytic Stories](https://github.com/splunk/security_content/tree/develop/docs/stories.md)
-* [Detections](https://github.com/splunk/security_content/tree/develop/docs/detections.md)
+* [Analytic Stories](https://github.com/splunk/security_content/blob/develop/docs/stories.md)
+* [Detections](https://github.com/splunk/security_content/blob/develop/docs/detections.md)
 
 If you prefer working with the command line, check out our [API](https://docs.splunkresearch.com/?version=latest):
 
@@ -26,7 +26,7 @@ The [attack_range](https://github.com/splunk/attack_range) project allows you to
 If you get stuck or need help with any of our tools, see our [support options](https://github.com/splunk/security_content#support).
 
 ## Contribute Content
-If you want to help the rest of the security community by sharing your own detections, see our [contributor guide](https://github.com/splunk/security_content/blob/develop/docs/CONTRIBUTING.md). Digital defenders unite!
+If you want to help the rest of the security community by sharing your own detections, see our [contributor guide](https://github.com/splunk/security_content/wiki/Contributing-to-the-Project). Digital defenders unite!
 
 
 ## Content Parts
@@ -37,13 +37,13 @@ If you want to help the rest of the security community by sharing your own detec
 
 
 #### Content Spec Files
-* [stories](https://github.com/splunk/security_content/blob/develop/docs/spec/stories.spec.md)
-* [detections](https://github.com/splunk/security_content/blob/develop/docs/spec/detections.spec.md)
-* [deployments](https://github.com/splunk/security_content/blob/develop/docs/spec/deployments.spec.md)
-* [responses](https://github.com/splunk/security_content/blob/develop/docs/spec/responses.spec.md)
-* [response_tasks](https://github.com/splunk/security_content/blob/develop/docs/spec/response_tasks.spec.md)
-* [lookups](https://github.com/splunk/security_content/blob/develop/docs/spec/lookups.spec.md)
-* [macros](https://github.com/splunk/security_content/blob/develop/docs/spec/macros.spec.md)
+* [stories](https://github.com/splunk/security_content/blob/develop/docs/spec/stories.md)
+* [detections](https://github.com/splunk/security_content/blob/develop/docs/spec/detections.md)
+* [deployments](https://github.com/splunk/security_content/blob/develop/docs/spec/deployments.md)
+* [responses](https://github.com/splunk/security_content/blob/develop/docs/spec/responses.md)
+* [response_tasks](https://github.com/splunk/security_content/blob/develop/docs/spec/response_tasks.md)
+* [lookups](https://github.com/splunk/security_content/blob/develop/docs/spec/lookups.md)
+* [macros](https://github.com/splunk/security_content/blob/develop/docs/spec/macros.md)
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage
