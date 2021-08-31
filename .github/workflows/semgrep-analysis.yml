@@ -5,7 +5,10 @@
 
 name: Semgrep
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+    types: [opened, reopened]
 jobs:
 
   validate-tag-if-present:
