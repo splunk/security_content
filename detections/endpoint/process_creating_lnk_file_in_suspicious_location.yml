@@ -1,7 +1,7 @@
 name: Process Creating LNK file in Suspicious Location
 id: 5d814af1-1041-47b5-a9ac-d754e82e9a26
 version: 5
-date: '2021-08-25'
+date: '2021-08-26'
 author: Jose Hernandez, Splunk
 type: TTP
 datamodel: 
