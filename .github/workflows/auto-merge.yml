@@ -1,5 +1,4 @@
 name: auto-merge
-
 on:
   pull_request_target:
 
