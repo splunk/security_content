@@ -33,3 +33,5 @@
 #Temporarily ignoring this directory as we discuss a path moving forward
 #for Splunk Packaging Toolkit Update Strategy
 /dist/
+
+
