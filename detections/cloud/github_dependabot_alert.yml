@@ -12,8 +12,9 @@ search: '`github` alert.id=* action=create
   alert.affected_range alert.created_at alert.external_identifier alert.external_reference alert.fixed_in 
   alert.severity repository repository_url
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `github_security_advisor_alert_filter`'
-how_to_implement: You must index GitHub logs. You can follow the url in reference to onboard GitHub logs.
+  | `github_dependabot_alert_filter`'
+how_to_implement: You must index GitHub logs. You can follow the url in reference
+  to onboard GitHub logs.
 known_false_positives: unknown
 references:
 - https://www.splunk.com/en_us/blog/tips-and-tricks/getting-github-data-with-webhooks.html
@@ -59,3 +60,6 @@ tags:
   - alert.severity
   risk_score: 27
   security_domain: network
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_security_advisor_alert/github_security_advisor_alert.json
