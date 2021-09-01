@@ -1,0 +1,50 @@
+name: GetAdComputer with PowerShell Script Block
+id: a9a1da02-8e27-4bf7-a348-f4389c9da487
+version: 1
+date: '2021-09-01'
+author: Mauricio Velazco, Splunk
+type: Hunting
+datamodel:
+- Endpoint
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the execution of the `Get-AdGroup` commandlet. The `Get-AdGroup` commandlet is used to return a list of all domain computers. 
+  Red Teams and adversaries may leverage this commandlet to enumerate domain computers for situational awareness and Active Directory Discovery.
+search: '`powershell` EventCode=4104 (Message = "*Get-AdGroup*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
+  ComputerName User | `security_content_ctime(firstTime)` | `getadcomputer_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1018/
+- https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1018
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 30
+  confidence: 50
+  risk_score: 15
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  - Stage:Recon
+  message: Remote system discovery enumeration on $dest$ by $user$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
