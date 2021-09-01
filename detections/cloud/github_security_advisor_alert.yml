@@ -57,5 +57,5 @@ tags:
   - alert.external_reference
   - alert.fixed_in
   - alert.severity
-  risk_score: 21
+  risk_score: 27
   security_domain: network
