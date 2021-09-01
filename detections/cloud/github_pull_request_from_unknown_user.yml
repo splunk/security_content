@@ -6,14 +6,12 @@ author: Patrick Bareiss, Splunk
 type: Anomaly
 datamodel: []
 description: This search looks for Pull Request from unknown user.
-search: '`github` check_suite.pull_requests{}.id=* 
-  | stats count by check_suite.head_commit.author.name check_suite.pull_requests{}.base.repo.name 
-  check_suite.pull_requests{}.head.ref check_suite.head_commit.message 
-  | rename check_suite.head_commit.author.name as user check_suite.pull_requests{}.base.repo.name as repository 
-  check_suite.pull_requests{}.head.ref as ref_head check_suite.head_commit.message as commit_message 
-  | search NOT `github_known_users`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `github_pull_request_from_unknown_user_filter`'
+search: '`github` check_suite.pull_requests{}.id=* | stats count by check_suite.head_commit.author.name
+  check_suite.pull_requests{}.base.repo.name check_suite.pull_requests{}.head.ref
+  check_suite.head_commit.message | rename check_suite.head_commit.author.name as
+  user check_suite.pull_requests{}.base.repo.name as repository check_suite.pull_requests{}.head.ref
+  as ref_head check_suite.head_commit.message as commit_message | search NOT `github_known_users`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_pull_request_from_unknown_user_filter`'
 how_to_implement: You must index GitHub logs. You can follow the url in reference
   to onboard GitHub logs.
 known_false_positives: unknown
@@ -61,4 +59,6 @@ tags:
   - alert.severity
   risk_score: 27
   security_domain: network
-  
+  automated_detection_testing: passed
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json
