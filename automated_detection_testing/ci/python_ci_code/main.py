@@ -28,7 +28,7 @@ def main(args):
 
     if pr_number:
         response = client.submit_job(
-            jobName='detection_testing',
+            jobName='detection_testing' + branch + pr_number,
             jobQueue='detection_testing_execution_queue',
             jobDefinition='detection_testing_execution:2',
             containerOverrides={
@@ -37,7 +37,7 @@ def main(args):
         )
     else:
         response = client.submit_job(
-            jobName='detection_testing',
+            jobName='detection_testing' + branch + pr_number,
             jobQueue='detection_testing_execution_queue',
             jobDefinition='detection_testing_execution:2',
             containerOverrides={
