@@ -19,7 +19,7 @@ references:
   - https://isc.sans.edu/forums/diary/Active+Directory+Certificate+Services+ADCS+PKI+domain+admin+vulnerability/27668/
 tags:
   analytic_story:
-  - "PetitPotam: NTLM Relay on Active Directory Certificate Services"
+  - PetitPotam NTLM Relay on Active Directory Certificate Services
   dataset: []
   kill_chain_phases:
   - Exploitation

@@ -1,4 +1,4 @@
-name: "PetitPotam: NTLM Relay on Active Directory Certificate Services"
+name: PetitPotam NTLM Relay on Active Directory Certificate Services
 id: 97aecafc-0a68-11ec-962f-acde48001122
 version: 1
 date: '2021-08-31'
@@ -20,7 +20,7 @@ references:
   - https://attack.mitre.org/techniques/T1187/ 
 tags:
   analytic_story:
-  - "PetitPotam: NTLM Relay on Active Directory Certificate Services"
+  - PetitPotam NTLM Relay on Active Directory Certificate Services
   category:
   - Adversary Tactics
   product:

@@ -14,7 +14,7 @@ description: 'This analytic identifies suspicious behavior related to ProxyShell
   An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnsso.flq/powershell/?X-Rps-CAT=VgEAVAdXaW5kb3d...` (abbreviated) \
   
   Review the source attempting to perform this activity against your environment. In addition, review PowerShell logs and access recently granted to Exchange roles.'
-search: '| sourcetype="MSWindows:IIS" c_uri="*//autodiscover.json*" cs_uri_query="*PowerShell*" cs_method="POST" 
+search: '| `exchange` c_uri="*//autodiscover.json*" cs_uri_query="*PowerShell*" cs_method="POST" 
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, cs_uri_query, cs_method, c_uri
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
