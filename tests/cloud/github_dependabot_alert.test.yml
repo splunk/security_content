@@ -1,7 +1,7 @@
-name: GitHub Security Advisor Alert Unit Test
+name: GitHub Dependabot Alert Unit Test
 tests:
-- name: GitHub Security Advisor Alert
-  file: cloud/github_security_advisor_alert.yml
+- name: GitHub Dependabot Alert
+  file: cloud/github_dependabot_alert.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-365d'
   latest_time: 'now'

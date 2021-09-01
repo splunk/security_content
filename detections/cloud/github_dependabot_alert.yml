@@ -1,11 +1,11 @@
-name: GitHub Security Advisor Alert
+name: GitHub Dependabot Alert
 id: 05032b04-4469-4034-9df7-05f607d75cba
 version: 1
 date: '2021-09-01'
 author: Patrick Bareiss, Splunk
 type: Anomaly
 datamodel: []
-description: This search looks for Security Advisor Alerts in Github logs.
+description: This search looks for Dependabot Alerts in Github logs.
 search: '`github` alert.id=* action=create 
   | rename repository.full_name as repository, repository.html_url as repository_url
   | stats min(_time) as firstTime max(_time) as lastTime by action alert.affected_package_name 
