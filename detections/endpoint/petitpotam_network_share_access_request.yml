@@ -17,7 +17,7 @@ search: '`wineventlog_security` Account_Name="ANONYMOUS LOGON" EventCode=5145 Re
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, Security_ID, Share_Name, Source_Address, Accesses, Message 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `windows_desired_access_request_filter`'
+  | `petitpotam_network_share_access_request_filter`'
 how_to_implement: Windows Event Code 5145 is required to utilize this analytic and it may not be enabled in most environments.
 known_false_positives: False positives have been limited when the Anonymous Logon is used for Account Name. 
 references:
