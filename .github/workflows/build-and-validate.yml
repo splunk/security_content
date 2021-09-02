@@ -83,7 +83,6 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
-          pip freeze
       
 
       - name: run validate  
@@ -139,6 +138,7 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
 
@@ -238,6 +238,8 @@ jobs:
           cd slim-latest
           virtualenv --python=/usr/bin/python2.7 --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel
           python -m pip install semantic_version
           python -m pip install .
       - name: Create a .spl for this Build Using Slim
@@ -371,6 +373,7 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
       
@@ -426,6 +429,8 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
       
       - name: Get CTI Repo for Mitre context 
@@ -580,6 +585,7 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
 
