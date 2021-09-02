@@ -60,13 +60,13 @@ jobs:
           - name: Install Python Dependencies
             run: |
               #Get the virtualenv set up
+              cd automated_detection_testing/ci/python_ci_code
               rm -rf venv
               python3 -m venv --clear venv
               source venv/bin/activate
               python3 -m pip install --upgrade pip
               python3 -m pip install wheel
               python3 -m pip install -q -r requirements.txt
-              
           
               
           #Set up credentials in the environment so that boto will be able to find them
@@ -82,11 +82,7 @@ jobs:
             timeout-minutes: 120
             run: |
               cd automated_detection_testing/ci/python_ci_code
-              python3 -m venv --clear venv
               source venv/bin/activate 
-              python3 -m pip install --upgrade pip
-              python3 -m pip install wheel
-              pip install -q -r requirements.txt
               
               echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
               echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
