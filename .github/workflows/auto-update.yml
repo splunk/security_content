@@ -1,6 +1,6 @@
 name: auto-update
 on:
-  push: {}
+  push:
 jobs:
   
   validate-tag-if-present:
