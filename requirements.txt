@@ -37,7 +37,7 @@ pep517
 Pillow
 pre-commit
 progress
-prompt-toolkit
+prompt-toolkit==1.0.14
 pyfiglet
 Pygments
 PyInquirer
