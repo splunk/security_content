@@ -1,7 +1,7 @@
-name: Windows Kerberos Auth Ticket Request Unit Test
+name: PetitPotam Suspicious Kerberos TGT Request Unit Test
 tests:
-- name: Windows Kerberos Auth Ticket Request 
-  file: endpoint/windows_kerberos_auth_ticket_request.yml
+- name: PetitPotam Suspicious Kerberos TGT Request
+  file: endpoint/petitpotam_suspicious_kerberos_tgt_request.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
