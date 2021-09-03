@@ -17,9 +17,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
   auto-merge:
-     name: Auto-Merge a PR by dependabot
-	   runs-on: ubuntu-latest
-  	 steps:
+    name: Auto-Merge a PR by dependabot
+	  runs-on: ubuntu-latest
+  	steps:
       - name: Auto merge dependabot
   	  - uses: actions/checkout@v2
   	  - uses: ahmadnassri/action-dependabot-auto-merge@v2
