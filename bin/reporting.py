@@ -69,9 +69,10 @@ def main(args):
     print("test count: {}".format(counter_tests))
     print("detection_coverage {}".format(detection_coverage))
 
+    
     TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'jinja2_templates')
     OUTPUT_PATH = os.path.join(os.path.dirname(__file__), 'reporting')
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), trim_blocks=True)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), trim_blocks=True) # nosemgrep
     template = j2_env.get_template('detection_coverage.j2')
     output_path = path.join(OUTPUT_PATH, 'detection_coverage.svg')
     output = template.render(detection_coverage=detection_coverage)

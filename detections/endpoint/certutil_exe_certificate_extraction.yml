@@ -1,6 +1,6 @@
 name: Certutil exe certificate extraction
 id: 337a46be-600f-11eb-ae93-0242ac130002
-version: 2
+version: 1
 date: '2021-01-26'
 author: Rod Soto, Splunk
 type: TTP
@@ -9,13 +9,14 @@ datamodel:
 description: This search looks for arguments to certutil.exe indicating the manipulation
   or extraction of Certificate. This certificate can then be used to sign new authentication
   tokens specially inside Federated environments such as Windows ADFS.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
-  as process max(_time) as lastTime from datamodel=Endpoint.Processes where `process_certutil`
-  Processes.process = "* -exportPFX *" Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id|
-  `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
-  | `certutil_exe_certificate_extraction_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe
+  Processes.process = "*-exportPFX*" by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `certutil_exe_certificate_extraction_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
 known_false_positives: Unless there are specific use cases, manipulating or exporting
   certificates using certutil is uncommon. Extraction of certificate has been observed
   during attacks such as Golden SAML and other campaigns targeting Federated services.
@@ -62,11 +63,11 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path

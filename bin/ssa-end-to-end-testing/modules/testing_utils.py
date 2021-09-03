@@ -2,7 +2,8 @@ import os
 import sys
 import logging
 import coloredlogs
-import urllib.request
+#import urllib.request
+from requests import get
 import yaml
 
 logger = logging.getLogger(__name__)
@@ -32,7 +33,9 @@ def pull_data(test, destination):
     if 'attack_data' in test:
         for d in test['attack_data']:
             test_data = "%s/%s" % (destination, d['file_name'])
-            urllib.request.urlretrieve(d['data'], test_data)
+            #urllib.request.urlretrieve(d['data'], test_data)
+            with open(test_data, 'wb') as f:
+                f.write(get(d['data']).content)
             data_desc[d['file_name']] = test_data
             log(logging.DEBUG, "Downloading dataset %s from %s" % (d['file_name'], d['data']))
     return data_desc

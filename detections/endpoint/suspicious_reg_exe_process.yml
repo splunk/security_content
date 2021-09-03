@@ -1,25 +1,29 @@
 name: Suspicious Reg exe Process
 id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
-version: 5
+version: 4
 date: '2020-07-22'
 author: David Dorsey, Splunk
 type: TTP
 datamodel:
-  - Endpoint
+- Endpoint
 description: This search looks for reg.exe being launched from a command prompt not
   started by the user. When a user launches cmd.exe, the parent process is usually
   explorer.exe. This search filters out those instances.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name
-  != explorer.exe `process_cmd` by Processes.user Processes.process_name
-  Processes.parent_process_name Processes.original_file_name Processes.dest Processes.process_id Processes.parent_process_id
+  != explorer.exe Processes.process_name =cmd.exe by Processes.user Processes.process_name
+  Processes.parent_process_name Processes.dest Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | search [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.parent_process_name=cmd.exe `process_reg` by Processes.parent_process_id
-  Processes.dest Processes.process_name Processes.original_file_name | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe by Processes.parent_process_id
+  Processes.dest Processes.process_name | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | rename parent_process_id as process_id |dedup
   process_id| table process_id dest] | `suspicious_reg_exe_process_filter` '
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+how_to_implement: You must be ingesting data that records process activity from your
+  hosts to populate the Endpoint data model in the Processes node. You must also be
+  ingesting logs with both the process name and command line from your endpoints.
+  The command-line arguments are mapped to the "process" field in the Endpoint data
+  model.
 known_false_positives: It's possible for system administrators to write scripts that
   exhibit this behavior. If this is the case, the search will need to be modified
   to filter them out.
@@ -65,16 +69,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest
+  - Processes.parent_process_name
+  - Processes.process_name
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
-  - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.parent_process_name
+  - Processes.dest
   - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
   - Processes.parent_process_id
   risk_score: 35
   security_domain: endpoint
