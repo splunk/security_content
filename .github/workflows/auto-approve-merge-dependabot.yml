@@ -1,0 +1,30 @@
+
+
+name: Auto approve and merge PRs by dependabot
+
+# Trigger the workflow on pull request
+on: pull_request_target
+
+jobs:
+  auto-approve:
+    name: Auto-Approve a PR by dependabot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto approve dependabot
+        uses: cognitedata/auto-approve-dependabot-action@v3.0.1
+        if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  auto-merge:
+     name: Auto-Merge a PR by dependabot
+	   runs-on: ubuntu-latest
+  	 steps:
+      - name: Auto merge dependabot
+  	  - uses: actions/checkout@v2
+  	  - uses: ahmadnassri/action-dependabot-auto-merge@v2
+  	    with:
+  	      target: minor
+          # using PROTECTED_BRANCH_PUSH_TOKEN since this PR will be merged in develop
+  	      github-token: ${{ secrets.PROTECTED_BRANCH_PUSH_TOKEN }} 
+
