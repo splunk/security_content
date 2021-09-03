@@ -365,7 +365,7 @@ def add_rba(detection):
             if entity['type'].lower() in risk_object_user_types:
                 
                 for r in entity['role']:
-                    if 'attacker' == r.lower():
+                    if 'attacker' == r.lower() or 'victim' ==r.lower():
 
                         risk_object['risk_object_type'] = 'user'
                         risk_object['risk_object_field'] = entity['name']
@@ -377,7 +377,7 @@ def add_rba(detection):
             elif entity['type'].lower() in risk_object_system_types:
                 
                 for r in entity['role']:
-                    if 'attacker' == r.lower():
+                    if 'attacker' == r.lower() or 'victim' ==r.lower():
                         
                         risk_object['risk_object_type'] = 'system'
                         risk_object['risk_object_field'] = entity['name']
