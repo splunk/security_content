@@ -11,3 +11,4 @@ jobs:
         with:
           target: minor
           github-token: ${{ secrets.PROTECTED_BRANCH_PUSH_TOKEN }}
+          
