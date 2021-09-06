@@ -406,6 +406,8 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
                 detection['search'] = detection['search'] + ' | collect index=signals'
             elif detection['type'] == 'TTP':
                 detection['search'] = detection['search'] + ' | collect index=alerts'
+            elif detection['type'] == 'Correlation':
+                detection['search'] = detection['search'] + ' | collect index=alerts'
 
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])

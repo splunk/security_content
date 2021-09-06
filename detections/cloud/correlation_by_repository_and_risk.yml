@@ -1,15 +1,15 @@
-name: Correlation by User and Risk
-id: 610e12dc-b6fa-4541-825e-4a0b3b6f6773
+name: Correlation by Repository and Risk
+id: 8da9fdd9-6a1b-4ae0-8a34-8c25e6be9687
 version: 1
 date: '2021-09-06'
 author: Patrick Bareiss, Splunk
 type: Correlation
 datamodel: []
-description: This search correlations detections by user and risk_score
+description: This search correlations detections by repository and risk_score
 search: '`signals` | fillnull 
-  | stats sum(risk_score) as risk_score values(source) as signals values(repository) as repository by user 
+  | stats sum(risk_score) as risk_score values(source) as signals values(user) as user by repository 
   | sort - risk_score | where risk_score > 80
-  | correlation_by_user_and_risk_filter'
+  | correlation_by_repository_and_risk_filter'
 how_to_implement: For Dev Sec Ops POC
 known_false_positives: unknown
 references: []
