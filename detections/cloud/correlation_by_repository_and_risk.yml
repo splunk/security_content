@@ -9,7 +9,7 @@ description: This search correlations detections by repository and risk_score
 search: '`signals` | fillnull 
   | stats sum(risk_score) as risk_score values(source) as signals values(user) as user by repository 
   | sort - risk_score | where risk_score > 80
-  | correlation_by_repository_and_risk_filter'
+  | `correlation_by_repository_and_risk_filter`'
 how_to_implement: For Dev Sec Ops POC
 known_false_positives: unknown
 references: []
