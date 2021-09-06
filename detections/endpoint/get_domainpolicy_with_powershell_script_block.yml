@@ -1,0 +1,58 @@
+name: Get DomainPolicy with Powershell Script Block
+id: a360d2b2-065a-11ec-b0bf-acde48001122
+version: 1
+date: '2021-08-26'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This search is to detect a possible execution of powerview pentesting
+  tool for domain controller recon. This search look for function Get-DomainPolicy
+  to parse the domain policy of the targeted host. This TTP may be a good pivot to
+  look for credential dumping technique or lateral movement.
+search: '`powershell` EventCode=4104 Message ="*Get-DomainPolicy*" | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `get_domainpolicy_with_powershell_script_block_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
+  to be imported. Modify the powershell macro as needed to match the sourcetype or
+  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: unknown
+references:
+- https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1201/pwd_policy_discovery/windows-powershell.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1201
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  security_domain: endpoint
+  impact: 50
+  confidence: 60
+  risk_score: 30
+  context:
+  - source:endpoint
+  - stage:Reconnaissance
+  message: powershell process having commandline $Message$ to query domain policy.
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
+  automated_detection_testing: passed
