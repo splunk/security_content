@@ -1,5 +1,5 @@
 <nav search_view="search">
-  <view name="home" default='true' />
+  <view name="analytics" default='true' />
   <view name="search" />
   <view name="analytics_workspace" />
   <view name="datasets" />
