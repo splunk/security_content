@@ -6,23 +6,25 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: this search is to detect a suspicious registry modification to implement auto admin logon to a host.
-  This technique was seen in BlackMatter ransomware to automatically logon to the compromise host after  triggering a safemode boot to continue encrypting the whole network.
-  This behavior is not a common practice and really a suspicious TTP or alert need to be consider if found within then network premise.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path= "*SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon*" AND Registry.registry_key_name=AutoAdminLogon AND Registry.registry_value_name=1
-  by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` 
-  | `auto_admin_logon_registry_entry_filter`'
+description: this search is to detect a suspicious registry modification to implement
+  auto admin logon to a host. This technique was seen in BlackMatter ransomware to
+  automatically logon to the compromise host after  triggering a safemode boot to
+  continue encrypting the whole network. This behavior is not a common practice and
+  really a suspicious TTP or alert need to be consider if found within then network
+  premise.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*SOFTWARE\\Microsoft\\Windows
+  NT\\CurrentVersion\\Winlogon*" AND Registry.registry_key_name=AutoAdminLogon AND
+  Registry.registry_value_name=1 by Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `auto_admin_logon_registry_entry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
 known_false_positives: unknown
 references:
--  https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
+- https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
 tags:
   analytic_story:
   - BlackMatter Ransomware
@@ -38,22 +40,22 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Registry.registry_path 
-  - Registry.registry_key_name 
-  - Registry.registry_value_name 
-  - Registry.dest 
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.dest
   security_domain: endpoint
   impact: 70
   confidence: 90
-  # (impact * confidence)/100
   risk_score: 63
-  context: 
+  context:
   - Source:Endpoint
   - Stage:Credential Access
-  message: modified registry key $registry_key_name$ with registry value $registry_value_name$ to prepare autoadminlogon
-  observable: 
+  message: modified registry key $registry_key_name$ with registry value $registry_value_name$
+    to prepare autoadminlogon
+  observable:
   - name: dest
     type: Endpoint
     role:
     - Victim
-  
+  automated_detection_testing: passed
