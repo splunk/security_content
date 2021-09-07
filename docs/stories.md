@@ -696,6 +696,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [Dump LSASS via procdump Rename](detections.md#dump-lsass-via-procdump-rename)
 
+* [Esentutl SAM Copy](detections.md#esentutl-sam-copy)
+
 * [Extract SAM from Registry](detections.md#extract-sam-from-registry)
 
 * [Investigate Failed Logins for Multiple Destinations](detections.md#investigate-failed-logins-for-multiple-destinations)
@@ -735,8 +737,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | T1087 | Account Discovery | Discovery |
 | T1201 | Password Policy Discovery | Discovery |
 | T1552 | Unsecured Credentials | Credential Access |
-| T1003.002 | Security Account Manager | Credential Access |
 | T1003 | OS Credential Dumping | Credential Access |
+| T1003.002 | Security Account Manager | Credential Access |
 | T1003.003 | NTDS | Credential Access |
 | T1558.003 | Kerberoasting | Credential Access |
 | T1059.001 | PowerShell | Execution |
@@ -748,6 +750,10 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * Exploitation
 
 * Installation
+
+* Lateral Movement
+
+* Privilege Escalation
 
 
 #### Reference
@@ -1409,6 +1415,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 * [Malicious PowerShell Process - Encoded Command](detections.md#malicious-powershell-process---encoded-command)
 
 * [Malicious PowerShell Process With Obfuscation Techniques](detections.md#malicious-powershell-process-with-obfuscation-techniques)
+
+* [PowerShell 4104 Hunting](detections.md#powershell-4104-hunting)
 
 * [PowerShell Domain Enumeration](detections.md#powershell-domain-enumeration)
 
@@ -3913,7 +3921,7 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
-- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204.003/)
+- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204.003/), [T1212](https://attack.mitre.org/techniques/T1212/), [T1526](https://attack.mitre.org/techniques/T1526/)
 - **Last Updated**: 2021-08-18
 
 <details>
@@ -3931,12 +3939,20 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 
 * [AWS ECR Container Upload Unknown User](detections.md#aws-ecr-container-upload-unknown-user)
 
+* [Kubernetes Nginx Ingress LFI](detections.md#kubernetes-nginx-ingress-lfi)
+
+* [Kubernetes Nginx Ingress RFI](detections.md#kubernetes-nginx-ingress-rfi)
+
+* [Kubernetes Scanner Image Pulling](detections.md#kubernetes-scanner-image-pulling)
+
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1204.003 | Malicious Image | Execution |
+| T1212 | Exploitation for Credential Access | Credential Access |
+| T1526 | Cloud Service Discovery | Discovery |
 
 #### Kill Chain Phase
 

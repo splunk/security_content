@@ -1,4 +1,4 @@
-name: GSuite suspicious calendar invite
+sname: GSuite suspicious calendar invite
 id: b842f557-c7b3-4b92-aa34-8243217a6685
 version: 1
 date: '2021-08-19'
@@ -18,7 +18,7 @@ references:
 - https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   dataset:
   - UPDATE_DATASET_URL
   kill_chain_phases:

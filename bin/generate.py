@@ -62,8 +62,8 @@ def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                         trim_blocks=True) 
     template = j2_env.get_template('transforms.j2')
     output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
@@ -78,7 +78,7 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('collections.j2')
     output_path = path.join(OUTPUT_PATH, 'default/collections.conf')
@@ -97,7 +97,7 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
@@ -112,7 +112,7 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
 def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('analytic_stories.j2')
     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
@@ -125,7 +125,7 @@ def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH
 def generate_use_case_library_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('use_case_library.j2')
     output_path = path.join(OUTPUT_PATH, 'default/use_case_library.conf')
@@ -150,7 +150,7 @@ def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('macros.j2')
     output_path = path.join(OUTPUT_PATH, 'default/macros.conf')
@@ -170,7 +170,7 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     response_file_name_xml = response_file_name + "___response_task.xml"
                     response_task['lowercase_name'] = response_file_name
                     workbench_panel_objects.append(response_task)
-                    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+                    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                                         trim_blocks=True)
                     template = j2_env.get_template('panel.j2')
                     file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml
@@ -182,14 +182,14 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     with open(output_path, 'w') as f:
                         f.write(output)
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('es_investigations.j2')
     output_path = path.join(OUTPUT_PATH, 'default/es_investigations.conf')
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
     output_path = path.join(OUTPUT_PATH, 'default/workflow_actions.conf')
@@ -361,7 +361,7 @@ def add_rba(detection):
             if entity['type'].lower() in risk_object_user_types:
                 
                 for r in entity['role']:
-                    if 'attacker' == r.lower():
+                    if 'attacker' == r.lower() or 'victim' ==r.lower():
 
                         risk_object['risk_object_type'] = 'user'
                         risk_object['risk_object_field'] = entity['name']
@@ -373,7 +373,7 @@ def add_rba(detection):
             elif entity['type'].lower() in risk_object_system_types:
                 
                 for r in entity['role']:
-                    if 'attacker' == r.lower():
+                    if 'attacker' == r.lower() or 'victim' ==r.lower():
                         
                         risk_object['risk_object_type'] = 'system'
                         risk_object['risk_object_field'] = entity['name']
@@ -549,7 +549,7 @@ def generate_mitre_lookup(OUTPUT_PATH):
             csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
     with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='', encoding="utf-8") as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file,quoting=csv.QUOTE_ALL)
         writer.writerows(csv_mitre_rows)
 
 
@@ -641,6 +641,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     parser.add_argument("--product", required=True, default="ESCU", help="package type")
 
+    
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path

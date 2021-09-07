@@ -17,7 +17,7 @@ references:
 - https://www.csoonline.com/article/3274546/cybercriminals-impersonate-popular-file-sharing-services-to-take-over-email-accounts.html
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   dataset:
   - UPDATE_DATASET_URL
   kill_chain_phases:

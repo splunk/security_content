@@ -793,7 +793,7 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Authentication, Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1068/ T1068], [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1098/ T1098], [https://attack.mitre.org/techniques/T1134/ T1134], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1547/ T1547], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1554/ T1554], [https://attack.mitre.org/techniques/T1556/ T1556], [https://attack.mitre.org/techniques/T1558/ T1558], [https://attack.mitre.org/techniques/T1555/ T1555], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1201/ T1201], [https://attack.mitre.org/techniques/T1552/ T1552], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1003.003/ T1003.003], [https://attack.mitre.org/techniques/T1558.003/ T1558.003], [https://attack.mitre.org/techniques/T1059.001/ T1059.001]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003.001/ T1003.001], [https://attack.mitre.org/techniques/T1055/ T1055], [https://attack.mitre.org/techniques/T1068/ T1068], [https://attack.mitre.org/techniques/T1078/ T1078], [https://attack.mitre.org/techniques/T1098/ T1098], [https://attack.mitre.org/techniques/T1134/ T1134], [https://attack.mitre.org/techniques/T1543/ T1543], [https://attack.mitre.org/techniques/T1547/ T1547], [https://attack.mitre.org/techniques/T1548/ T1548], [https://attack.mitre.org/techniques/T1554/ T1554], [https://attack.mitre.org/techniques/T1556/ T1556], [https://attack.mitre.org/techniques/T1558/ T1558], [https://attack.mitre.org/techniques/T1555/ T1555], [https://attack.mitre.org/techniques/T1087/ T1087], [https://attack.mitre.org/techniques/T1201/ T1201], [https://attack.mitre.org/techniques/T1552/ T1552], [https://attack.mitre.org/techniques/T1003/ T1003], [https://attack.mitre.org/techniques/T1003.002/ T1003.002], [https://attack.mitre.org/techniques/T1003.003/ T1003.003], [https://attack.mitre.org/techniques/T1558.003/ T1558.003], [https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 * '''Last Updated''': 2020-02-04
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -858,6 +858,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump|Dump LSASS via procdump]]
 
 * [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump_rename|Dump LSASS via procdump Rename]]
+
+* [[Documentation:ESSOC:detections:Detections#Esentutl_sam_copy|Esentutl SAM Copy]]
 
 * [[Documentation:ESSOC:detections:Detections#Extract_sam_from_registry|Extract SAM from Registry]]
 
@@ -949,12 +951,12 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | Unsecured Credentials
 | Credential Access
 |-
-| T1003.002
-| Security Account Manager
-| Credential Access
-|-
 | T1003
 | OS Credential Dumping
+| Credential Access
+|-
+| T1003.002
+| Security Account Manager
 | Credential Access
 |-
 | T1003.003
@@ -978,6 +980,10 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * Exploitation
 
 * Installation
+
+* Lateral Movement
+
+* Privilege Escalation
 
 
 ====Reference====
@@ -1867,6 +1873,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 * [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_encoded_command|Malicious PowerShell Process - Encoded Command]]
 
 * [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_with_obfuscation_techniques|Malicious PowerShell Process With Obfuscation Techniques]]
+
+* [[Documentation:ESSOC:detections:Detections#Powershell_4104_hunting|PowerShell 4104 Hunting]]
 
 * [[Documentation:ESSOC:detections:Detections#Powershell_domain_enumeration|PowerShell Domain Enumeration]]
 
@@ -5119,7 +5127,7 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204.003/ T1204.003]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204.003/ T1204.003], [https://attack.mitre.org/techniques/T1212/ T1212], [https://attack.mitre.org/techniques/T1526/ T1526]
 * '''Last Updated''': 2021-08-18
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -5137,6 +5145,12 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 
 * [[Documentation:ESSOC:detections:Detections#Aws_ecr_container_upload_unknown_user|AWS ECR Container Upload Unknown User]]
 
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_nginx_ingress_lfi|Kubernetes Nginx Ingress LFI]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_nginx_ingress_rfi|Kubernetes Nginx Ingress RFI]]
+
+* [[Documentation:ESSOC:detections:Detections#Kubernetes_scanner_image_pulling|Kubernetes Scanner Image Pulling]]
+
 
 
 ====ATT&CK====
@@ -5148,6 +5162,14 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 | T1204.003
 | Malicious Image
 | Execution
+|-
+| T1212
+| Exploitation for Credential Access
+| Credential Access
+|-
+| T1526
+| Cloud Service Discovery
+| Discovery
 |}
 
 
@@ -8703,7 +8725,7 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-08-20 22:13:27.026019 UTC
+# On Date: 2021-08-27 21:42:13.761546 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############

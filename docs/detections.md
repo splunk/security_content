@@ -703,6 +703,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [GCP Detect gcploit framework](#gcp-detect-gcploit-framework)
 
 
@@ -716,6 +718,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+- [GSuite Email Suspicious Attachment](#gsuite-email-suspicious-attachment)
 
 
 
@@ -781,9 +785,29 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Github Commit Changes In Master](#github-commit-changes-in-master)
 
 
 
+
+
+- [Gsuite Drive Share In External Email](#gsuite-drive-share-in-external-email)
+
+
+
+- [Gsuite Email Suspicious Subject With Attachment](#gsuite-email-suspicious-subject-with-attachment)
+
+
+
+- [Gsuite Email With Known Abuse Web Service Link](#gsuite-email-with-known-abuse-web-service-link)
+
+
+
+- [Gsuite Outbound Email With Attachment To External Domain](#gsuite-outbound-email-with-attachment-to-external-domain)
+
+
+
+- [Gsuite Suspicious Shared File Name](#gsuite-suspicious-shared-file-name)
 
 
 
@@ -874,6 +898,18 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Kubernetes AWS detect suspicious kubectl calls](#kubernetes-aws-detect-suspicious-kubectl-calls)
+
+
+
+- [Kubernetes Nginx Ingress LFI](#kubernetes-nginx-ingress-lfi)
+
+
+
+- [Kubernetes Nginx Ingress RFI](#kubernetes-nginx-ingress-rfi)
+
+
+
+- [Kubernetes Scanner Image Pulling](#kubernetes-scanner-image-pulling)
 
 
 
@@ -990,6 +1026,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [O365 Suspicious User Email Forwarding](#o365-suspicious-user-email-forwarding)
+
+
 
 
 
@@ -2348,6 +2386,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Esentutl SAM Copy](#esentutl-sam-copy)
+
+
+
 - [Eventvwr UAC Bypass](#eventvwr-uac-bypass)
 
 
@@ -2452,8 +2494,6 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
-- [GSuite Email Suspicious Attachment](#gsuite-email-suspicious-attachment)
-
 
 
 
@@ -2526,15 +2566,19 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Grant Permission Using Cacls Utility](#grant-permission-using-cacls-utility)
 
 
 
-- [Gsuite Drive Share In External Email](#gsuite-drive-share-in-external-email)
 
 
 
-- [Gsuite Outbound Email With Attachment To External Domain](#gsuite-outbound-email-with-attachment-to-external-domain)
+
+
+
+
 
 
 
@@ -2659,6 +2703,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Known Services Killed by Ransomware](#known-services-killed-by-ransomware)
+
+
+
+
+
+
 
 
 
@@ -2871,6 +2921,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+- [PowerShell 4104 Hunting](#powershell-4104-hunting)
 
 
 
@@ -4217,6 +4271,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
 - [Excessive DNS Failures](#excessive-dns-failures)
 
 
@@ -4353,6 +4409,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
 - [Hosts receiving high volume of network traffic from email server](#hosts-receiving-high-volume-of-network-traffic-from-email-server)
 
 
@@ -4422,6 +4486,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Investigate Web POSTs From src](#investigate-web-posts-from-src)
+
+
+
+
+
+
 
 
 
@@ -4562,6 +4632,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Plain HTTP POST Exfiltrated Data](#plain-http-post-exfiltrated-data)
+
+
 
 
 
@@ -5752,6 +5824,22 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Monitor Email For Brand Abuse](#monitor-email-for-brand-abuse)
 
 
@@ -5867,6 +5955,8 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Phishing Email Detection by Machine Learning Method - SSA](#phishing-email-detection-by-machine-learning-method---ssa)
+
+
 
 
 
@@ -7053,7 +7143,25 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
 
 
 
@@ -12040,6 +12148,80 @@ _version_: 1
 ### Attempted Credential Dump From Registry via Reg exe
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: 
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
+- **Last Updated**: 2020-6-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where process_name="cmd.exe" OR process_name="reg.exe" 
+| where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
+| into write_ssa_detected_events(); 
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+You must be ingesting windows endpoint data that tracks process activity, including parent-child relationships from your endpoints.
+
+#### Required field
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003 | OS Credential Dumping | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+None identified.
+
+#### Reference
+
+
+* https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Attempted Credential Dump From Registry via Reg exe
+Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
+
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
 - **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
@@ -12115,80 +12297,6 @@ None identified.
 
 
 _version_: 4
-</details>
-
----
-
-### Attempted Credential Dump From Registry via Reg exe
-Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
-
-- **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
-- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
-- **Last Updated**: 2020-6-04
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
- 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where process_name="cmd.exe" OR process_name="reg.exe" 
-| where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
-| into write_ssa_detected_events(); 
-```
-#### Associated Analytic Story
-
-* Credential Dumping
-
-
-#### How To Implement
-You must be ingesting windows endpoint data that tracks process activity, including parent-child relationships from your endpoints.
-
-#### Required field
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1003 | OS Credential Dumping | Credential Access |
-
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Known False Positives
-None identified.
-
-#### Reference
-
-
-* https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
-
-
-
-#### Test Dataset
-
-
-_version_: 1
 </details>
 
 ---
@@ -13951,10 +14059,9 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process) as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe Processes.process = "* -exportPFX *" Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-| `drop_dm_object_name("Processes")` 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=certutil.exe Processes.process = "*-exportPFX*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
-|`security_content_ctime(lastTime)` 
 | `certutil_exe_certificate_extraction_filter`
 ```
 #### Associated Analytic Story
@@ -27476,6 +27583,96 @@ _version_: 1
 
 ---
 
+### Esentutl SAM Copy
+The following analytic identifies the process - `esentutl.exe` - being used to capture credentials stored in ntds.dit or the SAM file on disk. During triage, review parallel processes and determine if legitimate activity. Upon determination of illegitimate activity, take further action to isolate and contain the threat.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
+- **Last Updated**: 2021-08-18
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_esentutl` Processes.process IN ("*ntds*", "*SAM*") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `esentutl_sam_copy_filter`
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+
+#### Required field
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003.002 | Security Account Manager | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Privilege Escalation
+
+* Lateral Movement
+
+
+#### Known False Positives
+False positives should be limited. Filter as needed.
+
+#### Reference
+
+
+* https://github.com/redcanaryco/atomic-red-team/blob/6a570c2a4630cf0c2bd41a2e8375b5d5ab92f700/atomics/T1003.002/T1003.002.md
+
+* https://attack.mitre.org/software/S0404/
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Eventvwr UAC Bypass
 The following search identifies Eventvwr bypass by identifying the registry modification into a specific path that eventvwr.msc looks to (but is not valid) upon execution. A successful attack will include a suspicious command to be executed upon eventvwr.msc loading. Upon triage, review the parallel processes that have executed. Identify any additional registry modifications on the endpoint that may look suspicious. Remediate as necessary.
 
@@ -29683,7 +29880,7 @@ _version_: 1
 This search is to detect a suspicious attachment file extension in Gsuite email that may related to spear phishing attack. This file type is commonly used by malware to lure user to click on it to execute malicious code to compromised targetted machine. But this search can also catch some normal files related to this file type that maybe send by employee or network admin.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: 
 - **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-08-16
 
@@ -31662,6 +31859,71 @@ _version_: 1
 
 ---
 
+### Github Commit Changes In Master
+This search is to detect a pushed or commit to master or main branch. This is to avoid unwanted modification to master without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a PR for review. of course in some cases admin of the project may did a changes directly to master branch
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1199](https://attack.mitre.org/techniques/T1199/)
+- **Last Updated**: 2021-08-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`github` branches{}.name = main OR branches{}.name = master 
+|  stats count min(_time) as firstTime max(_time) as lastTime  by commit.author.html_url commit.commit.author.email commit.author.login commit.commit.message repository.pushed_at commit.commit.committer.date 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `github_commit_changes_in_master_filter`
+```
+#### Associated Analytic Story
+
+* DevSecOps
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to github logs having the fork, commit, push metadata that can be use to monitor the changes in a github project.
+
+#### Required field
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1199 | Trusted Relationship | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin can do changes directly to master branch
+
+#### Reference
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Grant Permission Using Cacls Utility
 This analytic identifies potential adversaries that modify the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft, ransomware and coinminer scripts to evade detections and restrict access to their component files.
 
@@ -31744,7 +32006,7 @@ _version_: 1
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint
+- **Datamodel**: 
 - **ATT&CK**: [T1567.002](https://attack.mitre.org/techniques/T1567/002/)
 - **Last Updated**: 2021-08-16
 
@@ -31822,11 +32084,149 @@ _version_: 1
 
 ---
 
+### Gsuite Email Suspicious Subject With Attachment
+This search is to detect a gsuite email contains suspicious subject having known file type used in spear phishing. This technique is a common and effective entry vector of attacker to compromise a network by luring the user to click or execute the suspicious attachment send from external email account because of the effective social engineering of subject related to delivery, bank and so on. On the other hand this detection may catch a normal email traffic related to legitimate transaction so better to check the email sender, spelling and etc. avoid click link or opening the attachment if you are not expecting this type of e-mail.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-08-19
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`gsuite_gmail` num_message_attachments > 0 subject IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "* fedex *", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") attachment{}.file_extension_type IN ("doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "zip", "rar", "html","htm","hta") 
+| rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" 
+| rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)" 
+| where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
+| stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by destination{}.service num_message_attachments  subject destination{}.address source.address 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_email_suspicious_subject_with_attachment_filter`
+```
+#### Associated Analytic Story
+
+* DevSecOps
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+#### Required field
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+normal user or normal transaction may contain the subject and file type attachment that this detection try to search.
+
+#### Reference
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+* https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Gsuite Email With Known Abuse Web Service Link
+This analytics is to detect a gmail containing a link that are known to be abused by malware or attacker like pastebin, telegram and discord to deliver malicious payload. This event can encounter some normal email traffic within organization and external email that normally using this application and services.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-08-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`gsuite_gmail` "link_domain{}" IN ("*pastebin.com*", "*discord*", "*telegram*","t.me") 
+| rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" 
+| rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)" 
+| where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
+|stats values(link_domain{}) as link_domains min(_time) as firstTime max(_time) as lastTime count by is_spam source.address source.from_header_address subject destination{}.address 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_email_with_known_abuse_web_service_link_filter`
+```
+#### Associated Analytic Story
+
+* DevSecOps
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+#### Required field
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+normal email contains this link that are known application within the organization or network can be catched by this detection.
+
+#### Reference
+
+
+* https://news.sophos.com/en-us/2021/07/22/malware-increasingly-targets-discord-for-abuse/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_url/gsuite_susp_url.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Gsuite Outbound Email With Attachment To External Domain
 This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic < 20 with attachment.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: Endpoint, Email
+- **Datamodel**: 
 - **ATT&CK**: [T1048.003](https://attack.mitre.org/techniques/T1048/003/)
 - **Last Updated**: 2021-08-17
 
@@ -31885,6 +32285,90 @@ network admin and normal user may send this file attachment as part of their day
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Gsuite Suspicious Shared File Name
+This search is to detect a shared file in google drive with suspicious file name that are commonly used by spear phishing campaign. This technique is very popular to lure the user by running a malicious document or click a malicious link within the shared file that will redirected to malicious website. This detection can also catch some normal email communication between organization and its external customer.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
+- **Last Updated**: 2021-08-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title" IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet", "presentation") 
+| rex field=parameters.owner "[^@]+@(?<source_domain>[^@]+)" 
+| rex field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)" 
+| where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
+| stats count min(_time) as firstTime max(_time) as lastTime by email parameters.owner parameters.target_user parameters.doc_title parameters.doc_type 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `gsuite_suspicious_shared_file_name_filter`
+```
+#### Associated Analytic Story
+
+* DevSecOps
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+
+#### Required field
+
+* _time
+
+* parameters.doc_title
+
+* src_domain
+
+* dest_domain
+
+* email
+
+* parameters.visibility
+
+* parameters.owner
+
+* parameters.doc_type
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1566.001 | Spearphishing Attachment | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+normal user or normal transaction may contain the subject and file type attachment that this detection try to search
+
+#### Reference
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+* https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
 
 
 _version_: 1
@@ -34528,6 +35012,230 @@ Kubectl calls are not malicious by nature. However source IP, verb and Object ca
 
 
 #### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Kubernetes Nginx Ingress LFI
+This search uses the Kubernetes logs from a nginx ingress controller to detect local file inclusion attacks.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1212](https://attack.mitre.org/techniques/T1212/)
+- **Last Updated**: 2021-08-20
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`kubernetes_container_controller` 
+| rex field=_raw "^(?<remote_addr>\S+)\s+-\s+-\s+\[(?<time_local>[^\]]*)\]\s\"(?<request>[^\"]*)\"\s(?<status>\S*)\s(?<body_bytes_sent>\S*)\s\"(?<http_referer>[^\"]*)\"\s\"(?<http_user_agent>[^\"]*)\"\s(?<request_length>\S*)\s(?<request_time>\S*)\s\[(?<proxy_upstream_name>[^\]]*)\]\s\[(?<proxy_alternative_upstream_name>[^\]]*)\]\s(?<upstream_addr>\S*)\s(?<upstream_response_length>\S*)\s(?<upstream_response_time>\S*)\s(?<upstream_status>\S*)\s(?<req_id>\S*)" 
+| lookup local_file_inclusion_paths local_file_inclusion_paths AS request OUTPUT lfi_path 
+| search lfi_path=yes 
+| rename remote_addr AS src_ip, upstream_status as status, proxy_upstream_name as proxy 
+| rex field=request "^(?<http_method>\S+)\s(?<url>\S+)\s" 
+| stats count min(_time) as firstTime max(_time) as lastTime by src_ip, status, url, http_method, host, http_user_agent, proxy 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `kubernetes_nginx_ingress_lfi_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+
+#### Required field
+
+* raw
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1212 | Exploitation for Credential Access | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://github.com/splunk/splunk-connect-for-kubernetes
+
+* https://www.offensive-security.com/metasploit-unleashed/file-inclusion-vulnerabilities/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kubernetes_nginx_lfi_attack/kubernetes_nginx_lfi_attack.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Kubernetes Nginx Ingress RFI
+This search uses the Kubernetes logs from a nginx ingress controller to detect remote file inclusion attacks.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1212](https://attack.mitre.org/techniques/T1212/)
+- **Last Updated**: 2021-08-23
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`kubernetes_container_controller` 
+| rex field=_raw "^(?<remote_addr>\S+)\s+-\s+-\s+\[(?<time_local>[^\]]*)\]\s\"(?<request>[^\"]*)\"\s(?<status>\S*)\s(?<body_bytes_sent>\S*)\s\"(?<http_referer>[^\"]*)\"\s\"(?<http_user_agent>[^\"]*)\"\s(?<request_length>\S*)\s(?<request_time>\S*)\s\[(?<proxy_upstream_name>[^\]]*)\]\s\[(?<proxy_alternative_upstream_name>[^\]]*)\]\s(?<upstream_addr>\S*)\s(?<upstream_response_length>\S*)\s(?<upstream_response_time>\S*)\s(?<upstream_status>\S*)\s(?<req_id>\S*)" 
+| rex field=request "^(?<http_method>\S+)?\s(?<url>\S+)\s" 
+| rex field=url "(?<dest_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})" 
+| search dest_ip=* 
+| rename remote_addr AS src_ip, upstream_status as status, proxy_upstream_name as proxy 
+| stats count min(_time) as firstTime max(_time) as lastTime by src_ip, dest_ip status, url, http_method, host, http_user_agent, proxy 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `kubernetes_nginx_ingress_rfi_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+
+#### Required field
+
+* raw
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1212 | Exploitation for Credential Access | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://github.com/splunk/splunk-connect-for-kubernetes
+
+* https://www.netsparker.com/blog/web-security/remote-file-inclusion-vulnerability/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kuberntest_nginx_rfi_attack/kubernetes_nginx_rfi_attack.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Kubernetes Scanner Image Pulling
+This search uses the Kubernetes logs from Splunk Connect from Kubernetes to detect Kubernetes Security Scanner.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1526](https://attack.mitre.org/techniques/T1526/)
+- **Last Updated**: 2021-08-24
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*") 
+| rename object.* AS * 
+| rename involvedObject.* AS * 
+| rename source.host AS host 
+| stats min(_time) as firstTime max(_time) as lastTime count by host, name, namespace, kind, reason, message 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `kubernetes_scanner_image_pulling_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
+
+#### Required field
+
+* object.message
+
+* source.host
+
+* object.involvedObject.name
+
+* object.involvedObject.namespace
+
+* object.involvedObject.kind
+
+* object.message
+
+* object.reason
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1526 | Cloud Service Discovery | Discovery |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://github.com/splunk/splunk-connect-for-kubernetes
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json
 
 
 _version_: 1
@@ -39478,6 +40186,257 @@ _version_: 1
 
 ---
 
+### PowerShell 4104 Hunting
+The following Hunting analytic assists with identifying suspicious PowerShell execution using Script Block Logging, or EventCode 4104. This analytic is not meant to be ran hourly, but occasionally to identify malicious or suspicious PowerShell. This analytic is a combination of work completed by Alex Teixeira and Splunk Threat Research Team.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
+- **Last Updated**: 2021-08-18
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`powershell` EventCode=4104 
+| eval DoIt = if(match(Message,"(?i)(\$doit)"), "4", 0) 
+| eval enccom=if(match(Message,"[A-Za-z0-9+\/]{44,}([A-Za-z0-9+\/]{4}
+|[A-Za-z0-9+\/]{3}=
+|[A-Za-z0-9+\/]{2}==)") OR match(Message, "(?i)[-]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]"),4,0) 
+| eval suspcmdlet=if(match(Message, "(?i)Add-Exfiltration
+|Add-Persistence
+|Add-RegBackdoor
+|Add-ScrnSaveBackdoor
+|Check-VM
+|Do-Exfiltration
+|Enabled-DuplicateToken
+|Exploit-Jboss
+|Find-Fruit
+|Find-GPOLocation
+|Find-TrustedDocuments
+|Get-ApplicationHost
+|Get-ChromeDump
+|Get-ClipboardContents
+|Get-FoxDump
+|Get-GPPPassword
+|Get-IndexedItem
+|Get-Keystrokes
+|LSASecret
+|Get-PassHash
+|Get-RegAlwaysInstallElevated
+|Get-RegAutoLogon
+|Get-RickAstley
+|Get-Screenshot
+|Get-SecurityPackages
+|Get-ServiceFilePermission
+|Get-ServicePermission
+|Get-ServiceUnquoted
+|Get-SiteListPassword
+|Get-System
+|Get-TimedScreenshot
+|Get-UnattendedInstallFile
+|Get-Unconstrained
+|Get-VaultCredential
+|Get-VulnAutoRun
+|Get-VulnSchTask
+|Gupt-Backdoor
+|HTTP-Login
+|Install-SSP
+|Install-ServiceBinary
+|Invoke-ACLScanner
+|Invoke-ADSBackdoor
+|Invoke-ARPScan
+|Invoke-AllChecks
+|Invoke-BackdoorLNK
+|Invoke-BypassUAC
+|Invoke-CredentialInjection
+|Invoke-DCSync
+|Invoke-DllInjection
+|Invoke-DowngradeAccount
+|Invoke-EgressCheck
+|Invoke-Inveigh
+|Invoke-InveighRelay
+|Invoke-Mimikittenz
+|Invoke-NetRipper
+|Invoke-NinjaCopy
+|Invoke-PSInject
+|Invoke-Paranoia
+|Invoke-PortScan
+|Invoke-PoshRat
+|Invoke-PostExfil
+|Invoke-PowerDump
+|Invoke-PowerShellTCP
+|Invoke-PsExec
+|Invoke-PsUaCme
+|Invoke-ReflectivePEInjection
+|Invoke-ReverseDNSLookup
+|Invoke-RunAs
+|Invoke-SMBScanner
+|Invoke-SSHCommand
+|Invoke-Service
+|Invoke-Shellcode
+|Invoke-Tater
+|Invoke-ThunderStruck
+|Invoke-Token
+|Invoke-UserHunter
+|Invoke-VoiceTroll
+|Invoke-WScriptBypassUAC
+|Invoke-WinEnum
+|MailRaider
+|New-HoneyHash
+|Out-Minidump
+|Port-Scan
+|PowerBreach
+|PowerUp
+|PowerView
+|Remove-Update
+|Set-MacAttribute
+|Set-Wallpaper
+|Show-TargetScreen
+|Start-CaptureServer
+|VolumeShadowCopyTools
+|NEEEEWWW
+|(Computer
+|User)Property
+|CachedRDPConnection
+|get-net\S+
+|invoke-\S+hunter
+|Install-Service
+|get-\S+(credent
+|password)
+|remoteps
+|Kerberos.*(policy
+|ticket)
+|netfirewall
+|Uninstall-Windows
+|Verb\s+Runas
+|AmsiBypass
+|nishang
+|Invoke-Interceptor
+|EXEonRemote
+|NetworkRelay
+|PowerShelludp
+|PowerShellIcmp
+|CreateShortcut
+|copy-vss
+|invoke-dll
+|invoke-mass
+|out-shortcut
+|Invoke-ShellCommand"),1,0) 
+| eval base64 = if(match(lower(Message),"frombase64"), "4", 0) 
+| eval empire=if(match(lower(Message),"system.net.webclient") AND match(lower(Message), "frombase64string") ,5,0) 
+| eval mimikatz=if(match(lower(Message),"mimikatz") OR match(lower(Message), "-dumpcr") OR match(lower(Message), "SEKURLSA::Pth") OR match(lower(Message), "kerberos::ptt") OR match(lower(Message), "kerberos::golden") ,5,0) 
+| eval iex = if(match(lower(Message),"iex"), "2", 0) 
+| eval webclient=if(match(lower(Message),"http") OR match(lower(Message),"web(client
+|request)") OR match(lower(Message),"socket") OR match(lower(Message),"download(file
+|string)") OR match(lower(Message),"bitstransfer") OR match(lower(Message),"internetexplorer.application") OR match(lower(Message),"xmlhttp"),5,0) 
+| eval get = if(match(lower(Message),"get-"), "1", 0) 
+| eval rundll32 = if(match(lower(Message),"rundll32"), "4", 0) 
+| eval suspkeywrd=if(match(Message, "(?i)(bitstransfer
+|mimik
+|metasp
+|AssemblyBuilderAccess
+|Reflection\.Assembly
+|shellcode
+|injection
+|cnvert
+|shell\.application
+|start-process
+|Rc4ByteStream
+|System\.Security\.Cryptography
+|lsass\.exe
+|localadmin
+|LastLoggedOn
+|hijack
+|BackupPrivilege
+|ngrok
+|comsvcs
+|backdoor
+|brute.?force
+|Port.?Scan
+|Exfiltration
+|exploit
+|DisableRealtimeMonitoring
+|beacon)"),1,0) 
+| eval syswow64 = if(match(lower(Message),"syswow64"), "3", 0) 
+| eval httplocal = if(match(lower(Message),"http://127.0.0.1"), "4", 0) 
+| eval reflection = if(match(lower(Message),"reflection"), "1", 0) 
+| eval invokewmi=if(match(lower(Message), "(?i)(wmiobject
+|WMIMethod
+|RemoteWMI
+|PowerShellWmi
+|wmicommand)"),5,0) 
+| eval downgrade=if(match(Message, "(?i)([-]ve*r*s*i*o*n*\s+2)") OR match(lower(Message),"powershell -version"),3,0) 
+| eval compressed=if(match(Message, "(?i)GZipStream
+|::Decompress
+|IO.Compression
+|write-zip
+|(expand
+|compress)-Archive"),5,0) 
+| eval invokecmd = if(match(lower(Message),"invoke-command"), "4", 0) 
+| addtotals fieldname=Score DoIt, enccom, suspcmdlet, suspkeywrd, compressed, downgrade, mimikatz, iex, empire, rundll32, webclient, syswow64, httplocal, reflection, invokewmi, invokecmd, base64, get 
+| stats values(Score) by DoIt, enccom, compressed, downgrade, iex, mimikatz, rundll32, empire, webclient, syswow64, httplocal, reflection, invokewmi, invokecmd, base64, get, suspcmdlet, suspkeywrd 
+| `powershell_4104_hunting_filter`
+```
+#### Associated Analytic Story
+
+* Malicious PowerShell
+
+
+#### How To Implement
+The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+
+#### Required field
+
+* _time
+
+* Message
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1059.001 | PowerShell | Execution |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives. May filter as needed.
+
+#### Reference
+
+
+* https://github.com/inodee/threathunting-spl/blob/master/hunt-queries/powershell_qualifiers.md
+
+* https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell
+
+* https://github.com/marcurdy/dfir-toolset/blob/master/Powershell%20Blueteam.txt
+
+* https://devblogs.microsoft.com/powershell/powershell-the-blue-team/
+
+* https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1
+
+* https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html
+
+* https://hurricanelabs.com/splunk-tutorials/how-to-use-powershell-transcription-logs-in-splunk/
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### PowerShell Domain Enumeration
 The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
 This analytic identifies specific PowerShell modules typically used to enumerate an organizations domain or users. \
@@ -43357,12 +44316,12 @@ _version_: 2
 ---
 
 ### Protocols passing authentication in cleartext
-This search looks for cleartext protocols at risk of leaking credentials. Currently, this consists of legacy protocols such as telnet, POP3, IMAP, and non-anonymous FTP sessions. While some of these protocols can be used over SSL, they typically run on different assigned ports in those cases.
+The following analytic identifies cleartext protocols at risk of leaking sensitive information. Currently, this consists of legacy protocols such as telnet (port 23), POP3 (port 110), IMAP (port 143), and non-anonymous FTP (port 21) sessions. While some of these protocols may be used over SSL, they typically are found on different assigned ports in those instances.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Network_Traffic
 - **ATT&CK**: 
-- **Last Updated**: 2020-11-04
+- **Last Updated**: 2021-08-19
 
 <details>
   <summary>details</summary>
@@ -43370,7 +44329,7 @@ This search looks for cleartext protocols at risk of leaking credentials. Curren
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.transport="tcp" AND (All_Traffic.dest_port="23" OR All_Traffic.dest_port="143" OR All_Traffic.dest_port="110" OR (All_Traffic.dest_port="21" AND All_Traffic.user != "anonymous")) by All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.action!=blocked AND All_Traffic.transport="tcp" AND (All_Traffic.dest_port="23" OR All_Traffic.dest_port="143" OR All_Traffic.dest_port="110" OR (All_Traffic.dest_port="21" AND All_Traffic.user != "anonymous")) by All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `drop_dm_object_name("All_Traffic")` 
@@ -43382,7 +44341,7 @@ This search looks for cleartext protocols at risk of leaking credentials. Curren
 
 
 #### How To Implement
-This search requires you to be ingesting your network traffic, and populating the Network_Traffic data model.
+This search requires you to be ingesting your network traffic, and populating the Network_Traffic data model. For more accurate result it's better to limit destination to organization private and public IP range, like All_Traffic.dest IN(192.168.0.0/16,172.16.0.0/12,10.0.0.0/8, x.x.x.x/22)
 
 #### Required field
 
@@ -43397,6 +44356,8 @@ This search requires you to be ingesting your network traffic, and populating th
 * All_Traffic.src
 
 * All_Traffic.dest
+
+* All_Traffic.action
 
 
 
@@ -43414,10 +44375,16 @@ Some networks may use kerberized FTP or telnet servers, however, this is rare.
 #### Reference
 
 
+* https://www.rackaid.com/blog/secure-your-email-and-file-transfers/
+
+* https://www.infosecmatter.com/capture-passwords-using-wireshark/
+
+
+
 #### Test Dataset
 
 
-_version_: 2
+_version_: 3
 </details>
 
 ---
@@ -50767,7 +51734,7 @@ _version_: 1
 This search looks for reg.exe being launched from a command prompt not started by the user. When a user launches cmd.exe, the parent process is usually explorer.exe. This search filters out those instances.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: Endpoint
 - **ATT&CK**: [T1112](https://attack.mitre.org/techniques/T1112/)
 - **Last Updated**: 2020-07-22
 
@@ -51731,7 +52698,7 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 
 #### Test Dataset
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/windows-sysmon.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log
 
 
 _version_: 1
@@ -51809,7 +52776,7 @@ Although unlikely, limited instances have been identified coming from native Mic
 
 #### Test Dataset
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/windows-sysmon.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log
 
 
 _version_: 1
@@ -53267,76 +54234,6 @@ _version_: 1
 ---
 
 ### Unusually Long Command Line
-Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
-
-- **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
-- **ATT&CK**: 
-- **Last Updated**: 2020-10-06
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
- 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where cmd_line!=null and dest_user_id!=null 
-| eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
-|(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
-| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
-| adaptive_threshold algorithm="quantile" entity="process_name" window=60480000 
-| where label AND quantile>0.99 
-| first_time_event input_columns=["dest_device_id", "cmd_line"] 
-| where first_time_dest_device_id_cmd_line 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
-| into write_ssa_detected_events();
-```
-#### Associated Analytic Story
-
-* Unusual Processes
-
-
-#### How To Implement
-You must be ingesting sysmon endpoint data that monitors command lines.
-
-#### Required field
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Known False Positives
-This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
-
-#### Reference
-
-
-#### Test Dataset
-
-
-_version_: 1
-</details>
-
----
-
-### Unusually Long Command Line
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -53407,6 +54304,76 @@ Some legitimate applications start with long command lines.
 
 
 _version_: 5
+</details>
+
+---
+
+### Unusually Long Command Line
+Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-10-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where cmd_line!=null and dest_user_id!=null 
+| eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
+|(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
+| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
+| adaptive_threshold algorithm="quantile" entity="process_name" window=60480000 
+| where label AND quantile>0.99 
+| first_time_event input_columns=["dest_device_id", "cmd_line"] 
+| where first_time_dest_device_id_cmd_line 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* Unusual Processes
+
+
+#### How To Implement
+You must be ingesting sysmon endpoint data that monitors command lines.
+
+#### Required field
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
 </details>
 
 ---
