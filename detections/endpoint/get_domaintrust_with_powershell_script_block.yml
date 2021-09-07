@@ -10,9 +10,11 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
   This analytic identifies Get-DomainTrust from PowerView in order to gather domain trust information. \
 
   During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.'
-search: '`powershell` EventCode=4104 Message="*get-domaintrust*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by Message OpCode ComputerName User EventCode| `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `get_domaintrust_with_powershell_script_block_filter`'
+search: '`powershell` EventCode=4104 Message="*get-domaintrust*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by Message ComputerName EventCode 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `get_domaintrust_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: It is possible certain system management frameworks utilize this command to gather trust information.
 references:
