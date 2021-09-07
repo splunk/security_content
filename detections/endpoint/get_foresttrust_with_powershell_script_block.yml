@@ -12,7 +12,7 @@ description: 'The following analytic utilizes PowerShell Script Block Logging (E
 
   During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.'
 search: '`powershell` EventCode=4104 Message = "*get-foresttrust*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by  Path Message OpCode ComputerName User EventCode
+  | stats count min(_time) as firstTime max(_time) as lastTime by  Message OpCode ComputerName User EventCode
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
   | `get_foresttrust_with_powershell_script_block_filter`'
