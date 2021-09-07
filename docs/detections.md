@@ -271,6 +271,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Circle CI Disable Security Job](#circle-ci-disable-security-job)
+
+
+
+- [Circle CI Disable Security Step](#circle-ci-disable-security-step)
+
+
+
 
 
 
@@ -705,6 +713,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [GCP Detect gcploit framework](#gcp-detect-gcploit-framework)
 
 
@@ -785,7 +797,19 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [GitHub Dependabot Alert](#github-dependabot-alert)
+
+
+
+- [GitHub Pull Request from Unknown User](#github-pull-request-from-unknown-user)
+
+
+
 - [Github Commit Changes In Master](#github-commit-changes-in-master)
+
+
+
+- [Github Commit In Develop](#github-commit-in-develop)
 
 
 
@@ -1026,6 +1050,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [O365 Suspicious User Email Forwarding](#o365-suspicious-user-email-forwarding)
+
+
+
+
 
 
 
@@ -1820,6 +1848,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Clear Unallocated Sector Using Cipher App](#clear-unallocated-sector-using-cipher-app)
 
 
@@ -2444,6 +2476,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+- [Exchange PowerShell Abuse via SSRF](#exchange-powershell-abuse-via-ssrf)
+
+
+
+- [Exchange PowerShell Module Usage](#exchange-powershell-module-usage)
+
+
+
 - [Executables Or Script Creation In Suspicious Path](#executables-or-script-creation-in-suspicious-path)
 
 
@@ -2561,6 +2601,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Get Sysmon WMI Activity for Host](#get-sysmon-wmi-activity-for-host)
+
+
+
+
+
+
 
 
 
@@ -2917,6 +2963,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Permission Modification using Takeown App](#permission-modification-using-takeown-app)
+
+
+
+- [PetitPotam Network Share Access Request](#petitpotam-network-share-access-request)
+
+
+
+- [PetitPotam Suspicious Kerberos TGT Request](#petitpotam-suspicious-kerberos-tgt-request)
 
 
 
@@ -3925,6 +3979,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Count of Unique IPs Connecting to Ports](#count-of-unique-ips-connecting-to-ports)
 
 
@@ -4335,6 +4393,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Get Certificate logs for a domain](#get-certificate-logs-for-a-domain)
 
 
@@ -4390,6 +4452,12 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Get Web Session Information via session id](#get-web-session-information-via-session-id)
+
+
+
+
+
+
 
 
 
@@ -4542,6 +4610,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Multiple Archive Files Http Post Traffic](#multiple-archive-files-http-post-traffic)
+
+
+
+
 
 
 
@@ -5436,6 +5508,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Detect New Login Attempts to Routers](#detect-new-login-attempts-to-routers)
 
 
@@ -5840,6 +5916,16 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 - [Monitor Email For Brand Abuse](#monitor-email-for-brand-abuse)
 
 
@@ -5947,6 +6033,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 - [Okta User Logins From Multiple Cities](#okta-user-logins-from-multiple-cities)
+
+
+
+
 
 
 
@@ -6723,6 +6813,10 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
 - [Detect F5 TMUI RCE CVE-2020-5902](#detect-f5-tmui-rce-cve-2020-5902)
 
 
@@ -7159,7 +7253,21 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 
 
+
+
+
+
+
+
+
+
+
+
 - [Monitor Web Traffic For Brand Abuse](#monitor-web-traffic-for-brand-abuse)
+
+
+
+
 
 
 
@@ -12148,80 +12256,6 @@ _version_: 1
 ### Attempted Credential Dump From Registry via Reg exe
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
-- **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
-- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
-- **Last Updated**: 2020-6-04
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
- 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where process_name="cmd.exe" OR process_name="reg.exe" 
-| where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
-| into write_ssa_detected_events(); 
-```
-#### Associated Analytic Story
-
-* Credential Dumping
-
-
-#### How To Implement
-You must be ingesting windows endpoint data that tracks process activity, including parent-child relationships from your endpoints.
-
-#### Required field
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1003 | OS Credential Dumping | Credential Access |
-
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Known False Positives
-None identified.
-
-#### Reference
-
-
-* https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
-
-
-
-#### Test Dataset
-
-
-_version_: 1
-</details>
-
----
-
-### Attempted Credential Dump From Registry via Reg exe
-Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
-
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
 - **ATT&CK**: [T1003.002](https://attack.mitre.org/techniques/T1003/002/)
@@ -12297,6 +12331,80 @@ None identified.
 
 
 _version_: 4
+</details>
+
+---
+
+### Attempted Credential Dump From Registry via Reg exe
+Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: 
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
+- **Last Updated**: 2020-6-04
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where process_name="cmd.exe" OR process_name="reg.exe" 
+| where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
+| into write_ssa_detected_events(); 
+```
+#### Associated Analytic Story
+
+* Credential Dumping
+
+
+#### How To Implement
+You must be ingesting windows endpoint data that tracks process activity, including parent-child relationships from your endpoints.
+
+#### Required field
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003 | OS Credential Dumping | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+None identified.
+
+#### Reference
+
+
+* https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
+
+
+
+#### Test Dataset
+
+
+_version_: 1
 </details>
 
 ---
@@ -14198,6 +14306,142 @@ _version_: 3
 
 ---
 
+### Circle CI Disable Security Job
+This search looks for disable security job in CircleCI pipeline.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Datamodel**: 
+- **ATT&CK**: [T1554](https://attack.mitre.org/techniques/T1554/)
+- **Last Updated**: 2021-09-02
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`circleci` 
+| rename vcs.committer_name as user vcs.subject as commit_message vcs.url as url workflows.* as * 
+| stats values(job_name) as job_names by workflow_id workflow_name user commit_message url branch 
+| lookup mandatory_job_for_workflow workflow_name OUTPUTNEW job_name AS mandatory_job 
+| search mandatory_job=* 
+| eval mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0) 
+| where mandatory_job_executed=0 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `circle_ci_disable_security_job_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must index CircleCI logs.
+
+#### Required field
+
+* _times
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1554 | Compromise Client Software Binary | Persistence |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json
+
+
+_version_: 1
+</details>
+
+---
+
+### Circle CI Disable Security Step
+This search looks for disable security step in CircleCI pipeline.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Datamodel**: 
+- **ATT&CK**: [T1554](https://attack.mitre.org/techniques/T1554/)
+- **Last Updated**: 2021-09-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`circleci` 
+| rename workflows.job_id AS job_id 
+| join job_id [ 
+| search `circleci` 
+| stats values(name) as step_names count by job_id job_name ] 
+| stats count by step_names job_id job_name vcs.committer_name vcs.subject vcs.url owners{} 
+| rename vcs.* as * , owners{} as user 
+| lookup mandatory_step_for_job job_name OUTPUTNEW step_name AS mandatory_step 
+| search mandatory_step=* 
+| eval mandatory_step_executed=if(like(step_names, "%".mandatory_step."%"), 1, 0) 
+| where mandatory_step_executed=0 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `circle_ci_disable_security_step_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must index CircleCI logs.
+
+#### Required field
+
+* _times
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1554 | Compromise Client Software Binary | Persistence |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_step/circle_ci_disable_security_step.json
+
+
+_version_: 1
+</details>
+
+---
+
 ### Clear Unallocated Sector Using Cipher App
 this search is to detect execution of `cipher.exe` to clear the unallocated sectors of a specific disk. This technique was seen in some ransomware to make it impossible to forensically recover deleted files.
 
@@ -15955,12 +16199,12 @@ _version_: 2
 ---
 
 ### Create local admin accounts using net exe
-This search looks for the creation of local administrator accounts using net.exe.
+This search looks for the creation of local administrator accounts using net.exe .
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
 - **ATT&CK**: [T1136.001](https://attack.mitre.org/techniques/T1136/001/)
-- **Last Updated**: 2020-07-21
+- **Last Updated**: 2021-08-29
 
 <details>
   <summary>details</summary>
@@ -15968,7 +16212,7 @@ This search looks for the creation of local administrator accounts using net.exe
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.user) as user values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=net.exe OR Processes.process_name=net1.exe) AND (Processes.process=*localgroup* OR Processes.process=*/add* OR Processes.process=*user*) by Processes.process Processes.process_name Processes.dest 
+| tstats `security_content_summariesonly` count values(Processes.user) as user values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=net.exe OR Processes.process_name=net1.exe) AND (Processes.process=*localgroup* OR Processes.process=*user*) AND Processes.process=*/add* by Processes.process Processes.process_name Processes.dest 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -16037,7 +16281,7 @@ Administrators often leverage net.exe to create admin accounts.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
 
 
-_version_: 4
+_version_: 5
 </details>
 
 ---
@@ -19593,7 +19837,7 @@ _version_: 3
 ---
 
 ### Detect Exchange Web Shell
-The following query identifies suspicious .aspx created in 3 paths identified by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM group. Paths include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`. Upon triage, the suspicious .aspx file will likely look obvious on the surface. inspect the contents for script code inside. Identify additional log sources, IIS included, to review source and other potential exploitation.
+The following query identifies suspicious .aspx created in 3 paths identified by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`. Upon triage, the suspicious .aspx file will likely look obvious on the surface. inspect the contents for script code inside. Identify additional log sources, IIS included, to review source and other potential exploitation.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: Endpoint
@@ -19619,6 +19863,8 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 #### Associated Analytic Story
 
 * HAFNIUM Group
+
+* ProxyShell
 
 
 #### How To Implement
@@ -19659,6 +19905,12 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 
 
 * https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.csv
+
+* https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+
+* https://www.youtube.com/watch?v=FC6iHw258RI
+
+* https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 
 
 
@@ -28788,6 +29040,174 @@ _version_: 1
 
 ---
 
+### Exchange PowerShell Abuse via SSRF
+This analytic identifies suspicious behavior related to ProxyShell against on-premise Microsoft Exchange servers. \
+Modification of this analytic is requried to ensure fields are mapped accordingly. \
+A suspicious event will have `PowerShell`, the method `POST` and `autodiscover.json`. This is indicative of accessing PowerShell on the back end of Exchange with SSRF. \
+An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnsso.flq/powershell/?X-Rps-CAT=VgEAVAdXaW5kb3d...` (abbreviated) \
+Review the source attempting to perform this activity against your environment. In addition, review PowerShell logs and access recently granted to Exchange roles.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1190](https://attack.mitre.org/techniques/T1190/)
+- **Last Updated**: 2021-08-27
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+
+| `exchange` c_uri="*//autodiscover.json*" cs_uri_query="*PowerShell*" cs_method="POST" 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, cs_uri_query, cs_method, c_uri 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `exchange_powershell_abuse_via_ssrf_filter`
+```
+#### Associated Analytic Story
+
+* ProxyShell
+
+
+#### How To Implement
+The following analytic requires on-premise Exchange to be logging to Splunk using the TA - https://splunkbase.splunk.com/app/3225. Ensure logs are parsed correctly, or tune the analytic for your environment.
+
+#### Required field
+
+* _time
+
+* dest
+
+* cs_uri_query
+
+* cs_method
+
+* c_uri
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1190 | Exploit Public-Facing Application | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+Limited false positives, however, tune as needed.
+
+#### Reference
+
+
+* https://github.com/GossiTheDog/ThreatHunting/blob/master/AzureSentinel/Exchange-Powershell-via-SSRF
+
+* https://blog.orange.tw/2021/08/proxylogon-a-new-attack-surface-on-ms-exchange-part-1.html
+
+* https://peterjson.medium.com/reproducing-the-proxyshell-pwn2own-exploit-49743a4ea9a1
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/exchange-events.json
+
+
+_version_: 1
+</details>
+
+---
+
+### Exchange PowerShell Module Usage
+The following analytic identifies the usage of Exchange PowerShell modules that were recently used for a proof of concept related to ProxyShell. Currently, there is no active data shared or data we could re-produce relate to this part of the ProxyShell chain of exploits.  \
+Inherently, the usage of the modules is not malicious, but reviewing parallel processes, and user, of the session will assist with determining the intent. \
+Module - New-MailboxExportRequest will begin the process of exporting contents of a primary mailbox or archive to a .pst file. \
+Module - New-managementroleassignment can assign a management role to a management role group, management role assignment policy, user, or universal security group (USG).
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
+- **Last Updated**: 2021-08-27
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`powershell` EventCode=4104 Message IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by Path Message OpCode ComputerName User EventCode
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `exchange_powershell_module_usage_filter`
+```
+#### Associated Analytic Story
+
+* ProxyShell
+
+
+#### How To Implement
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+
+#### Required field
+
+* _time
+
+* Path
+
+* Message
+
+* OpCode
+
+* ComputerName
+
+* User
+
+* EventCode
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1059.001 | PowerShell | Execution |
+
+
+#### Kill Chain Phase
+
+* Reconnaissance
+
+* Exploitation
+
+
+#### Known False Positives
+Administrators or power users may use this PowerShell commandlet for troubleshooting.
+
+#### Reference
+
+
+* https://docs.microsoft.com/en-us/powershell/module/exchange/new-mailboxexportrequest?view=exchange-ps
+
+* https://docs.microsoft.com/en-us/powershell/module/exchange/new-managementroleassignment?view=exchange-ps
+
+* https://blog.orange.tw/2021/08/proxyshell-a-new-attack-surface-on-ms-exchange-part-3.html
+
+* https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
 ### Executables Or Script Creation In Suspicious Path
 This analytic will identify suspicious executable or scripts (known file extensions) in list of suspicious file path in Windows. This technique is used by adversaries to evade detection. The suspicious file path are known paths used in the wild and are not common to have executable or scripts.
 
@@ -31859,6 +32279,183 @@ _version_: 1
 
 ---
 
+### GitHub Dependabot Alert
+This search looks for Dependabot Alerts in Github logs.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Datamodel**: 
+- **ATT&CK**: [T1195.001](https://attack.mitre.org/techniques/T1195/001/)
+- **Last Updated**: 2021-09-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`github` alert.id=* action=create 
+| rename repository.full_name as repository, repository.html_url as repository_url 
+| stats min(_time) as firstTime max(_time) as lastTime by action alert.affected_package_name alert.affected_range alert.created_at alert.external_identifier alert.external_reference alert.fixed_in alert.severity repository repository_url 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `github_dependabot_alert_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must index GitHub logs. You can follow the url in reference to onboard GitHub logs.
+
+#### Required field
+
+* _time
+
+* alert.id
+
+* repository.full_name
+
+* repository.html_url
+
+* action
+
+* alert.affected_package_name
+
+* alert.affected_range
+
+* alert.created_at
+
+* alert.external_identifier
+
+* alert.external_reference
+
+* alert.fixed_in
+
+* alert.severity
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1195.001 | Compromise Software Dependencies and Development Tools | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.splunk.com/en_us/blog/tips-and-tricks/getting-github-data-with-webhooks.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_security_advisor_alert/github_security_advisor_alert.json
+
+
+_version_: 1
+</details>
+
+---
+
+### GitHub Pull Request from Unknown User
+This search looks for Pull Request from unknown user.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
+- **Datamodel**: 
+- **ATT&CK**: [T1195.001](https://attack.mitre.org/techniques/T1195/001/)
+- **Last Updated**: 2021-09-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`github` check_suite.pull_requests{}.id=* 
+| stats count by check_suite.head_commit.author.name check_suite.pull_requests{}.base.repo.name check_suite.pull_requests{}.head.ref check_suite.head_commit.message 
+| rename check_suite.head_commit.author.name as user check_suite.pull_requests{}.base.repo.name as repository check_suite.pull_requests{}.head.ref as ref_head check_suite.head_commit.message as commit_message 
+| search NOT `github_known_users` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `github_pull_request_from_unknown_user_filter`
+```
+#### Associated Analytic Story
+
+* Dev Sec Ops
+
+
+#### How To Implement
+You must index GitHub logs. You can follow the url in reference to onboard GitHub logs.
+
+#### Required field
+
+* _time
+
+* alert.id
+
+* repository.full_name
+
+* repository.html_url
+
+* action
+
+* alert.affected_package_name
+
+* alert.affected_range
+
+* alert.created_at
+
+* alert.external_identifier
+
+* alert.external_reference
+
+* alert.fixed_in
+
+* alert.severity
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1195.001 | Compromise Software Dependencies and Development Tools | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+unknown
+
+#### Reference
+
+
+* https://www.splunk.com/en_us/blog/tips-and-tricks/getting-github-data-with-webhooks.html
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json
+
+
+_version_: 1
+</details>
+
+---
+
 ### Github Commit Changes In Master
 This search is to detect a pushed or commit to master or main branch. This is to avoid unwanted modification to master without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a PR for review. of course in some cases admin of the project may did a changes directly to master branch
 
@@ -31917,6 +32514,71 @@ admin can do changes directly to master branch
 #### Test Dataset
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log
+
+
+_version_: 1
+</details>
+
+---
+
+### Github Commit In Develop
+This search is to detect a pushed or commit to develop branch. This is to avoid unwanted modification to develop without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a PR for review. of course in some cases admin of the project may did a changes directly to master branch
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1199](https://attack.mitre.org/techniques/T1199/)
+- **Last Updated**: 2021-09-01
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`github` branches{}.name = main OR branches{}.name = develop 
+|  stats count min(_time) as firstTime max(_time) as lastTime  by commit.author.html_url commit.commit.author.email commit.author.login commit.commit.message repository.pushed_at commit.commit.committer.date 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `github_commit_in_develop_filter`
+```
+#### Associated Analytic Story
+
+* DevSecOps
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs related to github logs having the fork, commit, push metadata that can be use to monitor the changes in a github project.
+
+#### Required field
+
+* _time
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1199 | Trusted Relationship | Initial Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Known False Positives
+admin can do changes directly to develop branch
+
+#### Reference
+
+
+* https://www.redhat.com/en/topics/devops/what-is-devsecops
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_develop.json
 
 
 _version_: 1
@@ -40045,6 +40707,171 @@ _version_: 1
 
 ---
 
+### PetitPotam Network Share Access Request
+The following analytic utilizes Windows Event Code 5145, "A network share object was checked to see whether client can be granted desired access". During our research into PetitPotam, CVE-2021-36942, we identified the ocurrence of this event on the target host with specific values. \
+To enable 5145 events via Group Policy - Computer Configuration->Polices->Windows Settings->Security Settings->Advanced Audit Policy Configuration. Expand this node, go to Object Access (Audit Polices->Object Access), then select the Setting Audit Detailed File Share Audit \
+It is possible this is not enabled by default and may need to be reviewed and enabled. \
+During triage, review parallel security events to identify further suspicious activity.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1187](https://attack.mitre.org/techniques/T1187/)
+- **Last Updated**: 2021-08-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` Account_Name="ANONYMOUS LOGON" EventCode=5145 Relative_Target_Name=lsarpc 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, Security_ID, Share_Name, Source_Address, Accesses, Message 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `petitpotam_network_share_access_request_filter`
+```
+#### Associated Analytic Story
+
+* PetitPotam NTLM Relay on Active Directory Certificate Services
+
+
+#### How To Implement
+Windows Event Code 5145 is required to utilize this analytic and it may not be enabled in most environments.
+
+#### Required field
+
+* _time
+
+* dest
+
+* Security_ID
+
+* Share_Name
+
+* Source_Address
+
+* Accesses
+
+* Message
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1187 | Forced Authentication | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+* Lateral Movement
+
+
+#### Known False Positives
+False positives have been limited when the Anonymous Logon is used for Account Name.
+
+#### Reference
+
+
+* https://attack.mitre.org/techniques/T1187/
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5145
+
+* https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5145
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
+### PetitPotam Suspicious Kerberos TGT Request
+The following analytic identifes Event Code 4768, A `Kerberos authentication ticket (TGT) was requested`, successfull occurs. This behavior has been identified to assist with detecting PetitPotam, CVE-2021-36942. Once an attacer obtains a computer certificate by abusing Active Directory Certificate Services in combination with PetitPotam, the next step would be to leverage the certificate for malicious purposes. One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool like Rubeus. This request will generate a 4768 event with some unusual fields depending on the environment. This analytic will require tuning, we recommend filtering Account_Name to Domain Controllers for your environment.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
+- **Last Updated**: 2021-08-31
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+`wineventlog_security` EventCode=4768 Client_Address!="::1" Certificate_Thumbprint!="" Account_Name=*$ 
+| stats count min(_time) as firstTime max(_time) as lastTime by dest, Account_Name, Client_Address, action, Message 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `petitpotam_suspicious_kerberos_tgt_request_filter`
+```
+#### Associated Analytic Story
+
+* PetitPotam NTLM Relay on Active Directory Certificate Services
+
+
+#### How To Implement
+The following analytic requires Event Code 4768. Ensure that it is logging no Domain Controllers and appearing in Splunk.
+
+#### Required field
+
+* _time
+
+* dest
+
+* Account_Name
+
+* Client_Address
+
+* action
+
+* Message
+
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1003 | OS Credential Dumping | Credential Access |
+
+
+#### Kill Chain Phase
+
+* Exploitation
+
+* Lateral Movement
+
+
+#### Known False Positives
+False positives are possible if the environment is using certificates for authentication.
+
+#### Reference
+
+
+* https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=4768
+
+* https://isc.sans.edu/forums/diary/Active+Directory+Certificate+Services+ADCS+PKI+domain+admin+vulnerability/27668/
+
+
+
+#### Test Dataset
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log
+
+
+_version_: 1
+</details>
+
+---
+
 ### Phishing Email Detection by Machine Learning Method - SSA
 Malicious mails can conduct phishing that induces readers to open attachment, click links or trigger third party service. This detect uses Natural Language Processing (NLP) approach to analyze an email message's content (Sender, Subject and Body) and judge whether it is a phishing email. The detection adopts a deep learning (neural network) model that employs character level embeddings plus LSTM layers to perform classification. The model is pre-trained and then published as ONNX format. Current sample model is trained using the dataset published at https://github.com/splunk/attack_data/tree/master/datasets/T1566_Phishing_Email/splunk_train.json User are expected to re-train the model by combining with their own training data for better accuracy using the provided model file (SMLE notebook). DSP pipeline then processes the email message and passes it as an event to Apply ML Models function, which returns the probability of a phishing email. Current implementation assumes the email is fed to DSP in JSON format contains at least email's sender, subject and its message body, including reply content, if any.
 
@@ -43700,9 +44527,9 @@ _version_: 1
 This search looks for a process launching an `*.lnk` file under `C:\User*` or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: Endpoint
 - **ATT&CK**: [T1566.002](https://attack.mitre.org/techniques/T1566/002/)
-- **Last Updated**: 2021-01-28
+- **Last Updated**: 2021-08-26
 
 <details>
   <summary>details</summary>
@@ -43710,18 +44537,18 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 #### Search
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk" AND Filesystem.file_path="C:\\Temp*"  by _time span=1h Filesystem.process_id Filesystem.file_name Filesystem.file_path Filesystem.file_hash Filesystem.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.lnk" AND (Filesystem.file_path="C:\\User\\*" OR Filesystem.file_path="*\\Temp\\*") by _time span=1h Filesystem.process_guid Filesystem.file_name Filesystem.file_path Filesystem.file_hash Filesystem.user 
 | `drop_dm_object_name(Filesystem)` 
-| rename process_id as lnk_pid 
-| join lnk_pid, _time [
-| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=*  by _time span=1h Processes.parent_process_id Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process 
+| rename process_guid as lnk_guid 
+| join lnk_guid, _time [
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=* by _time span=1h Processes.parent_process_guid Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process 
 | `drop_dm_object_name(Processes)` 
-| rename parent_process_id as lnk_pid 
-| fields _time lnk_pid process_id dest process_name process_path process] 
+| rename parent_process_guid as lnk_guid 
+| fields _time lnk_guid process_id dest process_name process_path process] 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| table firstTime, lastTime, lnk_pid, process_id, user, dest, file_name, file_path, process_name, process, process_path, file_hash 
-| `process_creating_lnk_file_in_suspicious_location_filter` 
+| table firstTime, lastTime, lnk_guid, process_id, user, dest, file_name, file_path, process_name, process, process_path, file_hash 
+| `process_creating_lnk_file_in_suspicious_location_filter`
 ```
 #### Associated Analytic Story
 
@@ -43782,7 +44609,7 @@ This detection should yield little or no false positive results. It is uncommon 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.002/lnk_file_temp_folder/windows-sysmon.log
 
 
-_version_: 4
+_version_: 5
 </details>
 
 ---
@@ -54234,6 +55061,76 @@ _version_: 1
 ---
 
 ### Unusually Long Command Line
+Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
+
+- **Product**: Splunk Behavioral Analytics
+- **Datamodel**: 
+- **ATT&CK**: 
+- **Last Updated**: 2020-10-06
+
+<details>
+  <summary>details</summary>
+
+#### Search
+```
+ 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where cmd_line!=null and dest_user_id!=null 
+| eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
+|(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
+| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
+| adaptive_threshold algorithm="quantile" entity="process_name" window=60480000 
+| where label AND quantile>0.99 
+| first_time_event input_columns=["dest_device_id", "cmd_line"] 
+| where first_time_dest_device_id_cmd_line 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
+| into write_ssa_detected_events();
+```
+#### Associated Analytic Story
+
+* Unusual Processes
+
+
+#### How To Implement
+You must be ingesting sysmon endpoint data that monitors command lines.
+
+#### Required field
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+
+#### Kill Chain Phase
+
+* Actions on Objectives
+
+
+#### Known False Positives
+This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
+
+#### Reference
+
+
+#### Test Dataset
+
+
+_version_: 1
+</details>
+
+---
+
+### Unusually Long Command Line
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -54304,76 +55201,6 @@ Some legitimate applications start with long command lines.
 
 
 _version_: 5
-</details>
-
----
-
-### Unusually Long Command Line
-Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
-
-- **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
-- **ATT&CK**: 
-- **Last Updated**: 2020-10-06
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
- 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
-| eval cmd_line=ucast(map_get(input_event, "process"), "string", null), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where cmd_line!=null and dest_user_id!=null 
-| eval cmd_line_norm=replace(cast(cmd_line, "string"), /\s(--?\w+)
-|(\/\w+)/, " ARG"), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, "PATH"), cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), input=parse_double(len(coalesce(cmd_line_norm, ""))) 
-| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
-| adaptive_threshold algorithm="quantile" entity="process_name" window=60480000 
-| where label AND quantile>0.99 
-| first_time_event input_columns=["dest_device_id", "cmd_line"] 
-| where first_time_dest_device_id_cmd_line 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
-| into write_ssa_detected_events();
-```
-#### Associated Analytic Story
-
-* Unusual Processes
-
-
-#### How To Implement
-You must be ingesting sysmon endpoint data that monitors command lines.
-
-#### Required field
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-
-#### Kill Chain Phase
-
-* Actions on Objectives
-
-
-#### Known False Positives
-This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
-
-#### Reference
-
-
-#### Test Dataset
-
-
-_version_: 1
 </details>
 
 ---
@@ -54599,6 +55426,8 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 * HAFNIUM Group
 
+* ProxyShell
+
 
 #### How To Implement
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -54638,6 +55467,12 @@ Baseline your environment before production. It is possible build systems using 
 
 
 * https://www.microsoft.com/security/blog/2020/02/04/ghost-in-the-shell-investigating-web-shell-attacks/
+
+* https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+
+* https://www.youtube.com/watch?v=FC6iHw258RI
+
+* https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
 
 
 

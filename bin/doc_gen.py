@@ -32,7 +32,7 @@ def mitre_attack_object(technique, attack):
             if tactic['kill_chain_name'] == 'mitre-attack':
                 tactic = tactic['phase_name'].replace('-', ' ')
                 tactics.append(tactic.title())
-                
+
     mitre_attack['tactic'] = tactics
     return mitre_attack
 
@@ -65,14 +65,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
                 sys.exit(1)
         story_yaml = object
 
-        # enrich the mitre object
-        mitre_attacks = []
-        if 'mitre_attack_id' in story_yaml['tags']:
-            for mitre_technique_id in story_yaml['tags']['mitre_attack_id']:
-                mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
-                mitre_attacks.append(mitre_attack)
-            # story_yaml['mitre_attacks'] = sorted(mitre_attacks, key = lambda i: i['tactic'])
-            story_yaml['mitre_attacks'] = mitre_attacks
+
         stories.append(story_yaml)
 
     sorted_stories = sorted(stories, key=lambda i: i['name'])
@@ -87,9 +80,12 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
         if 'analytic_story' in detection['tags']:
             for story in detection['tags']['analytic_story']:
                 if story in sto_to_det.keys():
-                    sto_to_det[story].add(detection['name'])
+                    sto_to_det[story]['detections'].append(detection)
                 else:
-                    sto_to_det[story] = {detection['name']}
+                    sto_to_det[story] = {}
+                    sto_to_det[story]['detections'] = []
+                    sto_to_det[story]['detections'].append(detection)
+
                 data_model = detection['datamodel']
                 if data_model:
                     for d in data_model:
@@ -122,7 +118,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
     # add the enrich objects to the story
     for story in sorted_stories:
-        story['detections'] = sorted(sto_to_det[story['name']])
+        story['detections'] = sto_to_det[story['name']]['detections']
         if story['name'] in sto_to_data_models:
             story['data_models'] = sorted(sto_to_data_models[story['name']])
         if story['name'] in sto_to_mitre_attack_ids:
@@ -253,14 +249,14 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 
-    
+
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     VERBOSE = args.verbose
 
-    
+
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     if VERBOSE:
