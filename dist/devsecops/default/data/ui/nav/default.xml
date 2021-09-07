@@ -1,9 +1,7 @@
 <nav search_view="search">
   <view name="analytics" default='true' />
+  <view name="user_analytics" />
+  <view name="repository_analytics" />
   <view name="search" />
-  <view name="analytics_workspace" />
-  <view name="datasets" />
-  <view name="reports" />
-  <view name="alerts" />
   <view name="dashboards" />
 </nav>
