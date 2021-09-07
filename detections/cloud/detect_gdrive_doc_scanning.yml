@@ -1,7 +1,7 @@
 name: Detect Gdrive Doc Scanning
 id: 9fbddcb5-f302-4c98-8cc6-42d1293799f7
 version: 1
-date: '2021-08-26'
+date: '2021-08-27'
 author: Rod Soto, Splunk
 type: Anomaly
 datamodel:
