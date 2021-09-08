@@ -28,11 +28,20 @@ jobs:
           echo "PASS: Not a tagged release"
           exit 0
           fi                    
+  
+  quit-for-dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    steps:
+      - name: "Placeholder"
+        run: |
+          echo "yes it ran"
+
 
   detection-testing:
       runs-on: ubuntu-latest
       environment: Detection-Testing-Approval
-      needs: [validate-tag-if-present]
+      needs: [validate-tag-if-present, quit-for-dependabot]
       steps:  
 
           - name: Checkout Repo
