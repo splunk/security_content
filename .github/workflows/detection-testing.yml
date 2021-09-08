@@ -33,6 +33,7 @@ jobs:
       runs-on: ubuntu-latest
       environment: Detection-Testing-Approval
       needs: [validate-tag-if-present]
+      if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
       steps:  
 
           - name: Checkout Repo
