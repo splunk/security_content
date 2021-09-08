@@ -10,8 +10,9 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 {{ story.description }}
 
 * '''Product''': {{ story.tags.product|join(', ') }}
-* '''Datamodel''': {{ story.data_models|join(', ') }}
+* '''Datamodel''': {%-for datamodel in story.data_models %}[https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}} {{ datamodel }}]{% if not loop.last %}, {% endif %}{%-endfor %}
 * '''Last Updated''': {{ story.date }}
+* '''Use Case''': {{ story.tags.usecase }}
 
 <div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
@@ -22,6 +23,7 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 ! ID
 ! Technique
 ! Tactic
+! Type
 {%- for detection in story.detections %}
 |-
 | [[Documentation:ESSOC:detections:Detections#{{ detection.name|replace(" ", "_")|capitalize }}|{{ detection.name }}]]
@@ -40,6 +42,7 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 |
 |
 {% endif %}
+| {{ detection.type }}
 {%- endfor %}
 |}
 

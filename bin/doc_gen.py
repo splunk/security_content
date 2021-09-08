@@ -199,7 +199,10 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
             detection_yaml['mitre_attacks'] = mitre_attacks
             #detection_yaml['mitre_attacks'] = sorted(mitre_attacks, key = lambda i: i['tactic'])
         detection_yaml['kind'] = manifest_file.split('/')[-2]
-        detections.append(detection_yaml)
+        if detection_yaml['type'] == 'Baseline' or detection_yaml['type'] == 'Investigation':
+            continue
+        else:
+            detections.append(detection_yaml)
 
     sorted_detections = sorted(detections, key=lambda i: i['name'])
 
