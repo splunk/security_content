@@ -33,3 +33,6 @@ export = system
 [viewstates]
 access = read : [ * ], write : [ * ]
 export = system
+
+[searchbnf]
+export = system
