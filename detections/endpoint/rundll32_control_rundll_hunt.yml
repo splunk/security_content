@@ -1,4 +1,4 @@
-name: Rundll32 Control_RunDLL Hunt
+name: Rundll32 Control RunDLL Hunt
 id: c8e7ced0-10c5-11ec-8b03-acde48001122
 version: 1
 date: '2021-09-08'
@@ -7,8 +7,8 @@ type: Hunting
 datamodel:
 - Endpoint
 description: 'The following hunting detection identifies rundll32.exe with `control_rundll` within the command-line, loading a .cpl or another file type. Developed in relation to CVE-2021-40444.
-  Rundll32.exe can also be used to execute Control Panel Item files (.cpl) through the undocumented shell32.dll functions Control_RunDLL and Control_RunDLLAsUser. Double-clicking a .cpl file also causes rundll32.exe to execute. 
-  This is written to be a bit more broad by not including .cpl.
+  Rundll32.exe can also be used to execute Control Panel Item files (.cpl) through the undocumented shell32.dll functions Control_RunDLL and Control_RunDLLAsUser. Double-clicking a .cpl file also causes rundll32.exe to execute. \
+  This is written to be a bit more broad by not including .cpl. \
   During triage, review parallel processes to identify any further suspicious behavior.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=rundll32.exe OR Processes.original_file_name=RUNDLL32.EXE)
