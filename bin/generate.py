@@ -17,6 +17,10 @@ import csv
 import shutil
 
 
+# Global variable
+global_product = 'ESCU'
+
+
 def load_objects(file_path, VERBOSE, REPO_PATH):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
@@ -393,6 +397,18 @@ def add_rba(detection):
 
 def prepare_detections(detections, deployments, OUTPUT_PATH):
     for detection in detections:
+        # only for DevSecOps
+        if global_product == 'DevSecOps':
+            if detection['tags']['risk_score']:
+                detection['search'] = detection['search'] + ' | eval risk_score=' + str(detection['tags']['risk_score'])
+
+            if detection['type'] == 'Anomaly':
+                detection['search'] = detection['search'] + ' | collect index=signals'
+            elif detection['type'] == 'TTP':
+                detection['search'] = detection['search'] + ' | collect index=alerts'
+            elif detection['type'] == 'Correlation':
+                detection['search'] = detection['search'] + ' | collect index=alerts'
+
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])
         if data_model:
@@ -571,6 +587,11 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
         objects["detections"]  = [object for object in objects["detections"]  if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         objects["stories"] = [object for object in objects["stories"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
 
+    if PRODUCT == "DevSecOps":
+        objects["detections"]  = [object for object in objects["detections"]  if 'Dev Sec Ops Analytics' in object['tags']['product']]
+        objects["stories"] = [object for object in objects["stories"] if 'Dev Sec Ops Analytics' in object['tags']['product']]
+
+
     # only use ESCU detections to the configurations
     objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
     # only use ESCU stories to the configuration
@@ -589,7 +610,8 @@ def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     return objects
 
 def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
-
+    global global_product
+    global_product = PRODUCT
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     objects = get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
