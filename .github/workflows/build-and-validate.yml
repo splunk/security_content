@@ -80,6 +80,8 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
       
 
@@ -136,6 +138,8 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
 
       - name: Run Generate
@@ -143,21 +147,26 @@ jobs:
           source venv/bin/activate
           python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu
           python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
+          python3 contentctl.py --path . --verbose generate --product DevSecOps --output dist/devsecops
           #make a copy of use_case_lib in order to have ES work :-(
           cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
           cp dist/saaws/default/use_case_library.conf dist/saaws/default/analyticstories.conf
+          cp dist/devsecops/default/use_case_library.conf dist/devsecops/default/analyticstories.conf
 
       - name: Copy lookups .csv files
         run: | 
           # clean up current lookups
           rm -rf dist/escu/lookups
           rm -rf dist/saaws/lookups
+          rm -rf dist/devsecops/lookups
           mkdir dist/escu/lookups
           mkdir dist/saaws/lookups
+          mkdir dist/devsecops/lookups
           #copy over lookups
           cd lookups
           cp -rv *.csv ../dist/escu/lookups
           cp -rv *.csv ../dist/saaws/lookups
+          cp -rv *.csv ../dist/devsecops/lookups
       
       #Tag is '' for non-tagged push and the tag name for a tagged release
       - name: Set tag
@@ -187,13 +196,17 @@ jobs:
             sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
             tar -czf content-pack-build-escu.tar.gz dist/escu/*
+            
             # update build number and version for saaws
             sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/saaws/default/app.conf
             sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/app.conf
             sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/saaws/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
             tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
-      
+
+            # update build number and version for devsecops
+            tar -czf content-pack-build-devsecops.tar.gz dist/devsecops/*
+
       - name: Persist to Workspace
         uses: actions/upload-artifact@v2
         with:
@@ -201,6 +214,7 @@ jobs:
           path: |
             content-pack-build-escu.tar.gz
             content-pack-build-saaws.tar.gz
+            content-pack-build-devsecops.tar.gz
             
 
   build-package:
@@ -234,24 +248,33 @@ jobs:
           cd slim-latest
           virtualenv --python=/usr/bin/python2.7 --clear venv
           source venv/bin/activate
-          python -m pip install semantic_version
-          python -m pip install .
+          python2 -m pip install --upgrade pip
+          python2 -m pip install wheel
+          python2 -m pip install semantic_version
+          python2 -m pip install .
       - name: Create a .spl for this Build Using Slim
         run: |
           source slim-latest/venv/bin/activate
           cd build
           tar -zxf content-pack-build-escu.tar.gz
           tar -zxf content-pack-build-saaws.tar.gz
+          tar -zxf content-pack-build-devsecops.tar.gz
           mv dist/escu DA-ESS-ContentUpdate
           mv dist/saaws DA-ESS_AmazonWebServices_Content
+          mv dist/devsecops dev_sec_ops_analytics
           slim package -o upload DA-ESS-ContentUpdate
           slim package -o upload DA-ESS_AmazonWebServices_Content
+          slim package -o upload dev_sec_ops_analytics
 
           cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
           sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
 
           cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
           sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz >> checksum.txt
+
+          cp upload/dev_sec_ops_analytics-*tar.gz dev_sec_ops_analytics-latest.tar.gz
+
+          touch tag-canary.txt
 
       - name: store_artifacts
         uses: actions/upload-artifact@v2
@@ -266,6 +289,7 @@ jobs:
           path: |
             build/DA-ESS-ContentUpdate-latest.tar.gz
             build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
+            build/dev_sec_ops_analytics-latest.tar.gz
             build/checksum.txt
       
 
@@ -367,6 +391,8 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
       
       - name: run reporting
@@ -421,6 +447,8 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
       
       - name: Get CTI Repo for Mitre context 
@@ -575,6 +603,8 @@ jobs:
           rm -rf venv
           python3 -m venv --clear venv
           source venv/bin/activate
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
 
       - name: Create Baseline Folder
