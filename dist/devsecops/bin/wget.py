@@ -19,8 +19,6 @@ import app
 import os,sys
 import requests
 
-splunkhome = os.environ['SPLUNK_HOME']
-sys.path.append(os.path.join(splunkhome, 'etc', 'apps', 'devsecops', 'lib'))
 from splunklib.searchcommands import dispatch, StreamingCommand, Configuration, validators, Option
 from splunklib.searchcommands.validators import Code
 
