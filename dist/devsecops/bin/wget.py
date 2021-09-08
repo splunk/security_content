@@ -27,32 +27,27 @@ class WgetCommand(StreamingCommand):
     """ Call wget from url in data.
     ##Syntax
     .. code-block::
-        wget url=<field> fieldname=<field>
+        wget output=<field> <field-list>
     ##Description
     The :code:`wget` command calls a url which is present in a field.
     ##Example
     tbd
     """
-    url = Option(
-        doc='''
-        **Syntax:** **url=***<url>*
-        **Description:** Name of the field that contains a given url''',
-        require=True, validate=validators.Fieldname())
 
-    fieldname = Option(
+    output = Option(
         doc='''
-        **Syntax:** **fieldname=***<fieldname>*
+        **Syntax:** **output=***<output>*
         **Description:** Name of the field that will hold the return data''',
         require=True, validate=validators.Fieldname())
 
     def stream(self, records):
         self.logger.debug('WgetCommand: %s', self)  # logs command line
-        url = self.url
-        # to do check if valid url
+        fieldnames = self.fieldnames
 
         for record in records:
-            r = requests.get(url)
-            record[self.fieldname] = r.json()
-            yield record
+            for fieldname in fieldnames:
+                r = requests.get(record[fieldname])
+                record[self.output] = r.json()
+                yield record
 
 dispatch(WgetCommand, sys.argv, sys.stdin, sys.stdout, __name__)
