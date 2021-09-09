@@ -9,6 +9,8 @@ access = read : [ * ], write : [ admin, power ]
 [eventtypes]
 export = system
 
+[savedsearches]
+owner = admin
 
 ### PROPS
 
