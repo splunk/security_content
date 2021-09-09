@@ -20,6 +20,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Administrators or power users may use PowerView for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1018/
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainController/
 tags:
   analytic_story:
   - Active Directory Discovery

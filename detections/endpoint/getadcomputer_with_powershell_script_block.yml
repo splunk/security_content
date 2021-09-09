@@ -9,7 +9,7 @@ datamodel:
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-AdGroup` commandlet. The `Get-AdGroup` commandlet is used to return a list of all domain computers. 
   Red Teams and adversaries may leverage this commandlet to enumerate domain computers for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*Get-AdGroup*")
+search: '`powershell` EventCode=4104 (Message = "*Get-AdComputer*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
   ComputerName User | `security_content_ctime(firstTime)` | `getadcomputer_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable

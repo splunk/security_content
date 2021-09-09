@@ -9,7 +9,7 @@ datamodel:
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainComputer` commandlet. `GetDomainComputer` is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains. 
   Red Teams and adversaries alike may use PowerView to enumerate domain computers for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*GetDomainComputer*")
+search: '`powershell` EventCode=4104 (Message = "*Get-DomainComputer*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
   ComputerName User | `security_content_ctime(firstTime)` | `getdomaincomputer_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
