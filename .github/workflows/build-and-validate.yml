@@ -172,11 +172,13 @@ jobs:
       - name: Set tag
         id: vars
         run: |
-          if [ echo ${GITHUB_REF} | grep "^refs/tags/*" ]; then
+          if [ $(echo ${GITHUB_REF} | grep "^refs/tags/*") ]; then
             #failed to find the refs/tags/ beginning, grab and set the tag
+            echo "Release is TAGGED!"
             echo "::set-output name=tag::${GITHUB_REF#refs/tags/}"
           else
             #Not a tagged relese
+            echo "Release is NOT TAGGED!"
             echo "::set-output name=tag::"
           fi
 
