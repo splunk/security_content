@@ -37,8 +37,8 @@ tags:
   impact: 60
   kill_chain_phases:
   - Exploitation
-  message: Safeboot registry $registry_path$ was added or modified with a
-    new value $registry_value_name$ on $dest$
+  message: Safeboot registry $registry_path$ was added or modified with a new value
+    $registry_value_name$ on $dest$
   mitre_attack_id:
   - T1547.001
   observable:
