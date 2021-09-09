@@ -1,6 +1,10 @@
 ---
-title: "Posts by Category"
+title: "Detections"
 layout: categories
+author_profile: false
 permalink: /detections/
-author_profile: true
+sidebar:
+  nav: "detections"
 ---
+
+this is a set of detections

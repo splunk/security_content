@@ -26,8 +26,8 @@ github_username: splunk
 # Build settings
 #theme: minimal-mistakes-jekyll
 remote_theme: "mmistakes/minimal-mistakes"
-#minimal_mistakes_skin: "default", #neon, dark are also options
-minimal_mistakes_skin: "neon"
+minimal_mistakes_skin: "contrast" #default, neon, dark are also options
+#minimal_mistakes_skin: "neon"
 
 # Build settings
 markdown: kramdown
@@ -85,6 +85,7 @@ footer:
       url: "https://github.com/splunk/security_content"
 
 defaults:
+  # _docs
   # _posts
   - scope:
       path: ""

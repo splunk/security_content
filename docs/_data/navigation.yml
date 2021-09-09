@@ -7,3 +7,26 @@ main:
     url: /playbooks/
   - title: "About"
     url: /about/
+detections:
+  - title: "Tactic"
+    children:
+      - title: "Initial Access"
+        url: /detections/initial_access/
+      - title: "Impact"
+        url: /detections/impact
+      - title: "Execution"
+        url: /detections/exection
+  - title: "Data Source"
+    children:
+      - title: "Endpoint"
+        url: /detections/endpoint/
+      - title: "Cloud"
+        url: /detections/cloud/
+stories:
+  - title: "Analytic Stories"
+    children:
+      - title: "Adversary Tactics"
+        url: /stories/adversary_tactics/
+      - title: "Cloud Security"
+        url: /stories/cloud_security
+
