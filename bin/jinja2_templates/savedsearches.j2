@@ -84,6 +84,11 @@ action.email.to = {{ detection.deployment.alert_action.email.to }}
 action.email.message.alert = {{ detection.deployment.alert_action.email.message | custom_jinja2_enrichment_filter(detection) }}
 action.email.useNSSubject = 1
 {% endif %}
+{% if detection.deployment.alert_action.slack is defined %}
+action.slack = 1
+action.slack.param.channel = {{ detection.deployment.alert_action.slack.channel | custom_jinja2_enrichment_filter(detection) }}
+action.slack.param.message = {{ detection.deployment.alert_action.slack.message | custom_jinja2_enrichment_filter(detection) }}
+{% endif %}
 {% endif %}
 alert.digest_mode = 1
 {% if detection.disabled is defined %}

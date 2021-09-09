@@ -137,6 +137,43 @@
             "rule_description"
           ],
           "type": "object"
+        },
+        "slack": {
+          "$id": "#/properties/alert_action/properties/slack",
+          "additionalProperties": true,
+          "default": {},
+          "description": "By enabling it, a slack message is sent",
+          "examples": [
+            {
+              "channel": "slack_channel",
+              "message": "Alert x triggered"
+            }
+          ],
+          "properties": {
+            "channel": {
+              "$id": "#/properties/alert_action/properties/slack/properties/channel",
+              "default": "",
+              "description": "Slack channel",
+              "examples": [
+                "slack_channel"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "$id": "#/properties/alert_action/properties/slack/properties/message",
+              "default": "",
+              "description": "message",
+              "examples": [
+                "Alert x triggered"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "channel",
+            "message"
+          ],
+          "type": "object"
         }
       },
       "type": "object"

@@ -32,6 +32,8 @@ tags:
   kill_chain_phases:
   - Actions on Objectives
   message: Kubernetes Scanner image pulled on host $host$
+  deployments:
+  - Slack Alert
   mitre_attack_id:
   - T1526
   nist:

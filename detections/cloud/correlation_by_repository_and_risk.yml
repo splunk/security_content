@@ -24,6 +24,8 @@ tags:
   kill_chain_phases:
   - Actions on Objectives
   message: Correlation triggered for user $user$
+  deployments:
+  - Slack Alert
   mitre_attack_id:
   - T1204.003
   nist:
