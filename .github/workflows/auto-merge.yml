@@ -1,17 +1,13 @@
-name: automerge
+name: auto-merge
 on:
   pull_request_target:
 
 jobs:
-  automerge:
+  auto-merge:
     runs-on: ubuntu-latest
     steps:
-
-      - name: Print the name of the actor
-        run: |
-          echo "The name of the actor is [${{ github.actor }}]"
-      - name: automerge
-        uses: "pascalgn/automerge-action@v0.14.3"
-        env:
-          GITHUB_TOKEN: "${{ secrets.AUTOMERGE }}"
-          MERGE_LABELS: "dependencies"
+      - uses: actions/checkout@v2
+      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with:
+          target: minor
+          github-token: ${{ secrets.AUTOMERGE }}
