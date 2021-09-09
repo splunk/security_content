@@ -2,6 +2,7 @@
   <view name="analytics" default='true' />
   <view name="user_analytics" />
   <view name="repository_analytics" />
+  <view name="dev_sec_ops_analytics" />
   <view name="search" />
   <view name="dashboards" />
 </nav>

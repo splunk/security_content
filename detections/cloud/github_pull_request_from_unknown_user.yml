@@ -11,6 +11,7 @@ search: '`github` check_suite.pull_requests{}.id=* | stats count by check_suite.
   check_suite.head_commit.message | rename check_suite.head_commit.author.name as
   user repository.full_name as repository check_suite.pull_requests{}.head.ref
   as ref_head check_suite.head_commit.message as commit_message | search NOT `github_known_users`
+  | eval phase="code"
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
   | `github_pull_request_from_unknown_user_filter`'
 how_to_implement: You must index GitHub logs. You can follow the url in reference
