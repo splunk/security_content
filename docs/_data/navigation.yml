@@ -1,0 +1,9 @@
+main:
+  - title: "Detections"
+    url: /detections/
+  - title: "Analytic Stories"
+    url: /stories/
+  - title: "Playbooks"
+    url: /playbooks/
+  - title: "About"
+    url: /about/
