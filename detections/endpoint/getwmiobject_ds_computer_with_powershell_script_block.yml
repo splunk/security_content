@@ -7,18 +7,22 @@ type: TTP
 datamodel:
 - Endpoint
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-WmiObject` commandlet. The `DS_Computer` class parameter leverages WMI to query for all domain computers.
-  Red Teams and adversaries may leverage this commandlet to enumerate domain computers for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message=*Get-WmiObject* AND Message=*"namespace root\\directory\\ldap"* AND Message=*"class ds_computer"*)
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
-  ComputerName User | `security_content_ctime(firstTime)` | `getwmiobject_ds_computer_with_powershell_script_block_filter`'
+  to identify the execution of the `Get-WmiObject` commandlet. The `DS_Computer` class
+  parameter leverages WMI to query for all domain computers. Red Teams and adversaries
+  may leverage this commandlet to enumerate domain computers for situational awareness
+  and Active Directory Discovery.
+search: '`powershell` EventCode=4104 (Message=*Get-WmiObject* AND Message=*"namespace
+  root\\directory\\ldap"* AND Message=*"class ds_computer"*) | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `getwmiobject_ds_computer_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
+known_false_positives: Administrators or power users may use this PowerShell commandlet
+  for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1018/
-- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-wmiobject?view=powershell-5.1 
+- https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-wmiobject?view=powershell-5.1
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -48,3 +52,4 @@ tags:
     type: Endpoint
     role:
     - Victim
+  automated_detection_testing: passed
