@@ -7,18 +7,20 @@ type: TTP
 datamodel:
 - Endpoint
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the `[Adsisearcher]` type accelerator being used to query Active Directory for domain groups.
-  Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate domain groups for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*[adsisearcher]*" AND Message = "*(objectcategory=group)*" AND Message = "*findAll()*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
-  ComputerName User | `security_content_ctime(firstTime)` | `domain_group_discovery_with_adsisearcher_filter`'
+  to identify the `[Adsisearcher]` type accelerator being used to query Active Directory
+  for domain groups. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate
+  domain groups for situational awareness and Active Directory Discovery.
+search: '`powershell` EventCode=4104 (Message = "*[adsisearcher]*" AND Message = "*(objectcategory=group)*"
+  AND Message = "*findAll()*") | stats count min(_time) as firstTime max(_time) as
+  lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `domain_group_discovery_with_adsisearcher_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: Administrators or power users may use Adsisearcher for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1069/002/
-- https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/ 
+- https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -48,3 +50,4 @@ tags:
     type: Endpoint
     role:
     - Victim
+  automated_detection_testing: passed
