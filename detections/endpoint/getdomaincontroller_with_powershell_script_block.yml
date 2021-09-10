@@ -7,15 +7,18 @@ type: TTP
 datamodel:
 - Endpoint
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainController` commandlet. `Get-DomainController` is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains. 
-  Red Teams and adversaries alike may use PowerView to enumerate domain computers for situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*Get-DomainController*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
-  ComputerName User | `security_content_ctime(firstTime)` | `getdomaincontroller_with_powershell_script_block_filter`'
+  to identify the execution of the `Get-DomainController` commandlet. `Get-DomainController`
+  is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
+  Red Teams and adversaries alike may use PowerView to enumerate domain computers
+  for situational awareness and Active Directory Discovery.
+search: '`powershell` EventCode=4104 (Message = "*Get-DomainController*") | stats
+  count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName
+  User | `security_content_ctime(firstTime)` | `getdomaincontroller_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
+known_false_positives: Administrators or power users may use this PowerShell commandlet
+  for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1018/
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainController/
@@ -48,3 +51,4 @@ tags:
     type: Endpoint
     role:
     - Victim
+  automated_detection_testing: passed
