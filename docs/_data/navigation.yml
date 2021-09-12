@@ -1,0 +1,42 @@
+main:
+  - title: "Detections"
+    url: /detections/
+  - title: "Analytic Stories"
+    url: /stories/
+  - title: "Playbooks"
+    url: /playbooks/
+  - title: "About"
+    url: /about/
+  - title: "Tags"
+    url: /tags/
+detections:
+  - title: "Tactic"
+    children:
+      - title: "Initial Access"
+        url: /detections/initial_access/
+      - title: "Impact"
+        url: /detections/impact
+      - title: "Execution"
+        url: /detections/execution
+      - title: "Defense Evasion"
+        url: /detections/defense_evasion
+
+  - title: "Datamodel"
+    children:
+      - title: "Endpoint"
+        url: /detections/endpoint/
+      - title: "Network_Traffic"
+        url: /detections/network_traffic/
+  - title: "Product"
+    children:
+      - title: "Splunk Enterprise Security"
+        url: /product/splunk_enterprise_security/
+      - title: "Splunk Behavioral Analytics"
+        url: /product/splunk_behavioral_analytics/
+stories:
+  - title: "Use Case"
+    children:
+      - title: "Adversary Tactics"
+        url: /stories/adversary_tactics/
+      - title: "Cloud Security"
+        url: /stories/cloud_security
