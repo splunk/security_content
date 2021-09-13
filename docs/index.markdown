@@ -10,9 +10,32 @@ header:
     - label: "Download"
       url: "https://github.com/splunk/security_content/releases"
 excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with over 400+ detections for Splunk."
-intro:
-  - excerpt: 'Nullam suscipit et nam, tellus velit pellentesque at malesuada, enim eaque. Quis nulla, netus tempor in diam gravida tincidunt, *proin faucibus* voluptate felis id sollicitudin. Centered with `type="center"`'
+feature_row:
+  - image_path: /static/feature_detection.png
+    alt: "customizable"
+    title: "Detections"
+    excerpt: "Splunk Analytics built to find evil 😈."
+    url: "/detections"
+    btn_class: "btn--primary"
+    btn_label: "Explore"
+  - image_path: /static/feature_stories.png
+    alt: "fully responsive"
+    title: "Analytic Stories"
+    excerpt: "A groupings 📦 of detections built to solve a use case."
+    url: "/stories"
+    btn_class: "btn--primary"
+    btn_label: "Explore"
+  - image_path: /static/feature_playbooks.png
+    alt: "100% free"
+    title: "Playbooks"
+    excerpt: "A set of steps 🐾 to automatically response to a threat."
+    url: "/playbooks"
+    btn_class: "btn--primary"
+    btn_label: "Explore"  
 ---
+
+
+{% include feature_row %}  
 
 # Welcome to Splunk Security Content
 
