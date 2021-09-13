@@ -93,7 +93,7 @@ action.slack.param.message = {{ detection.deployment.alert_action.slack.message 
 action.sendtophantom = 1
 action.sendtophantom.param._cam_workers = {{ detection.deployment.alert_action.phantom.cam_workers | custom_jinja2_enrichment_filter(detection) }}
 action.sendtophantom.param.label = {{ detection.deployment.alert_action.phantom.label | custom_jinja2_enrichment_filter(detection) }}
-action.sendtophantom.param.phantom_server = {{ detection.deployment.alert_action.phantom.label | custom_jinja2_enrichment_filter(detection) }}
+action.sendtophantom.param.phantom_server = {{ detection.deployment.alert_action.phantom.phantom_server | custom_jinja2_enrichment_filter(detection) }}
 action.sendtophantom.param.sensitivity = {{ detection.deployment.alert_action.phantom.sensitivity | custom_jinja2_enrichment_filter(detection) }}
 action.sendtophantom.param.severity = {{ detection.deployment.alert_action.phantom.severity | custom_jinja2_enrichment_filter(detection) }}
 {% endif %}
