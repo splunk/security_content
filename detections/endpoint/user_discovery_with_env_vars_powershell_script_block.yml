@@ -7,15 +7,18 @@ type: Hunting
 datamodel:
 - Endpoint
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the use of PowerShell environment variables to identify the current logged user.
-  Red Teams and adversaries may leverage this method to identify the logged user on a compromised endpoint for situational awareness and Active Directory Discovery.
+  to identify the use of PowerShell environment variables to identify the current
+  logged user. Red Teams and adversaries may leverage this method to identify the
+  logged user on a compromised endpoint for situational awareness and Active Directory
+  Discovery.
 search: '`powershell` EventCode=4104 (Message = "*$env:UserName*" OR Message = "*[System.Environment]::UserName*")
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
   ComputerName User | `security_content_ctime(firstTime)` | `user_discovery_with_env_vars_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
+known_false_positives: Administrators or power users may use this PowerShell commandlet
+  for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1033/
 tags:
@@ -47,3 +50,4 @@ tags:
     type: Endpoint
     role:
     - Victim
+  automated_detection_testing: passed
