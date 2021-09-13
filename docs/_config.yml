@@ -84,6 +84,11 @@ footer:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/splunk/security_content"
 
+collections:
+  stories:
+    output: true
+    permalink: /:collection/:path/
+
 defaults:
   # _docs
   # _posts
@@ -92,9 +97,9 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: false
-      comments: false
+      comments: true
       share: true
       related: true
       toc: true
@@ -105,6 +110,17 @@ defaults:
     values:
       layout: single
       author_profile: false
+  # _analytic_stories
+  - scope:
+      path: "_stories"
+      type: stories
+    values:
+      layout: single
+      author_profile: false
+      comments: true
+      share: true
+      related: true
+      toc: true
 
 category_archive:
   type: liquid

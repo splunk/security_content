@@ -242,6 +242,8 @@ GEM
       jekyll-seo-tag (~> 2.1)
     multi_json (1.15.0)
     multipart-post (2.1.1)
+    nokogiri (1.12.4-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.12.4-x86_64-linux)
       racc (~> 1.4)
     octokit (4.21.0)
@@ -285,8 +287,10 @@ GEM
     unf_ext (0.0.7.7)
     unicode-display_width (1.7.0)
     verbal_expressions (0.1.5)
+    webrick (1.7.0)
 
 PLATFORMS
+  x86_64-darwin-20
   x86_64-linux
 
 DEPENDENCIES
@@ -299,6 +303,7 @@ DEPENDENCIES
   jekyll-sitemap
   jemoji
   tzinfo-data
+  webrick (~> 1.7)
 
 BUNDLED WITH
    2.2.27

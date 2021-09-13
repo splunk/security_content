@@ -5,10 +5,10 @@ main:
     url: /stories/
   - title: "Playbooks"
     url: /playbooks/
-  - title: "About"
-    url: /about/
   - title: "Tags"
     url: /tags/
+  - title: "About"
+    url: https://www.splunk.com/en_us/cyber-security/threat-research.html
 detections:
   - title: "Tactic"
     children:

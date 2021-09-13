@@ -5,12 +5,11 @@ layout: splash
 header:
   overlay_color: "#000"
   overlay_filter: "0.5"
-  overlay_image: /static/unsplash-wolf.jpg
+  overlay_image: /static/splunk_banner.png
   actions:
     - label: "Download"
       url: "https://github.com/splunk/security_content/releases"
-  caption: "Photo credit: [**Unsplash**](https://unsplash.com)"
-excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with over 400+ detections for Splunk." 
+excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with over 400+ detections for Splunk."
 intro:
   - excerpt: 'Nullam suscipit et nam, tellus velit pellentesque at malesuada, enim eaque. Quis nulla, netus tempor in diam gravida tincidunt, *proin faucibus* voluptate felis id sollicitudin. Centered with `type="center"`'
 ---
@@ -26,8 +25,8 @@ Below is a snapshot in time of what technique we currently have some detection c
 
 ## View Our Content
 
-* [Analytic Stories](https://github.com/splunk/security_content/blob/develop/docs/stories.md)
-* [Detections](https://github.com/splunk/security_content/blob/develop/docs/detections.md)
+* [Analytic Stories](/detections)
+* [Detections](/stories)
 
 If you prefer working with the command line, check out our [API](https://docs.splunkresearch.com/?version=latest):
 
