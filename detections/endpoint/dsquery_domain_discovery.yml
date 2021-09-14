@@ -46,6 +46,7 @@ references:
 tags:
   analytic_story:
   - Domain Trust Discovery
+  - Active Directory Discovery
   automated_detection_testing: passed
   confidence: 90
   context:
