@@ -35,6 +35,7 @@ tags:
   - Ryuk Ransomware
   - Domain Trust Discovery
   - IcedID
+  - Active Directory Discovery
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
