@@ -33,6 +33,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Path 
+  - Message
+  - OpCode 
+  - ComputerName 
+  - User
+  - EventCode
   security_domain: endpoint
   impact: 30
   confidence: 50
