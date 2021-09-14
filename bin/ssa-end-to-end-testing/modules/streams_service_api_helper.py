@@ -444,7 +444,8 @@ class DSPApi:
             response body in JSON format
         """
         data = [{
-            "body": event
+            "body": event,
+            "sourcetype": "aws:cloudtrail"
             } for event in data]
         response = requests.post(self.return_api_endpoint(INGEST_ENDPOINT), json=data, headers=request_headers(self.header_token))
         if response.status_code != HTTPStatus.OK:
