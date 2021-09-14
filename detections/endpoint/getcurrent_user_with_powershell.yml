@@ -1,7 +1,7 @@
 name: GetCurrent User with PowerShell
 id: 7eb9c3d5-c98c-4088-acc5-8240bad15379
 version: 1
-date: '2021-08-25'
+date: '2021-09-13'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
@@ -57,7 +57,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   - Stage:Recon
-  message: Remote system discovery enumeration on $dest$ by $user$
+  message: System user discovery on $dest$
   observable:
   - name: dest
     type: Endpoint

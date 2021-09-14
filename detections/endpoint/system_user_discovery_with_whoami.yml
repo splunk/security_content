@@ -55,7 +55,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   - Stage:Recon
-  message: System User discovery on $dest$ by $user$
+  message: System user discovery on $dest$
   observable:
   - name: dest
     type: Endpoint

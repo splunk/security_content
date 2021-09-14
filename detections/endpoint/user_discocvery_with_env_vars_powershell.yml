@@ -1,7 +1,7 @@
 name: User Discovery With Env Vars PowerShell
 id: 0cdf318b-a0dd-47d7-b257-c621c0247de8
 version: 1
-date: '2021-08-25'
+date: '2021-09-13'
 author: Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
@@ -57,7 +57,7 @@ tags:
   - Source:Endpoint
   - Stage:Discovery
   - Stage:Recon
-  message: Remote system discovery enumeration on $dest$ by $user$
+  message: System user discovery on $dest$
   observable:
   - name: dest
     type: Endpoint
