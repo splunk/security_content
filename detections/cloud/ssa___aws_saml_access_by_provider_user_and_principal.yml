@@ -1,0 +1,75 @@
+name: AWS SAML Access by Provider User and Principal
+id: bbe23980-6019-11eb-ae93-0242ac130002
+version: 1
+date: '2021-01-26'
+author: Bhavin Patel, Splunk
+type: Anomaly
+datamodel: []
+description: This search provides specific SAML access from specific Service Provider,
+  user and targeted principal at AWS. This search provides specific information to
+  detect abnormal access or potential credential hijack or forgery, specially in federated
+  environments using SAML protocol inside the perimeter or cloud provider.
+search: '| from read_ssa_enriched_events()
+| eval timestamp=      parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+       signature=   ucast(map_get(input_event, "signature"), "string", null),
+       object=   ucast(map_get(input_event, "object"), "string", null),
+       user_agent=   ucast(map_get(input_event, "user_agent"), "string", null),
+       dest_user_primary_artifact=   ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null),
+       src_device_primary_artifact=   ucast(map_get(input_event, "src_device_primary_artifact"), "string", null),
+       vendor_account=   ucast(map_get(input_event, "vendor_account"), "string", null)
+| where signature="AssumeRoleWithSAML"
+| eval start_time
+  = timestamp, end_time = timestamp,
+  body=create_map(["signature", signature, "object", object, "user_agent", user_agent, "vendor_account", vendor_account, "dest_user_primary_artifact", dest_user_primary_artifact])| into write_ssa_detected_events();'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+  search works with AWS CloudTrail logs
+known_false_positives: Attacks using a Golden SAML or SAML assertion hijacks or forgeries
+  are very difficult to detect as accessing cloud providers with these assertions
+  looks exactly like normal access, however things such as source IP sourceIPAddress
+  user, and principal targeted at receiving cloud provider along with endpoint credential
+  access and abuse detection searches can provide the necessary context to detect
+  these attacks.
+references:
+- https://us-cert.cisa.gov/ncas/alerts/aa21-008a
+- https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
+- https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+- https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+tags:
+  analytic_story:
+  - Cloud Federated Credential Abuse
+  asset_type: AWS Federated Account
+  confidence: 80
+  context:
+  - Source:Cloud Data
+  - Scope:External
+  - Stage:Credential Access
+  - Stage:Privilege Escalation
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json
+  impact: 80
+  message: From IP address $src_device_primary_artifact$, user agent $user_agent$ has trigged an
+    event $signature$ for account ID $vendor_account$
+  mitre_attack_id:
+  - T1078
+  observable:
+  - name: src_device_primary_artifact
+    type: IP Address
+    role:
+    - Attacker
+  - name: vendor_account
+    type: Other
+    role:
+    - Victim
+    - Target
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - signature
+  - user_agent
+  - object
+  - dest_user_primary_artifact
+  - src_device_primary_artifact
+  - vendor_account
+  risk_score: 64
+  security_domain: threat
