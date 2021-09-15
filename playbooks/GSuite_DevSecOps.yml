@@ -1,0 +1,17 @@
+name: GSuite_DevSecOps
+id: fc0edc96-ff2b-48b0-9f6f-63da3783fd63
+version: 1
+date: '2021-09-15'
+author: Lou Stella, Splunk
+type: Info
+description: This playbook investigates and enriches the "Gsuite Drive Share In External Email" detection.
+playbook: gsuite_drive_share_in_external_email
+how_to_implement: This playbook requires the Splunk SOAR apps for Google Drive and VirusTotal, in addition to the "Gsuite Drive Share in External Email" detection. 
+references: []
+tags:
+  analytic_story:
+  - DevSecOps
+  detections:
+  - Gsuite Drive Share In External Email
+  product:
+  - Splunk SOAR
