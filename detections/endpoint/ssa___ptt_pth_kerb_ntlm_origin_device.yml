@@ -5,24 +5,21 @@ date: '2021-09-01'
 author: Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
-description: This detection identifies potential Pass the Token and Pass the Hash credential exploits. We detect the main observable side effect of these techniques, which is transition from the dominant Kerberos logins to rare NTLM logins for a given user, as reported by an event-collecting device (i.e., a specific domain controller or an endpoint destination).
+description: This detection identifies potential Pass the Token and Pass the Hash credential exploits. We detect main side effect of these attacks, which is transition from the dominant Kerberos logins to rare NTLM logins for a given user, as reported by an event-collecting device (i.e., a specific domain controller or an endpoint destination).
 
 search: '| from read_ssa_enriched_events()
 | eval timestamp=      parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-       signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string", null)),
        dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null)),
        dest_user_id=   lower(ucast(map_get(input_event, "dest_user_id"), "string", null)),
        origin_device_id=       lower(ucast(map_get(input_event, "origin_device_id"), "string", null)),
        authentication_method=  lower(ucast(map_get(input_event, "authentication_method"), "string", null))
 
-| where signature_id="4624" AND 
-        (authentication_method="ntlmssp" OR authentication_method="kerberos") AND 
+| where (authentication_method="ntlmssp" OR authentication_method="kerberos") AND 
         dest_user_id != null AND 
         origin_device_id != null
 
 | eval isKerberos=if(authentication_method == "kerberos", 1, 0),  
        isNtlm=if(authentication_method == "ntlmssp", 1, 0),
-       timeInSec=if(len(tostring(timestamp)) > 10, timestamp/1000, timestamp),
        timeNTLM=if(isNtlm > 0, timestamp, null)
 
 | stats sum(isKerberos) as totalKerberos, 
@@ -35,8 +32,8 @@ search: '| from read_ssa_enriched_events()
 | where NOT dest_user="-" AND 
         totalKerberos > 0 AND 
         totalNtlm > 0 AND 
-        endTime - startTime > 1800000 AND 
-        (totalKerberos > 10 * totalNtlm AND totalKerberos > 50) AND 
+        endTime - startTime > 1800 AND  
+        (totalKerberos > 10 * totalNtlm AND totalKerberos > 50)  AND 
         (endTime - startTime) > 3 * (endNTLMTime - startNTLMTime)
 
 | eval start_time=startNTLMTime, 
@@ -46,8 +43,9 @@ search: '| from read_ssa_enriched_events()
            "total_ntlm", totalNtlm, 
            "analysis_start_time", startTime, 
            "analysis_end_time", endTime,
-           "pth_start_time", startNTLMTime,
-           "pth_end_time", endNTLMTime])
+           "detection_start_time", startNTLMTime,
+           "detection_end_time", endNTLMTime])
+
 | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest - at least from domain controllers. Please make sure that event ID 4624 is being logged.
 known_false_positives: Environments in which NTLM is used extremely rarely and for benign purposes (such as a rare use of SMB shares).
