@@ -6,16 +6,17 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious MS office application that drop or create executables or script in the host.
-  This behavior is commonly seen in spear phishing office attachment where it drop malicious files or script to compromised the host.
-  It might be some normal macro may drop script or tools as part of automation but still this behavior is reallly suspicious and not commonly seen 
-  in normal office application
+description: This search is to detect a suspicious MS office application that drop
+  or create executables or script in the host. This behavior is commonly seen in spear
+  phishing office attachment where it drop malicious files or script to compromised
+  the host. It might be some normal macro may drop script or tools as part of automation
+  but still this behavior is reallly suspicious and not commonly seen in normal office
+  application
 search: '`sysmon` EventCode=11 Image IN ("*\\winword.exe","*\\excel.exe","*\\powerpnt.exe","*\\mspub.exe","*\\visio.exe","*\\wordpad.exe","*\\wordview.exe")
-  TargetFilename IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1") AND NOT(TargetFilename IN ("*\\program files*","*\\windows\\*"))
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image TargetFilename ProcessGuid dest user_id 
-  | `security_content_ctime(firstTime)` 
-  |`security_content_ctime(lastTime)` 
-  | `office_application_drop_executable_filter`'
+  TargetFilename IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1")
+  AND NOT(TargetFilename IN ("*\\program files*","*\\windows\\*")) | stats count min(_time)
+  as firstTime max(_time) as lastTime by Image TargetFilename ProcessGuid dest user_id
+  | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `office_application_drop_executable_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -39,17 +40,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Image 
+  - Image
   - TargetFilename
-  - ProcessGuid 
+  - ProcessGuid
   - dest
-  - user_id 
+  - user_id
   security_domain: endpoint
   impact: 80
   confidence: 80
-  # (impact * confidence)/100
   risk_score: 64
-  context: 
+  context:
   - Source:Endpoint
   - Stage:recon
   message: process $process_name$ drops a file $TargetFilename$ in host $dest$
@@ -62,4 +62,4 @@ tags:
     type: process name
     role:
     - Attacker
-  
+  automated_detection_testing: passed
