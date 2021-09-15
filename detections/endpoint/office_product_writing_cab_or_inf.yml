@@ -15,11 +15,11 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
   | `drop_dm_object_name(Processes)` | join process_guid, _time [| tstats `security_content_summariesonly`
   count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_name IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1") by _time span=1h Filesystem.dest
-  Filesystem.file_create_time Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)`
-  | fields _time dest file_create_time file_name file_path process_name process_path
-  process] | dedup file_create_time | table dest, process_name, process, file_create_time,
-  file_name, file_path | `office_product_writing_cab_or_inf_filter`'
+  where Filesystem.file_name IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1")
+  by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
+  Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest file_create_time
+  file_name file_path process_name process_path process] | dedup file_create_time
+  | table dest, process_name, process, file_create_time, file_name, file_path | `office_product_writing_cab_or_inf_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
@@ -37,7 +37,7 @@ tags:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_cabinf.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
