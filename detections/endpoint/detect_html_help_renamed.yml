@@ -1,11 +1,11 @@
 name: Detect HTML Help Renamed
 id: 62fed254-513b-460e-953d-79771493a9f3
 version: 3
-date: '2021-02-11'
+date: '2021-09-16'
 author: Michael Haag, Splunk
-type: TTP
+type: Hunting
 datamodel:
-- Endpoint
+  - Endpoint
 description: The following analytic identifies a renamed instance of hh.exe (HTML
   Help) executing a Compiled HTML Help (CHM). This particular technique will load
   Windows script code from a compiled help file. CHM files may contain nearly any

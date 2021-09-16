@@ -3,7 +3,7 @@ id: 7360137f-abad-473e-8189-acbdaa34d114
 version: 3
 date: '2021-02-04'
 author: Michael Haag, Splunk
-type: TTP
+type: Hunting
 datamodel: 
 - Endpoint
 description: The following analytic identifies renamed instances of rundll32.exe executing.
