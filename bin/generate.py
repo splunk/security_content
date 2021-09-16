@@ -577,6 +577,7 @@ def import_objects(VERBOSE, REPO_PATH):
         "responses": load_objects("responses/*.yml", VERBOSE, REPO_PATH),
         "deployments": load_objects("deployments/*.yml", VERBOSE, REPO_PATH),
         "detections": load_objects("detections/*/*.yml", VERBOSE, REPO_PATH),
+        "playbooks": load_objects("playbooks/*.yml", VERBOSE, REPO_PATH),
     }
     objects["detections"].extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
