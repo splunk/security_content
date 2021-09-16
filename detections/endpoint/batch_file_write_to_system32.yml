@@ -1,19 +1,23 @@
 name: Batch File Write to System32
 id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
-version: 1
-date: '2018-12-14'
+version: 2
+date: '2021-09-16'
 author: Rico Valdez, Splunk
 type: TTP
 datamodel:
 - Endpoint
 description: The search looks for a batch file (.bat) written to the Windows system
   directory tree.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Filesystem.dest) as dest values(Filesystem.file_name) as file_name
-  values(Filesystem.user) as user from datamodel=Endpoint.Filesystem by Filesystem.file_path
-  | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`|
-  rex field=file_name "(?<file_extension>\.[^\.]+)$" | search file_path=*system32*
-  AND file_extension=.bat | `batch_file_write_to_system32_filter`'
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=*  by _time span=1h Processes.process_id Processes.process_name
+  Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
+  tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\system32\\*",
+  "*\\syswow64\\*") Filesystem.file_name="*.bat"
+  by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
+  Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest file_create_time
+  file_name file_path process_name process_path process] | dedup file_create_time
+  | table dest file_create_time, file_name, file_path, process_name  | `batch_file_write_to_system32_filter`'
 how_to_implement: You must be ingesting data that records the file-system activity
   from your hosts to populate the Endpoint file-system data-model node. If you are
   using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
