@@ -1,7 +1,7 @@
 name: Detect HTML Help Using InfoTech Storage Handlers
 id: 0b2eefa5-5508-450d-b970-3dd2fb761aec
 version: 2
-date: '2021-02-11'
+date: '2021-09-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:

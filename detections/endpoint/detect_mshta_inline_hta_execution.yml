@@ -1,7 +1,7 @@
 name: Detect mshta inline hta execution
 id: a0873b32-5b68-11eb-ae93-0242ac130002
 version: 6
-date: '2021-01-20'
+date: '2021-09-16'
 author: Bhavin Patel, Michael Haag, Splunk
 type: TTP
 datamodel:
