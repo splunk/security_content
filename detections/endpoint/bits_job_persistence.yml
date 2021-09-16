@@ -1,7 +1,7 @@
 name: BITS Job Persistence
 id: e97a5ffe-90bf-11eb-928a-acde48001122
 version: 2
-date: '2021-03-29'
+date: '2021-09-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
