@@ -14,10 +14,15 @@ description: This search looks for processes launching netsh.exe. Netsh is a com
   executing commands via the command line.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   AS Processes.process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_netsh` by Processes.parent_process_name Processes.parent_process Processes.original_file_name
-  Processes.process_name Processes.user Processes.dest |`drop_dm_object_name("Processes")`
-  |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` |`processes_launching_netsh_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+  where `process_netsh` by Processes.parent_process_name Processes.parent_process
+  Processes.original_file_name Processes.process_name Processes.user Processes.dest
+  |`drop_dm_object_name("Processes")` |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
+  |`processes_launching_netsh_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: Some VPN applications are known to launch netsh.exe. Outside
   of these instances, it is unusual for an executable to launch netsh.exe and run
   commands.
