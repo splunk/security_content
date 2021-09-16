@@ -1,0 +1,69 @@
+name: Cmdline Tool Not Executed In CMD Shell
+id: 6c3f7dd8-153c-11ec-ac2d-acde48001122
+version: 1
+date: '2021-09-14'
+author: Teoderick Contreras, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: This search is to detect a suspicious parent process execution of commandline tool not in shell commandline.
+  This technique was seen in FIN7 JSSLoader .net compile payload where it run ipconfig.exe and systeminfo.exe using .net application.
+  This event cause some good TTP since those tool are commonly run in commandline not by another application.
+  This TTP is a good indicator for application gather host information either an attacker or an automated tool made by admin.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
+  where  (Processes.process_name = "ipconfig.exe" OR Processes.process_name = "systeminfo.exe") 
+  AND NOT (Processes.parent_process_name = "cmd.exe" OR Processes.parent_process_name = "powershell*" OR Processes.parent_process_name = "explorer.exe") 
+  by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process_id Processes.process Processes.dest Processes.user 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `cmdline_tool_not_executed_in_cmd_shell_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. 
+known_false_positives: network operator or admin may create this type of tool to gather host information
+references:
+- https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
+- https://attack.mitre.org/groups/G0046/
+tags:
+  analytic_story:
+  - FIN7
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1059.007
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.process_name
+  - Processes.process_id
+  - Processes.process
+  - Processes.dest
+  - Processes.user 
+  security_domain: endpoint
+  impact: 70
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 56
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: parent rrocess name $parent_process_name$ with child process $process_name$ to execute commandline tool in $dest$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  
