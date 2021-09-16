@@ -56,7 +56,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Execution
-  message: parent rrocess name $parent_process_name$ with child process $process_name$ to execute commandline tool in $dest$
+  message: parent process name $parent_process_name$ with child process $process_name$ to execute commandline tool in $dest$
   observable:
   - name: dest
     type: Endpoint
