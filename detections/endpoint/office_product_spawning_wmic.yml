@@ -1,7 +1,7 @@
 name: Office Product Spawning Wmic
 id: ffc236d6-a6c9-11eb-95f1-acde48001122
-version: 2
-date: '2021-04-26'
+version: 3
+date: '2021-09-16'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  - FIN7
   automated_detection_testing: passed
   confidence: 90
   context:
