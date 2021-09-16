@@ -10,8 +10,7 @@ description: This search looks for the creation of local administrator accounts 
   net.exe .
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as
   user values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=net.exe
-  OR Processes.process_name=net1.exe) AND (Processes.process=*localgroup* OR Processes.process=*user*) AND Processes.process=*/add* by Processes.process Processes.process_name Processes.dest
+  max(_time) as lastTime from datamodel=Endpoint.Processes where `process_net` AND (Processes.process=*localgroup* OR Processes.process=*user*) AND Processes.process=*/add* by Processes.process Processes.process_name Processes.dest
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   |`create_local_admin_accounts_using_net_exe_filter` '
 how_to_implement: You must be ingesting data that records process activity from your
