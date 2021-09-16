@@ -1,7 +1,7 @@
 name: Create or delete windows shares using net exe
 id: qw9919ed-fe5f-492c-b139-151bb162140e
 version: 6
-date: '2020-07-21'
+date: '2020-09-16'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
