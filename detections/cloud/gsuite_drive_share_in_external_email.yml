@@ -25,7 +25,7 @@ references:
 tags:
   analytic_story:
   - DevSecOps
-  confidence: 30
+  confidence: 90
   context:
   - Source:Endpoint
   - Stage:Reconnaissance
@@ -33,7 +33,7 @@ tags:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log
   deployments:
   - Send to Phantom
-  impact: 30
+  impact: 80
   kill_chain_phases:
   - Exfiltration
   message: suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$
@@ -62,5 +62,5 @@ tags:
   - parameters.visibility
   - parameters.owner
   - parameters.doc_type
-  risk_score: 9
+  risk_score: 72
   security_domain: endpoint
