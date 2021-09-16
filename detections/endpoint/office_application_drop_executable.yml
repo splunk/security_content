@@ -44,17 +44,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Image 
+  - Image
   - TargetFilename
-  - ProcessGuid 
+  - ProcessGuid
   - dest
-  - user_id 
+  - user_id
   security_domain: endpoint
   impact: 80
   confidence: 80
-  # (impact * confidence)/100
   risk_score: 64
-  context: 
+  context:
   - Source:Endpoint
   - Stage:recon
   message: process $process_name$ drops a file $TargetFilename$ in host $dest$
@@ -67,4 +66,4 @@ tags:
     type: process name
     role:
     - Attacker
-  
+  automated_detection_testing: passed
