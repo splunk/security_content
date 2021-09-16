@@ -1,7 +1,7 @@
 name: Creation of Shadow Copy with wmic and powershell
 id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
-version: 2
-date: '2019-12-10'
+version: 3
+date: '2021-09-16'
 author: Patrick Bareiss, Splunk
 type: TTP
 datamodel:
