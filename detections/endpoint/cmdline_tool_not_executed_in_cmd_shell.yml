@@ -30,7 +30,7 @@ tags:
   analytic_story:
   - FIN7
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
