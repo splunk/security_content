@@ -15,7 +15,7 @@ search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") Ima
   by Image EventCode process_name ProcessId ProcessGuid Computer  | where count >= 2
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `ms_scripting_process_loading_wmi_module_filter`'
+  | `ms_scripting_process_loading_ldap_module_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
