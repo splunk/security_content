@@ -395,7 +395,27 @@ def add_rba(detection):
     
     return detection
 
-def prepare_detections(detections, deployments, OUTPUT_PATH):
+def add_playbook(detection, playbooks):
+    preface = " The following Splunk SOAR playbook can be used to respond to this detection: "
+    
+    for playbook in playbooks:
+        if detection['name'] in playbook['tags']['detections']:
+            detection['how_to_implement'] = detection['how_to_implement'] + preface + playbook['name']
+    return detection
+
+def map_playbooks_to_stories(playbooks):
+    sto_play = {}
+    for playbook in playbooks:
+        if 'tags' in playbook:
+            if 'analytic_story' in playbook['tags']:
+                for story in playbook['tags']['analytic_story']:
+                    if not (story in sto_play):
+                        sto_play[story] = {playbook['name']}
+                    else:
+                        sto_play[story].add(playbook['name'])
+    return sto_play
+
+def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
     for detection in detections:
         # only for DevSecOps
         if global_product == 'DevSecOps':
@@ -431,9 +451,10 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
                     if key in detection['tags']:
                         mappings[key] = detection['tags'][key]
             detection['mappings'] = mappings
-
+            
             detection = add_annotations(detection)
             detection = add_rba(detection)
+            detection = add_playbook(detection, playbooks)
 
             # add additional metadata
             if 'product' in detection['tags']:
@@ -445,7 +466,7 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
 
     return detections
 
-def prepare_stories(stories, detections):
+def prepare_stories(stories, detections, playbooks):
     # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases, nists
     sto_to_data_models = {}
     sto_to_mitre_attack_ids = {}
@@ -454,6 +475,7 @@ def prepare_stories(stories, detections):
     sto_to_nists = {}
     sto_to_det = {}
 
+    preface = " The following Splunk SOAR playbooks can be used in the response to this story's analytics: "
     baselines = [object for object in detections  if 'Baseline' in object['type']]
 
     for detection in detections:
@@ -505,6 +527,7 @@ def prepare_stories(stories, detections):
 
     sto_res = map_response_tasks_to_stories(detections)
     sto_bas = map_baselines_to_stories(baselines)
+    sto_play = map_playbooks_to_stories(playbooks)
 
     for story in stories:
         story['author_name'], story['author_company'] = parse_author_company(story)
@@ -513,6 +536,9 @@ def prepare_stories(stories, detections):
         story['searches'] = story['detections']
         if story['name'] in sto_to_data_models:
             story['data_models'] = sorted(sto_to_data_models[story['name']])
+        if story['name'] in sto_play:
+            story['description'] = str(story['description']) + preface + str(sto_play[story['name']])
+            story['description'] = story['description'].replace('{', ' ').replace('}', ' ')
         if story['name'] in sto_to_mitre_attack_ids:
             story['mitre_attack'] = sorted(sto_to_mitre_attack_ids[story['name']])
         if story['name'] in sto_to_kill_chain_phases:
@@ -530,6 +556,7 @@ def prepare_stories(stories, detections):
                 story['workbench_panels'].append(s)
         if story['name'] in sto_bas:
             story['baselines'] = sorted(list(sto_bas[story['name']]))
+
 
 
         keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
@@ -600,8 +627,8 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
 
     objects["macros"] = sorted(objects["macros"], key=lambda m: m['name'])
 
-    objects["detections"] = prepare_detections(objects["detections"], objects["deployments"], OUTPUT_PATH)
-    objects["stories"] = prepare_stories(objects["stories"], objects["detections"])
+    objects["detections"] = prepare_detections(objects["detections"], objects["deployments"], objects["playbooks"], OUTPUT_PATH)
+    objects["stories"] = prepare_stories(objects["stories"], objects["detections"], objects["playbooks"])
 
     return objects
 
