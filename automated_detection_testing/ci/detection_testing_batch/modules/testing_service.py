@@ -10,20 +10,14 @@ from modules.DataManipulation import DataManipulation
 from modules import splunk_sdk, aws_service
 
 
-def prepare_detection_testing(ssh_key_name, private_key, splunk_ip, splunk_password):
-    with open(ssh_key_name, 'w') as file :
-        file.write(private_key)
-    os.chmod(ssh_key_name, 0o600)
-
-    sys.path.append(os.path.join(os.getcwd(),'security_content/bin'))
-
+def prepare_detection_testing(splunk_ip, splunk_password):
     try:
         module = __import__('generate')
         results = module.main(REPO_PATH = 'security_content' , OUTPUT_PATH = 'security_content/dist/escu', PRODUCT = 'ESCU', VERBOSE = 'False' )
     except Exception as e:
         print('Error: ' + str(e))
 
-    update_ESCU_app(splunk_ip, ssh_key_name, splunk_password)
+    update_ESCU_app(splunk_ip, splunk_password)
 
 
 def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test):
@@ -128,22 +122,21 @@ def load_file(file_path):
     return file
 
 
-def update_ESCU_app(splunk_ip, ssh_key_name, splunk_password):
+def update_ESCU_app(container_name, splunk_password):
     print("Update ESCU App. This can take some time")
 
     ansible_vars = {}
-    ansible_vars['ansible_user'] = 'ubuntu'
-    ansible_vars['ansible_ssh_private_key_file'] = ssh_key_name
+    ansible_vars['ansible_user'] = 'ansible'
     ansible_vars['splunk_password'] = splunk_password
     ansible_vars['security_content_path'] = 'security_content'
-
-    cmdline = "-i %s, -u ubuntu" % (splunk_ip)
+    
+    cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
                                 cmdline=cmdline,
                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
                                 playbook=os.path.join(os.path.dirname(__file__), '../ansible/update_escu.yml'),
                                 extravars=ansible_vars)
-
+    print("Successfully updated the ESCU App!")
 
 
 def replay_attack_dataset(splunk_ip, splunk_password, ssh_key_name, folder_name, index, sourcetype, source, out):

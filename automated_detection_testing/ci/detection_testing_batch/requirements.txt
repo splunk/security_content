@@ -8,3 +8,6 @@ PyYAML==5.4
 requests==2.25.1
 six==1.16.0
 splunk-sdk==1.6.12
+#newest version of docker for managing the splunk containers
+#we will freeze at a specific version later
+docker
