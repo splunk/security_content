@@ -20,43 +20,40 @@ def prepare_detection_testing(splunk_ip, splunk_password):
     update_ESCU_app(splunk_ip, splunk_password)
 
 
-def test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test):
-    test_index = 1
-    result_tests = []
-    for test_file in test_files:
-        uuid_var = str(uuid.uuid4())
-        result_test = test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test, uuid_var)
-        result_tests.append(result_test)
-        if test_index == 10:
-            test_index = 1
-        else:
-            test_index = test_index + 1
+def test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, test_file, test_index, uuid_test):
 
-        # delete test data
-        splunk_sdk.delete_attack_data(splunk_ip, splunk_password)
+    uuid_var = str(uuid.uuid4())
+    result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var)
+    
 
-    for result_test in result_tests:
-        if result_test['detection_result']['error']:
-            print('Test failed for detection: ' + result_test['detection_result']['detection_name'] + ' ' + result_test['detection_result']['detection_file'])
-        else:
-            print('Test passed for detection: ' + result_test['detection_result']['detection_name'] + ' ' + result_test['detection_result']['detection_file'])
+    # delete test data
+    splunk_sdk.delete_attack_data(container_name, splunk_password, splunk_port)
 
-    return result_tests
+    
+    if result_test['detection_result']['error']:
+        print('Test failed for detection: ' + result_test['detection_result']['detection_name'] + ' ' + result_test['detection_result']['detection_file'])
+    else:
+        print('Test passed for detection: ' + result_test['detection_result']['detection_name'] + ' ' + result_test['detection_result']['detection_file'])
+
+    return result_test    
 
 
-def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_file, test_index, uuid_test, uuid_var):
+def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var):
     try:
         test_file_obj = load_file("security_content/" + test_file[2:])
     except Exception as e:
-        print('Error: ' + str(e))
-        return
+        raise
+        #print('Error: ' + str(e))
+        #return
     
     if not test_file_obj:
+        print("Not test_file_obj!")
+        raise
         return
     #print(test_file_obj)
 
     # write entry dynamodb
-    aws_service.add_detection_results_in_dynamo_db('eu-central-1', uuid_var , uuid_test, test_file_obj['tests'][0]['name'], test_file_obj['tests'][0]['file'], str(int(time.time())))
+    #aws_service.add_detection_results_in_dynamo_db('eu-central-1', uuid_var , uuid_test, test_file_obj['tests'][0]['name'], test_file_obj['tests'][0]['file'], str(int(time.time())))
 
     epoch_time = str(int(time.time()))
     folder_name = "attack_data_" + epoch_time
@@ -74,7 +71,7 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
                 data_manipulation = DataManipulation()
                 data_manipulation.manipulate_timestamp(folder_name + '/' + attack_data['file_name'], attack_data['sourcetype'], attack_data['source'])
 
-        replay_attack_dataset(splunk_ip, splunk_password, ssh_key_name, folder_name, 'test' + str(test_index), attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
+        replay_attack_dataset(container_name, splunk_password, folder_name, 'test' + str(test_index), attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
 
     time.sleep(200)
 
@@ -89,12 +86,12 @@ def test_detection(ssh_key_name, private_key, splunk_ip, splunk_password, test_f
             result_obj = dict()
             result_obj['baseline'] = baseline_obj['name']
             result_obj['baseline_file'] = baseline_obj['file']
-            result = splunk_sdk.test_baseline_search(splunk_ip, splunk_password, baseline['search'], baseline_obj['pass_condition'], baseline['name'], baseline_obj['file'], baseline_obj['earliest_time'], baseline_obj['latest_time'])
+            result = splunk_sdk.test_baseline_search(splunk_ip, splunk_port, splunk_password, baseline['search'], baseline_obj['pass_condition'], baseline['name'], baseline_obj['file'], baseline_obj['earliest_time'], baseline_obj['latest_time'])
         result_test['baselines_result'] = results_baselines  
 
     detection_file_name = test['file']
     detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', detection_file_name))
-    result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
+    result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
 
     result_detection['detection_name'] = test['name']
     result_detection['detection_file'] = test['file']
@@ -139,18 +136,17 @@ def update_ESCU_app(container_name, splunk_password):
     print("Successfully updated the ESCU App!")
 
 
-def replay_attack_dataset(splunk_ip, splunk_password, ssh_key_name, folder_name, index, sourcetype, source, out):
+def replay_attack_dataset(container_name, splunk_password, folder_name, index, sourcetype, source, out):
     ansible_vars = {}
     ansible_vars['folder_name'] = folder_name
-    ansible_vars['ansible_user'] = 'ubuntu'
-    ansible_vars['ansible_ssh_private_key_file'] = ssh_key_name
+    ansible_vars['ansible_user'] = 'ansible'
     ansible_vars['splunk_password'] = splunk_password
     ansible_vars['out'] = out
     ansible_vars['sourcetype'] = sourcetype
     ansible_vars['source'] = source
     ansible_vars['index'] = index
 
-    cmdline = "-i %s, -u ubuntu" % (splunk_ip)
+    cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
                                 cmdline=cmdline,
                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),

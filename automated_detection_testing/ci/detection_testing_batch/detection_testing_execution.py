@@ -24,6 +24,7 @@ DOCKER_HUB_CONTAINER_PATH="splunk/splunk:latest"
 BASE_CONTAINER_NAME="splunk"
 
 DOCKER_COMMIT_NAME = "splunk_configured"
+RUNNER_BASE_NAME = "splunk_runner"
 
 
 BASE_CONTAINER_WEB_PORT=8000
@@ -156,35 +157,100 @@ def main(args):
     print("Stopping the running container [%s]"%(BASE_CONTAINER_NAME))
     base_container.stop()
 
+    #The part below does not seem to be working as expected. Will need to look into it
+    #When I create the new container, it fails to boot with 
+    '''The CA file specified (/opt/splunk/etc/auth/cacert.pem) does not exist. Cannot continue.
+    SSL certificate generation failed.
+
+
+    MSG:
+
+    non-zero return code
+    '''
+    #I am almost positive that I'm doing this wrong but it works for now...
     print("Committing the configured container: [%s]--->[%s]"%(BASE_CONTAINER_NAME, DOCKER_COMMIT_NAME))
     base_container.commit(repository=DOCKER_COMMIT_NAME)
+    
 
-
-    '''
-    print("Removing container called splunk if it exists already...")
-    client.container.r
-
-    print("Build base docker container")
-
-
+    print("Make all the threads...")
     for container_index in range(num_containers):
-        container_name = "splunk_runner_%d"%(container_index)
-        t = threading.Thread(target=splunk_container_manager, args=(test_file_queue, container_name, splunk_password))
+        container_name = "%s_%d"%(RUNNER_BASE_NAME, container_index)
+        web_port = BASE_CONTAINER_WEB_PORT  + container_index
+        management_port = BASE_CONTAINER_MANAGEMENT_PORT + container_index
+        print("Creating a new container called [%s]"%(container_name))
+        environment = {"SPLUNK_START_ARGS": "--accept-license",
+                       "SPLUNK_PASSWORD"  : splunk_password }
+        ports= {"8000/tcp": web_port,
+                "8089/tcp": management_port
+                }
+
+        test_container = client.containers.create(DOCKER_COMMIT_NAME, ports=ports, environment=environment, name=container_name, detach=True, volumes_from=[BASE_CONTAINER_NAME])
+        t = threading.Thread(target=splunk_container_manager, args=(test_file_queue, container_name, "127.0.0.1", splunk_password, management_port, uuid_test))
         splunk_container_manager_threads.append(t)
 
-    splunk_container_name = "splunk"
+    print("Start all the threads...")
+    for t in splunk_container_manager_threads:
+        t.start()
+    
+    #Try to join all the threads
+    for t in splunk_container_manager_threads:
+        t.join() #blocks on waiting to join
+        print("Joined a thread!")
 
-    testing_service.prepare_detection_testing(ssh_key_name, private_key, splunk_ip, splunk_password)
-    testing_service.test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test)
-    '''
+    print("DONE!")
+    #read all the results out from the output queue
+    try:
+        while True:
 
-def splunk_container_manager(testing_queue, container_name, splunk_password):
+            o = output_queue.get(block=False)
+            print("Got from queue:")
+            print(o)
+    except queue.Empty:
+        print("That's all the output!")
+    
+    #now we are done!
+
+
+    #detection testing service has already been prepared, no need to do it here!
+    #testing_service.prepare_detection_testing(ssh_key_name, private_key, splunk_ip, splunk_password)
+
+    #testing_service.test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test)
+    
+
+def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_password, splunk_port, uuid_test, output_queue):
+    print("Starting the container [%s] after a sleep"%(container_name))
     #Is this going to be safe to use in different threads
-    docker_client = docker.client.from_env()
+    client = docker.client.from_env()
     #start up the container from the base container
     #Assume that the base container has already been fully built with
     #escu etc
-    pass
+    #sleep for a little bit so that we don't all start at once...
+    time.sleep(random.randrange(0,120))
+
+    container = client.containers.get(container_name)
+    print("Starting the container [%s]"%(container_name))
+    container.start()
+    wait_for_splunk_ready(max_seconds=60)
+
+    index=0
+    try:
+        while True:
+            #Try to get something from the queue
+            detection_to_test = testing_queue.get(block=False)
+            
+            
+            #There is a detection to test
+            print("Container [%s]--->[%s]"%(container_name, detection_to_test))
+            
+            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, index, uuid_test)
+            output_queue.put(result)
+            index=(index+1)%10
+    except queue.Empty:
+        print("Queue was empty, [%s] finished testing detections!"%(container_name))
+    
+    print("Shutting down the container [%s]"%(container_name))
+    container.stop()
+    print("Finished shutting down the container [%s]"&(container_name))
 
 if __name__ == "__main__":
     main(sys.argv[1:])

@@ -5,11 +5,11 @@ import splunklib.client as client
 import splunklib.results as results
 import requests
 
-def test_baseline_search(splunk_host, splunk_password, search, pass_condition, baseline_name, baseline_file, earliest_time, latest_time):
+def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass_condition, baseline_name, baseline_file, earliest_time, latest_time):
     try:
         service = client.connect(
             host=splunk_host,
-            port=8089,
+            port=splunk_port,
             username='admin',
             password=splunk_password
         )
@@ -54,11 +54,11 @@ def test_baseline_search(splunk_host, splunk_password, search, pass_condition, b
         return test_results
 
 
-def test_detection_search(splunk_host, splunk_password, search, pass_condition, detection_name, detection_file, earliest_time, latest_time):
+def test_detection_search(splunk_host, splunk_port, splunk_password, search, pass_condition, detection_name, detection_file, earliest_time, latest_time):
     try:
         service = client.connect(
             host=splunk_host,
-            port=8089,
+            port=splunk_port,
             username='admin',
             password=splunk_password
         )
@@ -103,11 +103,11 @@ def test_detection_search(splunk_host, splunk_password, search, pass_condition, 
         return test_results
 
 
-def delete_attack_data(splunk_host, splunk_password):
+def delete_attack_data(splunk_host, splunk_password, splunk_port):
     try:
         service = client.connect(
             host=splunk_host,
-            port=8089,
+            port=splunk_port,
             username='admin',
             password=splunk_password
         )
