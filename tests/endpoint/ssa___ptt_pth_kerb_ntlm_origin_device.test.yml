@@ -5,7 +5,7 @@ tests:
     pass_condition: '@count_gt(0)'
     description: Test Pass the Hash or Pass the Token Detection Observed by an Event Collecting Device
     attack_data:
-      - file_name: logAllMimikatzModules.log
+      - file_name: ptt_pth_kerb_ntlm_anon_DC_dataset.log
         data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/ptt_pth_kerb_ntlm_anon_DC_dataset.log
         source: WinEventLog:Security
 
