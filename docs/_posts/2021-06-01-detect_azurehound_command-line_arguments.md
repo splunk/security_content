@@ -29,13 +29,12 @@ tags:
   - Reconnaissance
 ---
 
-# Detect AzureHound Command-Line Arguments
+#### Description
 
 The following analytic identifies the common command-line argument used by AzureHound `Invoke-AzureHound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1087.002](https://attack.mitre.org/techniques/T1087/002/), [T1087.001](https://attack.mitre.org/techniques/T1087/001/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1069.002](https://attack.mitre.org/techniques/T1069/002/), [T1069.001](https://attack.mitre.org/techniques/T1069/001/)
 - **Last Updated**: 2021-06-01
 - **Author**: Michael Haag, Splunk
 
@@ -43,19 +42,14 @@ The following analytic identifies the common command-line argument used by Azure
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1087.002 | Domain Account | Discovery |
-| T1087.001 | Local Account | Discovery |
-| T1482 | Domain Trust Discovery | Discovery |
-| T1069.002 | Domain Groups | Discovery |
-| T1069.001 | Local Groups | Discovery |
+| ----------- | ----------- |--------------|| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery || [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
 
 #### Search
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process IN (&#34;*invoke-azurehound*&#34;) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*invoke-azurehound*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -63,7 +57,6 @@ The following analytic identifies the common command-line argument used by Azure
 ```
 
 #### Associated Analytic Story
-
 * [Discovery Techniques](_stories/discovery_techniques)
 
 
@@ -71,34 +64,21 @@ The following analytic identifies the common command-line argument used by Azure
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
 
 #### Required field
-
 * _time
-
 * Processes.dest
-
 * Processes.user
-
 * Processes.parent_process_name
-
 * Processes.parent_process
-
 * Processes.original_file_name
-
 * Processes.process_name
-
 * Processes.process
-
 * Processes.process_id
-
 * Processes.parent_process_path
-
 * Processes.process_path
-
 * Processes.parent_process_id
 
 
 #### Kill Chain Phase
-
 * Reconnaissance
 
 
@@ -117,13 +97,9 @@ Unknown.
 
 #### Reference
 
-
 * [https://attack.mitre.org/software/S0521/](https://attack.mitre.org/software/S0521/)
-
 * [https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors](https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors)
-
 * [https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350](https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350)
-
 * [https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1](https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1)
 
 
@@ -132,17 +108,7 @@ Unknown.
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:21.987971 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

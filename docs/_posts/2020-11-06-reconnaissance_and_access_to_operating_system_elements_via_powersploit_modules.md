@@ -35,13 +35,12 @@ tags:
   - Actions on Objectives
 ---
 
-# Reconnaissance and Access to Operating System Elements via PowerSploit modules
+#### Description
 
 This detection identifies access to PowerSploit modules that discover and access operating system elements, such as processes, services, registry locations, security packages and files.
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**:
-- **ATT&CK**: [T1007](https://attack.mitre.org/techniques/T1007/), [T1012](https://attack.mitre.org/techniques/T1012/), [T1046](https://attack.mitre.org/techniques/T1046/), [T1047](https://attack.mitre.org/techniques/T1047/), [T1057](https://attack.mitre.org/techniques/T1057/), [T1083](https://attack.mitre.org/techniques/T1083/), [T1518](https://attack.mitre.org/techniques/T1518/), [T1592.002](https://attack.mitre.org/techniques/T1592/002/)
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -49,15 +48,7 @@ This detection identifies access to PowerSploit modules that discover and access
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1007 | System Service Discovery | Discovery |
-| T1012 | Query Registry | Discovery |
-| T1046 | Network Service Scanning | Discovery |
-| T1047 | Windows Management Instrumentation | Execution |
-| T1057 | Process Discovery | Discovery |
-| T1083 | File and Directory Discovery | Discovery |
-| T1518 | Software Discovery | Discovery |
-| T1592.002 | Software | Reconnaissance |
+| ----------- | ----------- |--------------|| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery || [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery || [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery || [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution || [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery || [T1083](https://attack.mitre.org/techniques/T1083/) | File and Directory Discovery | Discovery || [T1518](https://attack.mitre.org/techniques/T1518/) | Software Discovery | Discovery || [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
 
 
 #### Search
@@ -66,15 +57,14 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-DomainProcess/)=true OR match_regex(cmd_line, /(?i)Invoke-ProcessHunter/)=true OR match_regex(cmd_line, /(?i)Get-ServiceDetail/)=true OR match_regex(cmd_line, /(?i)Get-WMIProcess/)=true OR match_regex(cmd_line, /(?i)Get-NetProcess/)=true OR match_regex(cmd_line, /(?i)Get-SecurityPackage/)=true OR match_regex(cmd_line, /(?i)Find-DomainObjectPropertyOutlier/)=true OR match_regex(cmd_line, /(?i)Get-DomainObject/)=true OR match_regex(cmd_line, /(?i)Get-ADObject/)=true OR match_regex(cmd_line, /(?i)Get-WMIRegMountedDrive/)=true OR match_regex(cmd_line, /(?i)Get-RegistryMountedDrive/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id,  &#34;cmd_line&#34;, cmd_line]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line]) 
 | into write_ssa_detected_events();
 ```
 
 #### Associated Analytic Story
-
 * [Windows Discovery Techniques](_stories/windows_discovery_techniques)
 
 
@@ -82,18 +72,13 @@ This detection identifies access to PowerSploit modules that discover and access
 You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
 
 #### Required field
-
 * _time
-
 * process
-
 * dest_device_id
-
 * dest_user_id
 
 
 #### Kill Chain Phase
-
 * Actions on Objectives
 
 
@@ -112,7 +97,6 @@ None identified.
 
 #### Reference
 
-
 * [https://github.com/PowerShellMafia/PowerSploit](https://github.com/PowerShellMafia/PowerSploit)
 
 
@@ -124,12 +108,3 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.161221 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

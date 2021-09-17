@@ -16,13 +16,12 @@ tags:
   - Exploitation
 ---
 
-# PowerShell 4104 Hunting
+#### Description
 
 The following Hunting analytic assists with identifying suspicious PowerShell execution using Script Block Logging, or EventCode 4104. This analytic is not meant to be ran hourly, but occasionally to identify malicious or suspicious PowerShell. This analytic is a combination of work completed by Alex Teixeira and Splunk Threat Research Team.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059/001/)
 - **Last Updated**: 2021-08-18
 - **Author**: Michael Haag, Splunk
 
@@ -30,19 +29,18 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1059.001 | PowerShell | Execution |
+| ----------- | ----------- |--------------|| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 
 #### Search
 
 ```
 `powershell` EventCode=4104 
-| eval DoIt = if(match(Message,&#34;(?i)(\$doit)&#34;), &#34;4&#34;, 0) 
-| eval enccom=if(match(Message,&#34;[A-Za-z0-9+\/]{44,}([A-Za-z0-9+\/]{4}
+| eval DoIt = if(match(Message,"(?i)(\$doit)"), "4", 0) 
+| eval enccom=if(match(Message,"[A-Za-z0-9+\/]{44,}([A-Za-z0-9+\/]{4}
 |[A-Za-z0-9+\/]{3}=
-|[A-Za-z0-9+\/]{2}==)&#34;) OR match(Message, &#34;(?i)[-]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]&#34;),4,0) 
-| eval suspcmdlet=if(match(Message, &#34;(?i)Add-Exfiltration
+|[A-Za-z0-9+\/]{2}==)") OR match(Message, "(?i)[-]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]"),4,0) 
+| eval suspcmdlet=if(match(Message, "(?i)Add-Exfiltration
 |Add-Persistence
 |Add-RegBackdoor
 |Add-ScrnSaveBackdoor
@@ -161,17 +159,17 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 |invoke-dll
 |invoke-mass
 |out-shortcut
-|Invoke-ShellCommand&#34;),1,0) 
-| eval base64 = if(match(lower(Message),&#34;frombase64&#34;), &#34;4&#34;, 0) 
-| eval empire=if(match(lower(Message),&#34;system.net.webclient&#34;) AND match(lower(Message), &#34;frombase64string&#34;) ,5,0) 
-| eval mimikatz=if(match(lower(Message),&#34;mimikatz&#34;) OR match(lower(Message), &#34;-dumpcr&#34;) OR match(lower(Message), &#34;SEKURLSA::Pth&#34;) OR match(lower(Message), &#34;kerberos::ptt&#34;) OR match(lower(Message), &#34;kerberos::golden&#34;) ,5,0) 
-| eval iex = if(match(lower(Message),&#34;iex&#34;), &#34;2&#34;, 0) 
-| eval webclient=if(match(lower(Message),&#34;http&#34;) OR match(lower(Message),&#34;web(client
-|request)&#34;) OR match(lower(Message),&#34;socket&#34;) OR match(lower(Message),&#34;download(file
-|string)&#34;) OR match(lower(Message),&#34;bitstransfer&#34;) OR match(lower(Message),&#34;internetexplorer.application&#34;) OR match(lower(Message),&#34;xmlhttp&#34;),5,0) 
-| eval get = if(match(lower(Message),&#34;get-&#34;), &#34;1&#34;, 0) 
-| eval rundll32 = if(match(lower(Message),&#34;rundll32&#34;), &#34;4&#34;, 0) 
-| eval suspkeywrd=if(match(Message, &#34;(?i)(bitstransfer
+|Invoke-ShellCommand"),1,0) 
+| eval base64 = if(match(lower(Message),"frombase64"), "4", 0) 
+| eval empire=if(match(lower(Message),"system.net.webclient") AND match(lower(Message), "frombase64string") ,5,0) 
+| eval mimikatz=if(match(lower(Message),"mimikatz") OR match(lower(Message), "-dumpcr") OR match(lower(Message), "SEKURLSA::Pth") OR match(lower(Message), "kerberos::ptt") OR match(lower(Message), "kerberos::golden") ,5,0) 
+| eval iex = if(match(lower(Message),"iex"), "2", 0) 
+| eval webclient=if(match(lower(Message),"http") OR match(lower(Message),"web(client
+|request)") OR match(lower(Message),"socket") OR match(lower(Message),"download(file
+|string)") OR match(lower(Message),"bitstransfer") OR match(lower(Message),"internetexplorer.application") OR match(lower(Message),"xmlhttp"),5,0) 
+| eval get = if(match(lower(Message),"get-"), "1", 0) 
+| eval rundll32 = if(match(lower(Message),"rundll32"), "4", 0) 
+| eval suspkeywrd=if(match(Message, "(?i)(bitstransfer
 |mimik
 |metasp
 |AssemblyBuilderAccess
@@ -196,30 +194,29 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 |Exfiltration
 |exploit
 |DisableRealtimeMonitoring
-|beacon)&#34;),1,0) 
-| eval syswow64 = if(match(lower(Message),&#34;syswow64&#34;), &#34;3&#34;, 0) 
-| eval httplocal = if(match(lower(Message),&#34;http://127.0.0.1&#34;), &#34;4&#34;, 0) 
-| eval reflection = if(match(lower(Message),&#34;reflection&#34;), &#34;1&#34;, 0) 
-| eval invokewmi=if(match(lower(Message), &#34;(?i)(wmiobject
+|beacon)"),1,0) 
+| eval syswow64 = if(match(lower(Message),"syswow64"), "3", 0) 
+| eval httplocal = if(match(lower(Message),"http://127.0.0.1"), "4", 0) 
+| eval reflection = if(match(lower(Message),"reflection"), "1", 0) 
+| eval invokewmi=if(match(lower(Message), "(?i)(wmiobject
 |WMIMethod
 |RemoteWMI
 |PowerShellWmi
-|wmicommand)&#34;),5,0) 
-| eval downgrade=if(match(Message, &#34;(?i)([-]ve*r*s*i*o*n*\s+2)&#34;) OR match(lower(Message),&#34;powershell -version&#34;),3,0) 
-| eval compressed=if(match(Message, &#34;(?i)GZipStream
+|wmicommand)"),5,0) 
+| eval downgrade=if(match(Message, "(?i)([-]ve*r*s*i*o*n*\s+2)") OR match(lower(Message),"powershell -version"),3,0) 
+| eval compressed=if(match(Message, "(?i)GZipStream
 |::Decompress
 |IO.Compression
 |write-zip
 |(expand
-|compress)-Archive&#34;),5,0) 
-| eval invokecmd = if(match(lower(Message),&#34;invoke-command&#34;), &#34;4&#34;, 0) 
+|compress)-Archive"),5,0) 
+| eval invokecmd = if(match(lower(Message),"invoke-command"), "4", 0) 
 | addtotals fieldname=Score DoIt, enccom, suspcmdlet, suspkeywrd, compressed, downgrade, mimikatz, iex, empire, rundll32, webclient, syswow64, httplocal, reflection, invokewmi, invokecmd, base64, get 
 | stats values(Score) by DoIt, enccom, compressed, downgrade, iex, mimikatz, rundll32, empire, webclient, syswow64, httplocal, reflection, invokewmi, invokecmd, base64, get, suspcmdlet, suspkeywrd 
 | `powershell_4104_hunting_filter`
 ```
 
 #### Associated Analytic Story
-
 * [Malicious PowerShell](_stories/malicious_powershell)
 
 
@@ -227,14 +224,11 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 
 #### Required field
-
 * _time
-
 * Message
 
 
 #### Kill Chain Phase
-
 * Exploitation
 
 
@@ -253,19 +247,12 @@ Limited false positives. May filter as needed.
 
 #### Reference
 
-
 * [https://github.com/inodee/threathunting-spl/blob/master/hunt-queries/powershell_qualifiers.md](https://github.com/inodee/threathunting-spl/blob/master/hunt-queries/powershell_qualifiers.md)
-
 * [https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell](https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell)
-
 * [https://github.com/marcurdy/dfir-toolset/blob/master/Powershell%20Blueteam.txt](https://github.com/marcurdy/dfir-toolset/blob/master/Powershell%20Blueteam.txt)
-
 * [https://devblogs.microsoft.com/powershell/powershell-the-blue-team/](https://devblogs.microsoft.com/powershell/powershell-the-blue-team/)
-
 * [https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging?view=powershell-5.1)
-
 * [https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html](https://www.fireeye.com/blog/threat-research/2016/02/greater_visibilityt.html)
-
 * [https://hurricanelabs.com/splunk-tutorials/how-to-use-powershell-transcription-logs-in-splunk/](https://hurricanelabs.com/splunk-tutorials/how-to-use-powershell-transcription-logs-in-splunk/)
 
 
@@ -277,12 +264,3 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.143243 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

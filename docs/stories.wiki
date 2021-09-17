@@ -10,7 +10,7 @@ All the Analytic Stories shipped to different Splunk products. Below is a breakd
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Email/ Email], [https://docs.splunk.com/Documentation/CIM/latest/User/Web/ Web]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Email Email], [https://docs.splunk.com/Documentation/CIM/latest/User/Web Web]
 * '''Last Updated''': 2017-12-19
 * '''Use Case''': Advanced Threat Detection
 
@@ -66,7 +66,7 @@ Detect and investigate activity that may indicate that an adversary is using fau
 DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to `ANY` queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution]
 * '''Last Updated''': 2016-09-13
 * '''Use Case''': Security Monitoring
 
@@ -115,7 +115,7 @@ Impact
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution]
 * '''Last Updated''': 2017-09-14
 * '''Use Case''': Security Monitoring
 
@@ -168,7 +168,7 @@ Initial Access
 Detect activities and various techniques associated with the abuse of `netsh.exe`, which can disable local firewall settings or set up a remote connection to a host from an infected system.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2017-01-05
 * '''Use Case''': Advanced Threat Detection
 
@@ -224,7 +224,7 @@ Defense Evasion
 Monitor for activities and techniques associated with Password Spraying attacks within Active Directory environments.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-04-07
 * '''Use Case''': Advanced Threat Detection
 
@@ -352,7 +352,7 @@ Credential Access
 Adversaries may abuse BITS jobs to persistently execute or clean up after malicious payloads.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-03-26
 * '''Use Case''': Advanced Threat Detection
 
@@ -498,7 +498,7 @@ Privilege Escalation
 Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-02-16
 * '''Use Case''': Advanced Threat Detection
 
@@ -805,7 +805,7 @@ Defense Evasion
 Monitor for and investigate activities--such as suspicious writes to the Windows Recycling Bin or email servers sending high amounts of traffic to specific hosts, for example--that may indicate that an adversary is harvesting and exfiltrating sensitive data. 
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2020-02-03
 * '''Use Case''': Security Monitoring
 
@@ -922,7 +922,7 @@ Defense Evasion
 Detect and investigate tactics, techniques, and procedures leveraged by attackers to establish and operate command and control channels. Implants installed by attackers on compromised endpoints use these channels to receive instructions and send data back to the malicious operators.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2018-06-01
 * '''Use Case''': Security Monitoring
 
@@ -1138,7 +1138,7 @@ Command And Control
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attempts to credential dumping.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2020-02-04
 * '''Use Case''': Advanced Threat Detection
 
@@ -1751,7 +1751,7 @@ Execution
 Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution]
 * '''Last Updated''': 2020-02-04
 * '''Use Case''': Advanced Threat Detection
 
@@ -1806,7 +1806,7 @@ Initial Access
 The stealing of data by an adversary.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2020-10-21
 * '''Use Case''': Advanced Threat Detection
 
@@ -1988,7 +1988,7 @@ Exfiltration
 Adversaries may use Obfuscated Files or Information to hide artifacts of an intrusion from analysis.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-03-24
 * '''Use Case''': Advanced Threat Detection
 
@@ -2129,7 +2129,7 @@ Initial Access
 Looks for activities and techniques associated with the disabling of security tools on a Windows system, such as suspicious `reg.exe` processes, processes launching netsh, and many others.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2020-02-04
 * '''Use Case''': Security Monitoring
 
@@ -2249,7 +2249,7 @@ Defense Evasion
 Adversaries may attempt to gather information on domain trust relationships that may be used to identify lateral movement opportunities in Windows multi-domain/forest environments.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-03-25
 * '''Use Case''': Advanced Threat Detection
 
@@ -2372,7 +2372,7 @@ Initial Access
 HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVEs in the wild - CVE-2021-26855, CVE-2021-26857, CVE-2021-26858 and CVE-2021-27065.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2021-03-03
 * '''Use Case''': Advanced Threat Detection
 
@@ -2633,7 +2633,7 @@ Persistence
 Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-03-24
 * '''Use Case''': Advanced Threat Detection
 
@@ -2827,7 +2827,7 @@ Collection
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2020-02-04
 * '''Use Case''': Advanced Threat Detection
 
@@ -2972,7 +2972,7 @@ Execution, Persistence, Privilege Escalation
 Attackers are finding stealthy ways "live off the land," leveraging utilities and tools that come standard on the endpoint--such as PowerShell--to achieve their goals without downloading binary files. These searches can help you detect and investigate PowerShell command-line options that may be indicative of malicious intent.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2017-08-23
 * '''Use Case''': Advanced Threat Detection
 
@@ -3450,7 +3450,7 @@ Reconnaissance
 Adversaries may rename legitimate system utilities to try to evade security mechanisms concerning the usage of those utilities.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-04-26
 * '''Use Case''': Advanced Threat Detection
 
@@ -3589,7 +3589,7 @@ Defense Evasion
 Meterpreter provides red teams, pen testers and threat actors interactive access to a compromised host to run commands, upload payloads, download files, and other actions.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-06-08
 * '''Use Case''': Advanced Threat Detection
 
@@ -3640,7 +3640,7 @@ Discovery
 Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic], [https://docs.splunk.com/Documentation/CIM/latest/User/Web/ Web]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic], [https://docs.splunk.com/Documentation/CIM/latest/User/Web Web]
 * '''Last Updated''': 2020-12-14
 * '''Use Case''': Advanced Threat Detection
 
@@ -3986,7 +3986,7 @@ Credential Access
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2020-01-22
 * '''Use Case''': Advanced Threat Detection
 
@@ -4067,7 +4067,7 @@ Persistence, Privilege Escalation
 ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server - CVE-2021-34473, CVE-2021-34523, and CVE-2021-31207.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-08-24
 * '''Use Case''': Advanced Threat Detection
 
@@ -4163,7 +4163,7 @@ Persistence
 Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Web/ Web]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Web Web]
 * '''Last Updated''': 2017-09-19
 * '''Use Case''': Advanced Threat Detection
 
@@ -4212,7 +4212,7 @@ Initial Access
 Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking MacOS (Intel and M1) malicious software downloader utilizing JavaScript for execution and a launchAgent to establish persistence.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-02-24
 * '''Use Case''': Advanced Threat Detection
 
@@ -4300,7 +4300,7 @@ Collection
 Detect signs of malicious payloads that may indicate that your environment has been breached via a phishing attack.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2019-04-29
 * '''Use Case''': Advanced Threat Detection
 
@@ -4511,7 +4511,7 @@ Initial Access
 Leveraging the Windows command-line interface (CLI) is one of the most common attack techniques--one that is also detailed in the MITRE ATT&CK framework. Use this Analytic Story to help you identify unusual or suspicious use of the CLI on Windows systems.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2020-02-03
 * '''Use Case''': Advanced Threat Detection
 
@@ -4634,7 +4634,7 @@ Defense Evasion
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-02-11
 * '''Use Case''': Advanced Threat Detection
 
@@ -4718,7 +4718,7 @@ Defense Evasion
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution]
 * '''Last Updated''': 2017-09-18
 * '''Use Case''': Advanced Threat Detection
 
@@ -4858,7 +4858,7 @@ Exfiltration
 Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Email/ Email]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Email Email]
 * '''Last Updated''': 2020-01-27
 * '''Use Case''': Advanced Threat Detection
 
@@ -4921,7 +4921,7 @@ Initial Access
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-01-20
 * '''Use Case''': Advanced Threat Detection
 
@@ -5164,7 +5164,7 @@ Defense Evasion, Persistence, Privilege Escalation, Initial Access
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-02-11
 * '''Use Case''': Advanced Threat Detection
 
@@ -5270,7 +5270,7 @@ Defense Evasion
 Monitor and detect techniques used by attackers who leverage the regsvr32.exe process to execute malicious code.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-01-29
 * '''Use Case''': Advanced Threat Detection
 
@@ -5332,7 +5332,7 @@ Defense Evasion
 Monitor and detect techniques used by attackers who leverage rundll32.exe to execute arbitrary malicious code.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-02-03
 * '''Use Case''': Advanced Threat Detection
 
@@ -5482,7 +5482,7 @@ Defense Evasion
 Attackers are increasingly abusing Windows Management Instrumentation (WMI), a framework and associated utilities available on all modern Windows operating systems. Because WMI can be leveraged to manage both local and remote systems, it is important to identify the processes executed and the user context within which the activity occurred.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2018-10-23
 * '''Use Case''': Advanced Threat Detection
 
@@ -5613,7 +5613,7 @@ Execution
 Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2018-05-31
 * '''Use Case''': Advanced Threat Detection
 
@@ -5718,7 +5718,7 @@ Privilege Escalation, Persistence
 Attackers are using Zoom as an vector to increase privileges on a sytems. This story detects new child processes of zoom and provides investigative actions for this detection.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2020-04-13
 * '''Use Case''': Advanced Threat Detection
 
@@ -5800,7 +5800,7 @@ Privilege Escalation
 Monitor and detect behaviors used by attackers who leverage trusted developer utilities to execute malicious code.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-01-12
 * '''Use Case''': Advanced Threat Detection
 
@@ -5865,7 +5865,7 @@ Defense Evasion
 Monitor and detect techniques used by attackers who leverage the msbuild.exe process to execute malicious code.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-01-21
 * '''Use Case''': Advanced Threat Detection
 
@@ -5950,7 +5950,7 @@ Defense Evasion
 Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered by Checkpoint researchers, this vulnerability affects Windows 2003 to 2019, and is triggered by a malicious DNS response (only affects DNS over TCP). An attacker can use the malicious payload to cause a buffer overflow on the vulnerable system, leading to compromise.  The included searches in this Analytic Story are designed to identify the large response payload for SIG and KEY DNS records which can be used for the exploit.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution]
 * '''Last Updated''': 2020-07-28
 * '''Use Case''': Advanced Threat Detection
 
@@ -6010,7 +6010,7 @@ Execution
 Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe` and disabling user-account control, among many others 
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2018-05-31
 * '''Use Case''': Advanced Threat Detection
 
@@ -6780,7 +6780,7 @@ Persistence, Privilege Escalation, Defense Evasion
 Adversaries often try to cover their tracks by manipulating Windows logs. Use these searches to help you monitor for suspicious activity surrounding log files--an essential component of an effective defense.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2017-09-12
 * '''Use Case''': Security Monitoring
 
@@ -6916,7 +6916,7 @@ Defense Evasion
 Monitor for activities and techniques associated with maintaining persistence on a Windows system--a sign that an adversary may have compromised your environment.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2018-05-31
 * '''Use Case''': Advanced Threat Detection
 
@@ -7314,7 +7314,7 @@ Execution, Persistence, Privilege Escalation
 Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2020-02-04
 * '''Use Case''': Advanced Threat Detection
 
@@ -7436,7 +7436,7 @@ Privilege Escalation, Persistence
 Keep a careful inventory of every asset on your network to make it easier to detect rogue devices. Unauthorized/unmanaged devices could be an indication of malicious behavior that should be investigated further.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions/ Network_Sessions]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions Network_Sessions]
 * '''Last Updated''': 2017-09-13
 * '''Use Case''': Security Monitoring
 
@@ -7484,7 +7484,7 @@ Keep a careful inventory of every asset on your network to make it easier to det
 Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Updates/ Updates]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Updates Updates]
 * '''Last Updated''': 2017-09-15
 * '''Use Case''': Compliance
 
@@ -7526,7 +7526,7 @@ Monitor your enterprise to ensure that your endpoints are being patched and upda
 Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2017-09-11
 * '''Use Case''': Security Monitoring
 
@@ -7660,7 +7660,7 @@ Command And Control
 Validate the security configuration of network infrastructure and verify that only authorized users and systems are accessing critical assets. Core routing and switching infrastructure are common strategic targets for attackers.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Authentication/ Authentication], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Authentication Authentication], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2017-09-12
 * '''Use Case''': Security Monitoring
 
@@ -7817,7 +7817,7 @@ Exfiltration
 Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2017-09-15
 * '''Use Case''': Security Monitoring
 
@@ -8293,7 +8293,7 @@ Discovery
 Monitor your cloud compute instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or compute instances started by previously unseen users are just a few examples of potentially malicious behavior.
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Change/ Change]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Change Change]
 * '''Last Updated''': 2019-10-02
 * '''Use Case''': Security Monitoring
 
@@ -8381,7 +8381,7 @@ Defense Evasion
 This analytical story addresses events that indicate abuse of cloud federated credentials. These credentials are usually extracted from endpoint desktop or servers specially those servers that provide federation services such as Windows Active Directory Federation Services. Identity Federation relies on objects such as Oauth2 tokens, cookies or SAML assertions in order to provide seamless access between cloud and perimeter environments. If these objects are either hijacked or forged then attackers will be able to pivot into victim's cloud environements.
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-01-26
 * '''Use Case''': Security Monitoring
 
@@ -9121,7 +9121,7 @@ Collection
 Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. 
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Authentication/ Authentication]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Authentication Authentication]
 * '''Last Updated''': 2019-05-01
 * '''Use Case''': Security Monitoring
 
@@ -9318,7 +9318,7 @@ Leverage these searches to monitor your AWS network traffic for evidence of anom
 Monitor your cloud authentication events. Searches within this Analytic Story leverage the recent cloud updates to the Authentication data model to help you stay aware of and investigate suspicious login activity. 
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Authentication/ Authentication]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Authentication Authentication]
 * '''Last Updated''': 2020-06-04
 * '''Use Case''': Security Monitoring
 
@@ -9405,7 +9405,7 @@ Defense Evasion
 Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Change/ Change]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Change Change]
 * '''Last Updated''': 2020-08-25
 * '''Use Case''': Security Monitoring
 
@@ -9491,7 +9491,7 @@ Exfiltration
 Monitor your cloud infrastructure provisioning activities for behaviors originating from unfamiliar or unusual locations. These behaviors may indicate that malicious activities are occurring somewhere within your cloud environment.
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Change/ Change]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Change Change]
 * '''Last Updated''': 2018-08-20
 * '''Use Case''': Security Monitoring
 
@@ -9569,7 +9569,7 @@ Defense Evasion, Persistence, Privilege Escalation, Initial Access
 Detect and investigate suspicious activities by users and roles in your cloud environments.
 
 * '''Product''': Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Change/ Change]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Change Change]
 * '''Last Updated''': 2020-09-04
 * '''Use Case''': Security Monitoring
 
@@ -9724,7 +9724,7 @@ Collection
 The following analytic story identifies behaviors related PrintNightmare, or CVE-2021-34527 previously known as (CVE-2021-1675), to gain privilege escalation on the vulnerable machine.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-07-01
 * '''Use Case''': Advanced Threat Detection
 
@@ -9878,7 +9878,7 @@ Defense Evasion
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Clop ransomware, including looking for file writes associated with Clope, encrypting network shares, deleting and resizing shadow volume storage, registry key modification, deleting of security logs, and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-03-17
 * '''Use Case''': Advanced Threat Detection
 
@@ -10178,7 +10178,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA18-074A. Some of the activities that adversaries used in these compromises included spearfishing attacks, malware, watering-hole domains, many and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2020-01-22
 * '''Use Case''': Advanced Threat Detection
 
@@ -10408,7 +10408,7 @@ Defense Evasion
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the DarkSide Ransomware
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-05-12
 * '''Use Case''': Advanced Threat Detection
 
@@ -10668,7 +10668,7 @@ Privilege Escalation, Defense Evasion
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution]
 * '''Last Updated''': 2018-09-06
 * '''Use Case''': Security Monitoring
 
@@ -10777,7 +10777,7 @@ Exfiltration
 Detect rarely used executables, specific registry paths that may confer malware survivability and persistence, instances where cmd.exe is used to launch script interpreters, and other indicators that the Emotet financial malware has compromised your environment.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Email/ Email], [https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Email Email], [https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2020-01-27
 * '''Use Case''': Advanced Threat Detection
 
@@ -10919,7 +10919,7 @@ Initial Access
 Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution/ Network_Resolution], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution Network_Resolution], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2020-01-22
 * '''Use Case''': Advanced Threat Detection
 
@@ -11062,7 +11062,7 @@ Lateral Movement
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the IcedID banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-07-29
 * '''Use Case''': Advanced Threat Detection
 
@@ -11430,7 +11430,7 @@ Execution, Persistence, Privilege Escalation
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2020-01-22
 * '''Use Case''': Advanced Threat Detection
 
@@ -11507,7 +11507,7 @@ Persistence, Privilege Escalation
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2020-02-04
 * '''Use Case''': Advanced Threat Detection
 
@@ -12559,7 +12559,7 @@ Impact
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Revil ransomware, including looking for file writes associated with Revil, encrypting network shares, deleting shadow volume storage, registry key modification, deleting of security logs, and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-06-04
 * '''Use Case''': Advanced Threat Detection
 
@@ -12717,7 +12717,7 @@ Defense Evasion
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Ryuk ransomware, including looking for file writes associated with Ryuk, Stopping Security Access Manager, DisableAntiSpyware registry key modification, suspicious psexec use, and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic]
 * '''Last Updated''': 2020-11-06
 * '''Use Case''': Advanced Threat Detection
 
@@ -12953,7 +12953,7 @@ Impact
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic/ Network_Traffic], [https://docs.splunk.com/Documentation/CIM/latest/User/Web/ Web]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint], [https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic Network_Traffic], [https://docs.splunk.com/Documentation/CIM/latest/User/Web Web]
 * '''Last Updated''': 2018-12-13
 * '''Use Case''': Advanced Threat Detection
 
@@ -13245,7 +13245,7 @@ Impact
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the trickbot banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection even in LDAP environment.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-04-20
 * '''Use Case''': Advanced Threat Detection
 
@@ -13513,7 +13513,7 @@ Lateral Movement
 Quickly identify systems running new or unusual processes in your environment that could be indicators of suspicious activity. Processes run from unusual locations, those with conspicuously long command lines, and rare executables are all examples of activities that may warrant deeper investigation.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2020-02-04
 * '''Use Case''': Advanced Threat Detection
 
@@ -13843,7 +13843,7 @@ Initial Access
 Detect and investigate suspected abuse of file extensions and Windows file associations. Some of the malicious behaviors involved may include inserting spaces before file extensions or prepending the file extension with a different one, among other techniques.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2018-01-26
 * '''Use Case''': Advanced Threat Detection
 
@@ -13904,7 +13904,7 @@ Defense Evasion
 Windows services are often used by attackers for persistence and the ability to load drivers or otherwise interact with the Windows kernel. This Analytic Story helps you monitor your environment for indications that Windows services are being modified or created in a suspicious manner.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2017-11-02
 * '''Use Case''': Advanced Threat Detection
 
@@ -14026,7 +14026,7 @@ Persistence, Privilege Escalation
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the xmrig monero, including looking for file writes associated with its payload, process command-line, defense evasion (killing services, deleting users, modifying files or folder permission, killing other malware or other coin miner) and hacking tools including Telegram as mean of command and control (C2) to download other files. Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems which may impact system and/or hosted service availability. One common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency. Adversaries may consume enough system resources to negatively impact and/or cause affected machines to become unresponsive. (1) Servers and cloud-based (2) systems are common targets because of the high potential for available resources, but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-05-07
 * '''Use Case''': Advanced Threat Detection
 
@@ -14474,7 +14474,7 @@ Persistence, Privilege Escalation
 Detect and investigate activities--such as unusually long `Content-Type` length, suspicious java classes and web servers executing suspicious processes--consistent with attempts to exploit Apache Struts vulnerabilities.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint/ Endpoint]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2018-12-06
 * '''Use Case''': Advanced Threat Detection
 
@@ -14541,7 +14541,7 @@ Discovery
 In March of 2016, adversaries were seen using JexBoss--an open-source utility used for testing and exploiting JBoss application servers. These searches help detect evidence of these attacks, such as network connections to external resources or web services spawning atypical child processes, among others.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Web/ Web]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Web Web]
 * '''Last Updated''': 2017-09-14
 * '''Use Case''': Advanced Threat Detection
 
@@ -14600,7 +14600,7 @@ Discovery
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-09-07 22:42:51.638515 UTC
+# On Date: 2021-09-17 12:42:27.403005 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############

@@ -15,13 +15,12 @@ tags:
   - Exploitation
 ---
 
-# Resize Shadowstorage Volume
+#### Description
 
 The following analytics identifies the resizing of shadowstorage by ransomware malware to avoid the shadow volumes being made again. this technique is an alternative by ransomware attacker than deleting the shadowstorage which is known alert in defensive team. one example of ransomware that use this technique is CLOP ransomware where it drops a .bat file that will resize the shadowstorage to minimum size as much as possible
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1489](https://attack.mitre.org/techniques/T1489/)
 - **Last Updated**: 2021-06-21
 - **Author**: Teoderick Contreras, Splunk
 
@@ -29,8 +28,7 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1489 | Service Stop | Impact |
+| ----------- | ----------- |--------------|| [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 
 #### Search
@@ -38,16 +36,14 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=lower(ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null)), process_name=lower(ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null)), process_path=ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null), parent_process_name=ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
-| where cmd_line IS NOT NULL AND like(cmd_line, &#34;%resize%&#34;) AND like(cmd_line, &#34;%shadowstorage%&#34;) AND like(cmd_line, &#34;%maxsize%&#34;) AND process_name=&#34;vssadmin.exe&#34; 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process_name, &#34;process_path&#34;, process_path]) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%resize%") AND like(cmd_line, "%shadowstorage%") AND like(cmd_line, "%maxsize%") AND process_name="vssadmin.exe" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 
 #### Associated Analytic Story
-
 * [Clop Ransomware](_stories/clop_ransomware)
-
 * [Ransomware](_stories/ransomware)
 
 
@@ -55,24 +51,16 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 
 #### Required field
-
 * _time
-
 * dest_device_id
-
 * process_name
-
 * parent_process_name
-
 * process_path
-
 * dest_user_id
-
 * process
 
 
 #### Kill Chain Phase
-
 * Exploitation
 
 
@@ -84,9 +72,7 @@ network admin can resize the shadowstorage for valid purposes.
 
 #### Reference
 
-
 * [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)
-
 * [https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html](https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html)
 
 
@@ -95,17 +81,7 @@ network admin can resize the shadowstorage for valid purposes.
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.172203 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

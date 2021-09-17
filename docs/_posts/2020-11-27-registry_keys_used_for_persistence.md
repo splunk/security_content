@@ -18,13 +18,12 @@ tags:
   - Actions on Objectives
 ---
 
-# Registry Keys Used For Persistence
+#### Description
 
 The search looks for modifications to registry keys that can be used to launch an application or service at system startup.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1547.001](https://attack.mitre.org/techniques/T1547/001/)
 - **Last Updated**: 2020-11-27
 - **Author**: David Dorsey, Splunk
 
@@ -32,15 +31,14 @@ The search looks for modifications to registry keys that can be used to launch a
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1547.001 | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------|| [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 
 
 #### Search
 
 ```
 
-| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*currentversion\\run* OR Registry.registry_path=*currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*currentversion\\policies\\explorer\\run* OR Registry.registry_path=*currentversion\\runservices* OR Registry.registry_path=*\\CurrentControlSet\\Control\\Lsa\\* OR Registry.registry_path=&#34;*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*&#34; OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\*) by Registry.dest Registry.user 
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*currentversion\\run* OR Registry.registry_path=*currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*currentversion\\policies\\explorer\\run* OR Registry.registry_path=*currentversion\\runservices* OR Registry.registry_path=*\\CurrentControlSet\\Control\\Lsa\\* OR Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*" OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\*) by Registry.dest Registry.user 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 
@@ -48,21 +46,13 @@ The search looks for modifications to registry keys that can be used to launch a
 ```
 
 #### Associated Analytic Story
-
 * [Suspicious Windows Registry Activities](_stories/suspicious_windows_registry_activities)
-
 * [Suspicious MSHTA Activity](_stories/suspicious_mshta_activity)
-
 * [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
-
 * [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](_stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
-
 * [Ransomware](_stories/ransomware)
-
 * [Windows Persistence Techniques](_stories/windows_persistence_techniques)
-
 * [Emotet Malware  DHS Report TA18-201A ](_stories/emotet_malware__dhs_report_ta18-201a_)
-
 * [IcedID](_stories/icedid)
 
 
@@ -70,20 +60,14 @@ The search looks for modifications to registry keys that can be used to launch a
 To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 
 #### Required field
-
 * _time
-
 * Registry.registry_key_name
-
 * Registry.registry_path
-
 * Registry.dest
-
 * Registry.user
 
 
 #### Kill Chain Phase
-
 * Actions on Objectives
 
 
@@ -107,17 +91,7 @@ There are many legitimate applications that must execute on system startup and w
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log)
 
 
 _version_: 5
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.167820 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

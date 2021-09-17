@@ -20,13 +20,12 @@ tags:
   - Actions on Objectives
 ---
 
-# First time seen command line argument
+#### Description
 
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**:
-- **ATT&CK**: [T1059](https://attack.mitre.org/techniques/T1059/), [T1117](https://attack.mitre.org/techniques/T1117/), [T1202](https://attack.mitre.org/techniques/T1202/)
 - **Last Updated**: 2021-2-1
 - **Author**: Ignacio Bermudez Corrales, Splunk
 
@@ -34,10 +33,7 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1059 | Command and Scripting Interpreter | Execution |
-| T1117 | Regsvr32 |  |
-| T1202 | Indirect Command Execution | Defense Evasion |
+| ----------- | ----------- |--------------|| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution || [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  || [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
 
 
 #### Search
@@ -45,20 +41,19 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
-| eval dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), cmd_line_norm=lower(cmd_line), cmd_line_norm=replace(cmd_line_norm, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/, &#34;GUID&#34;), cmd_line_norm=replace(cmd_line_norm, /(?&lt;=\s)+\\[^:]*(?=\\.*\.\w{3}(\s
-|$)+)/, &#34;\\PATH&#34;), /* replaces &#34; \\Something\\Something\\command.ext&#34; =&gt; &#34;PATH\\command.ext&#34; */ cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s
-|$)+)/, &#34;\\PATH&#34;), /* replaces &#34;C:\\Something\\Something\\command.ext&#34; =&gt; &#34;PATH\\command.ext&#34; */ cmd_line_norm=replace(cmd_line_norm, /\d+/, &#34;N&#34;), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
-| where process_name=&#34;cmd.exe&#34; AND match_regex(ucast(cmd_line, &#34;string&#34;, &#34;&#34;), /.* \/[cC] .*/)=true 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
+| eval dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), cmd_line_norm=lower(cmd_line), cmd_line_norm=replace(cmd_line_norm, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/, "GUID"), cmd_line_norm=replace(cmd_line_norm, /(?<=\s)+\\[^:]*(?=\\.*\.\w{3}(\s
+|$)+)/, "\\PATH"), /* replaces " \\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s
+|$)+)/, "\\PATH"), /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm, /\d+/, "N"), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where process_name="cmd.exe" AND match_regex(ucast(cmd_line, "string", ""), /.* \/[cC] .*/)=true 
 | select process_name, cmd_line, cmd_line_norm, timestamp, dest_device_id, dest_user_id 
-| first_time_event input_columns=[&#34;cmd_line_norm&#34;] 
+| first_time_event input_columns=["cmd_line_norm"] 
 | where first_time_cmd_line_norm 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 
 #### Associated Analytic Story
-
 * [Unusual Processes](_stories/unusual_processes)
 
 
@@ -66,22 +61,15 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 You must be populating the endpoint data model for SSA and specifically the process_name and the process fields
 
 #### Required field
-
 * process_name
-
 * _time
-
 * dest_device_id
-
 * dest_user_id
-
 * process
 
 
 #### Kill Chain Phase
-
 * Command and Control
-
 * Actions on Objectives
 
 
@@ -108,12 +96,3 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 _version_: 3
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.068432 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

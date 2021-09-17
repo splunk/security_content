@@ -17,7 +17,7 @@ tags:
   - Exploitation
 ---
 
-# Multiple Users Remotely Failing To Authenticate From Host
+#### Description
 
 The following analytic identifies a source host failing to authenticate against a remote host with multiple users. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. Event 4625 documents each and every failed attempt to logon to the local computer. This event generates on domain controllers, member servers, and workstations. Logon Type 3 describes an remote authentication attempt.\
 The detection calculates the standard deviation for each host and leverages the 3-sigma statistical rule to identify an unusual number of users. To customize this analytic, users can try different combinations of the `bucket` span time and the calculation of the `upperBound` field. This logic can be used for real time security monitoring as well as threat hunting exercises.\
@@ -26,7 +26,6 @@ The analytics returned fields allow analysts to investigate the event further by
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1110.003](https://attack.mitre.org/techniques/T1110/003/)
 - **Last Updated**: 2021-04-13
 - **Author**: Mauricio Velazco, Splunk
 
@@ -34,26 +33,24 @@ The analytics returned fields allow analysts to investigate the event further by
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1110.003 | Password Spraying | Credential Access |
+| ----------- | ----------- |--------------|| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
 
 
 #### Search
 
 ```
- `wineventlog_security` EventCode=4625 Logon_Type=3 Source_Network_Address!=&#34;-&#34; 
+ `wineventlog_security` EventCode=4625 Logon_Type=3 Source_Network_Address!="-" 
 | bucket span=2m _time 
 | eval Destination_Account = mvindex(Account_Name, 1) 
 | stats dc(Destination_Account) AS unique_accounts values(Destination_Account) as tried_accounts by _time, Source_Network_Address, ComputerName 
 | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by Source_Network_Address, ComputerName 
 | eval upperBound=(comp_avg+comp_std*3) 
-| eval isOutlier=if(unique_accounts &gt; 10 and unique_accounts &gt;= upperBound, 1, 0) 
+| eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) 
 | search isOutlier=1 
 | `multiple_users_remotely_failing_to_authenticate_from_host_filter` 
 ```
 
 #### Associated Analytic Story
-
 * [Active Directory Password Spraying](_stories/active_directory_password_spraying)
 
 
@@ -61,24 +58,16 @@ The analytics returned fields allow analysts to investigate the event further by
 To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as as well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
 
 #### Required field
-
 * _time
-
 * EventCode
-
 * Logon_Type
-
 * Security_ID
-
 * Account_Name
-
 * ComputerName
-
 * Source_Network_Address
 
 
 #### Kill Chain Phase
-
 * Exploitation
 
 
@@ -97,13 +86,9 @@ A host failing to authenticate with multiple valid users against a remote host i
 
 #### Reference
 
-
 * [https://attack.mitre.org/techniques/T1110/003/](https://attack.mitre.org/techniques/T1110/003/)
-
 * [https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625)
-
 * [https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625)
-
 * [https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events](https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events)
 
 
@@ -112,17 +97,7 @@ A host failing to authenticate with multiple valid users against a remote host i
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray/windows-security.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.120377 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

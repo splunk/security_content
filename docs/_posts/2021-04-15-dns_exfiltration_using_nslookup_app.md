@@ -17,13 +17,12 @@ tags:
   - Exploitation
 ---
 
-# DNS Exfiltration Using Nslookup App
+#### Description
 
 this search is to detect potential DNS exfiltration using nslookup application. This technique are seen in couple of malware and APT group to exfiltrated collected data in a infected machine or infected network. This detection is looking for unique use of nslookup where it tries to use specific record type, TXT, A, AAAA, that are commonly used by attacker and also the retry parameter which is designed to query C2 DNS multiple tries.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1048](https://attack.mitre.org/techniques/T1048/)
 - **Last Updated**: 2021-04-15
 - **Author**: Teoderick Contreras, Splunk
 
@@ -31,15 +30,14 @@ this search is to detect potential DNS exfiltration using nslookup application. 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1048 | Exfiltration Over Alternative Protocol | Exfiltration |
+| ----------- | ----------- |--------------|| [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
 
 #### Search
 
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id values(Processes.parent_process) as parent_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = &#34;nslookup.exe&#34; Processes.process = &#34;*-querytype=*&#34; OR Processes.process=&#34;*-qt=*&#34; OR Processes.process=&#34;*-q=*&#34; OR Processes.process=&#34;-type=*&#34; OR Processes.process=&#34;*-retry=*&#34; by Processes.dest Processes.user Processes.process_name  
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id values(Processes.parent_process) as parent_process count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "nslookup.exe" Processes.process = "*-querytype=*" OR Processes.process="*-qt=*" OR Processes.process="*-q=*" OR Processes.process="-type=*" OR Processes.process="*-retry=*" by Processes.dest Processes.user Processes.process_name  
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -47,13 +45,9 @@ this search is to detect potential DNS exfiltration using nslookup application. 
 ```
 
 #### Associated Analytic Story
-
 * [Suspicious DNS Traffic](_stories/suspicious_dns_traffic)
-
 * [Dynamic DNS](_stories/dynamic_dns)
-
 * [Command and Control](_stories/command_and_control)
-
 * [Data Exfiltration](_stories/data_exfiltration)
 
 
@@ -61,34 +55,21 @@ this search is to detect potential DNS exfiltration using nslookup application. 
 To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of nslookup.exe may be used.
 
 #### Required field
-
 * _time
-
 * Processes.dest
-
 * Processes.user
-
 * Processes.parent_process_name
-
 * Processes.parent_process
-
 * Processes.original_file_name
-
 * Processes.process_name
-
 * Processes.process
-
 * Processes.process_id
-
 * Processes.parent_process_path
-
 * Processes.process_path
-
 * Processes.parent_process_id
 
 
 #### Kill Chain Phase
-
 * Exploitation
 
 
@@ -107,11 +88,8 @@ admin nslookup usage
 
 #### Reference
 
-
 * [https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html](https://www.fireeye.com/blog/threat-research/2017/03/fin7_spear_phishing.html)
-
 * [https://www.varonis.com/blog/dns-tunneling/](https://www.varonis.com/blog/dns-tunneling/)
-
 * [https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/](https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/)
 
 
@@ -120,17 +98,7 @@ admin nslookup usage
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:21.979439 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

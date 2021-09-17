@@ -29,13 +29,12 @@ tags:
   - Reconnaissance
 ---
 
-# Detect AzureHound File Modifications
+#### Description
 
 The following analytic is similar to SharpHound file modifications, but this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound equivilent but for Azure. It&#39;s possible this may never be seen in an environment as most attackers may execute this tool remotely. Once execution is complete, a zip file with a similar name will drop `20210601090751-azurecollection.zip`. In addition to the zip, multiple .json files will be written to disk, which are in the zip.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1087.002](https://attack.mitre.org/techniques/T1087/002/), [T1087.001](https://attack.mitre.org/techniques/T1087/001/), [T1482](https://attack.mitre.org/techniques/T1482/), [T1069.002](https://attack.mitre.org/techniques/T1069/002/), [T1069.001](https://attack.mitre.org/techniques/T1069/001/)
 - **Last Updated**: 2021-06-01
 - **Author**: Michael Haag, Splunk
 
@@ -43,19 +42,14 @@ The following analytic is similar to SharpHound file modifications, but this ins
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1087.002 | Domain Account | Discovery |
-| T1087.001 | Local Account | Discovery |
-| T1482 | Domain Trust Discovery | Discovery |
-| T1069.002 | Domain Groups | Discovery |
-| T1069.001 | Local Groups | Discovery |
+| ----------- | ----------- |--------------|| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery || [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
 
 #### Search
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN (&#34;*-azurecollection.zip&#34;, &#34;*-azprivroleadminrights.json&#34;, &#34;*-azglobaladminrights.json&#34;, &#34;*-azcloudappadmins.json&#34;, &#34;*-azapplicationadmins.json&#34;) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path Filesystem.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip", "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json", "*-azapplicationadmins.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path Filesystem.dest 
 | `drop_dm_object_name(Filesystem)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -63,7 +57,6 @@ The following analytic is similar to SharpHound file modifications, but this ins
 ```
 
 #### Associated Analytic Story
-
 * [Discovery Techniques](_stories/discovery_techniques)
 
 
@@ -71,22 +64,15 @@ The following analytic is similar to SharpHound file modifications, but this ins
 To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
 
 #### Required field
-
 * _time
-
 * file_path
-
 * dest
-
 * file_name
-
 * process_id
-
 * file_create_time
 
 
 #### Kill Chain Phase
-
 * Reconnaissance
 
 
@@ -105,9 +91,7 @@ False positives should be limited as the analytic is specific to a filename with
 
 #### Reference
 
-
 * [https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350](https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350)
-
 * [https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1](https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1)
 
 
@@ -116,17 +100,7 @@ False positives should be limited as the analytic is specific to a filename with
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:21.988684 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

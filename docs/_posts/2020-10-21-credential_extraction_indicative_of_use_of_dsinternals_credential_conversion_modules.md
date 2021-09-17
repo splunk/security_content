@@ -14,13 +14,12 @@ tags:
   - Actions on Objectives
 ---
 
-# Credential Extraction indicative of use of DSInternals credential conversion modules
+#### Description
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. DSInternals is a collection of PowerShell modules commonly employed in exploits.
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**:
-- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/)
 - **Last Updated**: 2020-10-21
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -28,8 +27,7 @@ Credential extraction is often an illegal recovery of credential material from s
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1003 | OS Credential Dumping | Credential Access |
+| ----------- | ----------- |--------------|| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 
 #### Search
@@ -38,17 +36,15 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | from read_ssa_enriched_events()
 
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), process_path=ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), parent_process_name=ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), cmd_line=ucast(map_get(input_event, "process"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where cmd_line != null AND ( match_regex(cmd_line, /(?i)ConvertFrom-ADManagedPasswordBlob/)=true OR match_regex(cmd_line, /(?i)ConvertFrom-GPPrefPassword/)=true OR match_regex(cmd_line, /(?i)ConvertFrom-UnicodePassword/)=true OR match_regex(cmd_line, /(?i)ConvertTo-GPPrefPassword/)=true OR match_regex(cmd_line, /(?i)ConvertTo-KerberosKey/)=true OR match_regex(cmd_line, /(?i)ConvertTo-LMHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-NTHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-OrgIdHash/)=true OR match_regex(cmd_line, /(?i)ConvertTo-UnicodePassword/)=true )
 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name]) 
 | into write_ssa_detected_events();
 ```
 
 #### Associated Analytic Story
-
 * [Credential Dumping](_stories/credential_dumping)
-
 * [Malicious PowerShell](_stories/malicious_powershell)
 
 
@@ -56,24 +52,16 @@ Credential extraction is often an illegal recovery of credential material from s
 You must be ingesting Windows Security logs from devices of interest, including the event ID 4688 with enabled command line logging.
 
 #### Required field
-
 * dest_device_id
-
 * process_name
-
 * parent_process_name
-
 * _time
-
 * process_path
-
 * dest_user_id
-
 * process
 
 
 #### Kill Chain Phase
-
 * Actions on Objectives
 
 
@@ -92,7 +80,6 @@ None identified.
 
 #### Reference
 
-
 * [https://github.com/MichaelGrafnetter/DSInternals](https://github.com/MichaelGrafnetter/DSInternals)
 
 
@@ -101,17 +88,7 @@ None identified.
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllDSInternalsModules.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllDSInternalsModules.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:21.972846 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

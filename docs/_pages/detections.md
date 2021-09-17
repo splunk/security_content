@@ -6,5 +6,3 @@ permalink: /detections/
 sidebar:
   nav: "detections"
 ---
-
-this is a set of detections

@@ -15,13 +15,12 @@ tags:
   - Exploitation
 ---
 
-# Delete A Net User
+#### Description
 
 This analytic will detect a suspicious net.exe/net1.exe command-line to delete a user on a system. This technique may be use by an administrator for legitimate purposes, however this behavior has been used in the wild to impair some user or deleting adversaries tracks created during its lateral movement additional systems. During triage, review parallel processes for additional behavior. Identify any other user accounts created before or after.
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1489](https://attack.mitre.org/techniques/T1489/)
 - **Last Updated**: 2021-06-21
 - **Author**: Teoderick Contreras, Splunk
 
@@ -29,8 +28,7 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1489 | Service Stop | Impact |
+| ----------- | ----------- |--------------|| [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 
 #### Search
@@ -38,16 +36,14 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=lower(ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null)), process_name=lower(ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null)), process_path=ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null), parent_process_name=ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
-| where cmd_line IS NOT NULL AND like(cmd_line, &#34;%/delete%&#34;) AND (process_name=&#34;net1.exe&#34; OR process_name=&#34;net.exe&#34;) 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process_name, &#34;process_path&#34;, process_path]) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%/delete%") AND (process_name="net1.exe" OR process_name="net.exe") 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 
 #### Associated Analytic Story
-
 * [XMRig](_stories/xmrig)
-
 * [Ransomware](_stories/ransomware)
 
 
@@ -55,24 +51,16 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 o successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe may be used.
 
 #### Required field
-
 * _time
-
 * dest_device_id
-
 * process_name
-
 * parent_process_name
-
 * process_path
-
 * dest_user_id
-
 * process
 
 
 #### Kill Chain Phase
-
 * Exploitation
 
 
@@ -84,7 +72,6 @@ System administrators or scripts may delete user accounts via this technique. Fi
 
 #### Reference
 
-
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)
 
 
@@ -93,17 +80,7 @@ System administrators or scripts may delete user accounts via this technique. Fi
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:21.982272 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

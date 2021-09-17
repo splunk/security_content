@@ -16,13 +16,12 @@ tags:
   - Exploitation
 ---
 
-# Gsuite Email Suspicious Subject With Attachment
+#### Description
 
 This search is to detect a gsuite email contains suspicious subject having known file type used in spear phishing. This technique is a common and effective entry vector of attacker to compromise a network by luring the user to click or execute the suspicious attachment send from external email account because of the effective social engineering of subject related to delivery, bank and so on. On the other hand this detection may catch a normal email traffic related to legitimate transaction so better to check the email sender, spelling and etc. avoid click link or opening the attachment if you are not expecting this type of e-mail.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:
-- **ATT&CK**: [T1566.001](https://attack.mitre.org/techniques/T1566/001/)
 - **Last Updated**: 2021-08-19
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,17 +29,16 @@ This search is to detect a gsuite email contains suspicious subject having known
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1566.001 | Spearphishing Attachment | Initial Access |
+| ----------- | ----------- |--------------|| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 
 #### Search
 
 ```
-`gsuite_gmail` num_message_attachments &gt; 0 subject IN (&#34;*dhl*&#34;, &#34;* ups *&#34;, &#34;*delivery*&#34;, &#34;*parcel*&#34;, &#34;*label*&#34;, &#34;*invoice*&#34;, &#34;*postal*&#34;, &#34;* fedex *&#34;, &#34;* usps *&#34;, &#34;* express *&#34;, &#34;*shipment*&#34;, &#34;*Banking/Tax*&#34;,&#34;*shipment*&#34;, &#34;*new order*&#34;) attachment{}.file_extension_type IN (&#34;doc&#34;, &#34;docx&#34;, &#34;xls&#34;, &#34;xlsx&#34;, &#34;ppt&#34;, &#34;pptx&#34;, &#34;pdf&#34;, &#34;zip&#34;, &#34;rar&#34;, &#34;html&#34;,&#34;htm&#34;,&#34;hta&#34;) 
-| rex field=source.from_header_address &#34;[^@]+@(?&lt;source_domain&gt;[^@]+)&#34; 
-| rex field=destination{}.address &#34;[^@]+@(?&lt;dest_domain&gt;[^@]+)&#34; 
-| where not source_domain=&#34;internal_test_email.com&#34; and dest_domain=&#34;internal_test_email.com&#34; 
+`gsuite_gmail` num_message_attachments > 0 subject IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "* fedex *", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") attachment{}.file_extension_type IN ("doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "zip", "rar", "html","htm","hta") 
+| rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" 
+| rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)" 
+| where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
 | stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by destination{}.service num_message_attachments  subject destination{}.address source.address 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -48,7 +46,6 @@ This search is to detect a gsuite email contains suspicious subject having known
 ```
 
 #### Associated Analytic Story
-
 * [DevSecOps](_stories/devsecops)
 
 
@@ -56,12 +53,10 @@ This search is to detect a gsuite email contains suspicious subject having known
 To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
 
 #### Required field
-
 * _time
 
 
 #### Kill Chain Phase
-
 * Exploitation
 
 
@@ -80,9 +75,7 @@ normal user or normal transaction may contain the subject and file type attachme
 
 #### Reference
 
-
 * [https://www.redhat.com/en/topics/devops/what-is-devsecops](https://www.redhat.com/en/topics/devops/what-is-devsecops)
-
 * [https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf](https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf)
 
 
@@ -91,17 +84,7 @@ normal user or normal transaction may contain the subject and file type attachme
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.078356 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

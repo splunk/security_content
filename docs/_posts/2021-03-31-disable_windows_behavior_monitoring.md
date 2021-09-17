@@ -17,13 +17,12 @@ tags:
   - Exploitation
 ---
 
-# Disable Windows Behavior Monitoring
+#### Description
 
 This search is to identifies a modification in registry to disable the windows denfender real time behavior monitoring. This event or technique is commonly seen in RAT, bot, or Trojan to disable AV to evade detections.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1562.001](https://attack.mitre.org/techniques/T1562/001/)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
 
@@ -31,15 +30,14 @@ This search is to identifies a modification in registry to disable the windows d
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1562.001 | Disable or Modify Tools | Defense Evasion |
+| ----------- | ----------- |--------------|| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 
 #### Search
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= &#34;*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableBehaviorMonitoring&#34; OR Registry.registry_path= &#34;*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection&#34; OR Registry.registry_path= &#34;*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableScanOnRealtimeEnable&#34; OR Registry.registry_path= &#34;*\\SOFTWARE\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableRealtimeMonitoring&#34; OR Registry.registry_path= &#34;*\\Real-Time Protection\\DisableIntrusionPreventionSystem&#34; OR Registry.registry_path= &#34;*\\Real-Time Protection\\DisableIOAVProtection&#34; OR Registry.registry_path= &#34;*\\Real-Time Protection\\DisableScriptScanning&#34; Registry.registry_value_name = &#34;DWORD (0x00000001)&#34; by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableBehaviorMonitoring" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableOnAccessProtection" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableScanOnRealtimeEnable" OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Defender\\Real-Time Protection\\DisableRealtimeMonitoring" OR Registry.registry_path= "*\\Real-Time Protection\\DisableIntrusionPreventionSystem" OR Registry.registry_path= "*\\Real-Time Protection\\DisableIOAVProtection" OR Registry.registry_path= "*\\Real-Time Protection\\DisableScriptScanning" Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -47,11 +45,8 @@ This search is to identifies a modification in registry to disable the windows d
 ```
 
 #### Associated Analytic Story
-
 * [Windows Defense Evasion Tactics](_stories/windows_defense_evasion_tactics)
-
 * [Ransomware](_stories/ransomware)
-
 * [Revil Ransomware](_stories/revil_ransomware)
 
 
@@ -59,22 +54,15 @@ This search is to identifies a modification in registry to disable the windows d
 To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
 
 #### Required field
-
 * _time
-
 * Registry.registry_key_name
-
 * Registry.registry_path
-
 * Registry.user
-
 * Registry.dest
-
 * Registry.registry_value_name
 
 
 #### Kill Chain Phase
-
 * Exploitation
 
 
@@ -93,7 +81,6 @@ admin or user may choose to disable this windows features.
 
 #### Reference
 
-
 * [https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html](https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html)
 
 
@@ -102,21 +89,9 @@ admin or user may choose to disable this windows features.
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log)
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log)
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.041912 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```

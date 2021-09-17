@@ -15,13 +15,12 @@ tags:
   - Exploitation
 ---
 
-# WevtUtil Usage To Clear Logs
+#### Description
 
 The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, powershell, sysmon, or system event logs.
 
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **ATT&CK**: [T1070.001](https://attack.mitre.org/techniques/T1070/001/)
 - **Last Updated**: 2021-06-15
 - **Author**: Teoderick Contreras, Splunk
 
@@ -29,8 +28,7 @@ The wevtutil.exe application is the windows event log utility. This searches for
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-| T1070.001 | Clear Windows Event Logs | Defense Evasion |
+| ----------- | ----------- |--------------|| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 
 #### Search
@@ -38,18 +36,15 @@ The wevtutil.exe application is the windows event log utility. This searches for
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), process_path=ucast(map_get(input_event, &#34;process_path&#34;), &#34;string&#34;, null), parent_process_name=ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
-| where cmd_line IS NOT NULL AND like(cmd_line, &#34;% cl %&#34;) AND (match_regex(cmd_line, /(?i)security/)=true OR match_regex(cmd_line, /(?i)system/)=true OR match_regex(cmd_line, /(?i)sysmon/)=true OR match_regex(cmd_line, /(?i)application/)=true OR match_regex(cmd_line, /(?i)setup/)=true OR match_regex(cmd_line, /(?i)powershell/)=true) AND process_name=&#34;wevtutil.exe&#34; 
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null)), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process_name, &#34;process_path&#34;, process_path]) 
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=ucast(map_get(input_event, "process"), "string", null), process_name=ucast(map_get(input_event, "process_name"), "string", null), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where cmd_line IS NOT NULL AND like(cmd_line, "% cl %") AND (match_regex(cmd_line, /(?i)security/)=true OR match_regex(cmd_line, /(?i)system/)=true OR match_regex(cmd_line, /(?i)sysmon/)=true OR match_regex(cmd_line, /(?i)application/)=true OR match_regex(cmd_line, /(?i)setup/)=true OR match_regex(cmd_line, /(?i)powershell/)=true) AND process_name="wevtutil.exe" 
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
 
 #### Associated Analytic Story
-
 * [Windows Log Manipulation](_stories/windows_log_manipulation)
-
 * [Ransomware](_stories/ransomware)
-
 * [Clop Ransomware](_stories/clop_ransomware)
 
 
@@ -57,24 +52,16 @@ The wevtutil.exe application is the windows event log utility. This searches for
 You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 #### Required field
-
 * _time
-
 * dest_device_id
-
 * process_name
-
 * parent_process_name
-
 * process_path
-
 * dest_user_id
-
 * process
 
 
 #### Kill Chain Phase
-
 * Exploitation
 
 
@@ -93,7 +80,6 @@ The wevtutil.exe application is a legitimate Windows event log utility. Administ
 
 #### Reference
 
-
 * [https://www.splunk.com/en_us/blog/security/detecting-clop-ransomware.html](https://www.splunk.com/en_us/blog/security/detecting-clop-ransomware.html)
 
 
@@ -102,17 +88,7 @@ The wevtutil.exe application is a legitimate Windows event log utility. Administ
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log)
 
 
 _version_: 1
-
-```
-#############
-# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-17 11:18:22.251609 UTC''
-# Author: Splunk Security Research''
-# Contact: research@splunk.com''
-#############
-```
