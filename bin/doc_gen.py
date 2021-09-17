@@ -207,7 +207,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
     sorted_detections = sorted(detections, key=lambda i: i['name'])
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
-                             trim_blocks=False)
+                             trim_blocks=False, autoescape=True)
 
     # write markdown
     template = j2_env.get_template('doc_detections_markdown.j2')

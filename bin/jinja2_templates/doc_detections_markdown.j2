@@ -1,8 +1,13 @@
 ---
-title: {{detection.name}}
-excerpt: {{detection.description}}
+title: "{{detection.name}}"
+excerpt: "{% for attack in detection.mitre_attacks -%}
+{%- if attack.technique_id -%}
+{{ attack.technique }}
+{%- endif -%}
+{% if not loop.last -%}, {% endif -%}
+{% endfor %}"
 categories:
-  - {{detection.kind}}
+  - {{detection.kind|capitalize}}
 last_modified_at: {{detection.date}}
 toc: true
 tags:
@@ -10,7 +15,7 @@ tags:
 {%- for attack in detection.mitre_attacks %}
   - {{ attack.technique_id }}
   - {{ attack.technique }}
-  {% for attack_tactic in attack.tactic %}
+  {%- for attack_tactic in attack.tactic %}
   - {{ attack_tactic }}
   {%- endfor -%}
 {%- endfor -%}
@@ -85,24 +90,26 @@ tags:
 
 {% if detection.tags.observable %}
 #### RBA
-| Risk Score          | Impact   | Confidence       |
+
+| Risk Score  | Impact      | Confidence   |
 | ----------- | ----------- |--------------|
-| {{(detection.tags.impact * detection.tags.confidence)/100}}} | {{ detection.tags.impact }} | {{ detection.tags.confidence }} |
+| {{(detection.tags.impact * detection.tags.confidence)/100}} | {{ detection.tags.impact }} | {{ detection.tags.confidence }} |
+
 {% endif %}
 
 #### Reference
 {% if detection.references %}
 {% for reference in detection.references %}
-* {{ reference }}
+* [{{ reference }}]({{ reference }})
 {% endfor %}
 {% endif %}
 
 #### Test Dataset
-Replay any dataset to Splunk Enterprise by using our `[replay.py](https://github.com/splunk/attack_data#using-replaypy)` tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 {% for dataset in detection.tags.dataset %}
-* {{ dataset }}
+* [{{dataset}}]({{ dataset }})
 {% endfor %}
 
 _version_: {{detection.version}}
