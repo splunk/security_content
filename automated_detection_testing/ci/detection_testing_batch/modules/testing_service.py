@@ -7,7 +7,7 @@ import os
 import time
 import requests
 from modules.DataManipulation import DataManipulation
-from modules import splunk_sdk, aws_service
+from modules import splunk_sdk
 
 
 def prepare_detection_testing(splunk_ip, splunk_password):
@@ -98,9 +98,11 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
     result_test['detection_result'] = result_detection
 
     if result_detection['error']:
-        aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'failed')
+        print("failed")
+        #aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'failed')
     else:
-        aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'passed')
+        print("passed")
+        #aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'passed')
 
     return result_test
 
