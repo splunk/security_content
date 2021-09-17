@@ -12,9 +12,11 @@ search: '| from read_ssa_enriched_events()
        dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null)),
        dest_user_id=   lower(ucast(map_get(input_event, "dest_user_id"), "string", null)),
        origin_device_id=       lower(ucast(map_get(input_event, "origin_device_id"), "string", null)),
+       signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string", null)),
        authentication_method=  lower(ucast(map_get(input_event, "authentication_method"), "string", null))
 
-| where (authentication_method="ntlmssp" OR authentication_method="kerberos") AND 
+| where signature_id = "4624" AND 
+        (authentication_method="ntlmssp" OR authentication_method="kerberos") AND 
         dest_user_id != null AND 
         origin_device_id != null
 
