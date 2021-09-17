@@ -41,15 +41,16 @@ feature_row:
 
 This project gives you access to our repository of Analytic Stories that are security guides which provide background on TTPs, mapped to the MITRE framework, the Lockheed Martin Kill Chain, and CIS controls. They include Splunk searches, machine-learning algorithms, and Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
 
-## [Detection Coverage](https://mitremap.splunkresearch.com/)
+## [Detection Coverage](https://mitremap.splunkresearch.com/) 🗺
 Below is a snapshot in time of what technique we currently have some detection coverage for. The darker the shade of blue the more detections we have for this particular technique. This map is automatically updated on every release and generated from the [generate-coverage-map.py](https://github.com/splunk/security_content/blob/develop/bin/generate-coverage-map.py).
 
 ![](mitre-map/coverage.png)
 
-## View Our Content
+## View Our Content 🔎
 
 * [Analytic Stories](/detections)
 * [Detections](/stories)
+* [Playbooks](/playbooks)
 
 If you prefer working with the command line, check out our [API](https://docs.splunkresearch.com/?version=latest):
 
@@ -60,28 +61,22 @@ curl -s https://content.splunkresearch.com | jq
 }
 ```
 
-## Test Out The Detections
-The [attack_range](https://github.com/splunk/attack_range) project allows you to spin up an enviroment and launch attacks against it to test the detections.
+## Test Out The Detections 🏗
 
-## Questions?
-If you get stuck or need help with any of our tools, see our [support options](https://github.com/splunk/security_content#support).
+Replay any detection dataset to a Splunk Enterprise Server by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui). Alternatively use:  
 
-## Contribute Content
-If you want to help the rest of the security community by sharing your own detections, see our [contributor guide](https://github.com/splunk/security_content/wiki/Contributing-to-the-Project). Digital defenders unite!
+![](static/attack_range.png)
 
+The [Splunk Attack Range](https://github.com/splunk/attack_range) which allows you to create a isolated environment to launch attacks and test/build detections.
 
-## Content Parts
-* [stories/](https://github.com/splunk/security_content/tree/develop/stories): All Analytic Stories
-* [detections/](https://github.com/splunk/security_content/tree/develop/detections): Splunk Enterprise, Splunk UBA, and Splunk Phantom detections that power Analytic Stories
-* [response_tasks/](https://github.com/splunk/security_content/tree/develop/response_tasks): Splunk Enterprise and Splunk Phantom investigative searches and playbooks employed by Analytic Stories
-* [responses/](https://github.com/splunk/security_content/tree/develop/responses): Automated Splunk Enterprise and Splunk Phantom responses triggered by Analytic Stories
+## Questions? 📞 
+Please use the [GitHub issue tracker](https://github.com/splunk/attack_range/issues) to submit bugs or request features.
 
+If you have questions or need support, you can:
 
-#### Content Spec Files
-* [stories](https://github.com/splunk/security_content/blob/develop/docs/spec/stories.md)
-* [detections](https://github.com/splunk/security_content/blob/develop/docs/spec/detections.md)
-* [deployments](https://github.com/splunk/security_content/blob/develop/docs/spec/deployments.md)
-* [responses](https://github.com/splunk/security_content/blob/develop/docs/spec/responses.md)
-* [response_tasks](https://github.com/splunk/security_content/blob/develop/docs/spec/response_tasks.md)
-* [lookups](https://github.com/splunk/security_content/blob/develop/docs/spec/lookups.md)
-* [macros](https://github.com/splunk/security_content/blob/develop/docs/spec/macros.md)
+* Join the [#security-research](https://splunk-usergroups.slack.com/archives/C1S5BEF38) room in the [Splunk Slack channel](http://splunk-usergroups.slack.com)
+* Post a question to [Splunk Answers](http://answers.splunk.com)
+* If you are a Splunk Enterprise customer with a valid support entitlement contract and have a Splunk-related question, you can also open a support case on the https://www.splunk.com/ support portal
+
+## Contribute Content 🥰
+If you want to help the rest of the security community by sharing your own detections, see our [contributor guide](https://github.com/splunk/security_content/wiki/Contributing-to-the-Project) for more information on how to get involved!

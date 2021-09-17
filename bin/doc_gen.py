@@ -211,11 +211,13 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
 
     # write markdown
     template = j2_env.get_template('doc_detections_markdown.j2')
-    output_path = path.join(OUTPUT_DIR + '/detections.md')
-    output = template.render(detections=sorted_detections, time=datetime.datetime.now())
-    with open(output_path, 'w', encoding="utf-8") as f:
-        f.write(output)
-    messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),output_path))
+    for detection in sorted_detections:
+        file_name = detection['date'] + "-" + detection['name'].lower().replace(" ","_") + '.md'
+        output_path = path.join(OUTPUT_DIR + '/_posts/' + file_name)
+        output = template.render(detection=detection, time=datetime.datetime.now())
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+    messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),OUTPUT_DIR + '/_posts/'))
 
     #sort detections by kind into categories
     kinds = []

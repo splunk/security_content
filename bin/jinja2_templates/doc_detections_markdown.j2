@@ -1,103 +1,49 @@
-# Splunk Security Content Detections
-![security_content](static/logo.png)
-=====
-All the detections shipped to different Splunk products. Below is a breakdown by kind.
+---
+title: {{detection.name}}
+excerpt: {{detection.description}}
+categories:
+  - {{detection.kind}}
+last_modified_at: {{detection.date}}
+toc: true
+tags:
+  - {{ detection.type }}
+{%- for attack in detection.mitre_attacks %}
+  - {{ attack.technique_id }}
+  - {{ attack.technique }}
+  {% for attack_tactic in attack.tactic %}
+  - {{ attack_tactic }}
+  {%- endfor -%}
+{%- endfor -%}
+{%- for product in detection.tags.product %}
+  - {{ product }}
+{%- endfor -%}
+{%- for datamodel in detection.datamodel %}
+  - {{ datamodel }}
+{%- endfor -%}
+{%- for phase in detection.tags.kill_chain_phases %}
+  - {{ phase }}
+{%- endfor %}
+---
 
-## Cloud
-<details>
-  <summary>details</summary>
+# {{detection.name}}
 
-{% for detection in detections %}
-{% if detection.kind == 'cloud' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-## Endpoint
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'endpoint' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-## Network
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'network' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-## Application
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'application' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-## Web
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'web' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-
-
-{% for detection in detections %}
-### {{ detection.name }}
 {{ detection.description }}
 
 - **Product**: {{ detection.tags.product|join(', ') }}
-- **Datamodel**: {{ detection.datamodel|join(', ') }}
-- **ATT&CK**: {% for attack in detection.tags.mitre_attack_id -%}
-{%- if attack -%}
-{% set sub_technique = attack.split('.') %}
+- **Datamodel**: {%-for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
+- **ATT&CK**: {% for attack in detection.mitre_attacks -%}
+{%- if attack.technique_id -%}
+{% set sub_technique = attack.technique_id.split('.') %}
 {%- if sub_technique | length > 1 -%}
-[{{ attack}}](https://attack.mitre.org/techniques/{{sub_technique[0] }}/{{sub_technique[1]}}/)
+[{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{sub_technique[0]}}/{{sub_technique[1]}}/)
 {%- else -%}
-[{{ attack}}](https://attack.mitre.org/techniques/{{ attack }}/)
+[{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{attack.technique_id}}/)
 {%- endif -%}
 {%- endif -%}
 {% if not loop.last -%}, {% endif -%}
 {% endfor %}
 - **Last Updated**: {{ detection.date }}
-
-<details>
-  <summary>details</summary>
-
-#### Search
-```
-{{ detection.search|replace("|", "\n|") }}
-```
-#### Associated Analytic Story
-{% for story in detection.tags.analytic_story %}
-* {{ story }}
-{% endfor %}
-
-#### How To Implement
-{{ detection.how_to_implement}}
-
-#### Required field
-{% for field in detection.tags.required_fields %}
-* {{ field }}
-{% endfor %}
+- **Author**: {{detection.author}}
 
 {% if detection.mitre_attacks %}
 #### ATT&CK
@@ -109,6 +55,25 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 {%- endfor %}
 {% endif %}
 
+#### Search
+
+```
+{{ detection.search|replace("|", "\n|") }}
+```
+
+#### Associated Analytic Story
+{% for story in detection.tags.analytic_story %}
+* [{{ story }}](_stories/{{story|lower|replace(" ", "_")}})
+{% endfor %}
+
+#### How To Implement
+{{ detection.how_to_implement}}
+
+#### Required field
+{% for field in detection.tags.required_fields %}
+* {{ field }}
+{% endfor %}
+
 #### Kill Chain Phase
 {% for phase in detection.tags.kill_chain_phases %}
 * {{ phase }}
@@ -116,6 +81,14 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 
 #### Known False Positives
 {{ detection.known_false_positives}}
+
+
+{% if detection.tags.observable %}
+#### RBA
+| Risk Score          | Impact   | Confidence       |
+| ----------- | ----------- |--------------|
+| {{(detection.tags.impact * detection.tags.confidence)/100}}} | {{ detection.tags.impact }} | {{ detection.tags.confidence }} |
+{% endif %}
 
 #### Reference
 {% if detection.references %}
@@ -125,12 +98,20 @@ All the detections shipped to different Splunk products. Below is a breakdown by
 {% endif %}
 
 #### Test Dataset
+Replay any dataset to Splunk Enterprise by using our `[replay.py](https://github.com/splunk/attack_data#using-replaypy)` tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 {% for dataset in detection.tags.dataset %}
 * {{ dataset }}
 {% endfor %}
 
 _version_: {{detection.version}}
-</details>
 
----
-{% endfor %}
+```
+#############
+# Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
+# On Date: {{ time }} UTC''
+# Author: Splunk Security Research''
+# Contact: research@splunk.com''
+#############
+```
