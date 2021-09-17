@@ -173,6 +173,7 @@ def main(args):
     
 
     print("Make all the threads...")
+    results_queue = queue.Queue()
     for container_index in range(num_containers):
         container_name = "%s_%d"%(RUNNER_BASE_NAME, container_index)
         web_port = BASE_CONTAINER_WEB_PORT  + container_index
@@ -185,7 +186,7 @@ def main(args):
                 }
 
         test_container = client.containers.create(DOCKER_COMMIT_NAME, ports=ports, environment=environment, name=container_name, detach=True, volumes_from=[BASE_CONTAINER_NAME])
-        t = threading.Thread(target=splunk_container_manager, args=(test_file_queue, container_name, "127.0.0.1", splunk_password, management_port, uuid_test))
+        t = threading.Thread(target=splunk_container_manager, args=(test_file_queue, container_name, "127.0.0.1", splunk_password, management_port, uuid_test, results_queue))
         splunk_container_manager_threads.append(t)
 
     print("Start all the threads...")
@@ -217,7 +218,7 @@ def main(args):
     #testing_service.test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test)
     
 
-def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_password, splunk_port, uuid_test, output_queue):
+def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_password, splunk_port, uuid_test, results_queue):
     print("Starting the container [%s] after a sleep"%(container_name))
     #Is this going to be safe to use in different threads
     client = docker.client.from_env()
@@ -243,7 +244,7 @@ def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_pa
             print("Container [%s]--->[%s]"%(container_name, detection_to_test))
             
             result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, index, uuid_test)
-            output_queue.put(result)
+            results_queue.put(result)
             index=(index+1)%10
     except queue.Empty:
         print("Queue was empty, [%s] finished testing detections!"%(container_name))
