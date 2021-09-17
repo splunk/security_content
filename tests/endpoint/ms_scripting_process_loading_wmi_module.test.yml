@@ -1,7 +1,7 @@
-name: MS Scripting Process Lading WMI Module Unit Test
+name: MS Scripting Process Loading WMI Module Unit Test
 tests:
-- name: MS Scripting Process Lading WMI Module
-  file: endpoint/ms_scripting_process_lading_wmi_module.yml
+- name: MS Scripting Process Loading WMI Module
+  file: endpoint/ms_scripting_process_loading_wmi_module.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
