@@ -56,9 +56,9 @@ def main(args):
         print("Error, requested 0 containers.  You must run with at least 1 container.")
         sys.exit(1)
     elif num_containers > MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING:
-        print("You requested to run with [%d] containers which may use a very large amount of resources \
-               as they all run in parallel.  The maximum suggested number of parallel. The maximum \
-               suggested number of containers is [%d].  We will do what you asked, but be warned!"%(num_containers, MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING))
+        print("You requested to run with [%d] containers which may use a very large amount of resources "
+               "as they all run in parallel.  The maximum suggested number of parallel. The maximum "
+               "suggested number of containers is [%d].  We will do what you asked, but be warned!"%(num_containers, MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING))
 
 
     if pr_number:
