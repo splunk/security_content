@@ -71,7 +71,7 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
                 data_manipulation = DataManipulation()
                 data_manipulation.manipulate_timestamp(folder_name + '/' + attack_data['file_name'], attack_data['sourcetype'], attack_data['source'])
 
-        replay_attack_dataset(container_name, splunk_port, splunk_password, folder_name, 'test' + str(test_index), attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
+        replay_attack_dataset(container_name, splunk_password, folder_name, 'test' + str(test_index), attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
 
     time.sleep(200)
 
@@ -141,7 +141,7 @@ def update_ESCU_app(container_name, splunk_password):
     print("Successfully updated the ESCU App!")
 
 
-def replay_attack_dataset(container_name, splunk_port, splunk_password, folder_name, index, sourcetype, source, out):
+def replay_attack_dataset(container_name, splunk_password, folder_name, index, sourcetype, source, out):
     ansible_vars = {}
     ansible_vars['folder_name'] = folder_name
     ansible_vars['ansible_user'] = 'ansible'
@@ -150,7 +150,6 @@ def replay_attack_dataset(container_name, splunk_port, splunk_password, folder_n
     ansible_vars['sourcetype'] = sourcetype
     ansible_vars['source'] = source
     ansible_vars['index'] = index
-    ansible_vars['splunk_management_port'] = splunk_port
 
     cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
