@@ -8,7 +8,7 @@
 
 - name: Call oneshot import
   uri:
-    url: https://localhost:8089/services/data/inputs/oneshot
+    url: https://localhost:{{ splunk_management_port }}/services/data/inputs/oneshot
     validate_certs: no
     method: POST
     user: admin
