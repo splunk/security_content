@@ -18,12 +18,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
+- **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2020-10-07
 - **Author**: Bhavin Patel, Splunk
 
@@ -31,7 +33,8 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
 
 
 #### Search

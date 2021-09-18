@@ -14,12 +14,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 An attacker tries might try to use different version of a system command without overriding original, or they might try to avoid some detection running the process from a different folder. This detection checks that a list of system processes run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-08-25
 - **Author**: Ignacio Bermudez Corrales, Splunk
 
@@ -27,7 +29,8 @@ An attacker tries might try to use different version of a system command without
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 
 #### Search

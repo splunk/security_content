@@ -16,12 +16,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search uses the Kubernetes logs from Splunk Connect from Kubernetes to detect Kubernetes Security Scanner.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-08-24
 - **Author**: Patrick Bareiss, Splunk
 
@@ -29,7 +31,8 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 
 #### Search

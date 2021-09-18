@@ -17,12 +17,14 @@ tags:
   - Actions on Objective
 ---
 
+
+
 #### Description
 
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Rod Soto, Splunk
 
@@ -30,7 +32,8 @@ This search detects when a user has performed an Ediscovery search or exported a
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+| ----------- | ----------- |--------------|
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
 
 #### Search

@@ -38,12 +38,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies use of PowerSploit modules that discover opportunities for malicious access and persistence. Some examples include access to admin accounts, weak access control policies, landing paths for dropping malicious software or data to exfiltrate, registry locations to land autorun parameters, task scheduling opportunities, as well as services and system files that can be compromised.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -51,7 +53,8 @@ This detection identifies use of PowerSploit modules that discover opportunities
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation || [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation || [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation || [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation || [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
 
 
 #### Search

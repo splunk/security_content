@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 this search is to identify modification in registry to disable cmd prompt application. This technique is commonly seen in RAT, Trojan or WORM to prevent triaging or deleting there samples through cmd application which is one of the tool of analyst to traverse on directory and files.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ this search is to identify modification in registry to disable cmd prompt applic
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 
 #### Search

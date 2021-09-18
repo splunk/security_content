@@ -17,6 +17,8 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 Monitor for signs that Ntdsutil is being used to Extract Active Directory database - NTDS.dit, typically used for offline password cracking. It may be used in normal circumstances with no command line arguments or shorthand variations of more common arguments. Ntdsutil.exe is typically seen run on a Windows Server. Typical command used to dump ntds.dit \
@@ -24,7 +26,7 @@ ntdsutil &#34;ac i ntds&#34; &#34;ifm&#34; &#34;create full C:\Temp&#34; q q \
 This technique uses &#34;Install from Media&#34; (IFM), which will extract a copy of the Active Directory database. A successful export of the Active Directory database will yield a file modification named ntds.dit to the destination.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-28
 - **Author**: Michael Haag, Patrick Bareiss, Splunk
 
@@ -32,7 +34,8 @@ This technique uses &#34;Install from Media&#34; (IFM), which will extract a cop
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
 
 #### Search

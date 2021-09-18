@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe` or `icacls.exe` application to change file or folder permission. This behavior is commonly seen where the adversary attempts to impair some users from deleting or accessing its malware components or artifact from the compromised system.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-07
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe` o
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 
 #### Search

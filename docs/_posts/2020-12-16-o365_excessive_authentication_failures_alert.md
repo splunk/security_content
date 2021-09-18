@@ -17,12 +17,14 @@ tags:
   - Not Applicable
 ---
 
+
+
 #### Description
 
 This search detects when an excessive number of authentication failures occur this search also includes attempts against MFA prompt codes
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Rod Soto, Splunk
 
@@ -30,7 +32,8 @@ This search detects when an excessive number of authentication failures occur th
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 
 #### Search

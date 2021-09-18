@@ -17,12 +17,16 @@ tags:
   - Command and Control
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for outbound ICMP packets with a packet size larger than 1,000 bytes. Various threat actors have been known to use ICMP as a command and control channel for their attack infrastructure. Large ICMP packets from an endpoint to a remote host may be indicative of this activity.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2018-06-01
 - **Author**: Rico Valdez, Splunk
 
@@ -30,7 +34,8 @@ This search looks for outbound ICMP packets with a packet size larger than 1,000
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1095](https://attack.mitre.org/techniques/T1095/) | Non-Application Layer Protocol | Command And Control |
+| ----------- | ----------- |--------------|
+| [T1095](https://attack.mitre.org/techniques/T1095/) | Non-Application Layer Protocol | Command And Control |
 
 
 #### Search

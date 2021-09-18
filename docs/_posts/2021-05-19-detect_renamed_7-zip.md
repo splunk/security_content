@@ -17,12 +17,14 @@ tags:
   - Exfiltration
 ---
 
+
+
 #### Description
 
 The following analytic identifies renamed 7-Zip usage using Sysmon. At this stage of an attack, review parallel processes and file modifications for data that is staged or potentially have been exfiltrated. This analytic utilizes the OriginalFileName to capture the renamed process.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-19
 - **Author**: Michael Haag, Splunk
 
@@ -30,7 +32,8 @@ The following analytic identifies renamed 7-Zip usage using Sysmon. At this stag
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+| ----------- | ----------- |--------------|
+| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 
 #### Search

@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using non-standard file extensions to load malciious DLLs. Upon investigating, look for network connections to remote destinations (internal or external). Review additional parrallel processes and child processes for additional activity.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-28
 - **Author**: Michael Haag, Splunk
 
@@ -30,7 +32,8 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
 
 #### Search

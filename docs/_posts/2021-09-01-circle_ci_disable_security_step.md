@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for disable security step in CircleCI pipeline.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
 
@@ -30,7 +32,8 @@ This search looks for disable security step in CircleCI pipeline.
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
+| ----------- | ----------- |--------------|
+| [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
 
 
 #### Search

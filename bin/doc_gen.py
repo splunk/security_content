@@ -197,8 +197,15 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                 mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
                 mitre_attacks.append(mitre_attack)
             detection_yaml['mitre_attacks'] = mitre_attacks
-            #detection_yaml['mitre_attacks'] = sorted(mitre_attacks, key = lambda i: i['tactic'])
+
+        # grab the kind
         detection_yaml['kind'] = manifest_file.split('/')[-2]
+
+        # check if is experimental, add the flag
+        if "experimental" == manifest_file.split('/')[2]:
+            detection_yaml['experimental'] = True
+
+        # skip baselines and Investigation
         if detection_yaml['type'] == 'Baseline' or detection_yaml['type'] == 'Investigation':
             continue
         else:

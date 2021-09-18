@@ -14,12 +14,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies access to PowerSploit modules that create accounts illegaly.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -27,7 +29,8 @@ This detection identifies access to PowerSploit modules that create accounts ill
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1585](https://attack.mitre.org/techniques/T1585/) | Establish Accounts | Resource Development |
+| ----------- | ----------- |--------------|
+| [T1585](https://attack.mitre.org/techniques/T1585/) | Establish Accounts | Resource Development |
 
 
 #### Search

@@ -16,12 +16,14 @@ tags:
   - Splunk Cloud
 ---
 
+
+
 #### Description
 
 This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Rod Soto, Patrick Bareiss Splunk
 
@@ -29,7 +31,8 @@ This search provides detection of users with KMS keys performing encryption spec
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+| ----------- | ----------- |--------------|
+| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 
 #### Search

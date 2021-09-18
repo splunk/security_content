@@ -17,12 +17,14 @@ tags:
   - Delivery
 ---
 
+
+
 #### Description
 
 The search looks for the Registry Key DisableAntiSpyware set to disable. This is consistent with Ryuk infections across a fleet of endpoints. This particular behavior is typically executed when an ransomware actor gains access to an endpoint and beings to perform execution. Usually, a batch (.bat) will be executed and multiple registry and scheduled task modifications will occur. During triage, review parallel processes and identify any further file modifications. Endpoint should be isolated.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-02
 - **Author**: Rod Soto, Jose Hernandez, Michael Haag, Splunk
 
@@ -30,7 +32,8 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 
 #### Search

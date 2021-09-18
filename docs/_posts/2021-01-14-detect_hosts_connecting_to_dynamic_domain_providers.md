@@ -18,12 +18,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, block lists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2021-01-14
 - **Author**: Bhavin Patel, Splunk
 
@@ -31,7 +33,8 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1189](https://attack.mitre.org/techniques/T1189/) | Drive-by Compromise | Initial Access |
+| ----------- | ----------- |--------------|
+| [T1189](https://attack.mitre.org/techniques/T1189/) | Drive-by Compromise | Initial Access |
 
 
 #### Search

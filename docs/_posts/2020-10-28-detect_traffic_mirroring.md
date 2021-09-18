@@ -23,12 +23,16 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 Adversaries may leverage traffic mirroring in order to automate data exfiltration over compromised network infrastructure. Traffic mirroring is a native feature for some network devices and used for network analysis and may be configured to duplicate traffic and forward to one or more destinations for analysis by a network analyzer or other monitoring device.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-10-28
 - **Author**: Mikael Bjerkeland, Splunk
 
@@ -36,7 +40,8 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access || [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact || [T1020.001](https://attack.mitre.org/techniques/T1020/001/) | Traffic Duplication | Exfiltration |
+| ----------- | ----------- |--------------|
+| [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access || [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact || [T1020.001](https://attack.mitre.org/techniques/T1020/001/) | Traffic Duplication | Exfiltration |
 
 
 #### Search

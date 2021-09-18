@@ -18,12 +18,14 @@ tags:
   - Exfiltration
 ---
 
+
+
 #### Description
 
 The following analtyic identifies renamed instances of `WinRAR.exe`. In most cases, it is not common for WinRAR to be used renamed, however it is common to be installed by a third party application and executed from a non-standard path. In this instance, we are using `OriginalFileName` from Sysmon to determine if the process is WinRAR. During triage, validate additional metadata from the binary that this is `WinRAR`. Review parallel processes and file modifications.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-19
 - **Author**: Michael Haag, Splunk
 
@@ -31,7 +33,8 @@ The following analtyic identifies renamed instances of `WinRAR.exe`. In most cas
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+| ----------- | ----------- |--------------|
+| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 
 #### Search

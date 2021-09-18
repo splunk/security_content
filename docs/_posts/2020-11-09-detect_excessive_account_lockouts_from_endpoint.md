@@ -19,12 +19,14 @@ tags:
   - Change
 ---
 
+
+
 #### Description
 
 This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
 
@@ -32,7 +34,8 @@ This search identifies endpoints that have caused a relatively high number of ac
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| ----------- | ----------- |--------------|
+| [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Search

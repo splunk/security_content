@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 this search is designed to detect potential malicious wermgr.exe process that drops or create executable file. Since wermgr.exe is an application trigger when error encountered in a process, it is really un ussual to this process to drop executable file. This technique is commonly seen in trickbot malware where it injects it code to this process to execute it malicious behavior like downloading other payload
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-19
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ this search is designed to detect potential malicious wermgr.exe process that dr
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
 
 
 #### Search

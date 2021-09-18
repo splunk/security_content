@@ -24,12 +24,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies use of Mimikatz modules for discovery of process or service hijacking opportunities via Microsoft Detours compatibility. Microsoft Detours is an open source library for intercepting, monitoring and instrumenting binary functions on Microsoft Windows. Detours intercepts Win32 functions by re-writing the in-memory code for target functions. The Detours package also contains utilities to attach arbitrary DLLs and data segments called payloads to any Win32 binary.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -37,7 +39,8 @@ This detection identifies use of Mimikatz modules for discovery of process or se
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation || [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation || [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation || [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation || [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
 
 
 #### Search

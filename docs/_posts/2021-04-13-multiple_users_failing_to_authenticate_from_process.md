@@ -17,6 +17,8 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 The following analytic identifies a source process name failing to authenticate with multiple users. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. Event 4625 generates on domain controllers, member servers, and workstations when an account fails to logon. Logon Type 2 describes an iteractive logon attempt.\
@@ -25,7 +27,7 @@ This detection will trigger on the potenfially malicious host, perhaps controlle
 The analytics returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-13
 - **Author**: Mauricio Velazco, Splunk
 
@@ -33,7 +35,8 @@ The analytics returned fields allow analysts to investigate the event further by
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
 
 
 #### Search

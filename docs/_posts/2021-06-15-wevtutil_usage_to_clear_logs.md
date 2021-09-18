@@ -15,12 +15,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, powershell, sysmon, or system event logs.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-15
 - **Author**: Teoderick Contreras, Splunk
 
@@ -28,7 +30,8 @@ The wevtutil.exe application is the windows event log utility. This searches for
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 
 #### Search

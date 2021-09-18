@@ -17,12 +17,16 @@ tags:
   - Command and Control
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for network traffic identified as The Onion Router (TOR), a benign anonymity network which can be abused for a variety of nefarious purposes.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-22
 - **Author**: David Dorsey, Splunk
 
@@ -30,7 +34,8 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1071.001](https://attack.mitre.org/techniques/T1071/001/) | Web Protocols | Command And Control |
+| ----------- | ----------- |--------------|
+| [T1071.001](https://attack.mitre.org/techniques/T1071/001/) | Web Protocols | Command And Control |
 
 
 #### Search

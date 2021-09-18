@@ -14,12 +14,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search detects the memory of lsass.exe being dumped for offline credential theft attack.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-09-15
 - **Author**: Jose Hernandez, Splunk
 
@@ -27,7 +29,8 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
 
 #### Search

@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search is to detect a suspicious excessive usage of sc.exe in a host machine. This technique was seen in several ransomware , xmrig and other malware to create, modify, delete or disable a service may related to security application or to gain privilege escalation.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-24
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+| ----------- | ----------- |--------------|
+| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 
 #### Search

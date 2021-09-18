@@ -21,12 +21,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies use of DSInternals modules for illegal management of Active Directoty elements and policies.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -34,7 +36,8 @@ This detection identifies use of DSInternals modules for illegal management of A
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence || [T1207](https://attack.mitre.org/techniques/T1207/) | Rogue Domain Controller | Defense Evasion || [T1484](https://attack.mitre.org/techniques/T1484/) | Domain Policy Modification | Defense Evasion, Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence || [T1207](https://attack.mitre.org/techniques/T1207/) | Rogue Domain Controller | Defense Evasion || [T1484](https://attack.mitre.org/techniques/T1484/) | Domain Policy Modification | Defense Evasion, Privilege Escalation |
 
 
 #### Search

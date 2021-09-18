@@ -20,12 +20,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies use of Mimikatz modules for discovery and access to services and processes.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -33,7 +35,8 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery || [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery || [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery || [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery || [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
 
 
 #### Search

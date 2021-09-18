@@ -16,12 +16,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect remote file inclusion attacks.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-08-23
 - **Author**: Patrick Bareiss, Splunk
 
@@ -29,7 +31,8 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
 
 
 #### Search

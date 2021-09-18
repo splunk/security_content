@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for flags passed to bcdedit.exe modifications to the built-in Windows error recovery boot configurations. This is typically used by ransomware to prevent recovery.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-21
 - **Author**: Michael Haag, Splunk
 
@@ -30,7 +32,8 @@ This search looks for flags passed to bcdedit.exe modifications to the built-in 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+| ----------- | ----------- |--------------|
+| [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 
 #### Search

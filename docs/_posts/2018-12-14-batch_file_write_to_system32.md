@@ -17,12 +17,14 @@ tags:
   - Delivery
 ---
 
+
+
 #### Description
 
 The search looks for a batch file (.bat) written to the Windows system directory tree.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
 - **Author**: Rico Valdez, Splunk
 
@@ -30,7 +32,8 @@ The search looks for a batch file (.bat) written to the Windows system directory
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+| ----------- | ----------- |--------------|
+| [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 
 #### Search

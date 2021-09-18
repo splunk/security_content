@@ -16,12 +16,14 @@ tags:
   - Exfiltration
 ---
 
+
+
 #### Description
 
 The following analytic identifies the usage of `rclone.exe`, renamed, being used to exfiltrate data to a remote destination. RClone has been used by multiple ransomware groups to exfiltrate data. In many instances, it will be downloaded from the legitimate site and executed accordingly. During triage, isolate the endpoint and begin to review parallel processes for additional behavior. At this stage, the adversary may have staged data to be exfiltrated.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-05-13
 - **Author**: Michael Haag, Splunk
 
@@ -29,7 +31,8 @@ The following analytic identifies the usage of `rclone.exe`, renamed, being used
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
+| ----------- | ----------- |--------------|
+| [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
 
 
 #### Search

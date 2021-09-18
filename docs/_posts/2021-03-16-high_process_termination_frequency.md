@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This analytics are designed to indentify a high frequency of process termination on a machine which is a common behavior of ransomware malware before encrypting files. This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-16
 - **Author**: Teoderick Contreras
 
@@ -30,7 +32,8 @@ This analytics are designed to indentify a high frequency of process termination
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+| ----------- | ----------- |--------------|
+| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 
 #### Search

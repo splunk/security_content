@@ -17,6 +17,8 @@ tags:
   - Lateral Movement
 ---
 
+
+
 #### Description
 
 The following analytic utilizes Windows Event Code 5145, &#34;A network share object was checked to see whether client can be granted desired access&#34;. During our research into PetitPotam, CVE-2021-36942, we identified the ocurrence of this event on the target host with specific values. \
@@ -25,7 +27,7 @@ It is possible this is not enabled by default and may need to be reviewed and en
 During triage, review parallel security events to identify further suspicious activity.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-08-31
 - **Author**: Michael Haag, Mauricio Velazco, Splunk
 
@@ -33,7 +35,8 @@ During triage, review parallel security events to identify further suspicious ac
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
 
 
 #### Search

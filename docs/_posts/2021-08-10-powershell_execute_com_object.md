@@ -18,12 +18,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search is to detect a COM CLSID execution through powershell. This technique was seen in several adversaries and malware like ransomware conti where it has a feature to execute command using COM Object. This technique may use by network operator at some cases but a good indicator if some application want to gain privilege escalation or bypass uac.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-10
 - **Author**: Teoderick Contreras, Splunk
 
@@ -31,7 +33,8 @@ This search is to detect a COM CLSID execution through powershell. This techniqu
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Privilege Escalation, Persistence |
+| ----------- | ----------- |--------------|
+| [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Privilege Escalation, Persistence |
 
 
 #### Search

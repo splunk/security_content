@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 The search looks for modifications to registry keys that control the enforcement of Windows User Account Control (UAC).
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-18
 - **Author**: David Dorsey, Patrick Bareiss, Splunk
 
@@ -30,7 +32,8 @@ The search looks for modifications to registry keys that control the enforcement
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Search

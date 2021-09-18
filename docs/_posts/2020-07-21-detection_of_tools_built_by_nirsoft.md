@@ -19,12 +19,16 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for specific command-line arguments that may indicate the execution of tools made by Nirsoft, which are legitimate, but may be abused by attackers.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 
@@ -32,7 +36,8 @@ This search looks for specific command-line arguments that may indicate the exec
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
+| ----------- | ----------- |--------------|
+| [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
 
 
 #### Search

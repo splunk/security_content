@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
 
@@ -30,7 +32,8 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
 
 #### Search

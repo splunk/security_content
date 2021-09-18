@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-12-15
 - **Author**: Patrick Bareiss, Splunk
 
@@ -30,7 +32,8 @@ This search detects the assignment of rights to accesss content from another mai
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
+| ----------- | ----------- |--------------|
+| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
 
 
 #### Search

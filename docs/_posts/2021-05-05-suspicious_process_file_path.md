@@ -18,12 +18,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 The following analytic will detect a suspicious process running in a file path where a process is not commonly seen and is most commonly used by malicious softtware. This behavior has been used by adversaries where they drop and run an exe in a path that is accessible without admin privileges.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-05
 - **Author**: Teoderick Contreras, Splunk
 
@@ -31,7 +33,8 @@ The following analytic will detect a suspicious process running in a file path w
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 
 #### Search

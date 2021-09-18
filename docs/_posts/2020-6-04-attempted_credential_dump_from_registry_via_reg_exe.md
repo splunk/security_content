@@ -14,12 +14,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-6-04
 - **Author**: Jose Hernandez, Splunk
 
@@ -27,7 +29,8 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 
 #### Search

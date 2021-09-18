@@ -26,12 +26,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 An attacker may use LOLBAS tools spawned from vulnerable applications not typically used by system administrators. This search leverages the Splunk Streaming ML DSP plugin to find rare parent/child relationships. The list of application has been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-05-20
 - **Author**: Peter Gael, Splunk; Ignacio Bermudez Corrales, Splunk
 
@@ -39,7 +41,8 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution || [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation || [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
+| ----------- | ----------- |--------------|
+| [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution || [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation || [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
 
 
 #### Search

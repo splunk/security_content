@@ -15,12 +15,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search is to detect execution of wevtutil.exe to disable logs. This technique was seen in several ransomware to disable the event logs to evade alerts and detections in compromised host.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-15
 - **Author**: Teoderick Contreras, Splunk
 
@@ -28,7 +30,8 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 
 #### Search

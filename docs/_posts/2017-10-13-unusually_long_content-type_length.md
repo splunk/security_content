@@ -13,12 +13,16 @@ tags:
   - Delivery
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for unusually long strings in the Content-Type http header that the client sends the server.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2017-10-13
 - **Author**: Bhavin Patel, Splunk
 

@@ -20,12 +20,14 @@ tags:
   - Privilege Escalation
 ---
 
+
+
 #### Description
 
 The following detection identifies Scheduled Tasks registering (creating a new task) a binary or script to run from a public directory which includes users\public, \programdata\ and \windows\temp. Upon triage, review the binary or script in the command line for legitimacy, whether an approved binary/script or not. In addition, capture the binary or script in question and analyze for further behaviors. Identify the source and contain the endpoint.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-01
 - **Author**: Michael Haag, Splunk
 
@@ -33,7 +35,8 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
 
 #### Search

@@ -18,12 +18,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 Microsoft Windows contains accessibility features that can be launched with a key combination before a user has logged in. An adversary can modify or replace these programs so they can get a command prompt or backdoor without logging in to the system. This search looks for modifications to these binaries.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
 
@@ -31,7 +33,8 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1546.008](https://attack.mitre.org/techniques/T1546/008/) | Accessibility Features | Privilege Escalation, Persistence |
+| ----------- | ----------- |--------------|
+| [T1546.008](https://attack.mitre.org/techniques/T1546/008/) | Accessibility Features | Privilege Escalation, Persistence |
 
 
 #### Search

@@ -14,12 +14,16 @@ tags:
   - Delivery
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for emails claiming to be sent from a domain similar to one that you want to have monitored for abuse.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
+- **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2018-01-05
 - **Author**: David Dorsey, Splunk
 

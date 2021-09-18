@@ -22,12 +22,14 @@ tags:
   - Privilege Escalation
 ---
 
+
+
 #### Description
 
 This analytic identifies a common behavior by Cobalt Strike and other frameworks where the adversary will escalate privileges, either via `jump` (Cobalt Strike PTH) or `getsystem`, using named-pipe impersonation. A suspicious event will look like `cmd.exe /c echo 4sgryt3436 &gt; \\.\Pipe\5erg53`.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-20
 - **Author**: Michael Haag, Splunk
 
@@ -35,7 +37,8 @@ This analytic identifies a common behavior by Cobalt Strike and other frameworks
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution || [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution || [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
 
 #### Search

@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This analytic detects a potential usage of secretsdump.py tool for dumping credentials (ntlm hash) from a copy of ntds.dit and SAM.Security,SYSTEM registrry hive. This technique was seen in some attacker that dump ntlm hashes offline after having a copy of ntds.dit and SAM/SYSTEM/SECURITY registry hive.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-26
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ This analytic detects a potential usage of secretsdump.py tool for dumping crede
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
 
 #### Search

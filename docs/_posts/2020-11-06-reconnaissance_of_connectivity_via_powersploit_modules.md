@@ -20,12 +20,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies access to PowerSploit modules for reconnaissance of connectivity.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -33,7 +35,8 @@ This detection identifies access to PowerSploit modules for reconnaissance of co
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement || [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery || [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
+| ----------- | ----------- |--------------|
+| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement || [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery || [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
 
 
 #### Search

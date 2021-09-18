@@ -17,12 +17,14 @@ tags:
   - Obfuscation
 ---
 
+
+
 #### Description
 
 The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry or the ransomware note filename is not in your ransomware lookup table list for monitoring.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-12
 - **Author**: Teoderick Contreras
 
@@ -30,7 +32,8 @@ The following analytics identifies a big number of instance of ransomware notes 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+| ----------- | ----------- |--------------|
+| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 
 #### Search

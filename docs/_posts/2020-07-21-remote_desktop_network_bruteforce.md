@@ -18,12 +18,16 @@ tags:
   - Delivery
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
 - **Author**: Jose Hernandez, Splunk
 
@@ -31,7 +35,8 @@ This search looks for RDP application network traffic and filters any source/des
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
+| ----------- | ----------- |--------------|
+| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
 
 
 #### Search

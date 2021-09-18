@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search is designed to detect suspicious cmd and powershell process spawned by wermgr.exe process. This suspicious behavior are commonly seen in code injection technique technique like trickbot to execute a shellcode, dll modules to run malicious behavior.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-19
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ This search is designed to detect suspicious cmd and powershell process spawned 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+| ----------- | ----------- |--------------|
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 
 #### Search

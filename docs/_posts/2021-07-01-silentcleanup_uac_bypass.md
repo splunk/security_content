@@ -18,12 +18,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search is to detect a suspicious modification of registry that may related to UAC bypassed. This registry will be trigger once the attacker abuse the silentcleanup task schedule to gain high privilege execution that will bypass User control account.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
 - **Author**: Teoderick Contreras, Splunk
 
@@ -31,7 +33,8 @@ This search is to detect a suspicious modification of registry that may related 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Search

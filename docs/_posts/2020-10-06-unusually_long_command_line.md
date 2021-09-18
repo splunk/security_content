@@ -11,12 +11,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-10-06
 - **Author**: Ignacio Bermudez Corrales, Splunk
 

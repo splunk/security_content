@@ -30,12 +30,17 @@ tags:
 {%- endfor %}
 ---
 
+{% if detection.experimental is sameas true -%}
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+{% endif %}
+
 #### Description
 
 {{ detection.description }}
 
 - **Product**: {{ detection.tags.product|join(', ') }}
-- **Datamodel**: {%-for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
+- **Datamodel**: {% for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
 - **Last Updated**: {{ detection.date }}
 - **Author**: {{detection.author}}
 
@@ -44,10 +49,9 @@ tags:
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-{%- for attack in detection.mitre_attacks %}
+{% for attack in detection.mitre_attacks -%}
 {%- if attack.technique_id -%}
-{% set sub_technique = attack.technique_id.split('.') %}
-{%- if sub_technique | length > 1 -%}
+{%- set sub_technique = attack.technique_id.split('.') -%}{%- if sub_technique | length > 1 -%}
 | [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{sub_technique[0]}}/{{sub_technique[1]}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
 {%- else -%}
 | [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{attack.technique_id}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |

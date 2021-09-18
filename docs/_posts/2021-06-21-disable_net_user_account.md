@@ -15,12 +15,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This analytic will identify a suspicious command-line that disables a user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt availability of such users to do their malicious act.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-21
 - **Author**: Teoderick Contreras, Splunk
 
@@ -28,7 +30,8 @@ This analytic will identify a suspicious command-line that disables a user accou
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+| ----------- | ----------- |--------------|
+| [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 
 #### Search

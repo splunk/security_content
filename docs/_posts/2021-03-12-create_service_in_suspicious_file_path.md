@@ -17,12 +17,14 @@ tags:
   - Privilege Escalation
 ---
 
+
+
 #### Description
 
 This detection is to identify a creation of &#34;user mode service&#34; where the service file path is located in non-common service folder in windows.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-12
 - **Author**: Teoderick Contreras
 
@@ -30,7 +32,8 @@ This detection is to identify a creation of &#34;user mode service&#34; where th
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+| ----------- | ----------- |--------------|
+| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 
 #### Search

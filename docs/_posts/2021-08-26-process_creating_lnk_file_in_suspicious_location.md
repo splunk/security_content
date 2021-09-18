@@ -18,12 +18,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for a process launching an `*.lnk` file under `C:\User*` or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-26
 - **Author**: Jose Hernandez, Splunk
 
@@ -31,7 +33,8 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1566.002](https://attack.mitre.org/techniques/T1566/002/) | Spearphishing Link | Initial Access |
+| ----------- | ----------- |--------------|
+| [T1566.002](https://attack.mitre.org/techniques/T1566/002/) | Spearphishing Link | Initial Access |
 
 
 #### Search

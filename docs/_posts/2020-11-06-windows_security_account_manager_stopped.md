@@ -16,12 +16,14 @@ tags:
   - Delivery
 ---
 
+
+
 #### Description
 
 The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Rod Soto, Jose Hernandez, Splunk
 
@@ -29,7 +31,8 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+| ----------- | ----------- |--------------|
+| [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 
 #### Search

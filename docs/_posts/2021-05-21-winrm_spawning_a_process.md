@@ -19,12 +19,16 @@ tags:
   - Denial of Service
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 The following analytic identifies suspicious processes spawning from WinRM (wsmprovhost.exe). This analytic is related to potential exploitation of CVE-2021-31166. which is a kernel-mode device driver http.sys vulnerability. Current proof of concept code will blue-screen the operating system. However, http.sys used by many different Windows processes, including WinRM. In this case, identifying suspicious process create (child processes) from `wsmprovhost.exe` is what this analytic is identifying.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-21
 - **Author**: Drew Church, Michael Haag, Splunk
 
@@ -32,7 +36,8 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+| ----------- | ----------- |--------------|
+| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 
 #### Search

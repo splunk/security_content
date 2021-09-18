@@ -25,12 +25,16 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 By enabling DHCP Snooping as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect unauthorized DHCP servers handing out DHCP leases to devices on the network (Man in the Middle attack).
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-08-11
 - **Author**: Mikael Bjerkeland, Splunk
 
@@ -38,7 +42,8 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization&#39;
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access || [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact || [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Credential Access, Collection |
+| ----------- | ----------- |--------------|
+| [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access || [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact || [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Credential Access, Collection |
 
 
 #### Search

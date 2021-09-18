@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search looks for the execution of `nltest.exe` with command-line arguments utilized to query for Domain Trust information. Two arguments `/domain trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current domain to assist with further understanding where to pivot next.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-25
 - **Author**: Michael Haag, Splunk
 
@@ -30,7 +32,8 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 
 #### Search

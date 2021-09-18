@@ -16,12 +16,14 @@ tags:
   - Exfiltration
 ---
 
+
+
 #### Description
 
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-08-16
 - **Author**: Teoderick Contreras, Splunk
 
@@ -29,7 +31,8 @@ This search is to detect suspicious google drive or google docs files shared out
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1567.002](https://attack.mitre.org/techniques/T1567/002/) | Exfiltration to Cloud Storage | Exfiltration |
+| ----------- | ----------- |--------------|
+| [T1567.002](https://attack.mitre.org/techniques/T1567/002/) | Exfiltration to Cloud Storage | Exfiltration |
 
 
 #### Search

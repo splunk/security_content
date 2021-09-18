@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for wmic.exe being launched with parameters to spawn a process on a remote system.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-30
 - **Author**: Rico Valdez, Splunk
 
@@ -30,7 +32,8 @@ This search looks for wmic.exe being launched with parameters to spawn a process
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+| ----------- | ----------- |--------------|
+| [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 
 #### Search

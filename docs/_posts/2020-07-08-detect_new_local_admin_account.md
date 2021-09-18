@@ -17,12 +17,14 @@ tags:
   - Command and Control
 ---
 
+
+
 #### Description
 
 This search looks for newly created accounts that have been elevated to local administrators.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-07-08
 - **Author**: David Dorsey, Splunk
 
@@ -30,7 +32,8 @@ This search looks for newly created accounts that have been elevated to local ad
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+| ----------- | ----------- |--------------|
+| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 
 #### Search

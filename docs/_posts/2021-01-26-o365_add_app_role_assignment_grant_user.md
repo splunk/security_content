@@ -17,12 +17,14 @@ tags:
   - Actions on Objective
 ---
 
+
+
 #### Description
 
 This search detects the creation of a new Federation setting by alerting about an specific event related to its creation.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
 
@@ -30,7 +32,8 @@ This search detects the creation of a new Federation setting by alerting about a
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
+| ----------- | ----------- |--------------|
+| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
 
 #### Search

@@ -16,6 +16,10 @@ tags:
   - Exploitation
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This analytic identifies suspicious behavior related to ProxyShell against on-premise Microsoft Exchange servers. \
@@ -25,7 +29,7 @@ An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnss
 Review the source attempting to perform this activity against your environment. In addition, review PowerShell logs and access recently granted to Exchange roles.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-08-27
 - **Author**: Michael Haag, Splunk
 
@@ -33,7 +37,8 @@ Review the source attempting to perform this activity against your environment. 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+| ----------- | ----------- |--------------|
+| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 
 #### Search

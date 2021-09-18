@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This analytic will detect a suspicious Telegram process enumerating all network users in a local group. This technique was seen in a Monero infected honeypot to mapped all the users on the compromised system. EventCode 4798 is generated when a process enumerates a user&#39;s security-enabled local groups on a computer or device.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-06
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ This analytic will detect a suspicious Telegram process enumerating all network 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
 
 #### Search

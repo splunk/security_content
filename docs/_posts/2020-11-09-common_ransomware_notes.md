@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
 
@@ -30,7 +32,8 @@ The search looks for files created with names matching those typically used in r
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+| ----------- | ----------- |--------------|
+| [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 
 #### Search

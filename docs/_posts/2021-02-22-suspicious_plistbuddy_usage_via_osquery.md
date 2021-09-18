@@ -17,6 +17,10 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 The following analytic identifies the use of a native MacOS utility, PlistBuddy, creating or modifying a properly list (.plist) file. In the instance of Silver Sparrow, the following commands were executed:\
@@ -29,7 +33,7 @@ The following analytic identifies the use of a native MacOS utility, PlistBuddy,
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-02-22
 - **Author**: Michael Haag, Splunk
 
@@ -37,7 +41,8 @@ Upon triage, capture the property list file being written to disk and review for
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1543.001](https://attack.mitre.org/techniques/T1543/001/) | Launch Agent | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1543.001](https://attack.mitre.org/techniques/T1543/001/) | Launch Agent | Persistence, Privilege Escalation |
 
 
 #### Search

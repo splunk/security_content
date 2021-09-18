@@ -17,6 +17,8 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for system processes that typically execute from `C:\Windows\System32\` or `C:\Windows\SysWOW64`.  This may indicate a malicious process that is trying to hide as a legitimate process.\
@@ -24,7 +26,7 @@ This detection utilizes a lookup that is deduped `system32` and `syswow64` direc
 During triage, review the parallel processes - what process moved the native Windows binary? identify any artifacts on disk and review. If a remote destination is contacted, what is the reputation?
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-08
 - **Author**: David Dorsey, Michael Haag, Splunk
 
@@ -32,7 +34,8 @@ During triage, review the parallel processes - what process moved the native Win
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 
 #### Search

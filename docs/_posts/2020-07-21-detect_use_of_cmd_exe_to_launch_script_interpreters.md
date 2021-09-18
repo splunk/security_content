@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search looks for the execution of the cscript.exe or wscript.exe processes, with a parent of cmd.exe. The search will return the count, the first and last time this execution was seen on a machine, the user, and the destination of the machine
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Mauricio Velazco, Splunk
 
@@ -30,7 +32,8 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
+| ----------- | ----------- |--------------|
+| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
 
 #### Search

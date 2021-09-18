@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for AWS CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-04-13
 - **Author**: Patrick Bareiss, Splunk
 
@@ -30,7 +32,8 @@ This search looks for AWS CloudTrail events and analyse the amount of eventNames
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 
 #### Search

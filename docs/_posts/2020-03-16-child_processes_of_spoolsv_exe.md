@@ -17,12 +17,16 @@ tags:
   - Exploitation
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for child processes of spoolsv.exe. This activity is associated with a POC privilege-escalation exploit associated with CVE-2018-8440. Spoolsv.exe is the process associated with the Print Spooler service in Windows and typically runs as SYSTEM.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
 - **Author**: Rico Valdez, Splunk
 
@@ -30,7 +34,8 @@ This search looks for child processes of spoolsv.exe. This activity is associate
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 
 #### Search

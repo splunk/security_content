@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for the creation of local administrator accounts using net.exe .
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-29
 - **Author**: Bhavin Patel, Splunk
 
@@ -30,7 +32,8 @@ This search looks for the creation of local administrator accounts using net.exe
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+| ----------- | ----------- |--------------|
+| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 
 #### Search

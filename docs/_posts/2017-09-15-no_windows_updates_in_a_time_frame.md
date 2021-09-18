@@ -13,12 +13,16 @@ tags:
   - Updates
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for Windows endpoints that have not generated an event indicating a successful Windows update in the last 60 days. Windows updates are typically released monthly and applied shortly thereafter. An endpoint that has not successfully applied an update in this time frame indicates the endpoint is not regularly being patched for some reason.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Updates](https://docs.splunk.com/Documentation/CIM/latest/User/Updates)
+- **Datamodel**: [Updates](https://docs.splunk.com/Documentation/CIM/latest/User/Updates)
 - **Last Updated**: 2017-09-15
 - **Author**: Bhavin Patel, Splunk
 

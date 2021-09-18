@@ -16,12 +16,14 @@ tags:
   - Splunk Cloud
 ---
 
+
+
 #### Description
 
 This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Rod Soto, Patrick Bareiss Splunk
 
@@ -29,7 +31,8 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+| ----------- | ----------- |--------------|
+| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 
 #### Search

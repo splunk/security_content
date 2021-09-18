@@ -15,12 +15,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts using Pass-the-Hash technique.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-10-21
 - **Author**: Xiao Lin, Splunk
 
@@ -28,7 +30,8 @@ This search looks for specific authentication events from the Windows Security E
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
+| ----------- | ----------- |--------------|
+| [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
 
 
 #### Search

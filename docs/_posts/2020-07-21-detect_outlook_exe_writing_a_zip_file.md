@@ -17,12 +17,16 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for execution of process `outlook.exe` where the process is writing a `.zip` file to the disk.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 
@@ -30,7 +34,8 @@ This search looks for execution of process `outlook.exe` where the process is wr
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+| ----------- | ----------- |--------------|
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 
 #### Search

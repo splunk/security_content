@@ -16,12 +16,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 The following analytic identifies renamed instances of mshta.exe executing. Mshta.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. This analytic utilizes the internal name of the PE to identify if is the legitimate mshta binary. Further analysis should be performed to review the executed content and validation it is the real mshta.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-01-20
 - **Author**: Michael Haag, Splunk
 
@@ -29,7 +31,8 @@ The following analytic identifies renamed instances of mshta.exe executing. Msht
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
 
 #### Search

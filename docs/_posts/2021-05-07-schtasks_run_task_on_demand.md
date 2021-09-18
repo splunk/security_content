@@ -19,12 +19,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This analytic identifies an on demand run of a Windows Schedule Task through shell or command-line. This technique has been used by adversaries that force to run their created Schedule Task as their persistence mechanism or for lateral movement as part of their malicious attack to the compromised machine.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-07
 - **Author**: Teoderick Contreras, Splunk
 
@@ -32,7 +34,8 @@ This analytic identifies an on demand run of a Windows Schedule Task through she
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 
 #### Search

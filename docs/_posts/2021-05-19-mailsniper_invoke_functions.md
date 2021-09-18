@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search is to detect known mailsniper.ps1 functions executed in a machine. This technique was seen in some attacker to harvest some sensitive e-mail in a compromised exchange server.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-19
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ This search is to detect known mailsniper.ps1 functions executed in a machine. T
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
+| ----------- | ----------- |--------------|
+| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
 
 
 #### Search

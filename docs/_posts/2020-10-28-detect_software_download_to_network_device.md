@@ -18,12 +18,16 @@ tags:
   - Delivery
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 Adversaries may abuse netbooting to load an unauthorized network device operating system from a Trivial File Transfer Protocol (TFTP) server. TFTP boot (netbooting) is commonly used by network administrators to load configuration-controlled network device images from a centralized management server. Netbooting is one option in the boot sequence and can be used to centralize, manage, and control device images.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-10-28
 - **Author**: Mikael Bjerkeland, Splunk
 
@@ -31,7 +35,8 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1542.005](https://attack.mitre.org/techniques/T1542/005/) | TFTP Boot | Defense Evasion, Persistence |
+| ----------- | ----------- |--------------|
+| [T1542.005](https://attack.mitre.org/techniques/T1542/005/) | TFTP Boot | Defense Evasion, Persistence |
 
 
 #### Search

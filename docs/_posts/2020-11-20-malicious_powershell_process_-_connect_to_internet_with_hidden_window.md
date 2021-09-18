@@ -18,12 +18,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for PowerShell processes started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet. This combination of command-line options is suspicious because it&#39;s overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Deprecated becaue hidden is not needed when download file with System.Net.WebClient.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-20
 - **Author**: David Dorsey, Splunk
 
@@ -31,7 +33,8 @@ This search looks for PowerShell processes started with parameters to modify the
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+| ----------- | ----------- |--------------|
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 
 #### Search

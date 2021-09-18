@@ -15,12 +15,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone or to a specific user. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior is a good indicator if this command seen on a machine utilized by an account with no permission to do so.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-15
 - **Author**: Teoderick Contreras, Splunk
 
@@ -28,7 +30,8 @@ This analytic identifies suspicious modification of ACL permission to a files or
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 
 #### Search

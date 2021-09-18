@@ -17,12 +17,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search detects the suspicious commandline argument of revil ransomware to encrypt specific or all local drive and network shares of the compromised machine or host.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ This search detects the suspicious commandline argument of revil ransomware to e
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+| ----------- | ----------- |--------------|
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 
 #### Search

@@ -17,6 +17,8 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 The following analytic identifies one source endpoint failing to authenticate with multiple invalid domain users using the Kerberos protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. Event 4768 is generated every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code 0x6 stands for `client not found in Kerberos database` (the attempted user is not a valid domain user).\
@@ -25,7 +27,7 @@ This detection will only trigger on domain controllers, not on member servers or
 The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-14
 - **Author**: Mauricio Velazco, Splunk
 
@@ -33,7 +35,8 @@ The analytics returned fields allow analysts to investigate the event further by
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
 
 
 #### Search

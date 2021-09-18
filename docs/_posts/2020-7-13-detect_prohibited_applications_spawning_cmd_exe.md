@@ -14,12 +14,14 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-7-13
 - **Author**: Ignacio Bermudez Corrales, Splunk
 
@@ -27,7 +29,8 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+| ----------- | ----------- |--------------|
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 
 #### Search

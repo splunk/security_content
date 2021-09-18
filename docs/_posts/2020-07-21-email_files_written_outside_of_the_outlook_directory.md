@@ -17,12 +17,16 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 The search looks at the change-analysis data model and detects email files created outside the normal Outlook directory.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 
@@ -30,7 +34,8 @@ The search looks at the change-analysis data model and detects email files creat
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
+| ----------- | ----------- |--------------|
+| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
 
 
 #### Search

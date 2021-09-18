@@ -17,12 +17,14 @@ tags:
   - Lateral Movement
 ---
 
+
+
 #### Description
 
 This search is to detect suspicious dropping or creating an executable file in known sensitive SMB share. This technique is commonly used for lateral movement like how trickbot try to infect other machine in the infected network. This detection catch the access event (FILE WRITE) access to a share.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-23
 - **Author**: Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ This search is to detect suspicious dropping or creating an executable file in k
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
+| ----------- | ----------- |--------------|
+| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
 
 #### Search

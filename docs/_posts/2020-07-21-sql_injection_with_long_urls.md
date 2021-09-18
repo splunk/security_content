@@ -17,12 +17,16 @@ tags:
   - Delivery
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for long URLs that have several SQL commands visible within them.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 
@@ -30,7 +34,8 @@ This search looks for long URLs that have several SQL commands visible within th
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+| ----------- | ----------- |--------------|
+| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 
 #### Search

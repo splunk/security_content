@@ -17,12 +17,14 @@ tags:
   - Delivery
 ---
 
+
+
 #### Description
 
 The search looks for a file named &#34;test.txt&#34; written to the windows system directory tree, which is consistent with Samsam propagation.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
 - **Author**: Rico Valdez, Splunk
 
@@ -30,7 +32,8 @@ The search looks for a file named &#34;test.txt&#34; written to the windows syst
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+| ----------- | ----------- |--------------|
+| [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 
 #### Search

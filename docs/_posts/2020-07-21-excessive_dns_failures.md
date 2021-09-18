@@ -17,12 +17,16 @@ tags:
   - Command and Control
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
 
@@ -30,7 +34,8 @@ This search identifies DNS query failures by counting the number of DNS response
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
+| ----------- | ----------- |--------------|
+| [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
 
 
 #### Search

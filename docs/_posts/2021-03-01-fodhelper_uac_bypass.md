@@ -22,6 +22,8 @@ tags:
   - Privilege Escalation
 ---
 
+
+
 #### Description
 
 Fodhelper.exe has a known UAC bypass as it attempts to look for specific registry keys upon execution, that do not exist. Therefore, an attacker can write its malicious commands in these registry keys to be executed by fodhelper.exe with the highest privilege. \
@@ -31,7 +33,7 @@ Fodhelper.exe has a known UAC bypass as it attempts to look for specific registr
 Upon triage, fodhelper.exe will have a child process and read access will occur on the registry keys. Isolate the endpoint and review parallel processes for additional behavior.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-01
 - **Author**: Michael Haag, Splunk
 
@@ -39,7 +41,8 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion || [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion || [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Search

@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies failure attempts to delete groups. We want to identify when a group is attempting to be deleted, but either access is denied, there is a conflict or there is no group. This is indicative of administrators performing an action, but also could be suspicious behavior occurring. Review parallel IAM events - recently added users, new groups and so forth.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-04-01
 - **Author**: Michael Haag, Splunk
 
@@ -30,7 +32,8 @@ This detection identifies failure attempts to delete groups. We want to identify
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+| ----------- | ----------- |--------------|
+| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 
 
 #### Search

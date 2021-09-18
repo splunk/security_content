@@ -17,12 +17,14 @@ tags:
   - Command and Control
 ---
 
+
+
 #### Description
 
 This search allows you to identify DNS requests and compute the standard deviation on the length of the names being resolved, then filter on two times the standard deviation to show you those queries that are unusually large for your environment.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2021-07-21
 - **Author**: Bhavin Patel, Splunk
 
@@ -30,7 +32,8 @@ This search allows you to identify DNS requests and compute the standard deviati
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| ----------- | ----------- |--------------|
+| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 
 #### Search

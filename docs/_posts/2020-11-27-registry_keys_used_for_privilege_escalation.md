@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for modifications to registry keys that can be used to elevate privileges. The registry keys under &#34;Image File Execution Options&#34; are used to intercept calls to an executable and can be used to attach malicious binaries to benign system binaries.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-27
 - **Author**: David Dorsey, Splunk
 
@@ -30,7 +32,8 @@ This search looks for modifications to registry keys that can be used to elevate
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1546.012](https://attack.mitre.org/techniques/T1546/012/) | Image File Execution Options Injection | Privilege Escalation, Persistence |
+| ----------- | ----------- |--------------|
+| [T1546.012](https://attack.mitre.org/techniques/T1546/012/) | Image File Execution Options Injection | Privilege Escalation, Persistence |
 
 
 #### Search

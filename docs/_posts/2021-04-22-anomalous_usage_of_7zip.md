@@ -17,12 +17,14 @@ tags:
   - Actions on Objective
 ---
 
+
+
 #### Description
 
 The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllhost.exe`. It is assumed that the adversary has brought in `7z.exe` and `7z.dll`. It has been observed where an adversary will rename `7z.exe`. Additional coverage may be required to identify the behavior of renamed instances of `7z.exe`. During triage, identify the source of injection into `Rundll32.exe` or `Dllhost.exe`. Capture any files written to disk and analyze as needed. Review parallel processes for additional behaviors. Typically, archiving files will result in exfiltration.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-22
 - **Author**: Michael Haag, Teoderick Contreras, Splunk
 
@@ -30,7 +32,8 @@ The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllh
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+| ----------- | ----------- |--------------|
+| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 
 #### Search

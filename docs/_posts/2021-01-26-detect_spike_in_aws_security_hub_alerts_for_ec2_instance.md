@@ -13,12 +13,14 @@ tags:
   - Splunk Cloud
 ---
 
+
+
 #### Description
 
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
 
