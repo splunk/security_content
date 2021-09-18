@@ -77,33 +77,36 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
 
     result_test = {}
     test = test_file_obj['tests'][0]
+    try:
+        if 'baselines' in test:
+            results_baselines = []
+            for baseline_obj in test['baselines']:
+                baseline_file_name = baseline_obj['file']
+                baseline = load_file(os.path.join(os.path.dirname(__file__), '../security_content', baseline_file_name))
+                result_obj = dict()
+                result_obj['baseline'] = baseline_obj['name']
+                result_obj['baseline_file'] = baseline_obj['file']
+                result = splunk_sdk.test_baseline_search(splunk_ip, splunk_port, splunk_password, baseline['search'], baseline_obj['pass_condition'], baseline['name'], baseline_obj['file'], baseline_obj['earliest_time'], baseline_obj['latest_time'])
+            result_test['baselines_result'] = results_baselines  
 
-    if 'baselines' in test:
-        results_baselines = []
-        for baseline_obj in test['baselines']:
-            baseline_file_name = baseline_obj['file']
-            baseline = load_file(os.path.join(os.path.dirname(__file__), '../security_content', baseline_file_name))
-            result_obj = dict()
-            result_obj['baseline'] = baseline_obj['name']
-            result_obj['baseline_file'] = baseline_obj['file']
-            result = splunk_sdk.test_baseline_search(splunk_ip, splunk_port, splunk_password, baseline['search'], baseline_obj['pass_condition'], baseline['name'], baseline_obj['file'], baseline_obj['earliest_time'], baseline_obj['latest_time'])
-        result_test['baselines_result'] = results_baselines  
+        detection_file_name = test['file']
+        detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', detection_file_name))
+        result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
 
-    detection_file_name = test['file']
-    detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', detection_file_name))
-    result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
+        result_detection['detection_name'] = test['name']
+        result_detection['detection_file'] = test['file']
+        result_test['detection_result'] = result_detection
 
-    result_detection['detection_name'] = test['name']
-    result_detection['detection_file'] = test['file']
-    result_test['detection_result'] = result_detection
-
-    if result_detection['error']:
-        print("failed")
-        #aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'failed')
-    else:
-        print("passed")
-        #aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'passed')
-
+        if result_detection['error']:
+            print("failed")
+            #aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'failed')
+        else:
+            print("passed")
+            #aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'passed')
+    except Exception as e:
+        print("Caught some exception in test detection: [%s]"%(str(e)))
+        #just log the error itself for now so that we can continue
+        result_test = str(e)
     return result_test
 
 

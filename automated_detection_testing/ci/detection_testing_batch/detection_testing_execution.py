@@ -203,7 +203,7 @@ def main(args):
     try:
         while True:
 
-            o = output_queue.get(block=False)
+            o = results_queue.get(block=False)
             print("Got from queue:")
             print(o)
     except queue.Empty:
