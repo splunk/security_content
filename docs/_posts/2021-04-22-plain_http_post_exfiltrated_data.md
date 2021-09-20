@@ -23,6 +23,7 @@ tags:
 
 This search is to detect potential plain HTTP POST method data exfiltration. This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary where arguments or commands are sent in plain text to the remote C2 server using HTTP POST method as part of data exfiltration.
 
+- **ID**: e2b36208-a364-11eb-8909-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-04-22
@@ -47,8 +48,8 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 ```
 
 #### Associated Analytic Story
-* [Command and Control](_stories/command_and_control)
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Command and Control](/stories/command_and_control)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 This search is designed to detect high frequency of archive files data exfiltration through HTTP POST method protocol. This are one of the common techniques used by APT or trojan spy after doing the data collection like screenshot, recording, sensitive data to the infected machines. The attacker may execute archiving command to the collected data, save it a temp folder with a hidden attribute then send it to its C2 through HTTP POST. Sometimes adversaries will rename the archive files or encode/encrypt to cover their tracks. This detection can detect a renamed archive files transfer to HTTP POST since it checks the request body header. Unfortunately this detection cannot support archive that was encrypted or encoded before doing the exfiltration.
 
+- **ID**: 4477f3ea-a28f-11eb-b762-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-04-21
@@ -50,8 +51,8 @@ This search is designed to detect high frequency of archive files data exfiltrat
 ```
 
 #### Associated Analytic Story
-* [Command and Control](_stories/command_and_control)
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Command and Control](/stories/command_and_control)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

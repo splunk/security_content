@@ -21,6 +21,7 @@ tags:
 
 This search looks for AssumeRole events where an IAM role in a different account is requested for the first time.
 
+- **ID**: 21193641-cb96-4a2c-a707-d9b9a7f7792b
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2020-05-28
@@ -46,7 +47,7 @@ This search looks for AssumeRole events where an IAM role in a different account
 ```
 
 #### Associated Analytic Story
-* [Suspicious Cloud Authentication Activities](_stories/suspicious_cloud_authentication_activities)
+* [Suspicious Cloud Authentication Activities](/stories/suspicious_cloud_authentication_activities)
 
 
 #### How To Implement

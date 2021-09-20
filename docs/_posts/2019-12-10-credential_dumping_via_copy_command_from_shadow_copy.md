@@ -23,6 +23,7 @@ tags:
 
 This search detects credential dumping using copy command from a shadow copy.
 
+- **ID**: d8c406fe-23d2-45f3-a983-1abe7b83ff3b
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-12-10
@@ -48,7 +49,7 @@ This search detects credential dumping using copy command from a shadow copy.
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

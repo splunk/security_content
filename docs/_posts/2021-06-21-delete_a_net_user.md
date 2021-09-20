@@ -21,6 +21,7 @@ tags:
 
 This analytic will detect a suspicious net.exe/net1.exe command-line to delete a user on a system. This technique may be use by an administrator for legitimate purposes, however this behavior has been used in the wild to impair some user or deleting adversaries tracks created during its lateral movement additional systems. During triage, review parallel processes for additional behavior. Identify any other user accounts created before or after.
 
+- **ID**: 8776d79c-d26e-11eb-9a56-acde48001122
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-21
@@ -46,8 +47,8 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 ```
 
 #### Associated Analytic Story
-* [XMRig](_stories/xmrig)
-* [Ransomware](_stories/ransomware)
+* [XMRig](/stories/xmrig)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

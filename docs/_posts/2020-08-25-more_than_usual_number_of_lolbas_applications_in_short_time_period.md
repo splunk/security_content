@@ -25,6 +25,7 @@ tags:
 
 Attacker activity may compromise executing several LOLBAS applications in conjunction to accomplish their objectives. We are looking for more than usual LOLBAS applications over a window of time, by building profiles per machine.
 
+- **ID**: 59c0dd70-169c-4900-9a1f-bfcf13302f93
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-08-25
@@ -55,7 +56,7 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 ```
 
 #### Associated Analytic Story
-* [Unusual Processes](_stories/unusual_processes)
+* [Unusual Processes](/stories/unusual_processes)
 
 
 #### How To Implement

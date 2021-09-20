@@ -23,6 +23,7 @@ tags:
 
 Attackers leverage an existing Windows binary, attrib.exe, to mark specific as hidden by using specific flags so that the victim does not see the file.  The search looks for specific command-line arguments to detect the use of attrib.exe to hide files.
 
+- **ID**: c77162d3-f93c-45cc-80c8-22f6b5264g9f
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -48,8 +49,8 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 ```
 
 #### Associated Analytic Story
-* [Windows Defense Evasion Tactics](_stories/windows_defense_evasion_tactics)
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

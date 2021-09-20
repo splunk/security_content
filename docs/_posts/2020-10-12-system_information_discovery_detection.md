@@ -23,6 +23,7 @@ tags:
 
 Detect system information discovery techniques used by attackers to understand configurations of the system to further exploit it.
 
+- **ID**: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-10-12
@@ -51,7 +52,7 @@ Detect system information discovery techniques used by attackers to understand c
 ```
 
 #### Associated Analytic Story
-* [Discovery Techniques](_stories/discovery_techniques)
+* [Discovery Techniques](/stories/discovery_techniques)
 
 
 #### How To Implement

@@ -35,5 +35,5 @@ stories:
     children:
     {%- for category in categories %}
       - title: {{ category }}
-        url: /story/{{ category | lower | replace(" ", "_") }}/
+        url: /stories/{{ category | lower | replace(" ", "_") }}/
     {%- endfor %}

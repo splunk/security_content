@@ -26,6 +26,7 @@ tags:
 
 The following query uses IAM events to track the success of a group being deleted on AWS. This is typically not indicative of malicious behavior, but a precurser to additional events thay may unfold. Review parallel IAM events - recently added users, new groups and so forth. Inversely, review failed attempts in a similar manner.
 
+- **ID**: e776d06c-9267-11eb-819b-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-03-31
@@ -50,7 +51,7 @@ The following query uses IAM events to track the success of a group being delete
 ```
 
 #### Associated Analytic Story
-* [AWS IAM Privilege Escalation](_stories/aws_iam_privilege_escalation)
+* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 
 
 #### How To Implement

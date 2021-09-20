@@ -23,6 +23,7 @@ tags:
 
 This detection identifies use of PowerSploit modules for assessment of presence of defensive tools.
 
+- **ID**: 24b4e659-63a2-4e7b-89ac-87dd659c7110
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
@@ -50,7 +51,7 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 ```
 
 #### Associated Analytic Story
-* [Windows Discovery Techniques](_stories/windows_discovery_techniques)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement

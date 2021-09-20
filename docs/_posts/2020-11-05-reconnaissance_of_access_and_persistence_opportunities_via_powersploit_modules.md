@@ -44,6 +44,7 @@ tags:
 
 This detection identifies use of PowerSploit modules that discover opportunities for malicious access and persistence. Some examples include access to admin accounts, weak access control policies, landing paths for dropping malicious software or data to exfiltrate, registry locations to land autorun parameters, task scheduling opportunities, as well as services and system files that can be compromised.
 
+- **ID**: 3d8bd7f3-1061-4ac7-9225-6764cc0684d7
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
@@ -71,7 +72,7 @@ This detection identifies use of PowerSploit modules that discover opportunities
 ```
 
 #### Associated Analytic Story
-* [Windows Discovery Techniques](_stories/windows_discovery_techniques)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement

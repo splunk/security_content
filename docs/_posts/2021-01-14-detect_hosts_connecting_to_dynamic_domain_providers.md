@@ -24,6 +24,7 @@ tags:
 
 Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, block lists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains.
 
+- **ID**: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2021-01-14
@@ -49,12 +50,12 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 ```
 
 #### Associated Analytic Story
-* [Data Protection](_stories/data_protection)
-* [Prohibited Traffic Allowed or Protocol Mismatch](_stories/prohibited_traffic_allowed_or_protocol_mismatch)
-* [DNS Hijacking](_stories/dns_hijacking)
-* [Suspicious DNS Traffic](_stories/suspicious_dns_traffic)
-* [Dynamic DNS](_stories/dynamic_dns)
-* [Command and Control](_stories/command_and_control)
+* [Data Protection](/stories/data_protection)
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [DNS Hijacking](/stories/dns_hijacking)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Dynamic DNS](/stories/dynamic_dns)
+* [Command and Control](/stories/command_and_control)
 
 
 #### How To Implement

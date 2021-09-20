@@ -22,6 +22,7 @@ tags:
 
 This search is to detect a gsuite email contains suspicious subject having known file type used in spear phishing. This technique is a common and effective entry vector of attacker to compromise a network by luring the user to click or execute the suspicious attachment send from external email account because of the effective social engineering of subject related to delivery, bank and so on. On the other hand this detection may catch a normal email traffic related to legitimate transaction so better to check the email sender, spelling and etc. avoid click link or opening the attachment if you are not expecting this type of e-mail.
 
+- **ID**: 8ef3971e-00f2-11ec-b54f-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-19
@@ -49,7 +50,7 @@ This search is to detect a gsuite email contains suspicious subject having known
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](_stories/devsecops)
+* [DevSecOps](/stories/devsecops)
 
 
 #### How To Implement

@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for network traffic on common ports where a higher layer protocol does not match the port that is being used. For example, this search should identify cases where protocols other than HTTP are running on TCP port 80. This can be used by attackers to circumvent firewall restrictions, or as an attempt to hide malicious communications over ports and protocols that are typically allowed and not well inspected.
 
+- **ID**: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
@@ -50,8 +51,8 @@ This search looks for network traffic on common ports where a higher layer proto
 ```
 
 #### Associated Analytic Story
-* [Prohibited Traffic Allowed or Protocol Mismatch](_stories/prohibited_traffic_allowed_or_protocol_mismatch)
-* [Command and Control](_stories/command_and_control)
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [Command and Control](/stories/command_and_control)
 
 
 #### How To Implement

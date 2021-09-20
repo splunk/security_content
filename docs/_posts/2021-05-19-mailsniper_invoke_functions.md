@@ -23,6 +23,7 @@ tags:
 
 This search is to detect known mailsniper.ps1 functions executed in a machine. This technique was seen in some attacker to harvest some sensitive e-mail in a compromised exchange server.
 
+- **ID**: a36972c8-b894-11eb-9f78-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-19
@@ -47,7 +48,7 @@ This search is to detect known mailsniper.ps1 functions executed in a machine. T
 ```
 
 #### Associated Analytic Story
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

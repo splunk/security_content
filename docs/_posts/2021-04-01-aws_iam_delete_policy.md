@@ -23,6 +23,7 @@ tags:
 
 The following detection identifes when a policy is deleted on AWS. This does not identify whether successful or failed, but the error messages tell a story of suspicious attempts. There is a specific process to follow when deleting a policy. First, detach the policy from all users, groups, and roles that the policy is attached to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy.
 
+- **ID**: ec3a9362-92fe-11eb-99d0-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-04-01
@@ -47,7 +48,7 @@ The following detection identifes when a policy is deleted on AWS. This does not
 ```
 
 #### Associated Analytic Story
-* [AWS IAM Privilege Escalation](_stories/aws_iam_privilege_escalation)
+* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 
 
 #### How To Implement

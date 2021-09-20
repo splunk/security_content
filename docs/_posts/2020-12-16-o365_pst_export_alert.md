@@ -23,6 +23,7 @@ tags:
 
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content
 
+- **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -47,8 +48,8 @@ This search detects when a user has performed an Ediscovery search or exported a
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Office 365 Detections](/stories/office_365_detections)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

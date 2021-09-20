@@ -21,6 +21,7 @@ tags:
 
 This search detects writes to the recycle bin by a process other than explorer.exe.
 
+- **ID**: b5541828-8ffd-4070-9d95-b3da4de924cb
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-22
@@ -48,7 +49,7 @@ This search detects writes to the recycle bin by a process other than explorer.e
 ```
 
 #### Associated Analytic Story
-* [Collection and Staging](_stories/collection_and_staging)
+* [Collection and Staging](/stories/collection_and_staging)
 
 
 #### How To Implement

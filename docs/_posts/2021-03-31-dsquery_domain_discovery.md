@@ -28,6 +28,7 @@ DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`
 The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found loaded by another process, it is possible dsquery is running within that process context in memory.\
 In addition to trust discovery, review parallel processes for additional behaviors performed. Identify the parent process and capture any files (batch files, for example) being used.
 
+- **ID**: cc316032-924a-11eb-91a2-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
@@ -53,7 +54,7 @@ In addition to trust discovery, review parallel processes for additional behavio
 ```
 
 #### Associated Analytic Story
-* [Domain Trust Discovery](_stories/domain_trust_discovery)
+* [Domain Trust Discovery](/stories/domain_trust_discovery)
 
 
 #### How To Implement

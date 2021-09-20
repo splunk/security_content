@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search will return a table of rare processes, the names of the systems running them, and the users who initiated each process.
 
+- **ID**: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
@@ -50,9 +51,9 @@ This search will return a table of rare processes, the names of the systems runn
 ```
 
 #### Associated Analytic Story
-* [Emotet Malware  DHS Report TA18-201A ](_stories/emotet_malware__dhs_report_ta18-201a_)
-* [Unusual Processes](_stories/unusual_processes)
-* [Cloud Federated Credential Abuse](_stories/cloud_federated_credential_abuse)
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+* [Unusual Processes](/stories/unusual_processes)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
 #### How To Implement

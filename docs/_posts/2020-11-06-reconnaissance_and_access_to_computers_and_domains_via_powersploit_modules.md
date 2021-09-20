@@ -26,6 +26,7 @@ tags:
 
 This detection identifies access to PowerSploit modules that discover computers, servers and domains that can be accessed or taken over.
 
+- **ID**: fe1c4c5a-09f3-4b43-8129-560a7f38a08b
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -53,7 +54,7 @@ This detection identifies access to PowerSploit modules that discover computers,
 ```
 
 #### Associated Analytic Story
-* [Windows Discovery Techniques](_stories/windows_discovery_techniques)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement

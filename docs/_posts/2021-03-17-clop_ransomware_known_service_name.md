@@ -24,6 +24,7 @@ tags:
 
 This detection is to identify the common service name created by the CLOP ransomware as part of its persistence and high privilege code execution in the infected machine. Ussually CLOP ransomware use StartServiceCtrlDispatcherW API in creating this service entry.
 
+- **ID**: 07e08a12-870c-11eb-b5f9-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-17
@@ -48,7 +49,7 @@ This detection is to identify the common service name created by the CLOP ransom
 ```
 
 #### Associated Analytic Story
-* [Clop Ransomware](_stories/clop_ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
 
 
 #### How To Implement

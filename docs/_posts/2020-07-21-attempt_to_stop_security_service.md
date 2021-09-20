@@ -24,6 +24,7 @@ tags:
 
 This search looks for attempts to stop security-related services on the endpoint.
 
+- **ID**: c8e349c6-b97c-486e-8949-bd7bcd1f3910
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -51,8 +52,8 @@ This search looks for attempts to stop security-related services on the endpoint
 ```
 
 #### Associated Analytic Story
-* [Disabling Security Tools](_stories/disabling_security_tools)
-* [Trickbot](_stories/trickbot)
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [Trickbot](/stories/trickbot)
 
 
 #### How To Implement

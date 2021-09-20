@@ -22,6 +22,7 @@ tags:
 
 This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An account was successfully logged on) with an anonymous account.
 
+- **ID**: 1400624a-d42d-484d-8843-e6753e6e3645
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-09-18
@@ -44,7 +45,7 @@ This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An ac
 ```
 
 #### Associated Analytic Story
-* [Detect Zerologon Attack](_stories/detect_zerologon_attack)
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
 
 
 #### How To Implement

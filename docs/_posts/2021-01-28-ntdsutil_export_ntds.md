@@ -25,6 +25,7 @@ Monitor for signs that Ntdsutil is being used to Extract Active Directory databa
 ntdsutil &#34;ac i ntds&#34; &#34;ifm&#34; &#34;create full C:\Temp&#34; q q \
 This technique uses &#34;Install from Media&#34; (IFM), which will extract a copy of the Active Directory database. A successful export of the Active Directory database will yield a file modification named ntds.dit to the destination.
 
+- **ID**: da63bc76-61ae-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-28
@@ -50,8 +51,8 @@ This technique uses &#34;Install from Media&#34; (IFM), which will extract a cop
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
-* [HAFNIUM Group](_stories/hafnium_group)
+* [Credential Dumping](/stories/credential_dumping)
+* [HAFNIUM Group](/stories/hafnium_group)
 
 
 #### How To Implement

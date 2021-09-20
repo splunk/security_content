@@ -22,6 +22,7 @@ tags:
 
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done during business hours. When done outside business hours, we want to take a look into it.
 
+- **ID**: d4c4d4eb-3994-41ca-a25e-a82d64e125bb
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-19
@@ -47,7 +48,7 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 ```
 
 #### Associated Analytic Story
-* [Dev Sec Ops](_stories/dev_sec_ops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

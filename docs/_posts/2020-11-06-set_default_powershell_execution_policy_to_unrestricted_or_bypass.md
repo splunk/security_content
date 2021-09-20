@@ -24,6 +24,7 @@ tags:
 
 Monitor for changes of the ExecutionPolicy in the registry to the values &#34;unrestricted&#34; or &#34;bypass,&#34; which allows the execution of malicious scripts.
 
+- **ID**: c2590137-0b08-4985-9ec5-6ae23d92f63d
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-06
@@ -49,9 +50,9 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 ```
 
 #### Associated Analytic Story
-* [Malicious PowerShell](_stories/malicious_powershell)
-* [Credential Dumping](_stories/credential_dumping)
-* [HAFNIUM Group](_stories/hafnium_group)
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Credential Dumping](/stories/credential_dumping)
+* [HAFNIUM Group](/stories/hafnium_group)
 
 
 #### How To Implement

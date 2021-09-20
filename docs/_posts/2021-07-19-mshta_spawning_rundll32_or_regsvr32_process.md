@@ -23,6 +23,7 @@ tags:
 
 This search is to detect a suspicious mshta.exe process that spawn rundll32 or regsvr32 child process. This technique was seen in several malware nowadays like trickbot to load its initial .dll stage loader to execute and download the the actual trickbot payload.
 
+- **ID**: 4aa5d062-e893-11eb-9eb2-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-19
@@ -48,8 +49,8 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 ```
 
 #### Associated Analytic Story
-* [Trickbot](_stories/trickbot)
-* [IcedID](_stories/icedid)
+* [Trickbot](/stories/trickbot)
+* [IcedID](/stories/icedid)
 
 
 #### How To Implement

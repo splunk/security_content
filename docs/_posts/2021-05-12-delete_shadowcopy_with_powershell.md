@@ -23,6 +23,7 @@ tags:
 
 This following analytic detects PowerShell command to delete shadow copy using the WMIC PowerShell module. This technique was seen used by a recent adversary to deploy DarkSide Ransomware where it executed a child process of PowerShell to execute a hex encoded command to delete shadow copy. This hex encoded command was able to be decrypted by PowerShell log.
 
+- **ID**: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-12
@@ -47,9 +48,9 @@ This following analytic detects PowerShell command to delete shadow copy using t
 ```
 
 #### Associated Analytic Story
-* [DarkSide Ransomware](_stories/darkside_ransomware)
-* [Ransomware](_stories/ransomware)
-* [Revil Ransomware](_stories/revil_ransomware)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
 
 
 #### How To Implement

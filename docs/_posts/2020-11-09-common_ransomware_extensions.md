@@ -23,6 +23,7 @@ tags:
 
 The search looks for file modifications with extensions commonly used by Ransomware
 
+- **ID**: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
@@ -50,10 +51,10 @@ The search looks for file modifications with extensions commonly used by Ransomw
 ```
 
 #### Associated Analytic Story
-* [SamSam Ransomware](_stories/samsam_ransomware)
-* [Ryuk Ransomware](_stories/ryuk_ransomware)
-* [Ransomware](_stories/ransomware)
-* [Clop Ransomware](_stories/clop_ransomware)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
 
 
 #### How To Implement

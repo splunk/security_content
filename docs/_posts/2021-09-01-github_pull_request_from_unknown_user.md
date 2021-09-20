@@ -23,6 +23,7 @@ tags:
 
 This search looks for Pull Request from unknown user.
 
+- **ID**: 9d7b9100-8878-4404-914e-ca5e551a641e
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
@@ -49,7 +50,7 @@ This search looks for Pull Request from unknown user.
 ```
 
 #### Associated Analytic Story
-* [Dev Sec Ops](_stories/dev_sec_ops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

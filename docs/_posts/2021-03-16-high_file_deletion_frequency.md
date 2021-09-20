@@ -23,6 +23,7 @@ tags:
 
 This search looks for high frequency of file deletion relative to process name and process id. These events usually happen when the ransomware tries to encrypt the files with the ransomware file extensions and sysmon treat the original files to be deleted as soon it was replace as encrypted data.
 
+- **ID**: 45b125c4-866f-11eb-a95a-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-16
@@ -48,7 +49,7 @@ This search looks for high frequency of file deletion relative to process name a
 ```
 
 #### Associated Analytic Story
-* [Clop Ransomware](_stories/clop_ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
 
 
 #### How To Implement

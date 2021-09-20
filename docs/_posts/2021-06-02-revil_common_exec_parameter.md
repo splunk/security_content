@@ -23,6 +23,7 @@ tags:
 
 This analytic identifies suspicious commandline parameter that are commonly used by REVIL ransomware to encrypts the compromise machine.
 
+- **ID**: 85facebe-c382-11eb-9c3e-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
@@ -48,8 +49,8 @@ This analytic identifies suspicious commandline parameter that are commonly used
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
-* [Revil Ransomware](_stories/revil_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
 
 
 #### How To Implement

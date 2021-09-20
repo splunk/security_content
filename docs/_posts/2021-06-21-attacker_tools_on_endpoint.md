@@ -31,6 +31,7 @@ tags:
 
 This search looks for execution of commonly used attacker tools on an endpoint.
 
+- **ID**: a51bfe1a-94f0-48cc-b4e4-16a110145893
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-21
@@ -58,10 +59,10 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 ```
 
 #### Associated Analytic Story
-* [Monitor for Unauthorized Software](_stories/monitor_for_unauthorized_software)
-* [XMRig](_stories/xmrig)
-* [SamSam Ransomware](_stories/samsam_ransomware)
-* [Unusual Processes](_stories/unusual_processes)
+* [Monitor for Unauthorized Software](/stories/monitor_for_unauthorized_software)
+* [XMRig](/stories/xmrig)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Unusual Processes](/stories/unusual_processes)
 
 
 #### How To Implement

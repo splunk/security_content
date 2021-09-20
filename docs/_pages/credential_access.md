@@ -2,7 +2,7 @@
 title: Credential Access
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
+taxonomy: Credential Access
 permalink: /detections/credential_access
 sidebar:
   nav: "detections"

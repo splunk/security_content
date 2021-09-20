@@ -23,6 +23,7 @@ tags:
 
 This search looks for reg.exe being launched from a command prompt not started by the user. When a user launches cmd.exe, the parent process is usually explorer.exe. This search filters out those instances.
 
+- **ID**: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-22
@@ -56,9 +57,9 @@ This search looks for reg.exe being launched from a command prompt not started b
 ```
 
 #### Associated Analytic Story
-* [Windows Defense Evasion Tactics](_stories/windows_defense_evasion_tactics)
-* [Disabling Security Tools](_stories/disabling_security_tools)
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 
 
 #### How To Implement

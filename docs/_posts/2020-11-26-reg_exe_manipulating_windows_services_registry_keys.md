@@ -25,6 +25,7 @@ tags:
 
 The search looks for reg.exe modifying registry keys that define Windows services and their configurations.
 
+- **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-26
@@ -50,8 +51,8 @@ The search looks for reg.exe modifying registry keys that define Windows service
 ```
 
 #### Associated Analytic Story
-* [Windows Service Abuse](_stories/windows_service_abuse)
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Windows Service Abuse](/stories/windows_service_abuse)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

@@ -21,6 +21,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for unusually long strings in the Content-Type http header that the client sends the server.
 
+- **ID**: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2017-10-13
@@ -39,7 +40,7 @@ This search looks for unusually long strings in the Content-Type http header tha
 ```
 
 #### Associated Analytic Story
-* [Apache Struts Vulnerability](_stories/apache_struts_vulnerability)
+* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
 
 
 #### How To Implement

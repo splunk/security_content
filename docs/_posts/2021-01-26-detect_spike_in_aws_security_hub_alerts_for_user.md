@@ -20,6 +20,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for a spike in number of of AWS security Hub alerts for an AWS IAM User in 4 hours intervals.
 
+- **ID**: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -43,7 +44,7 @@ This search looks for a spike in number of of AWS security Hub alerts for an AWS
 ```
 
 #### Associated Analytic Story
-* [AWS Security Hub Alerts](_stories/aws_security_hub_alerts)
+* [AWS Security Hub Alerts](/stories/aws_security_hub_alerts)
 
 
 #### How To Implement

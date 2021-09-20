@@ -24,6 +24,7 @@ tags:
 Adversaries may abuse Regsvr32.exe to proxy execution of malicious code. Regsvr32.exe is a command-line program used to register and unregister object linking and embedding controls, including dynamic link libraries (DLLs), on Windows systems. Regsvr32.exe is also a Microsoft signed binary.This variation of the technique is often referred to as a &#34;Squiblydoo&#34; attack. \
 Upon investigating, look for network connections to remote destinations (internal or external). Be cautious to modify the query to look for &#34;scrobj.dll&#34;, the &#34;.dll&#34; is not required to load scrobj. &#34;scrobj.dll&#34; will be loaded by &#34;regsvr32.exe&#34; upon execution. 
 
+- **ID**: 070e9b80-6252-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-28
@@ -49,8 +50,8 @@ Upon investigating, look for network connections to remote destinations (interna
 ```
 
 #### Associated Analytic Story
-* [Suspicious Regsvr32 Activity](_stories/suspicious_regsvr32_activity)
-* [Cobalt Strike](_stories/cobalt_strike)
+* [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
+* [Cobalt Strike](/stories/cobalt_strike)
 
 
 #### How To Implement

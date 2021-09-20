@@ -21,6 +21,7 @@ tags:
 
 This analytic will identify suspicious series of command-line to disable several services. This technique is seen where the adversary attempts to disable security app services or other malware services to complete the objective on the compromised system.
 
+- **ID**: afb31de4-d023-11eb-98d5-acde48001122
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-18
@@ -47,8 +48,8 @@ This analytic will identify suspicious series of command-line to disable several
 ```
 
 #### Associated Analytic Story
-* [XMRig](_stories/xmrig)
-* [Ransomware](_stories/ransomware)
+* [XMRig](/stories/xmrig)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

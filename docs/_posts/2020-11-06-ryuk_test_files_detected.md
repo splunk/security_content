@@ -22,6 +22,7 @@ tags:
 
 The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Ryuk propagation.
 
+- **ID**: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -47,7 +48,7 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 ```
 
 #### Associated Analytic Story
-* [Ryuk Ransomware](_stories/ryuk_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
 
 
 #### How To Implement

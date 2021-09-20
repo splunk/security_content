@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for the remote desktop process mstsc.exe running on systems upon which it doesn&#39;t typically run. This is accomplished by filtering out all systems that are noted in the `common_rdp_source category` in the Assets and Identity framework.
 
+- **ID**: f5939373-8054-40ad-8c64-cec478a22a4a
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -50,8 +51,8 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 ```
 
 #### Associated Analytic Story
-* [Hidden Cobra Malware](_stories/hidden_cobra_malware)
-* [Lateral Movement](_stories/lateral_movement)
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Lateral Movement](/stories/lateral_movement)
 
 
 #### How To Implement

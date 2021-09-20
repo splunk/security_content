@@ -29,6 +29,7 @@ tags:
 
 This detection identifies use of PowerSploit modules for assessment of privilege escalation opportunities.
 
+- **ID**: b9b4492c-2af8-449b-beb4-b1b78d963321
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
@@ -56,7 +57,7 @@ This detection identifies use of PowerSploit modules for assessment of privilege
 ```
 
 #### Associated Analytic Story
-* [Windows Discovery Techniques](_stories/windows_discovery_techniques)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement

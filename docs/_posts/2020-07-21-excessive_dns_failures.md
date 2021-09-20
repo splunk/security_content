@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.
 
+- **ID**: 104658f4-afdc-499e-9719-17243f9826f1
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-07-21
@@ -55,8 +56,8 @@ This search identifies DNS query failures by counting the number of DNS response
 ```
 
 #### Associated Analytic Story
-* [Suspicious DNS Traffic](_stories/suspicious_dns_traffic)
-* [Command and Control](_stories/command_and_control)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Command and Control](/stories/command_and_control)
 
 
 #### How To Implement

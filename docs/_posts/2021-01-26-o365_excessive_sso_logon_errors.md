@@ -25,6 +25,7 @@ tags:
 
 This search detects accounts with high number of Single Sign ON (SSO) logon errors. Excessive logon errors may indicate attempts to bruteforce of password or single sign on token hijack or reuse.
 
+- **ID**: 8158ccc4-6038-11eb-ae93-0242ac130002
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -50,8 +51,8 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
-* [Cloud Federated Credential Abuse](_stories/cloud_federated_credential_abuse)
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
 #### How To Implement

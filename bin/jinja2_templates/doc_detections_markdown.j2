@@ -39,6 +39,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 {{ detection.description }}
 
+- **ID**: {{ detection.id }}
 - **Product**: {{ detection.tags.product|join(', ') }}
 - **Datamodel**: {% for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
 - **Last Updated**: {{ detection.date }}
@@ -68,7 +69,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 #### Associated Analytic Story
 {% for story in detection.tags.analytic_story -%}
-* [{{ story }}](_stories/{{story|lower|replace(" ", "_")}})
+* [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
 {% endfor %}
 
 #### How To Implement

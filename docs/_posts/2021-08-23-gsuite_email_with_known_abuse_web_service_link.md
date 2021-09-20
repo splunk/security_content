@@ -22,6 +22,7 @@ tags:
 
 This analytics is to detect a gmail containing a link that are known to be abused by malware or attacker like pastebin, telegram and discord to deliver malicious payload. This event can encounter some normal email traffic within organization and external email that normally using this application and services.
 
+- **ID**: 8630aa22-042b-11ec-af39-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
@@ -49,7 +50,7 @@ This analytics is to detect a gmail containing a link that are known to be abuse
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](_stories/devsecops)
+* [DevSecOps](/stories/devsecops)
 
 
 #### How To Implement

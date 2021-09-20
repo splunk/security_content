@@ -23,6 +23,7 @@ tags:
 
 This search looks for registry activity associated with application compatibility shims, which can be leveraged by attackers for various nefarious purposes.
 
+- **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-26
@@ -48,8 +49,8 @@ This search looks for registry activity associated with application compatibilit
 ```
 
 #### Associated Analytic Story
-* [Suspicious Windows Registry Activities](_stories/suspicious_windows_registry_activities)
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

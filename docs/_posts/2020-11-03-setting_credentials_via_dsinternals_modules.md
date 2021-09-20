@@ -29,6 +29,7 @@ tags:
 
 This detection identifies illegal setting of credentials via DSInternals modules.
 
+- **ID**: d5ef590f-9bde-49eb-9c63-2f5b62a65b9c
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
@@ -56,7 +57,7 @@ This detection identifies illegal setting of credentials via DSInternals modules
 ```
 
 #### Associated Analytic Story
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

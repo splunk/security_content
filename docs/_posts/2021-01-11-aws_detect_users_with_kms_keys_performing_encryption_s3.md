@@ -22,6 +22,7 @@ tags:
 
 This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
 
+- **ID**: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
@@ -47,7 +48,7 @@ This search provides detection of users with KMS keys performing encryption spec
 ```
 
 #### Associated Analytic Story
-* [Ransomware Cloud](_stories/ransomware_cloud)
+* [Ransomware Cloud](/stories/ransomware_cloud)
 
 
 #### How To Implement

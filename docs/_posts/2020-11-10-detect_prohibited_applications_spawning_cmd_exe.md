@@ -23,6 +23,7 @@ tags:
 
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe.
 
+- **ID**: dcfd6b40-42f9-469d-a433-2e53f7486664
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
@@ -49,10 +50,10 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 ```
 
 #### Associated Analytic Story
-* [Suspicious Command-Line Executions](_stories/suspicious_command-line_executions)
-* [Suspicious MSHTA Activity](_stories/suspicious_mshta_activity)
-* [Suspicious Zoom Child Processes](_stories/suspicious_zoom_child_processes)
-* [NOBELIUM Group](_stories/nobelium_group)
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
+* [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes)
+* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### How To Implement

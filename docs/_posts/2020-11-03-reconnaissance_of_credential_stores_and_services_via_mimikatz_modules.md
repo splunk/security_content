@@ -38,6 +38,7 @@ tags:
 
 This detection identifies reconnaissance of credential stores and use of CryptoAPI services by Mimikatz modules.
 
+- **ID**: 5facee5b-79e4-47ab-b0e6-c625acc0554f
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
@@ -65,7 +66,7 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 ```
 
 #### Associated Analytic Story
-* [Windows Discovery Techniques](_stories/windows_discovery_techniques)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement

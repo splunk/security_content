@@ -20,6 +20,7 @@ tags:
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Mimikatz is a collection of tools and modules commonly employed in Windows exploits.
 
+- **ID**: 966b635f-98e8-4aa4-9b49-47ed2cedcc85
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
@@ -47,8 +48,8 @@ Credential extraction is often an illegal recovery of credential material from s
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
-* [Unusual Processes](_stories/unusual_processes)
+* [Credential Dumping](/stories/credential_dumping)
+* [Unusual Processes](/stories/unusual_processes)
 
 
 #### How To Implement

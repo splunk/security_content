@@ -25,6 +25,7 @@ tags:
 
 This search looks for flags passed to schtasks.exe on the command-line that indicate a job is being scheduled on a remote system.
 
+- **ID**: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -50,8 +51,8 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](_stories/lateral_movement)
-* [NOBELIUM Group](_stories/nobelium_group)
+* [Lateral Movement](/stories/lateral_movement)
+* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### How To Implement

@@ -33,6 +33,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect ARP Poisoning attacks in the Infrastructure.
 
+- **ID**: b44bebd6-bd39-467b-9321-73971bcd7aac
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-08-11
@@ -58,7 +59,7 @@ By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organiza
 ```
 
 #### Associated Analytic Story
-* [Router and Infrastructure Security](_stories/router_and_infrastructure_security)
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
 #### How To Implement

@@ -26,6 +26,7 @@ tags:
 
 This search looks for AWS CloudTrail events where a user has set a default policy versions. Attackers have been know to use this technique for Privilege Escalation in case the previous versions of the policy had permissions to access more resources than the current version of the policy
 
+- **ID**: 2a9b80d3-6340-4345-11ad-212bf3d0dac4
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-03-02
@@ -50,7 +51,7 @@ This search looks for AWS CloudTrail events where a user has set a default polic
 ```
 
 #### Associated Analytic Story
-* [AWS IAM Privilege Escalation](_stories/aws_iam_privilege_escalation)
+* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 
 
 #### How To Implement

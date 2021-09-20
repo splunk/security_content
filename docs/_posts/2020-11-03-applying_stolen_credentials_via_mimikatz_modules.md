@@ -60,6 +60,7 @@ tags:
 
 This detection indicates use of Mimikatz modules that facilitate Pass-the-Token attack, Golden or Silver kerberos ticket attack, and Skeleton key attack.
 
+- **ID**: 759a653f-cb92-40f9-94c9-ec4e47b0f709
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
@@ -86,7 +87,7 @@ This detection indicates use of Mimikatz modules that facilitate Pass-the-Token 
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

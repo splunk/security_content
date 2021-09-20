@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for the creation of WMI permanent event subscriptions.
 
+- **ID**: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-10-23
@@ -52,7 +53,7 @@ This search looks for the creation of WMI permanent event subscriptions.
 ```
 
 #### Associated Analytic Story
-* [Suspicious WMI Use](_stories/suspicious_wmi_use)
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
 #### How To Implement

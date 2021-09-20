@@ -23,6 +23,7 @@ tags:
 
 This search is to detect dropping a suspicious file named as &#34;license.dat&#34; in %appdata%. This behavior seen in latest IcedID malware that contain the actual core bot that will be injected in other process to do banking stealing.
 
+- **ID**: b7a045fc-f14a-11eb-8e79-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-30
@@ -47,7 +48,7 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 ```
 
 #### Associated Analytic Story
-* [IcedID](_stories/icedid)
+* [IcedID](/stories/icedid)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 This search looks for scripts launched via WMI.
 
+- **ID**: aa73f80d-d728-4077-b226-81ea0c8be589
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
@@ -48,7 +49,7 @@ This search looks for scripts launched via WMI.
 ```
 
 #### Associated Analytic Story
-* [Suspicious WMI Use](_stories/suspicious_wmi_use)
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
 #### How To Implement

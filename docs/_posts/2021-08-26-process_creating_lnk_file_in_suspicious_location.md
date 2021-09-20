@@ -24,6 +24,7 @@ tags:
 
 This search looks for a process launching an `*.lnk` file under `C:\User*` or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.
 
+- **ID**: 5d814af1-1041-47b5-a9ac-d754e82e9a26
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-26
@@ -56,7 +57,7 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 ```
 
 #### Associated Analytic Story
-* [Spearphishing Attachments](_stories/spearphishing_attachments)
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
 #### How To Implement

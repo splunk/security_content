@@ -29,6 +29,7 @@ tags:
 
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
+- **ID**: 01fc7d91-eb0c-478e-8633-e4fa4904463a
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -56,7 +57,7 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 ```
 
 #### Associated Analytic Story
-* [Malicious PowerShell](_stories/malicious_powershell)
+* [Malicious PowerShell](/stories/malicious_powershell)
 
 
 #### How To Implement

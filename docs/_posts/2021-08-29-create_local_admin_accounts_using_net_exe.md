@@ -23,6 +23,7 @@ tags:
 
 This search looks for the creation of local administrator accounts using net.exe .
 
+- **ID**: b89919ed-fe5f-492c-b139-151bb162040e
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-29
@@ -48,7 +49,7 @@ This search looks for the creation of local administrator accounts using net.exe
 ```
 
 #### Associated Analytic Story
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 
 
 #### How To Implement

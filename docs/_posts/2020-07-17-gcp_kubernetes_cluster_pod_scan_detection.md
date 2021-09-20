@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster&#39;s pods
 
+- **ID**: 19b53215-4a16-405b-8087-9e6acf619842
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-17
@@ -48,7 +49,7 @@ This search provides information of unauthenticated requests via user agent, and
 ```
 
 #### Associated Analytic Story
-* [Kubernetes Scanning Activity](_stories/kubernetes_scanning_activity)
+* [Kubernetes Scanning Activity](/stories/kubernetes_scanning_activity)
 
 
 #### How To Implement

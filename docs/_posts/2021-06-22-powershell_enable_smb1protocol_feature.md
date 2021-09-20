@@ -23,6 +23,7 @@ tags:
 
 This search is to detect a suspicious enabling of smb1protocol through &#34;powershell.exe&#34;. This technique was seen in some ransomware (like reddot) where it enable smb share to do the lateral movement and encrypt other files within the compromise network system.
 
+- **ID**: afed80b2-d34b-11eb-a952-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-22
@@ -47,8 +48,8 @@ This search is to detect a suspicious enabling of smb1protocol through &#34;powe
 ```
 
 #### Associated Analytic Story
-* [Malicious PowerShell](_stories/malicious_powershell)
-* [Ransomware](_stories/ransomware)
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

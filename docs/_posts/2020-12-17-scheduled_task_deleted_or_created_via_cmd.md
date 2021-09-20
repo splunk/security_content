@@ -25,6 +25,7 @@ tags:
 
 This search looks for flags passed to schtasks.exe on the command-line that indicate a task was created via command like. This has been associated with the Dragonfly threat actor, and the SUNBURST attack against Solarwinds.
 
+- **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-17
@@ -50,8 +51,8 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 ```
 
 #### Associated Analytic Story
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
-* [NOBELIUM Group](_stories/nobelium_group)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### How To Implement

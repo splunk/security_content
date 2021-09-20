@@ -2,7 +2,7 @@
 title: Initial Access
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
+taxonomy: Initial Access
 permalink: /detections/initial_access
 sidebar:
   nav: "detections"

@@ -27,6 +27,7 @@ tags:
 
 This detection identifies use of DSInternals modules for illegal management of Active Directoty elements and policies.
 
+- **ID**: a587ca9f-c138-47b4-ba51-699f319b8cc5
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -54,7 +55,7 @@ This detection identifies use of DSInternals modules for illegal management of A
 ```
 
 #### Associated Analytic Story
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

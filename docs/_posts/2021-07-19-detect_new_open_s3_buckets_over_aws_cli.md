@@ -23,6 +23,7 @@ tags:
 
 This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket over the aws cli.
 
+- **ID**: 39c61d09-8b30-4154-922b-2d0a694ecc22
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
@@ -49,7 +50,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 ```
 
 #### Associated Analytic Story
-* [Suspicious AWS S3 Activities](_stories/suspicious_aws_s3_activities)
+* [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
 
 
 #### How To Implement

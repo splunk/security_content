@@ -22,6 +22,7 @@ tags:
 
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings with the results.
 
+- **ID**: 62721bd2-1d82-4623-b6e6-aac170014423
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-17
@@ -52,7 +53,7 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 ```
 
 #### Associated Analytic Story
-* [Dev Sec Ops](_stories/dev_sec_ops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

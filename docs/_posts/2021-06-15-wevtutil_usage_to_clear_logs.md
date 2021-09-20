@@ -21,6 +21,7 @@ tags:
 
 The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, powershell, sysmon, or system event logs.
 
+- **ID**: 5438113c-cdd9-11eb-93b8-acde48001122
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-15
@@ -46,9 +47,9 @@ The wevtutil.exe application is the windows event log utility. This searches for
 ```
 
 #### Associated Analytic Story
-* [Windows Log Manipulation](_stories/windows_log_manipulation)
-* [Ransomware](_stories/ransomware)
-* [Clop Ransomware](_stories/clop_ransomware)
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
 
 
 #### How To Implement

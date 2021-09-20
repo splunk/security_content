@@ -58,6 +58,7 @@ tags:
 
 Stolen credentials are applied by methods such as user impersonation, credential injection, spoofing of authentication processes or getting hold of critical accounts. This detection indicates such activities carried out by PowerSploit exploit kit APIs.
 
+- **ID**: 270b482d-2af2-448f-9923-9cf005f61be4
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
@@ -85,7 +86,7 @@ Stolen credentials are applied by methods such as user impersonation, credential
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

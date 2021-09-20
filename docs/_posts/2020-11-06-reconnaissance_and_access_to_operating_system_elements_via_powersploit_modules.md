@@ -41,6 +41,7 @@ tags:
 
 This detection identifies access to PowerSploit modules that discover and access operating system elements, such as processes, services, registry locations, security packages and files.
 
+- **ID**: c1d33ad9-1727-4f9f-a474-4adbe4fed68a
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -68,7 +69,7 @@ This detection identifies access to PowerSploit modules that discover and access
 ```
 
 #### Associated Analytic Story
-* [Windows Discovery Techniques](_stories/windows_discovery_techniques)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement

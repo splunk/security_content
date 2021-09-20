@@ -23,6 +23,7 @@ tags:
 
 This analytic identifies a potential adversary that changes the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft or coinminer scripts. This behavior is meant to evade detection and prevent access to their component files.
 
+- **ID**: cf8d753e-a8fe-11eb-8f58-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-29
@@ -48,7 +49,7 @@ This analytic identifies a potential adversary that changes the security permiss
 ```
 
 #### Associated Analytic Story
-* [XMRig](_stories/xmrig)
+* [XMRig](/stories/xmrig)
 
 
 #### How To Implement

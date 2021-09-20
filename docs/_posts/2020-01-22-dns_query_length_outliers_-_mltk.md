@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.
 
+- **ID**: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-01-22
@@ -57,9 +58,9 @@ This search allows you to identify DNS requests that are unusually large for the
 ```
 
 #### Associated Analytic Story
-* [Hidden Cobra Malware](_stories/hidden_cobra_malware)
-* [Suspicious DNS Traffic](_stories/suspicious_dns_traffic)
-* [Command and Control](_stories/command_and_control)
+* [Hidden Cobra Malware](/stories/hidden_cobra_malware)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Command and Control](/stories/command_and_control)
 
 
 #### How To Implement

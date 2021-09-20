@@ -23,6 +23,7 @@ tags:
 
 This search is to detect a suspicious excessive usage of sc.exe in a host machine. This technique was seen in several ransomware , xmrig and other malware to create, modify, delete or disable a service may related to security application or to gain privilege escalation.
 
+- **ID**: cb6b339e-d4c6-11eb-a026-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-24
@@ -52,7 +53,7 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

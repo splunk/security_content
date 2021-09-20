@@ -24,6 +24,7 @@ tags:
 
 This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.
 
+- **ID**: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -49,12 +50,12 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 ```
 
 #### Associated Analytic Story
-* [Windows Service Abuse](_stories/windows_service_abuse)
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
-* [Orangeworm Attack Group](_stories/orangeworm_attack_group)
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
-* [Disabling Security Tools](_stories/disabling_security_tools)
-* [NOBELIUM Group](_stories/nobelium_group)
+* [Windows Service Abuse](/stories/windows_service_abuse)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [Orangeworm Attack Group](/stories/orangeworm_attack_group)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### How To Implement

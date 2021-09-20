@@ -27,6 +27,7 @@ Within the proof of concept code, the following error will occur - &#34;The prin
 The analytic is based on file path and failure to load the plug-in. \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
 
+- **ID**: 1adc9548-da7c-11eb-8f13-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
@@ -51,7 +52,7 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 ```
 
 #### Associated Analytic Story
-* [PrintNightmare CVE-2021-34527](_stories/printnightmare_cve-2021-34527)
+* [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527)
 
 
 #### How To Implement

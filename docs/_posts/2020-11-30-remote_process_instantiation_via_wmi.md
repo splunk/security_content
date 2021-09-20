@@ -23,6 +23,7 @@ tags:
 
 This search looks for wmic.exe being launched with parameters to spawn a process on a remote system.
 
+- **ID**: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-30
@@ -48,8 +49,8 @@ This search looks for wmic.exe being launched with parameters to spawn a process
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
-* [Suspicious WMI Use](_stories/suspicious_wmi_use)
+* [Ransomware](/stories/ransomware)
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
 #### How To Implement

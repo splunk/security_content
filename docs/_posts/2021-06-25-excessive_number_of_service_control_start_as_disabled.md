@@ -23,6 +23,7 @@ tags:
 
 This detection targets behaviors observed when threat actors have used sc.exe to modify services. We observed malware in a honey pot spawning numerous sc.exe processes in a short period of time, presumably to impair defenses, possibly to block others from compromising the same machine.  This detection will alert when we see both an excessive number of sc.exe processes launched with specific commandline arguments to disable the start of certain services.
 
+- **ID**: 77592bec-d5cc-11eb-9e60-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-25
@@ -49,7 +50,7 @@ This detection targets behaviors observed when threat actors have used sc.exe to
 ```
 
 #### Associated Analytic Story
-* [Windows Defense Evasion Tactics](_stories/windows_defense_evasion_tactics)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
 #### How To Implement

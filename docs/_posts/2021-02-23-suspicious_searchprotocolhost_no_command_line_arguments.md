@@ -23,6 +23,7 @@ tags:
 
 The following analytic identifies searchprotocolhost.exe with no command line arguments. It is unusual for searchprotocolhost.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. searchprotocolhost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
+- **ID**: f52d2db8-31f9-4aa7-a176-25779effe55c
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-23
@@ -49,7 +50,7 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 ```
 
 #### Associated Analytic Story
-* [Cobalt Strike](_stories/cobalt_strike)
+* [Cobalt Strike](/stories/cobalt_strike)
 
 
 #### How To Implement

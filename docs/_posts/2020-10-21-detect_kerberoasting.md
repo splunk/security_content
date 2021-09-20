@@ -20,6 +20,7 @@ tags:
 
 This search detects a potential kerberoasting attack via service principal name requests
 
+- **ID**: dabdd6d7-3e10-42be-8711-4e124f7a3850
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
@@ -48,7 +49,7 @@ This search detects a potential kerberoasting attack via service principal name 
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 This search is to detect a suspicious bcdedit.exe execution to ignore all failures. This technique was used by ransomware to prevent the compromise machine automatically boot in repair mode.
 
+- **ID**: 7742aa92-c9d9-11eb-bbfc-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-10
@@ -48,7 +49,7 @@ This search is to detect a suspicious bcdedit.exe execution to ignore all failur
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 The following detection identifies the latest behavior utilized by different malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `bitsadmin.exe`. In malicious instances, the command-line of `bitsadmin.exe` will contain a URL to a remote destination or similar command-line arguments as transfer, Download, priority, Foreground. In addition, Threat Research has released a detections identifying suspicious use of `bitsadmin.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `bitsadmin.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
 
+- **ID**: e8c591f4-a6d7-11eb-8cf7-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-26
@@ -48,7 +49,7 @@ The following detection identifies the latest behavior utilized by different mal
 ```
 
 #### Associated Analytic Story
-* [Spearphishing Attachments](_stories/spearphishing_attachments)
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
 #### How To Implement

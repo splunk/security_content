@@ -20,6 +20,7 @@ tags:
 
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
+- **ID**: 14038953-e5f2-4daf-acff-5452062baf03
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-6-04
@@ -47,7 +48,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

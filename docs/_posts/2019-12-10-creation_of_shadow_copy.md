@@ -23,6 +23,7 @@ tags:
 
 Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 
+- **ID**: eb120f5f-b879-4a63-97c1-93352b5df844
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-12-10
@@ -48,7 +49,7 @@ Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

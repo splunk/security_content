@@ -23,6 +23,7 @@ tags:
 
 The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior is indicative of a DCOM object being utilized to spawn mshta from wmiprvse.exe or svchost.exe. In this instance, adversaries may use LethalHTA that will spawn mshta.exe from svchost.exe.
 
+- **ID**: 4d33a488-5b5f-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-20
@@ -48,7 +49,7 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 ```
 
 #### Associated Analytic Story
-* [Suspicious MSHTA Activity](_stories/suspicious_mshta_activity)
+* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
 
 
 #### How To Implement

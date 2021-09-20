@@ -23,6 +23,7 @@ tags:
 
 This search is to detect potential DNS exfiltration using nslookup application. This technique are seen in couple of malware and APT group to exfiltrated collected data in a infected machine or infected network. This detection is looking for unique use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are commonly used by attacker and also the retry parameter which is designed to query C2 DNS multiple tries.
 
+- **ID**: 0a69fdaa-a2b8-11eb-b16d-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-21
@@ -52,10 +53,10 @@ This search is to detect potential DNS exfiltration using nslookup application. 
 ```
 
 #### Associated Analytic Story
-* [Suspicious DNS Traffic](_stories/suspicious_dns_traffic)
-* [Dynamic DNS](_stories/dynamic_dns)
-* [Command and Control](_stories/command_and_control)
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Suspicious DNS Traffic](/stories/suspicious_dns_traffic)
+* [Dynamic DNS](/stories/dynamic_dns)
+* [Command and Control](/stories/command_and_control)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

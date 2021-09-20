@@ -26,6 +26,7 @@ tags:
 
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
+- **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-04
@@ -53,7 +54,7 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 ```
 
 #### Associated Analytic Story
-* [Windows Privilege Escalation](_stories/windows_privilege_escalation)
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 
 
 #### How To Implement

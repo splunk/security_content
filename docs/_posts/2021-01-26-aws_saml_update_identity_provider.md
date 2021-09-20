@@ -25,6 +25,7 @@ tags:
 
 This search provides detection of updates to SAML provider in AWS. Updates to SAML provider need to be monitored closely as they may indicate possible perimeter compromise of federated credentials, or backdoor access from another cloud provider set by attacker.
 
+- **ID**: 2f0604c6-6030-11eb-ae93-0242ac130002
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -49,7 +50,7 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 ```
 
 #### Associated Analytic Story
-* [Cloud Federated Credential Abuse](_stories/cloud_federated_credential_abuse)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
 #### How To Implement

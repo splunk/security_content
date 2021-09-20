@@ -26,6 +26,7 @@ tags:
 
 This detection identifies use of Mimikatz modules for discovery and access to services and processes.
 
+- **ID**: 0243d37c-57c1-4182-bfd1-39b212255fc8
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -53,7 +54,7 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 ```
 
 #### Associated Analytic Story
-* [Windows Discovery Techniques](_stories/windows_discovery_techniques)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement

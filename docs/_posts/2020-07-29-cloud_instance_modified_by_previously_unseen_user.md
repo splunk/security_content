@@ -26,6 +26,7 @@ tags:
 
 This search looks for cloud instances being modified by users who have not previously modified them.
 
+- **ID**: 7fb15084-b14e-405a-bd61-a6de15a40722
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-29
@@ -56,7 +57,7 @@ This search looks for cloud instances being modified by users who have not previ
 ```
 
 #### Associated Analytic Story
-* [Suspicious Cloud Instance Activities](_stories/suspicious_cloud_instance_activities)
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
 
 
 #### How To Implement

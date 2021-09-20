@@ -2,7 +2,7 @@
 title: Email
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
+taxonomy: Email
 permalink: /detections/email
 sidebar:
   nav: "detections"

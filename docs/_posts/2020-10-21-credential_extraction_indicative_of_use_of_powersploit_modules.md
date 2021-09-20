@@ -20,6 +20,7 @@ tags:
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. PowerSploit is a collection of Microsoft PowerShell modules commonly employed in exploits.
 
+- **ID**: 5f1186a4-e681-446e-851c-dc9574ad28eb
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
@@ -47,8 +48,8 @@ Credential extraction is often an illegal recovery of credential material from s
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
-* [Malicious PowerShell](_stories/malicious_powershell)
+* [Credential Dumping](/stories/credential_dumping)
+* [Malicious PowerShell](/stories/malicious_powershell)
 
 
 #### How To Implement

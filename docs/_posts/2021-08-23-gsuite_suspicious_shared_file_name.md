@@ -22,6 +22,7 @@ tags:
 
 This search is to detect a shared file in google drive with suspicious file name that are commonly used by spear phishing campaign. This technique is very popular to lure the user by running a malicious document or click a malicious link within the shared file that will redirected to malicious website. This detection can also catch some normal email communication between organization and its external customer.
 
+- **ID**: 07eed200-03f5-11ec-98fb-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
@@ -49,7 +50,7 @@ This search is to detect a shared file in google drive with suspicious file name
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](_stories/devsecops)
+* [DevSecOps](/stories/devsecops)
 
 
 #### How To Implement

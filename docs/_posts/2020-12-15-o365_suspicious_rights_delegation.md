@@ -23,6 +23,7 @@ tags:
 
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
+- **ID**: b25d2973-303e-47c8-bacd-52b61604c6a7
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-15
@@ -50,7 +51,7 @@ This search detects the assignment of rights to accesss content from another mai
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
+* [Office 365 Detections](/stories/office_365_detections)
 
 
 #### How To Implement

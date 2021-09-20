@@ -23,6 +23,7 @@ tags:
 
 this search is to detect potential malicious office document executing lolbin child process to download payload or other malware. Since most of the attacker abused the capability of office document to execute living on land application to blend it to the normal noise in the infected machine to cover its track.
 
+- **ID**: 6fed27d2-9ec7-11eb-8fe4-aa665a019aa3
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-23
@@ -47,7 +48,7 @@ this search is to detect potential malicious office document executing lolbin ch
 ```
 
 #### Associated Analytic Story
-* [Spearphishing Attachments](_stories/spearphishing_attachments)
+* [Spearphishing Attachments](/stories/spearphishing_attachments)
 
 
 #### How To Implement

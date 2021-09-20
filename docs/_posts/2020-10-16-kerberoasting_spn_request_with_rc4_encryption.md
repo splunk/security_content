@@ -22,6 +22,7 @@ tags:
 
 This search detects a potential kerberoasting attack via service principal name requests
 
+- **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-16
@@ -46,7 +47,7 @@ This search detects a potential kerberoasting attack via service principal name 
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](_stories/lateral_movement)
+* [Lateral Movement](/stories/lateral_movement)
 
 
 #### How To Implement

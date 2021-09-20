@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The search looks at the change-analysis data model and detects email files created outside the normal Outlook directory.
 
+- **ID**: ee18ed37-0802-4268-9435-b3b91aaa18xx
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -50,7 +51,7 @@ The search looks at the change-analysis data model and detects email files creat
 ```
 
 #### Associated Analytic Story
-* [Collection and Staging](_stories/collection_and_staging)
+* [Collection and Staging](/stories/collection_and_staging)
 
 
 #### How To Implement

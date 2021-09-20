@@ -23,6 +23,7 @@ tags:
 
 This search is to identify registry modification to disable folder options feature of windows to show hidden files, file extension and etc. This technique used by malware in combination if disabling show hidden files feature to hide their files and also to hide the file extension to lure the user base on file icons or fake file extensions.
 
+- **ID**: 83776de4-921a-11eb-868a-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
@@ -48,7 +49,7 @@ This search is to identify registry modification to disable folder options featu
 ```
 
 #### Associated Analytic Story
-* [Windows Defense Evasion Tactics](_stories/windows_defense_evasion_tactics)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
 #### How To Implement

@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for commands that the SNICat tool uses in the TLS SNI field.
 
+- **ID**: 82d06410-134c-11eb-adc1-0242ac120002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
@@ -59,7 +60,7 @@ This search looks for commands that the SNICat tool uses in the TLS SNI field.
 ```
 
 #### Associated Analytic Story
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

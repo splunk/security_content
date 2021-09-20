@@ -24,6 +24,7 @@ tags:
 
 This search is to detect a suspicious sdclt.exe registry modification. This technique is commonly seen when attacker try to bypassed UAC by using sdclt.exe application by modifying some registry that sdclt.exe tries to open or query with payload file path on it to be executed.
 
+- **ID**: d71efbf6-da63-11eb-8c6e-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
@@ -49,7 +50,7 @@ This search is to detect a suspicious sdclt.exe registry modification. This tech
 ```
 
 #### Associated Analytic Story
-* [Windows Defense Evasion Tactics](_stories/windows_defense_evasion_tactics)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 
 
 #### How To Implement

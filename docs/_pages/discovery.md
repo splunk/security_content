@@ -2,7 +2,7 @@
 title: Discovery
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
+taxonomy: Discovery
 permalink: /detections/discovery
 sidebar:
   nav: "detections"

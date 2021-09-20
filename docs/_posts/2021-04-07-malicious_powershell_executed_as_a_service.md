@@ -23,6 +23,7 @@ tags:
 
 This detection is to identify the abuse the Windows SC.exe to execute malicious commands or payloads via PowerShell.
 
+- **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-07
@@ -56,7 +57,7 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 ```
 
 #### Associated Analytic Story
-* [Malicious Powershell](_stories/malicious_powershell)
+* [Malicious Powershell](/stories/malicious_powershell)
 
 
 #### How To Implement

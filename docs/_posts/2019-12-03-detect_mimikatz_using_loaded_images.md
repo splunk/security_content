@@ -22,6 +22,7 @@ tags:
 
 This search looks for reading loaded Images unique to credential dumping with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon Event Code.
 
+- **ID**: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-03
@@ -48,10 +49,10 @@ This search looks for reading loaded Images unique to credential dumping with Mi
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
-* [Detect Zerologon Attack](_stories/detect_zerologon_attack)
-* [Cloud Federated Credential Abuse](_stories/cloud_federated_credential_abuse)
-* [DarkSide Ransomware](_stories/darkside_ransomware)
+* [Credential Dumping](/stories/credential_dumping)
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
 
 
 #### How To Implement

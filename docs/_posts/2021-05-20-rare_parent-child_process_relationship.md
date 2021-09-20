@@ -32,6 +32,7 @@ tags:
 
 An attacker may use LOLBAS tools spawned from vulnerable applications not typically used by system administrators. This search leverages the Splunk Streaming ML DSP plugin to find rare parent/child relationships. The list of application has been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 
+- **ID**: cf090c78-bcc6-11eb-8529-0242ac130003
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-05-20
@@ -64,7 +65,7 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 ```
 
 #### Associated Analytic Story
-* [Unusual Processes](_stories/unusual_processes)
+* [Unusual Processes](/stories/unusual_processes)
 
 
 #### How To Implement

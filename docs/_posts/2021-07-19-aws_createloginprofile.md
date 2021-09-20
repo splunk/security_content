@@ -23,6 +23,7 @@ tags:
 
 This search looks for AWS CloudTrail events where a user A(victim A) creates a login profile for user B, followed by a AWS Console login event from user B from the same src_ip as user B. This correlated event can be indicative of privilege escalation since both events happened from the same src_ip
 
+- **ID**: 2a9b80d3-6340-4345-11ad-212bf444d111
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
@@ -52,7 +53,7 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 ```
 
 #### Associated Analytic Story
-* [AWS IAM Privilege Escalation](_stories/aws_iam_privilege_escalation)
+* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 
 
 #### How To Implement

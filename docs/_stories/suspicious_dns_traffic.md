@@ -1,0 +1,46 @@
+---
+title: "Suspicious DNS Traffic"
+last_modified_at: 2017-09-18
+toc: true
+tags:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Endpoint
+  - Network_Resolution
+---
+
+#### Description
+
+Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
+
+- **ID**: 3c3835c0-255d-4f9e-ab84-e29ec9ec9b56
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Last Updated**: 2017-09-18
+- **Author**: Rico Valdez, Splunk
+
+#### Detection profiles
+
+| Name        | Technique   | Type         |
+| ----------- | ----------- |--------------|
+| [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | None | TTP |
+| [DNS Query Length Outliers - MLTK](/network/dns_query_length_outliers_-_mltk/) | None | Anomaly |
+| [DNS Query Length With High Standard Deviation](/network/dns_query_length_with_high_standard_deviation/) | None | Anomaly |
+| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | None | TTP |
+| [Excessive DNS Failures](/network/excessive_dns_failures/) | None | Anomaly |
+| [Excessive Usage of NSLOOKUP App](/endpoint/excessive_usage_of_nslookup_app/) | None | Anomaly |
+
+#### Kill Chain Phase
+
+
+
+#### Reference
+
+* [http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/](http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/)
+* [http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680](http://www.darkreading.com/analytics/security-monitoring/got-malware-three-signs-revealed-in-dns-traffic/d/d-id/1139680)
+* [https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454](https://live.paloaltonetworks.com/t5/Threat-Vulnerability-Articles/What-are-suspicious-DNS-queries/ta-p/71454)
+
+
+
+_version_: 1

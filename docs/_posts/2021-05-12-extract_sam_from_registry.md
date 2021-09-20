@@ -23,6 +23,7 @@ tags:
 
 The following analytic identifies the use of `reg.exe` exporting Windows Registry hives containing credentials. Adversaries may use this technique to export registry hives for offline credential access attacks. Typically found executed from a untrusted process or script. Upon execution, a file will be written to disk.
 
+- **ID**: 8bbb7d58-b360-11eb-ba21-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-12
@@ -48,8 +49,8 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 ```
 
 #### Associated Analytic Story
-* [DarkSide Ransomware](_stories/darkside_ransomware)
-* [Credential Dumping](_stories/credential_dumping)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

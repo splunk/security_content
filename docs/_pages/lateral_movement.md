@@ -2,8 +2,8 @@
 title: Lateral Movement
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
-permalink: /detections/lateral_movement
+taxonomy: Lateral Movement
+permalink: /stories/lateral_movement
 sidebar:
-  nav: "detections"
+  nav: "stories"
 ---

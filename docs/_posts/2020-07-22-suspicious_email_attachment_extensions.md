@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for emails that have attachments with suspicious file extensions.
 
+- **ID**: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2020-07-22
@@ -51,8 +52,8 @@ This search looks for emails that have attachments with suspicious file extensio
 ```
 
 #### Associated Analytic Story
-* [Emotet Malware  DHS Report TA18-201A ](_stories/emotet_malware__dhs_report_ta18-201a_)
-* [Suspicious Emails](_stories/suspicious_emails)
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+* [Suspicious Emails](/stories/suspicious_emails)
 
 
 #### How To Implement

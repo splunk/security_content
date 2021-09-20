@@ -38,6 +38,7 @@ tags:
 
 This detection identifies use of DSInternals modules that verify password strength, i.e., identify week accounts that would be easily compromised.
 
+- **ID**: 5526d3a4-2497-4e8d-9d3c-7a34c9aace2f
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
@@ -65,7 +66,7 @@ This detection identifies use of DSInternals modules that verify password streng
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

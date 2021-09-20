@@ -23,6 +23,7 @@ tags:
 
 This search detects when an admin configured a forwarding rule for multiple mailboxes to the same destination.
 
+- **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -51,8 +52,8 @@ This search detects when an admin configured a forwarding rule for multiple mail
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Office 365 Detections](/stories/office_365_detections)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

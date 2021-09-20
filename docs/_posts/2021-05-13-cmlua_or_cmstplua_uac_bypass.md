@@ -23,6 +23,7 @@ tags:
 
 This analytic detects a potential process using COM Object like CMLUA or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries to gain administrative privileges to its running process.
 
+- **ID**: f87b5062-b405-11eb-a889-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-13
@@ -47,8 +48,8 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 ```
 
 #### Associated Analytic Story
-* [DarkSide Ransomware](_stories/darkside_ransomware)
-* [Ransomware](_stories/ransomware)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

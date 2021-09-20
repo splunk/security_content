@@ -22,6 +22,7 @@ tags:
 
 Detect remote thread creation into LSASS consistent with credential dumping.
 
+- **ID**: 67d4dbef-9564-4699-8da8-03a151529edc
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
@@ -47,7 +48,7 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

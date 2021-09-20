@@ -22,6 +22,7 @@ tags:
 
 The following analytic utilizes Windows Event ID 1100 to identify when Windows event log service is shutdown. Note that this is a voluminous analytic that will require tuning or restricted to specific endpoints based on criticality. This event generates every time Windows Event Log service has shut down. It also generates during normal system shutdown. During triage, based on time of day and user, determine if this was planned. If not planned, follow through with reviewing parallel alerts and other data sources to determine what else may have occurred.
 
+- **ID**: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-17
@@ -46,9 +47,9 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 ```
 
 #### Associated Analytic Story
-* [Windows Log Manipulation](_stories/windows_log_manipulation)
-* [Ransomware](_stories/ransomware)
-* [Clop Ransomware](_stories/clop_ransomware)
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
 
 
 #### How To Implement

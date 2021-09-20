@@ -20,6 +20,7 @@ tags:
 
 This detection identifies access to PowerSploit modules that delete event logs.
 
+- **ID**: 4ddb3b0d-f95f-4ae2-b4e8-663296453a7b
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -47,7 +48,7 @@ This detection identifies access to PowerSploit modules that delete event logs.
 ```
 
 #### Associated Analytic Story
-* [Windows Log Manipulation](_stories/windows_log_manipulation)
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
 
 
 #### How To Implement

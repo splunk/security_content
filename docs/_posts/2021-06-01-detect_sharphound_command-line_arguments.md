@@ -35,6 +35,7 @@ tags:
 
 The following analytic identifies common command-line arguments used by SharpHound `-collectionMethod` and `invoke-bloodhound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.
 
+- **ID**: a0bdd2f6-c2ff-11eb-b918-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-01
@@ -60,8 +61,8 @@ The following analytic identifies common command-line arguments used by SharpHou
 ```
 
 #### Associated Analytic Story
-* [Discovery Techniques](_stories/discovery_techniques)
-* [Ransomware](_stories/ransomware)
+* [Discovery Techniques](/stories/discovery_techniques)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

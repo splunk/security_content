@@ -35,6 +35,7 @@ tags:
 
 The following analytic identifies SharpHound binary usage by using the `OriginalFileName` from Sysmon. In addition to renaming the PE, other coverage is available to detect command-line arguments. This particular analytic only looks for the OriginalFileName of `SharpHound.exe`. It is possible older instances of SharpHound.exe have different original filenames. Dependent upon the operator, the code may be re-compiled and the attributes removed or changed to anything else. During triage, review the metadata of the binary in question. Review parallel processes for suspicious behavior. Identify the source of this binary.
 
+- **ID**: dd04b29a-beed-11eb-87bc-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-27
@@ -60,8 +61,8 @@ The following analytic identifies SharpHound binary usage by using the `Original
 ```
 
 #### Associated Analytic Story
-* [Discovery Techniques](_stories/discovery_techniques)
-* [Ransomware](_stories/ransomware)
+* [Discovery Techniques](/stories/discovery_techniques)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

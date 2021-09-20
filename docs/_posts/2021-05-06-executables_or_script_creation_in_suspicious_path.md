@@ -23,6 +23,7 @@ tags:
 
 This analytic will identify suspicious executable or scripts (known file extensions) in list of suspicious file path in Windows. This technique is used by adversaries to evade detection. The suspicious file path are known paths used in the wild and are not common to have executable or scripts.
 
+- **ID**: a7e3f0f0-ae42-11eb-b245-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-06
@@ -48,7 +49,7 @@ This analytic will identify suspicious executable or scripts (known file extensi
 ```
 
 #### Associated Analytic Story
-* [XMRig](_stories/xmrig)
+* [XMRig](/stories/xmrig)
 
 
 #### How To Implement

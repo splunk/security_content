@@ -1,0 +1,54 @@
+---
+title: "NOBELIUM Group"
+last_modified_at: 2020-12-14
+toc: true
+tags:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Endpoint
+  - Network_Traffic
+  - Web
+---
+
+#### Description
+
+Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
+
+- **ID**: 758196b5-2e21-424f-a50c-6e421ce926c2
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic), [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Last Updated**: 2020-12-14
+- **Author**: Patrick Bareiss, Michael Haag, Splunk
+
+#### Detection profiles
+
+| Name        | Technique   | Type         |
+| ----------- | ----------- |--------------|
+| [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | None | Anomaly |
+| [Detect Outbound SMB Traffic](/network/detect_outbound_smb_traffic/) | None | TTP |
+| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | None | Hunting |
+| [Detect Rundll32 Inline HTA Execution](/endpoint/detect_rundll32_inline_hta_execution/) | None | TTP |
+| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | None | Anomaly |
+| [Malicious PowerShell Process - Encoded Command](/endpoint/malicious_powershell_process_-_encoded_command/) | None | Hunting |
+| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | None | TTP |
+| [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | None | TTP |
+| [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | None | TTP |
+| [Sunburst Correlation DLL and Network Event](/endpoint/sunburst_correlation_dll_and_network_event/) | None | TTP |
+| [Supernova Webshell](/web/supernova_webshell/) | None | TTP |
+| [TOR Traffic](/network/tor_traffic/) | None | TTP |
+| [Windows AdFind Exe](/endpoint/windows_adfind_exe/) | None | TTP |
+
+#### Kill Chain Phase
+
+
+
+#### Reference
+
+* [https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/](https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/)
+* [https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html](https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html)
+* [https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/](https://msrc-blog.microsoft.com/2020/12/13/customer-guidance-on-recent-nation-state-cyber-attacks/)
+
+
+
+_version_: 2

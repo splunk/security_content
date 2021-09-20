@@ -72,16 +72,16 @@ stories:
   - title: "Use Case"
     children:
       - title: Abuse
-        url: /story/abuse/
+        url: /stories/abuse/
       - title: Adversary Tactics
-        url: /story/adversary_tactics/
+        url: /stories/adversary_tactics/
       - title: Best Practices
-        url: /story/best_practices/
+        url: /stories/best_practices/
       - title: Cloud Security
-        url: /story/cloud_security/
+        url: /stories/cloud_security/
       - title: Lateral Movement
-        url: /story/lateral_movement/
+        url: /stories/lateral_movement/
       - title: Malware
-        url: /story/malware/
+        url: /stories/malware/
       - title: Vulnerability
-        url: /story/vulnerability/
+        url: /stories/vulnerability/

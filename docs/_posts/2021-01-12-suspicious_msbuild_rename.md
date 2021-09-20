@@ -25,6 +25,7 @@ tags:
 
 The following analytic identifies renamed instances of msbuild.exe executing. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify the code executed and what is executing a renamed instance of MSBuild.
 
+- **ID**: 4006adac-5937-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-12
@@ -50,9 +51,9 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 ```
 
 #### Associated Analytic Story
-* [Trusted Developer Utilities Proxy Execution MSBuild](_stories/trusted_developer_utilities_proxy_execution_msbuild)
-* [Cobalt Strike](_stories/cobalt_strike)
-* [Masquerading - Rename System Utilities](_stories/masquerading_-_rename_system_utilities)
+* [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
+* [Cobalt Strike](/stories/cobalt_strike)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
 
 
 #### How To Implement

@@ -32,6 +32,7 @@ The following analytic identifies the use of a native MacOS utility, PlistBuddy,
 - PlistBuddy -c &#34;Add :ProgramArguments:1 string -c&#34; ~/Library/Launchagents/init_verx.plist \
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
+- **ID**: 20ba6c32-c733-4a32-b64e-2688cf231399
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
@@ -53,7 +54,7 @@ Upon triage, capture the property list file being written to disk and review for
 ```
 
 #### Associated Analytic Story
-* [Silver Sparrow](_stories/silver_sparrow)
+* [Silver Sparrow](/stories/silver_sparrow)
 
 
 #### How To Implement

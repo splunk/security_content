@@ -23,6 +23,7 @@ tags:
 
 This search looks for Dependabot Alerts in Github logs.
 
+- **ID**: 05032b04-4469-4034-9df7-05f607d75cba
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
@@ -48,7 +49,7 @@ This search looks for Dependabot Alerts in Github logs.
 ```
 
 #### Associated Analytic Story
-* [Dev Sec Ops](_stories/dev_sec_ops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

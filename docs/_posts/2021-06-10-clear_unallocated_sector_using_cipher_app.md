@@ -23,6 +23,7 @@ tags:
 
 this search is to detect execution of `cipher.exe` to clear the unallocated sectors of a specific disk. This technique was seen in some ransomware to make it impossible to forensically recover deleted files.
 
+- **ID**: cd80a6ac-c9d9-11eb-8839-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-10
@@ -48,7 +49,7 @@ this search is to detect execution of `cipher.exe` to clear the unallocated sect
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

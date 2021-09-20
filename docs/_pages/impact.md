@@ -2,7 +2,7 @@
 title: Impact
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
+taxonomy: Impact
 permalink: /detections/impact
 sidebar:
   nav: "detections"

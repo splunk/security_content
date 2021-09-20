@@ -27,6 +27,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search provides detection of suspicious use of sts:AssumeRole. These tokens can be created on the go and used by attackers to move laterally and escalate privileges.
 
+- **ID**: 8e565314-b6a2-46d8-9f05-1a34a176a662
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
@@ -49,7 +50,7 @@ This search provides detection of suspicious use of sts:AssumeRole. These tokens
 ```
 
 #### Associated Analytic Story
-* [AWS Cross Account Activity](_stories/aws_cross_account_activity)
+* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
 
 
 #### How To Implement

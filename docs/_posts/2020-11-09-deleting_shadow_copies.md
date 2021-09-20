@@ -23,6 +23,7 @@ tags:
 
 The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service.  Wmic is an interface to the Windows Management Instrumentation.  This search looks for either of these tools being used to delete shadow copies.
 
+- **ID**: b89919ed-ee5f-492c-b139-95dbb162039e
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
@@ -48,10 +49,10 @@ The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service
 ```
 
 #### Associated Analytic Story
-* [Windows Log Manipulation](_stories/windows_log_manipulation)
-* [SamSam Ransomware](_stories/samsam_ransomware)
-* [Ransomware](_stories/ransomware)
-* [Clop Ransomware](_stories/clop_ransomware)
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
 
 
 #### How To Implement

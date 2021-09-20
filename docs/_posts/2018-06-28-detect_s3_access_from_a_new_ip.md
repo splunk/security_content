@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks at S3 bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed an S3 bucket.
 
+- **ID**: 2a9b80d3-6340-4345-b5ad-291bq3d0daq4
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-06-28
@@ -57,7 +58,7 @@ This search looks at S3 bucket-access logs and detects new or previously unseen 
 ```
 
 #### Associated Analytic Story
-* [Suspicious AWS S3 Activities](_stories/suspicious_aws_s3_activities)
+* [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
 
 
 #### How To Implement

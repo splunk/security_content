@@ -23,6 +23,7 @@ tags:
 
 This search looks for processes launching netsh.exe. Netsh is a command-line scripting utility that allows you to, either locally or remotely, display or modify the network configuration of a computer that is currently running. Netsh can be used as a persistence proxy technique to execute a helper DLL when netsh.exe is executed. In this search, we are looking for processes spawned by netsh.exe and executing commands via the command line.
 
+- **ID**: b89919ed-fe5f-492c-b139-95dbb162040e
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-10
@@ -48,9 +49,9 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 ```
 
 #### Associated Analytic Story
-* [Netsh Abuse](_stories/netsh_abuse)
-* [Disabling Security Tools](_stories/disabling_security_tools)
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
+* [Netsh Abuse](/stories/netsh_abuse)
+* [Disabling Security Tools](/stories/disabling_security_tools)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 
 
 #### How To Implement

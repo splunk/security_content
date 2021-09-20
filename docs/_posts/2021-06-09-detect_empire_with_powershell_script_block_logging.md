@@ -24,6 +24,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies the common PowerShell stager used by PowerShell-Empire. Each stager that may use PowerShell all uses the same pattern. The initial HTTP will be base64 encoded and use `system.net.webclient`. Note that some obfuscation may evade the analytic. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
+- **ID**: bc1dc6b8-c954-11eb-bade-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-09
@@ -48,7 +49,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 ```
 
 #### Associated Analytic Story
-* [Malicious PowerShell](_stories/malicious_powershell)
+* [Malicious PowerShell](/stories/malicious_powershell)
 
 
 #### How To Implement

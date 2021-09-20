@@ -27,6 +27,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The following analytic identifies suspicious processes spawning from WinRM (wsmprovhost.exe). This analytic is related to potential exploitation of CVE-2021-31166. which is a kernel-mode device driver http.sys vulnerability. Current proof of concept code will blue-screen the operating system. However, http.sys used by many different Windows processes, including WinRM. In this case, identifying suspicious process create (child processes) from `wsmprovhost.exe` is what this analytic is identifying.
 
+- **ID**: a081836a-ba4d-11eb-8593-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-21
@@ -52,7 +53,7 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 ```
 
 #### Associated Analytic Story
-* [Unusual Processes](_stories/unusual_processes)
+* [Unusual Processes](/stories/unusual_processes)
 
 
 #### How To Implement

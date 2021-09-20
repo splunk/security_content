@@ -23,6 +23,7 @@ tags:
 
 The following detection identifies Microsoft Winword.exe spawning Windows Script Host - `cscript.exe` or `wscript.exe`. Typically, this is not common behavior and not default with Winword.exe. Winword.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). `cscript.exe` or `wscript.exe` default location is `c:\windows\system32\` or c:windows\syswow64\`. `cscript.exe` or `wscript.exe` spawning from Winword.exe is common for a spearphishing attachment and is actively used. Albeit, the command-line executed will most likely be obfuscated and captured via another detection. During triage, review parallel processes and identify any files that may have been written. Review the reputation of the remote destination and block accordingly.
 
+- **ID**: 637e1b5c-9be1-11eb-9c32-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-12
@@ -48,7 +49,7 @@ The following detection identifies Microsoft Winword.exe spawning Windows Script
 ```
 
 #### Associated Analytic Story
-* [Spearphishing Attachment](_stories/spearphishing_attachment)
+* [Spearphishing Attachment](/stories/spearphishing_attachment)
 
 
 #### How To Implement

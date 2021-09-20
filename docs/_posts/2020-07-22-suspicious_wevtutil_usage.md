@@ -23,6 +23,7 @@ tags:
 
 The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, or system event logs.
 
+- **ID**: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-22
@@ -48,9 +49,9 @@ The wevtutil.exe application is the windows event log utility. This searches for
 ```
 
 #### Associated Analytic Story
-* [Windows Log Manipulation](_stories/windows_log_manipulation)
-* [Ransomware](_stories/ransomware)
-* [Clop Ransomware](_stories/clop_ransomware)
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
 
 
 #### How To Implement

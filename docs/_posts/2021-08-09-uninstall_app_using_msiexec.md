@@ -23,6 +23,7 @@ tags:
 
 This search is to detect a suspicious un-installation of application using msiexec. This technique was seen in conti leak tool and script where it tries to uninstall AV product using this commandline. This commandline to uninstall product is not a common practice in enterprise network.
 
+- **ID**: 1fca2b28-f922-11eb-b2dd-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-09
@@ -48,7 +49,7 @@ This search is to detect a suspicious un-installation of application using msiex
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

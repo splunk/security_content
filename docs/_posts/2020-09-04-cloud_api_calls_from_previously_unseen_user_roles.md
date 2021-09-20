@@ -26,6 +26,7 @@ tags:
 
 This search looks for new commands from each user role.
 
+- **ID**: 2181ad1f-1e73-4d0c-9780-e8880482a08f
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-04
@@ -57,7 +58,7 @@ This search looks for new commands from each user role.
 ```
 
 #### Associated Analytic Story
-* [Suspicious Cloud User Activities](_stories/suspicious_cloud_user_activities)
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
 
 
 #### How To Implement

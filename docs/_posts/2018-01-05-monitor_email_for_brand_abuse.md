@@ -22,6 +22,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for emails claiming to be sent from a domain similar to one that you want to have monitored for abuse.
 
+- **ID**: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2018-01-05
@@ -46,8 +47,8 @@ This search looks for emails claiming to be sent from a domain similar to one th
 ```
 
 #### Associated Analytic Story
-* [Brand Monitoring](_stories/brand_monitoring)
-* [Suspicious Emails](_stories/suspicious_emails)
+* [Brand Monitoring](/stories/brand_monitoring)
+* [Suspicious Emails](/stories/suspicious_emails)
 
 
 #### How To Implement

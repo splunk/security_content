@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for suspicious processes on all systems labeled as web servers.
 
+- **ID**: ec3b7601-689a-4463-94e0-c9f45638efb9
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-04-01
@@ -50,7 +51,7 @@ This search looks for suspicious processes on all systems labeled as web servers
 ```
 
 #### Associated Analytic Story
-* [Apache Struts Vulnerability](_stories/apache_struts_vulnerability)
+* [Apache Struts Vulnerability](/stories/apache_struts_vulnerability)
 
 
 #### How To Implement

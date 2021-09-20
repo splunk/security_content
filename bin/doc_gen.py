@@ -188,7 +188,9 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
         with open(output_path, 'w', encoding="utf-8") as f:
             f.write(output)
         messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, tactic))
-    # for categories
+        
+    # for story categories
+    template = j2_env.get_template('doc_navigation_story_pages_markdown.j2')
     for category in sorted(category_names):
         output_path = path.join(OUTPUT_DIR + '/_pages/' + category.lower().replace(" ", "_") + ".md")
         output = template.render(tag=category)
@@ -196,14 +198,31 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
             f.write(output)
         messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, category))
 
-
     # write index updated metrics
     template = j2_env.get_template('doc_index_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/index.markdown')
     output = template.render(detection_count=len(sorted_detections), story_count=len(sorted_stories))
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    messages.append("doc_gen.py wrote site index page to: {0}".format(output_path, category))
+    messages.append("doc_gen.py wrote site index page to: {0}".format(output_path))
+
+    # write stories listing markdown
+    template = j2_env.get_template('doc_story_page_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/_pages/stories.md')
+    output = template.render(stories=sorted_stories)
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote _pages for story to: {0}".format(output_path))
+
+    # write stories markdown
+    template = j2_env.get_template('doc_stories_markdown.j2')
+    for story in sorted_stories:
+        file_name = story['name'].lower().replace(" ","_") + '.md'
+        output_path = path.join(OUTPUT_DIR + '/_stories/' + file_name)
+        output = template.render(story=story, time=datetime.datetime.now())
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+    messages.append("doc_gen.py wrote {0} story documentation in markdown to: {1}".format(len(sorted_stories),OUTPUT_DIR + '/_stories/'))
 
     # write wikimarkup
     template = j2_env.get_template('doc_stories_wiki.j2')
@@ -212,6 +231,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     messages.append("doc_gen.py wrote {0} stories documentation in mediawiki to: {1}".format(len(stories),output_path))
+
     return sorted_stories, messages
 
 
@@ -273,7 +293,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
         output = template.render(detection=detection, time=datetime.datetime.now())
         with open(output_path, 'w', encoding="utf-8") as f:
             f.write(output)
-    messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),OUTPUT_DIR + '/_posts/'))
+    messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(sorted_detections),OUTPUT_DIR + '/_posts/'))
 
     # write markdown detection page
     template = j2_env.get_template('doc_detection_page_markdown.j2')

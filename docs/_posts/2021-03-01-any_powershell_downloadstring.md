@@ -23,6 +23,7 @@ tags:
 
 The following analytic identifies the use of PowerShell downloading a file using `DownloadString` method. This particular method is utilized in many different PowerShell frameworks to download files and output to disk. Identify the source (IP/domain) and destination file and triage appropriately. If AMSI logging or PowerShell transaction logs are available, review for further details of the implant.
 
+- **ID**: 4d015ef2-7adf-11eb-95da-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-01
@@ -48,9 +49,9 @@ The following analytic identifies the use of PowerShell downloading a file using
 ```
 
 #### Associated Analytic Story
-* [Malicious PowerShell](_stories/malicious_powershell)
-* [HAFNIUM Group](_stories/hafnium_group)
-* [Ingress Tool Transfer](_stories/ingress_tool_transfer)
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [HAFNIUM Group](/stories/hafnium_group)
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
 
 
 #### How To Implement

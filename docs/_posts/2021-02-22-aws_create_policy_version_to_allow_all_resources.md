@@ -26,6 +26,7 @@ tags:
 
 This search looks for AWS CloudTrail events where a user created a policy version that allows them to access any resource in their account
 
+- **ID**: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
@@ -54,7 +55,7 @@ This search looks for AWS CloudTrail events where a user created a policy versio
 ```
 
 #### Associated Analytic Story
-* [AWS IAM Privilege Escalation](_stories/aws_iam_privilege_escalation)
+* [AWS IAM Privilege Escalation](/stories/aws_iam_privilege_escalation)
 
 
 #### How To Implement

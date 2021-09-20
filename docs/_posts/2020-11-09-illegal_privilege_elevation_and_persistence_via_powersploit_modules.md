@@ -30,6 +30,7 @@ tags:
 
 This detection identifies access to PowerSploit modules that illegaly elevate general privileges or ensure persistence, e.g., enable manipulation of registry, task scheduling, persistent WMI, access to OS objects under desired identities.
 
+- **ID**: 88c10ee9-fe72-4bce-b343-5b129044b991
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -57,8 +58,8 @@ This detection identifies access to PowerSploit modules that illegaly elevate ge
 ```
 
 #### Associated Analytic Story
-* [Malicious PowerShell](_stories/malicious_powershell)
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

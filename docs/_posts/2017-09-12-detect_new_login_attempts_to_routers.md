@@ -22,6 +22,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The search queries the authentication logs for assets that are categorized as routers in the ES Assets and Identity Framework, to identify connections that have not been seen before in the last 30 days.
 
+- **ID**: 104658f4-afdc-499e-9719-17243rr826f1
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2017-09-12
@@ -43,7 +44,7 @@ The search queries the authentication logs for assets that are categorized as ro
 ```
 
 #### Associated Analytic Story
-* [Router and Infrastructure Security](_stories/router_and_infrastructure_security)
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 this search is designed to detect potential malicious process loading COM object to wbemprox.dll,
 
+- **ID**: 9d911ce0-c3be-11eb-b177-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
@@ -47,8 +48,8 @@ this search is designed to detect potential malicious process loading COM object
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
-* [Revil Ransomware](_stories/revil_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
 
 
 #### How To Implement

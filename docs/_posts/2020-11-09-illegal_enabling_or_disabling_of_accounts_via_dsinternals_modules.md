@@ -26,6 +26,7 @@ tags:
 
 This detection identifies use of DSInternals modules that enable or disable accounts illegaly.
 
+- **ID**: 3e0f9962-9989-445f-878c-939443326b63
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -53,7 +54,7 @@ This detection identifies use of DSInternals modules that enable or disable acco
 ```
 
 #### Associated Analytic Story
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

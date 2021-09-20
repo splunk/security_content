@@ -27,6 +27,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search provides detection of accounts creating permanent keys. Permanent keys are not created by default and they are only needed for programmatic calls. Creation of Permanent key is an important event to monitor.
 
+- **ID**: 12d6d713-3cb4-4ffc-a064-1dca3d1cca01
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
@@ -51,7 +52,7 @@ This search provides detection of accounts creating permanent keys. Permanent ke
 ```
 
 #### Associated Analytic Story
-* [AWS Cross Account Activity](_stories/aws_cross_account_activity)
+* [AWS Cross Account Activity](/stories/aws_cross_account_activity)
 
 
 #### How To Implement

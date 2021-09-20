@@ -26,6 +26,7 @@ tags:
 
 The following analytic identifies msbuild.exe executing from a non-standard path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio will run a copy of msbuild.exe. A moved instance of MSBuild is suspicious, however there are instances of build applications that will move or use a copy of MSBuild.
 
+- **ID**: f5198224-551c-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-12
@@ -51,9 +52,9 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 ```
 
 #### Associated Analytic Story
-* [Trusted Developer Utilities Proxy Execution MSBuild](_stories/trusted_developer_utilities_proxy_execution_msbuild)
-* [Cobalt Strike](_stories/cobalt_strike)
-* [Masquerading - Rename System Utilities](_stories/masquerading_-_rename_system_utilities)
+* [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild)
+* [Cobalt Strike](/stories/cobalt_strike)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
 
 
 #### How To Implement

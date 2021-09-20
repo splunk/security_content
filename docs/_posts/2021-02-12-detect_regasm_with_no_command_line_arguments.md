@@ -22,6 +22,7 @@ tags:
 
 The following analytic identifies regasm.exe with no command line arguments. This particular behavior occurs when another process injects into regasm.exe, no command line arguments will be present. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
+- **ID**: c3bc1430-04e7-4178-835f-047d8e6e97df
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-12
@@ -48,7 +49,7 @@ The following analytic identifies regasm.exe with no command line arguments. Thi
 ```
 
 #### Associated Analytic Story
-* [Suspicious Regsvcs Regasm Activity](_stories/suspicious_regsvcs_regasm_activity)
+* [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity)
 
 
 #### How To Implement

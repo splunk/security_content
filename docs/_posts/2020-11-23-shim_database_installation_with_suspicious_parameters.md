@@ -24,6 +24,7 @@ tags:
 
 This search detects the process execution and arguments required to silently create a shim database.  The sdbinst.exe application is used to install shim database files (.sdb). A shim is a small library which transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.
 
+- **ID**: 404620de-46d8-48b6-90cc-8a8d7b0876a3
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-23
@@ -49,7 +50,7 @@ This search detects the process execution and arguments required to silently cre
 ```
 
 #### Associated Analytic Story
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

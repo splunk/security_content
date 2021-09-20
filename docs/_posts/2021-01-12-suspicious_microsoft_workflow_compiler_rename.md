@@ -25,6 +25,7 @@ tags:
 
 The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe. Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319 and is rarely utilized. When investigating, identify the executed code on disk and review. A spawned child process from microsoft.workflow.compiler.exe is uncommon. In any instance, microsoft.workflow.compiler.exe spawning from an Office product or any living off the land binary is highly suspect.
 
+- **ID**: f0db4464-55d9-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-12
@@ -50,9 +51,9 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 ```
 
 #### Associated Analytic Story
-* [Trusted Developer Utilities Proxy Execution](_stories/trusted_developer_utilities_proxy_execution)
-* [Cobalt Strike](_stories/cobalt_strike)
-* [Masquerading - Rename System Utilities](_stories/masquerading_-_rename_system_utilities)
+* [Trusted Developer Utilities Proxy Execution](/stories/trusted_developer_utilities_proxy_execution)
+* [Cobalt Strike](/stories/cobalt_strike)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
 
 
 #### How To Implement

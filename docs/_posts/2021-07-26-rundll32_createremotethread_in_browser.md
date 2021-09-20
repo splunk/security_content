@@ -24,6 +24,7 @@ tags:
 
 This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to &#34;firefox.exe&#34; and &#34;chrome.exe&#34; browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
 
+- **ID**: f8a22586-ee2d-11eb-a193-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-26
@@ -48,7 +49,7 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 ```
 
 #### Associated Analytic Story
-* [IcedID](_stories/icedid)
+* [IcedID](/stories/icedid)
 
 
 #### How To Implement

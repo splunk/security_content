@@ -20,6 +20,7 @@ tags:
 
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
 
+- **ID**: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-7-13
@@ -51,10 +52,10 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 ```
 
 #### Associated Analytic Story
-* [Suspicious Command-Line Executions](_stories/suspicious_command-line_executions)
-* [Suspicious MSHTA Activity](_stories/suspicious_mshta_activity)
-* [Suspicious Zoom Child Processes](_stories/suspicious_zoom_child_processes)
-* [Sunburst Malware](_stories/sunburst_malware)
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
+* [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes)
+* [Sunburst Malware](/stories/sunburst_malware)
 
 
 #### How To Implement

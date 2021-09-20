@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The following analytic identifies the use of a curl contacting suspicious remote domains to checkin to command and control servers or download further implants. In the context of Silver Sparrow, curl is identified contacting s3.amazonaws.com. This particular behavior is common with MacOS adware-malicious software.
 
+- **ID**: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-22
@@ -50,8 +51,8 @@ The following analytic identifies the use of a curl contacting suspicious remote
 ```
 
 #### Associated Analytic Story
-* [Silver Sparrow](_stories/silver_sparrow)
-* [Ingress Tool Transfer](_stories/ingress_tool_transfer)
+* [Silver Sparrow](/stories/silver_sparrow)
+* [Ingress Tool Transfer](/stories/ingress_tool_transfer)
 
 
 #### How To Implement

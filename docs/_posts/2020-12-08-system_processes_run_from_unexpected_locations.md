@@ -25,6 +25,7 @@ This search looks for system processes that typically execute from `C:\Windows\S
 This detection utilizes a lookup that is deduped `system32` and `syswow64` directories from Server 2016 and Windows 10.\
 During triage, review the parallel processes - what process moved the native Windows binary? identify any artifacts on disk and review. If a remote destination is contacted, what is the reputation?
 
+- **ID**: a34aae96-ccf8-4aef-952c-3ea21444444d
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-08
@@ -51,10 +52,10 @@ During triage, review the parallel processes - what process moved the native Win
 ```
 
 #### Associated Analytic Story
-* [Suspicious Command-Line Executions](_stories/suspicious_command-line_executions)
-* [Unusual Processes](_stories/unusual_processes)
-* [Ransomware](_stories/ransomware)
-* [Masquerading - Rename System Utilities](_stories/masquerading_-_rename_system_utilities)
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Unusual Processes](/stories/unusual_processes)
+* [Ransomware](/stories/ransomware)
+* [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities)
 
 
 #### How To Implement

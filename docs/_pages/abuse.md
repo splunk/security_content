@@ -2,8 +2,8 @@
 title: Abuse
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
-permalink: /detections/abuse
+taxonomy: Abuse
+permalink: /stories/abuse
 sidebar:
-  nav: "detections"
+  nav: "stories"
 ---

@@ -22,6 +22,7 @@ tags:
 
 This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
+- **ID**: c79c164f-4b21-4847-98f9-cf6a9f49179e
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
@@ -53,7 +54,7 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 ```
 
 #### Associated Analytic Story
-* [Ransomware Cloud](_stories/ransomware_cloud)
+* [Ransomware Cloud](/stories/ransomware_cloud)
 
 
 #### How To Implement

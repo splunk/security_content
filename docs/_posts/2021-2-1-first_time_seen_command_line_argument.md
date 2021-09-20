@@ -26,6 +26,7 @@ tags:
 
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.
 
+- **ID**: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-2-1
@@ -57,7 +58,7 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 ```
 
 #### Associated Analytic Story
-* [Unusual Processes](_stories/unusual_processes)
+* [Unusual Processes](/stories/unusual_processes)
 
 
 #### How To Implement

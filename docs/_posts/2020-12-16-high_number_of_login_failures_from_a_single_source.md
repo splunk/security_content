@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.
 
+- **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02222
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -47,7 +48,7 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
+* [Office 365 Detections](/stories/office_365_detections)
 
 
 #### How To Implement

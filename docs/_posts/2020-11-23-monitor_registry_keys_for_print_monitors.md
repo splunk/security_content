@@ -23,6 +23,7 @@ tags:
 
 This search looks for registry activity associated with modifications to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this scenario, an attacker can load an arbitrary .dll into the print-monitor registry by giving the full path name to the after.dll. The system will execute the .dll with elevated (SYSTEM) permissions and will persist after reboot.
 
+- **ID**: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-23
@@ -46,8 +47,8 @@ This search looks for registry activity associated with modifications to the reg
 ```
 
 #### Associated Analytic Story
-* [Suspicious Windows Registry Activities](_stories/suspicious_windows_registry_activities)
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

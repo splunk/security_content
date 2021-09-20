@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for long URLs that have several SQL commands visible within them.
 
+- **ID**: e0aad4cf-0790-423b-8328-7564d0d938f9
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2020-07-21
@@ -50,7 +51,7 @@ This search looks for long URLs that have several SQL commands visible within th
 ```
 
 #### Associated Analytic Story
-* [SQL Injection](_stories/sql_injection)
+* [SQL Injection](/stories/sql_injection)
 
 
 #### How To Implement

@@ -27,6 +27,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for specific command-line arguments that may indicate the execution of tools made by Nirsoft, which are legitimate, but may be abused by attackers.
 
+- **ID**: 1297fb80-f42a-4q4a-9c8b-78c061417cf6
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -52,7 +53,7 @@ This search looks for specific command-line arguments that may indicate the exec
 ```
 
 #### Associated Analytic Story
-* [Emotet Malware  DHS Report TA18-201A ](_stories/emotet_malware__dhs_report_ta18-201a_)
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 
 
 #### How To Implement

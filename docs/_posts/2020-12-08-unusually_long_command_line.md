@@ -19,6 +19,7 @@ tags:
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
+- **ID**: c77162d3-f93c-45cc-80c8-22f6a4264e7f
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-08
@@ -43,10 +44,10 @@ Command lines that are extremely long may be indicative of malicious activity on
 ```
 
 #### Associated Analytic Story
-* [Suspicious Command-Line Executions](_stories/suspicious_command-line_executions)
-* [Unusual Processes](_stories/unusual_processes)
-* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](_stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
-* [Ransomware](_stories/ransomware)
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Unusual Processes](/stories/unusual_processes)
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

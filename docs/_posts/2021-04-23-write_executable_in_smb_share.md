@@ -23,6 +23,7 @@ tags:
 
 This search is to detect suspicious dropping or creating an executable file in known sensitive SMB share. This technique is commonly used for lateral movement like how trickbot try to infect other machine in the infected network. This detection catch the access event (FILE WRITE) access to a share.
 
+- **ID**: f63c34fe-a435-11eb-935a-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-23
@@ -47,7 +48,7 @@ This search is to detect suspicious dropping or creating an executable file in k
 ```
 
 #### Associated Analytic Story
-* [Trickbot](_stories/trickbot)
+* [Trickbot](/stories/trickbot)
 
 
 #### How To Implement

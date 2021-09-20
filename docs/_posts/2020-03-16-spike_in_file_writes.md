@@ -21,6 +21,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The search looks for a sharp increase in the number of files written to a particular host
 
+- **ID**: fdb0f805-74e4-4539-8c00-618927333aae
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-03-16
@@ -42,9 +43,9 @@ The search looks for a sharp increase in the number of files written to a partic
 ```
 
 #### Associated Analytic Story
-* [SamSam Ransomware](_stories/samsam_ransomware)
-* [Ryuk Ransomware](_stories/ryuk_ransomware)
-* [Ransomware](_stories/ransomware)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

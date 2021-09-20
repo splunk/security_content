@@ -22,6 +22,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for Web requests to faux domains similar to the one that you want to have monitored for abuse.
 
+- **ID**: 134da869-e264-4a8f-8d7e-fcd0ec88f301
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-23
@@ -41,7 +42,7 @@ This search looks for Web requests to faux domains similar to the one that you w
 ```
 
 #### Associated Analytic Story
-* [Brand Monitoring](_stories/brand_monitoring)
+* [Brand Monitoring](/stories/brand_monitoring)
 
 
 #### How To Implement

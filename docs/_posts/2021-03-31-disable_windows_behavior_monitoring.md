@@ -23,6 +23,7 @@ tags:
 
 This search is to identifies a modification in registry to disable the windows denfender real time behavior monitoring. This event or technique is commonly seen in RAT, bot, or Trojan to disable AV to evade detections.
 
+- **ID**: 79439cae-9200-11eb-a4d3-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
@@ -48,9 +49,9 @@ This search is to identifies a modification in registry to disable the windows d
 ```
 
 #### Associated Analytic Story
-* [Windows Defense Evasion Tactics](_stories/windows_defense_evasion_tactics)
-* [Ransomware](_stories/ransomware)
-* [Revil Ransomware](_stories/revil_ransomware)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Ransomware](/stories/ransomware)
+* [Revil Ransomware](/stories/revil_ransomware)
 
 
 #### How To Implement

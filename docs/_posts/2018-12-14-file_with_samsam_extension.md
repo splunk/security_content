@@ -20,6 +20,7 @@ tags:
 
 The search looks for file writes with extensions consistent with a SamSam ransomware attack.
 
+- **ID**: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
@@ -41,7 +42,7 @@ The search looks for file writes with extensions consistent with a SamSam ransom
 ```
 
 #### Associated Analytic Story
-* [SamSam Ransomware](_stories/samsam_ransomware)
+* [SamSam Ransomware](/stories/samsam_ransomware)
 
 
 #### How To Implement

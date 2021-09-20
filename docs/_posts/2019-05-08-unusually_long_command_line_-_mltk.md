@@ -21,6 +21,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.
 
+- **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-05-08
@@ -46,10 +47,10 @@ Command lines that are extremely long may be indicative of malicious activity on
 ```
 
 #### Associated Analytic Story
-* [Suspicious Command-Line Executions](_stories/suspicious_command-line_executions)
-* [Unusual Processes](_stories/unusual_processes)
-* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](_stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
-* [Ransomware](_stories/ransomware)
+* [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
+* [Unusual Processes](/stories/unusual_processes)
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

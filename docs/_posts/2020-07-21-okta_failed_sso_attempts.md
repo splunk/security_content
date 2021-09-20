@@ -26,6 +26,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 Detect failed Okta SSO events
 
+- **ID**: 371a6545-2618-4032-ad84-93386b8698c5
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
@@ -50,7 +51,7 @@ Detect failed Okta SSO events
 ```
 
 #### Associated Analytic Story
-* [Suspicious Okta Activity](_stories/suspicious_okta_activity)
+* [Suspicious Okta Activity](/stories/suspicious_okta_activity)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
+- **ID**: e9fb4a59-c5fb-440a-9f24-191fbc6b2911
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-12-02
@@ -48,8 +49,8 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
-* [DarkSide Ransomware](_stories/darkside_ransomware)
+* [Credential Dumping](/stories/credential_dumping)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
 
 
 #### How To Implement

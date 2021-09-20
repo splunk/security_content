@@ -23,6 +23,7 @@ tags:
 
 this search is to detect a suspicious office product process that spawn cmd child process. This is commonly seen in a ms office product having macro to execute shell command to download or execute malicious lolbin relative to its malicious code. This is seen in trickbot spear phishing doc where it execute shell cmd to run mshta payload.
 
+- **ID**: b8b19420-e892-11eb-9244-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-19
@@ -48,7 +49,7 @@ this search is to detect a suspicious office product process that spawn cmd chil
 ```
 
 #### Associated Analytic Story
-* [Trickbot](_stories/trickbot)
+* [Trickbot](/stories/trickbot)
 
 
 #### How To Implement

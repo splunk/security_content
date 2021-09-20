@@ -25,6 +25,7 @@ tags:
 
 This detection identifies use of Mimikatz modules for illegal privilege elevation.
 
+- **ID**: 2f873b1f-6352-4844-b7b9-b419f09a42c7
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -52,7 +53,7 @@ This detection identifies use of Mimikatz modules for illegal privilege elevatio
 ```
 
 #### Associated Analytic Story
-* [Windows Privilege Escalation](_stories/windows_privilege_escalation)
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 
 
 #### How To Implement

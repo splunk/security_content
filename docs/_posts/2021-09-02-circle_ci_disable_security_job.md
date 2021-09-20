@@ -23,6 +23,7 @@ tags:
 
 This search looks for disable security job in CircleCI pipeline.
 
+- **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-02
@@ -52,7 +53,7 @@ This search looks for disable security job in CircleCI pipeline.
 ```
 
 #### Associated Analytic Story
-* [Dev Sec Ops](_stories/dev_sec_ops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.
 
+- **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd71
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
@@ -49,10 +50,10 @@ The search looks for files created with names matching those typically used in r
 ```
 
 #### Associated Analytic Story
-* [SamSam Ransomware](_stories/samsam_ransomware)
-* [Ransomware](_stories/ransomware)
-* [Ryuk Ransomware](_stories/ryuk_ransomware)
-* [Clop Ransomware](_stories/clop_ransomware)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [Ransomware](/stories/ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Clop Ransomware](/stories/clop_ransomware)
 
 
 #### How To Implement

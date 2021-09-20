@@ -23,6 +23,7 @@ tags:
 
 This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe, or IIS. In addition to IIS logs, this behavior with an EDR product will capture potential webshell activity, similar to the HAFNIUM Group abusing CVEs, on publicly available Exchange mail servers. During triage, review the parent process and child process of the shell being spawned. Review the command-line arguments and any file modifications that may occur. Identify additional parallel process, child processes, that may highlight further commands executed. After triaging, work to contain the threat and patch the system that is vulnerable.
 
+- **ID**: 0f03423c-7c6a-11eb-bc47-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-03
@@ -48,8 +49,8 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 ```
 
 #### Associated Analytic Story
-* [HAFNIUM Group](_stories/hafnium_group)
-* [ProxyShell](_stories/proxyshell)
+* [HAFNIUM Group](/stories/hafnium_group)
+* [ProxyShell](/stories/proxyshell)
 
 
 #### How To Implement

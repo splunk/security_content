@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search detects users creating spikes in API activity related to deletion of S3 buckets in your AWS environment. It will also update the cache file that factors in the latest data.
 
+- **ID**: ad12w478-84a8-4641-a3w1-e32372q4bd53
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-11-27
@@ -64,7 +65,7 @@ This search detects users creating spikes in API activity related to deletion of
 ```
 
 #### Associated Analytic Story
-* [Suspicious AWS S3 Activities](_stories/suspicious_aws_s3_activities)
+* [Suspicious AWS S3 Activities](/stories/suspicious_aws_s3_activities)
 
 
 #### How To Implement

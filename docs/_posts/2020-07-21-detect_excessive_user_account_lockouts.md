@@ -25,6 +25,7 @@ tags:
 
 This search detects user accounts that have been locked out a relatively high number of times in a short period.
 
+- **ID**: 95a7f9a5-6096-437e-a19e-86f42ac609bd
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-21
@@ -52,7 +53,7 @@ This search detects user accounts that have been locked out a relatively high nu
 ```
 
 #### Associated Analytic Story
-* [Account Monitoring and Controls](_stories/account_monitoring_and_controls)
+* [Account Monitoring and Controls](/stories/account_monitoring_and_controls)
 
 
 #### How To Implement

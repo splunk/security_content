@@ -2,7 +2,7 @@
 title: Endpoint
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
+taxonomy: Endpoint
 permalink: /detections/endpoint
 sidebar:
   nav: "detections"

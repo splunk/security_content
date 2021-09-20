@@ -23,6 +23,7 @@ tags:
 
 This search looks for newly created accounts that have been elevated to local administrators.
 
+- **ID**: b25f6f62-0712-43c1-b203-083231ffd97d
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-08
@@ -49,8 +50,8 @@ This search looks for newly created accounts that have been elevated to local ad
 ```
 
 #### Associated Analytic Story
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
-* [HAFNIUM Group](_stories/hafnium_group)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [HAFNIUM Group](/stories/hafnium_group)
 
 
 #### How To Implement

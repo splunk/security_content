@@ -24,6 +24,7 @@ tags:
 
 Attempt To Add Certificate To Untrusted Store
 
+- **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-03
@@ -49,7 +50,7 @@ Attempt To Add Certificate To Untrusted Store
 ```
 
 #### Associated Analytic Story
-* [Disabling Security Tools](_stories/disabling_security_tools)
+* [Disabling Security Tools](/stories/disabling_security_tools)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 The following analytic identifes Event Code 4768, A `Kerberos authentication ticket (TGT) was requested`, successfull occurs. This behavior has been identified to assist with detecting PetitPotam, CVE-2021-36942. Once an attacer obtains a computer certificate by abusing Active Directory Certificate Services in combination with PetitPotam, the next step would be to leverage the certificate for malicious purposes. One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool like Rubeus. This request will generate a 4768 event with some unusual fields depending on the environment. This analytic will require tuning, we recommend filtering Account_Name to Domain Controllers for your environment.
 
+- **ID**: e3ef244e-0a67-11ec-abf2-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-31
@@ -47,7 +48,7 @@ The following analytic identifes Event Code 4768, A `Kerberos authentication tic
 ```
 
 #### Associated Analytic Story
-* [PetitPotam NTLM Relay on Active Directory Certificate Services](_stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
+* [PetitPotam NTLM Relay on Active Directory Certificate Services](/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 This search looks for events where `PsExec.exe` is run with the `accepteula` flag in the command line. PsExec is a built-in Windows utility that enables you to execute processes on other systems. It is fully interactive for console applications. This tool is widely used for launching interactive command prompts on remote systems. Threat actors leverage this extensively for executing code on compromised systems. If an attacker is running PsExec for the first time, they will be prompted to accept the end-user license agreement (EULA), which can be passed as the argument `accepteula` within the command line.
 
+- **ID**: b89919ed-fe5f-492c-b139-151xb162040e
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
@@ -48,11 +49,11 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 ```
 
 #### Associated Analytic Story
-* [SamSam Ransomware](_stories/samsam_ransomware)
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
-* [HAFNIUM Group](_stories/hafnium_group)
-* [DarkSide Ransomware](_stories/darkside_ransomware)
-* [Lateral Movement](_stories/lateral_movement)
+* [SamSam Ransomware](/stories/samsam_ransomware)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [HAFNIUM Group](/stories/hafnium_group)
+* [DarkSide Ransomware](/stories/darkside_ransomware)
+* [Lateral Movement](/stories/lateral_movement)
 
 
 #### How To Implement

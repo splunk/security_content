@@ -20,6 +20,7 @@ tags:
 
 This search detects the memory of lsass.exe being dumped for offline credential theft attack.
 
+- **ID**: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-09-15
@@ -45,7 +46,7 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

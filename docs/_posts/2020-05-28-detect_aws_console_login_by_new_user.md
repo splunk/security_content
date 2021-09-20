@@ -21,6 +21,7 @@ tags:
 
 This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
+- **ID**: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2020-05-28
@@ -44,7 +45,7 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 ```
 
 #### Associated Analytic Story
-* [Suspicious Cloud Authentication Activities](_stories/suspicious_cloud_authentication_activities)
+* [Suspicious Cloud Authentication Activities](/stories/suspicious_cloud_authentication_activities)
 
 
 #### How To Implement

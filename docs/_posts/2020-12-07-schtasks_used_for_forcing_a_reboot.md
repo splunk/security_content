@@ -25,6 +25,7 @@ tags:
 
 This search looks for flags passed to schtasks.exe on the command-line that indicate that a forced reboot of system is scheduled.
 
+- **ID**: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-07
@@ -50,8 +51,8 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 ```
 
 #### Associated Analytic Story
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
-* [Ransomware](_stories/ransomware)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

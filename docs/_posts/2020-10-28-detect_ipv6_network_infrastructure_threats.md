@@ -33,6 +33,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect various attacks such as packet forging in the Infrastructure.
 
+- **ID**: c3be767e-7959-44c5-8976-0e9c12a91ad2
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-28
@@ -60,7 +61,7 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 ```
 
 #### Associated Analytic Story
-* [Router and Infrastructure Security](_stories/router_and_infrastructure_security)
+* [Router and Infrastructure Security](/stories/router_and_infrastructure_security)
 
 
 #### How To Implement

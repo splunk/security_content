@@ -23,6 +23,7 @@ tags:
 
 This search is to detect a suspicious commandline designed to delete files or directory recursive using batch command. This technique was seen in ransomware (reddot) where it it tries to delete the files in recycle bin to impaire user from recovering deleted files.
 
+- **ID**: ba570b3a-d356-11eb-8358-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-22
@@ -48,7 +49,7 @@ This search is to detect a suspicious commandline designed to delete files or di
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

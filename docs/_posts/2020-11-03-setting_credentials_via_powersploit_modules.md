@@ -29,6 +29,7 @@ tags:
 
 This detection identifies illegal setting of credentials via PowerSploit modules.
 
+- **ID**: 07b2a501-f967-4ddc-9f56-2dce46dfce44
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
@@ -56,7 +57,7 @@ This detection identifies illegal setting of credentials via PowerSploit modules
 ```
 
 #### Associated Analytic Story
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

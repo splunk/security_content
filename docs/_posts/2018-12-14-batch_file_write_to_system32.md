@@ -23,6 +23,7 @@ tags:
 
 The search looks for a batch file (.bat) written to the Windows system directory tree.
 
+- **ID**: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
@@ -50,7 +51,7 @@ The search looks for a batch file (.bat) written to the Windows system directory
 ```
 
 #### Associated Analytic Story
-* [SamSam Ransomware](_stories/samsam_ransomware)
+* [SamSam Ransomware](/stories/samsam_ransomware)
 
 
 #### How To Implement

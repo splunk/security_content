@@ -23,6 +23,7 @@ tags:
 
 The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTML Help (CHM) file from a remote url. This particular technique will load Windows script code from a compiled help file. CHM files may  contain nearly any file type embedded, but only execute html/htm. Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The &#34;htm&#34; and &#34;html&#34; file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code. During investigation, identify script content origination. Review reputation of remote IP and domain. Some instances, it is worth decompiling the .chm file to review its original contents. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
+- **ID**: 8c5835b9-39d9-438b-817c-95f14c69a31e
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-11
@@ -48,7 +49,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 ```
 
 #### Associated Analytic Story
-* [Suspicious Compiled HTML Activity](_stories/suspicious_compiled_html_activity)
+* [Suspicious Compiled HTML Activity](/stories/suspicious_compiled_html_activity)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 The following analytic identifies rundll32.exe loading setupapi.dll and iesetupapi.dll by calling the LaunchINFSection function on the command line. This particular technique will load script code from a file. Upon a successful execution, the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During investigation, identify script content origination. Generally, a child process will spawn from rundll32.exe, but that may be bypassed based on script code contents. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, review any network connections and obtain the script content executed. It&#39;s possible other files are on disk.
 
+- **ID**: 61e7b44a-6088-4f26-b788-9a96ba13b37a
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-04
@@ -48,7 +49,7 @@ The following analytic identifies rundll32.exe loading setupapi.dll and iesetupa
 ```
 
 #### Associated Analytic Story
-* [Suspicious Rundll32 Activity](_stories/suspicious_rundll32_activity)
+* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
 
 
 #### How To Implement

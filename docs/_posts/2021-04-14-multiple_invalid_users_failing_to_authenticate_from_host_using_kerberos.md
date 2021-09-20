@@ -26,6 +26,7 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will only trigger on domain controllers, not on member servers or workstations.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
 
+- **ID**: 001266a6-9d5b-11eb-829b-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-14
@@ -53,7 +54,7 @@ The analytics returned fields allow analysts to investigate the event further by
 ```
 
 #### Associated Analytic Story
-* [Active Directory Password Spraying](_stories/active_directory_password_spraying)
+* [Active Directory Password Spraying](/stories/active_directory_password_spraying)
 
 
 #### How To Implement

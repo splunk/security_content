@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
+- **ID**: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2021-01-06
@@ -47,7 +48,7 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 ```
 
 #### Associated Analytic Story
-* [NOBELIUM Group](_stories/nobelium_group)
+* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### How To Implement

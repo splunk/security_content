@@ -24,6 +24,7 @@ tags:
 
 The following analytic identifies DLLHost.exe with no command line arguments with a network connection. It is unusual for DLLHost.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, triage any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. DLLHost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
+- **ID**: f1c07594-a141-11eb-8407-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-19
@@ -55,7 +56,7 @@ The following analytic identifies DLLHost.exe with no command line arguments wit
 ```
 
 #### Associated Analytic Story
-* [Cobalt Strike](_stories/cobalt_strike)
+* [Cobalt Strike](/stories/cobalt_strike)
 
 
 #### How To Implement

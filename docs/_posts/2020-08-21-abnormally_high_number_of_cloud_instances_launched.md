@@ -29,6 +29,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search finds for the number successfully created cloud instances for every 4 hour block. This is split up between weekdays and the weekend. It then applies the probability densitiy model previously created and alerts on any outliers.
 
+- **ID**: f2361e9f-3928-496c-a556-120cd4223a65
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-08-21
@@ -64,8 +65,8 @@ This search finds for the number successfully created cloud instances for every 
 ```
 
 #### Associated Analytic Story
-* [Cloud Cryptomining](_stories/cloud_cryptomining)
-* [Suspicious Cloud Instance Activities](_stories/suspicious_cloud_instance_activities)
+* [Cloud Cryptomining](/stories/cloud_cryptomining)
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
 
 
 #### How To Implement

@@ -26,6 +26,7 @@ tags:
 
 This detection identifies access to PowerSploit modules for reconnaissance of connectivity.
 
+- **ID**: 525d32fd-65dd-4732-9b72-3cfc7ddddbd2
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -53,7 +54,7 @@ This detection identifies access to PowerSploit modules for reconnaissance of co
 ```
 
 #### Associated Analytic Story
-* [Windows Discovery Techniques](_stories/windows_discovery_techniques)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement

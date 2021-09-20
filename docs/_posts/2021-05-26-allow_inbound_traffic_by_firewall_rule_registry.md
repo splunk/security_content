@@ -23,6 +23,7 @@ tags:
 
 This analytic detects a potential suspicious modification of firewall rule registry allowing inbound traffic in specific port with public profile. This technique was identified when an adversary wants to grant remote access to a machine by allowing the traffic in a firewall rule.
 
+- **ID**: 0a46537c-be02-11eb-92ca-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-26
@@ -55,7 +56,7 @@ This analytic detects a potential suspicious modification of firewall rule regis
 ```
 
 #### Associated Analytic Story
-* [Prohibited Traffic Allowed or Protocol Mismatch](_stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
 
 
 #### How To Implement

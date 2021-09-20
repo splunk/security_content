@@ -23,6 +23,7 @@ tags:
 
 This search detects the creation of a new Federation setting by alerting about an specific event related to its creation.
 
+- **ID**: 1668812a-6047-11eb-ae93-0242ac130002
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -47,8 +48,8 @@ This search detects the creation of a new Federation setting by alerting about a
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
-* [Cloud Federated Credential Abuse](_stories/cloud_federated_credential_abuse)
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
 #### How To Implement

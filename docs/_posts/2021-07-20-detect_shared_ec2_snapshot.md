@@ -23,6 +23,7 @@ tags:
 
 The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot.
 
+- **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-20
@@ -49,8 +50,8 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 ```
 
 #### Associated Analytic Story
-* [Suspicious Cloud Instance Activities](_stories/suspicious_cloud_instance_activities)
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

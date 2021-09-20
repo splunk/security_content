@@ -26,6 +26,7 @@ tags:
 
 The following detection identifies Scheduled Tasks registering (creating a new task) a binary or script to run from a public directory which includes users\public, \programdata\ and \windows\temp. Upon triage, review the binary or script in the command line for legitimacy, whether an approved binary/script or not. In addition, capture the binary or script in question and analyze for further behaviors. Identify the source and contain the endpoint.
 
+- **ID**: 7feb7972-7ac3-11eb-bac8-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-01
@@ -51,9 +52,9 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 ```
 
 #### Associated Analytic Story
-* [Ransomware](_stories/ransomware)
-* [Ryuk Ransomware](_stories/ryuk_ransomware)
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Ransomware](/stories/ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

@@ -24,6 +24,7 @@ tags:
 
 This search looks for PowerShell processes started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet. This combination of command-line options is suspicious because it&#39;s overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Deprecated becaue hidden is not needed when download file with System.Net.WebClient.
 
+- **ID**: ee18ed37-0802-4268-9435-b3b91aaa18db
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-20
@@ -49,9 +50,9 @@ This search looks for PowerShell processes started with parameters to modify the
 ```
 
 #### Associated Analytic Story
-* [Malicious PowerShell](_stories/malicious_powershell)
-* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](_stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
-* [HAFNIUM Group](_stories/hafnium_group)
+* [Malicious PowerShell](/stories/malicious_powershell)
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
+* [HAFNIUM Group](/stories/hafnium_group)
 
 
 #### How To Implement

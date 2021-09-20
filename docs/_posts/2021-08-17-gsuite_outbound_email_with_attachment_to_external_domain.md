@@ -22,6 +22,7 @@ tags:
 
 This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic &lt; 20 with attachment.
 
+- **ID**: dc4dc3a8-ff54-11eb-8bf7-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-17
@@ -51,7 +52,7 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](_stories/devsecops)
+* [DevSecOps](/stories/devsecops)
 
 
 #### How To Implement

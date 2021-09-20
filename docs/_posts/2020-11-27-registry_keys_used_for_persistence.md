@@ -24,6 +24,7 @@ tags:
 
 The search looks for modifications to registry keys that can be used to launch an application or service at system startup.
 
+- **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-27
@@ -49,14 +50,14 @@ The search looks for modifications to registry keys that can be used to launch a
 ```
 
 #### Associated Analytic Story
-* [Suspicious Windows Registry Activities](_stories/suspicious_windows_registry_activities)
-* [Suspicious MSHTA Activity](_stories/suspicious_mshta_activity)
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
-* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](_stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
-* [Ransomware](_stories/ransomware)
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
-* [Emotet Malware  DHS Report TA18-201A ](_stories/emotet_malware__dhs_report_ta18-201a_)
-* [IcedID](_stories/icedid)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns)
+* [Ransomware](/stories/ransomware)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
+* [IcedID](/stories/icedid)
 
 
 #### How To Implement

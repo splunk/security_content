@@ -2,8 +2,8 @@
 title: Adversary Tactics
 layout: tag
 author_profile: false
-taxonomy: Defense Evasion
-permalink: /detections/adversary_tactics
+taxonomy: Adversary Tactics
+permalink: /stories/adversary_tactics
 sidebar:
-  nav: "detections"
+  nav: "stories"
 ---

@@ -28,6 +28,7 @@ All event subscriptions have three components \
 1. Binding - Registers a filter to a consumer. EventID equals 21 \
 Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding. It may be pertinent to review all 3 to identify the flow of execution. In addition, EventCode 4104 may assist with any other PowerShell script usage that registered the subscription.
 
+- **ID**: 01d9a0c2-cece-11eb-ab46-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-16
@@ -52,7 +53,7 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 ```
 
 #### Associated Analytic Story
-* [Suspicious WMI Use](_stories/suspicious_wmi_use)
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
 #### How To Implement

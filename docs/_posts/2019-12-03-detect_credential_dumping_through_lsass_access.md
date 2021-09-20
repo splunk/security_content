@@ -22,6 +22,7 @@ tags:
 
 This search looks for reading lsass memory consistent with credential dumping.
 
+- **ID**: 2c365e57-4414-4540-8dc0-73ab10729996
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-03
@@ -47,8 +48,8 @@ This search looks for reading lsass memory consistent with credential dumping.
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
-* [Detect Zerologon Attack](_stories/detect_zerologon_attack)
+* [Credential Dumping](/stories/credential_dumping)
+* [Detect Zerologon Attack](/stories/detect_zerologon_attack)
 
 
 #### How To Implement

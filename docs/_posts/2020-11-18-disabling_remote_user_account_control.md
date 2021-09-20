@@ -23,6 +23,7 @@ tags:
 
 The search looks for modifications to registry keys that control the enforcement of Windows User Account Control (UAC).
 
+- **ID**: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-18
@@ -46,8 +47,8 @@ The search looks for modifications to registry keys that control the enforcement
 ```
 
 #### Associated Analytic Story
-* [Windows Defense Evasion Tactics](_stories/windows_defense_evasion_tactics)
-* [Suspicious Windows Registry Activities](_stories/suspicious_windows_registry_activities)
+* [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
+* [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
 
 
 #### How To Implement

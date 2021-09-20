@@ -23,6 +23,7 @@ tags:
 
 The following analytic identifies &#34;mshta.exe&#34; execution with inline protocol handlers. &#34;JavaScript&#34;, &#34;VBScript&#34;, and &#34;About&#34; are the only supported options when invoking HTA content directly on the command-line. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process &#34;mshta.exe&#34; and its parent process.
 
+- **ID**: a0873b32-5b68-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-20
@@ -48,7 +49,7 @@ The following analytic identifies &#34;mshta.exe&#34; execution with inline prot
 ```
 
 #### Associated Analytic Story
-* [Suspicious MSHTA Activity](_stories/suspicious_mshta_activity)
+* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
 
 
 #### How To Implement

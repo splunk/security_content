@@ -22,6 +22,7 @@ tags:
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect remote file inclusion attacks.
 
+- **ID**: fc5531ae-62fd-4de6-9c36-b4afdae8ca95
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
@@ -51,7 +52,7 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 ```
 
 #### Associated Analytic Story
-* [Dev Sec Ops](_stories/dev_sec_ops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

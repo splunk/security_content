@@ -26,6 +26,7 @@ tags:
 
 This search looks for cloud compute instances created by users who have not created them before.
 
+- **ID**: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2021-07-13
@@ -56,7 +57,7 @@ This search looks for cloud compute instances created by users who have not crea
 ```
 
 #### Associated Analytic Story
-* [Cloud Cryptomining](_stories/cloud_cryptomining)
+* [Cloud Cryptomining](/stories/cloud_cryptomining)
 
 
 #### How To Implement

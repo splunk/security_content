@@ -23,6 +23,7 @@ tags:
 
 This analytic identifies excessive usage of `net.exe` or `net1.exe` within a bucket of time (1 minute). This behavior was seen in a Monero incident where the adversary attempts to create many users, delete and disable users as part of its malicious behavior.
 
+- **ID**: 45e52536-ae42-11eb-b5c6-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-06
@@ -49,8 +50,8 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 ```
 
 #### Associated Analytic Story
-* [XMRig](_stories/xmrig)
-* [Ransomware](_stories/ransomware)
+* [XMRig](/stories/xmrig)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

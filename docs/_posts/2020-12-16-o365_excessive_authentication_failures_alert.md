@@ -23,6 +23,7 @@ tags:
 
 This search detects when an excessive number of authentication failures occur this search also includes attempts against MFA prompt codes
 
+- **ID**: d441364c-349c-453b-b55f-12eccab67cf9
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -48,7 +49,7 @@ This search detects when an excessive number of authentication failures occur th
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
+* [Office 365 Detections](/stories/office_365_detections)
 
 
 #### How To Implement

@@ -29,6 +29,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search finds for the number successfully destroyed cloud instances for every 4 hour block. This is split up between weekdays and the weekend. It then applies the probability densitiy model previously created and alerts on any outliers.
 
+- **ID**: ef629fc9-1583-4590-b62a-f2247fbf7bbf
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-08-21
@@ -64,7 +65,7 @@ This search finds for the number successfully destroyed cloud instances for ever
 ```
 
 #### Associated Analytic Story
-* [Suspicious Cloud Instance Activities](_stories/suspicious_cloud_instance_activities)
+* [Suspicious Cloud Instance Activities](/stories/suspicious_cloud_instance_activities)
 
 
 #### How To Implement

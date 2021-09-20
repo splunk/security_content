@@ -22,6 +22,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search will detect spike in blocked outbound network connections originating from within your AWS environment.  It will also update the cache file that factors in the latest data.
 
+- **ID**: ada0f278-84a8-46w1-a3f1-w32372d4bd53
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-05-07
@@ -52,9 +53,9 @@ This search will detect spike in blocked outbound network connections originatin
 ```
 
 #### Associated Analytic Story
-* [AWS Network ACL Activity](_stories/aws_network_acl_activity)
-* [Suspicious AWS Traffic](_stories/suspicious_aws_traffic)
-* [Command and Control](_stories/command_and_control)
+* [AWS Network ACL Activity](/stories/aws_network_acl_activity)
+* [Suspicious AWS Traffic](/stories/suspicious_aws_traffic)
+* [Command and Control](/stories/command_and_control)
 
 
 #### How To Implement

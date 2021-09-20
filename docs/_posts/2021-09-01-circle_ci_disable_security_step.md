@@ -23,6 +23,7 @@ tags:
 
 This search looks for disable security step in CircleCI pipeline.
 
+- **ID**: 72cb9de9-e98b-4ac9-80b2-5331bba6ea97
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
@@ -56,7 +57,7 @@ This search looks for disable security step in CircleCI pipeline.
 ```
 
 #### Associated Analytic Story
-* [Dev Sec Ops](_stories/dev_sec_ops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

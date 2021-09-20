@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for the first and last time a Windows service is seen running in your environment. This table is then cached.
 
+- **ID**: 823136f2-d755-4b6d-ae04-372b486a5808
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
@@ -51,9 +52,9 @@ This search looks for the first and last time a Windows service is seen running 
 ```
 
 #### Associated Analytic Story
-* [Windows Service Abuse](_stories/windows_service_abuse)
-* [Orangeworm Attack Group](_stories/orangeworm_attack_group)
-* [NOBELIUM Group](_stories/nobelium_group)
+* [Windows Service Abuse](/stories/windows_service_abuse)
+* [Orangeworm Attack Group](/stories/orangeworm_attack_group)
+* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### How To Implement

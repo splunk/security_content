@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for network traffic identified as The Onion Router (TOR), a benign anonymity network which can be abused for a variety of nefarious purposes.
 
+- **ID**: ea688274-9c06-4473-b951-e4cb7a5d7a45
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-22
@@ -50,10 +51,10 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 ```
 
 #### Associated Analytic Story
-* [Prohibited Traffic Allowed or Protocol Mismatch](_stories/prohibited_traffic_allowed_or_protocol_mismatch)
-* [Ransomware](_stories/ransomware)
-* [Command and Control](_stories/command_and_control)
-* [NOBELIUM Group](_stories/nobelium_group)
+* [Prohibited Traffic Allowed or Protocol Mismatch](/stories/prohibited_traffic_allowed_or_protocol_mismatch)
+* [Ransomware](/stories/ransomware)
+* [Command and Control](/stories/command_and_control)
+* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### How To Implement

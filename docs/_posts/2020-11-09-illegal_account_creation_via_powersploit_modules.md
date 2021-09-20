@@ -20,6 +20,7 @@ tags:
 
 This detection identifies access to PowerSploit modules that create accounts illegaly.
 
+- **ID**: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -47,7 +48,7 @@ This detection identifies access to PowerSploit modules that create accounts ill
 ```
 
 #### Associated Analytic Story
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 This search detects the addition of a new Federated domain.
 
+- **ID**: e155876a-6048-11eb-ae93-0242ac130002
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -47,8 +48,8 @@ This search detects the addition of a new Federated domain.
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
-* [Cloud Federated Credential Abuse](_stories/cloud_federated_credential_abuse)
+* [Office 365 Detections](/stories/office_365_detections)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
 #### How To Implement

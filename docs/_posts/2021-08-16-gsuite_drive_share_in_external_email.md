@@ -22,6 +22,7 @@ tags:
 
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
 
+- **ID**: f6ee02d6-fea0-11eb-b2c2-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-16
@@ -49,7 +50,7 @@ This search is to detect suspicious google drive or google docs files shared out
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](_stories/devsecops)
+* [DevSecOps](/stories/devsecops)
 
 
 #### How To Implement

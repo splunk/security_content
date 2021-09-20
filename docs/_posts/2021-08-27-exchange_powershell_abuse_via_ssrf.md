@@ -28,6 +28,7 @@ A suspicious event will have `PowerShell`, the method `POST` and `autodiscover.j
 An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnsso.flq/powershell/?X-Rps-CAT=VgEAVAdXaW5kb3d...` (abbreviated) \
 Review the source attempting to perform this activity against your environment. In addition, review PowerShell logs and access recently granted to Exchange roles.
 
+- **ID**: 29228ab4-0762-11ec-94aa-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-27
@@ -53,7 +54,7 @@ Review the source attempting to perform this activity against your environment. 
 ```
 
 #### Associated Analytic Story
-* [ProxyShell](_stories/proxyshell)
+* [ProxyShell](/stories/proxyshell)
 
 
 #### How To Implement

@@ -23,6 +23,7 @@ tags:
 
 This search is to detect a suspicious rundll32.exe process with plugininit parameter. This technique is commonly seen in IceID malware to execute its initial dll stager to download another payload to the compromised machine.
 
+- **ID**: 92d51712-ee29-11eb-b1ae-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-26
@@ -48,7 +49,7 @@ This search is to detect a suspicious rundll32.exe process with plugininit param
 ```
 
 #### Associated Analytic Story
-* [IcedID](_stories/icedid)
+* [IcedID](/stories/icedid)
 
 
 #### How To Implement

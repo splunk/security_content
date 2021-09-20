@@ -22,6 +22,7 @@ tags:
 
 Detect memory dumping of the LSASS process.
 
+- **ID**: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
@@ -47,7 +48,7 @@ Detect memory dumping of the LSASS process.
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
+* [Credential Dumping](/stories/credential_dumping)
 
 
 #### How To Implement

@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe. After a period of 12-14 days, the malware will attempt to resolve a subdomain of avsvmcloud.com. This detections will correlate both events.
 
+- **ID**: 701a8740-e8db-40df-9190-5516d3819787
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-14
@@ -51,7 +52,7 @@ The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost
 ```
 
 #### Associated Analytic Story
-* [NOBELIUM Group](_stories/nobelium_group)
+* [NOBELIUM Group](/stories/nobelium_group)
 
 
 #### How To Implement

@@ -22,6 +22,7 @@ tags:
 
 The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 
+- **ID**: 69c12d59-d951-431e-ab77-ec426b8d65e6
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -47,7 +48,7 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 ```
 
 #### Associated Analytic Story
-* [Ryuk Ransomware](_stories/ryuk_ransomware)
+* [Ryuk Ransomware](/stories/ryuk_ransomware)
 
 
 #### How To Implement

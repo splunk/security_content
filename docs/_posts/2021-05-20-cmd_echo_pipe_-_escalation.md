@@ -28,6 +28,7 @@ tags:
 
 This analytic identifies a common behavior by Cobalt Strike and other frameworks where the adversary will escalate privileges, either via `jump` (Cobalt Strike PTH) or `getsystem`, using named-pipe impersonation. A suspicious event will look like `cmd.exe /c echo 4sgryt3436 &gt; \\.\Pipe\5erg53`.
 
+- **ID**: eb277ba0-b96b-11eb-b00e-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-20
@@ -53,7 +54,7 @@ This analytic identifies a common behavior by Cobalt Strike and other frameworks
 ```
 
 #### Associated Analytic Story
-* [Cobalt Strike](_stories/cobalt_strike)
+* [Cobalt Strike](/stories/cobalt_strike)
 
 
 #### How To Implement

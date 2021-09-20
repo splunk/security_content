@@ -1,0 +1,37 @@
+---
+title: "Container Implantation Monitoring and Investigation"
+last_modified_at: 2020-02-20
+toc: true
+tags:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+---
+
+#### Description
+
+Use the searches in this story to monitor your Kubernetes registry repositories for upload, and deployment of potentially vulnerable, backdoor, or implanted containers. These searches provide information on source users, destination path, container names and repository names. The searches provide context to address Mitre T1525 which refers to container implantation upload to a company's repository either in Amazon Elastic Container Registry, Google Container Registry and Azure Container Registry.
+
+- **ID**: aa0e28b1-0521-4b6f-9d2a-7b87e34af246
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **Last Updated**: 2020-02-20
+- **Author**: Rod Soto, Rico Valdez, Splunk
+
+#### Detection profiles
+
+| Name        | Technique   | Type         |
+| ----------- | ----------- |--------------|
+| [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | None | Hunting |
+
+#### Kill Chain Phase
+
+
+
+#### Reference
+
+* [https://github.com/splunk/cloud-datamodel-security-research](https://github.com/splunk/cloud-datamodel-security-research)
+
+
+
+_version_: 1

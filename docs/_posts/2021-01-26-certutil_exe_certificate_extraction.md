@@ -20,6 +20,7 @@ tags:
 
 This search looks for arguments to certutil.exe indicating the manipulation or extraction of Certificate. This certificate can then be used to sign new authentication tokens specially inside Federated environments such as Windows ADFS.
 
+- **ID**: 337a46be-600f-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-26
@@ -38,8 +39,8 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 ```
 
 #### Associated Analytic Story
-* [Windows Persistence Techniques](_stories/windows_persistence_techniques)
-* [Cloud Federated Credential Abuse](_stories/cloud_federated_credential_abuse)
+* [Windows Persistence Techniques](/stories/windows_persistence_techniques)
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
 
 
 #### How To Implement

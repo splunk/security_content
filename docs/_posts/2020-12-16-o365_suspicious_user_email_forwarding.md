@@ -23,6 +23,7 @@ tags:
 
 This search detects when multiple user configured a forwarding rule to the same destination.
 
+- **ID**: f8dfe015-dbb3-4569-ba75-b13787e06aa4
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
@@ -51,8 +52,8 @@ This search detects when multiple user configured a forwarding rule to the same 
 ```
 
 #### Associated Analytic Story
-* [Office 365 Detections](_stories/office_365_detections)
-* [Data Exfiltration](_stories/data_exfiltration)
+* [Office 365 Detections](/stories/office_365_detections)
+* [Data Exfiltration](/stories/data_exfiltration)
 
 
 #### How To Implement

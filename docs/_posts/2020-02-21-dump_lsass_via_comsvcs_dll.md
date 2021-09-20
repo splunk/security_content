@@ -23,6 +23,7 @@ tags:
 
 Detect the usage of comsvcs.dll for dumping the lsass process.
 
+- **ID**: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-02-21
@@ -48,9 +49,9 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 ```
 
 #### Associated Analytic Story
-* [Credential Dumping](_stories/credential_dumping)
-* [Suspicious Rundll32 Activity](_stories/suspicious_rundll32_activity)
-* [HAFNIUM Group](_stories/hafnium_group)
+* [Credential Dumping](/stories/credential_dumping)
+* [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity)
+* [HAFNIUM Group](/stories/hafnium_group)
 
 
 #### How To Implement

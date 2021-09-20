@@ -24,6 +24,7 @@ tags:
 
 This search looks for PowerShell processes started with parameters used to bypass the local execution policy for scripts. These parameters are often observed in attacks leveraging PowerShell scripts as they override the default PowerShell execution policy.
 
+- **ID**: 9be56c82-b1cc-4318-87eb-d138afaaca39
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -49,8 +50,8 @@ This search looks for PowerShell processes started with parameters used to bypas
 ```
 
 #### Associated Analytic Story
-* [DHS Report TA18-074A](_stories/dhs_report_ta18-074a)
-* [HAFNIUM Group](_stories/hafnium_group)
+* [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
+* [HAFNIUM Group](/stories/hafnium_group)
 
 
 #### How To Implement

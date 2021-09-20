@@ -25,6 +25,7 @@ tags:
 
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
+- **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
@@ -54,7 +55,7 @@ This search looks for fast execution of processes used for system network config
 ```
 
 #### Associated Analytic Story
-* [Unusual Processes](_stories/unusual_processes)
+* [Unusual Processes](/stories/unusual_processes)
 
 
 #### How To Implement

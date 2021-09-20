@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for the execution of `adfind.exe` with command-line arguments that it uses by default. Specifically the filter or search functions. It also considers the arguments necessary like objectcategory, see readme for more details: https://www.joeware.net/freetools/tools/adfind/usage.htm. This has been seen used before by Wizard Spider, FIN6 and actors whom also launched SUNBURST. AdFind.exe is usually used a recon tool to enumare a domain controller.
 
+- **ID**: bd3b0187-189b-46c0-be45-f52da2bae67f
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-16
@@ -50,8 +51,8 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 ```
 
 #### Associated Analytic Story
-* [NOBELIUM Group](_stories/nobelium_group)
-* [Domain Trust Discovery](_stories/domain_trust_discovery)
+* [NOBELIUM Group](/stories/nobelium_group)
+* [Domain Trust Discovery](/stories/domain_trust_discovery)
 
 
 #### How To Implement

@@ -24,6 +24,7 @@ tags:
 
 The following analtyic identifies renamed instances of `WinRAR.exe`. In most cases, it is not common for WinRAR to be used renamed, however it is common to be installed by a third party application and executed from a non-standard path. In this instance, we are using `OriginalFileName` from Sysmon to determine if the process is WinRAR. During triage, validate additional metadata from the binary that this is `WinRAR`. Review parallel processes and file modifications.
 
+- **ID**: 1b7bfb2c-b8e6-11eb-99ac-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-19
@@ -49,7 +50,7 @@ The following analtyic identifies renamed instances of `WinRAR.exe`. In most cas
 ```
 
 #### Associated Analytic Story
-* [Collection and Staging](_stories/collection_and_staging)
+* [Collection and Staging](/stories/collection_and_staging)
 
 
 #### How To Implement

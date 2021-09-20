@@ -21,6 +21,7 @@ tags:
 
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts using Pass-the-Hash technique.
 
+- **ID**: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
@@ -50,7 +51,7 @@ This search looks for specific authentication events from the Windows Security E
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](_stories/lateral_movement)
+* [Lateral Movement](/stories/lateral_movement)
 
 
 #### How To Implement

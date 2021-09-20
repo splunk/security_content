@@ -28,6 +28,7 @@ Inherently, the usage of the modules is not malicious, but reviewing parallel pr
 Module - New-MailboxExportRequest will begin the process of exporting contents of a primary mailbox or archive to a .pst file. \
 Module - New-managementroleassignment can assign a management role to a management role group, management role assignment policy, user, or universal security group (USG).
 
+- **ID**: 2d10095e-05ae-11ec-8fdf-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-27
@@ -52,7 +53,7 @@ Module - New-managementroleassignment can assign a management role to a manageme
 ```
 
 #### Associated Analytic Story
-* [ProxyShell](_stories/proxyshell)
+* [ProxyShell](/stories/proxyshell)
 
 
 #### How To Implement

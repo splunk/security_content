@@ -21,6 +21,7 @@ tags:
 
 This search is to detect execution of wevtutil.exe to disable logs. This technique was seen in several ransomware to disable the event logs to evade alerts and detections in compromised host.
 
+- **ID**: a4bdc944-cdd9-11eb-ac97-acde48001122
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-15
@@ -46,8 +47,8 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 ```
 
 #### Associated Analytic Story
-* [Windows Log Manipulation](_stories/windows_log_manipulation)
-* [Ransomware](_stories/ransomware)
+* [Windows Log Manipulation](/stories/windows_log_manipulation)
+* [Ransomware](/stories/ransomware)
 
 
 #### How To Implement

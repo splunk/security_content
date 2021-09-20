@@ -1,0 +1,44 @@
+---
+title: "PetitPotam NTLM Relay on Active Directory Certificate Services"
+last_modified_at: 2021-08-31
+toc: true
+tags:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+---
+
+#### Description
+
+PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC Protocol that can allow an unauthenticated account to escalate privileges to domain administrator given the right circumstances.
+
+- **ID**: 97aecafc-0a68-11ec-962f-acde48001122
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **Last Updated**: 2021-08-31
+- **Author**: Michael Haag, Mauricio Velazco, Splunk
+
+#### Detection profiles
+
+| Name        | Technique   | Type         |
+| ----------- | ----------- |--------------|
+| [PetitPotam Network Share Access Request](/endpoint/petitpotam_network_share_access_request/) | None | TTP |
+| [PetitPotam Suspicious Kerberos TGT Request](/endpoint/petitpotam_suspicious_kerberos_tgt_request/) | None | TTP |
+
+#### Kill Chain Phase
+
+
+
+#### Reference
+
+* [https://us-cert.cisa.gov/ncas/current-activity/2021/07/27/microsoft-releases-guidance-mitigating-petitpotam-ntlm-relay](https://us-cert.cisa.gov/ncas/current-activity/2021/07/27/microsoft-releases-guidance-mitigating-petitpotam-ntlm-relay)
+* [https://support.microsoft.com/en-us/topic/kb5005413-mitigating-ntlm-relay-attacks-on-active-directory-certificate-services-ad-cs-3612b773-4043-4aa9-b23d-b87910cd3429](https://support.microsoft.com/en-us/topic/kb5005413-mitigating-ntlm-relay-attacks-on-active-directory-certificate-services-ad-cs-3612b773-4043-4aa9-b23d-b87910cd3429)
+* [https://www.specterops.io/assets/resources/Certified_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified_Pre-Owned.pdf)
+* [https://github.com/topotam/PetitPotam/](https://github.com/topotam/PetitPotam/)
+* [https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210723](https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210723)
+* [https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36942](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36942)
+* [https://attack.mitre.org/techniques/T1187/](https://attack.mitre.org/techniques/T1187/)
+
+
+
+_version_: 1

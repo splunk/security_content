@@ -23,6 +23,7 @@ tags:
 
 this search is designed to detect suspicious wermgr.exe process that tries to connect to known IP web services. This technique is know for trickbot and other trojan spy malware to recon the infected machine and look for its ip address without so much finger print on the commandline process. Since wermgr.exe is designed for error handling process of windows it is really suspicious that this process is trying to connect to this IP web services cause that maybe cause of some malicious code injection.
 
+- **ID**: ed313326-a0f9-11eb-a89c-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-19
@@ -47,7 +48,7 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 ```
 
 #### Associated Analytic Story
-* [Trickbot](_stories/trickbot)
+* [Trickbot](/stories/trickbot)
 
 
 #### How To Implement
