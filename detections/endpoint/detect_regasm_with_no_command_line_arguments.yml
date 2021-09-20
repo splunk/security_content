@@ -4,7 +4,8 @@ version: 2
 date: '2021-09-20'
 author: Michael Haag, Splunk
 type: TTP
-datamodel: []
+datamodel:
+  - Endpoint
 description: The following analytic identifies regasm.exe with no command line arguments.
   This particular behavior occurs when another process injects into regasm.exe, no
   command line arguments will be present. During investigation, identify any network
@@ -44,7 +45,7 @@ tags:
   impact: 70
   kill_chain_phases:
   - Actions on Objectives
-  message: The process $process_name$ was spawned by $parent_image$ without any command-line
+  message: The process $process_name$ was spawned by $parent_process_name$ without any command-line
     arguments on $dest$ by $user$.
   mitre_attack_id:
   - T1218.009
@@ -60,7 +61,7 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: parent_image
+  - name: parent_process_name
     type: Parent Process
     role:
     - Parent Process
@@ -74,15 +75,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - EventID
-  - process_name
-  - OriginalFileName
-  - CommandLine
-  - dest
-  - User
-  - ParentImage
-  - ParentCommandLine
-  - process_path
-  - Computer
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 49
   security_domain: endpoint
