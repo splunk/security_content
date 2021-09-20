@@ -1,0 +1,69 @@
+name: Get-ForestTrust with PowerShell Script Block
+id: 70fac80e-0bf1-11ec-9ba0-acde48001122
+version: 1
+date: '2021-09-02'
+author: Michael Haag, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify suspicious PowerShell execution. Script Block Logging captures the command
+  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
+  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
+  \
+
+  This analytic identifies Get-ForestTrust from PowerSploit in order to gather domain
+  trust information. \
+
+  During triage, review parallel processes using an EDR product or 4688 events. It
+  will be important to understand the timeline of events around this activity. Review
+  the entire logged PowerShell script block.'
+search: '`powershell` EventCode=4104 Message = "*get-foresttrust*" | stats count min(_time)
+  as firstTime max(_time) as lastTime by  Message OpCode ComputerName User EventCode
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `get_foresttrust_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+- https://powersploit.readthedocs.io/en/latest/Recon/Get-ForestTrust/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1482
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - Path
+  - OpCode
+  - ComputerName
+  - User
+  security_domain: endpoint
+  impact: 30
+  confidence: 40
+  risk_score: 12
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  message: Suspicious PowerShell Get-ForestTrust was identified on endpoint $ComputerName$
+    by user $User$.
+  observable:
+  - name: User
+    type: User
+    role:
+    - Victim
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  automated_detection_testing: passed
