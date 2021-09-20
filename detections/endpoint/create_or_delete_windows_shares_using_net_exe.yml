@@ -9,7 +9,7 @@ datamodel:
 description: This search looks for the creation or deletion of hidden shares using
   net.exe.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processs.process_name=net.exe
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=net.exe
   OR Processes.process_name=net1.exe) AND (Processes.process="* share *") by Processes.dest
   Processes.user Processes.parent_process_name Processes.process_name Processes.process
   Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
