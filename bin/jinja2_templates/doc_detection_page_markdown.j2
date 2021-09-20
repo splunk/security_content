@@ -1,38 +1,17 @@
 ---
-title: "{{detection.name}}"
-excerpt: "{% for attack in detection.mitre_attacks -%}
-{%- if attack.technique_id -%}
-{{ attack.technique }}
-{%- endif -%}
-{% if not loop.last -%}, {% endif -%}
-{% endfor %}"
-categories:
-  - {{detection.kind|capitalize}}
-last_modified_at: {{detection.date}}
-toc: true
-tags:
-  - {{ detection.type }}
-{%- for attack in detection.mitre_attacks %}
-  - {{ attack.technique_id }}
-  - {{ attack.technique }}
-  {%- for attack_tactic in attack.tactic %}
-  - {{ attack_tactic }}
-  {%- endfor -%}
-{%- endfor -%}
-{%- for product in detection.tags.product %}
-  - {{ product }}
-{%- endfor -%}
-{%- for datamodel in detection.datamodel %}
-  - {{ datamodel }}
-{%- endfor -%}
-{%- for phase in detection.tags.kill_chain_phases %}
-  - {{ phase }}
-{%- endfor %}
 ---
+title: "Detections"
+layout: categories
+author_profile: false
+permalink: /detections/
+sidebar:
+  nav: "detections"
+---
+
 
 #### Description
 
-{{ detection.description }}
+{{ detections }}
 
 - **Product**: {{ detection.tags.product|join(', ') }}
 - **Datamodel**: {%-for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
@@ -40,11 +19,14 @@ tags:
 - **Author**: {{detection.author}}
 
 {% if detection.mitre_attacks %}
-#### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-{%- for attack in detection.mitre_attacks %}
+# Detections
+
+| Analytic    |   Technique |     Tactic   |        Type   |
+| ----------- | ----------- |--------------| --------------|
+{%- for detection in detections %}
+| [{{ detection.name }}]() | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
+
 {%- if attack.technique_id -%}
 {% set sub_technique = attack.technique_id.split('.') %}
 {%- if sub_technique | length > 1 -%}
