@@ -19,7 +19,8 @@ class GithubService:
         self.security_content_branch = security_content_branch
         self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
         if PR_number:
-            os.system('cd security_content && git fetch origin refs/pull/' + PR_number + '/head:' + security_content_branch + ' && cd ..')
+            subprocess.call(["git", "-C", "security_content/", "fetch", "origin", "refs/pull/%d/head:%s"%(PR_number, security_content_branch)])
+
         self.security_content_repo_obj.git.checkout(security_content_branch)
 
     def clone_project(self, url, project, branch):

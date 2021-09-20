@@ -150,7 +150,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
             if category['name'] == story['tags']['category'][0]:
                 category['stories'].append(story)
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                              trim_blocks=False)
     # write markdown
     template = j2_env.get_template('doc_stories_markdown.j2')
@@ -207,7 +207,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
 
     sorted_detections = sorted(detections, key=lambda i: i['name'])
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                              trim_blocks=False)
 
     # write markdown
@@ -253,12 +253,14 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 
+    
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     VERBOSE = args.verbose
 
+    
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     if VERBOSE:

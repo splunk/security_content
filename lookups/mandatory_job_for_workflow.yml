@@ -1,0 +1,3 @@
+description: A lookup file that will be used to define the mandatory job for workflow
+filename: mandatory_job_for_workflow.csv
+name: mandatory_job_for_workflow

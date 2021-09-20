@@ -29,8 +29,8 @@ tags:
   automated_detection_testing: passed
   confidence: 100
   context:
-  - Source: Endpoint
-  - Stage: Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
@@ -38,9 +38,14 @@ tags:
   impact: 40
   kill_chain_phases:
   - Exploitation
-  message: Disabled Registry Tools
+  message: Disabled Registry Tools on $dest$
   mitre_attack_id:
   - T1562.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
