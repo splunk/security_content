@@ -230,6 +230,7 @@ def get_deployments(object, deployments):
     for deployment in deployments:
 
         for tag in object['tags'].keys():
+            
             if tag in deployment['tags'].keys():
                 if type(object['tags'][tag]) is str:
                     tag_array = [object['tags'][tag]]
@@ -402,12 +403,16 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
             if detection['tags']['risk_score']:
                 detection['search'] = detection['search'] + ' | eval risk_score=' + str(detection['tags']['risk_score'])
 
+            if detection['tags']['mitre_attack_id']:
+                detection['search'] = detection['search'] + ' | eval mitre_attack_id=' + detection['tags']['mitre_attack_id'][0]
+
             if detection['type'] == 'Anomaly':
                 detection['search'] = detection['search'] + ' | collect index=signals'
             elif detection['type'] == 'TTP':
                 detection['search'] = detection['search'] + ' | collect index=alerts'
             elif detection['type'] == 'Correlation':
                 detection['search'] = detection['search'] + ' | collect index=alerts'
+
 
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])
