@@ -5,7 +5,7 @@ date: '2021-09-20'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
-  - Endpoint
+- Endpoint
 description: The following analytic identifies gpupdate.exe with no command line arguments.
   It is unusual for gpupdate.exe to execute with no command line arguments present.
   This particular behavior is common with malicious software, including Cobalt Strike.
@@ -62,11 +62,11 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path
