@@ -11,8 +11,8 @@ description: This search is to detect a suspicious MS scripting process such as 
   server. this anomaly detections is a good initial step to hunt further a suspicious wmi query or wmi related events to the host that may 
   give you good information regarding process that are commonly using wmi query or modules or might be an attacker using this technique.
 search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" , "*\\wmiutils.dll", "*\\wbemcomn.dll") 
-  | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count as NumberOfLoadedModules
-  by Image EventCode process_name ProcessId ProcessGuid Computer  | where NumberOfLoadedModules >= 5
+  | stats min(_time) as firstTime max(_time) as lastTime count 
+  by Image EventCode process_name ProcessId ProcessGuid Computer ImageLoaded
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `ms_scripting_process_loading_wmi_module_filter`'
@@ -28,7 +28,7 @@ tags:
   analytic_story:
   - FIN7
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/wmi_module_loaded_sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -45,6 +45,7 @@ tags:
   - ProcessId
   - ProcessGuid
   - Computer 
+  - ImageLoaded
   security_domain: endpoint
   impact: 30
   confidence: 30 

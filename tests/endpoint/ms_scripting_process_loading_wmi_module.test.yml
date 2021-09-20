@@ -2,12 +2,12 @@ name: MS Scripting Process Loading WMI Module Unit Test
 tests:
 - name: MS Scripting Process Loading WMI Module
   file: endpoint/ms_scripting_process_loading_wmi_module.yml
-  pass_condition: '| stats count | where count > 0'
-  earliest_time: '-365d'
+  pass_condition: '| stats count | where count >=5'
+  earliest_time: '-24h'
   latest_time: 'now'
   attack_data:
-  - file_name: wmi_module_loaded_sysmon.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/wmi_module_loaded_sysmon.log
+  - file_name: sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
     source:  XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
 
