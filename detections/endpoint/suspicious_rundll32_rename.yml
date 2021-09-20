@@ -9,7 +9,7 @@ datamodel:
 description: The following analytic identifies renamed instances of rundll32.exe executing.
   rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During
   investigation, validate it is the legitimate rundll32.exe executing and what script
-  content it is loading. This query relies on the OriginalFileName from Sysmon, or
+  content it is loading. This query relies on the original filename or
   internal name from the PE meta data. Expand the query as needed by looking for specific
   command line arguments outlined in other analytics.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
