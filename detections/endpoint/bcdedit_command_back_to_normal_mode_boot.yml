@@ -28,12 +28,29 @@ references:
 tags:
   analytic_story:
   - BlackMatter Ransomware
+  automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.002/autoadminlogon/windows-sysmon.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: bcdedit process with commandline $process$ to bring back to normal boot
+    configuration the $dest$
   mitre_attack_id:
   - T1490
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,22 +63,5 @@ tags:
   - Processes.parent_process
   - Processes.dest
   - Processes.user
-  security_domain: endpoint
-  impact: 50
-  confidence: 70
   risk_score: 35
-  context:
-  - Source:Endpoint
-  - Stage:Impact
-  message: bcdedit process with commandline $process$ to bring back to normal boot
-    configuration the $dest$
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

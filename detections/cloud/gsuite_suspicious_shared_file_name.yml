@@ -19,7 +19,7 @@ search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_tit
   field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com"
   and dest_domain="internal_test_email.com" | eval phase="plan" | eval severity="low" | stats count min(_time) as firstTime
   max(_time) as lastTime by email parameters.owner parameters.target_user parameters.doc_title
-  parameters.doc_type phase severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  parameters.doc_type phase severity | rename parameters.target_user AS user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `gsuite_suspicious_shared_file_name_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite having the file attachment metadata like file type, file
@@ -33,7 +33,7 @@ tags:
   analytic_story:
   - DevSecOps
   automated_detection_testing: passed
-  confidence: 30
+  confidence: 70
   context:
   - Source:Endpoint
   - Stage:Reconnaissance
@@ -68,5 +68,5 @@ tags:
   - parameters.visibility
   - parameters.owner
   - parameters.doc_type
-  risk_score: 9
+  risk_score: 21
   security_domain: endpoint

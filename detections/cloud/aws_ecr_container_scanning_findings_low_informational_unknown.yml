@@ -13,9 +13,10 @@ search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanF
   findings | spath input=findings| search severity IN (LOW, INFORMATIONAL, UNKNWON)
   | rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest
   as imageDigest, requestParameters.repositoryName as repositoryName | eval finding
-  = finding_name.", ".finding_description | eval phase="release" | eval severity="low" | stats min(_time) as firstTime max(_time)
-  as lastTime by awsRegion, eventName, eventSource, imageDigest, repositoryName, user,
-  userName, src_ip, finding, phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  = finding_name.", ".finding_description | eval phase="release" | eval severity="low"
+  | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName,
+  eventSource, imageDigest, repositoryName, user, userName, src_ip, finding, phase,
+  severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `aws_ecr_container_scanning_findings_low_informational_unknown_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
