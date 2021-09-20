@@ -115,6 +115,7 @@ def main(args):
             client.images.pull(DOCKER_HUB_CONTAINER_PATH)
             print("Finished downloading the image [%s]"%(DOCKER_HUB_CONTAINER_PATH))
 
+        '''
         try:
             image = client.images.get(DOCKER_COMMIT_NAME)
             print("Found an image called [%s]. We will remove it"%(DOCKER_COMMIT_NAME))
@@ -156,21 +157,28 @@ def main(args):
     
     print("Stopping the running container [%s]"%(BASE_CONTAINER_NAME))
     base_container.stop()
-
+    
     #The part below does not seem to be working as expected. Will need to look into it
     #When I create the new container, it fails to boot with 
-    '''The CA file specified (/opt/splunk/etc/auth/cacert.pem) does not exist. Cannot continue.
-    SSL certificate generation failed.
+    # The CA file specified (/opt/splunk/etc/auth/cacert.pem) does not exist. Cannot continue.
+    # SSL certificate generation failed.
 
 
-    MSG:
+    # MSG:
 
-    non-zero return code
-    '''
+    # non-zero return code
+    
     #I am almost positive that I'm doing this wrong but it works for now...
     print("Committing the configured container: [%s]--->[%s]"%(BASE_CONTAINER_NAME, DOCKER_COMMIT_NAME))
     base_container.commit(repository=DOCKER_COMMIT_NAME)
     
+    '''
+    
+    except Exception as e:
+        #Remove this since it exists in commented out section above.
+        print("There was an error getting the base container up and running.  "
+            "We cannot recover from this: [%s]\nGoodbye..."%(str(e)))
+        sys.exit(1)
 
     print("Make all the threads...")
     results_queue = queue.Queue()

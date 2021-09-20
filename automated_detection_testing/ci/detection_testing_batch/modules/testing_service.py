@@ -55,8 +55,8 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
     # write entry dynamodb
     #aws_service.add_detection_results_in_dynamo_db('eu-central-1', uuid_var , uuid_test, test_file_obj['tests'][0]['name'], test_file_obj['tests'][0]['file'], str(int(time.time())))
 
-    epoch_time = str(int(time.time()))
-    folder_name = "attack_data_" + epoch_time
+    #epoch_time = str(int(time.time()))
+    folder_name = "attack_data_%s"%(uuid.uuid4())
     os.mkdir(folder_name)
 
     for attack_data in test_file_obj['tests'][0]['attack_data']:
