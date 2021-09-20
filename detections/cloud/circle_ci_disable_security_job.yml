@@ -11,8 +11,9 @@ search: '`circleci` | rename vcs.committer_name as user vcs.subject as commit_me
   workflow_name user commit_message url branch | lookup mandatory_job_for_workflow
   workflow_name OUTPUTNEW job_name AS mandatory_job | search mandatory_job=* | eval
   mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0) | where
-  mandatory_job_executed=0 | rex field=url "(?<repository>[^\/]*\/[^\/]*)$" | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `circle_ci_disable_security_job_filter`'
+  mandatory_job_executed=0 | eval phase="build" | rex field=url "(?<repository>[^\/]*\/[^\/]*)$" 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `circle_ci_disable_security_job_filter`'
 how_to_implement: You must index CircleCI logs.
 known_false_positives: unknown
 references: []
