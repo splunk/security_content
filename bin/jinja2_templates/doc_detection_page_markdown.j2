@@ -1,0 +1,111 @@
+---
+title: "{{detection.name}}"
+excerpt: "{% for attack in detection.mitre_attacks -%}
+{%- if attack.technique_id -%}
+{{ attack.technique }}
+{%- endif -%}
+{% if not loop.last -%}, {% endif -%}
+{% endfor %}"
+categories:
+  - {{detection.kind|capitalize}}
+last_modified_at: {{detection.date}}
+toc: true
+tags:
+  - {{ detection.type }}
+{%- for attack in detection.mitre_attacks %}
+  - {{ attack.technique_id }}
+  - {{ attack.technique }}
+  {%- for attack_tactic in attack.tactic %}
+  - {{ attack_tactic }}
+  {%- endfor -%}
+{%- endfor -%}
+{%- for product in detection.tags.product %}
+  - {{ product }}
+{%- endfor -%}
+{%- for datamodel in detection.datamodel %}
+  - {{ datamodel }}
+{%- endfor -%}
+{%- for phase in detection.tags.kill_chain_phases %}
+  - {{ phase }}
+{%- endfor %}
+---
+
+#### Description
+
+{{ detection.description }}
+
+- **Product**: {{ detection.tags.product|join(', ') }}
+- **Datamodel**: {%-for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
+- **Last Updated**: {{ detection.date }}
+- **Author**: {{detection.author}}
+
+{% if detection.mitre_attacks %}
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+{%- for attack in detection.mitre_attacks %}
+{%- if attack.technique_id -%}
+{% set sub_technique = attack.technique_id.split('.') %}
+{%- if sub_technique | length > 1 -%}
+| [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{sub_technique[0]}}/{{sub_technique[1]}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
+{%- else -%}
+| [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{attack.technique_id}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
+{%- endif -%}
+{%- endif -%}
+{%- endfor %}
+{% endif %}
+
+#### Search
+
+```
+{{ detection.search|replace("|", "\n|")|safe }}
+```
+
+#### Associated Analytic Story
+{% for story in detection.tags.analytic_story -%}
+* [{{ story }}](_stories/{{story|lower|replace(" ", "_")}})
+{% endfor %}
+
+#### How To Implement
+{{ detection.how_to_implement}}
+
+#### Required field
+{% for field in detection.tags.required_fields -%}
+* {{ field }}
+{% endfor %}
+
+#### Kill Chain Phase
+{% for phase in detection.tags.kill_chain_phases -%}
+* {{ phase }}
+{% endfor %}
+
+#### Known False Positives
+{{ detection.known_false_positives}}
+
+
+{% if detection.tags.observable %}
+#### RBA
+
+| Risk Score  | Impact      | Confidence   |
+| ----------- | ----------- |--------------|
+| {{(detection.tags.impact * detection.tags.confidence)/100}} | {{ detection.tags.impact }} | {{ detection.tags.confidence }} |
+
+{% endif %}
+
+#### Reference
+{% if detection.references %}
+{% for reference in detection.references -%}
+* [{{ reference }}]({{ reference }})
+{% endfor %}
+{% endif %}
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+{% for dataset in detection.tags.dataset -%}
+* [{{dataset}}]({{ dataset }})
+{% endfor %}
+
+_version_: {{detection.version}}
