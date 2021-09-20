@@ -22,6 +22,7 @@ references:
 tags:
   analytic_story:
   - DevSecOps
+  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint
@@ -48,6 +49,3 @@ tags:
   - _time
   risk_score: 9
   security_domain: endpoint
-  automated_detection_testing: passed
-
-  

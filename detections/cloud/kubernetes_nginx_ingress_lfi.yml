@@ -11,10 +11,10 @@ search: '`kubernetes_container_controller` | rex field=_raw "^(?<remote_addr>\S+
   | lookup local_file_inclusion_paths local_file_inclusion_paths AS request OUTPUT
   lfi_path | search lfi_path=yes | rename remote_addr AS src_ip, upstream_status as
   status, proxy_upstream_name as proxy | rex field=request "^(?<http_method>\S+)\s(?<url>\S+)\s"
-  | eval phase="operate" | eval severity="high"
-  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, status,
-  url, http_method, host, http_user_agent, proxy, phase, severity | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `kubernetes_nginx_ingress_lfi_filter`'
+  | eval phase="operate" | eval severity="high" | stats count min(_time) as firstTime
+  max(_time) as lastTime by src_ip, status, url, http_method, host, http_user_agent,
+  proxy, phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `kubernetes_nginx_ingress_lfi_filter`'
 how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 known_false_positives: unknown
 references:
