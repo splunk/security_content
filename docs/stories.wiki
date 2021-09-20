@@ -230,6 +230,125 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
 ==Adversary Tactics==
 
 
+===Active directory discovery===
+Monitor for activities and techniques associated with Discovery and Reconnaissance within with Active Directory environments.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1201/ T1201], [https://attack.mitre.org/techniques/T1087.001/ T1087.001]
+* '''Last Updated''': 2021-08-20
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Adsisearcher_account_discovery|AdsiSearcher Account Discovery]]
+
+* [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_net_app|Domain Account Discovery With Net App]]
+
+* [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_dsquery|Domain Account Discovery with Dsquery]]
+
+* [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_wmic|Domain Account Discovery with Wmic]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_addefaultdomainpasswordpolicy_with_powershell|Get ADDefaultDomainPasswordPolicy with Powershell]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_addefaultdomainpasswordpolicy_with_powershell_script_block|Get ADDefaultDomainPasswordPolicy with Powershell Script Block]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_aduser_with_powershell|Get ADUser with PowerShell]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_aduser_with_powershell_script_block|Get ADUser with PowerShell Script Block]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_aduserresultantpasswordpolicy_with_powershell|Get ADUserResultantPasswordPolicy with Powershell]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_aduserresultantpasswordpolicy_with_powershell_script_block|Get ADUserResultantPasswordPolicy with Powershell Script Block]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_domainpolicy_with_powershell|Get DomainPolicy with Powershell]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_domainpolicy_with_powershell_script_block|Get DomainPolicy with Powershell Script Block]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_domainuser_with_powershell|Get DomainUser with PowerShell]]
+
+* [[Documentation:ESSOC:detections:Detections#Get_domainuser_with_powershell_script_block|Get DomainUser with PowerShell Script Block]]
+
+* [[Documentation:ESSOC:detections:Detections#Getlocaluser_with_powershell|GetLocalUser with PowerShell]]
+
+* [[Documentation:ESSOC:detections:Detections#Getlocaluser_with_powershell_script_block|GetLocalUser with PowerShell Script Block]]
+
+* [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_user_with_powershell|GetWmiObject DS User with PowerShell]]
+
+* [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_user_with_powershell_script_block|GetWmiObject DS User with PowerShell Script Block]]
+
+* [[Documentation:ESSOC:detections:Detections#Getwmiobject_user_account_with_powershell|GetWmiObject User Account with PowerShell]]
+
+* [[Documentation:ESSOC:detections:Detections#Getwmiobject_user_account_with_powershell_script_block|GetWmiObject User Account with PowerShell Script Block]]
+
+* [[Documentation:ESSOC:detections:Detections#Local_account_discovery_with_wmic|Local Account Discovery With Wmic]]
+
+* [[Documentation:ESSOC:detections:Detections#Local_account_discovery_with_net|Local Account Discovery with Net]]
+
+* [[Documentation:ESSOC:detections:Detections#Password_policy_discovery_with_net|Password Policy Discovery with Net]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1087.002
+| Domain Account
+| Discovery
+|-
+| T1201
+| Password Policy Discovery
+| Discovery
+|-
+| T1087.001
+| Local Account
+| Discovery
+|}
+
+
+====Kill Chain Phase====
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://attack.mitre.org/tactics/TA0007/
+
+* https://adsecurity.org/?p=2535
+
+* https://attack.mitre.org/techniques/T1087/001/
+
+* https://attack.mitre.org/techniques/T1087/002/
+
+* https://attack.mitre.org/techniques/T1087/003/
+
+* https://attack.mitre.org/techniques/T1482/
+
+* https://attack.mitre.org/techniques/T1201/
+
+* https://attack.mitre.org/techniques/T1069/001/
+
+* https://attack.mitre.org/techniques/T1069/002/
+
+* https://attack.mitre.org/techniques/T1018/
+
+* https://attack.mitre.org/techniques/T1049/
+
+* https://attack.mitre.org/techniques/T1033/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Active directory password spraying===
 Monitor for activities and techniques associated with Password Spraying attacks within Active Directory environments.
 
@@ -861,7 +980,7 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [[Documentation:ESSOC:detections:Detections#Esentutl_sam_copy|Esentutl SAM Copy]]
 
-* [[Documentation:ESSOC:detections:Detections#Extract_sam_from_registry|Extract SAM from Registry]]
+* [[Documentation:ESSOC:detections:Detections#Extraction_of_registry_hives|Extraction of Registry Hives]]
 
 * [[Documentation:ESSOC:detections:Detections#Investigate_failed_logins_for_multiple_destinations|Investigate Failed Logins for Multiple Destinations]]
 
@@ -2146,6 +2265,71 @@ Meterpreter provides red teams, pen testers and threat actors interactive access
 
 ----
 
+===Microsoft mshtml remote code execution cve-2021-40444===
+CVE-2021-40444 is a remote code execution vulnerability in MSHTML, recently used to delivery targeted spearphishing documents.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218.002/ T1218.002], [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+* '''Last Updated''': 2021-09-08
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Control_loading_from_world_writable_directory|Control Loading from World Writable Directory]]
+
+* [[Documentation:ESSOC:detections:Detections#Mshtml_module_load_in_office_product|MSHTML Module Load in Office Product]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_spawning_control|Office Spawning Control]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_hunt|Rundll32 Control RunDLL Hunt]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_world_writable_directory|Rundll32 Control RunDLL World Writable Directory]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1218.002
+| Control Panel
+| Defense Evasion
+|-
+| T1566.001
+| Spearphishing Attachment
+| Initial Access
+|-
+| T1218.011
+| Rundll32
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://blog.malwarebytes.com/exploits-and-vulnerabilities/2021/09/windows-mshtml-zero-day-actively-exploited-mitigations-required/
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
+
+* https://www.echotrail.io/insights/search/control.exe
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Nobelium group===
 Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
 
@@ -2305,6 +2489,71 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 
 ----
 
+===Petitpotam ntlm relay on active directory certificate services===
+PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC Protocol that can allow an unauthenticated account to escalate privileges to domain administrator given the right circumstances.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1187/ T1187], [https://attack.mitre.org/techniques/T1003/ T1003]
+* '''Last Updated''': 2021-08-31
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Petitpotam_network_share_access_request|PetitPotam Network Share Access Request]]
+
+* [[Documentation:ESSOC:detections:Detections#Petitpotam_suspicious_kerberos_tgt_request|PetitPotam Suspicious Kerberos TGT Request]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1187
+| Forced Authentication
+| Credential Access
+|-
+| T1003
+| OS Credential Dumping
+| Credential Access
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+* Lateral Movement
+
+
+====Reference====
+
+* https://us-cert.cisa.gov/ncas/current-activity/2021/07/27/microsoft-releases-guidance-mitigating-petitpotam-ntlm-relay
+
+* https://support.microsoft.com/en-us/topic/kb5005413-mitigating-ntlm-relay-attacks-on-active-directory-certificate-services-ad-cs-3612b773-4043-4aa9-b23d-b87910cd3429
+
+* https://www.specterops.io/assets/resources/Certified_Pre-Owned.pdf
+
+* https://github.com/topotam/PetitPotam/
+
+* https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210723
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36942
+
+* https://attack.mitre.org/techniques/T1187/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Possible backdoor activity associated with mudcarp espionage campaigns===
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
@@ -2368,6 +2617,75 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 * https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 
 * http://blog.amossys.fr/badflick-is-not-so-bad.html
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Proxyshell===
+ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server - CVE-2021-34473, CVE-2021-34523, and CVE-2021-31207.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1190/ T1190], [https://attack.mitre.org/techniques/T1059.001/ T1059.001]
+* '''Last Updated''': 2021-08-24
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Detect_exchange_web_shell|Detect Exchange Web Shell]]
+
+* [[Documentation:ESSOC:detections:Detections#Exchange_powershell_abuse_via_ssrf|Exchange PowerShell Abuse via SSRF]]
+
+* [[Documentation:ESSOC:detections:Detections#Exchange_powershell_module_usage|Exchange PowerShell Module Usage]]
+
+* [[Documentation:ESSOC:detections:Detections#W3wp_spawning_shell|W3WP Spawning Shell]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1505.003
+| Web Shell
+| Persistence
+|-
+| T1190
+| Exploit Public-Facing Application
+| Initial Access
+|-
+| T1059.001
+| PowerShell
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+* Reconnaissance
+
+
+====Reference====
+
+* https://y4y.space/2021/08/12/my-steps-of-reproducing-proxyshell/
+
+* https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+
+* https://www.youtube.com/watch?v=FC6iHw258RI
+
+* https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
+
+* https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-ProxyLogon-Is-Just-The-Tip-Of-The-Iceberg-A-New-Attack-Surface-On-Microsoft-Exchange-Server.pdf
 
 
 ''version'': 1
@@ -2505,6 +2823,8 @@ Detect signs of malicious payloads that may indicate that your environment has b
 
 * [[Documentation:ESSOC:detections:Detections#Excel_spawning_windows_script_host|Excel Spawning Windows Script Host]]
 
+* [[Documentation:ESSOC:detections:Detections#Mshtml_module_load_in_office_product|MSHTML Module Load in Office Product]]
+
 * [[Documentation:ESSOC:detections:Detections#Office_application_spawn_rundll32_process|Office Application Spawn rundll32 process]]
 
 * [[Documentation:ESSOC:detections:Detections#Office_document_creating_schedule_task|Office Document Creating Schedule Task]]
@@ -2522,6 +2842,8 @@ Detect signs of malicious payloads that may indicate that your environment has b
 * [[Documentation:ESSOC:detections:Detections#Office_product_spawning_rundll32_with_no_dll|Office Product Spawning Rundll32 with no DLL]]
 
 * [[Documentation:ESSOC:detections:Detections#Office_product_spawning_wmic|Office Product Spawning Wmic]]
+
+* [[Documentation:ESSOC:detections:Detections#Office_spawning_control|Office Spawning Control]]
 
 * [[Documentation:ESSOC:detections:Detections#Process_creating_lnk_file_in_suspicious_location|Process Creating LNK file in Suspicious Location]]
 
@@ -3159,6 +3481,10 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 * [[Documentation:ESSOC:detections:Detections#Detect_rundll32_application_control_bypass_-_syssetup|Detect Rundll32 Application Control Bypass - syssetup]]
 
 * [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_comsvcs_dll|Dump LSASS via comsvcs DLL]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_hunt|Rundll32 Control RunDLL Hunt]]
+
+* [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_world_writable_directory|Rundll32 Control RunDLL World Writable Directory]]
 
 * [[Documentation:ESSOC:detections:Detections#Rundll32_with_no_command_line_arguments_with_network|Rundll32 with no Command Line Arguments with Network]]
 
@@ -5125,9 +5451,9 @@ Use the searches in this story to monitor your Kubernetes registry repositories 
 ===Dev sec ops===
 This story is focused around detecting attacks on a DevSecOps lifeccycle which consists of the phases plan, code, build, test, release, deploy, operate and monitor.
 
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 * '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204.003/ T1204.003], [https://attack.mitre.org/techniques/T1212/ T1212], [https://attack.mitre.org/techniques/T1526/ T1526]
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204.003/ T1204.003], [https://attack.mitre.org/techniques/T1554/ T1554], [https://attack.mitre.org/techniques/T1195.001/ T1195.001], [https://attack.mitre.org/techniques/T1212/ T1212], [https://attack.mitre.org/techniques/T1526/ T1526]
 * '''Last Updated''': 2021-08-18
 
 <div class="toccolours mw-collapsible mw-collapsed">
@@ -5144,6 +5470,18 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 * [[Documentation:ESSOC:detections:Detections#Aws_ecr_container_upload_outside_business_hours|AWS ECR Container Upload Outside Business Hours]]
 
 * [[Documentation:ESSOC:detections:Detections#Aws_ecr_container_upload_unknown_user|AWS ECR Container Upload Unknown User]]
+
+* [[Documentation:ESSOC:detections:Detections#Circle_ci_disable_security_job|Circle CI Disable Security Job]]
+
+* [[Documentation:ESSOC:detections:Detections#Circle_ci_disable_security_step|Circle CI Disable Security Step]]
+
+* [[Documentation:ESSOC:detections:Detections#Correlation_by_repository_and_risk|Correlation by Repository and Risk]]
+
+* [[Documentation:ESSOC:detections:Detections#Correlation_by_user_and_risk|Correlation by User and Risk]]
+
+* [[Documentation:ESSOC:detections:Detections#Github_dependabot_alert|GitHub Dependabot Alert]]
+
+* [[Documentation:ESSOC:detections:Detections#Github_pull_request_from_unknown_user|GitHub Pull Request from Unknown User]]
 
 * [[Documentation:ESSOC:detections:Detections#Kubernetes_nginx_ingress_lfi|Kubernetes Nginx Ingress LFI]]
 
@@ -5162,6 +5500,14 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 | T1204.003
 | Malicious Image
 | Execution
+|-
+| T1554
+| Compromise Client Software Binary
+| Persistence
+|-
+| T1195.001
+| Compromise Software Dependencies and Development Tools
+| Initial Access
 |-
 | T1212
 | Exploitation for Credential Access
@@ -6006,6 +6352,81 @@ The following analytic story identifies behaviors related PrintNightmare, or CVE
 ==Malware==
 
 
+===Blackmatter ransomware===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the BlackMatter ransomware, including looking for file writes associated with BlackMatter, force safe mode boot, autadminlogon account registry modification and more.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1552.002/ T1552.002], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1486/ T1486]
+* '''Last Updated''': 2021-09-06
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+
+* [[Documentation:ESSOC:detections:Detections#Add_defaultuser_and_password_in_registry|Add DefaultUser And Password In Registry]]
+
+* [[Documentation:ESSOC:detections:Detections#Auto_admin_logon_registry_entry|Auto Admin Logon Registry Entry]]
+
+* [[Documentation:ESSOC:detections:Detections#Bcdedit_command_back_to_normal_mode_boot|Bcdedit Command Back To Normal Mode Boot]]
+
+* [[Documentation:ESSOC:detections:Detections#Change_to_safe_mode_with_network_config|Change To Safe Mode With Network Config]]
+
+* [[Documentation:ESSOC:detections:Detections#Known_services_killed_by_ransomware|Known Services Killed by Ransomware]]
+
+* [[Documentation:ESSOC:detections:Detections#Modification_of_wallpaper|Modification Of Wallpaper]]
+
+* [[Documentation:ESSOC:detections:Detections#Ransomware_notes_bulk_creation|Ransomware Notes bulk creation]]
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1552.002
+| Credentials in Registry
+| Credential Access
+|-
+| T1490
+| Inhibit System Recovery
+| Impact
+|-
+| T1491
+| Defacement
+| Impact
+|-
+| T1486
+| Data Encrypted for Impact
+| Impact
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+* Obfuscation
+
+
+====Reference====
+
+* https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
+
+* https://www.bleepingcomputer.com/news/security/blackmatter-ransomware-gang-rises-from-the-ashes-of-darkside-revil/
+
+* https://blog.malwarebytes.com/ransomware/2021/07/blackmatter-a-new-ransomware-group-claims-link-to-darkside-revil/
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Clop ransomware===
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Clop ransomware, including looking for file writes associated with Clope, encrypting network shares, deleting and resizing shadow volume storage, registry key modification, deleting of security logs, and more.
 
@@ -6337,7 +6758,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [[Documentation:ESSOC:detections:Detections#Detect_renamed_rclone|Detect Renamed RClone]]
 
-* [[Documentation:ESSOC:detections:Detections#Extract_sam_from_registry|Extract SAM from Registry]]
+* [[Documentation:ESSOC:detections:Detections#Extraction_of_registry_hives|Extraction of Registry Hives]]
 
 * [[Documentation:ESSOC:detections:Detections#Ransomware_notes_bulk_creation|Ransomware Notes bulk creation]]
 
@@ -8725,7 +9146,7 @@ In March of 2016, adversaries were seen using JexBoss--an open-source utility us
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-08-27 21:42:13.761546 UTC
+# On Date: 2021-09-09 22:39:05.387193 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############
