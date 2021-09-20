@@ -11,7 +11,7 @@ description: This search is to detect a suspicious MS scripting process such as 
   server. this anomaly detections is a good initial step to hunt further a suspicious ldap query or ldap related events to the host that may 
   give you good information regarding ldap or AD information processing or might be a attacker.
 search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded IN ("*\\Wldap32.dll", "*\\adsldp.dll", "*\\adsldpc.dll") 
-| stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count as NumberOfLoadedModules
+  | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) as AllImageLoaded count as NumberOfLoadedModules
   by Image EventCode process_name ProcessId ProcessGuid Computer  | where NumberOfLoadedModules >= 2
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
