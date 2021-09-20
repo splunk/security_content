@@ -1,9 +1,9 @@
 ---
-title: Adversary Tactics
+title: Initial Access
 layout: tag
 author_profile: false
 taxonomy: Defense Evasion
-permalink: /detections/adversary_tactics
+permalink: /detections/initial_access
 sidebar:
   nav: "detections"
 ---

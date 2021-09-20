@@ -148,13 +148,62 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                              trim_blocks=False)
-    # write markdown
-    template = j2_env.get_template('doc_stories_markdown.j2')
-    output_path = path.join(OUTPUT_DIR + '/stories.md')
-    output = template.render(categories=categories,time=datetime.datetime.now())
+
+    # write detection navigation
+    # first collect datamodels and tactics
+    datamodels = []
+    tactics = []
+    for detection in sorted_detections:
+        data_model = detection['datamodel']
+        if data_model:
+            for d in data_model:
+                if d not in datamodels:
+                    datamodels.append(d)
+        if 'mitre_attacks' in detection:
+            for attack in detection['mitre_attacks']:
+                for t in attack['tactic']:
+                    if t not in tactics:
+                        tactics.append(t)
+
+    template = j2_env.get_template('doc_navigation_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/_data/navigation.yml')
+    output = template.render(tactics=sorted(tactics), datamodels=sorted(datamodels), categories=sorted(category_names))
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    messages.append("doc_gen.py wrote {0} stories documentation in markdown to: {1}".format(len(stories),output_path))
+    messages.append("doc_gen.py wrote navigation.yml structure to: {0}".format(output_path))
+
+    # write navigation _pages
+    # for datamodels
+    template = j2_env.get_template('doc_navigation_pages_markdown.j2')
+    for datamodel in sorted(datamodels):
+        output_path = path.join(OUTPUT_DIR + '/_pages/' + datamodel.lower().replace(" ", "_") + ".md")
+        output = template.render(tag=datamodel)
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, datamodel))
+    # for tactics
+    for tactic in sorted(tactics):
+        output_path = path.join(OUTPUT_DIR + '/_pages/' + tactic.lower().replace(" ", "_") + ".md")
+        output = template.render(tag=tactic)
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, tactic))
+    # for categories
+    for category in sorted(category_names):
+        output_path = path.join(OUTPUT_DIR + '/_pages/' + category.lower().replace(" ", "_") + ".md")
+        output = template.render(tag=category)
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, category))
+
+
+    # write index updated metrics
+    template = j2_env.get_template('doc_index_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/index.markdown')
+    output = template.render(detection_count=len(sorted_detections), story_count=len(sorted_stories))
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote site index page to: {0}".format(output_path, category))
 
     # write wikimarkup
     template = j2_env.get_template('doc_stories_wiki.j2')
@@ -228,11 +277,11 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
 
     # write markdown detection page
     template = j2_env.get_template('doc_detection_page_markdown.j2')
-    output_path = path.join(OUTPUT_DIR + '/_page/detections.md')
-        output = template.render(detections=sorted_detections, time=datetime.datetime.now())
-        with open(output_path, 'w', encoding="utf-8") as f:
-            f.write(output)
-    messages.append("doc_gen.py wrote detections.md page to: {1}".format(output_path))
+    output_path = path.join(OUTPUT_DIR + '/_pages/detections.md')
+    output = template.render(detections=sorted_detections, time=datetime.datetime.now())
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote detections.md page to: {0}".format(output_path))
 
     #sort detections by kind into categories
     kinds = []

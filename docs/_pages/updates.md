@@ -1,9 +1,9 @@
 ---
-title: Adversary Tactics
+title: Updates
 layout: tag
 author_profile: false
 taxonomy: Defense Evasion
-permalink: /detections/adversary_tactics
+permalink: /detections/updates
 sidebar:
   nav: "detections"
 ---

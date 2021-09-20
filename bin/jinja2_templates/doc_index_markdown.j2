@@ -14,14 +14,14 @@ feature_row:
   - image_path: /static/feature_detection.png
     alt: "customizable"
     title: "Detections"
-    excerpt: "See all **539** Splunk Analytics built to find evil 😈."
+    excerpt: "See all **{{ detection_count }}** Splunk Analytics built to find evil 😈."
     url: "/detections"
     btn_class: "btn--primary"
     btn_label: "Explore"
   - image_path: /static/feature_stories.png
     alt: "fully responsive"
     title: "Analytic Stories"
-    excerpt: "See all **99** use cases, 📦 of detections built to address a threat."
+    excerpt: "See all **{{ story_count }}** use cases, 📦 of detections built to address a threat."
     url: "/stories"
     btn_class: "btn--primary"
     btn_label: "Explore"
@@ -34,7 +34,7 @@ feature_row:
     btn_label: "Explore"
 ---
 
-
+{% raw %}
 {% include feature_row %}
 
 # Welcome to Splunk Security Content
@@ -82,3 +82,4 @@ If you have questions or need support, you can:
 ## Contribute Content 🥰
 If you want to help the rest of the security community by sharing your own detections, see our [contributor guide](https://github.com/splunk/security_content/wiki/Contributing-to-the-Project) for more information on how to get involved!
 
+{% endraw %}

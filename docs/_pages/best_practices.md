@@ -1,9 +1,9 @@
 ---
-title: Adversary Tactics
+title: Best Practices
 layout: tag
 author_profile: false
 taxonomy: Defense Evasion
-permalink: /detections/adversary_tactics
+permalink: /detections/best_practices
 sidebar:
   nav: "detections"
 ---

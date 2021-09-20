@@ -1,9 +1,9 @@
 ---
-title: Adversary Tactics
+title: Resource Development
 layout: tag
 author_profile: false
 taxonomy: Defense Evasion
-permalink: /detections/adversary_tactics
+permalink: /detections/resource_development
 sidebar:
   nav: "detections"
 ---

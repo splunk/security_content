@@ -1,9 +1,9 @@
 ---
-title: Adversary Tactics
+title: Network_Sessions
 layout: tag
 author_profile: false
 taxonomy: Defense Evasion
-permalink: /detections/adversary_tactics
+permalink: /detections/network_sessions
 sidebar:
   nav: "detections"
 ---

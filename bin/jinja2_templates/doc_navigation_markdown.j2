@@ -1,0 +1,39 @@
+main:
+  - title: "Detections"
+    url: /detections/
+  - title: "Analytic Stories"
+    url: /stories/
+  - title: "Playbooks"
+    url: /playbooks/
+  - title: "Tags"
+    url: /tags/
+  - title: "About"
+    url: https://www.splunk.com/en_us/cyber-security/threat-research.html
+detections:
+  - title: "Tactic"
+    children:
+    {%- for tactic in tactics %}
+      - title: {{ tactic }}
+        url: /detections/{{ tactic | lower | replace(" ", "_") }}/
+    {%- endfor %}
+  - title: "Datamodel"
+    children:
+    {%- for datamodel in datamodels %}
+      - title: {{ datamodel }}
+        url: /detections/{{ datamodel | lower | replace(" ", "_") }}/
+    {%- endfor %}
+  - title: "Product"
+    children:
+      - title: "Splunk Enterprise Security"
+        url: /product/splunk_enterprise_security/
+      - title: "Splunk Behavioral Analytics"
+        url: /product/splunk_behavioral_analytics/
+      - title: "Splunk Security Analytics for AWS "
+        url: /product/splunk_security_analytics_aws /
+stories:
+  - title: "Use Case"
+    children:
+    {%- for category in categories %}
+      - title: {{ category }}
+        url: /story/{{ category | lower | replace(" ", "_") }}/
+    {%- endfor %}

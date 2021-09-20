@@ -1,9 +1,9 @@
 ---
-title: Adversary Tactics
+title: Cloud Security
 layout: tag
 author_profile: false
 taxonomy: Defense Evasion
-permalink: /detections/adversary_tactics
+permalink: /detections/cloud_security
 sidebar:
   nav: "detections"
 ---
