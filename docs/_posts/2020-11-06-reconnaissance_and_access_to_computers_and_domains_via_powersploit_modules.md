@@ -20,12 +20,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies access to PowerSploit modules that discover computers, servers and domains that can be accessed or taken over.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -33,7 +35,8 @@ This detection identifies access to PowerSploit modules that discover computers,
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance || [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance || [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance || [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance || [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
 
 #### Search

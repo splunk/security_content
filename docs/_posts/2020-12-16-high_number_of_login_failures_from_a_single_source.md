@@ -16,12 +16,16 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Bhavin Patel, Splunk
 
@@ -29,7 +33,8 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
 
 
 #### Search

@@ -17,12 +17,16 @@ tags:
   - Reconnaissance
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-23
 - **Author**: Bhavin Patel, Splunk
 
@@ -30,7 +34,8 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 
 #### Search

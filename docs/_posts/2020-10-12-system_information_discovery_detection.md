@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 Detect system information discovery techniques used by attackers to understand configurations of the system to further exploit it.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-10-12
 - **Author**: Patrick Bareiss, Splunk
 
@@ -30,7 +32,8 @@ Detect system information discovery techniques used by attackers to understand c
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 
 #### Search

@@ -17,12 +17,14 @@ tags:
   - Reconnaissance
 ---
 
+
+
 #### Description
 
 The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-04-05
 - **Author**: Michael Haag, Splunk
 
@@ -30,7 +32,8 @@ The following detection identifies excessive AccessDenied events within an hour 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
 
 
 #### Search

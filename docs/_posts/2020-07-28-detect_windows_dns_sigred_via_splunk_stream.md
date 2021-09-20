@@ -16,12 +16,16 @@ tags:
   - Exploitation
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search detects SIGRed via Splunk Stream.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-07-28
 - **Author**: Shannon Davis, Splunk
 
@@ -29,7 +33,8 @@ This search detects SIGRed via Splunk Stream.
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
+| ----------- | ----------- |--------------|
+| [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 
 #### Search

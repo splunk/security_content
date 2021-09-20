@@ -14,12 +14,14 @@ tags:
   - Change
 ---
 
+
+
 #### Description
 
 This search looks for cloud compute instances being created with previously unseen image IDs.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2018-10-12
 - **Author**: David Dorsey, Splunk
 

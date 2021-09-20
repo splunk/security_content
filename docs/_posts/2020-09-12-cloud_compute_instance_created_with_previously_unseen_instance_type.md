@@ -14,12 +14,14 @@ tags:
   - Change
 ---
 
+
+
 #### Description
 
 Find EC2 instances being created with previously unseen instance types.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-12
 - **Author**: David Dorsey, Splunk
 

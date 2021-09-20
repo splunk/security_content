@@ -20,12 +20,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-2-1
 - **Author**: Ignacio Bermudez Corrales, Splunk
 
@@ -33,7 +35,8 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution || [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  || [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution || [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  || [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
 
 
 #### Search

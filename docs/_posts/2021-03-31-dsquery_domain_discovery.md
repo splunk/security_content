@@ -17,6 +17,8 @@ tags:
   - Exploitation
 ---
 
+
+
 #### Description
 
 The following analytic identifies &#34;dsquery.exe&#34; execution with arguments looking for `TrustedDomain` query directly on the command-line. This is typically indicative of an Administrator or adversary perform domain trust discovery. Note that this query does not identify any other variations of &#34;Dsquery.exe&#34; usage.\
@@ -27,7 +29,7 @@ The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If f
 In addition to trust discovery, review parallel processes for additional behaviors performed. Identify the parent process and capture any files (batch files, for example) being used.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Michael Haag, Splunk
 
@@ -35,7 +37,8 @@ In addition to trust discovery, review parallel processes for additional behavio
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 
 #### Search

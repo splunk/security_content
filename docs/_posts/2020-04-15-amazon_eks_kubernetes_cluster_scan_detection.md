@@ -16,12 +16,16 @@ tags:
   - Reconnaissance
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster in AWS
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-04-15
 - **Author**: Rod Soto, Splunk
 
@@ -29,7 +33,8 @@ This search provides information of unauthenticated requests via user agent, and
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 
 #### Search

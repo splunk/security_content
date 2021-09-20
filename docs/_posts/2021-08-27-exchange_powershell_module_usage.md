@@ -17,6 +17,10 @@ tags:
   - Exploitation
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 The following analytic identifies the usage of Exchange PowerShell modules that were recently used for a proof of concept related to ProxyShell. Currently, there is no active data shared or data we could re-produce relate to this part of the ProxyShell chain of exploits.  \
@@ -25,7 +29,7 @@ Module - New-MailboxExportRequest will begin the process of exporting contents o
 Module - New-managementroleassignment can assign a management role to a management role group, management role assignment policy, user, or universal security group (USG).
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-08-27
 - **Author**: Michael Haag
 
@@ -33,7 +37,8 @@ Module - New-managementroleassignment can assign a management role to a manageme
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+| ----------- | ----------- |--------------|
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 
 #### Search

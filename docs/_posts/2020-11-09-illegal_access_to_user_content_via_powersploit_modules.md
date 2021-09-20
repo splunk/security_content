@@ -23,12 +23,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -36,7 +38,8 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement || [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection || [T1123](https://attack.mitre.org/techniques/T1123/) | Audio Capture | Collection || [T1563](https://attack.mitre.org/techniques/T1563/) | Remote Service Session Hijacking | Lateral Movement |
+| ----------- | ----------- |--------------|
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement || [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection || [T1123](https://attack.mitre.org/techniques/T1123/) | Audio Capture | Collection || [T1563](https://attack.mitre.org/techniques/T1563/) | Remote Service Session Hijacking | Lateral Movement |
 
 
 #### Search

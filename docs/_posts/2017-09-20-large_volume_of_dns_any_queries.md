@@ -17,12 +17,16 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2017-09-20
 - **Author**: Bhavin Patel, Splunk
 
@@ -30,7 +34,8 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
+| ----------- | ----------- |--------------|
+| [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
 
 
 #### Search

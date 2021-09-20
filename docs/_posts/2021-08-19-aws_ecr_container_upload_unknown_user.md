@@ -16,12 +16,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done from only a few known users. When the user was never seen before, we should have a closer look into the event.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-08-19
 - **Author**: Patrick Bareiss, Splunk
 
@@ -29,7 +31,8 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
+| ----------- | ----------- |--------------|
+| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
 
 
 #### Search

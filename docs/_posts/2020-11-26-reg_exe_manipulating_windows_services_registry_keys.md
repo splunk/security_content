@@ -19,12 +19,14 @@ tags:
   - Installation
 ---
 
+
+
 #### Description
 
 The search looks for reg.exe modifying registry keys that define Windows services and their configurations.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-26
 - **Author**: Rico Valdez, Splunk
 
@@ -32,7 +34,8 @@ The search looks for reg.exe modifying registry keys that define Windows service
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 
 
 #### Search

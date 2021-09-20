@@ -16,12 +16,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings with the results.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-08-17
 - **Author**: Patrick Bareiss, Splunk
 
@@ -29,7 +31,8 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
+| ----------- | ----------- |--------------|
+| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
 
 
 #### Search

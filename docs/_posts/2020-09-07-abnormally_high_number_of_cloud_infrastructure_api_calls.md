@@ -21,12 +21,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment by a user.
 
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-07
 - **Author**: David Dorsey, Splunk
 
@@ -34,7 +36,8 @@ This search will detect a spike in the number of API calls made to your cloud in
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| ----------- | ----------- |--------------|
+| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
 #### Search

@@ -17,12 +17,16 @@ tags:
   - Command and Control
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
+- **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-01-22
 - **Author**: Rico Valdez, Splunk
 
@@ -30,7 +34,8 @@ This search allows you to identify DNS requests that are unusually large for the
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
+| ----------- | ----------- |--------------|
+| [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
 
 
 #### Search

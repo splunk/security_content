@@ -18,6 +18,8 @@ tags:
   - Privilege Escalation
 ---
 
+
+
 #### Description
 
 The following query utilizes Windows Security EventCode 4698, `A scheduled task was created`, to identify suspicious tasks registered on Windows either via schtasks.exe OR TaskService with a command to be executed with a native Windows shell (PowerShell, Cmd, Wscript, Cscript).\
@@ -27,7 +29,7 @@ The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`t
 Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2021-04-12
 - **Author**: Michael Haag, Splunk
 
@@ -35,7 +37,8 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
 
 #### Search

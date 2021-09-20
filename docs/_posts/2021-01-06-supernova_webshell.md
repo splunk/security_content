@@ -17,12 +17,16 @@ tags:
   - Exfiltration
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2021-01-06
 - **Author**: John Stoner, Splunk
 
@@ -30,7 +34,8 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
+| ----------- | ----------- |--------------|
+| [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
 
 #### Search

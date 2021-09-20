@@ -19,12 +19,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
 - **Author**: Bhavin Patel, Splunk
 
@@ -32,7 +34,8 @@ This search looks for fast execution of processes used for system network config
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
+| ----------- | ----------- |--------------|
+| [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
 
 
 #### Search

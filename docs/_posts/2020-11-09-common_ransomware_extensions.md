@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 The search looks for file modifications with extensions commonly used by Ransomware
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
 
@@ -30,7 +32,8 @@ The search looks for file modifications with extensions commonly used by Ransomw
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+| ----------- | ----------- |--------------|
+| [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 
 #### Search

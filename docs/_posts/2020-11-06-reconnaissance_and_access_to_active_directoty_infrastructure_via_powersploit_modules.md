@@ -26,12 +26,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies access to PowerSploit modules for reconnaissance and access to elements of Active Directory infrastructure, such as domain identifiers, AD sites and forests, and trust relations.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -39,7 +41,8 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery || [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance || [T1591](https://attack.mitre.org/techniques/T1591/) | Gather Victim Org Information | Reconnaissance || [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+| ----------- | ----------- |--------------|
+| [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery || [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance || [T1591](https://attack.mitre.org/techniques/T1591/) | Gather Victim Org Information | Reconnaissance || [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
 
 
 #### Search

@@ -32,12 +32,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies reconnaissance of credential stores and use of CryptoAPI services by Mimikatz modules.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -45,7 +47,8 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1589.001](https://attack.mitre.org/techniques/T1589/001/) | Credentials | Reconnaissance || [T1590.001](https://attack.mitre.org/techniques/T1590/001/) | Domain Properties | Reconnaissance || [T1590.003](https://attack.mitre.org/techniques/T1590/003/) | Network Trust Dependencies | Reconnaissance || [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+| ----------- | ----------- |--------------|
+| [T1589.001](https://attack.mitre.org/techniques/T1589/001/) | Credentials | Reconnaissance || [T1590.001](https://attack.mitre.org/techniques/T1590/001/) | Domain Properties | Reconnaissance || [T1590.003](https://attack.mitre.org/techniques/T1590/003/) | Network Trust Dependencies | Reconnaissance || [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 
 
 #### Search

@@ -18,12 +18,14 @@ tags:
   - Installation
 ---
 
+
+
 #### Description
 
 This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: Rico Valdez, Splunk
 
@@ -31,7 +33,8 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------|
+| [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
 
 #### Search

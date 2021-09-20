@@ -15,12 +15,14 @@ tags:
   - Splunk Cloud
 ---
 
+
+
 #### Description
 
 This search detects writes to the recycle bin by a process other than explorer.exe.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-07-22
 - **Author**: Rico Valdez, Splunk
 
@@ -28,7 +30,8 @@ This search detects writes to the recycle bin by a process other than explorer.e
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 
 #### Search

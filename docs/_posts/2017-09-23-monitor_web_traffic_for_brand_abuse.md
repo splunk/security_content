@@ -14,12 +14,16 @@ tags:
   - Delivery
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search looks for Web requests to faux domains similar to the one that you want to have monitored for abuse.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
+- **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-23
 - **Author**: David Dorsey, Splunk
 

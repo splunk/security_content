@@ -17,12 +17,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. LaZagne is a tool that extracts various kinds of credentials from a local computer, including account passwords, domain passwords, browser passwords, etc.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-10-18
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -30,7 +32,8 @@ Credential extraction is often an illegal recovery of credential material from s
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access || [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
+| ----------- | ----------- |--------------|
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access || [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
 
 
 #### Search

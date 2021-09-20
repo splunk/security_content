@@ -16,12 +16,16 @@ tags:
   - Actions on Objectives
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 By populating the organization&#39;s assets within the assets_by_str.csv, we will be able to detect unauthorized devices that are trying to connect with the organization&#39;s network by inspecting DHCP request packets, which are issued by devices when they attempt to obtain an IP address from the DHCP server. The MAC address associated with the source of the DHCP request is checked against the list of known devices, and reports on those that are not found.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Network_Sessions](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions)
+- **Datamodel**: [Network_Sessions](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions)
 - **Last Updated**: 2017-09-13
 - **Author**: Bhavin Patel, Splunk
 

@@ -35,12 +35,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 This detection identifies access to PowerSploit modules that discover and access operating system elements, such as processes, services, registry locations, security packages and files.
 
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 
@@ -48,7 +50,8 @@ This detection identifies access to PowerSploit modules that discover and access
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery || [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery || [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery || [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution || [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery || [T1083](https://attack.mitre.org/techniques/T1083/) | File and Directory Discovery | Discovery || [T1518](https://attack.mitre.org/techniques/T1518/) | Software Discovery | Discovery || [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
+| ----------- | ----------- |--------------|
+| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery || [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery || [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery || [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution || [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery || [T1083](https://attack.mitre.org/techniques/T1083/) | File and Directory Discovery | Discovery || [T1518](https://attack.mitre.org/techniques/T1518/) | Software Discovery | Discovery || [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
 
 
 #### Search

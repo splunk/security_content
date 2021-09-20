@@ -16,12 +16,14 @@ tags:
   - Change
 ---
 
+
+
 #### Description
 
 This search detects accounts that were created and deleted in a short time period.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
+- **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-06
 - **Author**: David Dorsey, Splunk
 
@@ -29,7 +31,8 @@ This search detects accounts that were created and deleted in a short time perio
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+| ----------- | ----------- |--------------|
+| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 
 #### Search

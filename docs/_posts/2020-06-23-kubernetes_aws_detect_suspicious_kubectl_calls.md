@@ -13,12 +13,16 @@ tags:
   - Lateral Movement
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
 #### Description
 
 This search provides information on anonymous Kubectl calls with IP, verb namespace and object access context
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:
+- **Datamodel**: 
 - **Last Updated**: 2020-06-23
 - **Author**: Rod Soto, Splunk
 

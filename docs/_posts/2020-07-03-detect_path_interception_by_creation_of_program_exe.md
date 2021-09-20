@@ -19,12 +19,14 @@ tags:
   - Actions on Objectives
 ---
 
+
+
 #### Description
 
 The detection Detect Path Interception By Creation Of program exe is detecting the abuse of unquoted service paths, which is a popular technique for privilege escalation. 
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**:[Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-03
 - **Author**: Patrick Bareiss, Splunk
 
@@ -32,7 +34,8 @@ The detection Detect Path Interception By Creation Of program exe is detecting t
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|| [T1574.009](https://attack.mitre.org/techniques/T1574/009/) | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------|
+| [T1574.009](https://attack.mitre.org/techniques/T1574/009/) | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion |
 
 
 #### Search
