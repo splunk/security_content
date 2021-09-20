@@ -6,21 +6,25 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious MS scripting process such as wscript.exe or cscript.exe that loading wmi module to process 
-  wmi query. This behavior was seen in FIN7 implant where it uses javascript to execute wmi query to parse host information that will send to its C2 
-  server. this anomaly detections is a good initial step to hunt further a suspicious wmi query or wmi related events to the host that may 
-  give you good information regarding process that are commonly using wmi query or modules or might be an attacker using this technique.
-search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" , "*\\wmiutils.dll", "*\\wbemcomn.dll") 
-  | stats min(_time) as firstTime max(_time) as lastTime count 
-  by Image EventCode process_name ProcessId ProcessGuid Computer ImageLoaded
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+description: This search is to detect a suspicious MS scripting process such as wscript.exe
+  or cscript.exe that loading wmi module to process wmi query. This behavior was seen
+  in FIN7 implant where it uses javascript to execute wmi query to parse host information
+  that will send to its C2 server. this anomaly detections is a good initial step
+  to hunt further a suspicious wmi query or wmi related events to the host that may
+  give you good information regarding process that are commonly using wmi query or
+  modules or might be an attacker using this technique.
+search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
+  IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" ,
+  "*\\wmiutils.dll", "*\\wbemcomn.dll") | stats min(_time) as firstTime max(_time)
+  as lastTime count by Image EventCode process_name ProcessId ProcessGuid Computer
+  ImageLoaded | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `ms_scripting_process_loading_wmi_module_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-known_false_positives: automation scripting language may used by network operator to do ldap query.
+known_false_positives: automation scripting language may used by network operator
+  to do ldap query.
 references:
 - https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
 - https://attack.mitre.org/groups/G0046/
@@ -44,14 +48,13 @@ tags:
   - process_name
   - ProcessId
   - ProcessGuid
-  - Computer 
+  - Computer
   - ImageLoaded
   security_domain: endpoint
   impact: 30
-  confidence: 30 
-  # (impact * confidence)/100
+  confidence: 30
   risk_score: 9
-  context: 
+  context:
   - Source:Endpoint
   - Stage:Execution
   message: $process_name$ loading wmi modules $ImageLoaded$ in $dest$
@@ -60,3 +63,4 @@ tags:
     type: Endpoint
     role:
     - Victim
+  automated_detection_testing: passed
