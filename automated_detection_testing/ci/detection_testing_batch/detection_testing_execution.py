@@ -115,7 +115,7 @@ def main(args):
             client.images.pull(DOCKER_HUB_CONTAINER_PATH)
             print("Finished downloading the image [%s]"%(DOCKER_HUB_CONTAINER_PATH))
 
-        '''
+        
         try:
             image = client.images.get(DOCKER_COMMIT_NAME)
             print("Found an image called [%s]. We will remove it"%(DOCKER_COMMIT_NAME))
@@ -172,13 +172,9 @@ def main(args):
     print("Committing the configured container: [%s]--->[%s]"%(BASE_CONTAINER_NAME, DOCKER_COMMIT_NAME))
     base_container.commit(repository=DOCKER_COMMIT_NAME)
     
-    '''
     
-    except Exception as e:
-        #Remove this since it exists in commented out section above.
-        print("There was an error getting the base container up and running.  "
-            "We cannot recover from this: [%s]\nGoodbye..."%(str(e)))
-        sys.exit(1)
+    
+
 
     print("Make all the threads...")
     results_queue = queue.Queue()
