@@ -10,10 +10,9 @@ description: This search uses the Kubernetes logs from Splunk Connect from Kuber
 search: '`kube_objects_events` object.message IN ("Pulling image *kube-hunter*", "Pulling
   image *kube-bench*", "Pulling image *kube-recon*", "Pulling image *kube-recon*")
   | rename object.* AS * | rename involvedObject.* AS * | rename source.host AS host
-  | eval phase="operate" | eval severity="high"
-  | stats min(_time) as firstTime max(_time) as lastTime count by host, name, namespace,
-  kind, reason, message, phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `kubernetes_scanner_image_pulling_filter`'
+  | eval phase="operate" | eval severity="high" | stats min(_time) as firstTime max(_time)
+  as lastTime count by host, name, namespace, kind, reason, message, phase, severity
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `kubernetes_scanner_image_pulling_filter`'
 how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 known_false_positives: unknown
 references:
@@ -32,6 +31,8 @@ tags:
   kill_chain_phases:
   - Actions on Objectives
   message: Kubernetes Scanner image pulled on host $host$
+  deployments:
+  - Slack Alert
   mitre_attack_id:
   - T1526
   nist:

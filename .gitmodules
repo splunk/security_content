@@ -1,3 +1,0 @@
-[submodule "playbooks"]
-	path = playbooks
-	url = https://github.com/phantomcyber/playbooks.git

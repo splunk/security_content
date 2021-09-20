@@ -28,32 +28,20 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_mshtml.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1566.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - ImageLoaded
-  - process_name
-  - OriginalFileName
-  - process_id
-  - dest
-  security_domain: endpoint
-  impact: 80
+  automated_detection_testing: passed
   confidence: 100
-  risk_score: 80
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_mshtml.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
   message: An instance of $process_name$ was identified on endpoint $dest$ loading
     mshtml.dll.
+  mitre_attack_id:
+  - T1566.001
   observable:
   - name: dest
     type: Hostname
@@ -67,4 +55,16 @@ tags:
     type: Process
     role:
     - Child Process
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - ImageLoaded
+  - process_name
+  - OriginalFileName
+  - process_id
+  - dest
+  risk_score: 80
+  security_domain: endpoint
