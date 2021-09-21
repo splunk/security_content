@@ -12,12 +12,16 @@ description: The following analytic identifies usage of `wmic.exe` spawning a lo
   and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm
   execution or file modifications. Contain and isolate the endpoint as needed.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_wmic`
-  Processes.process=*node* by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `remote_wmi_command_attempt_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product. Deprecated because duplicate of Remote Process Instantiation via WMI.
+  as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process=*node*
+  by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `remote_wmi_command_attempt_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product. Deprecated because duplicate of Remote Process Instantiation via
+  WMI.
 known_false_positives: Administrators may use this legitimately to gather info from
   remote systems. Filter as needed.
 references:
