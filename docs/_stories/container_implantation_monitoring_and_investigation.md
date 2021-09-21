@@ -18,7 +18,11 @@ Use the searches in this story to monitor your Kubernetes registry repositories 
 - **Last Updated**: 2020-02-20
 - **Author**: Rod Soto, Rico Valdez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Container Registrys provide a way for organizations to keep customized images of their development and infrastructure environment in private. However if these repositories are misconfigured or priviledge users credentials are compromise, attackers can potentially upload implanted containers which can be deployed across the organization. These searches allow operator to monitor who, when and what was uploaded to container registry.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

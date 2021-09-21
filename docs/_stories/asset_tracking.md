@@ -19,7 +19,11 @@ Keep a careful inventory of every asset on your network to make it easier to det
 - **Last Updated**: 2017-09-13
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+This Analytic Story is designed to help you develop a better understanding of what authorized and unauthorized devices are part of your enterprise. This story can help you better categorize and classify assets, providing critical business context and awareness of their assets during an incident. Information derived from this Analytic Story can be used to better inform and support other analytic stories. For successful detection, you will need to leverage the Assets and Identity Framework from Enterprise Security to populate your known assets.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

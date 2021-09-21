@@ -19,7 +19,11 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 - **Last Updated**: 2021-03-04
 - **Author**: Michael Hart, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Attackers may not have much if any insight into their target's environment before the initial compromise.  Once a foothold has been established, attackers will start enumerating objects in the environment (accounts, services, network shares, etc.) that can be used to achieve their objectives.  This Analytic Story provides searches to help identify activities consistent with adversaries gaining knowledge of compromised Windows environments.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

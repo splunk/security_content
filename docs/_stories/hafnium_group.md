@@ -20,7 +20,13 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 - **Last Updated**: 2021-03-03
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+On Tuesday, March 2, 2021, Microsoft released a set of security patches for its mail server, Microsoft Exchange. These patches respond to a group of vulnerabilities known to impact Exchange 2013, 2016, and 2019. It is important to note that an Exchange 2010 security update has also been issued, though the CVEs do not reference that version as being vulnerable.\
+While the CVEs do not shed much light on the specifics of the vulnerabilities or exploits, the first vulnerability (CVE-2021-26855) has a remote network attack vector that allows the attacker, a group Microsoft named HAFNIUM, to authenticate as the Exchange server. Three additional vulnerabilities (CVE-2021-26857, CVE-2021-26858, and CVE-2021-27065) were also identified as part of this activity. When chained together along with CVE-2021-26855 for initial access, the attacker would have complete control over the Exchange server. This includes the ability to run code as SYSTEM and write to any path on the server.\
+The following Splunk detections assist with identifying the HAFNIUM groups tradecraft and methodology.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

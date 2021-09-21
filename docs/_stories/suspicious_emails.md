@@ -19,7 +19,15 @@ Email remains one of the primary means for attackers to gain an initial foothold
 - **Last Updated**: 2020-01-27
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+It is a common practice for attackers of all types to leverage targeted spearphishing campaigns and mass mailers to deliver weaponized email messages and attachments. Fortunately, there are a number of ways to monitor email data in Splunk to detect suspicious content.\
+Once a phishing message has been detected, the next steps are to answer the following questions: \
+1. Which users have received this or a similar message in the past?\
+1. When did the targeted campaign begin?\
+1. Have any users interacted with the content of the messages (by downloading an attachment or clicking on a malicious URL)?This Analytic Story provides detection searches to identify suspicious emails, as well as contextual and investigative searches to help answer some of these questions.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

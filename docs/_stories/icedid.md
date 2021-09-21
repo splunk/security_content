@@ -19,7 +19,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 - **Last Updated**: 2021-07-29
 - **Author**: Teoderick Contreras, Splunk
 
-#### Detection profiles
+#### Narrative
+
+IcedId banking trojan campaigns targeting banks and other vertical sectors.This malware is known in Microsoft Windows OS targetting browser such as firefox and chrom to steal banking information. It is also known to its unique payload downloaded in C2 where it can be a .png file that hides the core shellcode bot using steganography technique or gzip dat file that contains "license.dat" which is the actual core icedid bot.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

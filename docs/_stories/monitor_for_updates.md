@@ -19,7 +19,13 @@ Monitor your enterprise to ensure that your endpoints are being patched and upda
 - **Last Updated**: 2017-09-15
 - **Author**: Rico Valdez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+It is a common best practice to ensure that endpoints are being patched and updated in a timely manner, in order to reduce the risk of compromise via a publicly disclosed vulnerability. Timely application of updates/patches is important to eliminate known vulnerabilities that may be exploited by various threat actors.\
+Searches in this analytic story are designed to help analysts monitor endpoints for system patches and/or updates. This helps analysts identify any systems that are not successfully updated in a timely matter.\
+Microsoft releases updates for Windows systems on a monthly cadence. They should be installed as soon as possible after following internal testing and validation procedures. Patches and updates for other systems or applications are typically released as needed.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

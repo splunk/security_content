@@ -20,7 +20,13 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 - **Last Updated**: 2020-02-03
 - **Author**: Rico Valdez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+A common adversary goal is to identify and exfiltrate data of value from a target organization. This data may include email conversations and addresses, confidential company information, links to network design/infrastructure, important dates, and so on.\
+ Attacks are composed of three activities: identification, collection, and staging data for exfiltration. Identification typically involves scanning systems and observing user activity. Collection can involve the transfer of large amounts of data from various repositories. Staging/preparation includes moving data to a central location and compressing (and optionally encoding and/or encrypting) it. All of these activities provide opportunities for defenders to identify their presence. \
+Use the searches to detect and monitor suspicious behavior related to these activities.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

@@ -19,7 +19,13 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 - **Last Updated**: 2018-07-24
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+As cloud computing has exploded, so has the number of creative attacks on virtual environments. And as the number-two cloud-service provider, Amazon Web Services (AWS) has certainly had its share.\
+Amazon's "shared responsibility" model dictates that the company has responsibility for the environment outside of the VM and the customer is responsible for the security inside of the S3 container. As such, it's important to stay vigilant for activities that may belie suspicious behavior inside of your environment.\
+Among things to look out for are S3 access from unfamiliar locations and by unfamiliar users. Some of the searches in this Analytic Story help you detect suspicious behavior and others help you investigate more deeply, when the situation warrants.   
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

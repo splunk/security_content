@@ -18,7 +18,11 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 - **Last Updated**: 2021-08-18
 - **Author**: Patrick Bareiss, Splunk
 
-#### Detection profiles
+#### Narrative
+
+DevSecOps is a collaborative framework, which thinks about application and infrastructure security from the start. This means that security tools are part of the continuous integration and continuous deployment pipeline. In this analytics story, we focused on detections around the tools used in this framework such as GitHub as a version control system, GDrive for the documentation, CircleCI as the CI/CD pipeline, Kubernetes as the container execution engine and multiple security tools such as Semgrep and Kube-Hunter.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

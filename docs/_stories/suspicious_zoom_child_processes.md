@@ -19,7 +19,12 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 - **Last Updated**: 2020-04-13
 - **Author**: David Dorsey, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Zoom is a leader in modern enterprise video communications and its usage has increased dramatically with a large amount of the population under stay-at-home orders due to the COVID-19 pandemic. With increased usage has come increased scrutiny and several security flaws have been found with this application on both Windows and macOS systems.\
+Current detections focus on finding new child processes of this application on a per host basis. Investigative searches are included to gather information needed during an investigation.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

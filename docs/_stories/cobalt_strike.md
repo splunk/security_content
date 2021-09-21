@@ -19,7 +19,20 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 - **Last Updated**: 2021-02-16
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) from Cobalt Strike. Cobalt Strike has many ways to be enhanced by using aggressor scripts, malleable C2 profiles, default attack packages, and much more. For endpoint behavior, Cobalt Strike is most commonly identified via named pipes, spawn to processes, and DLL function names. Many additional variables are provided for in memory operation of the beacon implant. On the network, depending on the malleable C2 profile used, it is near infinite in the amount of ways to conceal the C2 traffic with Cobalt Strike. Not every query may be specific to Cobalt Strike the tool, but the methodologies and techniques used by it.\
+Splunk Threat Research reviewed all publicly available instances of Malleabe C2 Profiles and generated a list of the most commonly used spawnto and pipenames.\
+`Spawnto_x86` and `spawnto_x64` is the process that Cobalt Strike will spawn and injects shellcode into.\
+Pipename sets the named pipe name used in Cobalt Strikes Beacon SMB C2 traffic.\
+With that, new detections were generated focused on these spawnto processes spawning without command line arguments. Similar, the named pipes most commonly used by Cobalt Strike added as a detection. In generating content for Cobalt Strike, the following is considered:\
+- Is it normal for spawnto_ value to have no command line arguments? No command line arguments and a network connection?\
+- What is the default, or normal, process lineage for spawnto_ value?\
+- Does the spawnto_ value make network connections?\
+- Is it normal for spawnto_ value to load jscript, vbscript, Amsi.dll, and clr.dll?\
+While investigating a detection related to this Analytic Story, keep in mind the parent process, process path, and any file modifications that may occur. Tuning may need to occur to remove any false positives.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

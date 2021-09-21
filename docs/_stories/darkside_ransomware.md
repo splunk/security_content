@@ -19,7 +19,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 - **Last Updated**: 2021-05-12
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+This story addresses Darkside ransomware. This ransomware payload has many similarities to common ransomware however there are certain items particular to it. The creation of a .TXT log that shows every item being encrypted as well as the creation of ransomware notes and files adding a machine ID created based on CRC32 checksum algorithm. This ransomware payload leaves machines in minimal operation level,enough to browse the attackers websites. A customized URI with leaked information is presented to each victim.This is the ransomware payload that shut down the Colonial pipeline. The story is composed of several detection searches covering similar items to other ransomware payloads and those particular to Darkside payload.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

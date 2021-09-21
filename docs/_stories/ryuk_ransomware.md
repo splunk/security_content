@@ -20,7 +20,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 - **Last Updated**: 2020-11-06
 - **Author**: Jose Hernandez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) on October 28th called “Ransomware Activity Targeting the Healthcare and Public Health Sector.” This alert details TTPs associated with ongoing and possible imminent attacks against the Healthcare sector, and is a joint advisory in coordination with other U.S. Government agencies. The objective of these malicious campaigns is to infiltrate targets in named sectors and to drop ransomware payloads, which will likely cause disruption of service and increase risk of actual harm to the health and safety of patients at hospitals, even with the aggravant of an ongoing COVID-19 pandemic. This document specifically refers to several crimeware exploitation frameworks, emphasizing the use of Ryuk ransomware as payload. The Ryuk ransomware payload is not new. It has been well documented and identified in multiple variants. Payloads need a carrier, and for Ryuk it has often been exploitation frameworks such as Cobalt Strike, or popular crimeware frameworks such as Emotet or Trickbot.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

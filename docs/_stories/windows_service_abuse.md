@@ -19,7 +19,11 @@ Windows services are often used by attackers for persistence and the ability to 
 - **Last Updated**: 2017-11-02
 - **Author**: Rico Valdez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+The Windows operating system uses a services architecture to allow for running code in the background, similar to a UNIX daemon. Attackers will often leverage Windows services for persistence, hiding in plain sight, seeking the ability to run privileged code that can interact with the kernel. In many cases, attackers will create a new service to host their malicious code. Attackers have also been observed modifying unnecessary or unused services to point to their own code, as opposed to what was intended. In these cases, attackers often use tools to create or modify services in ways that are not typical for most environments, providing opportunities for detection.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

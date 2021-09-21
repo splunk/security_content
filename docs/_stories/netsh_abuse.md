@@ -19,7 +19,12 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
 - **Last Updated**: 2017-01-05
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+It is a common practice for attackers of all types to leverage native Windows tools and functionality to execute commands for malicious reasons. One such tool on Windows OS is `netsh.exe`,a command-line scripting utility that allows you to--either locally or remotely--display or modify the network configuration of a computer that is currently running. `Netsh.exe` can be used to discover and disable local firewall settings. It can also be used to set up a remote connection to a host from an infected system.\
+To get started, run the detection search to identify parent processes of `netsh.exe`.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

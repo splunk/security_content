@@ -19,7 +19,11 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 - **Last Updated**: 2021-02-11
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+ Adversaries may abuse Regsvcs and Regasm to proxy execution of code through a trusted Windows utility. Regsvcs and Regasm are Windows command-line utilities that are used to register .NET Component Object Model (COM) assemblies. Both are digitally signed by Microsoft. The following queries assist with detecting suspicious and malicious usage of Regasm.exe and Regsvcs.exe. Upon reviewing usage of Regasm.exe Regsvcs.exe, review file modification events for possible script code written. Review parallel process events for csc.exe being utilized to compile script code.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

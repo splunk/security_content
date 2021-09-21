@@ -20,7 +20,12 @@ Monitor your cloud authentication events. Searches within this Analytic Story le
 - **Last Updated**: 2020-06-04
 - **Author**: Rico Valdez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+It is important to monitor and control who has access to your cloud infrastructure. Detecting suspicious logins will provide good starting points for investigations. Abusive behaviors caused by compromised credentials can lead to direct monetary costs, as you will be billed for any compute activity whether legitimate or otherwise.\
+This Analytic Story has data model versions of cloud searches leveraging Authentication data, including those looking for suspicious login activity, and cross-account activity for AWS.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

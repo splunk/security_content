@@ -20,7 +20,12 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 - **Last Updated**: 2020-09-04
 - **Author**: David Dorsey, Splunk
 
-#### Detection profiles
+#### Narrative
+
+It seems obvious that it is critical to monitor and control the users who have access to your cloud infrastructure. Nevertheless, it's all too common for enterprises to lose track of ad-hoc accounts, leaving their servers vulnerable to attack. In fact, this was the very oversight that led to Tesla's cryptojacking attack in February, 2018.\
+In addition to compromising the security of your data, when bad actors leverage your compute resources, it can incur monumental costs, since you will be billed for any new instances and increased bandwidth usage.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

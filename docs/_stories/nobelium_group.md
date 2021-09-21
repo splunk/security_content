@@ -21,7 +21,11 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 - **Last Updated**: 2020-12-14
 - **Author**: Patrick Bareiss, Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+This Analytic Story supports you to detect Tactics, Techniques and Procedures (TTPs) of the NOBELIUM Group. The threat actor behind sunburst compromised the SolarWinds.Orion.Core.BusinessLayer.dll, is a SolarWinds digitally-signed component of the Orion software framework that contains a backdoor that communicates via HTTP to third party servers. The detections in this Analytic Story are focusing on the dll loading events, file create events and network events to detect This malware.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

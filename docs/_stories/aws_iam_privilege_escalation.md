@@ -19,7 +19,12 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 - **Last Updated**: 2021-03-08
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Amazon Web Services provides a neat feature called Identity and Access Management (IAM) that enables organizations to manage various AWS services and resources in a secure way. All IAM users have roles, groups and policies associated with them which governs and sets permissions to allow a user to access specific restrictions.\
+However, if these IAM policies are misconfigured and have specific combinations of weak permissions; it can allow attackers to escalate their privileges and further compromise the organization. Rhino Security Labs have published comprehensive blogs detailing various AWS Escalation methods. By using this as an inspiration, Splunk’s research team wants to highlight how these attack vectors look in AWS Cloudtrail logs and provide you with detection queries to uncover these potentially malicious events via this Analytic Story. \
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

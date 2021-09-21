@@ -18,7 +18,11 @@ This story addresses detection and response of accounts acccesing Kubernetes clu
 - **Last Updated**: 2020-05-20
 - **Author**: Rod Soto, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitive objects within its architecture, specifically configmaps and secrets, if accessed by an attacker can lead to further compromise. These searches allow operator to detect suspicious requests against Kubernetes sensitive objects.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

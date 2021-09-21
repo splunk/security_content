@@ -19,7 +19,11 @@ Leverage searches that detect cleartext network protocols that may leak credenti
 - **Last Updated**: 2017-09-15
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Various legacy protocols operate by default in the clear, without the protections of encryption. This potentially leaks sensitive information that can be exploited by passively sniffing network traffic. Depending on the protocol, this information could be highly sensitive, or could allow for session hijacking. In addition, these protocols send authentication information, which would allow for the harvesting of usernames and passwords that could potentially be used to authenticate and compromise secondary systems.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

@@ -19,7 +19,11 @@ This story is focused around detecting Office 365 Attacks.
 - **Last Updated**: 2020-12-16
 - **Author**: Patrick Bareiss, Splunk
 
-#### Detection profiles
+#### Narrative
+
+More and more companies are using Microsofts Office 365 cloud offering. Therefore, we see more and more attacks against Office 365. This story provides various detections for Office 365 attacks.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

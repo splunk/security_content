@@ -19,7 +19,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 - **Last Updated**: 2020-10-27
 - **Author**: Rod Soto, David Dorsey, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Ransomware is an ever-present risk to the enterprise, wherein an infected host encrypts business-critical data, holding it hostage until the victim pays the attacker a ransom. There are many types and varieties of ransomware that can affect an enterprise.Cloud ransomware can be deployed by obtaining high privilege credentials from targeted users or resources.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

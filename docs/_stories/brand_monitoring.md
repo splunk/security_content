@@ -20,7 +20,13 @@ Detect and investigate activity that may indicate that an adversary is using fau
 - **Last Updated**: 2017-12-19
 - **Author**: David Dorsey, Splunk
 
-#### Detection profiles
+#### Narrative
+
+While you can educate your users and customers about the risks and threats posed by typosquatting, phishing, and corporate espionage, human error is a persistent fact of life. Of course, your adversaries are all too aware of this reality and will happily leverage it for nefarious purposes whenever possible&#51;phishing with lookalike addresses, embedding faux command-and-control domains in malware, and hosting malicious content on domains that closely mimic your corporate servers. This is where brand monitoring comes in.\
+You can use our adaptation of `DNSTwist`, together with the support searches in this Analytic Story, to generate permutations of specified brands and external domains. Splunk can monitor email, DNS requests, and web traffic for these permutations and provide you with early warnings and situational awareness--powerful elements of an effective defense.\
+Notable events will include IP addresses, URLs, and user data. Drilling down can provide you with even more actionable intelligence, including likely geographic information, contextual searches to help you scope the problem, and investigative searches.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

@@ -19,7 +19,11 @@ Adversaries may use Obfuscated Files or Information to hide artifacts of an intr
 - **Last Updated**: 2021-03-24
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+An example of obfuscated files is `Certutil.exe` usage to encode a portable executable to a certificate file, which is base64 encoded, to hide the originating file. There are many utilities cross-platform to encode using XOR, using compressed .cab files to hide contents and scripting languages that may perform similar native Windows tasks. Triaging an event related will require the capability to review related process events and file modifications. Using a tool such as CyberChef will assist with identifying the encoding that was used, and potentially assist with decoding the contents.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

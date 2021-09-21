@@ -19,7 +19,11 @@ Monitor for and investigate activities that may be associated with a Windows pri
 - **Last Updated**: 2020-02-04
 - **Author**: David Dorsey, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Privilege escalation is a "land-and-expand" technique, wherein an adversary gains an initial foothold on a host and then exploits its weaknesses to increase his privileges. The motivation is simple: certain actions on a Windows machine--such as installing software--may require higher-level privileges than those the attacker initially acquired. By increasing his privilege level, the attacker can gain the control required to carry out his malicious ends. This Analytic Story provides searches to detect and investigate behaviors that attackers may use to elevate their privileges in your environment.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

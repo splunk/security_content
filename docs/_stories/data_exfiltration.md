@@ -20,7 +20,11 @@ The stealing of data by an adversary.
 - **Last Updated**: 2020-10-21
 - **Author**: Shannon Davis, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Exfiltration comes in many flavors.  Adversaries can collect data over encrypted or non-encrypted channels.  They can utilise Command and Control channels that are already in place to exfiltrate data.  They can use both standard data transfer protocols such as FTP, SCP, etc to exfiltrate data.  Or they can use non-standard protocols such as DNS, ICMP, etc with specially crafted fields to try and circumvent security technologies in place.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

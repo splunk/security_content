@@ -19,7 +19,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 - **Last Updated**: 2021-06-04
 - **Author**: Teoderick Contreras, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Revil ransomware is a RaaS,that a single group may operates and manges the development of this ransomware. It involve the use of ransomware payloads along with exfiltration of data. Malicious actors demand payment for ransome of data and threaten deletion and exposure of exfiltrated data.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

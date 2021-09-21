@@ -18,7 +18,11 @@ Uncover activity related to the execution of Zerologon CVE-2020-11472, a techniq
 - **Last Updated**: 2020-09-18
 - **Author**: Rod Soto, Jose Hernandez, Stan Miskowicz, David Dorsey, Shannon Davis Splunk
 
-#### Detection profiles
+#### Narrative
+
+This attack is a privilege escalation technique, where attacker targets a Netlogon secure channel connection to a domain controller, using Netlogon Remote Protocol (MS-NRPC). This vulnerability exposes vulnerable Windows Domain Controllers to be targeted via unaunthenticated RPC calls which eventually reset Domain Contoller computer account ($) providing the attacker the opportunity to exfil domain controller credential secrets and assign themselve high privileges that can lead to domain controller and potentially complete network takeover. The detection searches in this Analytic Story use Windows Event viewer events and Sysmon events to detect attack execution, these searches monitor access to the Local Security Authority Subsystem Service (LSASS) process which is an indicator of the use of Mimikatz tool which has bee updated to carry this attack payload.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

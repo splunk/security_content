@@ -19,7 +19,11 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 - **Last Updated**: 2017-09-14
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Attackers can leverage a variety of resources to compromise or exfiltrate enterprise data. Common exfiltration techniques include remote-access channels via low-risk, high-payoff active-collections operations and close-access operations using insiders and removable media. While this Analytic Story is not a comprehensive listing of all the methods by which attackers can exfiltrate data, it provides a useful starting point.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

@@ -19,7 +19,11 @@ Looks for activities and techniques associated with the disabling of security to
 - **Last Updated**: 2020-02-04
 - **Author**: Rico Valdez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Attackers employ a variety of tactics in order to avoid detection and operate without barriers. This often involves modifying the configuration of security tools to get around them or explicitly disabling them to prevent them from running. This Analytic Story includes searches that look for activity consistent with attackers attempting to disable various security mechanisms. Such activity may involve monitoring for suspicious registry activity, as this is where much of the configuration for Windows and various other programs reside, or explicitly attempting to shut down security-related services. Other times, attackers attempt various tricks to prevent specific programs from running, such as adding the certificates with which the security tools are signed to a block list (which would prevent them from running).
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

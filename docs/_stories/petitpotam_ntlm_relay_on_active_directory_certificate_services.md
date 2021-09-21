@@ -18,7 +18,11 @@ PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC P
 - **Last Updated**: 2021-08-31
 - **Author**: Michael Haag, Mauricio Velazco, Splunk
 
-#### Detection profiles
+#### Narrative
+
+In June 2021, security researchers at SpecterOps released a blog post and white paper detailing several potential attack vectors against Active Directory Certificated Services (ADCS). ADCS is a Microsoft product that implements Public Key Infrastrucutre (PKI) functionality and can be used by organizations to provide and manage digital certiticates within Active Directory.\ In July 2021, a security researcher released PetitPotam, a tool that allows attackers to coerce Windows systems into authenticating to arbitrary endpoints.\ Combining PetitPotam with the identified ADCS attack vectors allows attackers to escalate privileges from an unauthenticated anonymous user to full domain admin privileges.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

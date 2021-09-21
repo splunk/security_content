@@ -21,7 +21,11 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 - **Last Updated**: 2017-09-11
 - **Author**: Rico Valdez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+A traditional security best practice is to control the ports, protocols, and services allowed within your environment. By limiting the services and protocols to those explicitly approved by policy, administrators can minimize the attack surface. The combined effect allows both network defenders and security controls to focus and not be mired in superfluous traffic or data types. Looking for deviations to policy can identify attacker activity that abuses services and protocols to run on alternate or non-standard ports in the attempt to avoid detection or frustrate forensic analysts.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

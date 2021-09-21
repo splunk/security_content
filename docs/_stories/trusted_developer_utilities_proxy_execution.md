@@ -19,7 +19,12 @@ Monitor and detect behaviors used by attackers who leverage trusted developer ut
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Adversaries may take advantage of trusted developer utilities to proxy execution of malicious payloads. There are many utilities used for software development related tasks that can be used to execute code in various forms to assist in development, debugging, and reverse engineering. These utilities may often be signed with legitimate certificates that allow them to execute on a system and proxy execution of malicious code through a trusted process that effectively bypasses application control solutions.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging microsoft.workflow.compiler.exe to execute malicious code.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

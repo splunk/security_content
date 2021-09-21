@@ -19,7 +19,12 @@ Use the searches in this Analytic Story to help you detect structured query lang
 - **Last Updated**: 2017-09-19
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+It is very common for attackers to inject SQL parameters into vulnerable web applications, which then interpret the malicious SQL statements.\
+This Analytic Story contains a search designed to identify attempts by attackers to leverage this technique to compromise a host and gain a foothold in the target environment.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

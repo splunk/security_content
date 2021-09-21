@@ -19,7 +19,11 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 - **Last Updated**: 2021-02-03
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+One common adversary tactic is to bypass application control solutions via the rundll32.exe process. Natively, rundll32.exe will load DLLs and is a great example of a Living off the Land Binary. Rundll32.exe may load malicious DLLs by ordinals, function names or directly. The queries in this story focus on loading default DLLs, syssetup.dll, ieadvpack.dll, advpack.dll and setupapi.dll from disk that may be abused by adversaries. Additionally, two analytics developed to assist with identifying DLLRegisterServer, Start and StartW functions being called. The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging rundll32.exe to execute malicious code.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

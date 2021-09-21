@@ -18,7 +18,11 @@ This story addresses detection against Kubernetes cluster fingerprint scan and a
 - **Last Updated**: 2020-04-15
 - **Author**: Rod Soto, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Kubernetes is the most used container orchestration platform, this orchestration platform contains sensitve information and management priviledges of production workloads, microservices and applications. These searches allow operator to detect suspicious unauthenticated requests from the internet to kubernetes cluster.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

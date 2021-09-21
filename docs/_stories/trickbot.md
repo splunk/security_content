@@ -19,7 +19,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 - **Last Updated**: 2021-04-20
 - **Author**: Rod Soto, Teoderick Contreras, Splunk
 
-#### Detection profiles
+#### Narrative
+
+trickbot banking trojan campaigns targeting banks and other vertical sectors.This malware is known in Microsoft Windows OS where target security Microsoft Defender to prevent its detection and removal. steal Verizon credentials and targeting banks using its multi component modules that collect and exfiltrate data.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

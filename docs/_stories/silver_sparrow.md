@@ -19,7 +19,11 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 - **Last Updated**: 2021-02-24
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Silver Sparrow works is a dropper and uses typical persistence mechanisms on a Mac. It is cross platform, covering both Intel and Apple M1 architecture. To this date, no implant has been downloaded for malicious purposes. During installation of the update.pkg or updater.pkg file, the malicious software utilizes JavaScript to generate files and scripts on disk for persistence.These files later download a implant from an S3 bucket every hour. This analytic assists with identifying different types of macOS malware families establishing LaunchAgent persistence. Per SentinelOne source, it is predicted that Silver Sparrow is likely selling itself as a mechanism to 3rd party “affiliates” or pay-per-install (PPI) partners, typically seen as commodity adware/malware. Additional indicators and behaviors may be found within the references.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

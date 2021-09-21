@@ -19,7 +19,11 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 - **Last Updated**: 2020-02-03
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+The ability to execute arbitrary commands via the Windows CLI is a primary goal for the adversary. With access to the shell, an attacker can easily run scripts and interact with the target system. Often, attackers may only have limited access to the shell or may obtain access in unusual ways. In addition, malware may execute and interact with the CLI in ways that would be considered unusual and inconsistent with typical user activity. This provides defenders with opportunities to identify suspicious use and investigate, as appropriate. This Analytic Story contains various searches to help identify this suspicious activity, as well as others to aid you in deeper investigation.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

@@ -19,7 +19,11 @@ Monitor your AWS network infrastructure for bad configurations and malicious act
 - **Last Updated**: 2018-05-21
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+AWS CloudTrail is an AWS service that helps you enable governance, compliance, and operational/risk auditing of your AWS account. Actions taken by a user, role, or an AWS service are recorded as events in CloudTrail. It is crucial for a company to monitor events and actions taken in the AWS Management Console, AWS Command Line Interface, and AWS SDKs and APIs to ensure that your servers are not vulnerable to attacks. This analytic story contains detection searches that leverage CloudTrail logs from AWS to check for bad configurations and malicious activity in your AWS network access controls.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

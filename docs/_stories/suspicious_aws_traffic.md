@@ -18,7 +18,14 @@ Leverage these searches to monitor your AWS network traffic for evidence of anom
 - **Last Updated**: 2018-05-07
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+A virtual private cloud (VPC) is an on-demand managed cloud-computing service that isolates computing resources for each client. Inside the VPC container, the environment resembles a physical network. \
+Amazon's VPC service enables you to launch EC2 instances and leverage other Amazon resources. The traffic that flows in and out of this VPC can be controlled via network access-control rules and security groups. Amazon also has a feature called VPC Flow Logs that enables you to log IP traffic going to and from the network interfaces in your VPC. This data is stored using Amazon CloudWatch Logs.\
+ Attackers may abuse the AWS infrastructure with insecure VPCs so they can co-opt AWS resources for command-and-control nodes, data exfiltration, and more. Once an EC2 instance is compromised, an attacker may initiate outbound network connections for malicious reasons. Monitoring these network traffic behaviors is crucial for understanding the type of traffic flowing in and out of your network and to alert you to suspicious activities.\
+The searches in this Analytic Story will monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

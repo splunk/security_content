@@ -19,7 +19,11 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 - **Last Updated**: 2018-10-23
 - **Author**: Rico Valdez, Splunk
 
-#### Detection profiles
+#### Narrative
+
+WMI is a Microsoft infrastructure for management data and operations on Windows operating systems. It includes of a set of utilities that can be leveraged to manage both local and remote Windows systems. Attackers are increasingly turning to WMI abuse in their efforts to conduct nefarious tasks, such as reconnaissance, detection of antivirus and virtual machines, code execution, lateral movement, persistence, and data exfiltration. The detection searches included in this Analytic Story are used to look for suspicious use of WMI commands that attackers may leverage to interact with remote systems. The searches specifically look for the use of WMI to run processes on remote systems. In the event that unauthorized WMI execution occurs, it will be important for analysts and investigators to determine the context of the event. These details may provide insights related to how WMI was used and to what end.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

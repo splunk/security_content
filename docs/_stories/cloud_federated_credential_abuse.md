@@ -20,7 +20,11 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
 
-#### Detection profiles
+#### Narrative
+
+This story is composed of detection searches based on endpoint that addresses the use of Mimikatz, Escalation of Privileges and Abnormal processes that may indicate the extraction of Federated directory objects such as passwords, Oauth2 tokens, certificates and keys. Cloud environment (AWS, Azure) related events are also addressed in specific cloud environment detection searches.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

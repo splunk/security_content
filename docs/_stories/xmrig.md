@@ -19,7 +19,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 - **Last Updated**: 2021-05-07
 - **Author**: Teoderick Contreras, Rod Soto Splunk
 
-#### Detection profiles
+#### Narrative
+
+XMRig is a high performance, open source, cross platform RandomX, KawPow, CryptoNight and AstroBWT unified CPU/GPU miner. This monero is seen in the wild on May 2017.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

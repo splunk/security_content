@@ -18,7 +18,11 @@ Use the searches in this Analytic Story to monitor your GCP Storage buckets for 
 - **Last Updated**: 2020-08-05
 - **Author**: Shannon Davis, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Similar to other cloud providers, GCP operates on a shared responsibility model. This means the end user, you, are responsible for setting appropriate access control lists and permissions on your GCP resources.\ This Analytics Story concentrates on detecting things like open storage buckets (both read and write) along with storage bucket access from unfamiliar users and IP addresses.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

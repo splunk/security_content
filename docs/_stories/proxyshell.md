@@ -19,7 +19,15 @@ ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server
 - **Last Updated**: 2021-08-24
 - **Author**: Michael Haag, Teoderick Contreras, Mauricio Velazco, Splunk
 
-#### Detection profiles
+#### Narrative
+
+During Pwn2Own April 2021, a security researcher demonstrated an attack chain targeting on-premise Microsoft Exchange Server. August 5th, the same researcher publicly released further details and demonstrated the attack chain. \
+1. CVE-2021-34473 - Pre-auth path confusion leads to ACL Bypass (Patched in April by KB5001779) \
+1. CVE-2021-34523 - Elevation of privilege on Exchange PowerShell backend (Patched in April by KB5001779) \
+1. CVE-2021-31207 - Post-auth Arbitrary-File-Write leads to RCE (Patched in May by KB5003435) \
+Upon successful exploitation, the remote attacker will have `SYSTEM` privileges on the Exchange Server. In addition to remote access/execution, the adversary may be able to run Exchange PowerShell Cmdlets to perform further actions.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

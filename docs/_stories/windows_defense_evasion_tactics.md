@@ -19,7 +19,11 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 - **Last Updated**: 2018-05-31
 - **Author**: David Dorsey, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adversaries employ in a variety of ways to bypass or defeat defensive security measures. There are many techniques enumerated by the MITRE ATT&CK framework that are applicable in this context. This Analytic Story includes searches designed to identify the use of such techniques on Windows platforms.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

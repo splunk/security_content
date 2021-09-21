@@ -19,7 +19,23 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 - **Last Updated**: 2021-01-20
 - **Author**: Bhavin Patel, Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+One common adversary tactic is to bypass application control solutions via the mshta.exe process, which loads Microsoft HTML applications (mshtml.dll) with the .hta suffix. In these cases, attackers use the trusted Windows utility to proxy execution of malicious files, whether an .hta application, javascript, or VBScript.\
+The searches in this story help you detect and investigate suspicious activity that may indicate that an attacker is leveraging mshta.exe to execute malicious code.\
+Triage\
+Validate execution \
+1. Determine if MSHTA.exe executed. Validate the OriginalFileName of MSHTA.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect.\
+1. Determine if script code was executed with MSHTA.\
+Situational Awareness\
+The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by MSHTA.exe.\
+1. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application?\
+1. Module loads. Are the known MSHTA.exe modules being loaded by a non-standard application? Is MSHTA loading any suspicious .DLLs?\
+1. Network connections. Any network connections? Review the reputation of the remote IP or domain.\
+Retrieval of script code\
+The objective of this step is to confirm the executed script code is benign or malicious.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

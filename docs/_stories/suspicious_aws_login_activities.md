@@ -20,7 +20,11 @@ Monitor your AWS authentication events using your CloudTrail logs. Searches with
 - **Last Updated**: 2019-05-01
 - **Author**: Bhavin Patel, Splunk
 
-#### Detection profiles
+#### Narrative
+
+It is important to monitor and control who has access to your AWS infrastructure. Detecting suspicious logins to your AWS infrastructure will provide good starting points for investigations. Abusive behaviors caused by compromised credentials can lead to direct monetary costs, as you will be billed for any EC2 instances created by the attacker.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

@@ -19,7 +19,11 @@ Monitor and detect techniques used by attackers who leverage the regsvr32.exe pr
 - **Last Updated**: 2021-01-29
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+One common adversary tactic is to bypass application control solutions via the regsvr32.exe process. This particular bypass was popularized with "SquiblyDoo" using the "scrobj.dll" dll to load .sct scriptlets. This technique is still widely used by adversaries to bypass detection and prevention controls. The file extension of the DLL is irrelevant (it may load a .txt file extension for example). The searches in this story help you detect and investigate suspicious activity that may indicate that an adversary is leveraging regsvr32.exe to execute malicious code. Validate execution Determine if regsvr32.exe executed. Validate the OriginalFileName of regsvr32.exe and further PE metadata. If executed outside of c:\windows\system32 or c:\windows\syswow64, it should be highly suspect. Determine if script code was executed with regsvr32. Situational Awareness - The objective of this step is meant to identify suspicious behavioral indicators related to executed of Script code by regsvr32.exe. Parent process. Is the parent process a known LOLBin? Is the parent process an Office Application? Module loads.  Is regsvr32 loading any suspicious .DLLs? Unsigned or signed from non-standard paths. Network connections. Any network connections? Review the reputation of the remote IP or domain. Retrieval of Script Code - confirm the executed script code is benign or malicious.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

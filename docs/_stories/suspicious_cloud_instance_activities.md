@@ -20,7 +20,11 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 - **Last Updated**: 2020-08-25
 - **Author**: David Dorsey, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Monitoring your cloud infrastructure logs allows you enable governance, compliance, and risk auditing. It is crucial for a company to monitor events and actions taken in the their cloud environments to ensure that your instances are not vulnerable to attacks. This Analytic Story identifies suspicious activities in your cloud compute instances and helps you respond and investigate those activities.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|

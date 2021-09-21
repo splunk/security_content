@@ -19,7 +19,11 @@ Adversaries may transfer tools or other files from an external system into a com
 - **Last Updated**: 2021-03-24
 - **Author**: Michael Haag, Splunk
 
-#### Detection profiles
+#### Narrative
+
+Ingress tool transfer is a Technique under tactic Command and Control. Behaviors will include the use of living off the land binaries to download implants or binaries over alternate communication ports. It is imperative to baseline applications on endpoints to understand what generates network activity, to where, and what is its native behavior. These utilities, when abused, will write files to disk in world writeable paths.\ During triage, review the reputation of the remote public destination IP or domain. Capture any files written to disk and perform analysis. Review other parrallel processes for additional behaviors.
+
+#### Detections
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
