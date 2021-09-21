@@ -128,3 +128,11 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+
+# analytics
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "G-SH3G39GDK1"
+    anonymize_ip: false # default
+
