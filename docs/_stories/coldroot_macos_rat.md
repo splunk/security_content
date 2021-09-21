@@ -24,10 +24,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | ----------- | ----------- |--------------|
 | [Processes Tapping Keyboard Events](/endpoint/processes_tapping_keyboard_events/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.intego.com/mac-security-blog/osxcoldroot-and-the-rat-invasion/](https://www.intego.com/mac-security-blog/osxcoldroot-and-the-rat-invasion/)
@@ -36,4 +32,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/coldroot_macos_rat.yml) | _version_: **1**

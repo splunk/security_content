@@ -23,6 +23,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for Web requests to faux domains similar to the one that you want to have monitored for abuse.
 
 - **ID**: 134da869-e264-4a8f-8d7e-fcd0ec88f301
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-23
@@ -73,4 +74,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/web/monitor_web_traffic_for_brand_abuse.yml) | _version_: **1**

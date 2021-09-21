@@ -24,6 +24,7 @@ tags:
 The search looks for a batch file (.bat) written to the Windows system directory tree.
 
 - **ID**: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
@@ -92,4 +93,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/batch_file_write_to_system32.yml) | _version_: **1**

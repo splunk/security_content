@@ -27,10 +27,6 @@ Monitor your AWS network infrastructure for bad configurations and malicious act
 | [AWS Network Access Control List Deleted](/cloud/aws_network_access_control_list_deleted/) | None | Anomaly |
 | [Detect Spike in blocked Outbound Traffic from your AWS](/cloud/detect_spike_in_blocked_outbound_traffic_from_your_aws/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html)
@@ -38,4 +34,4 @@ Monitor your AWS network infrastructure for bad configurations and malicious act
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/aws_network_acl_activity.yml) | _version_: **2**

@@ -24,6 +24,7 @@ tags:
 This search looks for process names that consist only of a single letter.
 
 - **ID**: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-08
@@ -93,4 +94,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log)
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/single_letter_process_on_endpoint.yml) | _version_: **3**

@@ -27,6 +27,7 @@ tags:
 This search looks for cloud provisioning activities from previously unseen regions. Provisioning activities are defined broadly as any event that runs or creates something.
 
 - **ID**: 5aba1860-9617-4af9-b19d-aecac16fe4f2
+- **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-08-16
@@ -102,4 +103,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/cloud_provisioning_activity_from_previously_unseen_region.yml) | _version_: **1**

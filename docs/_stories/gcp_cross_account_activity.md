@@ -24,14 +24,10 @@ Track when a user assumes an IAM role in another GCP account to obtain cross-acc
 | ----------- | ----------- |--------------|
 | [GCP Detect gcploit framework](/cloud/gcp_detect_gcploit_framework/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://cloud.google.com/iam/docs/understanding-service-accounts](https://cloud.google.com/iam/docs/understanding-service-accounts)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/gcp_cross_account_activity.yml) | _version_: **1**

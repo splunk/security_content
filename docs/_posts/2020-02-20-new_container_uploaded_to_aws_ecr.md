@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This searches show information on uploaded containers including source user, image id, source IP user type, http user agent, region, first time, last time of operation (PutImage). These searches are based on Cloud Infrastructure Data Model.
 
 - **ID**: f0f70b40-f7ad-489d-9905-23d149da8099
+- **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-02-20
@@ -75,4 +76,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/new_container_uploaded_to_aws_ecr.yml) | _version_: **1**

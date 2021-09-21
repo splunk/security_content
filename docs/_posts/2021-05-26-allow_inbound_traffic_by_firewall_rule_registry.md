@@ -24,6 +24,7 @@ tags:
 This analytic detects a potential suspicious modification of firewall rule registry allowing inbound traffic in specific port with public profile. This technique was identified when an adversary wants to grant remote access to a machine by allowing the traffic in a firewall rule.
 
 - **ID**: 0a46537c-be02-11eb-92ca-acde48001122
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-26
@@ -101,4 +102,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/allow_inbound_traffic_by_firewall_rule_registry.yml) | _version_: **1**

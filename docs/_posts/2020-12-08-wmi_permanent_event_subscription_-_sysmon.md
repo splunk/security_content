@@ -29,6 +29,7 @@ All event subscriptions have three components \
 Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding. It may be pertinent to review all 3 to identify the flow of execution. In addition, EventCode 4104 may assist with any other PowerShell script usage that registered the subscription.
 
 - **ID**: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-08
@@ -103,4 +104,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wmi_permanent_event_subscription_-_sysmon.yml) | _version_: **3**

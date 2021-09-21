@@ -27,14 +27,10 @@ Adversaries may attempt to gather information on domain trust relationships that
 | [NLTest Domain Trust Discovery](/endpoint/nltest_domain_trust_discovery/) | None | TTP |
 | [Windows AdFind Exe](/endpoint/windows_adfind_exe/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1482/](https://attack.mitre.org/techniques/T1482/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/domain_trust_discovery.yml) | _version_: **1**

@@ -25,6 +25,7 @@ tags:
 Attempt To Add Certificate To Untrusted Store
 
 - **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-03
@@ -99,4 +100,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.004/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.004/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 6
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_add_certificate_to_untrusted_store.yml) | _version_: **6**

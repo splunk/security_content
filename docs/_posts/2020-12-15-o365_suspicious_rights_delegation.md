@@ -24,6 +24,7 @@ tags:
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
 - **ID**: b25d2973-303e-47c8-bacd-52b61604c6a7
+- **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-15
@@ -90,4 +91,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_suspicious_rights_delegation.yml) | _version_: **1**

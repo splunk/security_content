@@ -24,6 +24,7 @@ tags:
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
 - **ID**: e9fb4a59-c5fb-440a-9f24-191fbc6b2911
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-12-02
@@ -97,4 +98,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 4
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempted_credential_dump_from_registry_via_reg_exe.yml) | _version_: **4**

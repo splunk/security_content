@@ -22,6 +22,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.
 
 - **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-05-08
@@ -83,4 +84,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/unusually_long_command_line_-_mltk.yml) | _version_: **1**

@@ -27,6 +27,7 @@ tags:
 This search looks for AWS CloudTrail events where a user created a policy version that allows them to access any resource in their account
 
 - **ID**: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
+- **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
@@ -100,4 +101,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json)
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_create_policy_version_to_allow_all_resources.yml) | _version_: **2**

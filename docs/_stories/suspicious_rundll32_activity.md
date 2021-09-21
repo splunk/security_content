@@ -33,10 +33,6 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 | [Suspicious Rundll32 dllregisterserver](/endpoint/suspicious_rundll32_dllregisterserver/) | None | TTP |
 | [Suspicious Rundll32 no Command Line Arguments](/endpoint/suspicious_rundll32_no_command_line_arguments/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1218/011/](https://attack.mitre.org/techniques/T1218/011/)
@@ -45,4 +41,4 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_rundll32_activity.yml) | _version_: **1**

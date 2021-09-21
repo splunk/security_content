@@ -53,10 +53,6 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 | [Unloading AMSI via Reflection](/endpoint/unloading_amsi_via_reflection/) | None | TTP |
 | [WMI Recon Running Process Or Services](/endpoint/wmi_recon_running_process_or_services/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/](https://blogs.mcafee.com/mcafee-labs/malware-employs-powershell-to-infect-systems/)
@@ -64,4 +60,4 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 
 
-_version_: 5
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/malicious_powershell.yml) | _version_: **5**

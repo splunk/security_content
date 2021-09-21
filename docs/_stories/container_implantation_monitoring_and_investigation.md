@@ -24,14 +24,10 @@ Use the searches in this story to monitor your Kubernetes registry repositories 
 | ----------- | ----------- |--------------|
 | [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | None | Hunting |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://github.com/splunk/cloud-datamodel-security-research](https://github.com/splunk/cloud-datamodel-security-research)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/container_implantation_monitoring_and_investigation.yml) | _version_: **1**

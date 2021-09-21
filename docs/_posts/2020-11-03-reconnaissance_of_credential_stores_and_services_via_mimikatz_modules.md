@@ -39,6 +39,7 @@ tags:
 This detection identifies reconnaissance of credential stores and use of CryptoAPI services by Mimikatz modules.
 
 - **ID**: 5facee5b-79e4-47ab-b0e6-c625acc0554f
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
@@ -108,4 +109,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_of_credential_stores_and_services_via_mimikatz_modules.yml) | _version_: **1**

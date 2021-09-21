@@ -94,10 +94,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [WinEvent Scheduled Task Created to Spawn Shell](/endpoint/winevent_scheduled_task_created_to_spawn_shell/) | None | TTP |
 | [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/](https://www.carbonblack.com/2017/06/28/carbon-black-threat-research-technical-analysis-petya-notpetya-ransomware/)
@@ -105,4 +101,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/ransomware.yml) | _version_: **1**

@@ -28,6 +28,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search provides detection of accounts creating permanent keys. Permanent keys are not created by default and they are only needed for programmatic calls. Creation of Permanent key is an important event to monitor.
 
 - **ID**: 12d6d713-3cb4-4ffc-a064-1dca3d1cca01
+- **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
@@ -91,4 +92,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/aws_detect_permanent_key_creation.yml) | _version_: **1**

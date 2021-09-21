@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search detects SIGRed via Splunk Stream.
 
 - **ID**: babd8d10-d073-11ea-87d0-0242ac130003
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-28
@@ -86,4 +87,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/detect_windows_dns_sigred_via_splunk_stream.yml) | _version_: **1**

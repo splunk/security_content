@@ -26,6 +26,7 @@ tags:
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
 - **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
@@ -105,4 +106,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log)
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_processes_used_for_system_network_configuration_discovery.yml) | _version_: **2**

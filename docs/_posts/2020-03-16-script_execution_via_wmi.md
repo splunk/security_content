@@ -24,6 +24,7 @@ tags:
 This search looks for scripts launched via WMI.
 
 - **ID**: aa73f80d-d728-4077-b226-81ea0c8be589
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
@@ -92,4 +93,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/execution_scrcons/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/execution_scrcons/windows-sysmon.log)
 
 
-_version_: 4
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/script_execution_via_wmi.yml) | _version_: **4**

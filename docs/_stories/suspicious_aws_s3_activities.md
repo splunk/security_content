@@ -28,10 +28,6 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 | [Detect S3 access from a new IP](/cloud/detect_s3_access_from_a_new_ip/) | None | Anomaly |
 | [Detect Spike in S3 Bucket deletion](/cloud/detect_spike_in_s3_bucket_deletion/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf](https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf)
@@ -39,4 +35,4 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_aws_s3_activities.yml) | _version_: **2**

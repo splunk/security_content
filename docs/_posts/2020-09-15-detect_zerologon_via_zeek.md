@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vulnerability via Zeek RPC
 
 - **ID**: bf7a06ec-f703-11ea-adc1-0242ac120002
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-09-15
@@ -84,4 +85,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/detect_zerologon_via_zeek.yml) | _version_: **1**

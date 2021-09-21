@@ -30,10 +30,6 @@ Looks for activities and techniques associated with the disabling of security to
 | [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | None | TTP |
 | [Unload Sysmon Filter Driver](/endpoint/unload_sysmon_filter_driver/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Technique/T1089](https://attack.mitre.org/wiki/Technique/T1089)
@@ -42,4 +38,4 @@ Looks for activities and techniques associated with the disabling of security to
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/disabling_security_tools.yml) | _version_: **2**

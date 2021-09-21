@@ -30,14 +30,10 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 | [Cloud Compute Instance Created With Previously Unseen Image](/cloud/cloud_compute_instance_created_with_previously_unseen_image/) | None | Anomaly |
 | [Cloud Compute Instance Created With Previously Unseen Instance Type](/cloud/cloud_compute_instance_created_with_previously_unseen_instance_type/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf](https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/cloud_cryptomining.yml) | _version_: **1**

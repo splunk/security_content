@@ -28,6 +28,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search provides detection of role creation by IAM users. Role creation is an event by itself if user is creating a new role with trust policies different than the available in AWS and it can be used for lateral movement and escalation of privileges.
 
 - **ID**: 5f04081e-ddee-4353-afe4-504f288de9ad
+- **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
@@ -96,4 +97,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/aws_detect_role_creation.yml) | _version_: **1**

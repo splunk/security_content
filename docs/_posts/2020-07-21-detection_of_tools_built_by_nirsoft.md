@@ -28,6 +28,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for specific command-line arguments that may indicate the execution of tools made by Nirsoft, which are legitimate, but may be abused by attackers.
 
 - **ID**: 1297fb80-f42a-4q4a-9c8b-78c061417cf6
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -87,4 +88,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/detection_of_tools_built_by_nirsoft.yml) | _version_: **3**

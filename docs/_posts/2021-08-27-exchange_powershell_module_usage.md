@@ -29,6 +29,7 @@ Module - New-MailboxExportRequest will begin the process of exporting contents o
 Module - New-managementroleassignment can assign a management role to a management role group, management role assignment policy, user, or universal security group (USG).
 
 - **ID**: 2d10095e-05ae-11ec-8fdf-acde48001122
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-27
@@ -102,4 +103,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/exchange_powershell_module_usage.yml) | _version_: **1**

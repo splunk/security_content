@@ -26,14 +26,10 @@ This story addresses detection against Kubernetes cluster fingerprint scan and a
 | [Amazon EKS Kubernetes cluster scan detection](/cloud/amazon_eks_kubernetes_cluster_scan_detection/) | None | Hunting |
 | [GCP Kubernetes cluster pod scan detection](/cloud/gcp_kubernetes_cluster_pod_scan_detection/) | None | Hunting |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://github.com/splunk/cloud-datamodel-security-research](https://github.com/splunk/cloud-datamodel-security-research)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/kubernetes_scanning_activity.yml) | _version_: **1**

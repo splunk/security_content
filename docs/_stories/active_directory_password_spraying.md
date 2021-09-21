@@ -32,10 +32,6 @@ Monitor for activities and techniques associated with Password Spraying attacks 
 | [Multiple Users Failing To Authenticate From Process](/endpoint/multiple_users_failing_to_authenticate_from_process/) | None | Anomaly |
 | [Multiple Users Remotely Failing To Authenticate From Host](/endpoint/multiple_users_remotely_failing_to_authenticate_from_host/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1110/003/](https://attack.mitre.org/techniques/T1110/003/)
@@ -44,4 +40,4 @@ Monitor for activities and techniques associated with Password Spraying attacks 
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/active_directory_password_spraying.yml) | _version_: **1**

@@ -35,14 +35,10 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 | [Kubernetes Nginx Ingress RFI](/cloud/kubernetes_nginx_ingress_rfi/) | None | TTP |
 | [Kubernetes Scanner Image Pulling](/cloud/kubernetes_scanner_image_pulling/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.redhat.com/en/topics/devops/what-is-devsecops](https://www.redhat.com/en/topics/devops/what-is-devsecops)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/dev_sec_ops.yml) | _version_: **1**

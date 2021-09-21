@@ -29,14 +29,10 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 | [Cloud Provisioning Activity From Previously Unseen IP Address](/cloud/cloud_provisioning_activity_from_previously_unseen_ip_address/) | None | Anomaly |
 | [Cloud Provisioning Activity From Previously Unseen Region](/cloud/cloud_provisioning_activity_from_previously_unseen_region/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf](https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_provisioning_activities.yml) | _version_: **1**

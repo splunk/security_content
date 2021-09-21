@@ -25,10 +25,6 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 | ----------- | ----------- |--------------|
 | [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://blog.malwarebytes.com/cybercrime/2013/12/file-extensions-2/](https://blog.malwarebytes.com/cybercrime/2013/12/file-extensions-2/)
@@ -36,4 +32,4 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_file_extension_and_association_abuse.yml) | _version_: **1**

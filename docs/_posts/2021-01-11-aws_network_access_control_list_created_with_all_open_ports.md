@@ -24,6 +24,7 @@ tags:
 The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd75
+- **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
@@ -99,4 +100,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json)
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_network_access_control_list_created_with_all_open_ports.yml) | _version_: **2**

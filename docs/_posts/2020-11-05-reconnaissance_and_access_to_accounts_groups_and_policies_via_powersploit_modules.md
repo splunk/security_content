@@ -31,6 +31,7 @@ tags:
 This detection identifies access to PowerSploit modules that discover accounts, groups and policies that can be accessed or taken over.
 
 - **ID**: 63422f8e-766c-468f-8133-2ba6795e263b
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
@@ -100,4 +101,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_and_access_to_accounts_groups_and_policies_via_powersploit_modules.yml) | _version_: **1**

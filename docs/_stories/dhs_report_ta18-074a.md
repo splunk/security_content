@@ -39,14 +39,10 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 | [Single Letter Process On Endpoint](/endpoint/single_letter_process_on_endpoint/) | None | TTP |
 | [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.us-cert.gov/ncas/alerts/TA18-074A](https://www.us-cert.gov/ncas/alerts/TA18-074A)
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/dhs_report_ta18-074a.yml) | _version_: **2**

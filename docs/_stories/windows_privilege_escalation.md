@@ -29,14 +29,10 @@ Monitor for and investigate activities that may be associated with a Windows pri
 | [Probing Access with Stolen Credentials via PowerSploit modules](/endpoint/probing_access_with_stolen_credentials_via_powersploit_modules/) | None | TTP |
 | [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/tactics/TA0004/](https://attack.mitre.org/tactics/TA0004/)
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_privilege_escalation.yml) | _version_: **2**

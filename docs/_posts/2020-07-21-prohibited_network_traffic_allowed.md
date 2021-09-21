@@ -27,6 +27,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table &#34;lookup_interesting_ports&#34;, that is marked as prohibited, and has an associated &#39;allow&#39; action in the Network_Traffic data model. This could be indicative of a misconfigured network device.
 
 - **ID**: ce5a0962-849f-4720-a678-753fe6674479
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
@@ -90,4 +91,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/prohibited_network_traffic_allowed.yml) | _version_: **2**

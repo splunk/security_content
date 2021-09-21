@@ -25,10 +25,6 @@ DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it respond
 | ----------- | ----------- |--------------|
 | [Large Volume of DNS ANY Queries](/network/large_volume_of_dns_any_queries/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.us-cert.gov/ncas/alerts/TA13-088A](https://www.us-cert.gov/ncas/alerts/TA13-088A)
@@ -36,4 +32,4 @@ DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it respond
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/dns_amplification_attacks.yml) | _version_: **1**

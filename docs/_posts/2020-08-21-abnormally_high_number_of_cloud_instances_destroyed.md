@@ -30,6 +30,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search finds for the number successfully destroyed cloud instances for every 4 hour block. This is split up between weekdays and the weekend. It then applies the probability densitiy model previously created and alerts on any outliers.
 
 - **ID**: ef629fc9-1583-4590-b62a-f2247fbf7bbf
+- **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-08-21
@@ -99,4 +100,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/abnormally_high_number_of_cloud_instances_destroyed.yml) | _version_: **1**

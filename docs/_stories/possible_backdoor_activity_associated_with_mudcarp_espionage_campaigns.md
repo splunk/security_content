@@ -28,10 +28,6 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 | [Unusually Long Command Line](/endpoint/unusually_long_command_line/) | None | Anomaly |
 | [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/](https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/)
@@ -39,4 +35,4 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns.yml) | _version_: **1**

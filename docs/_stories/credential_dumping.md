@@ -60,10 +60,6 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | [SecretDumps Offline NTDS Dumping Tool](/endpoint/secretdumps_offline_ntds_dumping_tool/) | None | TTP |
 | [Set Default PowerShell Execution Policy To Unrestricted or Bypass](/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Technique/T1003](https://attack.mitre.org/wiki/Technique/T1003)
@@ -71,4 +67,4 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/credential_dumping.yml) | _version_: **3**

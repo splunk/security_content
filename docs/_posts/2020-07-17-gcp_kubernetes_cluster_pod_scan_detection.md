@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster&#39;s pods
 
 - **ID**: 19b53215-4a16-405b-8087-9e6acf619842
+- **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-17
@@ -86,4 +87,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/gcp_kubernetes_cluster_pod_scan_detection.yml) | _version_: **1**

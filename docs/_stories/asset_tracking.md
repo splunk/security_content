@@ -25,14 +25,10 @@ Keep a careful inventory of every asset on your network to make it easier to det
 | ----------- | ----------- |--------------|
 | [Detect Unauthorized Assets by MAC address](/network/detect_unauthorized_assets_by_mac_address/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/](https://www.cisecurity.org/controls/inventory-of-authorized-and-unauthorized-devices/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/asset_tracking.yml) | _version_: **1**

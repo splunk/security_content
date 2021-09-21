@@ -26,6 +26,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for outbound ICMP packets with a packet size larger than 1,000 bytes. Various threat actors have been known to use ICMP as a command and control channel for their attack infrastructure. Large ICMP packets from an endpoint to a remote host may be indicative of this activity.
 
 - **ID**: e9c102de-4d43-42a7-b1c8-8062ea297419
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2018-06-01
@@ -88,4 +89,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/detect_large_outbound_icmp_packets.yml) | _version_: **2**

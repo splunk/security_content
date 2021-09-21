@@ -26,10 +26,6 @@ Monitor and detect techniques used by attackers who leverage the regsvr32.exe pr
 | [Detect Regsvr32 Application Control Bypass](/endpoint/detect_regsvr32_application_control_bypass/) | None | TTP |
 | [Suspicious Regsvr32 Register Suspicious Path](/endpoint/suspicious_regsvr32_register_suspicious_path/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1218/010/](https://attack.mitre.org/techniques/T1218/010/)
@@ -38,4 +34,4 @@ Monitor and detect techniques used by attackers who leverage the regsvr32.exe pr
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_regsvr32_activity.yml) | _version_: **1**

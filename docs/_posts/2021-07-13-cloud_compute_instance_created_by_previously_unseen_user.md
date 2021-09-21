@@ -27,6 +27,7 @@ tags:
 This search looks for cloud compute instances created by users who have not created them before.
 
 - **ID**: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
+- **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2021-07-13
@@ -97,4 +98,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/cloud_compute_instance_created_by_previously_unseen_user.yml) | _version_: **2**

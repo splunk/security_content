@@ -29,10 +29,6 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 | [Abnormally High Number Of Cloud Security Group API Calls](/cloud/abnormally_high_number_of_cloud_security_group_api_calls/) | None | Anomaly |
 | [Cloud API Calls From Previously Unseen User Roles](/cloud/cloud_api_calls_from_previously_unseen_user_roles/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf](https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf)
@@ -40,4 +36,4 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_user_activities.yml) | _version_: **1**

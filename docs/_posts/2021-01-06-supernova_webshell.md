@@ -26,6 +26,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
 - **ID**: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2021-01-06
@@ -87,4 +88,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/web/supernova_webshell.yml) | _version_: **1**

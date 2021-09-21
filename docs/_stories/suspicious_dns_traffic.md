@@ -31,10 +31,6 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 | [Excessive DNS Failures](/network/excessive_dns_failures/) | None | Anomaly |
 | [Excessive Usage of NSLOOKUP App](/endpoint/excessive_usage_of_nslookup_app/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/](http://blogs.splunk.com/2015/10/01/random-words-on-entropy-and-dns/)
@@ -43,4 +39,4 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_dns_traffic.yml) | _version_: **1**

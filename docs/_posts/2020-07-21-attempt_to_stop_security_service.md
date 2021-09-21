@@ -25,6 +25,7 @@ tags:
 This search looks for attempts to stop security-related services on the endpoint.
 
 - **ID**: c8e349c6-b97c-486e-8949-bd7bcd1f3910
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -101,4 +102,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_stop_security_service.yml) | _version_: **3**

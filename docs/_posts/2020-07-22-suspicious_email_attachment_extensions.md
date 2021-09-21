@@ -26,6 +26,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for emails that have attachments with suspicious file extensions.
 
 - **ID**: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2020-07-22
@@ -87,4 +88,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/suspicious_email_attachment_extensions.yml) | _version_: **3**

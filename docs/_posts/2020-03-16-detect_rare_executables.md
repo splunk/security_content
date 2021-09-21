@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search will return a table of rare processes, the names of the systems running them, and the users who initiated each process.
 
 - **ID**: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
@@ -87,4 +88,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 5
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/detect_rare_executables.yml) | _version_: **5**

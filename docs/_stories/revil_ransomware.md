@@ -33,10 +33,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [Revil Registry Entry](/endpoint/revil_registry_entry/) | None | TTP |
 | [Wbemprox COM Object Execution](/endpoint/wbemprox_com_object_execution/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/](https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/)
@@ -44,4 +40,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/revil_ransomware.yml) | _version_: **1**

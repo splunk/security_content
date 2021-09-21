@@ -32,10 +32,6 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 | [WMI Permanent Event Subscription - Sysmon](/endpoint/wmi_permanent_event_subscription_-_sysmon/) | None | TTP |
 | [WMI Temporary Event Subscription](/endpoint/wmi_temporary_event_subscription/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf](https://www.blackhat.com/docs/us-15/materials/us-15-Graeber-Abusing-Windows-Management-Instrumentation-WMI-To-Build-A-Persistent%20Asynchronous-And-Fileless-Backdoor-wp.pdf)
@@ -43,4 +39,4 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_wmi_use.yml) | _version_: **2**

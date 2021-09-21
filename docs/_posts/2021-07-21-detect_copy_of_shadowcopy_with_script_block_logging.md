@@ -25,6 +25,7 @@ This analytic identifies `copy` or `[System.IO.File]::Copy` being used to captur
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
 - **ID**: 9251299c-ea5b-11eb-a8de-acde48001122
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-21
@@ -95,4 +96,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_copy_of_shadowcopy_with_script_block_logging.yml) | _version_: **1**

@@ -27,6 +27,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 Detect Okta user lockout events
 
 - **ID**: 62b70968-a0a5-4724-8ac4-67871e6f544d
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
@@ -82,4 +83,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/okta_account_lockout_events.yml) | _version_: **2**

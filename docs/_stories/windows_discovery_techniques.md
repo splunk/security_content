@@ -39,10 +39,6 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 | [Reconnaissance of Privilege Escalation Opportunities via PowerSploit modules](/endpoint/reconnaissance_of_privilege_escalation_opportunities_via_powersploit_modules/) | None | TTP |
 | [Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules](/endpoint/reconnaissance_of_process_or_service_hijacking_opportunities_via_mimikatz_modules/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/tactics/TA0007/](https://attack.mitre.org/tactics/TA0007/)
@@ -51,4 +47,4 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_discovery_techniques.yml) | _version_: **1**

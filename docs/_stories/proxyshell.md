@@ -28,10 +28,6 @@ ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server
 | [Exchange PowerShell Module Usage](/endpoint/exchange_powershell_module_usage/) | None | TTP |
 | [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://y4y.space/2021/08/12/my-steps-of-reproducing-proxyshell/](https://y4y.space/2021/08/12/my-steps-of-reproducing-proxyshell/)
@@ -42,4 +38,4 @@ ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/proxyshell.yml) | _version_: **1**

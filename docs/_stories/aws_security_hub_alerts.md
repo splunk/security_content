@@ -26,14 +26,10 @@ This story is focused around detecting Security Hub alerts generated from AWS
 | [Detect Spike in AWS Security Hub Alerts for EC2 Instance](/cloud/detect_spike_in_aws_security_hub_alerts_for_ec2_instance/) | None | Anomaly |
 | [Detect Spike in AWS Security Hub Alerts for User](/cloud/detect_spike_in_aws_security_hub_alerts_for_user/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://aws.amazon.com/security-hub/features/](https://aws.amazon.com/security-hub/features/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/aws_security_hub_alerts.yml) | _version_: **1**

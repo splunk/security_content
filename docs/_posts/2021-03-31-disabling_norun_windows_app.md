@@ -24,6 +24,7 @@ tags:
 This search is to identify modification of registry to disable run application in window start menu. this application is known to be a helpful shortcut to windows OS user to run known application and also to execute some reg or batch script. This technique is used malware to make cleaning of its infection more harder by preventing known application run easily through run shortcut.
 
 - **ID**: de81bc46-9213-11eb-adc9-acde48001122
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
@@ -97,4 +98,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/disabling_norun_windows_app.yml) | _version_: **1**

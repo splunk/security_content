@@ -20,6 +20,7 @@ tags:
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
 - **ID**: c77162d3-f93c-45cc-80c8-22f6a4264e7f
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-08
@@ -88,4 +89,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 5
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/unusually_long_command_line.yml) | _version_: **5**

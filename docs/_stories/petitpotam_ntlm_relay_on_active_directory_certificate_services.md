@@ -25,10 +25,6 @@ PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC P
 | [PetitPotam Network Share Access Request](/endpoint/petitpotam_network_share_access_request/) | None | TTP |
 | [PetitPotam Suspicious Kerberos TGT Request](/endpoint/petitpotam_suspicious_kerberos_tgt_request/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://us-cert.cisa.gov/ncas/current-activity/2021/07/27/microsoft-releases-guidance-mitigating-petitpotam-ntlm-relay](https://us-cert.cisa.gov/ncas/current-activity/2021/07/27/microsoft-releases-guidance-mitigating-petitpotam-ntlm-relay)
@@ -41,4 +37,4 @@ PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC P
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services.yml) | _version_: **1**

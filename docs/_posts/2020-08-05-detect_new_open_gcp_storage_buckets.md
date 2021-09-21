@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for GCP PubSub events where a user has created an open/public GCP Storage bucket.
 
 - **ID**: f6ea3466-d6bb-11ea-87d0-0242ac130003
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-08-05
@@ -93,4 +94,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/detect_new_open_gcp_storage_buckets.yml) | _version_: **1**

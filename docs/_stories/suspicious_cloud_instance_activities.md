@@ -29,14 +29,10 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 | [Cloud Instance Modified By Previously Unseen User](/cloud/cloud_instance_modified_by_previously_unseen_user/) | None | Anomaly |
 | [Detect shared ec2 snapshot](/cloud/detect_shared_ec2_snapshot/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf](https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_instance_activities.yml) | _version_: **1**

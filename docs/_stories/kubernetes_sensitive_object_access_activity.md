@@ -24,14 +24,10 @@ This story addresses detection and response of accounts acccesing Kubernetes clu
 | ----------- | ----------- |--------------|
 | [Kubernetes AWS detect suspicious kubectl calls](/cloud/kubernetes_aws_detect_suspicious_kubectl_calls/) | None | Hunting |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html](https://www.splunk.com/en_us/blog/security/approaching-kubernetes-security-detecting-kubernetes-scan-with-splunk.html)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/kubernetes_sensitive_object_access_activity.yml) | _version_: **1**

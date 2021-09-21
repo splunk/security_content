@@ -39,10 +39,6 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 | [TOR Traffic](/network/tor_traffic/) | None | TTP |
 | [Windows AdFind Exe](/endpoint/windows_adfind_exe/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/](https://www.microsoft.com/security/blog/2021/03/04/goldmax-goldfinder-sibot-analyzing-nobelium-malware/)
@@ -51,4 +47,4 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/nobelium_group.yml) | _version_: **2**

@@ -26,6 +26,7 @@ tags:
 This detection identifies use of Mimikatz modules for illegal privilege elevation.
 
 - **ID**: 2f873b1f-6352-4844-b7b9-b419f09a42c7
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -96,4 +97,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/logAllMimikatzModules.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/logAllMimikatzModules.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_privilege_elevation_via_mimikatz_modules.yml) | _version_: **1**

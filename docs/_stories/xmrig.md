@@ -52,10 +52,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | None | TTP |
 | [XMRIG Driver Loaded](/endpoint/xmrig_driver_loaded/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://github.com/xmrig/xmrig](https://github.com/xmrig/xmrig)
@@ -65,4 +61,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/xmrig.yml) | _version_: **1**

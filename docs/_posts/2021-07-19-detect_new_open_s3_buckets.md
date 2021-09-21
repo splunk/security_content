@@ -24,6 +24,7 @@ tags:
 This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket.
 
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
+- **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
@@ -102,4 +103,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json)
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_new_open_s3_buckets.yml) | _version_: **3**

@@ -25,10 +25,6 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
 | ----------- | ----------- |--------------|
 | [Processes launching netsh](/endpoint/processes_launching_netsh/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://docs.microsoft.com/en-us/previous-versions/tn-archive/bb490939(v=technet.10)](https://docs.microsoft.com/en-us/previous-versions/tn-archive/bb490939(v=technet.10))
@@ -37,4 +33,4 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/netsh_abuse.yml) | _version_: **1**

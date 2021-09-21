@@ -25,10 +25,6 @@ Use the searches in this Analytic Story to help you detect structured query lang
 | ----------- | ----------- |--------------|
 | [SQL Injection with Long URLs](/web/sql_injection_with_long_urls/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://capec.mitre.org/data/definitions/66.html](https://capec.mitre.org/data/definitions/66.html)
@@ -36,4 +32,4 @@ Use the searches in this Analytic Story to help you detect structured query lang
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/sql_injection.yml) | _version_: **1**

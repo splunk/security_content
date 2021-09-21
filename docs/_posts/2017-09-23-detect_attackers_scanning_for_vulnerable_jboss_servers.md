@@ -26,6 +26,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for specific GET or HEAD requests to web servers that are indicative of reconnaissance attempts to identify vulnerable JBoss servers. JexBoss is described as the exploit tool of choice for this malicious activity.
 
 - **ID**: 104658f4-afdc-499e-9719-17243f982681
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-23
@@ -85,4 +86,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/web/detect_attackers_scanning_for_vulnerable_jboss_servers.yml) | _version_: **1**

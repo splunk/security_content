@@ -27,10 +27,6 @@ Monitor your Okta environment for suspicious activities. Due to the Covid outbre
 | [Okta Failed SSO Attempts](/application/okta_failed_sso_attempts/) | None | Anomaly |
 | [Okta User Logins From Multiple Cities](/application/okta_user_logins_from_multiple_cities/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Technique/T1078](https://attack.mitre.org/wiki/Technique/T1078)
@@ -39,4 +35,4 @@ Monitor your Okta environment for suspicious activities. Due to the Covid outbre
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_okta_activity.yml) | _version_: **1**

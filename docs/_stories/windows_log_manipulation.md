@@ -32,10 +32,6 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 | [Wevtutil Usage To Disable Logs](/endpoint/wevtutil_usage_to_disable_logs/) | None | TTP |
 | [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/](https://www.crowdstrike.com/blog/bears-midst-intrusion-democratic-national-committee/)
@@ -44,4 +40,4 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_log_manipulation.yml) | _version_: **2**

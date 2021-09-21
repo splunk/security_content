@@ -25,14 +25,10 @@ Monitor your enterprise to ensure that your endpoints are being patched and upda
 | ----------- | ----------- |--------------|
 | [No Windows Updates in a time frame](/application/no_windows_updates_in_a_time_frame/) | None | Hunting |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://learn.cisecurity.org/20-controls-download](https://learn.cisecurity.org/20-controls-download)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/monitor_for_updates.yml) | _version_: **1**

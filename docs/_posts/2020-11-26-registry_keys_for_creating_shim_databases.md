@@ -24,6 +24,7 @@ tags:
 This search looks for registry activity associated with application compatibility shims, which can be leveraged by attackers for various nefarious purposes.
 
 - **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-26
@@ -91,4 +92,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/registry_keys_for_creating_shim_databases.yml) | _version_: **3**

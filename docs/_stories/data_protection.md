@@ -25,10 +25,6 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 | ----------- | ----------- |--------------|
 | [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.cisecurity.org/controls/data-protection/](https://www.cisecurity.org/controls/data-protection/)
@@ -37,4 +33,4 @@ Fortify your data-protection arsenal--while continuing to ensure data confidenti
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/data_protection.yml) | _version_: **1**

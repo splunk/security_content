@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster in AWS
 
 - **ID**: 294c4686-63dd-4fe6-93a2-ca807626704a
+- **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-04-15
@@ -89,4 +90,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/amazon_eks_kubernetes_cluster_scan_detection.yml) | _version_: **1**

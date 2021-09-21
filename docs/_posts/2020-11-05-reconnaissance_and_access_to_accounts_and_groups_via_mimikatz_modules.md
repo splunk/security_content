@@ -31,6 +31,7 @@ tags:
 This detection identifies use of Mimikatz modules for discovery of accounts and groups and access to them.
 
 - **ID**: 1bce67aa-3fc4-4886-9089-67f0bfebbef6
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
@@ -100,4 +101,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_and_access_to_accounts_and_groups_via_mimikatz_modules.yml) | _version_: **1**

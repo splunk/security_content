@@ -20,6 +20,7 @@ tags:
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
+- **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
@@ -85,4 +86,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json)
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_spike_in_aws_security_hub_alerts_for_ec2_instance.yml) | _version_: **3**

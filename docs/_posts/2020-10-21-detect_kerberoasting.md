@@ -21,6 +21,7 @@ tags:
 This search detects a potential kerberoasting attack via service principal name requests
 
 - **ID**: dabdd6d7-3e10-42be-8711-4e124f7a3850
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
@@ -93,4 +94,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_kerberoasting.yml) | _version_: **2**

@@ -28,14 +28,10 @@ Track when a user assumes an IAM role in another AWS account to obtain cross-acc
 | [aws detect sts assume role abuse](/cloud/aws_detect_sts_assume_role_abuse/) | None | Hunting |
 | [aws detect sts get session token abuse](/cloud/aws_detect_sts_get_session_token_abuse/) | None | Hunting |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/](https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/aws_cross_account_activity.yml) | _version_: **1**

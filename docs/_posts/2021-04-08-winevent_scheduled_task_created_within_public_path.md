@@ -29,6 +29,7 @@ The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`t
 Upon triage, identify the task scheduled source. Was it schtasks.exe or was it via TaskService. Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.
 
 - **ID**: 5d9c6eee-988c-11eb-8253-acde48001122
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-04-08
@@ -106,4 +107,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/winevent_scheduled_task_created_within_public_path.yml) | _version_: **1**

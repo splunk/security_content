@@ -39,10 +39,6 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 | [Protocol or Port Mismatch](/network/protocol_or_port_mismatch/) | None | Anomaly |
 | [TOR Traffic](/network/tor_traffic/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Command_and_Control](https://attack.mitre.org/wiki/Command_and_Control)
@@ -50,4 +46,4 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/command_and_control.yml) | _version_: **1**

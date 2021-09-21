@@ -24,6 +24,7 @@ tags:
 This search looks for the creation or deletion of hidden shares using net.exe.
 
 - **ID**: qw9919ed-fe5f-492c-b139-151bb162140e
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
@@ -101,4 +102,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.005/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.005/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 5
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/create_or_delete_windows_shares_using_net_exe.yml) | _version_: **5**

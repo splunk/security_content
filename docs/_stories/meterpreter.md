@@ -25,10 +25,6 @@ Meterpreter provides red teams, pen testers and threat actors interactive access
 | ----------- | ----------- |--------------|
 | [Excessive number of taskhost processes](/endpoint/excessive_number_of_taskhost_processes/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.offensive-security.com/metasploit-unleashed/about-meterpreter/](https://www.offensive-security.com/metasploit-unleashed/about-meterpreter/)
@@ -37,4 +33,4 @@ Meterpreter provides red teams, pen testers and threat actors interactive access
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/meterpreter.yml) | _version_: **1**

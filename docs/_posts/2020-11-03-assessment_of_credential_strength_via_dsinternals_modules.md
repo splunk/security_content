@@ -39,6 +39,7 @@ tags:
 This detection identifies use of DSInternals modules that verify password strength, i.e., identify week accounts that would be easily compromised.
 
 - **ID**: 5526d3a4-2497-4e8d-9d3c-7a34c9aace2f
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
@@ -108,4 +109,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/assessment_of_credential_strength_via_dsinternals_modules.yml) | _version_: **1**

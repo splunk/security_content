@@ -33,10 +33,6 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 | [Suspicious mshta child process](/endpoint/suspicious_mshta_child_process/) | None | TTP |
 | [Suspicious mshta spawn](/endpoint/suspicious_mshta_spawn/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://redcanary.com/blog/introducing-atomictestharnesses/](https://redcanary.com/blog/introducing-atomictestharnesses/)
@@ -46,4 +42,4 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_mshta_activity.yml) | _version_: **2**

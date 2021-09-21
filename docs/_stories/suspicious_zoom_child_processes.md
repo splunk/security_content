@@ -27,10 +27,6 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 | [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | None | TTP |
 | [First Time Seen Child Process of Zoom](/endpoint/first_time_seen_child_process_of_zoom/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/](https://blog.rapid7.com/2020/04/02/dispelling-zoom-bugbears-what-you-need-to-know-about-the-latest-zoom-vulnerabilities/)
@@ -38,4 +34,4 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_zoom_child_processes.yml) | _version_: **1**

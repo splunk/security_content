@@ -24,6 +24,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 The following analytic identifies cleartext protocols at risk of leaking sensitive information. Currently, this consists of legacy protocols such as telnet (port 23), POP3 (port 110), IMAP (port 143), and non-anonymous FTP (port 21) sessions. While some of these protocols may be used over SSL, they typically are found on different assigned ports in those instances.
 
 - **ID**: 6923cd64-17a0-453c-b945-81ac2d8c6db9
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-08-19
@@ -83,4 +84,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/protocols_passing_authentication_in_cleartext.yml) | _version_: **3**

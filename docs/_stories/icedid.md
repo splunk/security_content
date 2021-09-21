@@ -48,10 +48,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [Suspicious Rundll32 PluginInit](/endpoint/suspicious_rundll32_plugininit/) | None | TTP |
 | [WinEvent Scheduled Task Created Within Public Path](/endpoint/winevent_scheduled_task_created_within_public_path/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/](https://threatpost.com/icedid-banking-trojan-surges-emotet/165314/)
@@ -59,4 +55,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/icedid.yml) | _version_: **1**

@@ -35,14 +35,10 @@ The stealing of data by an adversary.
 | [O365 Suspicious User Email Forwarding](/cloud/o365_suspicious_user_email_forwarding/) | None | Anomaly |
 | [Plain HTTP POST Exfiltrated Data](/network/plain_http_post_exfiltrated_data/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/tactics/TA0010/](https://attack.mitre.org/tactics/TA0010/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/data_exfiltration.yml) | _version_: **1**

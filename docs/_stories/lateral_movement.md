@@ -33,14 +33,10 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 | [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | None | Hunting |
 | [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html](https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html)
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/lateral_movement.yml) | _version_: **2**

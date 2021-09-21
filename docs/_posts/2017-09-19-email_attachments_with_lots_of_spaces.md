@@ -23,6 +23,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 Attackers often use spaces as a means to obfuscate an attachment&#39;s file extension. This search looks for messages with email attachments that have many spaces within the file names.
 
 - **ID**: 56e877a6-1455-4479-ada6-0550dc1e22f8
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2017-09-19
@@ -82,4 +83,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/email_attachments_with_lots_of_spaces.yml) | _version_: **2**

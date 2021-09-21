@@ -32,12 +32,6 @@ tags:
 | [{{ detection.name }}](/{{ detection.kind }}/{{ detection.name | lower | replace(' ', '_') }}/) | None | {{ detection.type }} |
 {%- endfor %}
 
-#### Kill Chain Phase
-{% for phase in story.tags.kill_chain_phases -%}
-* {{ phase }}
-{% endfor %}
-
-
 #### Reference
 {% if story.references %}
 {% for reference in story.references -%}
@@ -45,4 +39,4 @@ tags:
 {% endfor %}
 {% endif %}
 
-_version_: {{story.version}}
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/{{ story.name | lower | replace (" ", "_") }}.yml) | _version_: **{{story.version}}**

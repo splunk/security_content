@@ -30,14 +30,10 @@ Adversaries may transfer tools or other files from an external system into a com
 | [CertUtil Download With VerifyCtl and Split Arguments](/endpoint/certutil_download_with_verifyctl_and_split_arguments/) | None | TTP |
 | [Suspicious Curl Network Connection](/endpoint/suspicious_curl_network_connection/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1105/](https://attack.mitre.org/techniques/T1105/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/ingress_tool_transfer.yml) | _version_: **1**

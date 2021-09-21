@@ -27,6 +27,7 @@ tags:
 This detection identifies access to PowerSploit modules that discover computers, servers and domains that can be accessed or taken over.
 
 - **ID**: fe1c4c5a-09f3-4b43-8129-560a7f38a08b
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -96,4 +97,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_and_access_to_computers_and_domains_via_powersploit_modules.yml) | _version_: **1**

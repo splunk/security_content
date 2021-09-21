@@ -23,6 +23,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search will detect spike in blocked outbound network connections originating from within your AWS environment.  It will also update the cache file that factors in the latest data.
 
 - **ID**: ada0f278-84a8-46w1-a3f1-w32372d4bd53
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-05-07
@@ -88,4 +89,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/detect_spike_in_blocked_outbound_traffic_from_your_aws.yml) | _version_: **1**

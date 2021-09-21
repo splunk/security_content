@@ -27,14 +27,10 @@ Email remains one of the primary means for attackers to gain an initial foothold
 | [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) | None | TTP |
 | [Suspicious Email Attachment Extensions](/application/suspicious_email_attachment_extensions/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/](https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_emails.yml) | _version_: **1**

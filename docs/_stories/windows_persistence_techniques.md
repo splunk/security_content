@@ -48,10 +48,6 @@ Monitor for activities and techniques associated with maintaining persistence on
 | [WinEvent Scheduled Task Created Within Public Path](/endpoint/winevent_scheduled_task_created_within_public_path/) | None | TTP |
 | [WinEvent Scheduled Task Created to Spawn Shell](/endpoint/winevent_scheduled_task_created_to_spawn_shell/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [http://www.fuzzysecurity.com/tutorials/19.html](http://www.fuzzysecurity.com/tutorials/19.html)
@@ -62,4 +58,4 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_persistence_techniques.yml) | _version_: **2**

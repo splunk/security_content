@@ -26,10 +26,6 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 | [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | None | Anomaly |
 | [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia](https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia)
@@ -37,4 +33,4 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/orangeworm_attack_group.yml) | _version_: **2**

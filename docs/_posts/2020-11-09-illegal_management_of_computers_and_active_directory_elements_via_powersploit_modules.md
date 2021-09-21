@@ -28,6 +28,7 @@ tags:
 This detection identifies access to PowerSploit modules that enable illegal management of computers and Active Directory elements.
 
 - **ID**: 75760c11-7d48-4968-b828-013b299e8f6d
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
@@ -99,4 +100,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/logAllPowerSploitModulesWithOldNames.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/logAllPowerSploitModulesWithOldNames.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_management_of_computers_and_active_directory_elements_via_powersploit_modules.yml) | _version_: **1**

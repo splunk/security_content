@@ -39,10 +39,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [Wermgr Process Spawned CMD Or Powershell Process](/endpoint/wermgr_process_spawned_cmd_or_powershell_process/) | None | TTP |
 | [Write Executable in SMB Share](/endpoint/write_executable_in_smb_share/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://en.wikipedia.org/wiki/Trickbot](https://en.wikipedia.org/wiki/Trickbot)
@@ -50,4 +46,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/trickbot.yml) | _version_: **1**

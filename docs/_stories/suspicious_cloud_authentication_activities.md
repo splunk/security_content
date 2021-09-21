@@ -30,10 +30,6 @@ Monitor your cloud authentication events. Searches within this Analytic Story le
 | [Detect AWS Console Login by User from New Country](/cloud/detect_aws_console_login_by_user_from_new_country/) | None | Hunting |
 | [Detect AWS Console Login by User from New Region](/cloud/detect_aws_console_login_by_user_from_new_region/) | None | Hunting |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/](https://aws.amazon.com/blogs/security/aws-cloudtrail-now-tracks-cross-account-activity-to-its-origin/)
@@ -41,4 +37,4 @@ Monitor your cloud authentication events. Searches within this Analytic Story le
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_authentication_activities.yml) | _version_: **1**

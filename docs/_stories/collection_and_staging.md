@@ -31,10 +31,6 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 | [Hosts receiving high volume of network traffic from email server](/network/hosts_receiving_high_volume_of_network_traffic_from_email_server/) | None | Anomaly |
 | [Suspicious writes to windows Recycle Bin](/endpoint/suspicious_writes_to_windows_recycle_bin/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Collection](https://attack.mitre.org/wiki/Collection)
@@ -42,4 +38,4 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/collection_and_staging.yml) | _version_: **1**

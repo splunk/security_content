@@ -26,10 +26,6 @@ Monitor and detect behaviors used by attackers who leverage trusted developer ut
 | [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | None | TTP |
 | [Suspicious microsoft workflow compiler usage](/endpoint/suspicious_microsoft_workflow_compiler_usage/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1127/](https://attack.mitre.org/techniques/T1127/)
@@ -38,4 +34,4 @@ Monitor and detect behaviors used by attackers who leverage trusted developer ut
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/trusted_developer_utilities_proxy_execution.yml) | _version_: **1**

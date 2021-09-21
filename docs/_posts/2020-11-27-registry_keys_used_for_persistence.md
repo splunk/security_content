@@ -25,6 +25,7 @@ tags:
 The search looks for modifications to registry keys that can be used to launch an application or service at system startup.
 
 - **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-27
@@ -98,4 +99,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 5
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/registry_keys_used_for_persistence.yml) | _version_: **5**

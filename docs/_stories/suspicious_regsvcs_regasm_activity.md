@@ -30,10 +30,6 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 | [Detect Regsvcs with Network Connection](/endpoint/detect_regsvcs_with_network_connection/) | None | TTP |
 | [Detect Regsvcs with No Command Line Arguments](/endpoint/detect_regsvcs_with_no_command_line_arguments/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1218/009/](https://attack.mitre.org/techniques/T1218/009/)
@@ -42,4 +38,4 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_regsvcs_regasm_activity.yml) | _version_: **1**

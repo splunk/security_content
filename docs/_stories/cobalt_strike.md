@@ -41,10 +41,6 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | None | TTP |
 | [Suspicious msbuild path](/endpoint/suspicious_msbuild_path/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.cobaltstrike.com/](https://www.cobaltstrike.com/)
@@ -57,4 +53,4 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/cobalt_strike.yml) | _version_: **1**

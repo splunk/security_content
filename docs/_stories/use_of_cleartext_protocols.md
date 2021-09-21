@@ -25,14 +25,10 @@ Leverage searches that detect cleartext network protocols that may leak credenti
 | ----------- | ----------- |--------------|
 | [Protocols passing authentication in cleartext](/network/protocols_passing_authentication_in_cleartext/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.monkey.org/~dugsong/dsniff/](https://www.monkey.org/~dugsong/dsniff/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/use_of_cleartext_protocols.yml) | _version_: **1**

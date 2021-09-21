@@ -29,10 +29,6 @@ Monitor and detect registry changes initiated from remote locations, which can b
 | [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | None | TTP |
 | [Registry Keys for Creating SHIM Databases](/endpoint/registry_keys_for_creating_shim_databases/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://redcanary.com/blog/windows-registry-attacks-threat-detection/](https://redcanary.com/blog/windows-registry-attacks-threat-detection/)
@@ -40,4 +36,4 @@ Monitor and detect registry changes initiated from remote locations, which can b
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_windows_registry_activities.yml) | _version_: **1**

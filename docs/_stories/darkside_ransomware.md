@@ -40,10 +40,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [SLUI RunAs Elevated](/endpoint/slui_runas_elevated/) | None | TTP |
 | [SLUI Spawning a Process](/endpoint/slui_spawning_a_process/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/](https://www.splunk.com/en_us/blog/security/the-darkside-of-the-ransomware-pipeline.htmlbig-game-hunting-with-ryuk-another-lucrative-targeted-ransomware/)
@@ -51,4 +47,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/darkside_ransomware.yml) | _version_: **1**

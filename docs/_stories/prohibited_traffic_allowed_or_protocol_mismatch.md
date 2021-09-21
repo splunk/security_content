@@ -33,14 +33,10 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 | [Protocol or Port Mismatch](/network/protocol_or_port_mismatch/) | None | Anomaly |
 | [TOR Traffic](/network/tor_traffic/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/](http://www.novetta.com/2015/02/advanced-methods-to-detect-advanced-cyber-attacks-protocol-abuse/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/prohibited_traffic_allowed_or_protocol_mismatch.yml) | _version_: **1**

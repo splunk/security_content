@@ -31,14 +31,10 @@ Adversaries may rename legitimate system utilities to try to evade security mech
 | [System Process Running from Unexpected Location](/endpoint/system_process_running_from_unexpected_location/) | None | Anomaly |
 | [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1036/003/](https://attack.mitre.org/techniques/T1036/003/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/masquerading_-_rename_system_utilities.yml) | _version_: **1**

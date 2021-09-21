@@ -28,10 +28,6 @@ Detect and investigate hosts in your environment that may be communicating with 
 | [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | None | TTP |
 | [Excessive Usage of NSLOOKUP App](/endpoint/excessive_usage_of_nslookup_app/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html](https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html)
@@ -41,4 +37,4 @@ Detect and investigate hosts in your environment that may be communicating with 
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/dynamic_dns.yml) | _version_: **2**

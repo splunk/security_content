@@ -41,10 +41,6 @@ Quickly identify systems running new or unusual processes in your environment th
 | [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) | None | Anomaly |
 | [WinRM Spawning a Process](/endpoint/winrm_spawning_a_process/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html](https://www.fireeye.com/blog/threat-research/2017/08/monitoring-windows-console-activity-part-two.html)
@@ -53,4 +49,4 @@ Quickly identify systems running new or unusual processes in your environment th
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/unusual_processes.yml) | _version_: **2**

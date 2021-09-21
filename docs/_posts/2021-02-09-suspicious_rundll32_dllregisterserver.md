@@ -24,6 +24,7 @@ tags:
 The following analytic identifies rundll32.exe using dllregisterserver on the command line to load a DLL. When a DLL is registered, the DllRegisterServer method entry point in the DLL is invoked. This is typically seen when a DLL is being registered on the system. Not every instance is considered malicious, but it will capture malicious use of it. During investigation, review the parent process and parrellel processes executing. Capture the DLL being loaded and inspect further. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
 - **ID**: 8c00a385-9b86-4ac0-8932-c9ec3713b159
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-09
@@ -102,4 +103,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_rundll32_dllregisterserver.yml) | _version_: **1**

@@ -50,14 +50,10 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 | [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | None | TTP |
 | [Windows DisableAntiSpyware Registry](/endpoint/windows_disableantispyware_registry/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Defense_Evasion](https://attack.mitre.org/wiki/Defense_Evasion)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_defense_evasion_tactics.yml) | _version_: **1**

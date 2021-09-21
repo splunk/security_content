@@ -24,6 +24,7 @@ tags:
 The following search identifies a modification of registry to disable the smartscreen protection of windows machine. This is windows feature provide an early warning system against website that might engage in phishing attack or malware distribution. This modification are seen in RAT malware to cover their tracks upon downloading other of its component or other payload.
 
 - **ID**: 664f0fd0-91ff-11eb-a56f-acde48001122
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
@@ -96,4 +97,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/disable_windows_smartscreen_protection.yml) | _version_: **1**

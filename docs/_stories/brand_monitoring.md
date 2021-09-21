@@ -27,10 +27,6 @@ Detect and investigate activity that may indicate that an adversary is using fau
 | [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) | None | TTP |
 | [Monitor Web Traffic For Brand Abuse](/web/monitor_web_traffic_for_brand_abuse/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.zerofox.com/blog/what-is-digital-risk-monitoring/](https://www.zerofox.com/blog/what-is-digital-risk-monitoring/)
@@ -39,4 +35,4 @@ Detect and investigate activity that may indicate that an adversary is using fau
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/brand_monitoring.yml) | _version_: **1**

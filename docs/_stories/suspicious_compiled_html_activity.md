@@ -28,10 +28,6 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 | [Detect HTML Help URL in Command Line](/endpoint/detect_html_help_url_in_command_line/) | None | TTP |
 | [Detect HTML Help Using InfoTech Storage Handlers](/endpoint/detect_html_help_using_infotech_storage_handlers/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://redcanary.com/blog/introducing-atomictestharnesses/](https://redcanary.com/blog/introducing-atomictestharnesses/)
@@ -40,4 +36,4 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_compiled_html_activity.yml) | _version_: **1**

@@ -30,6 +30,7 @@ tags:
 This detection identifies use of PowerSploit modules for assessment of privilege escalation opportunities.
 
 - **ID**: b9b4492c-2af8-449b-beb4-b1b78d963321
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
@@ -99,4 +100,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_of_privilege_escalation_opportunities_via_powersploit_modules.yml) | _version_: **1**

@@ -27,6 +27,7 @@ tags:
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
 - **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-04
@@ -96,4 +97,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/probing_access_with_stolen_credentials_via_powersploit_modules.yml) | _version_: **1**

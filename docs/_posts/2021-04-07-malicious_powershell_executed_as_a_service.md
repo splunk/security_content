@@ -24,6 +24,7 @@ tags:
 This detection is to identify the abuse the Windows SC.exe to execute malicious commands or payloads via PowerShell.
 
 - **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-07
@@ -106,4 +107,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_executed_as_a_service.yml) | _version_: **1**

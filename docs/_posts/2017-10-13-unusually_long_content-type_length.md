@@ -22,6 +22,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for unusually long strings in the Content-Type http header that the client sends the server.
 
 - **ID**: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2017-10-13
@@ -74,4 +75,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/unusually_long_content-type_length.yml) | _version_: **1**

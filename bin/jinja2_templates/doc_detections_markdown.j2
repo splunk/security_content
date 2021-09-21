@@ -40,6 +40,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 {{ detection.description }}
 
 - **ID**: {{ detection.id }}
+- **Type**: {{ detection.type }}
 - **Product**: {{ detection.tags.product|join(', ') }}
 - **Datamodel**: {% for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
 - **Last Updated**: {{ detection.date }}
@@ -113,4 +114,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [{{dataset}}]({{ dataset }})
 {% endfor %}
 
-_version_: {{detection.version}}
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/{% if detection.experimental is sameas true -%}experimental/{%- endif -%}{{detection.kind}}/{{ detection.name | lower | replace (" ", "_") }}.yml) | _version_: **{{detection.version}}**

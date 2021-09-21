@@ -24,10 +24,6 @@ Detect and investigate dormant user accounts for your AWS environment that have 
 | ----------- | ----------- |--------------|
 | [AWS Excessive Security Scanning](/cloud/aws_excessive_security_scanning/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf](https://d0.awsstatic.com/whitepapers/aws-security-best-practices.pdf)
@@ -35,4 +31,4 @@ Detect and investigate dormant user accounts for your AWS environment that have 
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/aws_user_monitoring.yml) | _version_: **1**

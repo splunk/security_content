@@ -41,10 +41,6 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 | [Unified Messaging Service Spawning a Process](/endpoint/unified_messaging_service_spawning_a_process/) | None | TTP |
 | [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.splunk.com/en_us/blog/security/detecting-hafnium-exchange-server-zero-day-activity-in-splunk.html](https://www.splunk.com/en_us/blog/security/detecting-hafnium-exchange-server-zero-day-activity-in-splunk.html)
@@ -54,4 +50,4 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/hafnium_group.yml) | _version_: **1**

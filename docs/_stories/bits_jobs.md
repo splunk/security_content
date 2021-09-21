@@ -27,10 +27,6 @@ Adversaries may abuse BITS jobs to persistently execute or clean up after malici
 | [BITSAdmin Download File](/endpoint/bitsadmin_download_file/) | None | TTP |
 | [PowerShell Start-BitsTransfer](/endpoint/powershell_start-bitstransfer/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1197/](https://attack.mitre.org/techniques/T1197/)
@@ -38,4 +34,4 @@ Adversaries may abuse BITS jobs to persistently execute or clean up after malici
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/bits_jobs.yml) | _version_: **1**

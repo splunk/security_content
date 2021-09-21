@@ -23,6 +23,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for emails claiming to be sent from a domain similar to one that you want to have monitored for abuse.
 
 - **ID**: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2018-01-05
@@ -80,4 +81,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/monitor_email_for_brand_abuse.yml) | _version_: **2**

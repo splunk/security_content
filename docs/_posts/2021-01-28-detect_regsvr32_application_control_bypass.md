@@ -25,6 +25,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code. Regsvr3
 Upon investigating, look for network connections to remote destinations (internal or external). Be cautious to modify the query to look for &#34;scrobj.dll&#34;, the &#34;.dll&#34; is not required to load scrobj. &#34;scrobj.dll&#34; will be loaded by &#34;regsvr32.exe&#34; upon execution. 
 
 - **ID**: 070e9b80-6252-11eb-ae93-0242ac130002
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-28
@@ -105,4 +106,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_regsvr32_application_control_bypass.yml) | _version_: **1**

@@ -33,6 +33,7 @@ The following analytic identifies the use of a native MacOS utility, PlistBuddy,
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
 - **ID**: 20ba6c32-c733-4a32-b64e-2688cf231399
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
@@ -88,4 +89,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/suspicious_plistbuddy_usage_via_osquery.yml) | _version_: **1**

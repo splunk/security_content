@@ -27,6 +27,7 @@ tags:
 This detection identifies use of Mimikatz modules for discovery and access to network shares.
 
 - **ID**: c97b6eb9-1d8b-4017-bbbb-2af7fc17bc3f
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -96,4 +97,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_and_access_to_shared_resources_via_mimikatz_modules.yml) | _version_: **1**

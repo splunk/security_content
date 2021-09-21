@@ -28,10 +28,6 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 | [Suspicious PlistBuddy Usage via OSquery](/endpoint/suspicious_plistbuddy_usage_via_osquery/) | None | TTP |
 | [Suspicious SQLite3 LSQuarantine Behavior](/endpoint/suspicious_sqlite3_lsquarantine_behavior/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://redcanary.com/blog/clipping-silver-sparrows-wings/](https://redcanary.com/blog/clipping-silver-sparrows-wings/)
@@ -39,4 +35,4 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/silver_sparrow.yml) | _version_: **1**

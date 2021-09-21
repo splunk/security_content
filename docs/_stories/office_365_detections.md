@@ -36,14 +36,10 @@ This story is focused around detecting Office 365 Attacks.
 | [O365 Suspicious Rights Delegation](/cloud/o365_suspicious_rights_delegation/) | None | TTP |
 | [O365 Suspicious User Email Forwarding](/cloud/o365_suspicious_user_email_forwarding/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf](https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/office_365_detections.yml) | _version_: **1**

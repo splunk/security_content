@@ -39,14 +39,10 @@ Detect signs of malicious payloads that may indicate that your environment has b
 | [Winword Spawning Cmd](/endpoint/winword_spawning_cmd/) | None | TTP |
 | [Winword Spawning PowerShell](/endpoint/winword_spawning_powershell/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html](https://www.fireeye.com/blog/threat-research/2019/04/spear-phishing-campaign-targets-ukraine-government.html)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/spearphishing_attachments.yml) | _version_: **1**

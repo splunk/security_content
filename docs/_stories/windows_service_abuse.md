@@ -29,10 +29,6 @@ Windows services are often used by attackers for persistence and the ability to 
 | [Reg exe Manipulating Windows Services Registry Keys](/endpoint/reg_exe_manipulating_windows_services_registry_keys/) | None | TTP |
 | [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Technique/T1050](https://attack.mitre.org/wiki/Technique/T1050)
@@ -40,4 +36,4 @@ Windows services are often used by attackers for persistence and the ability to 
 
 
 
-_version_: 3
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_service_abuse.yml) | _version_: **3**

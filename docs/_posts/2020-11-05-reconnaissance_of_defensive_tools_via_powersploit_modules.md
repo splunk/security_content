@@ -24,6 +24,7 @@ tags:
 This detection identifies use of PowerSploit modules for assessment of presence of defensive tools.
 
 - **ID**: 24b4e659-63a2-4e7b-89ac-87dd659c7110
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
@@ -93,4 +94,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_of_defensive_tools_via_powersploit_modules.yml) | _version_: **1**

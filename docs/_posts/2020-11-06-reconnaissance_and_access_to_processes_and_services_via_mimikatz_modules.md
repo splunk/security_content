@@ -27,6 +27,7 @@ tags:
 This detection identifies use of Mimikatz modules for discovery and access to services and processes.
 
 - **ID**: 0243d37c-57c1-4182-bfd1-39b212255fc8
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -96,4 +97,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_and_access_to_processes_and_services_via_mimikatz_modules.yml) | _version_: **1**

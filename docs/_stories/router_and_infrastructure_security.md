@@ -32,10 +32,6 @@ Validate the security configuration of network infrastructure and verify that on
 | [Detect Software Download To Network Device](/network/detect_software_download_to_network_device/) | None | TTP |
 | [Detect Traffic Mirroring](/network/detect_traffic_mirroring/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html](https://www.fireeye.com/blog/executive-perspective/2015/09/the_new_route_toper.html)
@@ -43,4 +39,4 @@ Validate the security configuration of network infrastructure and verify that on
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/router_and_infrastructure_security.yml) | _version_: **1**

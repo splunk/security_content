@@ -26,6 +26,7 @@ This detection utilizes a lookup that is deduped `system32` and `syswow64` direc
 During triage, review the parallel processes - what process moved the native Windows binary? identify any artifacts on disk and review. If a remote destination is contacted, what is the reputation?
 
 - **ID**: a34aae96-ccf8-4aef-952c-3ea21444444d
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-08
@@ -103,4 +104,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log)
 
 
-_version_: 6
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/system_processes_run_from_unexpected_locations.yml) | _version_: **6**

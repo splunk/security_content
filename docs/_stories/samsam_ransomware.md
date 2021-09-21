@@ -40,10 +40,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [Samsam Test File Write](/endpoint/samsam_test_file_write/) | None | TTP |
 | [Spike in File Writes](/endpoint/spike_in_file_writes/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/](https://www.crowdstrike.com/blog/an-in-depth-analysis-of-samsam-ransomware-and-boss-spider/)
@@ -52,4 +48,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/samsam_ransomware.yml) | _version_: **1**

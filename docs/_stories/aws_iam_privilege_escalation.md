@@ -33,10 +33,6 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 | [AWS SetDefaultPolicyVersion](/cloud/aws_setdefaultpolicyversion/) | None | TTP |
 | [AWS UpdateLoginProfile](/cloud/aws_updateloginprofile/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/](https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/)
@@ -45,4 +41,4 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/aws_iam_privilege_escalation.yml) | _version_: **1**

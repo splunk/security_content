@@ -25,10 +25,6 @@ Use the searches in this Analytic Story to monitor your GCP Storage buckets for 
 | [Detect GCP Storage access from a new IP](/cloud/detect_gcp_storage_access_from_a_new_ip/) | None | Anomaly |
 | [Detect New Open GCP Storage Buckets](/cloud/detect_new_open_gcp_storage_buckets/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://cloud.google.com/blog/product/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security](https://cloud.google.com/blog/product/gcp/4-steps-for-hardening-your-cloud-storage-buckets-taking-charge-of-your-security)
@@ -36,4 +32,4 @@ Use the searches in this Analytic Story to monitor your GCP Storage buckets for 
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_gcp_storage_activities.yml) | _version_: **1**

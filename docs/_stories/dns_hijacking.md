@@ -25,10 +25,6 @@ Secure your environment against DNS hijacks with searches that help you detect a
 | ----------- | ----------- |--------------|
 | [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html](https://www.fireeye.com/blog/threat-research/2017/09/apt33-insights-into-iranian-cyber-espionage.html)
@@ -38,4 +34,4 @@ Secure your environment against DNS hijacks with searches that help you detect a
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/dns_hijacking.yml) | _version_: **1**

@@ -40,10 +40,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [Windows DisableAntiSpyware Registry](/endpoint/windows_disableantispyware_registry/) | None | TTP |
 | [Windows Security Account Manager Stopped](/endpoint/windows_security_account_manager_stopped/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.splunk.com/en_us/blog/security/detecting-ryuk-using-splunk-attack-range.html](https://www.splunk.com/en_us/blog/security/detecting-ryuk-using-splunk-attack-range.html)
@@ -52,4 +48,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/ryuk_ransomware.yml) | _version_: **1**

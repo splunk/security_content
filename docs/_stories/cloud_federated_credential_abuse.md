@@ -35,10 +35,6 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 | [O365 New Federated Domain Added](/cloud/o365_new_federated_domain_added/) | None | TTP |
 | [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps](https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps)
@@ -47,4 +43,4 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/cloud_federated_credential_abuse.yml) | _version_: **1**

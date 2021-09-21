@@ -25,14 +25,10 @@ Adversaries may use Obfuscated Files or Information to hide artifacts of an intr
 | ----------- | ----------- |--------------|
 | [CertUtil With Decode Argument](/endpoint/certutil_with_decode_argument/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1140/](https://attack.mitre.org/techniques/T1140/)
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/deobfuscate-decode_files_or_information.yml) | _version_: **1**

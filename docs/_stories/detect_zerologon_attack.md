@@ -27,10 +27,6 @@ Uncover activity related to the execution of Zerologon CVE-2020-11472, a techniq
 | [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | None | TTP |
 | [Detect Zerologon via Zeek](/network/detect_zerologon_via_zeek/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Technique/T1003](https://attack.mitre.org/wiki/Technique/T1003)
@@ -40,4 +36,4 @@ Uncover activity related to the execution of Zerologon CVE-2020-11472, a techniq
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/detect_zerologon_attack.yml) | _version_: **1**

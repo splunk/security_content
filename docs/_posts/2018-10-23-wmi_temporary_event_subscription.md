@@ -25,6 +25,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search looks for the creation of WMI temporary event subscriptions.
 
 - **ID**: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-10-23
@@ -84,4 +85,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/wmi_temporary_event_subscription.yml) | _version_: **1**

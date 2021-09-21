@@ -28,6 +28,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search provides detection of an user attaching itself to a different role trust policy. This can be used for lateral movement and escalation of privileges.
 
 - **ID**: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
+- **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
@@ -81,4 +82,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/aws_detect_attach_to_role_policy.yml) | _version_: **1**

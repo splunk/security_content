@@ -34,6 +34,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect various attacks such as packet forging in the Infrastructure.
 
 - **ID**: c3be767e-7959-44c5-8976-0e9c12a91ad2
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-28
@@ -112,4 +113,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/detect_ipv6_network_infrastructure_threats.yml) | _version_: **1**

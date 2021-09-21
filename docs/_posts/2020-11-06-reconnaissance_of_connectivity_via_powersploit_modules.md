@@ -27,6 +27,7 @@ tags:
 This detection identifies access to PowerSploit modules for reconnaissance of connectivity.
 
 - **ID**: 525d32fd-65dd-4732-9b72-3cfc7ddddbd2
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -96,4 +97,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_of_connectivity_via_powersploit_modules.yml) | _version_: **1**

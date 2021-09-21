@@ -27,10 +27,6 @@ Monitor and detect techniques used by attackers who leverage the msbuild.exe pro
 | [Suspicious MSBuild Spawn](/endpoint/suspicious_msbuild_spawn/) | None | TTP |
 | [Suspicious msbuild path](/endpoint/suspicious_msbuild_path/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1127/001/](https://attack.mitre.org/techniques/T1127/001/)
@@ -42,4 +38,4 @@ Monitor and detect techniques used by attackers who leverage the msbuild.exe pro
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/trusted_developer_utilities_proxy_execution_msbuild.yml) | _version_: **1**

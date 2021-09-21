@@ -28,6 +28,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search provides detection of GCPloit exploitation framework. This framework can be used to escalate privileges and move laterally from compromised high privilege accounts.
 
 - **ID**: a1c5a85e-a162-410c-a5d9-99ff639e5a52
+- **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-08
@@ -91,4 +92,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/gcp_detect_gcploit_framework.yml) | _version_: **1**

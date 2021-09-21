@@ -22,6 +22,7 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 This search provides information on anonymous Kubectl calls with IP, verb namespace and object access context
 
 - **ID**: 042a3d32-8318-4763-9679-09db2644a8f2
+- **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-06-23
@@ -74,4 +75,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/kubernetes_aws_detect_suspicious_kubectl_calls.yml) | _version_: **1**

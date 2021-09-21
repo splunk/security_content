@@ -21,6 +21,7 @@ tags:
 This detection identifies use of Mimikatz modules for discovery of computers and servers and access to them.
 
 - **ID**: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
+- **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
@@ -90,4 +91,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reconnaissance_and_access_to_computers_via_mimikatz_modules.yml) | _version_: **1**

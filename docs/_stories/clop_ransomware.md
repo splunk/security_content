@@ -40,10 +40,6 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [WevtUtil Usage To Clear Logs](/endpoint/wevtutil_usage_to_clear_logs/) | None | TTP |
 | [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | None | TTP |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://www.hhs.gov/sites/default/files/analyst-note-cl0p-tlp-white.pdf](https://www.hhs.gov/sites/default/files/analyst-note-cl0p-tlp-white.pdf)
@@ -52,4 +48,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-_version_: 1
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/clop_ransomware.yml) | _version_: **1**

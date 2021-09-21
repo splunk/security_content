@@ -30,10 +30,6 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 | [Unusually Long Command Line](/endpoint/unusually_long_command_line/) | None | Anomaly |
 | [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) | None | Anomaly |
 
-#### Kill Chain Phase
-
-
-
 #### Reference
 
 * [https://attack.mitre.org/wiki/Technique/T1059](https://attack.mitre.org/wiki/Technique/T1059)
@@ -42,4 +38,4 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 
 
 
-_version_: 2
+[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_command-line_executions.yml) | _version_: **2**
