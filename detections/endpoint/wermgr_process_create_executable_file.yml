@@ -1,25 +1,27 @@
 name: Wermgr Process Create Executable File
 id: ab3bcce0-a105-11eb-973c-acde48001122
-version: 1
-date: '2021-04-19'
+version: 2
+date: '2021-09-21'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: this search is designed to detect potential malicious wermgr.exe process
+description: 'This search is designed to detect potential malicious `wermgr.exe` process
   that drops or create executable file. Since wermgr.exe is an application trigger
-  when error encountered in a process, it is really un ussual to this process to drop
+  when error encountered in a process, it is really unusual to this process to drop
   executable file. This technique is commonly seen in trickbot malware where it injects
-  it code to this process to execute it malicious behavior like downloading other
-  payload
-search: '`sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe"
-  | stats  min(_time) as firstTime max(_time) as lastTime count by  Image TargetFilename
-  process_name dest EventCode ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `wermgr_process_create_executable_file_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
+  code to this process to execute it malicious behavior like downloading other
+  payload.'
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name=wermgr.exe  by _time span=1h Processes.process_id Processes.process_name
+  Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [|
+  tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="*.exe" by _time span=1h Filesystem.dest
+  Filesystem.file_create_time Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)`
+  | fields _time dest file_create_time file_name file_path process_name process_path
+  process] | dedup file_create_time | table dest file_create_time, file_name, file_path,
+  process_name | `wermgr_process_create_executable_file_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: unknown
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
