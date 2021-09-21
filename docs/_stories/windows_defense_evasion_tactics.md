@@ -56,4 +56,4 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_defense_evasion_tactics.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/windows_defense_evasion_tactics.yml) \| *version*: **1**

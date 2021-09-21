@@ -96,4 +96,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllDSInternalsModules.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllDSInternalsModules.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/credential_extraction_indicative_of_use_of_dsinternals_credential_conversion_modules.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/credential_extraction_indicative_of_use_of_dsinternals_credential_conversion_modules.yml) \| *version*: **1**

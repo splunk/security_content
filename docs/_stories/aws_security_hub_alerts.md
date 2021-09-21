@@ -32,4 +32,4 @@ This story is focused around detecting Security Hub alerts generated from AWS
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/aws_security_hub_alerts.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/aws_security_hub_alerts.yml) \| *version*: **1**

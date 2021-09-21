@@ -99,4 +99,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_kerberos/windows-security.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/multiple_invalid_users_failing_to_authenticate_from_host_using_kerberos.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/multiple_invalid_users_failing_to_authenticate_from_host_using_kerberos.yml) \| *version*: **1**

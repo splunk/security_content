@@ -96,4 +96,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/recon_using_wmi_class.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/recon_using_wmi_class.yml) \| *version*: **1**

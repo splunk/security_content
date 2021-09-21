@@ -45,4 +45,4 @@ Detect signs of malicious payloads that may indicate that your environment has b
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/spearphishing_attachments.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/spearphishing_attachments.yml) \| *version*: **1**

@@ -94,4 +94,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll32_process_creating_exe_dll_files.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll32_process_creating_exe_dll_files.yml) \| *version*: **1**

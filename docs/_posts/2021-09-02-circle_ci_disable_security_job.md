@@ -91,4 +91,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/circle_ci_disable_security_job.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/circle_ci_disable_security_job.yml) \| *version*: **1**

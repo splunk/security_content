@@ -92,4 +92,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/gcp_detect_gcploit_framework.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/gcp_detect_gcploit_framework.yml) \| *version*: **1**

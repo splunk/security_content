@@ -90,4 +90,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_dump_lsass_memory_using_comsvcs.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_dump_lsass_memory_using_comsvcs.yml) \| *version*: **1**

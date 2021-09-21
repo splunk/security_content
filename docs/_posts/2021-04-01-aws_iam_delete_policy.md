@@ -94,4 +94,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_iam_delete_policy.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_iam_delete_policy.yml) \| *version*: **1**

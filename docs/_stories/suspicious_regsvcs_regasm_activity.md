@@ -38,4 +38,4 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_regsvcs_regasm_activity.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_regsvcs_regasm_activity.yml) \| *version*: **1**

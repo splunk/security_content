@@ -38,4 +38,4 @@ Looks for activities and techniques associated with the disabling of security to
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/disabling_security_tools.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/disabling_security_tools.yml) \| *version*: **2**

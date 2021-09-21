@@ -96,4 +96,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/xmrig_driver_loaded.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/xmrig_driver_loaded.yml) \| *version*: **1**

@@ -34,4 +34,4 @@ Monitor your AWS network infrastructure for bad configurations and malicious act
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/aws_network_acl_activity.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/aws_network_acl_activity.yml) \| *version*: **2**

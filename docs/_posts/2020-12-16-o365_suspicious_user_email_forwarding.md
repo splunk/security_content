@@ -93,4 +93,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_suspicious_user_email_forwarding.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_suspicious_user_email_forwarding.yml) \| *version*: **1**

@@ -99,4 +99,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_loading_dotnet_into_memory_via_system_reflection_assembly.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_loading_dotnet_into_memory_via_system_reflection_assembly.yml) \| *version*: **1**

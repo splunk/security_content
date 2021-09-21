@@ -33,4 +33,4 @@ Adversaries may attempt to gather information on domain trust relationships that
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/domain_trust_discovery.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/domain_trust_discovery.yml) \| *version*: **1**

@@ -35,4 +35,4 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_provisioning_activities.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_provisioning_activities.yml) \| *version*: **1**

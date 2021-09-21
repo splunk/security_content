@@ -95,4 +95,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/common_ransomware_notes.yml) | _version_: **4**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/common_ransomware_notes.yml) \| *version*: **4**

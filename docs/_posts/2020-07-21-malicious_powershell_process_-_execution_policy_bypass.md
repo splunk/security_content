@@ -96,4 +96,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/encoded_powershell/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/encoded_powershell/windows-sysmon.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_-_execution_policy_bypass.yml) | _version_: **4**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_-_execution_policy_bypass.yml) \| *version*: **4**

@@ -33,4 +33,4 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/orangeworm_attack_group.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/orangeworm_attack_group.yml) \| *version*: **2**

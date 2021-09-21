@@ -98,4 +98,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_excessive_sso_logon_errors.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_excessive_sso_logon_errors.yml) \| *version*: **1**

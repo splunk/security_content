@@ -96,4 +96,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reg_exe_manipulating_windows_services_registry_keys.yml) | _version_: **5**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reg_exe_manipulating_windows_services_registry_keys.yml) \| *version*: **5**

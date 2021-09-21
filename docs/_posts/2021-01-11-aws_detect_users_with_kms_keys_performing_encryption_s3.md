@@ -97,4 +97,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_detect_users_with_kms_keys_performing_encryption_s3.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_detect_users_with_kms_keys_performing_encryption_s3.yml) \| *version*: **1**

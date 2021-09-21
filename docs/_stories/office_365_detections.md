@@ -42,4 +42,4 @@ This story is focused around detecting Office 365 Attacks.
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/office_365_detections.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/office_365_detections.yml) \| *version*: **1**

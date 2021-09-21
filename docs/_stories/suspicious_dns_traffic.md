@@ -39,4 +39,4 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_dns_traffic.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_dns_traffic.yml) \| *version*: **1**

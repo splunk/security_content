@@ -31,4 +31,4 @@ Monitor your enterprise to ensure that your endpoints are being patched and upda
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/monitor_for_updates.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/monitor_for_updates.yml) \| *version*: **1**

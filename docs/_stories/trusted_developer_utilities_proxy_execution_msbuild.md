@@ -38,4 +38,4 @@ Monitor and detect techniques used by attackers who leverage the msbuild.exe pro
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/trusted_developer_utilities_proxy_execution_msbuild.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/trusted_developer_utilities_proxy_execution_msbuild.yml) \| *version*: **1**

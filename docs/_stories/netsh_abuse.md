@@ -33,4 +33,4 @@ Detect activities and various techniques associated with the abuse of `netsh.exe
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/netsh_abuse.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/netsh_abuse.yml) \| *version*: **1**

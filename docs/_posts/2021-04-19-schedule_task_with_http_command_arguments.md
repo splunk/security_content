@@ -100,4 +100,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/schedule_task_with_http_command_arguments.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/schedule_task_with_http_command_arguments.yml) \| *version*: **1**

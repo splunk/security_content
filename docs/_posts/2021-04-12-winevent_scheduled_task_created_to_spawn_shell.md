@@ -105,4 +105,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-security.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/winevent_scheduled_task_created_to_spawn_shell.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/winevent_scheduled_task_created_to_spawn_shell.yml) \| *version*: **1**

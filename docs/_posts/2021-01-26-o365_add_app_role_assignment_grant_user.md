@@ -98,4 +98,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federation/o365_new_federation.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_add_app_role_assignment_grant_user.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_add_app_role_assignment_grant_user.yml) \| *version*: **1**

@@ -104,4 +104,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_explicit_credential_spray/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_explicit_credential_spray/windows-security.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/multiple_users_attempting_to_authenticate_using_explicit_credentials.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/multiple_users_attempting_to_authenticate_using_explicit_credentials.yml) \| *version*: **1**

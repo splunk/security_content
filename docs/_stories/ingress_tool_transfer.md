@@ -36,4 +36,4 @@ Adversaries may transfer tools or other files from an external system into a com
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/ingress_tool_transfer.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/ingress_tool_transfer.yml) \| *version*: **1**

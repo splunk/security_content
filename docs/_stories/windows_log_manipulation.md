@@ -40,4 +40,4 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_log_manipulation.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/windows_log_manipulation.yml) \| *version*: **2**

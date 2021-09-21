@@ -98,4 +98,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_icedid.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_icedid.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/office_product_spawning_rundll32_with_no_dll.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/office_product_spawning_rundll32_with_no_dll.yml) \| *version*: **1**

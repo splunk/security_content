@@ -97,4 +97,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/winrm_spawning_a_process.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/winrm_spawning_a_process.yml) \| *version*: **1**

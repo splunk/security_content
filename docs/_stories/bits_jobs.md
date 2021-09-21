@@ -34,4 +34,4 @@ Adversaries may abuse BITS jobs to persistently execute or clean up after malici
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/bits_jobs.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/bits_jobs.yml) \| *version*: **1**

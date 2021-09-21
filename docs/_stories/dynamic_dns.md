@@ -37,4 +37,4 @@ Detect and investigate hosts in your environment that may be communicating with 
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/dynamic_dns.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/dynamic_dns.yml) \| *version*: **2**

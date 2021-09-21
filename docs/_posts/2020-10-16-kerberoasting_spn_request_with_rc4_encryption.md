@@ -95,4 +95,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-security.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/kerberoasting_spn_request_with_rc4_encryption.yml) | _version_: **3**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/kerberoasting_spn_request_with_rc4_encryption.yml) \| *version*: **3**

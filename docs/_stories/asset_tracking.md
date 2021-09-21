@@ -31,4 +31,4 @@ Keep a careful inventory of every asset on your network to make it easier to det
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/asset_tracking.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/asset_tracking.yml) \| *version*: **1**

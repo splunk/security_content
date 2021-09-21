@@ -35,4 +35,4 @@ Detect and investigate activity that may indicate that an adversary is using fau
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/brand_monitoring.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/brand_monitoring.yml) \| *version*: **1**

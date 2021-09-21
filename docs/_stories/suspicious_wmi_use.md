@@ -39,4 +39,4 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_wmi_use.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_wmi_use.yml) \| *version*: **2**

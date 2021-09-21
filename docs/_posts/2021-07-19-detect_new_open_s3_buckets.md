@@ -103,4 +103,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_new_open_s3_buckets.yml) | _version_: **3**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_new_open_s3_buckets.yml) \| *version*: **3**

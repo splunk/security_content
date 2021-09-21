@@ -99,4 +99,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/more_than_usual_number_of_lolbas_applications_in_short_time_period.yml) | _version_: **2**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/more_than_usual_number_of_lolbas_applications_in_short_time_period.yml) \| *version*: **2**

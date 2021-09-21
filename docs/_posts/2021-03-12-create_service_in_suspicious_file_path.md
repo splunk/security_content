@@ -95,4 +95,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-system.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/create_service_in_suspicious_file_path.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/create_service_in_suspicious_file_path.yml) \| *version*: **1**

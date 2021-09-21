@@ -30,4 +30,4 @@ Track when a user assumes an IAM role in another GCP account to obtain cross-acc
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/gcp_cross_account_activity.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/gcp_cross_account_activity.yml) \| *version*: **1**

@@ -96,4 +96,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/smb_traffic_spike_-_mltk.yml) | _version_: **3**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/smb_traffic_spike_-_mltk.yml) \| *version*: **3**

@@ -42,4 +42,4 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_mshta_activity.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_mshta_activity.yml) \| *version*: **2**

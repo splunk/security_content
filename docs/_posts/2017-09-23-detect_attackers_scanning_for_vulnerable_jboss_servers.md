@@ -86,4 +86,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/web/detect_attackers_scanning_for_vulnerable_jboss_servers.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/web/detect_attackers_scanning_for_vulnerable_jboss_servers.yml) \| *version*: **1**

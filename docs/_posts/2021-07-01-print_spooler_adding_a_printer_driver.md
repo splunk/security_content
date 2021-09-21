@@ -99,4 +99,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/print_spooler_adding_a_printer_driver.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/print_spooler_adding_a_printer_driver.yml) \| *version*: **1**

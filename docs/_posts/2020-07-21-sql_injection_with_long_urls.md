@@ -88,4 +88,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/web/sql_injection_with_long_urls.yml) | _version_: **2**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/web/sql_injection_with_long_urls.yml) \| *version*: **2**

@@ -31,4 +31,4 @@ Leverage searches that detect cleartext network protocols that may leak credenti
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/use_of_cleartext_protocols.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/use_of_cleartext_protocols.yml) \| *version*: **1**

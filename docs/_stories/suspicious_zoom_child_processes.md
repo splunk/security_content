@@ -34,4 +34,4 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_zoom_child_processes.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_zoom_child_processes.yml) \| *version*: **1**

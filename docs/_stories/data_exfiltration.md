@@ -41,4 +41,4 @@ The stealing of data by an adversary.
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/data_exfiltration.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/data_exfiltration.yml) \| *version*: **1**

@@ -36,4 +36,4 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/cloud_cryptomining.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/cloud_cryptomining.yml) \| *version*: **1**

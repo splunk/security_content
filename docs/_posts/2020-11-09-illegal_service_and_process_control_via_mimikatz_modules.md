@@ -99,4 +99,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllMimikatzModules.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllMimikatzModules.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_service_and_process_control_via_mimikatz_modules.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_service_and_process_control_via_mimikatz_modules.yml) \| *version*: **1**

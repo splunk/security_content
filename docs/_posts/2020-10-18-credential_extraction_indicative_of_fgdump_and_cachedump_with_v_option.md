@@ -92,4 +92,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logFgdump.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logFgdump.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option.yml) \| *version*: **1**

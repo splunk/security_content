@@ -39,4 +39,4 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/prohibited_traffic_allowed_or_protocol_mismatch.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/prohibited_traffic_allowed_or_protocol_mismatch.yml) \| *version*: **1**

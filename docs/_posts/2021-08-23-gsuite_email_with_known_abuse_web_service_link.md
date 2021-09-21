@@ -91,4 +91,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_url/gsuite_susp_url.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_url/gsuite_susp_url.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/gsuite_email_with_known_abuse_web_service_link.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/gsuite_email_with_known_abuse_web_service_link.yml) \| *version*: **1**

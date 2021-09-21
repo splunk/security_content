@@ -38,4 +38,4 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_command-line_executions.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_command-line_executions.yml) \| *version*: **2**

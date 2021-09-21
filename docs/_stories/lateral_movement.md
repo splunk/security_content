@@ -39,4 +39,4 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/lateral_movement.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/lateral_movement.yml) \| *version*: **2**

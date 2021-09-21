@@ -86,4 +86,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/email_files_written_outside_of_the_outlook_directory.yml) | _version_: **3**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/email_files_written_outside_of_the_outlook_directory.yml) \| *version*: **3**

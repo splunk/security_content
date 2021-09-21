@@ -100,4 +100,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_add_service_principal/o365_add_service_principal.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_add_service_principal/o365_add_service_principal.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_added_service_principal.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_added_service_principal.yml) \| *version*: **1**

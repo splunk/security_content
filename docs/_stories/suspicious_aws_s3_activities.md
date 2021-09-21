@@ -35,4 +35,4 @@ Use the searches in this Analytic Story to monitor your AWS S3 buckets for evide
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_aws_s3_activities.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_aws_s3_activities.yml) \| *version*: **2**

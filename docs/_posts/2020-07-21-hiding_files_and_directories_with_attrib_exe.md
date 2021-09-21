@@ -93,4 +93,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/atomic_red_team/windows-sysmon.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/hiding_files_and_directories_with_attrib_exe.yml) | _version_: **4**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/hiding_files_and_directories_with_attrib_exe.yml) \| *version*: **4**

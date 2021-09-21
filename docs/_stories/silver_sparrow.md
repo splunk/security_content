@@ -35,4 +35,4 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/silver_sparrow.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/silver_sparrow.yml) \| *version*: **1**

@@ -94,4 +94,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/deny_permission_using_cacls_utility.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/deny_permission_using_cacls_utility.yml) \| *version*: **1**

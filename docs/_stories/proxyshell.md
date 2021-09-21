@@ -38,4 +38,4 @@ ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/proxyshell.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/proxyshell.yml) \| *version*: **1**

@@ -95,4 +95,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_shutdown/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_shutdown/windows-sysmon.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/schtasks_used_for_forcing_a_reboot.yml) | _version_: **4**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/schtasks_used_for_forcing_a_reboot.yml) \| *version*: **4**

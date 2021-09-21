@@ -31,4 +31,4 @@ Detect and investigate dormant user accounts for your AWS environment that have 
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/aws_user_monitoring.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/aws_user_monitoring.yml) \| *version*: **1**

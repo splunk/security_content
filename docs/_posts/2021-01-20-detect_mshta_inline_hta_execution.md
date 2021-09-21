@@ -103,4 +103,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_mshta_inline_hta_execution.yml) | _version_: **5**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_mshta_inline_hta_execution.yml) \| *version*: **5**

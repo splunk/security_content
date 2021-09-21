@@ -35,4 +35,4 @@ Monitor your Okta environment for suspicious activities. Due to the Covid outbre
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_okta_activity.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_okta_activity.yml) \| *version*: **1**

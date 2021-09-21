@@ -32,4 +32,4 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_file_extension_and_association_abuse.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/windows_file_extension_and_association_abuse.yml) \| *version*: **1**

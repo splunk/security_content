@@ -34,4 +34,4 @@ Monitor and detect behaviors used by attackers who leverage trusted developer ut
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/trusted_developer_utilities_proxy_execution.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/trusted_developer_utilities_proxy_execution.yml) \| *version*: **1**

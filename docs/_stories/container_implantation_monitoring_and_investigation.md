@@ -30,4 +30,4 @@ Use the searches in this story to monitor your Kubernetes registry repositories 
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/container_implantation_monitoring_and_investigation.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/container_implantation_monitoring_and_investigation.yml) \| *version*: **1**

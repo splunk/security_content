@@ -61,4 +61,4 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/xmrig.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/xmrig.yml) \| *version*: **1**

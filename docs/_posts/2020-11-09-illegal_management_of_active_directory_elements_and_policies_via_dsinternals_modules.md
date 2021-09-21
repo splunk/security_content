@@ -99,4 +99,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/logAllDSInternalsModules.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/logAllDSInternalsModules.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_management_of_active_directory_elements_and_policies_via_dsinternals_modules.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_management_of_active_directory_elements_and_policies_via_dsinternals_modules.yml) \| *version*: **1**

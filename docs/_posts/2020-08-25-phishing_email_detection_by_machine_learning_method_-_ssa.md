@@ -82,4 +82,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/phishing_email_detection_by_machine_learning_method_-_ssa.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/phishing_email_detection_by_machine_learning_method_-_ssa.yml) \| *version*: **1**

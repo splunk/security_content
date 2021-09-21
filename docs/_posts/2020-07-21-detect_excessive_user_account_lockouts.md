@@ -94,4 +94,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_excessive_user_account_lockouts.yml) | _version_: **3**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_excessive_user_account_lockouts.yml) \| *version*: **3**

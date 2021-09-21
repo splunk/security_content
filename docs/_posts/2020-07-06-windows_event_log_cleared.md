@@ -96,4 +96,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-system.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_event_log_cleared.yml) | _version_: **6**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_event_log_cleared.yml) \| *version*: **6**

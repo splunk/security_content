@@ -47,4 +47,4 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/nobelium_group.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/nobelium_group.yml) \| *version*: **2**

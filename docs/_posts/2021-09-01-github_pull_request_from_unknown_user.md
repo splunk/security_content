@@ -102,4 +102,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/github_pull_request_from_unknown_user.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/github_pull_request_from_unknown_user.yml) \| *version*: **1**

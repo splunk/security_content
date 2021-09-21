@@ -101,4 +101,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/exchange-events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/exchange-events.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/exchange_powershell_abuse_via_ssrf.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/exchange_powershell_abuse_via_ssrf.yml) \| *version*: **1**

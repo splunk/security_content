@@ -60,4 +60,4 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/malicious_powershell.yml) | _version_: **5**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/malicious_powershell.yml) \| *version*: **5**

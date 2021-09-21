@@ -34,4 +34,4 @@ Monitor your AWS authentication events using your CloudTrail logs. Searches with
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_aws_login_activities.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_aws_login_activities.yml) \| *version*: **1**

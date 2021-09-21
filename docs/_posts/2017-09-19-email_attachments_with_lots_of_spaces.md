@@ -83,4 +83,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/email_attachments_with_lots_of_spaces.yml) | _version_: **2**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/email_attachments_with_lots_of_spaces.yml) \| *version*: **2**

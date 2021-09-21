@@ -31,4 +31,4 @@ Adversaries may use Obfuscated Files or Information to hide artifacts of an intr
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/deobfuscate-decode_files_or_information.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/deobfuscate-decode_files_or_information.yml) \| *version*: **1**

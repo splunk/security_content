@@ -104,4 +104,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/network/multiple_archive_files_http_post_traffic.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/network/multiple_archive_files_http_post_traffic.yml) \| *version*: **1**

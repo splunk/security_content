@@ -39,4 +39,4 @@ Validate the security configuration of network infrastructure and verify that on
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/router_and_infrastructure_security.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/router_and_infrastructure_security.yml) \| *version*: **1**

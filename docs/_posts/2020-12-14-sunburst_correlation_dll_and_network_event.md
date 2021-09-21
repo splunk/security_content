@@ -88,4 +88,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/sunburst_correlation_dll_and_network_event.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/sunburst_correlation_dll_and_network_event.yml) \| *version*: **1**

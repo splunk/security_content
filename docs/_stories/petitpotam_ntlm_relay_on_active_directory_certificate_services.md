@@ -37,4 +37,4 @@ PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC P
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/petitpotam_ntlm_relay_on_active_directory_certificate_services.yml) \| *version*: **1**

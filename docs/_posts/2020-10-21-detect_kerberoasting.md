@@ -94,4 +94,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_kerberoasting.yml) | _version_: **2**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_kerberoasting.yml) \| *version*: **2**

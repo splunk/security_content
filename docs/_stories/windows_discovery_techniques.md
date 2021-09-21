@@ -47,4 +47,4 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_discovery_techniques.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/windows_discovery_techniques.yml) \| *version*: **1**

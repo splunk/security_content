@@ -53,4 +53,4 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/cobalt_strike.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/cobalt_strike.yml) \| *version*: **1**

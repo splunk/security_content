@@ -91,4 +91,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logPowerShellModule.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logPowerShellModule.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/credential_extraction_via_get-addbaccount_module_present_in_powersploit_and_dsinternals.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/credential_extraction_via_get-addbaccount_module_present_in_powersploit_and_dsinternals.yml) \| *version*: **1**

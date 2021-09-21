@@ -34,4 +34,4 @@ Secure your environment against DNS hijacks with searches that help you detect a
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/dns_hijacking.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/dns_hijacking.yml) \| *version*: **1**

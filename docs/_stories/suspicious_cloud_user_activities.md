@@ -36,4 +36,4 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_user_activities.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_user_activities.yml) \| *version*: **1**

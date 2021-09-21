@@ -43,4 +43,4 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/cloud_federated_credential_abuse.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/cloud_federated_credential_abuse.yml) \| *version*: **1**

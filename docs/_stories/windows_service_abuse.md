@@ -36,4 +36,4 @@ Windows services are often used by attackers for persistence and the ability to 
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_service_abuse.yml) | _version_: **3**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/windows_service_abuse.yml) \| *version*: **3**

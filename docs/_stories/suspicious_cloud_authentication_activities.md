@@ -37,4 +37,4 @@ Monitor your cloud authentication events. Searches within this Analytic Story le
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_authentication_activities.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_cloud_authentication_activities.yml) \| *version*: **1**

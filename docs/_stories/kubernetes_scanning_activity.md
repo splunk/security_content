@@ -32,4 +32,4 @@ This story addresses detection against Kubernetes cluster fingerprint scan and a
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/kubernetes_scanning_activity.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/kubernetes_scanning_activity.yml) \| *version*: **1**

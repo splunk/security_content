@@ -58,4 +58,4 @@ Monitor for activities and techniques associated with maintaining persistence on
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_persistence_techniques.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/windows_persistence_techniques.yml) \| *version*: **2**

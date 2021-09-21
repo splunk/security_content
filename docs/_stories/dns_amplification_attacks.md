@@ -32,4 +32,4 @@ DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it respond
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/dns_amplification_attacks.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/dns_amplification_attacks.yml) \| *version*: **1**

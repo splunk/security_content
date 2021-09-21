@@ -35,4 +35,4 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns.yml) \| *version*: **1**

@@ -37,4 +37,4 @@ Adversaries may rename legitimate system utilities to try to evade security mech
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/masquerading_-_rename_system_utilities.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/masquerading_-_rename_system_utilities.yml) \| *version*: **1**

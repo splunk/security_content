@@ -100,4 +100,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_saml_update_identity_provider.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_saml_update_identity_provider.yml) \| *version*: **1**

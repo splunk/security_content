@@ -100,4 +100,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/abnormally_high_number_of_cloud_instances_destroyed.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/abnormally_high_number_of_cloud_instances_destroyed.yml) \| *version*: **1**

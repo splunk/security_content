@@ -36,4 +36,4 @@ Uncover activity related to the execution of Zerologon CVE-2020-11472, a techniq
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/detect_zerologon_attack.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/detect_zerologon_attack.yml) \| *version*: **1**

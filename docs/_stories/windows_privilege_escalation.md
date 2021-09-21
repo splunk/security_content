@@ -35,4 +35,4 @@ Monitor for and investigate activities that may be associated with a Windows pri
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/windows_privilege_escalation.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/windows_privilege_escalation.yml) \| *version*: **2**

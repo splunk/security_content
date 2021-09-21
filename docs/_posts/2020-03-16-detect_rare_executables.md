@@ -88,4 +88,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/detect_rare_executables.yml) | _version_: **5**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/detect_rare_executables.yml) \| *version*: **5**

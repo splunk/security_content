@@ -67,4 +67,4 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/credential_dumping.yml) | _version_: **3**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/credential_dumping.yml) \| *version*: **3**

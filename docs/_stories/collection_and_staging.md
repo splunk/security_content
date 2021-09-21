@@ -38,4 +38,4 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/collection_and_staging.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/collection_and_staging.yml) \| *version*: **1**

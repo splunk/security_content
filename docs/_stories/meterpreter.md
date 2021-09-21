@@ -33,4 +33,4 @@ Meterpreter provides red teams, pen testers and threat actors interactive access
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/meterpreter.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/meterpreter.yml) \| *version*: **1**

@@ -50,4 +50,4 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/hafnium_group.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/hafnium_group.yml) \| *version*: **1**

@@ -95,4 +95,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_updateloginprofile/aws_cloudtrail_events.json)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_updateloginprofile.yml) | _version_: **2**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_updateloginprofile.yml) \| *version*: **2**

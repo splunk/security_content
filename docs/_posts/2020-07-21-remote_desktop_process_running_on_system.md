@@ -86,4 +86,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/remote_desktop_process_running_on_system.yml) | _version_: **5**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/remote_desktop_process_running_on_system.yml) \| *version*: **5**

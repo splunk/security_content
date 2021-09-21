@@ -86,4 +86,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/protocol_or_port_mismatch.yml) | _version_: **2**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/protocol_or_port_mismatch.yml) \| *version*: **2**

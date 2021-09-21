@@ -45,4 +45,4 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/dhs_report_ta18-074a.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/dhs_report_ta18-074a.yml) \| *version*: **2**

@@ -36,4 +36,4 @@ Monitor and detect registry changes initiated from remote locations, which can b
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_windows_registry_activities.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_windows_registry_activities.yml) \| *version*: **1**

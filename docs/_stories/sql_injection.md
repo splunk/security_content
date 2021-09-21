@@ -32,4 +32,4 @@ Use the searches in this Analytic Story to help you detect structured query lang
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/sql_injection.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/sql_injection.yml) \| *version*: **1**

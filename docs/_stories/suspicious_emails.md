@@ -33,4 +33,4 @@ Email remains one of the primary means for attackers to gain an initial foothold
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/suspicious_emails.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/suspicious_emails.yml) \| *version*: **1**

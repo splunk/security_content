@@ -49,4 +49,4 @@ Quickly identify systems running new or unusual processes in your environment th
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/unusual_processes.yml) | _version_: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/unusual_processes.yml) \| *version*: **2**

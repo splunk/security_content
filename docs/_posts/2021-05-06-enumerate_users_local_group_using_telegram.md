@@ -99,4 +99,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log)
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/endpoint/enumerate_users_local_group_using_telegram.yml) | _version_: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/enumerate_users_local_group_using_telegram.yml) \| *version*: **1**

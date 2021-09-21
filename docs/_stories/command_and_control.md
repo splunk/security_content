@@ -46,4 +46,4 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/stories/command_and_control.yml) | _version_: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/stories/command_and_control.yml) \| *version*: **1**

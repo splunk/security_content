@@ -85,4 +85,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[_source_](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/okta_failed_sso_attempts.yml) | _version_: **2**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/okta_failed_sso_attempts.yml) \| *version*: **2**
