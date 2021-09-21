@@ -30,8 +30,16 @@
 #spl files may contain eval and other statements that should NOT trigger semgrep warnings
 *.spl
 
+#Ignore Markdown and Wiki Pages
+*.md
+*.wiki
+
 #Temporarily ignoring this directory as we discuss a path moving forward
 #for Splunk Packaging Toolkit Update Strategy
 /dist/
+
+#Don't check yaml files in these directories
+/response_tasks
+/detections
 
 
