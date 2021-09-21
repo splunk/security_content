@@ -13,10 +13,6 @@ from modules import aws_service, testing_service
 import time
 
 
-DT_ATTACK_RANGE_STATE_STORE = "dt-attack-range-tf-state-store"
-DT_ATTACK_RANGE_STATE = "dt-attack-range-state"
-REGION = "eu-central-1"
-NAME = "detection-testing-attack-range"
 
 PASSWORD_LENGTH=20
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING=2
@@ -31,12 +27,53 @@ BASE_CONTAINER_WEB_PORT=8000
 BASE_CONTAINER_MANAGEMENT_PORT=8089
 
 
+
+
 def wait_for_splunk_ready(splunk_container_name=None, splunk_web_port=None, max_seconds=30):
     #The smarter version of this will try to hit one of the pages,
     #probably the login page, and when that is available it means that
     #splunk is fully started and ready to go.  Until then, we just
     #use a simple sleep
     time.sleep(max_seconds)
+
+
+def remove_container(docker_client, container_name, force=True):
+    try:
+        container = docker_client.containers.get(container_name)
+    except Exception as e:
+        print("Could not find Docker Container [%s]. Container does not exist"%(container_name))
+        return True
+    try:
+        container.remove(v=True, force=force) #remove it even if it is running. remove volumes as well
+        print("Successfully removed Docker Container [%s]"%(container_name))
+    except Exception as e:
+        print("Could not remove Docker Container [%s]"%(container_name))
+        raise(Exception("CONTAINER REMOVE ERROR"))
+
+
+def stop_container(docker_client, container_name, force=True):
+    try:
+        container = docker_client.containers.get(container_name)
+    except:
+        print("Container with name [%s] does not exist"%(container_name))
+        return True
+    
+    try:
+        print("Checking to see if [%s] is running..."%(container_name), end='')
+        if container.status == 'exited':
+            print("NO")
+            return True
+        else:
+            print("YES (container.status is [%s])"%(container.status))
+            print("Stopping [%s]"%(container_name))
+            container.stop(force=force)
+            return True
+    except Exception as e:
+        print("Error trying to stop the container [%s]"%(container_name))
+        raise(Exception("CONTAINER STOP ERROR"))
+
+        
+
 
 def main(args):
 
@@ -45,12 +82,19 @@ def main(args):
     parser.add_argument("-u", "--uuid", type=str, required=True, help="uuid for detection test")
     parser.add_argument("-pr", "--pr-number", type=int, required=False, help="Pull Request Number")
     parser.add_argument("-n", "--num_containers", required=False, type=int, default=1, help="The number of splunk docker containers to start and run for testing")
+    
+    parser.add_argument("-i", "--reuse_images", required=False, type=bool, default=False, help="Should existing images be re-used, or should they be redownloaded?")
+    parser.add_argument("-c", "--reuse_containers", required=False, type=bool, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
 
     args = parser.parse_args()
     branch = args.branch
     uuid_test = args.uuid
     pr_number = args.pr_number
     num_containers = args.num_containers
+    reuse_containers = args.reuse_containers
+    reuse_images = args.reuse_images
+
+
     if num_containers < 1:
         #Perhaps this should be a mock-run - do the initial steps but don't do testing on the containers?
         print("Error, requested 0 containers.  You must run with at least 1 container.")
@@ -82,7 +126,10 @@ def main(args):
     #because this is only accessible to localhost, the password doesn't need to be particularly secure
     #We can also share it between splunk on all containers
     
-    splunk_password = secrets.token_urlsafe(PASSWORD_LENGTH)
+    #splunk_password = secrets.token_urlsafe(PASSWORD_LENGTH)
+
+    #Only accessible on local host, it's okay to expose the password for debugging
+    splunk_password = "123456qwerty!@#$%^QWERTY"
     splunk_container_manager_threads = []
     
 
@@ -94,70 +141,123 @@ def main(args):
 
     print("Getting docker client")
     client = docker.client.from_env()
+
     try:
         print("Removing any existing containers called [%s]."%(BASE_CONTAINER_NAME))
 
         c = client.containers.get(BASE_CONTAINER_NAME)
-        c.remove(v=True, force=True) #remove it even if it is running. remove volumes as well
     except:
-        print("Container [%s] did not exist. No need to remove it"%(BASE_CONTAINER_NAME))
+        print("Container [%s] did not exist. No need to remove it. It will; be created for you."%(BASE_CONTAINER_NAME))
+        c = None
+    
 
+    if (c and reuse_containers):
+        print("Found a container called [%s]. NOT removing it because you have specified --reuse_containers [%s]. "
+                "However, we must stop the container.  Stopping it now..."%(BASE_CONTAINER_NAME, reuse_containers))
+        stop_container(client, BASE_CONTAINER_NAME)
+        
+    elif c:
+        print("Found a container called [%s]. Removing it because you have specified --reuse_containers [%s]"%(BASE_CONTAINER_NAME, reuse_containers))
+        remove_container(client, BASE_CONTAINER_NAME)
+        
+
+
+
+    download_image = False
     try:
+        client.images.get(DOCKER_HUB_CONTAINER_PATH)
+        if reuse_images:
+            print("You already have an image named [%s]."%(DOCKER_HUB_CONTAINER_PATH))
+            download_image = False
+        else:
+            print("You already have an image named [%s]., "
+                    "but have speicified --reuse_images %s"%(DOCKER_HUB_CONTAINER_PATH, reuse_images))
+            download_image = True
+
+    except:
+        print("You did not have an image named [%s]."%(DOCKER_HUB_CONTAINER_PATH))
+        download_image = True
+
+    if download_image:        
         try:
-            client.images.get(DOCKER_HUB_CONTAINER_PATH)
-            print("You already have an image named [%s]. We will not "
-                "download it again."%(DOCKER_HUB_CONTAINER_PATH))
-        except:
-            print("You did not have an image named [%s]. We will "
-                "download it now from the Docker Hub.  Please note "
+            print("Downloading image [%s].  Please note "
                 "that this could take a long time depending on your "
                 "connection. It's around 2GB."%(DOCKER_HUB_CONTAINER_PATH))
             client.images.pull(DOCKER_HUB_CONTAINER_PATH)
             print("Finished downloading the image [%s]"%(DOCKER_HUB_CONTAINER_PATH))
+        except Exception as e: 
+            print("Unrecoverable error downloading image [%s]:[%s]"%(DOCKER_HUB_CONTAINER_PATH, str(e)))
+            sys.exit(1)
 
-        
+
+    remove_tag = False        
+    try:
+        image = client.images.get(DOCKER_COMMIT_NAME)
+        print("Found an image called [%s]"%(DOCKER_COMMIT_NAME))
+        if reuse_images == False:
+            print("We will remove the image [%s] because you have specificed --reuse_images %s"%(DOCKER_COMMIT_NAME, reuse_images))
+            remove_tag = True
+            build_Tag = True
+        else:
+            print("We will use the preexisting image for [%s]"%(DOCKER_COMMIT_NAME))
+            build_tag = False
+    except:
+        print("No image found named [%s]"%(DOCKER_COMMIT_NAME))
+        build_tag = True
+    
+
+    if remove_tag:
         try:
-            image = client.images.get(DOCKER_COMMIT_NAME)
-            print("Found an image called [%s]. We will remove it"%(DOCKER_COMMIT_NAME))
             #Stop it if it's running, remove associated volumes too
-            image.remove(v=True, force=True)
-        except:
-            print("No image found named [%s]"%(DOCKER_COMMIT_NAME))
-        
+            client.images.remove(image=DOCKER_COMMIT_NAME, force=True)
+            
+        except Exception as e:
+            print("Unrecoverable error removing [%s]: [%s]"%(DOCKER_COMMIT_NAME, str(e)))
+            sys.exit(1)
+            
+    
             
 
+
+    if not reuse_containers:
+        try:
+            print("Creating a new container called [%s]"%(BASE_CONTAINER_NAME))
         
 
-        print("Creating a new container called [%s]"%(BASE_CONTAINER_NAME))
-        environment = {"SPLUNK_START_ARGS": "--accept-license",
-                       "SPLUNK_PASSWORD"  : splunk_password }
-        ports= {"8000/tcp": BASE_CONTAINER_WEB_PORT - 1,
-                "8089/tcp": BASE_CONTAINER_MANAGEMENT_PORT - 1
-                }
+            environment = {"SPLUNK_START_ARGS": "--accept-license",
+                    "SPLUNK_PASSWORD"  : splunk_password }
+            ports= {"8000/tcp": BASE_CONTAINER_WEB_PORT - 1,
+            "8089/tcp": BASE_CONTAINER_MANAGEMENT_PORT - 1
+            }
+            base_container = client.containers.create("splunk/splunk:latest", ports=ports, environment=environment, name=BASE_CONTAINER_NAME, detach=True)
+            print("Running the new container called [%s]"%(BASE_CONTAINER_NAME))
+            base_container.start()
+            print("Container is running [%s]"%(BASE_CONTAINER_NAME))
+            print("Sleep for 60 seconds to allow the container to fully start up...")
+            wait_for_splunk_ready(max_seconds=60)
+            print("The container has fully started!")
 
-        base_container = client.containers.create("splunk/splunk:latest", ports=ports, environment=environment, name=BASE_CONTAINER_NAME, detach=True)
-        print("Running the new container called [%s]"%(BASE_CONTAINER_NAME))
-        base_container.start()
-        print("Container is running [%s]"%(BASE_CONTAINER_NAME))
-        print("Sleep for 60 seconds to allow the container to fully start up...")
-        wait_for_splunk_ready(max_seconds=60)
-        print("The container has fully started!")
+            print("Do the ESCU installation on this container. That way we don't have to "
+                    "do it on every container that we then spin up.")
 
-    except Exception as e:
-        print("There was an error getting the base container up and running.  "
-            "We cannot recover from this: [%s]\nGoodbye..."%(str(e)))
-        sys.exit(1)
+            testing_service.prepare_detection_testing(BASE_CONTAINER_NAME, splunk_password)
+            print("Waiting for a few seconds for the splunk app to come up.")
+            wait_for_splunk_ready(max_seconds=30)
+            
+            print("Stopping the running container [%s]"%(BASE_CONTAINER_NAME))
+            base_container.stop()
+            #I am almost positive that I'm doing this wrong but it works for now...
 
-    print("Do the ESCU installation on this container. That way we don't have to "
-          "do it on every container that we then spin up.")
-
-    testing_service.prepare_detection_testing(BASE_CONTAINER_NAME, splunk_password)
-    print("Waiting for a few seconds for the splunk app to come up.")
-    wait_for_splunk_ready(max_seconds=30)
+            print("Committing the configured container: [%s]--->[%s]"%(BASE_CONTAINER_NAME, DOCKER_COMMIT_NAME))
+            base_container.commit(repository=DOCKER_COMMIT_NAME)
     
-    print("Stopping the running container [%s]"%(BASE_CONTAINER_NAME))
-    base_container.stop()
-    
+
+        except Exception as e:
+            print("There was an error getting the base container up and running.  "
+                "We cannot recover from this: [%s]\nGoodbye..."%(str(e)))
+            sys.exit(1)
+
+     
     #The part below does not seem to be working as expected. Will need to look into it
     #When I create the new container, it fails to boot with 
     # The CA file specified (/opt/splunk/etc/auth/cacert.pem) does not exist. Cannot continue.
@@ -168,9 +268,6 @@ def main(args):
 
     # non-zero return code
     
-    #I am almost positive that I'm doing this wrong but it works for now...
-    print("Committing the configured container: [%s]--->[%s]"%(BASE_CONTAINER_NAME, DOCKER_COMMIT_NAME))
-    base_container.commit(repository=DOCKER_COMMIT_NAME)
     
     
     
@@ -238,6 +335,8 @@ def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_pa
     wait_for_splunk_ready(max_seconds=60)
 
     index=0
+    print("Inspect your containers, you have 5 minutes!")
+    wait_for_splunk_ready(max_seconds=60)
     try:
         while True:
             #Try to get something from the queue
@@ -246,9 +345,15 @@ def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_pa
             
             #There is a detection to test
             print("Container [%s]--->[%s]"%(container_name, detection_to_test))
-            
-            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, index, uuid_test)
-            results_queue.put(result)
+            try:
+                pass
+                #result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, index, uuid_test)
+                #results_queue.put(result)
+            except Exception as e:
+                print("Caught some exception in test detection: [%s]"%(str(e)))
+                #just log the error itself for now so that we can continue
+                result_test = str(e)
+
             index=(index+1)%10
     except queue.Empty:
         print("Queue was empty, [%s] finished testing detections!"%(container_name))

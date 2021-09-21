@@ -64,6 +64,7 @@ def test_detection_search(splunk_host, splunk_port, splunk_password, search, pas
         )
     except Exception as e:
         print("Unable to connect to Splunk instance: " + str(e))
+        raise(Exception("NO CONNECTION EXCEPTION"))
         return 1, {}
 
     # search and replace \\ with \\\
@@ -84,6 +85,7 @@ def test_detection_search(splunk_host, splunk_port, splunk_password, search, pas
         job = service.jobs.create(splunk_search, **kwargs)
     except Exception as e:
         print("Unable to execute detection: " + str(e))
+        raise(Exception("NO EXECUTION EXCEPTION"))
         return 1, {}
 
     test_results = dict()
