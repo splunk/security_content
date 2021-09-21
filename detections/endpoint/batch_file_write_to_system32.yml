@@ -18,7 +18,11 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   | fields _time dest file_create_time file_name file_path process_name process_path
   process] | dedup file_create_time | table dest file_create_time, file_name, file_path,
   process_name  | `batch_file_write_to_system32_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: It is possible for this search to generate a notable event
   for a batch file write to a path that includes the string "system32", but is not
   the actual Windows system directory. As such, you should confirm the path of the
@@ -73,7 +77,7 @@ tags:
   - Filesystem.file_name
   - Filesystem.user
   - Filesystem.file_path
-  - Processes.process_id 
+  - Processes.process_id
   - Processes.process_name
   - Processes.dest
   risk_score: 63
