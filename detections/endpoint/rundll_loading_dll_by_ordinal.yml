@@ -13,10 +13,14 @@ description: This search looks for executing scripts with rundll32. Adversaries 
   operations.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_rundll32` by Processes.process_name Processes.parent_process_name Processes.original_file_name
-  Processes.process Processes.dest Processes.user | `drop_dm_object_name(Processes)`
+  where `process_rundll32` by Processes.process_name Processes.parent_process_name
+  Processes.original_file_name Processes.process Processes.dest Processes.user | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll_loading_dll_by_ordinal_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: While not common, loading a DLL under %AppData% and calling
   a function by ordinal is possible by a legitimate process
 references: []
@@ -60,11 +64,11 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path
