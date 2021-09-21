@@ -16,10 +16,14 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell`
   Processes.process=*-WindowStyle* Processes.process=*hidden* Processes.process="*New-Object*"
-  by Processes.user Processes.process_name Processes.original_file_name Processes.parent_process_name Processes.process
-  Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
+  by Processes.user Processes.process_name Processes.original_file_name Processes.parent_process_name
+  Processes.process Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `malicious_powershell_process___connect_to_internet_with_hidden_window_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: Legitimate process can have this combination of command-line
   options, but it's not common.
 references: []
@@ -75,11 +79,11 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path
