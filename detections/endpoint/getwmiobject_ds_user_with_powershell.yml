@@ -2,14 +2,16 @@ name: GetWmiObject DS User with PowerShell
 id: 22d3b118-04df-11ec-8fa3-acde48001122
 version: 1
 date: '2021-08-24'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious execution wmi process that enumerate
-  user in active directory. This technique can be used by attacker and pentester to
-  mapped all the users as part of its recon to the targetted host. Network Admin may
-  seen executing this command but not often and also not common to see in user events.
+description: This analytic looks for the execution of `powershell.exe` with command-line
+  arguments utilized to query for domain users. The `Get-WmiObject` commandlet combined
+  with the `-class ds_user` parameter can be used to return the full list of users
+  in a Windows domain. Red Teams and adversaries alike may leverage WMI in this case,
+  using PowerShell, to enumerate domain users for situational awareness and Active
+  Directory Discovery.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="cmd.exe"
   OR Processes.process_name="powershell*") AND Processes.process = "*get-wmiobject*"
@@ -22,7 +24,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: network admin may execute this command.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
 - https://jpcertcc.github.io/ToolAnalysisResultSheet/details/dsquery.htm
 tags:
