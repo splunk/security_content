@@ -26,8 +26,8 @@ In June 2021, security researchers at SpecterOps released a blog post and white 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [PetitPotam Network Share Access Request](/endpoint/petitpotam_network_share_access_request/) | None | TTP |
-| [PetitPotam Suspicious Kerberos TGT Request](/endpoint/petitpotam_suspicious_kerberos_tgt_request/) | None | TTP |
+| [PetitPotam Network Share Access Request](/endpoint/petitpotam_network_share_access_request/) | [Forced Authentication](/tags/#forced-authentication), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [PetitPotam Suspicious Kerberos TGT Request](/endpoint/petitpotam_suspicious_kerberos_tgt_request/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 
 #### Reference
 

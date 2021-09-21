@@ -30,8 +30,8 @@ This Analytic Story is designed to help you detect and investigate suspicious ac
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | None | Anomaly |
-| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | None | TTP |
+| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [Service Execution](/tags/#service-execution), [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services), [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness), [Windows Service](/tags/#windows-service) | Anomaly |
+| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service) | TTP |
 
 #### Reference
 

@@ -30,8 +30,8 @@ Notable events will include IP addresses, URLs, and user data. Drilling down can
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) | None | TTP |
-| [Monitor Web Traffic For Brand Abuse](/web/monitor_web_traffic_for_brand_abuse/) | None | TTP |
+| [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) |  | TTP |
+| [Monitor Web Traffic For Brand Abuse](/web/monitor_web_traffic_for_brand_abuse/) |  | TTP |
 
 #### Reference
 

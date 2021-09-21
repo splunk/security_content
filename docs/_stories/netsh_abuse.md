@@ -28,7 +28,7 @@ To get started, run the detection search to identify parent processes of `netsh.
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Processes launching netsh](/endpoint/processes_launching_netsh/) | None | TTP |
+| [Processes launching netsh](/endpoint/processes_launching_netsh/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall) | TTP |
 
 #### Reference
 

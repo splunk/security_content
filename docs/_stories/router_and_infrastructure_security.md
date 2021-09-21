@@ -29,13 +29,13 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect ARP Poisoning](/network/detect_arp_poisoning/) | None | TTP |
-| [Detect IPv6 Network Infrastructure Threats](/network/detect_ipv6_network_infrastructure_threats/) | None | TTP |
-| [Detect New Login Attempts to Routers](/application/detect_new_login_attempts_to_routers/) | None | TTP |
-| [Detect Port Security Violation](/network/detect_port_security_violation/) | None | TTP |
-| [Detect Rogue DHCP Server](/network/detect_rogue_dhcp_server/) | None | TTP |
-| [Detect Software Download To Network Device](/network/detect_software_download_to_network_device/) | None | TTP |
-| [Detect Traffic Mirroring](/network/detect_traffic_mirroring/) | None | TTP |
+| [Detect ARP Poisoning](/network/detect_arp_poisoning/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [ARP Cache Poisoning](/tags/#arp-cache-poisoning), [Man-in-the-Middle](/tags/#man-in-the-middle), [TFTP Boot](/tags/#tftp-boot), [Traffic Duplication](/tags/#traffic-duplication) | TTP |
+| [Detect IPv6 Network Infrastructure Threats](/network/detect_ipv6_network_infrastructure_threats/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
+| [Detect New Login Attempts to Routers](/application/detect_new_login_attempts_to_routers/) |  | TTP |
+| [Detect Port Security Violation](/network/detect_port_security_violation/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
+| [Detect Rogue DHCP Server](/network/detect_rogue_dhcp_server/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Man-in-the-Middle](/tags/#man-in-the-middle) | TTP |
+| [Detect Software Download To Network Device](/network/detect_software_download_to_network_device/) | [TFTP Boot](/tags/#tftp-boot) | TTP |
+| [Detect Traffic Mirroring](/network/detect_traffic_mirroring/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Traffic Duplication](/tags/#traffic-duplication) | TTP |
 
 #### Reference
 

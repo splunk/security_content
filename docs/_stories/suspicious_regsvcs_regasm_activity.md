@@ -27,12 +27,12 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Regasm Spawning a Process](/endpoint/detect_regasm_spawning_a_process/) | None | TTP |
-| [Detect Regasm with Network Connection](/endpoint/detect_regasm_with_network_connection/) | None | TTP |
-| [Detect Regasm with no Command Line Arguments](/endpoint/detect_regasm_with_no_command_line_arguments/) | None | TTP |
-| [Detect Regsvcs Spawning a Process](/endpoint/detect_regsvcs_spawning_a_process/) | None | TTP |
-| [Detect Regsvcs with Network Connection](/endpoint/detect_regsvcs_with_network_connection/) | None | TTP |
-| [Detect Regsvcs with No Command Line Arguments](/endpoint/detect_regsvcs_with_no_command_line_arguments/) | None | TTP |
+| [Detect Regasm Spawning a Process](/endpoint/detect_regasm_spawning_a_process/) | [Regsvcs/Regasm](/tags/#regsvcs/regasm) | TTP |
+| [Detect Regasm with Network Connection](/endpoint/detect_regasm_with_network_connection/) | [Regsvcs/Regasm](/tags/#regsvcs/regasm) | TTP |
+| [Detect Regasm with no Command Line Arguments](/endpoint/detect_regasm_with_no_command_line_arguments/) | [Regsvcs/Regasm](/tags/#regsvcs/regasm) | TTP |
+| [Detect Regsvcs Spawning a Process](/endpoint/detect_regsvcs_spawning_a_process/) | [Regsvcs/Regasm](/tags/#regsvcs/regasm) | TTP |
+| [Detect Regsvcs with Network Connection](/endpoint/detect_regsvcs_with_network_connection/) | [Regsvcs/Regasm](/tags/#regsvcs/regasm) | TTP |
+| [Detect Regsvcs with No Command Line Arguments](/endpoint/detect_regsvcs_with_no_command_line_arguments/) | [Regsvcs/Regasm](/tags/#regsvcs/regasm) | TTP |
 
 #### Reference
 

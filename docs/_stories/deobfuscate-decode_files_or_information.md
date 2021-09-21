@@ -27,7 +27,7 @@ An example of obfuscated files is `Certutil.exe` usage to encode a portable exec
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [CertUtil With Decode Argument](/endpoint/certutil_with_decode_argument/) | None | TTP |
+| [CertUtil With Decode Argument](/endpoint/certutil_with_decode_argument/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | TTP |
 
 #### Reference
 

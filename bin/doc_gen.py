@@ -188,7 +188,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
         with open(output_path, 'w', encoding="utf-8") as f:
             f.write(output)
         messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, tactic))
-        
+
     # for story categories
     template = j2_env.get_template('doc_navigation_story_pages_markdown.j2')
     for category in sorted(category_names):

@@ -28,9 +28,9 @@ Current detections focus on finding new child processes of this application on a
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | None | Hunting |
-| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | None | TTP |
-| [First Time Seen Child Process of Zoom](/endpoint/first_time_seen_child_process_of_zoom/) | None | Anomaly |
+| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
+| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | TTP |
+| [First Time Seen Child Process of Zoom](/endpoint/first_time_seen_child_process_of_zoom/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | Anomaly |
 
 #### Reference
 

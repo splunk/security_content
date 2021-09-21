@@ -31,9 +31,9 @@ Once a phishing message has been detected, the next steps are to answer the foll
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Email Attachments With Lots Of Spaces](/application/email_attachments_with_lots_of_spaces/) | None | Anomaly |
-| [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) | None | TTP |
-| [Suspicious Email Attachment Extensions](/application/suspicious_email_attachment_extensions/) | None | Anomaly |
+| [Email Attachments With Lots Of Spaces](/application/email_attachments_with_lots_of_spaces/) |  | Anomaly |
+| [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) |  | TTP |
+| [Suspicious Email Attachment Extensions](/application/suspicious_email_attachment_extensions/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | Anomaly |
 
 #### Reference
 

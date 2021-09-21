@@ -33,7 +33,7 @@ tags:
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
 {%- for detection in story.detections %}
-| [{{ detection.name }}](/{{ detection.kind }}/{{ detection.name | lower | replace(' ', '_') }}/) | None | {{ detection.type }} |
+| [{{ detection.name }}](/{{ detection.kind }}/{{ detection.name | lower | replace(' ', '_') }}/) | {% for attack in detection.mitre_attacks -%}{%- if attack.technique -%}[{{ attack.technique }}](/tags/#{{ attack.technique | lower | replace(" ", "-") }}){% else %}None{%- endif -%}{% if not loop.last %}, {% endif %}{%- endfor %} | {{ detection.type }} |
 {%- endfor %}
 
 #### Reference

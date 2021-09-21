@@ -26,8 +26,8 @@ Similar to other cloud providers, GCP operates on a shared responsibility model.
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect GCP Storage access from a new IP](/cloud/detect_gcp_storage_access_from_a_new_ip/) | None | Anomaly |
-| [Detect New Open GCP Storage Buckets](/cloud/detect_new_open_gcp_storage_buckets/) | None | TTP |
+| [Detect GCP Storage access from a new IP](/cloud/detect_gcp_storage_access_from_a_new_ip/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | Anomaly |
+| [Detect New Open GCP Storage Buckets](/cloud/detect_new_open_gcp_storage_buckets/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | TTP |
 
 #### Reference
 

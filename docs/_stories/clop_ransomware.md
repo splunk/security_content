@@ -27,22 +27,22 @@ Clop ransomware campaigns targeting healthcare and other vertical sectors, invol
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Clop Common Exec Parameter](/endpoint/clop_common_exec_parameter/) | None | TTP |
-| [Clop Ransomware Known Service Name](/endpoint/clop_ransomware_known_service_name/) | None | TTP |
-| [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | None | Hunting |
-| [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | None | Hunting |
-| [Create Service In Suspicious File Path](/endpoint/create_service_in_suspicious_file_path/) | None | TTP |
-| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | None | TTP |
-| [High File Deletion Frequency](/endpoint/high_file_deletion_frequency/) | None | Anomaly |
-| [High Process Termination Frequency](/endpoint/high_process_termination_frequency/) | None | Anomaly |
-| [Process Deleting Its Process File Path](/endpoint/process_deleting_its_process_file_path/) | None | TTP |
-| [Ransomware Notes bulk creation](/endpoint/ransomware_notes_bulk_creation/) | None | Anomaly |
-| [Resize ShadowStorage volume](/endpoint/resize_shadowstorage_volume/) | None | TTP |
-| [Resize Shadowstorage Volume](/endpoint/resize_shadowstorage_volume/) | None | TTP |
-| [Suspicious Event Log Service Behavior](/endpoint/suspicious_event_log_service_behavior/) | None | TTP |
-| [Suspicious wevtutil Usage](/endpoint/suspicious_wevtutil_usage/) | None | TTP |
-| [WevtUtil Usage To Clear Logs](/endpoint/wevtutil_usage_to_clear_logs/) | None | TTP |
-| [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | None | TTP |
+| [Clop Common Exec Parameter](/endpoint/clop_common_exec_parameter/) | [User Execution](/tags/#user-execution), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Data Destruction](/tags/#data-destruction), [Service Execution](/tags/#service-execution), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Security Account Manager](/tags/#security-account-manager), [Service Stop](/tags/#service-stop), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Clop Ransomware Known Service Name](/endpoint/clop_ransomware_known_service_name/) | [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
+| [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | [Data Destruction](/tags/#data-destruction) | Hunting |
+| [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | [Data Destruction](/tags/#data-destruction) | Hunting |
+| [Create Service In Suspicious File Path](/endpoint/create_service_in_suspicious_file_path/) | [Service Execution](/tags/#service-execution) | TTP |
+| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [High File Deletion Frequency](/endpoint/high_file_deletion_frequency/) | [Data Destruction](/tags/#data-destruction) | Anomaly |
+| [High Process Termination Frequency](/endpoint/high_process_termination_frequency/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Anomaly |
+| [Process Deleting Its Process File Path](/endpoint/process_deleting_its_process_file_path/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
+| [Ransomware Notes bulk creation](/endpoint/ransomware_notes_bulk_creation/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Anomaly |
+| [Resize ShadowStorage volume](/endpoint/resize_shadowstorage_volume/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
+| [Resize Shadowstorage Volume](/endpoint/resize_shadowstorage_volume/) | [Service Stop](/tags/#service-stop) | TTP |
+| [Suspicious Event Log Service Behavior](/endpoint/suspicious_event_log_service_behavior/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Suspicious wevtutil Usage](/endpoint/suspicious_wevtutil_usage/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [WevtUtil Usage To Clear Logs](/endpoint/wevtutil_usage_to_clear_logs/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
 
 #### Reference
 

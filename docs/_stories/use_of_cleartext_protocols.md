@@ -27,7 +27,7 @@ Various legacy protocols operate by default in the clear, without the protection
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Protocols passing authentication in cleartext](/network/protocols_passing_authentication_in_cleartext/) | None | TTP |
+| [Protocols passing authentication in cleartext](/network/protocols_passing_authentication_in_cleartext/) |  | TTP |
 
 #### Reference
 

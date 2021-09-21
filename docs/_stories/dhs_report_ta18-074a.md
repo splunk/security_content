@@ -31,20 +31,20 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Create local admin accounts using net exe](/endpoint/create_local_admin_accounts_using_net_exe/) | None | TTP |
-| [Detect New Local Admin account](/endpoint/detect_new_local_admin_account/) | None | TTP |
-| [Detect Outbound SMB Traffic](/network/detect_outbound_smb_traffic/) | None | TTP |
-| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | None | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | None | TTP |
-| [Malicious PowerShell Process - Execution Policy Bypass](/endpoint/malicious_powershell_process_-_execution_policy_bypass/) | None | TTP |
-| [Processes launching netsh](/endpoint/processes_launching_netsh/) | None | TTP |
-| [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | None | TTP |
-| [SMB Traffic Spike](/network/smb_traffic_spike/) | None | Anomaly |
-| [SMB Traffic Spike - MLTK](/network/smb_traffic_spike_-_mltk/) | None | Anomaly |
-| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | None | TTP |
-| [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | None | TTP |
-| [Single Letter Process On Endpoint](/endpoint/single_letter_process_on_endpoint/) | None | TTP |
-| [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | None | TTP |
+| [Create local admin accounts using net exe](/endpoint/create_local_admin_accounts_using_net_exe/) | [Local Account](/tags/#local-account), [File Transfer Protocols](/tags/#file-transfer-protocols), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [PowerShell](/tags/#powershell), [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Windows Service](/tags/#windows-service), [Scheduled Task](/tags/#scheduled-task), [Malicious File](/tags/#malicious-file), [Modify Registry](/tags/#modify-registry) | TTP |
+| [Detect New Local Admin account](/endpoint/detect_new_local_admin_account/) | [Local Account](/tags/#local-account) | TTP |
+| [Detect Outbound SMB Traffic](/network/detect_outbound_smb_traffic/) | [File Transfer Protocols](/tags/#file-transfer-protocols) | TTP |
+| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | TTP |
+| [Malicious PowerShell Process - Execution Policy Bypass](/endpoint/malicious_powershell_process_-_execution_policy_bypass/) | [PowerShell](/tags/#powershell) | TTP |
+| [Processes launching netsh](/endpoint/processes_launching_netsh/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall) | TTP |
+| [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
+| [SMB Traffic Spike](/network/smb_traffic_spike/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | Anomaly |
+| [SMB Traffic Spike - MLTK](/network/smb_traffic_spike_-_mltk/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | Anomaly |
+| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service) | TTP |
+| [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | [Scheduled Task](/tags/#scheduled-task) | TTP |
+| [Single Letter Process On Endpoint](/endpoint/single_letter_process_on_endpoint/) | [Malicious File](/tags/#malicious-file) | TTP |
+| [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | [Modify Registry](/tags/#modify-registry) | TTP |
 
 #### Reference
 

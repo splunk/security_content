@@ -26,18 +26,18 @@ DevSecOps is a collaborative framework, which thinks about application and infra
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS ECR Container Scanning Findings High](/cloud/aws_ecr_container_scanning_findings_high/) | None | TTP |
-| [AWS ECR Container Scanning Findings Low Informational Unknown](/cloud/aws_ecr_container_scanning_findings_low_informational_unknown/) | None | Hunting |
-| [AWS ECR Container Scanning Findings Medium](/cloud/aws_ecr_container_scanning_findings_medium/) | None | Anomaly |
-| [AWS ECR Container Upload Outside Business Hours](/cloud/aws_ecr_container_upload_outside_business_hours/) | None | Anomaly |
-| [AWS ECR Container Upload Unknown User](/cloud/aws_ecr_container_upload_unknown_user/) | None | Anomaly |
-| [Circle CI Disable Security Job](/cloud/circle_ci_disable_security_job/) | None | Anomaly |
-| [Circle CI Disable Security Step](/cloud/circle_ci_disable_security_step/) | None | Anomaly |
-| [GitHub Dependabot Alert](/cloud/github_dependabot_alert/) | None | Anomaly |
-| [GitHub Pull Request from Unknown User](/cloud/github_pull_request_from_unknown_user/) | None | Anomaly |
-| [Kubernetes Nginx Ingress LFI](/cloud/kubernetes_nginx_ingress_lfi/) | None | TTP |
-| [Kubernetes Nginx Ingress RFI](/cloud/kubernetes_nginx_ingress_rfi/) | None | TTP |
-| [Kubernetes Scanner Image Pulling](/cloud/kubernetes_scanner_image_pulling/) | None | TTP |
+| [AWS ECR Container Scanning Findings High](/cloud/aws_ecr_container_scanning_findings_high/) | [Malicious Image](/tags/#malicious-image), [Compromise Client Software Binary](/tags/#compromise-client-software-binary), [Compromise Software Dependencies and Development Tools](/tags/#compromise-software-dependencies-and-development-tools), [Exploitation for Credential Access](/tags/#exploitation-for-credential-access), [Cloud Service Discovery](/tags/#cloud-service-discovery) | TTP |
+| [AWS ECR Container Scanning Findings Low Informational Unknown](/cloud/aws_ecr_container_scanning_findings_low_informational_unknown/) | [Malicious Image](/tags/#malicious-image) | Hunting |
+| [AWS ECR Container Scanning Findings Medium](/cloud/aws_ecr_container_scanning_findings_medium/) | [Malicious Image](/tags/#malicious-image) | Anomaly |
+| [AWS ECR Container Upload Outside Business Hours](/cloud/aws_ecr_container_upload_outside_business_hours/) | [Malicious Image](/tags/#malicious-image) | Anomaly |
+| [AWS ECR Container Upload Unknown User](/cloud/aws_ecr_container_upload_unknown_user/) | [Malicious Image](/tags/#malicious-image) | Anomaly |
+| [Circle CI Disable Security Job](/cloud/circle_ci_disable_security_job/) | [Compromise Client Software Binary](/tags/#compromise-client-software-binary) | Anomaly |
+| [Circle CI Disable Security Step](/cloud/circle_ci_disable_security_step/) | [Compromise Client Software Binary](/tags/#compromise-client-software-binary) | Anomaly |
+| [GitHub Dependabot Alert](/cloud/github_dependabot_alert/) | [Compromise Software Dependencies and Development Tools](/tags/#compromise-software-dependencies-and-development-tools) | Anomaly |
+| [GitHub Pull Request from Unknown User](/cloud/github_pull_request_from_unknown_user/) | [Compromise Software Dependencies and Development Tools](/tags/#compromise-software-dependencies-and-development-tools) | Anomaly |
+| [Kubernetes Nginx Ingress LFI](/cloud/kubernetes_nginx_ingress_lfi/) | [Exploitation for Credential Access](/tags/#exploitation-for-credential-access) | TTP |
+| [Kubernetes Nginx Ingress RFI](/cloud/kubernetes_nginx_ingress_rfi/) | [Exploitation for Credential Access](/tags/#exploitation-for-credential-access) | TTP |
+| [Kubernetes Scanner Image Pulling](/cloud/kubernetes_scanner_image_pulling/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | TTP |
 
 #### Reference
 

@@ -28,7 +28,7 @@ This Analytic Story contains a search designed to identify attempts by attackers
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [SQL Injection with Long URLs](/web/sql_injection_with_long_urls/) | None | TTP |
+| [SQL Injection with Long URLs](/web/sql_injection_with_long_urls/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 
 #### Reference
 

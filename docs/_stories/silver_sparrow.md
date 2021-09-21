@@ -27,10 +27,10 @@ Silver Sparrow works is a dropper and uses typical persistence mechanisms on a M
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Suspicious Curl Network Connection](/endpoint/suspicious_curl_network_connection/) | None | TTP |
-| [Suspicious PlistBuddy Usage](/endpoint/suspicious_plistbuddy_usage/) | None | TTP |
-| [Suspicious PlistBuddy Usage via OSquery](/endpoint/suspicious_plistbuddy_usage_via_osquery/) | None | TTP |
-| [Suspicious SQLite3 LSQuarantine Behavior](/endpoint/suspicious_sqlite3_lsquarantine_behavior/) | None | TTP |
+| [Suspicious Curl Network Connection](/endpoint/suspicious_curl_network_connection/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [Launch Agent](/tags/#launch-agent), [Data Staged](/tags/#data-staged) | TTP |
+| [Suspicious PlistBuddy Usage](/endpoint/suspicious_plistbuddy_usage/) | [Launch Agent](/tags/#launch-agent) | TTP |
+| [Suspicious PlistBuddy Usage via OSquery](/endpoint/suspicious_plistbuddy_usage_via_osquery/) | [Launch Agent](/tags/#launch-agent) | TTP |
+| [Suspicious SQLite3 LSQuarantine Behavior](/endpoint/suspicious_sqlite3_lsquarantine_behavior/) | [Data Staged](/tags/#data-staged) | TTP |
 
 #### Reference
 

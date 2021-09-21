@@ -29,23 +29,23 @@ In the event an unusual process is identified, it is imperative to better unders
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | None | TTP |
-| [Credential Extraction indicative of FGDump and CacheDump with s option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_s_option/) | None | TTP |
-| [Credential Extraction indicative of FGDump and CacheDump with v option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option/) | None | TTP |
-| [Credential Extraction indicative of use of Mimikatz modules](/endpoint/credential_extraction_indicative_of_use_of_mimikatz_modules/) | None | TTP |
-| [Credential Extraction native Microsoft debuggers peek into the kernel](/endpoint/credential_extraction_native_microsoft_debuggers_peek_into_the_kernel/) | None | TTP |
-| [Credential Extraction native Microsoft debuggers via z command line option](/endpoint/credential_extraction_native_microsoft_debuggers_via_z_command_line_option/) | None | TTP |
-| [Detect Rare Executables](/endpoint/detect_rare_executables/) | None | Anomaly |
-| [Detect processes used for System Network Configuration Discovery](/endpoint/detect_processes_used_for_system_network_configuration_discovery/) | None | TTP |
-| [First time seen command line argument](/endpoint/first_time_seen_command_line_argument/) | None | Anomaly |
-| [More than usual number of LOLBAS applications in short time period](/endpoint/more_than_usual_number_of_lolbas_applications_in_short_time_period/) | None | Anomaly |
-| [Rare Parent-Child Process Relationship](/endpoint/rare_parent-child_process_relationship/) | None | Anomaly |
-| [RunDLL Loading DLL By Ordinal](/endpoint/rundll_loading_dll_by_ordinal/) | None | TTP |
-| [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | None | TTP |
-| [Unusually Long Command Line](/endpoint/unusually_long_command_line/) | None | Anomaly |
-| [Unusually Long Command Line](/endpoint/unusually_long_command_line/) | None | Anomaly |
-| [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) | None | Anomaly |
-| [WinRM Spawning a Process](/endpoint/winrm_spawning_a_process/) | None | TTP |
+| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Active Scanning](/tags/#active-scanning), [OS Credential Dumping](/tags/#os-credential-dumping), [Service Stop](/tags/#service-stop), [Malicious File](/tags/#malicious-file), [Data Destruction](/tags/#data-destruction), [Account Access Removal](/tags/#account-access-removal), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [System Information Discovery](/tags/#system-information-discovery), [System Network Configuration Discovery](/tags/#system-network-configuration-discovery), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [Account Discovery](/tags/#account-discovery), [Masquerading](/tags/#masquerading), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Regsvr32](/tags/#regsvr32), [Indirect Command Execution](/tags/#indirect-command-execution), [Scheduled Task/Job](/tags/#scheduled-task/job), [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Software Deployment Tools](/tags/#software-deployment-tools), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Rundll32](/tags/#rundll32), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Rename System Utilities](/tags/#rename-system-utilities), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Credential Extraction indicative of FGDump and CacheDump with s option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_s_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Credential Extraction indicative of FGDump and CacheDump with v option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Credential Extraction indicative of use of Mimikatz modules](/endpoint/credential_extraction_indicative_of_use_of_mimikatz_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Credential Extraction native Microsoft debuggers peek into the kernel](/endpoint/credential_extraction_native_microsoft_debuggers_peek_into_the_kernel/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Credential Extraction native Microsoft debuggers via z command line option](/endpoint/credential_extraction_native_microsoft_debuggers_via_z_command_line_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Detect Rare Executables](/endpoint/detect_rare_executables/) |  | Anomaly |
+| [Detect processes used for System Network Configuration Discovery](/endpoint/detect_processes_used_for_system_network_configuration_discovery/) | [System Network Configuration Discovery](/tags/#system-network-configuration-discovery) | TTP |
+| [First time seen command line argument](/endpoint/first_time_seen_command_line_argument/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Regsvr32](/tags/#regsvr32), [Indirect Command Execution](/tags/#indirect-command-execution) | Anomaly |
+| [More than usual number of LOLBAS applications in short time period](/endpoint/more_than_usual_number_of_lolbas_applications_in_short_time_period/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task/Job](/tags/#scheduled-task/job) | Anomaly |
+| [Rare Parent-Child Process Relationship](/endpoint/rare_parent-child_process_relationship/) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task/Job](/tags/#scheduled-task/job), [Software Deployment Tools](/tags/#software-deployment-tools) | Anomaly |
+| [RunDLL Loading DLL By Ordinal](/endpoint/rundll_loading_dll_by_ordinal/) | [Rundll32](/tags/#rundll32) | TTP |
+| [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
+| [Unusually Long Command Line](/endpoint/unusually_long_command_line/) |  | Anomaly |
+| [Unusually Long Command Line](/endpoint/unusually_long_command_line/) |  | Anomaly |
+| [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) |  | Anomaly |
+| [WinRM Spawning a Process](/endpoint/winrm_spawning_a_process/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 
 #### Reference
 

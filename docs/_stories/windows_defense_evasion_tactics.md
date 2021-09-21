@@ -27,32 +27,32 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Disable Registry Tool](/endpoint/disable_registry_tool/) | None | TTP |
-| [Disable Show Hidden Files](/endpoint/disable_show_hidden_files/) | None | TTP |
-| [Disable Windows Behavior Monitoring](/endpoint/disable_windows_behavior_monitoring/) | None | TTP |
-| [Disable Windows SmartScreen Protection](/endpoint/disable_windows_smartscreen_protection/) | None | TTP |
-| [Disabling CMD Application](/endpoint/disabling_cmd_application/) | None | TTP |
-| [Disabling ControlPanel](/endpoint/disabling_controlpanel/) | None | TTP |
-| [Disabling Firewall with Netsh](/endpoint/disabling_firewall_with_netsh/) | None | TTP |
-| [Disabling FolderOptions Windows Feature](/endpoint/disabling_folderoptions_windows_feature/) | None | TTP |
-| [Disabling NoRun Windows App](/endpoint/disabling_norun_windows_app/) | None | TTP |
-| [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | None | TTP |
-| [Disabling SystemRestore In Registry](/endpoint/disabling_systemrestore_in_registry/) | None | TTP |
-| [Disabling Task Manager](/endpoint/disabling_task_manager/) | None | TTP |
-| [Eventvwr UAC Bypass](/endpoint/eventvwr_uac_bypass/) | None | TTP |
-| [Excessive number of service control start as disabled](/endpoint/excessive_number_of_service_control_start_as_disabled/) | None | Anomaly |
-| [FodHelper UAC Bypass](/endpoint/fodhelper_uac_bypass/) | None | TTP |
-| [Hiding Files And Directories With Attrib exe](/endpoint/hiding_files_and_directories_with_attrib_exe/) | None | TTP |
-| [NET Profiler UAC bypass](/endpoint/net_profiler_uac_bypass/) | None | TTP |
-| [SLUI RunAs Elevated](/endpoint/slui_runas_elevated/) | None | TTP |
-| [SLUI Spawning a Process](/endpoint/slui_spawning_a_process/) | None | TTP |
-| [Sdclt UAC Bypass](/endpoint/sdclt_uac_bypass/) | None | TTP |
-| [SilentCleanup UAC Bypass](/endpoint/silentcleanup_uac_bypass/) | None | TTP |
-| [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | None | TTP |
-| [System Process Running from Unexpected Location](/endpoint/system_process_running_from_unexpected_location/) | None | Anomaly |
-| [UAC Bypass MMC Load Unsigned Dll](/endpoint/uac_bypass_mmc_load_unsigned_dll/) | None | TTP |
-| [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | None | TTP |
-| [Windows DisableAntiSpyware Registry](/endpoint/windows_disableantispyware_registry/) | None | TTP |
+| [Disable Registry Tool](/endpoint/disable_registry_tool/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Hidden Files and Directories](/tags/#hidden-files-and-directories), [Bypass User Account Control](/tags/#bypass-user-account-control), [Modify Registry](/tags/#modify-registry), [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification), [Masquerading](/tags/#masquerading) | TTP |
+| [Disable Show Hidden Files](/endpoint/disable_show_hidden_files/) | [Hidden Files and Directories](/tags/#hidden-files-and-directories), [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disable Windows Behavior Monitoring](/endpoint/disable_windows_behavior_monitoring/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disable Windows SmartScreen Protection](/endpoint/disable_windows_smartscreen_protection/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disabling CMD Application](/endpoint/disabling_cmd_application/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disabling ControlPanel](/endpoint/disabling_controlpanel/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disabling Firewall with Netsh](/endpoint/disabling_firewall_with_netsh/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disabling FolderOptions Windows Feature](/endpoint/disabling_folderoptions_windows_feature/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disabling NoRun Windows App](/endpoint/disabling_norun_windows_app/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Port Monitors](/tags/#port-monitors), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Application Shimming](/tags/#application-shimming) | TTP |
+| [Disabling SystemRestore In Registry](/endpoint/disabling_systemrestore_in_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Disabling Task Manager](/endpoint/disabling_task_manager/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Eventvwr UAC Bypass](/endpoint/eventvwr_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [Excessive number of service control start as disabled](/endpoint/excessive_number_of_service_control_start_as_disabled/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | Anomaly |
+| [FodHelper UAC Bypass](/endpoint/fodhelper_uac_bypass/) | [Modify Registry](/tags/#modify-registry), [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [Hiding Files And Directories With Attrib exe](/endpoint/hiding_files_and_directories_with_attrib_exe/) | [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification) | TTP |
+| [NET Profiler UAC bypass](/endpoint/net_profiler_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [SLUI RunAs Elevated](/endpoint/slui_runas_elevated/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [SLUI Spawning a Process](/endpoint/slui_spawning_a_process/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [Sdclt UAC Bypass](/endpoint/sdclt_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [SilentCleanup UAC Bypass](/endpoint/silentcleanup_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | [Modify Registry](/tags/#modify-registry) | TTP |
+| [System Process Running from Unexpected Location](/endpoint/system_process_running_from_unexpected_location/) | [Masquerading](/tags/#masquerading) | Anomaly |
+| [UAC Bypass MMC Load Unsigned Dll](/endpoint/uac_bypass_mmc_load_unsigned_dll/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [Windows DisableAntiSpyware Registry](/endpoint/windows_disableantispyware_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 
 #### Reference
 

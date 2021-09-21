@@ -30,12 +30,12 @@ Use the searches to detect and monitor suspicious behavior related to these acti
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Renamed 7-Zip](/endpoint/detect_renamed_7-zip/) | None | TTP |
-| [Detect Renamed WinRAR](/endpoint/detect_renamed_winrar/) | None | TTP |
-| [Email files written outside of the Outlook directory](/application/email_files_written_outside_of_the_outlook_directory/) | None | TTP |
-| [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | None | Anomaly |
-| [Hosts receiving high volume of network traffic from email server](/network/hosts_receiving_high_volume_of_network_traffic_from_email_server/) | None | Anomaly |
-| [Suspicious writes to windows Recycle Bin](/endpoint/suspicious_writes_to_windows_recycle_bin/) | None | TTP |
+| [Detect Renamed 7-Zip](/endpoint/detect_renamed_7-zip/) | [Archive via Utility](/tags/#archive-via-utility), [Local Email Collection](/tags/#local-email-collection), [Remote Email Collection](/tags/#remote-email-collection), [Masquerading](/tags/#masquerading) | TTP |
+| [Detect Renamed WinRAR](/endpoint/detect_renamed_winrar/) | [Archive via Utility](/tags/#archive-via-utility) | TTP |
+| [Email files written outside of the Outlook directory](/application/email_files_written_outside_of_the_outlook_directory/) | [Local Email Collection](/tags/#local-email-collection) | TTP |
+| [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | [Remote Email Collection](/tags/#remote-email-collection) | Anomaly |
+| [Hosts receiving high volume of network traffic from email server](/network/hosts_receiving_high_volume_of_network_traffic_from_email_server/) | [Remote Email Collection](/tags/#remote-email-collection) | Anomaly |
+| [Suspicious writes to windows Recycle Bin](/endpoint/suspicious_writes_to_windows_recycle_bin/) | [Masquerading](/tags/#masquerading) | TTP |
 
 #### Reference
 

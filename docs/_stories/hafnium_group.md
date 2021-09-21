@@ -30,22 +30,22 @@ The following Splunk detections assist with identifying the HAFNIUM groups trade
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Any Powershell DownloadString](/endpoint/any_powershell_downloadstring/) | None | TTP |
-| [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | None | TTP |
-| [Detect New Local Admin account](/endpoint/detect_new_local_admin_account/) | None | TTP |
-| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | None | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | None | TTP |
-| [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | None | TTP |
-| [Dump LSASS via procdump](/endpoint/dump_lsass_via_procdump/) | None | TTP |
-| [Dump LSASS via procdump Rename](/endpoint/dump_lsass_via_procdump_rename/) | None | TTP |
-| [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | None | Anomaly |
-| [Malicious PowerShell Process - Connect To Internet With Hidden Window](/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window/) | None | TTP |
-| [Malicious PowerShell Process - Execution Policy Bypass](/endpoint/malicious_powershell_process_-_execution_policy_bypass/) | None | TTP |
-| [Nishang PowershellTCPOneLine](/endpoint/nishang_powershelltcponeline/) | None | TTP |
-| [Ntdsutil Export NTDS](/endpoint/ntdsutil_export_ntds/) | None | TTP |
-| [Set Default PowerShell Execution Policy To Unrestricted or Bypass](/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass/) | None | TTP |
-| [Unified Messaging Service Spawning a Process](/endpoint/unified_messaging_service_spawning_a_process/) | None | TTP |
-| [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | None | TTP |
+| [Any Powershell DownloadString](/endpoint/any_powershell_downloadstring/) | [PowerShell](/tags/#powershell), [Web Shell](/tags/#web-shell), [Local Account](/tags/#local-account), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [LSASS Memory](/tags/#lsass-memory), [Remote Email Collection](/tags/#remote-email-collection), [NTDS](/tags/#ntds), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application), [PowerShell](/tags/#powershell) | TTP |
+| [Detect New Local Admin account](/endpoint/detect_new_local_admin_account/) | [Local Account](/tags/#local-account) | TTP |
+| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | TTP |
+| [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
+| [Dump LSASS via procdump](/endpoint/dump_lsass_via_procdump/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
+| [Dump LSASS via procdump Rename](/endpoint/dump_lsass_via_procdump_rename/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
+| [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | [Remote Email Collection](/tags/#remote-email-collection) | Anomaly |
+| [Malicious PowerShell Process - Connect To Internet With Hidden Window](/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
+| [Malicious PowerShell Process - Execution Policy Bypass](/endpoint/malicious_powershell_process_-_execution_policy_bypass/) | [PowerShell](/tags/#powershell) | TTP |
+| [Nishang PowershellTCPOneLine](/endpoint/nishang_powershelltcponeline/) | [PowerShell](/tags/#powershell) | TTP |
+| [Ntdsutil Export NTDS](/endpoint/ntdsutil_export_ntds/) | [NTDS](/tags/#ntds) | TTP |
+| [Set Default PowerShell Execution Policy To Unrestricted or Bypass](/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass/) | [PowerShell](/tags/#powershell) | TTP |
+| [Unified Messaging Service Spawning a Process](/endpoint/unified_messaging_service_spawning_a_process/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | [Web Shell](/tags/#web-shell) | TTP |
 
 #### Reference
 

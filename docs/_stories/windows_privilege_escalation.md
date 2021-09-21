@@ -27,11 +27,11 @@ Privilege escalation is a "land-and-expand" technique, wherein an adversary gain
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Child Processes of Spoolsv exe](/endpoint/child_processes_of_spoolsv_exe/) | None | TTP |
-| [Illegal Privilege Elevation via Mimikatz modules](/endpoint/illegal_privilege_elevation_via_mimikatz_modules/) | None | TTP |
-| [Overwriting Accessibility Binaries](/endpoint/overwriting_accessibility_binaries/) | None | TTP |
-| [Probing Access with Stolen Credentials via PowerSploit modules](/endpoint/probing_access_with_stolen_credentials_via_powersploit_modules/) | None | TTP |
-| [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | None | TTP |
+| [Child Processes of Spoolsv exe](/endpoint/child_processes_of_spoolsv_exe/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Access Token Manipulation](/tags/#access-token-manipulation), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Accessibility Features](/tags/#accessibility-features), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation), [Image File Execution Options Injection](/tags/#image-file-execution-options-injection) | TTP |
+| [Illegal Privilege Elevation via Mimikatz modules](/endpoint/illegal_privilege_elevation_via_mimikatz_modules/) | [Access Token Manipulation](/tags/#access-token-manipulation), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
+| [Overwriting Accessibility Binaries](/endpoint/overwriting_accessibility_binaries/) | [Accessibility Features](/tags/#accessibility-features) | TTP |
+| [Probing Access with Stolen Credentials via PowerSploit modules](/endpoint/probing_access_with_stolen_credentials_via_powersploit_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | TTP |
+| [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | [Image File Execution Options Injection](/tags/#image-file-execution-options-injection) | TTP |
 
 #### Reference
 

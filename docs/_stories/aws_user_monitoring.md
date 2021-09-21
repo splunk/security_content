@@ -29,7 +29,7 @@ The detection searches in this Analytic Story are designed to help you uncover A
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS Excessive Security Scanning](/cloud/aws_excessive_security_scanning/) | None | TTP |
+| [AWS Excessive Security Scanning](/cloud/aws_excessive_security_scanning/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | TTP |
 
 #### Reference
 

@@ -35,7 +35,7 @@ The searches in this Analytic Story help you detect and investigate activities t
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | None | TTP |
+| [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise) | TTP |
 
 #### Reference
 

@@ -28,7 +28,7 @@ This Analytic Story includes searches that will help you monitor your GCP Audit 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [GCP Detect gcploit framework](/cloud/gcp_detect_gcploit_framework/) | None | TTP |
+| [GCP Detect gcploit framework](/cloud/gcp_detect_gcploit_framework/) | [Valid Accounts](/tags/#valid-accounts) | TTP |
 
 #### Reference
 

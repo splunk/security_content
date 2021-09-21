@@ -29,7 +29,7 @@ The searches in this Analytic Story will monitor your AWS network traffic for ev
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Spike in blocked Outbound Traffic from your AWS](/cloud/detect_spike_in_blocked_outbound_traffic_from_your_aws/) | None | Anomaly |
+| [Detect Spike in blocked Outbound Traffic from your AWS](/cloud/detect_spike_in_blocked_outbound_traffic_from_your_aws/) |  | Anomaly |
 
 #### Reference
 

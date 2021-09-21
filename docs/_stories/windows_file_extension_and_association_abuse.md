@@ -31,7 +31,7 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | None | TTP |
+| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild), [Rundll32](/tags/#rundll32), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Masquerading](/tags/#masquerading) | TTP |
 
 #### Reference
 

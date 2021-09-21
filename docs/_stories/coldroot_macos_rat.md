@@ -28,7 +28,7 @@ Searches in this Analytic Story leverage the capabilities of OSquery to address 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Processes Tapping Keyboard Events](/endpoint/processes_tapping_keyboard_events/) | None | TTP |
+| [Processes Tapping Keyboard Events](/endpoint/processes_tapping_keyboard_events/) |  | TTP |
 
 #### Reference
 

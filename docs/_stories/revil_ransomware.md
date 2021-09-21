@@ -27,15 +27,15 @@ Revil ransomware is a RaaS,that a single group may operates and manges the devel
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Allow Network Discovery In Firewall](/endpoint/allow_network_discovery_in_firewall/) | None | TTP |
-| [Delete ShadowCopy With PowerShell](/endpoint/delete_shadowcopy_with_powershell/) | None | TTP |
-| [Disable Windows Behavior Monitoring](/endpoint/disable_windows_behavior_monitoring/) | None | TTP |
-| [Modification Of Wallpaper](/endpoint/modification_of_wallpaper/) | None | TTP |
-| [Msmpeng Application DLL Side Loading](/endpoint/msmpeng_application_dll_side_loading/) | None | TTP |
-| [Powershell Disable Security Monitoring](/endpoint/powershell_disable_security_monitoring/) | None | TTP |
-| [Revil Common Exec Parameter](/endpoint/revil_common_exec_parameter/) | None | TTP |
-| [Revil Registry Entry](/endpoint/revil_registry_entry/) | None | TTP |
-| [Wbemprox COM Object Execution](/endpoint/wbemprox_com_object_execution/) | None | TTP |
+| [Allow Network Discovery In Firewall](/endpoint/allow_network_discovery_in_firewall/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Defacement](/tags/#defacement), [DLL Side-Loading](/tags/#dll-side-loading), [User Execution](/tags/#user-execution), [Modify Registry](/tags/#modify-registry), [CMSTP](/tags/#cmstp) | TTP |
+| [Delete ShadowCopy With PowerShell](/endpoint/delete_shadowcopy_with_powershell/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
+| [Disable Windows Behavior Monitoring](/endpoint/disable_windows_behavior_monitoring/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Modification Of Wallpaper](/endpoint/modification_of_wallpaper/) | [Defacement](/tags/#defacement) | TTP |
+| [Msmpeng Application DLL Side Loading](/endpoint/msmpeng_application_dll_side_loading/) | [DLL Side-Loading](/tags/#dll-side-loading) | TTP |
+| [Powershell Disable Security Monitoring](/endpoint/powershell_disable_security_monitoring/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Revil Common Exec Parameter](/endpoint/revil_common_exec_parameter/) | [User Execution](/tags/#user-execution) | TTP |
+| [Revil Registry Entry](/endpoint/revil_registry_entry/) | [Modify Registry](/tags/#modify-registry) | TTP |
+| [Wbemprox COM Object Execution](/endpoint/wbemprox_com_object_execution/) | [CMSTP](/tags/#cmstp) | TTP |
 
 #### Reference
 

@@ -40,9 +40,9 @@ The objective of this step is to confirm the executed script code is benign or m
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Suspicious MSBuild Rename](/endpoint/suspicious_msbuild_rename/) | None | TTP |
-| [Suspicious MSBuild Spawn](/endpoint/suspicious_msbuild_spawn/) | None | TTP |
-| [Suspicious msbuild path](/endpoint/suspicious_msbuild_path/) | None | TTP |
+| [Suspicious MSBuild Rename](/endpoint/suspicious_msbuild_rename/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
+| [Suspicious MSBuild Spawn](/endpoint/suspicious_msbuild_spawn/) | [MSBuild](/tags/#msbuild) | TTP |
+| [Suspicious msbuild path](/endpoint/suspicious_msbuild_path/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
 
 #### Reference
 

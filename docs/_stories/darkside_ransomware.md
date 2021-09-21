@@ -27,22 +27,22 @@ This story addresses Darkside ransomware. This ransomware payload has many simil
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | None | TTP |
-| [BITSAdmin Download File](/endpoint/bitsadmin_download_file/) | None | TTP |
-| [CMLUA Or CMSTPLUA UAC Bypass](/endpoint/cmlua_or_cmstplua_uac_bypass/) | None | TTP |
-| [CertUtil Download With URLCache and Split Arguments](/endpoint/certutil_download_with_urlcache_and_split_arguments/) | None | TTP |
-| [CertUtil Download With VerifyCtl and Split Arguments](/endpoint/certutil_download_with_verifyctl_and_split_arguments/) | None | TTP |
-| [Cobalt Strike Named Pipes](/endpoint/cobalt_strike_named_pipes/) | None | TTP |
-| [Delete ShadowCopy With PowerShell](/endpoint/delete_shadowcopy_with_powershell/) | None | TTP |
-| [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | None | TTP |
-| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | None | TTP |
-| [Detect RClone Command-Line Usage](/endpoint/detect_rclone_command-line_usage/) | None | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | None | TTP |
-| [Detect Renamed RClone](/endpoint/detect_renamed_rclone/) | None | TTP |
-| [Extract SAM from Registry](/endpoint/extract_sam_from_registry/) | None | TTP |
-| [Ransomware Notes bulk creation](/endpoint/ransomware_notes_bulk_creation/) | None | Anomaly |
-| [SLUI RunAs Elevated](/endpoint/slui_runas_elevated/) | None | TTP |
-| [SLUI Spawning a Process](/endpoint/slui_spawning_a_process/) | None | TTP |
+| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager), [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [CMSTP](/tags/#cmstp), [Process Injection](/tags/#process-injection), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [LSASS Memory](/tags/#lsass-memory), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Automated Exfiltration](/tags/#automated-exfiltration), [Service Execution](/tags/#service-execution), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [BITSAdmin Download File](/endpoint/bitsadmin_download_file/) | [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [CMLUA Or CMSTPLUA UAC Bypass](/endpoint/cmlua_or_cmstplua_uac_bypass/) | [CMSTP](/tags/#cmstp) | TTP |
+| [CertUtil Download With URLCache and Split Arguments](/endpoint/certutil_download_with_urlcache_and_split_arguments/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [CertUtil Download With VerifyCtl and Split Arguments](/endpoint/certutil_download_with_verifyctl_and_split_arguments/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Cobalt Strike Named Pipes](/endpoint/cobalt_strike_named_pipes/) | [Process Injection](/tags/#process-injection) | TTP |
+| [Delete ShadowCopy With PowerShell](/endpoint/delete_shadowcopy_with_powershell/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
+| [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
+| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
+| [Detect RClone Command-Line Usage](/endpoint/detect_rclone_command-line_usage/) | [Automated Exfiltration](/tags/#automated-exfiltration) | TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | TTP |
+| [Detect Renamed RClone](/endpoint/detect_renamed_rclone/) | [Automated Exfiltration](/tags/#automated-exfiltration) | TTP |
+| [Extract SAM from Registry](/endpoint/extract_sam_from_registry/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
+| [Ransomware Notes bulk creation](/endpoint/ransomware_notes_bulk_creation/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Anomaly |
+| [SLUI RunAs Elevated](/endpoint/slui_runas_elevated/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [SLUI Spawning a Process](/endpoint/slui_spawning_a_process/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
 
 #### Reference
 

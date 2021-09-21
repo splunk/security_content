@@ -27,12 +27,12 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attempt To Add Certificate To Untrusted Store](/endpoint/attempt_to_add_certificate_to_untrusted_store/) | None | TTP |
-| [Attempt To Stop Security Service](/endpoint/attempt_to_stop_security_service/) | None | TTP |
-| [Processes launching netsh](/endpoint/processes_launching_netsh/) | None | TTP |
-| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | None | TTP |
-| [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | None | TTP |
-| [Unload Sysmon Filter Driver](/endpoint/unload_sysmon_filter_driver/) | None | TTP |
+| [Attempt To Add Certificate To Untrusted Store](/endpoint/attempt_to_add_certificate_to_untrusted_store/) | [Install Root Certificate](/tags/#install-root-certificate), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Windows Service](/tags/#windows-service), [Modify Registry](/tags/#modify-registry) | TTP |
+| [Attempt To Stop Security Service](/endpoint/attempt_to_stop_security_service/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
+| [Processes launching netsh](/endpoint/processes_launching_netsh/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall) | TTP |
+| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service) | TTP |
+| [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | [Modify Registry](/tags/#modify-registry) | TTP |
+| [Unload Sysmon Filter Driver](/endpoint/unload_sysmon_filter_driver/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 
 #### Reference
 

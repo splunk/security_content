@@ -29,7 +29,7 @@ While investigating a detection related to this analytic story, please bear in m
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Excessive number of taskhost processes](/endpoint/excessive_number_of_taskhost_processes/) | None | Anomaly |
+| [Excessive number of taskhost processes](/endpoint/excessive_number_of_taskhost_processes/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | Anomaly |
 
 #### Reference
 

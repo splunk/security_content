@@ -31,10 +31,10 @@ Upon successful exploitation, the remote attacker will have `SYSTEM` privileges 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | None | TTP |
-| [Exchange PowerShell Abuse via SSRF](/endpoint/exchange_powershell_abuse_via_ssrf/) | None | TTP |
-| [Exchange PowerShell Module Usage](/endpoint/exchange_powershell_module_usage/) | None | TTP |
-| [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | None | TTP |
+| [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application), [PowerShell](/tags/#powershell) | TTP |
+| [Exchange PowerShell Abuse via SSRF](/endpoint/exchange_powershell_abuse_via_ssrf/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Exchange PowerShell Module Usage](/endpoint/exchange_powershell_module_usage/) | [PowerShell](/tags/#powershell) | TTP |
+| [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | [Web Shell](/tags/#web-shell) | TTP |
 
 #### Reference
 
