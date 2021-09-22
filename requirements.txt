@@ -29,7 +29,7 @@ Jinja2==3.0.1
 jsonschema==3.2.0
 lockfile==0.12.2
 MarkupSafe==2.0.1
-more-itertools==8.8.0
+more-itertools==8.9.0
 msgpack==1.0.2
 nodeenv==1.6.0
 packaging==21.0
@@ -40,7 +40,7 @@ Pillow==8.3.2
 platformdirs==2.3.0
 pre-commit==2.14.1
 progress==1.6
-prompt-toolkit==1.0.14
+prompt-toolkit==3.0.20
 pyfiglet==0.8.post1
 Pygments==2.10.0
 PyInquirer==1.0.3
