@@ -34,13 +34,26 @@ references:
 tags:
   analytic_story:
   - PetitPotam NTLM Relay on Active Directory Certificate Services
+  automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
   - Lateral Movement
+  message: A remote host is enumerating a $dest$ to identify permissions. This is
+    a precursor event to CVE-2021-36942, PetitPotam.
   mitre_attack_id:
   - T1187
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -53,18 +66,5 @@ tags:
   - Source_Address
   - Accesses
   - Message
-  security_domain: endpoint
-  impact: 80
-  confidence: 70
   risk_score: 56
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  message: A remote host is enumerating a $dest$ to identify permissions. This is
-    a precursor event to CVE-2021-36942, PetitPotam.
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

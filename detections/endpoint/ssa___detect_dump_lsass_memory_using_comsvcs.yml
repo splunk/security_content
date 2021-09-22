@@ -15,7 +15,7 @@ search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_eve
   "event_id"), "string", null) | where process_name LIKE "%rundll32.exe%" AND match_regex(process,
   /(?i)comsvcs.dll[,\s]+MiniDump/)=true | eval start_time = timestamp, end_time =
   timestamp, entities = mvappend(machine), body=create_map(["event_id", event_id,
-  "process_name", process_name]) | into write_ssa_detected_events();'
+  "process_name", process_name, "process", process]) | into write_ssa_detected_events();'
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
   including Windows command line logging. You can see how we test this with [Event
   Code 4688](https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4688a)
@@ -35,6 +35,8 @@ tags:
   - Source:AD
   - Source:Endpoint
   - Stage:Credential Access
+  dataset:
+    - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-security.log
   impact: 70
   kill_chain_phases:
   - Actions on Objectives
