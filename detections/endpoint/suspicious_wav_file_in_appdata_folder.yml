@@ -6,10 +6,12 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious creation of .wav file in appdata folder. 
-  This behavior was seen in Remcos RAT malware where it put the audio recording in the appdata\audio folde as part of data collection. 
-  this recording can be send to its C2 server as part of its exfiltration to the compromised machine. creation of wav files in this folder path is not a ussual 
-  disk place used by user to save audio format file.
+description: This analytic is to detect a suspicious creation of .wav file in appdata
+  folder. This behavior was seen in Remcos RAT malware where it put the audio recording
+  in the appdata\audio folde as part of data collection. this recording can be send
+  to its C2 server as part of its exfiltration to the compromised machine. creation
+  of wav files in this folder path is not a ussual disk place used by user to save
+  audio format file.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=*.exe Processes.process_path="*\\appdata\\Roaming\\*"
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
@@ -17,16 +19,16 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
   where Filesystem.file_name IN ("*.wav") Filesystem.file_path = "*\\appdata\\Roaming\\*"
   by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
-  Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields file_name file_path process_name process_path process dest file_create_time _time ]
-  | `suspicious_wav_file_in_appdata_folder_filter`'
+  Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields file_name file_path
+  process_name process_path process dest file_create_time _time ] | `suspicious_wav_file_in_appdata_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, file_name, file_path and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  logs with the process name, parent process, file_name, file_path and command-line
+  executions from your endpoints. If you are using Sysmon, you must have at least
+  version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
--  https://success.trendmicro.com/solution/1123281-remcos-malware-information
--  https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/
+- https://success.trendmicro.com/solution/1123281-remcos-malware-information
+- https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/
 tags:
   analytic_story:
   - Remcos
@@ -44,7 +46,7 @@ tags:
   - _time
   - dest
   - file_create_time
-  - file_name 
+  - file_name
   - file_path
   - process_name
   - process_path
@@ -52,7 +54,6 @@ tags:
   security_domain: endpoint
   impact: 70
   confidence: 70
-  # (impact * confidence)/100
   risk_score: 49
   context:
   - Source:Endpoint
@@ -67,3 +68,4 @@ tags:
     type: process name
     role:
     - Attacker
+  automated_detection_testing: passed
