@@ -133,6 +133,6 @@ tag_archive:
 analytics:
   provider: "google-gtag"
   google:
-    tracking_id: "G-SH3G39GDK1"
+    tracking_id: "G-83V3JSYPS7"
     anonymize_ip: false # default
 
