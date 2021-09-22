@@ -40,6 +40,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies use of PowerSploit modules that discover opportunities for malicious access and persistence. Some examples include access to admin accounts, weak access control policies, landing paths for dropping malicious software or data to exfiltrate, registry locations to land autorun parameters, task scheduling opportunities, as well as services and system files that can be compromised.

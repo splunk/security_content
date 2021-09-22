@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect suspicious dropping or creating an executable file in known sensitive SMB share. This technique is commonly used for lateral movement like how trickbot try to infect other machine in the infected network. This detection catch the access event (FILE WRITE) access to a share.

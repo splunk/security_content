@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for PowerShell processes started with parameters used to bypass the local execution policy for scripts. These parameters are often observed in attacks leveraging PowerShell scripts as they override the default PowerShell execution policy.

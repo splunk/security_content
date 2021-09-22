@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies child processes spawning from  &#34;mshta.exe&#34;. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, parent process &#34;mshta.exe&#34; and its child process.

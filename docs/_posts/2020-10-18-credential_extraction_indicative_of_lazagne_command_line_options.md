@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. LaZagne is a tool that extracts various kinds of credentials from a local computer, including account passwords, domain passwords, browser passwords, etc.

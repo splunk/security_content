@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for system processes that typically execute from `C:\Windows\System32\` or `C:\Windows\SysWOW64`.  This may indicate a malicious process that is trying to hide as a legitimate process.\

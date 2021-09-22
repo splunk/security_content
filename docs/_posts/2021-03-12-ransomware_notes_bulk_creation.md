@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry or the ransomware note filename is not in your ransomware lookup table list for monitoring.

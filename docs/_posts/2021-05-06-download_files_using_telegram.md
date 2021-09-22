@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic will identify a suspicious download by the Telegram application on a Windows system. This behavior was identified on a honeypot where the adversary gained access, installed Telegram and followed through with downloading different network scanners (port, bruteforcer, masscan) to the system and later used to mapped the whole network and further move laterally.

@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies regasm.exe with no command line arguments. This particular behavior occurs when another process injects into regasm.exe, no command line arguments will be present. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.

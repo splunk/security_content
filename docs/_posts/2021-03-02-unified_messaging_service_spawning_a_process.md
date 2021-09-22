@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies Microsoft Exchange Server&#39;s Unified Messaging services, umworkerprocess.exe and umservice.exe, spawning a child process, indicating possible exploitation of CVE-2021-26857 vulnerability. The query filters out werfault.exe and wermgr.exe mostly due to potential false positives, however, if there is an excessive amount of &#34;wermgr.exe&#34; or &#34;WerFault.exe&#34; failures, it may be due to the active exploitation. During triage, identify any additional suspicious parallel processes. Identify any recent out of place file modifications. Review Exchange logs following Microsofts guide. To contain, perform egress filtering or restrict public access to Exchange. In final, patch the vulnerablity and monitor.

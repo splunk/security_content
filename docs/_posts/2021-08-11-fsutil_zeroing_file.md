@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious fsutil process to zeroing a target file. This technique was seen in lockbit ransomware where it tries to zero out its malware path as part of its defense evasion after encrypting the compromised host.

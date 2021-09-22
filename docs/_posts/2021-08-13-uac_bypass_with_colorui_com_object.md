@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a possible uac bypass using the colorui.dll COM Object. this technique was seen in so many malware and ransomware like lockbit where it make use of the colorui.dll COM CLSID to bypass UAC.

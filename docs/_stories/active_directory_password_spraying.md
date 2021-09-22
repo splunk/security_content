@@ -9,6 +9,8 @@ tags:
   - Endpoint
 ---
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Monitor for activities and techniques associated with Password Spraying attacks within Active Directory environments.

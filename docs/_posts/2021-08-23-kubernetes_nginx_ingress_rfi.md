@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect remote file inclusion attacks.

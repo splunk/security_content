@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for flags passed to wbadmin.exe (Windows Backup Administrator Tool) that delete backup files. This is typically used by ransomware to prevent recovery.

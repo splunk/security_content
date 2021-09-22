@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies a source process name failing to authenticate with multiple users. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. Event 4625 generates on domain controllers, member servers, and workstations when an account fails to logon. Logon Type 2 describes an iteractive logon attempt.\

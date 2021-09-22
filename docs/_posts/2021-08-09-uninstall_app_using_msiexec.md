@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious un-installation of application using msiexec. This technique was seen in conti leak tool and script where it tries to uninstall AV product using this commandline. This commandline to uninstall product is not a common practice in enterprise network.

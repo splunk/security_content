@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the use of `wmic.exe` using `delete` to remove a executable path. This is typically ran via a batch file during beginning stages of an adversary setting up for mining on an endpoint.

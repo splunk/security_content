@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a modification to registry to enable rdp to a machine with different port number. This technique was seen in some atttacker tries to do lateral movement and remote access to a compromised machine to gain control of it.

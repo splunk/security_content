@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this search is to identify registry modification to disable control panel window. This technique is commonly seen in malware to prevent their artifacts , persistence removed on the infected machine.

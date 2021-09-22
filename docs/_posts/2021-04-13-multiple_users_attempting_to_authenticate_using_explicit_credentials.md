@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies a source user failing to authenticate with multiple users using explicit credentials on a host. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. Event 4648 is generated when a process attempts an account logon by explicitly specifying that accounts credentials. This event generates on domain controllers, member servers, and workstations.\

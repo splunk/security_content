@@ -9,6 +9,8 @@ tags:
   - Splunk Cloud
 ---
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Monitors for behaviors associated with adversaries discovering objects in the environment that can be leveraged in the progression of the attack.

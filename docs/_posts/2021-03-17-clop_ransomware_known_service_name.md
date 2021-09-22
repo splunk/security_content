@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection is to identify the common service name created by the CLOP ransomware as part of its persistence and high privilege code execution in the infected machine. Ussually CLOP ransomware use StartServiceCtrlDispatcherW API in creating this service entry.

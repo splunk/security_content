@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Attackers often disable security tools to avoid detection. This search looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop sysmon from collecting the data.

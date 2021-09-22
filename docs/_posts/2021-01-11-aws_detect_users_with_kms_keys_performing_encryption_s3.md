@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.

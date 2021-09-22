@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search provides specific SAML access from specific Service Provider, user and targeted principal at AWS. This search provides specific information to detect abnormal access or potential credential hijack or forgery, specially in federated environments using SAML protocol inside the perimeter or cloud provider.

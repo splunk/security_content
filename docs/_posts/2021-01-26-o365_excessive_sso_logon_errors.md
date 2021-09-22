@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search detects accounts with high number of Single Sign ON (SSO) logon errors. Excessive logon errors may indicate attempts to bruteforce of password or single sign on token hijack or reuse.

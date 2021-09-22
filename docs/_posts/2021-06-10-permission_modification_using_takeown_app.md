@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a modification of file or directory permission using takeown.exe windows app. This technique was seen in some ransomware that take the ownership of a folder or files to encrypt or delete it.

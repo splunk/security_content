@@ -23,6 +23,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment by a user.

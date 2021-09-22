@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execute a dll files. This technique was seen in IcedID malware to execute its initial downloader dll that will download the 2nd stage loader that will download and decrypt the config payload.

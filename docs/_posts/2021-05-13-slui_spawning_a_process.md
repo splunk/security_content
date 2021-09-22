@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, spawning a child process. This behavior is associated with publicly known UAC bypass. `slui.exe` is commonly associated with software updates and is most often spawned by `svchost.exe`. The `slui.exe` process should not have child processes, and any processes spawning from it will be running with elevated privileges. During triage, review the child process and additional parallel processes. Identify any file modifications that may have lead to the bypass.

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies a source host failing to authenticate against a remote host with multiple users. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment to obtain initial access or elevate privileges. Event 4625 documents each and every failed attempt to logon to the local computer. This event generates on domain controllers, member servers, and workstations. Logon Type 3 describes an remote authentication attempt.\

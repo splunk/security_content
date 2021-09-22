@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic will detect a suspicious process running in a file path where a process is not commonly seen and is most commonly used by malicious softtware. This behavior has been used by adversaries where they drop and run an exe in a path that is accessible without admin privileges.

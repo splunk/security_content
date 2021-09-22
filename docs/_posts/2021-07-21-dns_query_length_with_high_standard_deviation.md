@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search allows you to identify DNS requests and compute the standard deviation on the length of the names being resolved, then filter on two times the standard deviation to show you those queries that are unusually large for your environment.

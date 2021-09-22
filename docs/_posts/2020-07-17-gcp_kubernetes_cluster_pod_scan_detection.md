@@ -20,6 +20,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search provides information of unauthenticated requests via user agent, and authentication data against Kubernetes cluster&#39;s pods

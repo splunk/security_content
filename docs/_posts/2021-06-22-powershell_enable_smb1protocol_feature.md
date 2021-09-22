@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious enabling of smb1protocol through &#34;powershell.exe&#34;. This technique was seen in some ransomware (like reddot) where it enable smb share to do the lateral movement and encrypt other files within the compromise network system.

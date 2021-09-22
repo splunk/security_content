@@ -17,6 +17,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies potential adversaries that modify the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft, ransomware and coinminer scripts to evade detections and restrict access to their component files.

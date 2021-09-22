@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.

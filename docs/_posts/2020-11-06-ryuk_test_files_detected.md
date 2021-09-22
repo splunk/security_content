@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Ryuk propagation.

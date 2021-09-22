@@ -21,6 +21,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the usage of Exchange PowerShell modules that were recently used for a proof of concept related to ProxyShell. Currently, there is no active data shared or data we could re-produce relate to this part of the ProxyShell chain of exploits.  \

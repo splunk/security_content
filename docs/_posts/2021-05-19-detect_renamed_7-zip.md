@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies renamed 7-Zip usage using Sysmon. At this stage of an attack, review parallel processes and file modifications for data that is staged or potentially have been exfiltrated. This analytic utilizes the OriginalFileName to capture the renamed process.

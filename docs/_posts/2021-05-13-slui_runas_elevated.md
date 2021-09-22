@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, elevating access using the `-verb runas` function. This particular bypass utilizes a registry key/value. Identified by two sources, the registry keys are `HKCU\Software\Classes\exefile\shell` and `HKCU\Software\Classes\launcher.Systemsettings\Shell\open\command`. To simulate this behavior, multiple POC are available. The analytic identifies the use of `runas` by `slui.exe`.

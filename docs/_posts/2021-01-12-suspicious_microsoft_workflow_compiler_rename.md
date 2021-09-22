@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe. Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319 and is rarely utilized. When investigating, identify the executed code on disk and review. A spawned child process from microsoft.workflow.compiler.exe is uncommon. In any instance, microsoft.workflow.compiler.exe spawning from an Office product or any living off the land binary is highly suspect.

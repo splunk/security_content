@@ -21,6 +21,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for the remote desktop process mstsc.exe running on systems upon which it doesn&#39;t typically run. This is accomplished by filtering out all systems that are noted in the `common_rdp_source category` in the Assets and Identity framework.

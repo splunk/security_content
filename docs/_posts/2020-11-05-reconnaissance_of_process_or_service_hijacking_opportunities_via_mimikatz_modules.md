@@ -26,6 +26,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies use of Mimikatz modules for discovery of process or service hijacking opportunities via Microsoft Detours compatibility. Microsoft Detours is an open source library for intercepting, monitoring and instrumenting binary functions on Microsoft Windows. Detours intercepts Win32 functions by re-writing the in-memory code for target functions. The Detours package also contains utilities to attach arbitrary DLLs and data segments called payloads to any Win32 binary.

@@ -20,6 +20,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost.exe. After a period of 12-14 days, the malware will attempt to resolve a subdomain of avsvmcloud.com. This detections will correlate both events.

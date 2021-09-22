@@ -23,6 +23,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search provides detection of role creation by IAM users. Role creation is an event by itself if user is creating a new role with trust policies different than the available in AWS and it can be used for lateral movement and escalation of privileges.

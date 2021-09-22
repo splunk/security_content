@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this detection was designed to identifies suspicious office documents that using macro code. Macro code is known to be one of the prevalent weaponization or attack vector of threat actor. This malicious macro code is embed to a office document as an attachment that may execute malicious payload, download malware payload or other malware component. It is really good practice to disable macro by default to avoid automatically execute macro code while opening or closing a office document files.

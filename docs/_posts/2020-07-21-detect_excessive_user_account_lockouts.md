@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search detects user accounts that have been locked out a relatively high number of times in a short period.

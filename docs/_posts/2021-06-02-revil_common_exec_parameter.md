@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies suspicious commandline parameter that are commonly used by REVIL ransomware to encrypts the compromise machine.

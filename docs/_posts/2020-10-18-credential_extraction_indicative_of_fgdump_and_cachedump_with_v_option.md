@@ -16,6 +16,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. FGdump is a newer version of pwdump tool that extracts NTLM and LanMan password hashes from Windows. Cachedump is a publicly-available tool that extracts cached password hashes from a system&#39;s registry.

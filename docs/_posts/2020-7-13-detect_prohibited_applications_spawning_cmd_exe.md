@@ -16,6 +16,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.

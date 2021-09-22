@@ -25,6 +25,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.

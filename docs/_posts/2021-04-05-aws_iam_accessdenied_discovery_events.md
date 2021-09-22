@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.

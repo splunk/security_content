@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for modifications to registry keys that can be used to elevate privileges. The registry keys under &#34;Image File Execution Options&#34; are used to intercept calls to an executable and can be used to attach malicious binaries to benign system binaries.

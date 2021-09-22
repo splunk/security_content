@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies a potential privilege escalation attempt to perform malicious task. This registry modification is designed to allow the `Consent Admin` to perform an operation that requires elevation without consent or credentials. We also found this in some attacker to gain privilege escalation to the compromise machine.

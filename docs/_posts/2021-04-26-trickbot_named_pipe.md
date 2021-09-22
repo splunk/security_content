@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this search is to detect potential trickbot infection through the create/connected named pipe to the system. This technique is used by trickbot to communicate to its c2 to post or get command during infection.

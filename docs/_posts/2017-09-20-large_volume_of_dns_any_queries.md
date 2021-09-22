@@ -21,6 +21,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.

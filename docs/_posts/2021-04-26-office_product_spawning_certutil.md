@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following detection identifies the latest behavior utilized by different malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `certutil.exe`. In malicious instances, the command-line of `certutil.exe` will contain a URL to a remote destination. In addition, Threat Research has released a detections identifying suspicious use of `certutil.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `certutil.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.

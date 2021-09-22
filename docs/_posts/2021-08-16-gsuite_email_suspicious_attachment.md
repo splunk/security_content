@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious attachment file extension in Gsuite email that may related to spear phishing attack. This file type is commonly used by malware to lure user to click on it to execute malicious code to compromised targetted machine. But this search can also catch some normal files related to this file type that maybe send by employee or network admin.

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious bcdedit.exe execution to ignore all failures. This technique was used by ransomware to prevent the compromise machine automatically boot in repair mode.

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this search is designed to detect potential malicious wermgr.exe process that drops or create executable file. Since wermgr.exe is an application trigger when error encountered in a process, it is really un ussual to this process to drop executable file. This technique is commonly seen in trickbot malware where it injects it code to this process to execute it malicious behavior like downloading other payload

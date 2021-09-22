@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies renamed instances of msbuild.exe executing. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. During investigation, identify the code executed and what is executing a renamed instance of MSBuild.

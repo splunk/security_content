@@ -22,6 +22,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following query uses IAM events to track the success of a group being deleted on AWS. This is typically not indicative of malicious behavior, but a precurser to additional events thay may unfold. Review parallel IAM events - recently added users, new groups and so forth. Inversely, review failed attempts in a similar manner.

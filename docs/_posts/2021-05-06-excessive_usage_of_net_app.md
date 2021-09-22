@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies excessive usage of `net.exe` or `net1.exe` within a bucket of time (1 minute). This behavior was seen in a Monero incident where the adversary attempts to create many users, delete and disable users as part of its malicious behavior.

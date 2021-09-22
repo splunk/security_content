@@ -22,6 +22,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for reg.exe being launched from a command prompt not started by the user. When a user launches cmd.exe, the parent process is usually explorer.exe. This search filters out those instances.

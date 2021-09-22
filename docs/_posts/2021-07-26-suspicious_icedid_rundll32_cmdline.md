@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious rundll32.exe commandline to execute dll file. This technique was seen in IcedID malware to load its payload dll with the following parameter to load encrypted dll payload which is the license.dat.

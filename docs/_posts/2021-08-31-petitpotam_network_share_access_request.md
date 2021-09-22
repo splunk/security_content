@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic utilizes Windows Event Code 5145, &#34;A network share object was checked to see whether client can be granted desired access&#34;. During our research into PetitPotam, CVE-2021-36942, we identified the ocurrence of this event on the target host with specific values. \

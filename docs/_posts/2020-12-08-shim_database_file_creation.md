@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for shim database files being written to default directories. The sdbinst.exe application is used to install shim database files (.sdb). According to Microsoft, a shim is a small library that transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.

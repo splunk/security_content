@@ -31,6 +31,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies SharpHound binary usage by using the `OriginalFileName` from Sysmon. In addition to renaming the PE, other coverage is available to detect command-line arguments. This particular analytic only looks for the OriginalFileName of `SharpHound.exe`. It is possible older instances of SharpHound.exe have different original filenames. Dependent upon the operator, the code may be re-compiled and the attributes removed or changed to anything else. During triage, review the metadata of the binary in question. Review parallel processes for suspicious behavior. Identify the source of this binary.

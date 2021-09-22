@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for the execution of the cscript.exe or wscript.exe processes, with a parent of cmd.exe. The search will return the count, the first and last time this execution was seen on a machine, the user, and the destination of the machine

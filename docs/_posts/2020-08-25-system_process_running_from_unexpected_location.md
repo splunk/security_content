@@ -16,6 +16,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 An attacker tries might try to use different version of a system command without overriding original, or they might try to avoid some detection running the process from a different folder. This detection checks that a list of system processes run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml

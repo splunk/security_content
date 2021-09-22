@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a COM CLSID execution through powershell. This technique was seen in several adversaries and malware like ransomware conti where it has a feature to execute command using COM Object. This technique may use by network operator at some cases but a good indicator if some application want to gain privilege escalation or bypass uac.

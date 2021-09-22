@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies renamed instances of `PsExec.exe` being utilized on an endpoint. Most instances, it is highly probable to capture `Psexec.exe` or other SysInternal utility usage with the command-line argument of `-accepteula`. In this instance, we are using `OriginalFileName` from Sysmon to identify `PsExec` usage. During triage, validate this is the legitimate version of `PsExec` by review the PE metadata. In addition, review parallel processes for further suspicious behavior.

@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic will detect suspicious driver loaded paths. This technique is commonly used by malicious software like coin miners (xmrig) to register its malicious driver from notable directories where executable or drivers do not commonly exist. During triage, validate this driver is for legitimate business use. Review the metadata and certificate information. Unsigned drivers from non-standard paths is not normal, but occurs. In addition, review driver loads into `ntoskrnl.exe` for possible other drivers of interest. Long tail analyze drivers by path (outside of default, and in default) for further review.

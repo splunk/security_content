@@ -31,6 +31,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic is similar to SharpHound file modifications, but this instance covers the use of Invoke-AzureHound. AzureHound is the SharpHound equivilent but for Azure. It&#39;s possible this may never be seen in an environment as most attackers may execute this tool remotely. Once execution is complete, a zip file with a similar name will drop `20210601090751-azurecollection.zip`. In addition to the zip, multiple .json files will be written to disk, which are in the zip.

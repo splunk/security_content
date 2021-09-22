@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content

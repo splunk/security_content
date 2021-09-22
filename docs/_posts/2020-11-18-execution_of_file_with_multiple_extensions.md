@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for processes launched from files that have double extensions in the file name. This is typically done to obscure the &#34;real&#34; file extension and make it appear as though the file being accessed is a data file, as opposed to executable content.

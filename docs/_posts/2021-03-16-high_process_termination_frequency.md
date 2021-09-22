@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytics are designed to indentify a high frequency of process termination on a machine which is a common behavior of ransomware malware before encrypting files. This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.

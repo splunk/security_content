@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe, or IIS. In addition to IIS logs, this behavior with an EDR product will capture potential webshell activity, similar to the HAFNIUM Group abusing CVEs, on publicly available Exchange mail servers. During triage, review the parent process and child process of the shell being spawned. Review the command-line arguments and any file modifications that may occur. Identify additional parallel process, child processes, that may highlight further commands executed. After triaging, work to contain the threat and patch the system that is vulnerable.

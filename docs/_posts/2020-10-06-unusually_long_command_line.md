@@ -13,6 +13,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.

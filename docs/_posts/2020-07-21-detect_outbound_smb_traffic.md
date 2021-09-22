@@ -22,6 +22,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for outbound SMB connections made by hosts within your network to the Internet. SMB traffic is used for Windows file-sharing activity. One of the techniques often used by attackers involves retrieving the credential hash using an SMB request made to a compromised server controlled by the threat actor.

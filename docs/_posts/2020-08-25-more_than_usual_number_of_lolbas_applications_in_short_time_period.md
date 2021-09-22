@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Attacker activity may compromise executing several LOLBAS applications in conjunction to accomplish their objectives. We are looking for more than usual LOLBAS applications over a window of time, by building profiles per machine.

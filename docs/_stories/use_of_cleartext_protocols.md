@@ -9,6 +9,8 @@ tags:
   - Network_Traffic
 ---
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Leverage searches that detect cleartext network protocols that may leak credentials or should otherwise be encrypted.

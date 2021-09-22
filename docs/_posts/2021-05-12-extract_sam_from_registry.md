@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the use of `reg.exe` exporting Windows Registry hives containing credentials. Adversaries may use this technique to export registry hives for offline credential access attacks. Typically found executed from a untrusted process or script. Upon execution, a file will be written to disk.

@@ -21,6 +21,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the use of a SQLite3 querying the MacOS preferences to identify the original URL the pkg was downloaded from. This particular behavior is common with MacOS adware-malicious software. Upon triage, review other processes in parallel for suspicious activity. Identify any recent package installations.

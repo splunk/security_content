@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for a process launching an `*.lnk` file under `C:\User*` or `*\Local\Temp\*`. This is common behavior used by various spear phishing tools.

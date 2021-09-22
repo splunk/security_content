@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies a suspicious child process, `rundll32.exe`, with no command-line arguments being spawned from `spoolsv.exe`. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to spawn a process. During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.

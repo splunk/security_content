@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a pushed or commit to develop branch. This is to avoid unwanted modification to develop without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a PR for review. of course in some cases admin of the project may did a changes directly to master branch

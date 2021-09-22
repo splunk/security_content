@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect execution of chcp.exe application. this utility is used to change the active code page of the console. This technique was seen in icedid malware to know the locale region/language/country of the compromise host.

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using non-standard file extensions to load malciious DLLs. Upon investigating, look for network connections to remote destinations (internal or external). Review additional parrallel processes and child processes for additional activity.

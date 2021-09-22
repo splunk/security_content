@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect dropping a suspicious file named as &#34;license.dat&#34; in %appdata%. This behavior seen in latest IcedID malware that contain the actual core bot that will be injected in other process to do banking stealing.

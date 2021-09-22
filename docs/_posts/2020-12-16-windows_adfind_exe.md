@@ -21,6 +21,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for the execution of `adfind.exe` with command-line arguments that it uses by default. Specifically the filter or search functions. It also considers the arguments necessary like objectcategory, see readme for more details: https://www.joeware.net/freetools/tools/adfind/usage.htm. This has been seen used before by Wizard Spider, FIN6 and actors whom also launched SUNBURST. AdFind.exe is usually used a recon tool to enumare a domain controller.

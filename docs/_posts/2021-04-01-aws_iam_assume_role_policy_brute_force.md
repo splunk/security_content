@@ -22,6 +22,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following detection identifies any malformed policy document exceptions with a status of `failure`. A malformed policy document exception occurs in instances where roles are attempted to be assumed, or brute forced. In a brute force attempt, using a tool like CloudSploit or Pacu, an attempt will look like `arn:aws:iam::111111111111:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS`.  Meaning, when an adversary is attempting to identify a role name, multiple failures will occur. This detection focuses on the errors of a remote attempt that is failing.

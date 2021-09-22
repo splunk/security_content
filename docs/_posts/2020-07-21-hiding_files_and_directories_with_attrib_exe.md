@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Attackers leverage an existing Windows binary, attrib.exe, to mark specific as hidden by using specific flags so that the victim does not see the file.  The search looks for specific command-line arguments to detect the use of attrib.exe to hide files.

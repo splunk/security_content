@@ -21,6 +21,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for child processes of spoolsv.exe. This activity is associated with a POC privilege-escalation exploit associated with CVE-2018-8440. Spoolsv.exe is the process associated with the Print Spooler service in Windows and typically runs as SYSTEM.

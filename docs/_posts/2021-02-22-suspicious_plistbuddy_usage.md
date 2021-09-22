@@ -22,6 +22,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the use of a native MacOS utility, PlistBuddy, creating or modifying a properly list (.plist) file. In the instance of Silver Sparrow, the following commands were executed:\

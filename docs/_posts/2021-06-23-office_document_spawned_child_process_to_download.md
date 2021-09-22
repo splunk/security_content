@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this search is to detect potential malicious office document executing lolbin child process to download payload or other malware. Since most of the attacker abused the capability of office document to execute living on land application to blend it to the normal noise in the infected machine to cover its track.

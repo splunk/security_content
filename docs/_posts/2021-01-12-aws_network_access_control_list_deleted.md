@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the AWS console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the AWS CloudTrail logs to detect users deleting network ACLs.

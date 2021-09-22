@@ -21,6 +21,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the use of a curl contacting suspicious remote domains to checkin to command and control servers or download further implants. In the context of Silver Sparrow, curl is identified contacting s3.amazonaws.com. This particular behavior is common with MacOS adware-malicious software.

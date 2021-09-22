@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, block lists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains.

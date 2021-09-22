@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this search is designed to detect suspicious powershell process that tries to inject code and to known/critical windows process and execute it using CreateRemoteThread. This technique is seen in several malware like trickbot and offensive tooling like cobaltstrike where it load a shellcode to svchost.exe to execute reverse shell to c2 and download another payload

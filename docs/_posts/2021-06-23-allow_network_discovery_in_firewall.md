@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious modification to the firewall to allow network discovery on a machine. This technique was seen in couple of ransomware (revil, reddot) to discover other machine connected to the compromised host to encrypt more files.

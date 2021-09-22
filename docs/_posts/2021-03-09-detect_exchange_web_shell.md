@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following query identifies suspicious .aspx created in 3 paths identified by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`. Upon triage, the suspicious .aspx file will likely look obvious on the surface. inspect the contents for script code inside. Identify additional log sources, IIS included, to review source and other potential exploitation.

@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.

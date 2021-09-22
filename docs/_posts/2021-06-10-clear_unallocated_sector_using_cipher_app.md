@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this search is to detect execution of `cipher.exe` to clear the unallocated sectors of a specific disk. This technique was seen in some ransomware to make it impossible to forensically recover deleted files.

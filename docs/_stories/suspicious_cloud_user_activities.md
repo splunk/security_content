@@ -10,6 +10,8 @@ tags:
   - Change
 ---
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Detect and investigate suspicious activities by users and roles in your cloud environments.

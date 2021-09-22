@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for the execution of `nltest.exe` with command-line arguments utilized to query for Domain Trust information. Two arguments `/domain trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current domain to assist with further understanding where to pivot next.

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection is to identify a suspicious process that tries to delete the process file path related to its process. This technique is known to be defense evasion once a certain condition of malware is satisfied or not. Clop ransomware use this technique where it will try to delete its process file path using a .bat command if the keyboard layout is not the layout it tries to infect.

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies usage of `wmic.exe` spawning a local or remote process, identified by the `node` switch. During triage, review parallel processes for additional commands executed. Look for any file modifications before and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm execution or file modifications. Contain and isolate the endpoint as needed.

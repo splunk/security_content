@@ -17,6 +17,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytics identifies the resizing of shadowstorage by ransomware malware to avoid the shadow volumes being made again. this technique is an alternative by ransomware attacker than deleting the shadowstorage which is known alert in defensive team. one example of ransomware that use this technique is CLOP ransomware where it drops a .bat file that will resize the shadowstorage to minimum size as much as possible

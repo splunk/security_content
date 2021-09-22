@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies renamed instances of rundll32.exe executing. rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, validate it is the legitimate rundll32.exe executing and what script content it is loading. This query relies on the OriginalFileName from Sysmon, or internal name from the PE meta data. Expand the query as needed by looking for specific command line arguments outlined in other analytics.

@@ -31,6 +31,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the common command-line argument used by AzureHound `Invoke-AzureHound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.

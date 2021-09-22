@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Monitor for signs that Ntdsutil is being used to Extract Active Directory database - NTDS.dit, typically used for offline password cracking. It may be used in normal circumstances with no command line arguments or shorthand variations of more common arguments. Ntdsutil.exe is typically seen run on a Windows Server. Typical command used to dump ntds.dit \

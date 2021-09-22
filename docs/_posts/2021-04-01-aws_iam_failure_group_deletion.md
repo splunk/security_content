@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies failure attempts to delete groups. We want to identify when a group is attempting to be deleted, but either access is denied, there is a conflict or there is no group. This is indicative of administrators performing an action, but also could be suspicious behavior occurring. Review parallel IAM events - recently added users, new groups and so forth.

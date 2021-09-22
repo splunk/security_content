@@ -9,6 +9,8 @@ tags:
   - Endpoint
 ---
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Revil ransomware, including looking for file writes associated with Revil, encrypting network shares, deleting shadow volume storage, registry key modification, deleting of security logs, and more.

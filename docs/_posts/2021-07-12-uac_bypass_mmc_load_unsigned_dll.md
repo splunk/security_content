@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious loaded unsigned dll by MMC.exe application. This technique is commonly seen in attacker that tries to bypassed UAC feature or gain privilege escalation. This is done by modifying some CLSID registry that will trigger the mmc.exe to load the dll path

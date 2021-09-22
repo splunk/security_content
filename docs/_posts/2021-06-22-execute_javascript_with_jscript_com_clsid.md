@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic will identify suspicious process of cscript.exe where it tries to execute javascript using jscript.encode CLSID (COM OBJ). This technique was seen in ransomware (reddot ransomware) where it execute javascript with this com object with combination of amsi disabling technique.

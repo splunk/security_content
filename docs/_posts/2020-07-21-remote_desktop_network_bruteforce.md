@@ -22,6 +22,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.

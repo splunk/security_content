@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following detection identifies the latest behavior utilized by different malware families (including TA551, IcedID). This detection identifies any Windows Office Product spawning `mshta.exe`. In malicious instances, the command-line of `mshta.exe` will contain the `hta` file locally, or a URL to the remote destination. In addition, Threat Research has released a detections identifying suspicious use of `mshta.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `mshta.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.

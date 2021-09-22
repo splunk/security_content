@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect known mailsniper.ps1 functions executed in a machine. This technique was seen in some attacker to harvest some sensitive e-mail in a compromised exchange server.

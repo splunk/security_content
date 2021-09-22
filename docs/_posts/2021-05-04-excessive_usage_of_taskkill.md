@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies excessive usage of `taskkill.exe` application. This application is commonly used by adversaries to evade detections by killing security product processes or even other processes to evade detection.

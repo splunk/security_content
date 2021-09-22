@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious modification of registry that may related to UAC bypassed. This registry will be trigger once the attacker abuse the silentcleanup task schedule to gain high privilege execution that will bypass User control account.

@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic &lt; 20 with attachment.

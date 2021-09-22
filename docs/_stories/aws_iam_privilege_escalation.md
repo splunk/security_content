@@ -9,6 +9,8 @@ tags:
   - Splunk Cloud
 ---
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic story contains detections that query your AWS Cloudtrail for activities related to privilege escalation.

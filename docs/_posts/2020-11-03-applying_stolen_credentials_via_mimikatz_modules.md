@@ -56,6 +56,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection indicates use of Mimikatz modules that facilitate Pass-the-Token attack, Golden or Silver kerberos ticket attack, and Skeleton key attack.

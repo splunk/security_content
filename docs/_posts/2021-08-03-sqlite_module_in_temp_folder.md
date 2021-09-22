@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious file creation of sqlite3.dll in %temp% folder. This behavior was seen in IcedID malware where it download sqlite module to parse browser database like for chrome or firefox to stole browser information related to bank, credit card or credentials.

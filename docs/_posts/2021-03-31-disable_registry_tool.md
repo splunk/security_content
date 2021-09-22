@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search identifies modification of registry to disable the regedit or registry tools of the windows operating system. Since registry tool is a swiss knife in analyzing registry, malware such as RAT or trojan Spy disable this application to prevent the removal of their registry entry such as persistence, file less components and defense evasion.

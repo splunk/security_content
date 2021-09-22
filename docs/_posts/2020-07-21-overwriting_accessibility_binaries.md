@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Microsoft Windows contains accessibility features that can be launched with a key combination before a user has logged in. An adversary can modify or replace these programs so they can get a command prompt or backdoor without logging in to the system. This search looks for modifications to these binaries.

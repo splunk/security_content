@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following search identifies the modification of registry related in disabling the system restore of a machine. This event or behavior are seen in some RAT malware to make the restore of the infected machine  difficult and keep their infection on the box.

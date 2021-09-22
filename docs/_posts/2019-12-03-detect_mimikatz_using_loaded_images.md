@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for reading loaded Images unique to credential dumping with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon Event Code.

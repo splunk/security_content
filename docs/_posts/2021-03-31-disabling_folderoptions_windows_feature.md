@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to identify registry modification to disable folder options feature of windows to show hidden files, file extension and etc. This technique used by malware in combination if disabling show hidden files feature to hide their files and also to hide the file extension to lure the user base on file icons or fake file extensions.

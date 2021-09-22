@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies the usage of `rclone.exe`, renamed, being used to exfiltrate data to a remote destination. RClone has been used by multiple ransomware groups to exfiltrate data. In many instances, it will be downloaded from the legitimate site and executed accordingly. During triage, isolate the endpoint and begin to review parallel processes for additional behavior. At this stage, the adversary may have staged data to be exfiltrated.

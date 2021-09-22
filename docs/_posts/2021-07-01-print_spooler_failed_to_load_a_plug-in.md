@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies driver load errors utilizing the Windows PrintService Admin logs. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \

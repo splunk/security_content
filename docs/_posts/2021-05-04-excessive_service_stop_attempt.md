@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies suspicious series of attempt to kill multiple services on a system using either `net.exe` or `sc.exe`. This technique is use by adversaries to terminate security services or other related services to continue there objective and evade detections.

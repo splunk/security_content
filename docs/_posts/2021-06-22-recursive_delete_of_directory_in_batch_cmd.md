@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious commandline designed to delete files or directory recursive using batch command. This technique was seen in ransomware (reddot) where it it tries to delete the files in recycle bin to impaire user from recovering deleted files.

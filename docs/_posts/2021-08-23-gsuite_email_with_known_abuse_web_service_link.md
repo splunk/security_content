@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytics is to detect a gmail containing a link that are known to be abused by malware or attacker like pastebin, telegram and discord to deliver malicious payload. This event can encounter some normal email traffic within organization and external email that normally using this application and services.

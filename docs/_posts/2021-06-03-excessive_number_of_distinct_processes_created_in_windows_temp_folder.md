@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic will identify suspicious series of process executions.  We have observed that post exploit framework tools like Koadic and Meterpreter will launch an excessive number of processes with distinct file paths from Windows\Temp to execute actions on objective.  This behavior is extremely anomalous compared to typical application behaviors that use Windows\Temp.

@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search provides detection of updates to SAML provider in AWS. Updates to SAML provider need to be monitored closely as they may indicate possible perimeter compromise of federated credentials, or backdoor access from another cloud provider set by attacker.

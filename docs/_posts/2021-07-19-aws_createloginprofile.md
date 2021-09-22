@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for AWS CloudTrail events where a user A(victim A) creates a login profile for user B, followed by a AWS Console login event from user B from the same src_ip as user B. This correlated event can be indicative of privilege escalation since both events happened from the same src_ip

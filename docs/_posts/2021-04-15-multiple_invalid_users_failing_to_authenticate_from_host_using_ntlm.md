@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies one source endpoint failing to authenticate with multiple invalid users using the NTLM protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using NTLM to obtain initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack using an invalid list of users. Event 4776 is generated on the computer that is authoritative for the provided credentials. For domain accounts, the domain controller is authoritative. For local accounts, the local computer is authoritative. Error code 0xC0000064 stands for `The username you typed does not exist` (the attempted user is a legitimate domain user).\

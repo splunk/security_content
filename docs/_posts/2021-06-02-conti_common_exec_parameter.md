@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search detects the suspicious commandline argument of revil ransomware to encrypt specific or all local drive and network shares of the compromised machine or host.

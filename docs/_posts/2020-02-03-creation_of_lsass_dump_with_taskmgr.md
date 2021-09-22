@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Detect the hands on keyboard behavior of Windows Task Manager creating a process dump of lsass.exe. Upon this behavior occurring, a file write/modification will occur in the users profile under \AppData\Local\Temp. The dump file, lsass.dmp, cannot be renamed, however if the dump occurs more than once, it will be named lsass (2).dmp.

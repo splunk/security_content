@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for AWS CloudTrail events where a user A who has already permission to create access keys, makes an API call to create access keys for another user B. Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)

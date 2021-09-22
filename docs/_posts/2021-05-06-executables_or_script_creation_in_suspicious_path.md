@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic will identify suspicious executable or scripts (known file extensions) in list of suspicious file path in Windows. This technique is used by adversaries to evade detection. The suspicious file path are known paths used in the wild and are not common to have executable or scripts.

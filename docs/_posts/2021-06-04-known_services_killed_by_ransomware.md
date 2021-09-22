@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search detects a suspicioous termination of known services killed by ransomware before encrypting files in a compromised machine. This technique is commonly seen in most of ransomware now a days to avoid exception error while accessing the targetted files it wants to encrypts because of the open handle of those services to the targetted file.

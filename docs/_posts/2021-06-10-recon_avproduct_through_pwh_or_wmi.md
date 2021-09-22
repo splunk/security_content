@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 performing checks to identify anti-virus products installed on the endpoint. This technique is commonly found in malware and APT events where the adversary will map all running security applications or services. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.

@@ -26,6 +26,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies access to PowerSploit modules that illegaly elevate general privileges or ensure persistence, e.g., enable manipulation of registry, task scheduling, persistent WMI, access to OS objects under desired identities.

@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies XMRIG coinminer driver installation on the system. The XMRIG driver name by default is `WinRing0x64.sys`. This cpu miner is an open source project that is commonly abused by adversaries to infect and mine bitcoin.

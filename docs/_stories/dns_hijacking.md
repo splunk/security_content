@@ -9,6 +9,8 @@ tags:
   - Network_Resolution
 ---
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Secure your environment against DNS hijacks with searches that help you detect and investigate unauthorized changes to DNS records.

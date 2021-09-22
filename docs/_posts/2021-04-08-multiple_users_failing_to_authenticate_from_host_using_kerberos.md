@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the Kerberos protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain initial access or elevate privileges. Event 4771 is generated when the Key Distribution Center fails to issue a Kerberos Ticket Granting Ticket (TGT). Failure code 0x18 stands for `wrong password provided` (the attempted user is a legitimate domain user).\

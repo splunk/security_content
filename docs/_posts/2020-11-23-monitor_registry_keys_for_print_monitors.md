@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for registry activity associated with modifications to the registry key `HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors`. In this scenario, an attacker can load an arbitrary .dll into the print-monitor registry by giving the full path name to the after.dll. The system will execute the .dll with elevated (SYSTEM) permissions and will persist after reboot.

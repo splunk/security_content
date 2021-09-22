@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies a `.dll` being written by `spoolsv.exe`. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to write a `.dll`. Current POC code used will write the suspicious DLL to disk within a path of `\spool\drivers\x64\`. During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.

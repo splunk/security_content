@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic detects a potential process using COM Object like CMLUA or CMSTPLUA to bypass UAC. This technique has been used by ransomware adversaries to gain administrative privileges to its running process.

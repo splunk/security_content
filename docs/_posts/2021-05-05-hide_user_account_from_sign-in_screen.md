@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies a suspicious registry modification to hide a user account on the Windows Login screen. This technique was seen in some tradecraft where the adversary will create a hidden user account with Admin privileges in login screen to avoid noticing by the user that they already compromise and to persist on that said machine.

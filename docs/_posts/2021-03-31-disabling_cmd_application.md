@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this search is to identify modification in registry to disable cmd prompt application. This technique is commonly seen in RAT, Trojan or WORM to prevent triaging or deleting there samples through cmd application which is one of the tool of analyst to traverse on directory and files.

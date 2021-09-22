@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot.

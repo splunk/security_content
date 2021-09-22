@@ -34,6 +34,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies use of DSInternals modules that verify password strength, i.e., identify week accounts that would be easily compromised.

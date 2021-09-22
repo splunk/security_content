@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An account was successfully logged on) with an anonymous account.

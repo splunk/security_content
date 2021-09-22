@@ -28,6 +28,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies access to PowerSploit modules for reconnaissance and access to elements of Active Directory infrastructure, such as domain identifiers, AD sites and forests, and trust relations.

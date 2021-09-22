@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 this detection was designed to identifies suspicious spawned process of known MS office application due to macro or malicious code. this technique can be seen in so many malware like IcedID that used MS office as its weapon or attack vector to initially infect the machines.

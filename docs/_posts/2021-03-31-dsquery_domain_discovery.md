@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies &#34;dsquery.exe&#34; execution with arguments looking for `TrustedDomain` query directly on the command-line. This is typically indicative of an Administrator or adversary perform domain trust discovery. Note that this query does not identify any other variations of &#34;Dsquery.exe&#34; usage.\

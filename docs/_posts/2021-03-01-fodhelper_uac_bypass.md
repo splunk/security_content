@@ -24,6 +24,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Fodhelper.exe has a known UAC bypass as it attempts to look for specific registry keys upon execution, that do not exist. Therefore, an attacker can write its malicious commands in these registry keys to be executed by fodhelper.exe with the highest privilege. \

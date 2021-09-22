@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious excessive usage of sc.exe in a host machine. This technique was seen in several ransomware , xmrig and other malware to create, modify, delete or disable a service may related to security application or to gain privilege escalation.

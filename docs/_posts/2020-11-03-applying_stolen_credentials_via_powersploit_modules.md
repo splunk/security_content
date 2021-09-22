@@ -54,6 +54,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Stolen credentials are applied by methods such as user impersonation, credential injection, spoofing of authentication processes or getting hold of critical accounts. This detection indicates such activities carried out by PowerSploit exploit kit APIs.

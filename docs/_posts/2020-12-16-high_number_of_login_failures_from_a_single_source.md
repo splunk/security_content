@@ -20,6 +20,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search will detect more than 5 login failures in Office365 Azure Active Directory from a single source IP address. Please adjust the threshold value of 5 as suited for your environment.

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies one source endpoint failing to authenticate with multiple disabled domain users using the Kerberos protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using Kerberos to obtain initial access or elevate privileges. As attackers progress in a breach, mistakes will be made. In certain scenarios, adversaries may execute a password spraying attack against disabled users. Event 4768 is generated every time the Key Distribution Center issues a Kerberos Ticket Granting Ticket (TGT). Failure code `0x12` stands for `clients credentials have been revoked` (account disabled, expired or locked out).\

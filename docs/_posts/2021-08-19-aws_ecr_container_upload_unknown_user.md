@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). A upload of a new container is normally done from only a few known users. When the user was never seen before, we should have a closer look into the event.

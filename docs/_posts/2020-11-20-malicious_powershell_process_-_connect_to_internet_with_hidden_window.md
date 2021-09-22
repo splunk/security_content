@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for PowerShell processes started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet. This combination of command-line options is suspicious because it&#39;s overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Deprecated becaue hidden is not needed when download file with System.Net.WebClient.

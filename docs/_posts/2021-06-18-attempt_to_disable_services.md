@@ -17,6 +17,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic will identify suspicious series of command-line to disable several services. This technique is seen where the adversary attempts to disable security app services or other malware services to complete the objective on the compromised system.

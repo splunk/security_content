@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies suspicious modification of registry to deface or change the wallpaper of a compromised machines as part of its payload. This technique was commonly seen in ransomware like REVIL where it create a bitmap file contain a note that the machine was compromised and make it as a wallpaper.

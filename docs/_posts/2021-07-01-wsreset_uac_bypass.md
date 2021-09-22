@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious modification of registry related to UAC bypass. This technique is to modify the registry in this detection, create a registry value with the path of the payload and run WSreset.exe to bypass User account Control.

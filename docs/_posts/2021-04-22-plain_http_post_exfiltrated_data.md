@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect potential plain HTTP POST method data exfiltration. This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary where arguments or commands are sent in plain text to the remote C2 server using HTTP POST method as part of data exfiltration.

@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious sdclt.exe registry modification. This technique is commonly seen when attacker try to bypassed UAC by using sdclt.exe application by modifying some registry that sdclt.exe tries to open or query with payload file path on it to be executed.

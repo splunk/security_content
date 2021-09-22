@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies rundll32.exe executing a DLL function name, Start and StartW, on the command line that is commonly observed with Cobalt Strike x86 and x64 DLL payloads. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. Typically, the DLL will be written and loaded from a world writeable path or user location. In most instances it will not have a valid certificate (Unsigned). During investigation, review the parent process and other parallel application execution. Capture and triage the DLL in question. In the instance of Cobalt Strike, rundll32.exe is the default process it opens and injects shellcode into. This default process can be changed, but typically is not.

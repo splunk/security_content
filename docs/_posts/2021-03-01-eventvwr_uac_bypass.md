@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following search identifies Eventvwr bypass by identifying the registry modification into a specific path that eventvwr.msc looks to (but is not valid) upon execution. A successful attack will include a suspicious command to be executed upon eventvwr.msc loading. Upon triage, review the parallel processes that have executed. Identify any additional registry modifications on the endpoint that may look suspicious. Remediate as necessary.

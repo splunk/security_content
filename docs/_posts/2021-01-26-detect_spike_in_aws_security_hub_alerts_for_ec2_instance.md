@@ -15,6 +15,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals

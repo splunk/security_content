@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious mshta.exe process that spawn rundll32 or regsvr32 child process. This technique was seen in several malware nowadays like trickbot to load its initial .dll stage loader to execute and download the the actual trickbot payload.

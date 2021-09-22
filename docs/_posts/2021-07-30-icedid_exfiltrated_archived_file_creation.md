@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious file creation namely passff.tar and cookie.tar. This files are possible archived of stolen browser information like history and cookies in a compromised machine with IcedID.

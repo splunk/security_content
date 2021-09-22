@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic utilizes Windows Security Event ID 1102 or System log event 104 to identify when a Windows event log is cleared. Note that this analytic will require tuning or restricted to specific endpoints based on criticality. During triage, based on time of day and user, determine if this was planned. If not planned, follow through with reviewing parallel alerts and other data sources to determine what else may have occurred.

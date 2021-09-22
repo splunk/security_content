@@ -17,6 +17,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic will identify a suspicious command-line that disables a user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt availability of such users to do their malicious act.

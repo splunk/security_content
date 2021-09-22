@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 that is processing compressed stream data. This is typically found in obfuscated PowerShell or PowerShell executing embedded .NET or binary files that are stream flattened and will be deflated durnig execution. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.

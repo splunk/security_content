@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for high frequency of file deletion relative to process name and process id. These events usually happen when the ransomware tries to encrypt the files with the ransomware file extensions and sysmon treat the original files to be deleted as soon it was replace as encrypted data.

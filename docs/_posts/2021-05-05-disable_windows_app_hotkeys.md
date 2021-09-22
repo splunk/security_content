@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic detects a suspicious registry modification to disable Windows hotkey (shortcut keys) for native Windows applications. This technique is commonly used to disable certain or several Windows applications like `taskmgr.exe` and `cmd.exe`. This technique is used to impair the analyst in analyzing and removing the attacker implant in compromised systems.

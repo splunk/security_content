@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect suspicious process injection in command shell. This technique was seen in IcedID where it execute cmd.exe process to inject its shellcode as part of its execution as banking trojan. It is really uncommon to have a create remote thread execution in the following application.

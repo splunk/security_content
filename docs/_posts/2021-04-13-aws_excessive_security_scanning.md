@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for AWS CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.

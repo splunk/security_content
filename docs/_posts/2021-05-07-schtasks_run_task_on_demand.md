@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies an on demand run of a Windows Schedule Task through shell or command-line. This technique has been used by adversaries that force to run their created Schedule Task as their persistence mechanism or for lateral movement as part of their malicious attack to the compromised machine.

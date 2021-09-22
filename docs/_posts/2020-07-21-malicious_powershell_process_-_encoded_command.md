@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for PowerShell processes that have encoded the script within the command-line. Malware has been seen using this parameter, as it obfuscates the code and makes it relatively easy to pass a script on the command-line.

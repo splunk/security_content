@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavior is indicative of a COM object being utilized to spawn msbuild from wmiprvse.exe. It is common for MSBuild.exe to be spawned from devenv.exe while using Visual Studio. In this instance, there will be command line arguments and file paths. In a malicious instance, MSBuild.exe will spawn from non-standard processes and have no command line arguments. For example, MSBuild.exe spawning from explorer.exe, powershell.exe is far less common and should be investigated.

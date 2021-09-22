@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a modification or registry add to the safeboot registry as an autostart mechanism. This technique was seen in some ransomware to automatically execute its code upon a safe mode boot.

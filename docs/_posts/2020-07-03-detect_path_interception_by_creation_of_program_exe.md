@@ -21,6 +21,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The detection Detect Path Interception By Creation Of program exe is detecting the abuse of unquoted service paths, which is a popular technique for privilege escalation. 

@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to identifies suspicious firewall disabling using netsh application. this technique is commonly seen in malware that tries to communicate or download its component or other payload to its C2 server.

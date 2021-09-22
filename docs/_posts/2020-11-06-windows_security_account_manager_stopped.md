@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. This is consistent with Ryuk infections across a fleet of endpoints.

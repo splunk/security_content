@@ -23,6 +23,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This detection identifies access to PowerSploit modules that enable illegal control of services and processes, such as installing or spoofing of malicious services, injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands, modifying access to service objects, etc.

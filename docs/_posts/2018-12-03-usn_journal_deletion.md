@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The fsutil.exe application is a legitimate Windows utility used to perform tasks related to the file allocation table (FAT) and NTFS file systems. The update sequence number (USN) change journal provides a log of all changes made to the files on the disk. This search looks for fsutil.exe deleting the USN journal.

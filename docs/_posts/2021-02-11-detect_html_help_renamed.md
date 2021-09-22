@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies a renamed instance of hh.exe (HTML Help) executing a Compiled HTML Help (CHM). This particular technique will load Windows script code from a compiled help file. CHM files may contain nearly any file type embedded, but only execute html/htm. Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The &#34;htm&#34; and &#34;html&#34; file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code. During investigation, identify script content origination. Validate it is the legitimate version of hh.exe by reviewing the PE metadata. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.

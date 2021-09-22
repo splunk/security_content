@@ -9,6 +9,8 @@ tags:
   - Endpoint
 ---
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server - CVE-2021-34473, CVE-2021-34523, and CVE-2021-31207.

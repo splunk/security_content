@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies new printer drivers being load by utilizing the Windows PrintService operational logs, EventCode 316. This was identified during our testing of CVE-2021-34527 previously (CVE-2021-1675) or PrintNightmare. \

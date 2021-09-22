@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies suspicious PowerShell command to allow inbound traffic inbound to a specific local port within the public profile. This technique was seen in some attacker want to have a remote access to a machine by allowing the traffic in firewall rule.

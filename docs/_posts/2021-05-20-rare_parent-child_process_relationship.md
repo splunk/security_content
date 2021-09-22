@@ -28,6 +28,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 An attacker may use LOLBAS tools spawned from vulnerable applications not typically used by system administrators. This search leverages the Splunk Streaming ML DSP plugin to find rare parent/child relationships. The list of application has been extracted from https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries

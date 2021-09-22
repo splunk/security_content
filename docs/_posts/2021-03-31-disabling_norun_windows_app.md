@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to identify modification of registry to disable run application in window start menu. this application is known to be a helpful shortcut to windows OS user to run known application and also to execute some reg or batch script. This technique is used malware to make cleaning of its infection more harder by preventing known application run easily through run shortcut.

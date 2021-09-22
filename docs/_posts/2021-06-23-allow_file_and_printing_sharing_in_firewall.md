@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious modification of firewall to allow file and printer sharing. This technique was seen in ransomware to be able to discover more machine connected to the compromised host to encrypt more files

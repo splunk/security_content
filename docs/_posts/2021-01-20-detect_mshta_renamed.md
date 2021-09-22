@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies renamed instances of mshta.exe executing. Mshta.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. This analytic utilizes the internal name of the PE to identify if is the legitimate mshta binary. Further analysis should be performed to review the executed content and validation it is the real mshta.

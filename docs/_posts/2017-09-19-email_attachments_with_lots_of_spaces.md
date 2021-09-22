@@ -18,6 +18,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Attackers often use spaces as a means to obfuscate an attachment&#39;s file extension. This search looks for messages with email attachments that have many spaces within the file names.

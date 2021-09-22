@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies suspicious modification in registry entry to keep some malware data during its infection. This technique seen in several apt implant, malware and ransomware like REVIL where it keep some information like the random generated file extension it uses for all the encrypted files and ransomware notes file name in the compromised host.

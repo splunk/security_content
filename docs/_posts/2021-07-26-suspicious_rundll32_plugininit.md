@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious rundll32.exe process with plugininit parameter. This technique is commonly seen in IceID malware to execute its initial dll stager to download another payload to the compromised machine.

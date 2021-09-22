@@ -22,6 +22,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic is to identify a modification in the Windows registry to prevent users from seeing all the files with hidden attributes. This event or techniques are known on some worm and trojan spy malware that will drop hidden files on the infected machine.

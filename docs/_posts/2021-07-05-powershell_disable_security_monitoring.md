@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to identifies a modification in registry to disable the windows denfender real time behavior monitoring. This event or technique is commonly seen in RAT, bot, or Trojan to disable AV to evade detections.

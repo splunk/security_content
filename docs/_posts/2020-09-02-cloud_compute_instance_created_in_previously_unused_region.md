@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks at cloud-infrastructure events where an instance is created in any region within the last hour and then compares it to a lookup file of previously seen regions where instances have been created.

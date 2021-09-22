@@ -17,6 +17,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone or to a specific user. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior is a good indicator if this command seen on a machine utilized by an account with no permission to do so.

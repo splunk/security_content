@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect a suspicious rundll32.exe process having a http connection and do a dns query in some web domain. This technique was seen in IcedID malware where the rundll32 that execute its payload will contact amazon.com to check internet connect and to communicate to its C&amp;C server to download config and other file component.

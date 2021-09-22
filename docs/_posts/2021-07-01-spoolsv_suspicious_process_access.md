@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This analytic identifies a suspicious behavior related to PrintNightmare, or CVE-2021-34527 previously (CVE-2021-1675),  to gain privilege escalation on the vulnerable machine. This exploit attacks a critical Windows Print Spooler Vulnerability to elevate privilege. This detection is to look for suspicious process access made by the spoolsv.exe that may related to the attack.

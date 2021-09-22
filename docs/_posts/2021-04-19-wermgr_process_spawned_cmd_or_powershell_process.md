@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is designed to detect suspicious cmd and powershell process spawned by wermgr.exe process. This suspicious behavior are commonly seen in code injection technique technique like trickbot to execute a shellcode, dll modules to run malicious behavior.

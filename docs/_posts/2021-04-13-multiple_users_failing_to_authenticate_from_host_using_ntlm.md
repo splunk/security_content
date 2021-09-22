@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following analytic identifies one source endpoint failing to authenticate with multiple valid users using the NTLM protocol. This behavior could represent an adversary performing a Password Spraying attack against an Active Directory environment using NTLM to obtain initial access or elevate privileges. Event 4776 is generated on the computer that is authoritative for the provided credentials. For domain accounts, the domain controller is authoritative. For local accounts, the local computer is authoritative. Error code 0xC000006A means: misspelled or bad password (the attempted user is a legitimate domain user).\

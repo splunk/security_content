@@ -29,6 +29,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect ARP Poisoning attacks in the Infrastructure.

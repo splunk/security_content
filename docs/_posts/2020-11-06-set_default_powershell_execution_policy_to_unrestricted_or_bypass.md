@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Monitor for changes of the ExecutionPolicy in the registry to the values &#34;unrestricted&#34; or &#34;bypass,&#34; which allows the execution of malicious scripts.

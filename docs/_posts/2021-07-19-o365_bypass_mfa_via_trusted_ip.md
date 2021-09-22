@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search detects newly added IP addresses/CIDR blocks to the list of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known to use this technique so that they can bypass the MFA system.

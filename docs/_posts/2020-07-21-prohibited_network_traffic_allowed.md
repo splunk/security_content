@@ -22,6 +22,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for network traffic defined by port and transport layer protocol in the Enterprise Security lookup table &#34;lookup_interesting_ports&#34;, that is marked as prohibited, and has an associated &#39;allow&#39; action in the Network_Traffic data model. This could be indicative of a misconfigured network device.

@@ -18,6 +18,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.

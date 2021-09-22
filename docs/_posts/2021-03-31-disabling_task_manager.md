@@ -19,6 +19,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to identifies modification of registry to disable the task manager of windows operating system. this event or technique are commonly seen in malware such as RAT, Trojan, TrojanSpy or worm to prevent the user to terminate their process.

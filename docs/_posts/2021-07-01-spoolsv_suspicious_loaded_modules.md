@@ -20,6 +20,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search is to detect suspicious loading of dll in specific path relative to printnightmare exploitation. In this search we try to detect the loaded modules made by spoolsv.exe after the exploitation.

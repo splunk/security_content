@@ -15,6 +15,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts.

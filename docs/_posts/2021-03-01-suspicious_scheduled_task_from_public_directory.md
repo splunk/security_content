@@ -22,6 +22,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The following detection identifies Scheduled Tasks registering (creating a new task) a binary or script to run from a public directory which includes users\public, \programdata\ and \windows\temp. Upon triage, review the binary or script in the command line for legitimacy, whether an approved binary/script or not. In addition, capture the binary or script in question and analyze for further behaviors. Identify the source and contain the endpoint.

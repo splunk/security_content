@@ -22,6 +22,8 @@ tags:
 
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 This search looks for cloud provisioning activities from previously unseen IP addresses. Provisioning activities are defined broadly as any event that runs or creates something.

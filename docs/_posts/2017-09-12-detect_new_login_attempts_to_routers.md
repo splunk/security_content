@@ -18,6 +18,8 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
+[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+
 #### Description
 
 The search queries the authentication logs for assets that are categorized as routers in the ES Assets and Identity Framework, to identify connections that have not been seen before in the last 30 days.
