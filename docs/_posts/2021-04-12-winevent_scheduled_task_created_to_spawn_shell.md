@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -85,9 +85,9 @@ False positives are possible if legitimate applications are allowed to register 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | A windows scheduled task was created (task name=$Task_Name$) on $dest$ by the following command: $Command$ |
 
 
 

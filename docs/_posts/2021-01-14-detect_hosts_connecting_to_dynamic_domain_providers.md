@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,9 +89,9 @@ Some users and applications may leverage Dynamic DNS to reach out to some domain
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A dns query $query$ from your infra connecting to suspicious domain in host  $host$ |
 
 
 

@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -79,9 +79,9 @@ The wmic.exe utility is a benign Windows application. It may be used legitimatel
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | A wmic.exe process $process$ contain process spawn commandline $process$ in host $dest$ |
 
 
 

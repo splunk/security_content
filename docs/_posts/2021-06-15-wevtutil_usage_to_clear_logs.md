@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -79,9 +79,9 @@ The wevtutil.exe application is a legitimate Windows event log utility. Administ
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A wevtutil process $process_name$ with commandline $cmd_line$ to clear event logs in host $dest_device_id$ |
 
 
 

@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -76,9 +76,9 @@ Admin activities or installing related updates may do a sudden stop to list of s
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | Known services $Message$ terminated by a potential ransomware on $dest$ |
 
 
 

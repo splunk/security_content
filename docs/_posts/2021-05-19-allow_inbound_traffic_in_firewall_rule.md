@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -76,9 +76,9 @@ administrator may allow inbound traffic in certain network or machine.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 3.0 | 10 | 30 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 3.0 | 10 | 30 | Suspicious firewall modification detected on endpoint $ComputerName$ by user $user$. |
 
 
 

@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -78,9 +78,9 @@ This registry key may be modified via administrators to implement a change in sy
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | The Windows registry keys that control the enforcement of Windows User Account Control (UAC) were modified on $dest$ by $user$. |
 
 
 

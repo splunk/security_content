@@ -7,3 +7,6 @@ permalink: /detections/resource_development/
 sidebar:
   nav: "detections"
 ---
+
+| Name    |   Technique |     Tactic   |
+| ----------- | ----------- |--------------|

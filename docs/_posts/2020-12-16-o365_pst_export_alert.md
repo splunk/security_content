@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -79,9 +79,9 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 80 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 80 | 60 | User $Source$ has exported a PST file from the search using this operation- $Operation$ with a severity of $Severity$ |
 
 
 

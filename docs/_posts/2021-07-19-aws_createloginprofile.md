@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -81,9 +81,9 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | User $user_arn$ is attempting to create a login profile for $requestParameters.userName$ and did a console login from this IP $src_ip$ |
 
 
 

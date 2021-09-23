@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -89,9 +89,9 @@ This is a strictly behavioral search, so we define &#34;false positive&#34; slig
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 18.0 | 30 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 18.0 | 30 | 60 | User $user$ is starting or creating an instance $dest$ for the first time in City $City$ from IP address $src$ |
 
 
 

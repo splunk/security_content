@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -86,9 +86,9 @@ Limited false positives may be present in small environments. Tuning may be requ
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 81.0 | 90 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 81.0 | 90 | 90 | Process gpupdate.exe  with parent_process $parent_process_name$ is executed on $dest$ by user $user$, followed by an outbound network connection to $connection_to_CNC$ on port $dest_port$. This behaviour is seen with cobaltstrike. |
 
 
 

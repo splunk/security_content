@@ -16,7 +16,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -70,9 +70,9 @@ Because these extensions are not typically used in normal operations, you should
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 90.0 | 100 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 90.0 | 100 | 90 | File writes $file_name$ with extensions consistent with a SamSam ransomware attack seen on $dest$ |
 
 
 

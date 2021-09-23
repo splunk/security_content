@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -79,9 +79,9 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | User $user$ has caused excessive number of authentication failures from $src_ip$ using UserAgent $UserAgent$. |
 
 
 

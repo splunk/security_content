@@ -24,7 +24,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -92,9 +92,9 @@ Limited to no false positives are expected.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 81.0 | 90 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 81.0 | 90 | 90 | Suspcious registy keys added by process fodhelper.exe (process_id- $process_id), with a parent_process of $parent_process_name$ that has been executed on $dest$ by $user$. |
 
 
 

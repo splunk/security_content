@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -83,9 +83,9 @@ False positives should be limited as `services.exe` should never spawn a process
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 76.0 | 80 | 95 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 76.0 | 80 | 95 | A service process $parent_process_name$ with process path $process_path$ in host $dest$ |
 
 
 

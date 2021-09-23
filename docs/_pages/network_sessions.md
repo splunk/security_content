@@ -7,3 +7,6 @@ permalink: /detections/network_sessions/
 sidebar:
   nav: "detections"
 ---
+
+| Name    |   Technique |     Tactic   |
+| ----------- | ----------- |--------------|

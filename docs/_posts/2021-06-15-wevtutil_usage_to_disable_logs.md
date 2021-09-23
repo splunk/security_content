@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -78,9 +78,9 @@ network operator may disable audit event logs for debugging purposes.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A wevtutil process $process_name$ with commandline $cmd_line$ to disable event logs in host $dest_device_id$ |
 
 
 

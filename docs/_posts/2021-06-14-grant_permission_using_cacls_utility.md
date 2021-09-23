@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -77,9 +77,9 @@ network administrator may use this windows utility but this is not a common prac
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 50 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 50 | 70 | A cacls process $process_name$ with commandline $cmd_line$ try to grant user a permission to a file or directory in host $dest_device_id$ |
 
 
 

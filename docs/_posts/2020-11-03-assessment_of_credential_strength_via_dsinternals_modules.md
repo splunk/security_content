@@ -34,7 +34,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -93,9 +93,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 25.5 | 30 | 85 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.5 | 30 | 85 | DSInternals tool kit is assessing password strength at the device $dest_device_id$. Account attempting this operation is $dest_user_id$ via command $cmd_line$ |
 
 
 

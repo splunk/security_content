@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -88,9 +88,9 @@ Creating a hidden powershell service is rare and could key off of those instance
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $Service_File_Name$ by $user$ on $dest$ |
 
 
 

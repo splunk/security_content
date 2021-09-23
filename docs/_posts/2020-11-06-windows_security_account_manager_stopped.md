@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -76,9 +76,9 @@ SAM is a critical windows service, stopping it would cause major issues on an en
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | The Windows Security Account Manager (SAM) was stopped via cli by $user$ on $dest$ by this command: $processs$ |
 
 
 

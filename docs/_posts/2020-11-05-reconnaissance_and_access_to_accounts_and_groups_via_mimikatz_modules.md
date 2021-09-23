@@ -26,7 +26,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -85,9 +85,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | Mimikatz malware is searching for and using specific accounts and groups. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

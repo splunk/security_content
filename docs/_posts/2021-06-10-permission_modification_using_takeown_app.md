@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -81,9 +81,9 @@ takeown.exe is a normal windows application that may used by network operator.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A suspicious of execution of $process_name$ with process id $process_id$ and commandline $process$ to modify permission of directory or files in host $dest$ |
 
 
 

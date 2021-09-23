@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -75,9 +75,9 @@ It is possible that these logs may be legitimately cleared by Administrators. Fi
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | Windows event logs cleared on $dest$ via EventCode $EventCode$ |
 
 
 

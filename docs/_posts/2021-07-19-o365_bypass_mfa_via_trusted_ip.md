@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -86,9 +86,9 @@ Unless it is a special case, it is uncommon to continually update Trusted IPs to
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a list of trusted IPs to bypass MFA |
 
 
 

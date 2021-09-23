@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -84,9 +84,9 @@ Although unlikely, administrators may use event subscriptions for legitimate pur
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 30.0 | 30 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 30.0 | 30 | 100 | User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter: $filter$. Consumer: $Consumer$.  EventCode: $EventCode$ |
 
 
 

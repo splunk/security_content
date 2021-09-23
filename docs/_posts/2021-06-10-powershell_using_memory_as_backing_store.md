@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -75,9 +75,9 @@ powershell may used this function to store out object into memory.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 40.0 | 50 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $Message$ as new object backstore with EventCode $EventCode$ in host $ComputerName$ |
 
 
 

@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -82,9 +82,9 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | An instance of $process_name$ was identified on endpoint $Computer$ by user $user$ accessing known suspicious named pipes related to Cobalt Strike. |
 
 
 

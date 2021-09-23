@@ -23,7 +23,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -92,9 +92,9 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 15.0 | 30 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | user $user$ has made $api_calls$ api calls related to security groups, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$. |
 
 
 

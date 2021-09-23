@@ -27,7 +27,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -91,9 +91,9 @@ Some administrator activity can be potentially triggered, please add those users
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | An attacker tool $process_name$,listed in attacker_tools.csv is executed on host $dest$ by User $user$. This process $process_name$ is known to do- $description$ |
 
 
 

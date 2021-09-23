@@ -21,7 +21,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -81,9 +81,9 @@ Logon errors may not be malicious in nature however it may indicate attempts to 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | User $UserId$ has caused excessive number of SSO logon errors from $ActorIpAddress$ using UserAgent $UserAgent$. |
 
 
 

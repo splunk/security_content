@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -77,9 +77,9 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | $process_name$ was identified on endpoint $Computer$ writing $TargetFilename$ to disk. This behavior is related to dumping credentials via Task Manager. |
 
 
 

@@ -21,7 +21,7 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -84,9 +84,9 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 15.0 | 30 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | Local user discovery enumeration using PowerShell on $dest$ by $user$ |
 
 
 

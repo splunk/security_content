@@ -7,3 +7,13 @@ permalink: /detections/{{ tag | lower | replace(' ', '_') }}/
 sidebar:
   nav: "detections"
 ---
+
+| Name    |   Technique |     Tactic   |
+| ----------- | ----------- |--------------|
+{%- for detection in detections -%}
+{% if detections.mitre_attacks %}
+| [{{ detections.name }}]({{ detections.name | lower | replace(" ", "_") }}) | {% for attack in detections.mitre_attacks -%} [{{ attack.technique }}](/tags/#{{ attack.technique | lower | replace(" ", "-") }}){% if not loop.last -%}, {% endif -%}{%- endfor %} | [{{ detections.mitre_attacks[0].tactic[0] }}](/tags/#{{ detections.mitre_attacks[0].tactic[0] | lower | replace(" ", "-") }}) |
+{%- else %}
+| [{{ detections.name }}]() | None | None |
+{%- endif -%}
+{%- endfor -%}

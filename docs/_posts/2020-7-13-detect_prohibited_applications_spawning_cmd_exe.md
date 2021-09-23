@@ -16,7 +16,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -83,9 +83,9 @@ There are circumstances where an application may legitimately execute and intera
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | Potential malicious landing to the console via unexpected programs that called cmd.exe.  Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ where parent process $parent_process$ spwaned $process_name$. |
 
 
 

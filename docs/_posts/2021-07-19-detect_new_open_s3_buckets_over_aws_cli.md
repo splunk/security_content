@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -85,9 +85,9 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 60 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 60 | 80 | User $userIdentity.userName$ has created an open/public bucket $bucketName$ using AWS CLI with the following permissions - $requestParameters.accessControlList.x-amz-grant-read$ $requestParameters.accessControlList.x-amz-grant-read-acp$ $requestParameters.accessControlList.x-amz-grant-write$ $requestParameters.accessControlList.x-amz-grant-write-acp$ $requestParameters.accessControlList.x-amz-grant-full-control$ |
 
 
 

@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -87,9 +87,9 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 30.0 | 50 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 30.0 | 50 | 60 | A cmd process $process_name$ with commandline $cmd_line$ try to execute command has not previously seen in host $dest_device_id$ |
 
 
 

@@ -16,7 +16,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -74,9 +74,9 @@ It is possible that an admin will create a new system using a new instance type 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 30.0 | 50 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 30.0 | 50 | 60 | User $user$ is creating an instance $dest$ with an instance type $instance_type$ that has not been previously seen. |
 
 
 

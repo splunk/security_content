@@ -7,3 +7,6 @@ permalink: /detections/authentication/
 sidebar:
   nav: "detections"
 ---
+
+| Name    |   Technique |     Tactic   |
+| ----------- | ----------- |--------------|

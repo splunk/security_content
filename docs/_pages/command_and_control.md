@@ -7,3 +7,6 @@ permalink: /detections/command_and_control/
 sidebar:
   nav: "detections"
 ---
+
+| Name    |   Technique |     Tactic   |
+| ----------- | ----------- |--------------|

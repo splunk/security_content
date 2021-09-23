@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -80,9 +80,9 @@ This detection will require tuning to provide high fidelity detection capabiltie
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 28.0 | 40 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 28.0 | 40 | 70 | User $user_arn$ has caused multiple failures with errorCode $errorCode$, which potentially means adversary is attempting to identify a role name. |
 
 
 

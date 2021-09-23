@@ -7,3 +7,6 @@ permalink: /detections/email/
 sidebar:
   nav: "detections"
 ---
+
+| Name    |   Technique |     Tactic   |
+| ----------- | ----------- |--------------|

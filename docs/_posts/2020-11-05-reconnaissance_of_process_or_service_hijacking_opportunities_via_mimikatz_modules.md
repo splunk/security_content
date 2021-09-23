@@ -26,7 +26,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -85,9 +85,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | Mimikatz malware is looking for and invoking Microsoft Detours package that enables spoofing of in-memory code. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

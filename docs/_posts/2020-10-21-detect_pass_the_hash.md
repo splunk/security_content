@@ -17,7 +17,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -81,9 +81,9 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 16.0 | 80 | 20 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 16.0 | 80 | 20 | Potential use of the pass the hash/token attacks that spoof authentication. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

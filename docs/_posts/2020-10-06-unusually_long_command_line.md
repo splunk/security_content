@@ -13,7 +13,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -73,9 +73,9 @@ This detection may flag suspiciously long command lines when there is not suffic
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 12.0 | 30 | 40 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 12.0 | 30 | 40 | A  process $process_name$ with a long commandline $cmd_line$ executed in host $dest_device_id$ |
 
 
 

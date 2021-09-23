@@ -1,0 +1,35 @@
+author: David Dorsey, Splunk
+datamodel: []
+date: '2018-03-15'
+description: This search builds a table of previously seen ARNs that have launched
+  a EC2 instance.
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
+  and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
+  inputs.
+id: 6c767ac0-0906-4355-9a83-927f5ee7bdad
+known_false_positives: none
+name: Previously Seen EC2 Launches By User
+references: []
+search: '`cloudtrail` eventName=RunInstances errorCode=success | rename userIdentity.arn
+  as arn | stats earliest(_time) as firstTime latest(_time) as lastTime by arn | outputlookup
+  previously_seen_ec2_launches_by_user.csv | stats count'
+tags:
+  analytic_story:
+  - AWS Cryptomining
+  - Suspicious AWS EC2 Activities
+  deployments:
+  - Daily Cache Updates
+  detections:
+  - EC2 Instance Started With Previously Unseen User
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - eventName
+  - errorCode
+  - requestParameters.instanceType
+  security_domain: network
+type: Baseline
+version: 1
