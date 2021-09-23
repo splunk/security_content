@@ -439,35 +439,34 @@ def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
         if data_model:
             detection['data_model'] = data_model
 
-        if detection['type'] != 'Investigation':
-            matched_deployment = get_deployments(detection, deployments)
-            detection['deployment'] = matched_deployment
-            nes_fields = get_nes_fields(detection['search'], detection['deployment'])
-            if len(nes_fields) > 0:
-                detection['nes_fields'] = nes_fields
+        matched_deployment = get_deployments(detection, deployments)
+        detection['deployment'] = matched_deployment
+        nes_fields = get_nes_fields(detection['search'], detection['deployment'])
+        if len(nes_fields) > 0:
+            detection['nes_fields'] = nes_fields
 
-            keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
-            mappings = {}
-            for key in keys:
-                if key == 'mitre_attack':
-                    if 'mitre_attack_id' in detection['tags']:
-                        mappings[key] = detection['tags']['mitre_attack_id']
-                else:
-                    if key in detection['tags']:
-                        mappings[key] = detection['tags'][key]
-            detection['mappings'] = mappings
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        mappings = {}
+        for key in keys:
+            if key == 'mitre_attack':
+                if 'mitre_attack_id' in detection['tags']:
+                    mappings[key] = detection['tags']['mitre_attack_id']
+            else:
+                if key in detection['tags']:
+                    mappings[key] = detection['tags'][key]
+        detection['mappings'] = mappings
             
-            detection = add_annotations(detection)
-            detection = add_rba(detection)
-            detection = add_playbook(detection, playbooks)
+        detection = add_annotations(detection)
+        detection = add_rba(detection)
+        detection = add_playbook(detection, playbooks)
 
             # add additional metadata
-            if 'product' in detection['tags']:
-                detection['product'] = detection['tags']['product']
+        if 'product' in detection['tags']:
+            detection['product'] = detection['tags']['product']
 
             # turn all SAAWS detections
-            if (OUTPUT_PATH) == 'dist/saaws':
-                detection['disabled'] = 'false'
+        if (OUTPUT_PATH) == 'dist/saaws':
+            detection['disabled'] = 'false'
 
     return detections
 
