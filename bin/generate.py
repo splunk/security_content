@@ -680,7 +680,7 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
             deprecated.append(d)
 
     if VERBOSE:
-        print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), story_path))
+        print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), use_case_lib_path))
         print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
         print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
         print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
