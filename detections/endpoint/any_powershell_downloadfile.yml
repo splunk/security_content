@@ -2,7 +2,7 @@ name: Any Powershell DownloadFile
 id: 1a93b7ea-7af7-11eb-adb5-acde48001122
 version: 1
 date: '2021-03-01'
-author: Michael Haag, Splunk
+author: Michael Haag, Splunk!
 type: TTP
 datamodel:
 - Endpoint

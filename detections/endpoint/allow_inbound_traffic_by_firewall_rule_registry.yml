@@ -2,7 +2,7 @@ name: Allow Inbound Traffic By Firewall Rule Registry
 id: 0a46537c-be02-11eb-92ca-acde48001122
 version: 1
 date: '2021-05-26'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk!
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Bcdedit Command Back To Normal Mode Boot
 id: dc7a8004-0f18-11ec-8c54-acde48001122
 version: 1
 date: '2021-09-06'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk!
 type: TTP
 datamodel:
 - Endpoint

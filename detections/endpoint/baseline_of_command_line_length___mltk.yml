@@ -2,7 +2,7 @@ name: Baseline of Command Line Length - MLTK
 id: d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459
 version: 1
 date: '2019-05-08'
-author: Rico Valdez, Splunk
+author: Rico Valdez, Splunk!
 type: Baseline
 datamodel: []
 description: This search is used to build a Machine Learning Toolkit (MLTK) model
