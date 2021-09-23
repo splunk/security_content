@@ -485,10 +485,12 @@ def prepare_stories(stories, detections, playbooks):
 
     for detection in detections:
         if detection['type'] == 'Baseline':
+            rule_name = str('ESCU - ' + detection['name'])
             continue
         if 'analytic_story' in detection['tags']:
             for story in detection['tags']['analytic_story']:
-                rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+                if detection['type'] != "Investigation":
+                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
 
                 if story in sto_to_det.keys():
                     sto_to_det[story].add(rule_name)
