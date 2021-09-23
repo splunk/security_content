@@ -113,26 +113,26 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
 
     return output_path
 
-def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
-    utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
+# def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
+#     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
-                         trim_blocks=True)
-    template = j2_env.get_template('analytic_stories.j2')
-    output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
-    output = template.render(stories=stories, time=utc_time)
-    with open(output_path, 'w', encoding="utf-8") as f:
-        f.write(output)
+#     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+#                          trim_blocks=True)
+#     template = j2_env.get_template('analytic_stories.j2')
+#     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
+#     output = template.render(stories=stories, time=utc_time)
+#     with open(output_path, 'w', encoding="utf-8") as f:
+#         f.write(output)
 
-    return output_path
+#     return output_path
 
 def generate_use_case_library_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
-    template = j2_env.get_template('use_case_library.j2')
-    output_path = path.join(OUTPUT_PATH, 'default/use_case_library.conf')
+    template = j2_env.get_template('analyticstories.j2')
+    output_path = path.join(OUTPUT_PATH, 'default/analyticstories.conf')
     output = template.render(stories=stories, detections=detections,
                              time=utc_time)
     with open(output_path, 'w', encoding="utf-8") as f:
@@ -665,7 +665,7 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
 
     detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
 
-    story_path = generate_analytic_story_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+    # story_path = generate_analytic_story_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
 
     use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
 

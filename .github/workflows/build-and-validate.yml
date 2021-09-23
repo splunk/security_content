@@ -148,10 +148,10 @@ jobs:
           python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu
           python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
           python3 contentctl.py --path . --verbose generate --product DevSecOps --output dist/devsecops
-          #make a copy of use_case_lib in order to have ES work :-(
-          cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
-          cp dist/saaws/default/use_case_library.conf dist/saaws/default/analyticstories.conf
-          cp dist/devsecops/default/use_case_library.conf dist/devsecops/default/analyticstories.conf
+          # make a copy of use_case_lib in order to have ES work :-(
+          # cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
+          # cp dist/saaws/default/use_case_library.conf dist/saaws/default/analyticstories.conf
+          # cp dist/devsecops/default/use_case_library.conf dist/devsecops/default/analyticstories.conf
 
       - name: Copy lookups .csv files
         run: | 
