@@ -12,7 +12,7 @@
     <query>| rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *"</query>
   </search>
   <search id="baseAS">
-    <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0</query>
+    <query>| rest /services/configs/conf-analyticstories splunk_server=local count=0 |search eai:acl.app = "DA-ESS-ContentUpdate"</query>
   </search>
   <init>
     <set token="form.as_category">*</set>
@@ -36,7 +36,7 @@
       <single>
         <title>Total Analytic Stories</title>
         <search base="baseAS">
-          <query>stats count</query>
+          <query> search title="analytic_story://*"  |stats count</query>
         </search>
         <!-- post-process search -->
         <option name="colorBy">value</option>
@@ -104,7 +104,7 @@
       <title>Story Categories</title>
       <chart>
         <search>
-          <query>| rest /services/configs/conf-analytic_stories splunk_server=local count=0 | stats count by category</query>
+          <query>| rest /services/configs/conf-analyticstories splunk_server=local count=0 |  search eai:acl.app = "DA-ESS-ContentUpdate"|  search title="analytic_story://*"|  stats count by category</query>
         </search>
         <drilldown>
           <set token="form.as_category">$click.value$</set>
@@ -123,9 +123,10 @@
       <chart>
         <search>
           <query>
-                    | rest /services/configs/conf-analytic_stories splunk_server=local count=0
-                    | spath input=mappings path=mitre_attack{} output="MITRE Technique ID"
-                    | stats dc(title) as "Analytic Stories" by "MITRE Technique ID"
+                   | rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *" 
+|  spath input=action.correlationsearch.annotations path=mitre_attack{} output="MITRE Technique ID" 
+|  spath input=action.correlationsearch.annotations path=analytic_story{} output=story_name 
+ | stats dc(story_name) as "Analytic Stories" by "MITRE Technique ID"
           </query>
         </search>
         <drilldown>
@@ -141,9 +142,13 @@
       <input type="dropdown" token="as_story">
         <label>Analytic Story</label>
         <choice value="*">All</choice>
-        <search base="baseAS">
+        <search>
           <latest>now</latest>
-          <query>| dedup title | rename title as story | fields story</query>
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
+|  search action.escu.search_type = detection 
+| spath input=action.correlationsearch.annotations path=analytic_story{} output="story" 
+|  mvexpand story
+| dedup story | fields story</query>
         </search>
         <fieldForLabel>story</fieldForLabel>
         <fieldForValue>story</fieldForValue>
@@ -154,9 +159,11 @@
       <input type="dropdown" token="detection">
         <label>Detections</label>
         <choice value="*">All</choice>
-        <search base="baseSS">
+        <search>
           <latest>now</latest>
-          <query>rename action.correlationsearch.label as Detection | dedup Detection |  fields Detection</query>
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
+|  search title="ESCU - *" action.escu.search_type = detection 
+| rename title as Detection | dedup Detection |  fields Detection</query>
         </search>
         <fieldForLabel>Detection</fieldForLabel>
         <fieldForValue>Detection</fieldForValue>
@@ -167,9 +174,10 @@
       <input type="dropdown" token="as_category">
         <label>Category</label>
         <choice value="*">All</choice>
-        <search base="baseAS">
+        <search >
           <latest>now</latest>
-          <query>| dedup category | fields category</query>
+          <query>| rest /services/configs/conf-analyticstories splunk_server=local count=0
+   |  search title="analytic_story://*" ||  table category</query>
         </search>
         <fieldForLabel>category</fieldForLabel>
         <fieldForValue>category</fieldForValue>
@@ -180,9 +188,11 @@
       <input type="dropdown" token="as_attack_id">
         <label>MITRE Technique ID</label>
         <choice value="*">All</choice>
-        <search base="baseAS">
+        <search >
           <latest>now</latest>
-          <query>| spath input=mappings path=mitre_attack{} output="MITRE Technique ID" | mvexpand "MITRE Technique ID"| dedup "MITRE Technique ID" | fields "MITRE Technique ID"</query>
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
+|  search action.escu.search_type = detection 
+| spath input=action.correlationsearch.annotations path=mitre_attack{} output="MITRE Technique ID" | mvexpand "MITRE Technique ID"| dedup "MITRE Technique ID" | fields "MITRE Technique ID"</query>
         </search>
         <fieldForLabel>MITRE Technique ID</fieldForLabel>
         <fieldForValue>MITRE Technique ID</fieldForValue>
@@ -193,9 +203,13 @@
       <input type="dropdown" token="as_data_models">
         <label>Data Models</label>
         <choice value="*">All</choice>
-        <search base="baseAS">
+        <search>
           <latest>now</latest>
-          <query>| spath input=data_models path={} output=dm | mvexpand dm | dedup dm | fields dm</query>
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
+|  search action.escu.search_type = detection 
+| spath input=action.escu.data_models path={} output=dm
+|  dedup dm 
+|   fields dm</query>
         </search>
         <fieldForLabel>dm</fieldForLabel>
         <fieldForValue>dm</fieldForValue>
@@ -208,14 +222,20 @@
         </html>
       <table>
         <title>Analytic Story Details</title>
-        <search base="baseAS">
+        <search>
           <query>
-                spath input=data_models path={} output="Data Models"
-                | spath input=mappings path=kill_chain_phases{} output="Kill Chain Phases"
-                | spath input=detection_searches path={} output="Detections"
-                | spath input=mappings path=mitre_attack{} output="MITRE Technique ID"
-                | rename title as "Analytic Story" description as "Description" category as "Category" modification_date as "Last Updated"
-                | fillnull value="-"
+               | rest /services/configs/conf-savedsearches splunk_server=local count=0 
+|  search action.escu.search_type = detection 
+| spath input=action.correlationsearch.annotations path=analytic_story{} output="analytic_story" 
+| spath input=action.correlationsearch.annotations path=mitre_attack{} output="mitre_attack" 
+| spath input=action.escu.data_models path={} output="Data Models"
+| rename title as "Detections"
+| join type=outer analytic_story
+    [| rest /services/configs/conf-analyticstories splunk_server=local count=0
+   |  search title="analytic_story://*" 
+    | eval "analytic_story"=replace(title,"analytic_story://","" ) 
+    ]  
+| fillnull value="-"
                 | search "Analytic Story"=$as_story$
                 | search "Data Models"=$as_data_models$
                 | search "Category"=$as_category$
