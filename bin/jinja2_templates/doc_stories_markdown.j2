@@ -14,17 +14,17 @@ tags:
 {%- endfor %}
 ---
 
-[Try in Splunk Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 {{ story.description }}
 
-- **ID**: {{ story.id }}
 - **Product**: {{ story.tags.product|join(', ') }}
 - **Datamodel**: {% for datamodel in story.data_models %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
 - **Last Updated**: {{ story.date }}
 - **Author**: {{story.author}}
+- **ID**: {{ story.id }}
 
 #### Narrative
 
