@@ -12,27 +12,25 @@ search: '| tstats `security_content_summariesonly` count values(Registry.registr
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\Software\\Remcos*)|
   `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `remcos_registry_install_entry_filter`'
 how_to_implement: to successfully implement this search, you need to be ingesting
-  logs with the Image, TargetObject registry key, registry Details from your endpoints.
+  logs with the TargetObject registry key, registry Details from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
-- https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
-- https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+- https://attack.mitre.org/software/S0332/
 tags:
   analytic_story:
-  - Remcos 
-  automated_detection_testing: passed
+  - Remcos
   confidence: 100
   context:
-  - source:endpoint
+  - source: endpoint
   - stage: Defense Evasion
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+  - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/agent_license.log
   impact: 60
   kill_chain_phases:
   - Exploitation
-  message: A registry entry $registry_path$ with registry value $registry_value_name$
-    and $registry_value_name$ related to revil ransomware in host $dest$
+  message: A registry entry $registry_path$ with registry value $registry_key_name$
+     related to Remcos RAT in host $dest$
   mitre_attack_id:
   - T1112
   observable:
@@ -50,9 +48,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Registry.dest
-  - Registry.user
-  - Registry.registry_value_name
   - Registry.registry_path
   - Registry.registry_key_name
   risk_score: 60

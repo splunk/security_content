@@ -24,8 +24,7 @@ tags:
   analytic_story:
   - Remcos
   - Command and Control
-  asset_type: Endpoint
-  automated_detection_testing: tbt
+  asset_type: Endpoint 
   cis20:
   - N/A
   confidence: 90
@@ -33,7 +32,7 @@ tags:
   - source: endpoint
   - stage: Initial Access
   dataset:
-  - https://github.com/splunk/attack_data/tree/master/datasets/malware/remcos/
+  - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_control_panel_license_dns_query.log
   impact: 90
   kill_chain_phases:
   - Command and Control
