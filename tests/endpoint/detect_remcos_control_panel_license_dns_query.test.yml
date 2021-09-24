@@ -1,7 +1,7 @@
 name: Detect remcos control panel license dns query Unit Test
 tests:
 - name: Detect remcos control panel license dns query
-  file: network/detect_remcos_control_panel_license_dns_query.yml
+  file: endpoint/detect_remcos_control_panel_license_dns_query.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-15d'
   latest_time: 'now'

@@ -1,0 +1,52 @@
+name: Detect remcos control panel license dns query
+id: 393cc4f4-1d84-11ec-8924-acde48001122
+version: 1
+date: '2021-09-24'
+author: Rod Soto
+type: TTP
+datamodel:
+- Endpoint
+description: This search will look for a specific DNS query made during the installation of Remcos Control panel, specifically directed towards p4-preview.runhosting.com.
+search: '`sysmon` EventCode=22 | search query=*preview.runhosting.com | stats count by Computer process_name query answer _time | `detect_remcos_control_panel_license_dns_query_filter`'
+how_to_implement: In order To successfully implement this search, you need to be ingesting
+  logs with the driver loaded and Signature from your endpoints. If you are using
+  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: This specific domain its also associated with other products from the same vendor. They should be considered suspicious as well.
+references:
+  - https://attack.mitre.org/software/S0332/
+tags:
+  analytic_story:
+  - Remcos
+  dataset:
+  - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_control_panel_license_dns_query.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1016
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - query
+  - answer
+  - Computer
+  - process_name
+  security_domain: endpoint
+  impact: 80
+  confidence: 90
+  # (impact * confidence)/100
+  risk_score: 72
+  context:
+  message: A dns query $query$ from your infrastructure attempted a connection to a Remcos RAT suspicious domain from
+      host $host$
+  observable:
+      - name: Computer
+        type: Hostname
+        role:
+        - Victim
+      - name: process_name
+        type: process_name
+        role:
+        - Attacker

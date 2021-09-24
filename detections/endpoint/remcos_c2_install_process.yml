@@ -15,33 +15,33 @@ known_false_positives: False positives should be limited.
 references:
   - https://attack.mitre.org/software/S0332/
 tags:
-analytic_story:
-  - Remcos
-dataset:
-  - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_c2_install_process.log
-kill_chain_phases:
+  analytic_story:
+    - Remcos
+  dataset:
+    - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_c2_install_process.log
+  kill_chain_phases:
   - Exploitation
-mitre_attack_id:
+  mitre_attack_id:
   - T1543
-product:
+  product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-required_fields:
+  required_fields:
   - _time
   - Computer
   - Description
   - parent_process_exec
   - Signature
   - process_current_directory
-security_domain: endpoint
-impact: 90
-confidence: 100
+  security_domain: endpoint
+  impact: 90
+  confidence: 100
   # (impact * confidence)/100
-risk_score: 90
-context:
-message: A process $parent_process_exec$ related to installation of Remcos RAT has been detected in host $Computer$
-observable:
+  risk_score: 90
+  context:
+  message: A process $parent_process_exec$ related to installation of Remcos RAT has been detected in host $Computer$
+  observable:
   name: Computer
   type: Hostname
   role:
