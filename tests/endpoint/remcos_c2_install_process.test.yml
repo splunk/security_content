@@ -1,0 +1,12 @@
+name: Remcos C2 install process Unit Test
+tests:
+- name: Remcos C2 install process
+  file: endpoint/remcos_c2_install_process.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-15d'
+  latest_time: 'now'
+  attack_data:
+  - file_name: remcos_c2_install_process.log
+    data: https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_c2_install_process.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

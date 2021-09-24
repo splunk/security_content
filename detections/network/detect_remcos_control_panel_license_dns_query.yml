@@ -1,0 +1,54 @@
+name: Detect remcos control panel license dns query
+id: e897a1aa-1d64-11ec-99c7-acde48001122
+version: 1
+date: '2021-09-24'
+author: Rod Soto
+type: TTP
+datamodel:
+ - Network_Resolution
+description: This search will look for a specific DNS query made during the installation of Remcos Control panel, specifically directed towards p4-preview.runhosting.com.
+search: '(index=* OR index=_*) ((`cim_Network_Resolution_indexes`) tag=network tag=resolution tag=dns) | search query=*preview.runhosting.com | stats count by query, answer
+| `detect_remcos_control_panel_license_dns_query_filter`'
+how_to_implement: 'Need to ingest data from your DNS operations. This
+  can be done by ingesting logs from your server or data, collected passively by Splunk
+  Stream or a similar solution. Specifically, data that contains the domain that is
+  being queried and the IP of the host originating the request must be populating
+  the `Network_Resolution` data model.'
+known_false_positives: This specific domain its also associated with other products from the same vendor. They should be considered suspicious as well.
+references:
+- https://attack.mitre.org/software/S0332/
+tags:
+analytic_story:
+- Remcos
+dataset:
+  - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_control_panel_license_dns_query.log
+kill_chain_phases:
+- Exploitation
+mitre_attack_id:
+- T1016
+product:
+- Splunk Enterprise
+- Splunk Enterprise Security
+- Splunk Cloud
+required_fields:
+- _time
+- DNS.answer
+- DNS.query
+- host
+security_domain: network
+impact: 90
+confidence: 90
+  # (impact * confidence)/100
+risk_score: 90
+context:
+message: A dns query $query$ from your infrastructure attempted a connection to a Remcos RAT suspicious domain from
+    host $host$
+observable:
+name: host
+type: Hostname
+role:
+  - Victim
+name: query
+type: dnsquery
+role:
+  - Attacker
