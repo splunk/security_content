@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: 'The follow hunting analytic identifies the use of `wmic.exe` enumerating
+description: 'The following hunting analytic identifies the use of `wmic.exe` enumerating
   local groups on the endpoint. \
 
   Typically, by itself, is not malicious but may raise suspicion based on time of
@@ -24,7 +24,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-known_false_positives: False positives may be present. Tune as needed.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1069/001/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1069.001/T1069.001.md

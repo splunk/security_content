@@ -33,6 +33,8 @@ tags:
   kill_chain_phases:
   - Actions on Objectives
   message: Vulnerabilities with severity high found in image $image$
+  deployments:
+  - Slack Alert
   mitre_attack_id:
   - T1204.003
   nist:

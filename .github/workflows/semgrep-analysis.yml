@@ -48,7 +48,7 @@ jobs:
           config: >- # more at semgrep.dev/explore
             p/security-audit
             p/secrets
-
+      
       # Upload SARIF file generated in previous step
       #The following lines are commented out right now pending a fix to the semgrep repo
       - name: Upload SARIF file
