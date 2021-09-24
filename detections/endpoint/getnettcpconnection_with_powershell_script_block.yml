@@ -1,0 +1,58 @@
+name: GetNetTcpconnection with PowerShell Script Block
+id: 091712ff-b02a-4d43-82ed-34765515d95d
+version: 1
+date: '2021-09-10'
+author: Mauricio Velazco, Splunk
+type: Hunting
+datamodel:
+- Endpoint
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the execution of the `Get-NetTcpconnection ` commandlet. This commandlet
+  is used to return a listing of network connections on a compromised system. Red
+  Teams and adversaries alike may use this commandlet for situational awareness and
+  Active Directory Discovery.
+search: '`powershell` EventCode=4104 (Message = "*Get-NetTcpconnection*") | stats
+  count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName
+  User | `security_content_ctime(firstTime)` | `getnettcpconnection_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use this PowerShell commandlet
+  for troubleshooting.
+references:
+- https://attack.mitre.org/techniques/T1049/
+- https://docs.microsoft.com/en-us/powershell/module/nettcpip/get-nettcpconnection?view=windowsserver2019-ps
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-powershell.log
+  kill_chain_phases:
+  - Reconnaissance
+  mitre_attack_id:
+  - T1049
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  security_domain: endpoint
+  impact: 30
+  confidence: 50
+  risk_score: 15
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  - Stage:Recon
+  message: Network Connection discovery on $dest$ by $user$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  automated_detection_testing: passed

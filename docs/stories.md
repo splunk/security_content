@@ -211,6 +211,111 @@ _version_: 1
 <details>
   <summary>details</summary>
 
+### Active Directory Discovery
+Monitor for activities and techniques associated with Discovery and Reconnaissance within with Active Directory environments.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1087.001](https://attack.mitre.org/techniques/T1087.001/), [T1087.002](https://attack.mitre.org/techniques/T1087.002/), [T1201](https://attack.mitre.org/techniques/T1201/)
+- **Last Updated**: 2021-08-20
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [AdsiSearcher Account Discovery](detections.md#adsisearcher-account-discovery)
+
+* [Domain Account Discovery With Net App](detections.md#domain-account-discovery-with-net-app)
+
+* [Domain Account Discovery with Dsquery](detections.md#domain-account-discovery-with-dsquery)
+
+* [Domain Account Discovery with Wmic](detections.md#domain-account-discovery-with-wmic)
+
+* [Get ADDefaultDomainPasswordPolicy with Powershell](detections.md#get-addefaultdomainpasswordpolicy-with-powershell)
+
+* [Get ADDefaultDomainPasswordPolicy with Powershell Script Block](detections.md#get-addefaultdomainpasswordpolicy-with-powershell-script-block)
+
+* [Get ADUser with PowerShell](detections.md#get-aduser-with-powershell)
+
+* [Get ADUser with PowerShell Script Block](detections.md#get-aduser-with-powershell-script-block)
+
+* [Get ADUserResultantPasswordPolicy with Powershell](detections.md#get-aduserresultantpasswordpolicy-with-powershell)
+
+* [Get ADUserResultantPasswordPolicy with Powershell Script Block](detections.md#get-aduserresultantpasswordpolicy-with-powershell-script-block)
+
+* [Get DomainPolicy with Powershell](detections.md#get-domainpolicy-with-powershell)
+
+* [Get DomainPolicy with Powershell Script Block](detections.md#get-domainpolicy-with-powershell-script-block)
+
+* [Get DomainUser with PowerShell](detections.md#get-domainuser-with-powershell)
+
+* [Get DomainUser with PowerShell Script Block](detections.md#get-domainuser-with-powershell-script-block)
+
+* [GetLocalUser with PowerShell](detections.md#getlocaluser-with-powershell)
+
+* [GetLocalUser with PowerShell Script Block](detections.md#getlocaluser-with-powershell-script-block)
+
+* [GetWmiObject DS User with PowerShell](detections.md#getwmiobject-ds-user-with-powershell)
+
+* [GetWmiObject DS User with PowerShell Script Block](detections.md#getwmiobject-ds-user-with-powershell-script-block)
+
+* [GetWmiObject User Account with PowerShell](detections.md#getwmiobject-user-account-with-powershell)
+
+* [GetWmiObject User Account with PowerShell Script Block](detections.md#getwmiobject-user-account-with-powershell-script-block)
+
+* [Local Account Discovery With Wmic](detections.md#local-account-discovery-with-wmic)
+
+* [Local Account Discovery with Net](detections.md#local-account-discovery-with-net)
+
+* [Password Policy Discovery with Net](detections.md#password-policy-discovery-with-net)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1087.002 | Domain Account | Discovery |
+| T1201 | Password Policy Discovery | Discovery |
+| T1087.001 | Local Account | Discovery |
+
+#### Kill Chain Phase
+
+* Reconnaissance
+
+
+#### Reference
+
+* https://attack.mitre.org/tactics/TA0007/
+
+* https://adsecurity.org/?p=2535
+
+* https://attack.mitre.org/techniques/T1087/001/
+
+* https://attack.mitre.org/techniques/T1087/002/
+
+* https://attack.mitre.org/techniques/T1087/003/
+
+* https://attack.mitre.org/techniques/T1482/
+
+* https://attack.mitre.org/techniques/T1201/
+
+* https://attack.mitre.org/techniques/T1069/001/
+
+* https://attack.mitre.org/techniques/T1069/002/
+
+* https://attack.mitre.org/techniques/T1018/
+
+* https://attack.mitre.org/techniques/T1049/
+
+* https://attack.mitre.org/techniques/T1033/
+
+
+_version_: 1
+</details>
+
+---
+
 ### Active Directory Password Spraying
 Monitor for activities and techniques associated with Password Spraying attacks within Active Directory environments.
 
@@ -696,7 +801,9 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 
 * [Dump LSASS via procdump Rename](detections.md#dump-lsass-via-procdump-rename)
 
-* [Extract SAM from Registry](detections.md#extract-sam-from-registry)
+* [Esentutl SAM Copy](detections.md#esentutl-sam-copy)
+
+* [Extraction of Registry Hives](detections.md#extraction-of-registry-hives)
 
 * [Investigate Failed Logins for Multiple Destinations](detections.md#investigate-failed-logins-for-multiple-destinations)
 
@@ -735,8 +842,8 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | T1087 | Account Discovery | Discovery |
 | T1201 | Password Policy Discovery | Discovery |
 | T1552 | Unsecured Credentials | Credential Access |
-| T1003.002 | Security Account Manager | Credential Access |
 | T1003 | OS Credential Dumping | Credential Access |
+| T1003.002 | Security Account Manager | Credential Access |
 | T1003.003 | NTDS | Credential Access |
 | T1558.003 | Kerberoasting | Credential Access |
 | T1059.001 | PowerShell | Execution |
@@ -748,6 +855,10 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 * Exploitation
 
 * Installation
+
+* Lateral Movement
+
+* Privilege Escalation
 
 
 #### Reference
@@ -1410,6 +1521,8 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 
 * [Malicious PowerShell Process With Obfuscation Techniques](detections.md#malicious-powershell-process-with-obfuscation-techniques)
 
+* [PowerShell 4104 Hunting](detections.md#powershell-4104-hunting)
+
 * [PowerShell Domain Enumeration](detections.md#powershell-domain-enumeration)
 
 * [PowerShell Loading DotNET into Memory via System Reflection Assembly](detections.md#powershell-loading-dotnet-into-memory-via-system-reflection-assembly)
@@ -1587,6 +1700,57 @@ _version_: 1
 
 ---
 
+### Microsoft MSHTML Remote Code Execution CVE-2021-40444
+CVE-2021-40444 is a remote code execution vulnerability in MSHTML, recently used to delivery targeted spearphishing documents.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1218.002](https://attack.mitre.org/techniques/T1218.002/), [T1218.011](https://attack.mitre.org/techniques/T1218.011/), [T1566.001](https://attack.mitre.org/techniques/T1566.001/)
+- **Last Updated**: 2021-09-08
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Control Loading from World Writable Directory](detections.md#control-loading-from-world-writable-directory)
+
+* [MSHTML Module Load in Office Product](detections.md#mshtml-module-load-in-office-product)
+
+* [Office Spawning Control](detections.md#office-spawning-control)
+
+* [Rundll32 Control RunDLL Hunt](detections.md#rundll32-control-rundll-hunt)
+
+* [Rundll32 Control RunDLL World Writable Directory](detections.md#rundll32-control-rundll-world-writable-directory)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1218.002 | Control Panel | Defense Evasion |
+| T1566.001 | Spearphishing Attachment | Initial Access |
+| T1218.011 | Rundll32 | Defense Evasion |
+
+#### Kill Chain Phase
+
+* Exploitation
+
+
+#### Reference
+
+* https://blog.malwarebytes.com/exploits-and-vulnerabilities/2021/09/windows-mshtml-zero-day-actively-exploited-mitigations-required/
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
+
+* https://www.echotrail.io/insights/search/control.exe
+
+
+_version_: 1
+</details>
+
+---
+
 ### NOBELIUM Group
 Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and management software. It was discovered by FireEye in December 2020. The actors behind this campaign gained access to numerous public and private organizations around the world.
 
@@ -1684,6 +1848,60 @@ _version_: 2
 
 ---
 
+### PetitPotam NTLM Relay on Active Directory Certificate Services
+PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC Protocol that can allow an unauthenticated account to escalate privileges to domain administrator given the right circumstances.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **ATT&CK**: [T1003](https://attack.mitre.org/techniques/T1003/), [T1187](https://attack.mitre.org/techniques/T1187/)
+- **Last Updated**: 2021-08-31
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [PetitPotam Network Share Access Request](detections.md#petitpotam-network-share-access-request)
+
+* [PetitPotam Suspicious Kerberos TGT Request](detections.md#petitpotam-suspicious-kerberos-tgt-request)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1187 | Forced Authentication | Credential Access |
+| T1003 | OS Credential Dumping | Credential Access |
+
+#### Kill Chain Phase
+
+* Exploitation
+
+* Lateral Movement
+
+
+#### Reference
+
+* https://us-cert.cisa.gov/ncas/current-activity/2021/07/27/microsoft-releases-guidance-mitigating-petitpotam-ntlm-relay
+
+* https://support.microsoft.com/en-us/topic/kb5005413-mitigating-ntlm-relay-attacks-on-active-directory-certificate-services-ad-cs-3612b773-4043-4aa9-b23d-b87910cd3429
+
+* https://www.specterops.io/assets/resources/Certified_Pre-Owned.pdf
+
+* https://github.com/topotam/PetitPotam/
+
+* https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210723
+
+* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36942
+
+* https://attack.mitre.org/techniques/T1187/
+
+
+_version_: 1
+</details>
+
+---
+
 ### Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
@@ -1737,6 +1955,61 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 * https://www.infosecurity-magazine.com/news/scope-of-mudcarp-attacks-highlight-1/
 
 * http://blog.amossys.fr/badflick-is-not-so-bad.html
+
+
+_version_: 1
+</details>
+
+---
+
+### ProxyShell
+ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server - CVE-2021-34473, CVE-2021-34523, and CVE-2021-31207.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1059.001](https://attack.mitre.org/techniques/T1059.001/), [T1190](https://attack.mitre.org/techniques/T1190/), [T1505.003](https://attack.mitre.org/techniques/T1505.003/)
+- **Last Updated**: 2021-08-24
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Detect Exchange Web Shell](detections.md#detect-exchange-web-shell)
+
+* [Exchange PowerShell Abuse via SSRF](detections.md#exchange-powershell-abuse-via-ssrf)
+
+* [Exchange PowerShell Module Usage](detections.md#exchange-powershell-module-usage)
+
+* [W3WP Spawning Shell](detections.md#w3wp-spawning-shell)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1505.003 | Web Shell | Persistence |
+| T1190 | Exploit Public-Facing Application | Initial Access |
+| T1059.001 | PowerShell | Execution |
+
+#### Kill Chain Phase
+
+* Exploitation
+
+* Reconnaissance
+
+
+#### Reference
+
+* https://y4y.space/2021/08/12/my-steps-of-reproducing-proxyshell/
+
+* https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
+
+* https://www.youtube.com/watch?v=FC6iHw258RI
+
+* https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
+
+* https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-ProxyLogon-Is-Just-The-Tip-Of-The-Iceberg-A-New-Attack-Surface-On-Microsoft-Exchange-Server.pdf
 
 
 _version_: 1
@@ -1851,6 +2124,8 @@ Detect signs of malicious payloads that may indicate that your environment has b
 
 * [Excel Spawning Windows Script Host](detections.md#excel-spawning-windows-script-host)
 
+* [MSHTML Module Load in Office Product](detections.md#mshtml-module-load-in-office-product)
+
 * [Office Application Spawn rundll32 process](detections.md#office-application-spawn-rundll32-process)
 
 * [Office Document Creating Schedule Task](detections.md#office-document-creating-schedule-task)
@@ -1868,6 +2143,8 @@ Detect signs of malicious payloads that may indicate that your environment has b
 * [Office Product Spawning Rundll32 with no DLL](detections.md#office-product-spawning-rundll32-with-no-dll)
 
 * [Office Product Spawning Wmic](detections.md#office-product-spawning-wmic)
+
+* [Office Spawning Control](detections.md#office-spawning-control)
 
 * [Process Creating LNK file in Suspicious Location](detections.md#process-creating-lnk-file-in-suspicious-location)
 
@@ -2379,6 +2656,10 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 * [Detect Rundll32 Application Control Bypass - syssetup](detections.md#detect-rundll32-application-control-bypass---syssetup)
 
 * [Dump LSASS via comsvcs DLL](detections.md#dump-lsass-via-comsvcs-dll)
+
+* [Rundll32 Control RunDLL Hunt](detections.md#rundll32-control-rundll-hunt)
+
+* [Rundll32 Control RunDLL World Writable Directory](detections.md#rundll32-control-rundll-world-writable-directory)
 
 * [Rundll32 with no Command Line Arguments with Network](detections.md#rundll32-with-no-command-line-arguments-with-network)
 
@@ -3911,9 +4192,9 @@ _version_: 1
 ### Dev Sec Ops
 This story is focused around detecting attacks on a DevSecOps lifeccycle which consists of the phases plan, code, build, test, release, deploy, operate and monitor.
 
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
-- **ATT&CK**: [T1204.003](https://attack.mitre.org/techniques/T1204.003/)
+- **ATT&CK**: [T1195.001](https://attack.mitre.org/techniques/T1195.001/), [T1204.003](https://attack.mitre.org/techniques/T1204.003/), [T1212](https://attack.mitre.org/techniques/T1212/), [T1526](https://attack.mitre.org/techniques/T1526/), [T1554](https://attack.mitre.org/techniques/T1554/)
 - **Last Updated**: 2021-08-18
 
 <details>
@@ -3931,12 +4212,34 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 
 * [AWS ECR Container Upload Unknown User](detections.md#aws-ecr-container-upload-unknown-user)
 
+* [Circle CI Disable Security Job](detections.md#circle-ci-disable-security-job)
+
+* [Circle CI Disable Security Step](detections.md#circle-ci-disable-security-step)
+
+* [Correlation by Repository and Risk](detections.md#correlation-by-repository-and-risk)
+
+* [Correlation by User and Risk](detections.md#correlation-by-user-and-risk)
+
+* [GitHub Dependabot Alert](detections.md#github-dependabot-alert)
+
+* [GitHub Pull Request from Unknown User](detections.md#github-pull-request-from-unknown-user)
+
+* [Kubernetes Nginx Ingress LFI](detections.md#kubernetes-nginx-ingress-lfi)
+
+* [Kubernetes Nginx Ingress RFI](detections.md#kubernetes-nginx-ingress-rfi)
+
+* [Kubernetes Scanner Image Pulling](detections.md#kubernetes-scanner-image-pulling)
+
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | T1204.003 | Malicious Image | Execution |
+| T1554 | Compromise Client Software Binary | Persistence |
+| T1195.001 | Compromise Software Dependencies and Development Tools | Initial Access |
+| T1212 | Exploitation for Credential Access | Credential Access |
+| T1526 | Cloud Service Discovery | Discovery |
 
 #### Kill Chain Phase
 
@@ -4652,6 +4955,64 @@ _version_: 1
 <details>
   <summary>details</summary>
 
+### BlackMatter Ransomware
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the BlackMatter ransomware, including looking for file writes associated with BlackMatter, force safe mode boot, autadminlogon account registry modification and more.
+
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: Endpoint
+- **ATT&CK**: [T1486](https://attack.mitre.org/techniques/T1486/), [T1490](https://attack.mitre.org/techniques/T1490/), [T1491](https://attack.mitre.org/techniques/T1491/), [T1552.002](https://attack.mitre.org/techniques/T1552.002/)
+- **Last Updated**: 2021-09-06
+
+<details>
+  <summary>details</summary>
+
+#### Detection Profile
+
+* [Add DefaultUser And Password In Registry](detections.md#add-defaultuser-and-password-in-registry)
+
+* [Auto Admin Logon Registry Entry](detections.md#auto-admin-logon-registry-entry)
+
+* [Bcdedit Command Back To Normal Mode Boot](detections.md#bcdedit-command-back-to-normal-mode-boot)
+
+* [Change To Safe Mode With Network Config](detections.md#change-to-safe-mode-with-network-config)
+
+* [Known Services Killed by Ransomware](detections.md#known-services-killed-by-ransomware)
+
+* [Modification Of Wallpaper](detections.md#modification-of-wallpaper)
+
+* [Ransomware Notes bulk creation](detections.md#ransomware-notes-bulk-creation)
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| T1552.002 | Credentials in Registry | Credential Access |
+| T1490 | Inhibit System Recovery | Impact |
+| T1491 | Defacement | Impact |
+| T1486 | Data Encrypted for Impact | Impact |
+
+#### Kill Chain Phase
+
+* Exploitation
+
+* Obfuscation
+
+
+#### Reference
+
+* https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
+
+* https://www.bleepingcomputer.com/news/security/blackmatter-ransomware-gang-rises-from-the-ashes-of-darkside-revil/
+
+* https://blog.malwarebytes.com/ransomware/2021/07/blackmatter-a-new-ransomware-group-claims-link-to-darkside-revil/
+
+
+_version_: 1
+</details>
+
+---
+
 ### Clop Ransomware
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Clop ransomware, including looking for file writes associated with Clope, encrypting network shares, deleting and resizing shadow volume storage, registry key modification, deleting of security logs, and more.
 
@@ -4915,7 +5276,7 @@ Leverage searches that allow you to detect and investigate unusual activities th
 
 * [Detect Renamed RClone](detections.md#detect-renamed-rclone)
 
-* [Extract SAM from Registry](detections.md#extract-sam-from-registry)
+* [Extraction of Registry Hives](detections.md#extraction-of-registry-hives)
 
 * [Ransomware Notes bulk creation](detections.md#ransomware-notes-bulk-creation)
 

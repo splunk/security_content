@@ -17,6 +17,10 @@ import csv
 import shutil
 
 
+# Global variable
+global_product = 'ESCU'
+
+
 def load_objects(file_path, VERBOSE, REPO_PATH):
     files = []
     manifest_files = path.join(path.expanduser(REPO_PATH), file_path)
@@ -62,8 +66,8 @@ def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
-                         trim_blocks=True)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                         trim_blocks=True) 
     template = j2_env.get_template('transforms.j2')
     output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
@@ -78,7 +82,7 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('collections.j2')
     output_path = path.join(OUTPUT_PATH, 'default/collections.conf')
@@ -97,7 +101,7 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     j2_env.filters['custom_jinja2_enrichment_filter'] = custom_jinja2_enrichment_filter
     template = j2_env.get_template('savedsearches.j2')
@@ -112,7 +116,7 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
 def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('analytic_stories.j2')
     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
@@ -125,7 +129,7 @@ def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH
 def generate_use_case_library_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('use_case_library.j2')
     output_path = path.join(OUTPUT_PATH, 'default/use_case_library.conf')
@@ -150,7 +154,7 @@ def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('macros.j2')
     output_path = path.join(OUTPUT_PATH, 'default/macros.conf')
@@ -170,7 +174,7 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     response_file_name_xml = response_file_name + "___response_task.xml"
                     response_task['lowercase_name'] = response_file_name
                     workbench_panel_objects.append(response_task)
-                    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+                    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                                         trim_blocks=True)
                     template = j2_env.get_template('panel.j2')
                     file_path = "default/data/ui/panels/workbench_panel_" + response_file_name_xml
@@ -182,14 +186,14 @@ def generate_workbench_panels(response_tasks, stories, TEMPLATE_PATH, OUTPUT_PAT
                     with open(output_path, 'w') as f:
                         f.write(output)
 
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('es_investigations.j2')
     output_path = path.join(OUTPUT_PATH, 'default/es_investigations.conf')
     output = template.render(response_tasks=workbench_panel_objects, stories=stories)
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH),
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                          trim_blocks=True)
     template = j2_env.get_template('workflow_actions.j2')
     output_path = path.join(OUTPUT_PATH, 'default/workflow_actions.conf')
@@ -226,6 +230,7 @@ def get_deployments(object, deployments):
     for deployment in deployments:
 
         for tag in object['tags'].keys():
+            
             if tag in deployment['tags'].keys():
                 if type(object['tags'][tag]) is str:
                     tag_array = [object['tags'][tag]]
@@ -361,7 +366,7 @@ def add_rba(detection):
             if entity['type'].lower() in risk_object_user_types:
                 
                 for r in entity['role']:
-                    if 'attacker' == r.lower():
+                    if 'attacker' == r.lower() or 'victim' ==r.lower():
 
                         risk_object['risk_object_type'] = 'user'
                         risk_object['risk_object_field'] = entity['name']
@@ -373,7 +378,7 @@ def add_rba(detection):
             elif entity['type'].lower() in risk_object_system_types:
                 
                 for r in entity['role']:
-                    if 'attacker' == r.lower():
+                    if 'attacker' == r.lower() or 'victim' ==r.lower():
                         
                         risk_object['risk_object_type'] = 'system'
                         risk_object['risk_object_field'] = entity['name']
@@ -391,8 +396,44 @@ def add_rba(detection):
     
     return detection
 
-def prepare_detections(detections, deployments, OUTPUT_PATH):
+def add_playbook(detection, playbooks):
+    preface = " The following Splunk SOAR playbook can be used to respond to this detection: "
+    
+    for playbook in playbooks:
+        if detection['name'] in playbook['tags']['detections']:
+            detection['how_to_implement'] = detection['how_to_implement'] + preface + playbook['name']
+    return detection
+
+def map_playbooks_to_stories(playbooks):
+    sto_play = {}
+    for playbook in playbooks:
+        if 'tags' in playbook:
+            if 'analytic_story' in playbook['tags']:
+                for story in playbook['tags']['analytic_story']:
+                    if not (story in sto_play):
+                        sto_play[story] = {playbook['name']}
+                    else:
+                        sto_play[story].add(playbook['name'])
+    return sto_play
+
+def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
     for detection in detections:
+        # only for DevSecOps
+        if global_product == 'DevSecOps':
+            if detection['tags']['risk_score']:
+                detection['search'] = detection['search'] + ' | eval risk_score=' + str(detection['tags']['risk_score'])
+
+            if detection['tags']['mitre_attack_id']:
+                detection['search'] = detection['search'] + ' | eval mitre_attack_id=' + detection['tags']['mitre_attack_id'][0]
+
+            if detection['type'] == 'Anomaly':
+                detection['search'] = detection['search'] + ' | collect index=signals'
+            elif detection['type'] == 'TTP':
+                detection['search'] = detection['search'] + ' | collect index=alerts'
+            elif detection['type'] == 'Correlation':
+                detection['search'] = detection['search'] + ' | collect index=alerts'
+
+
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])
         if data_model:
@@ -415,9 +456,10 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
                     if key in detection['tags']:
                         mappings[key] = detection['tags'][key]
             detection['mappings'] = mappings
-
+            
             detection = add_annotations(detection)
             detection = add_rba(detection)
+            detection = add_playbook(detection, playbooks)
 
             # add additional metadata
             if 'product' in detection['tags']:
@@ -429,7 +471,7 @@ def prepare_detections(detections, deployments, OUTPUT_PATH):
 
     return detections
 
-def prepare_stories(stories, detections):
+def prepare_stories(stories, detections, playbooks):
     # enrich stories with information from detections: data_models, mitre_ids, kill_chain_phases, nists
     sto_to_data_models = {}
     sto_to_mitre_attack_ids = {}
@@ -438,14 +480,17 @@ def prepare_stories(stories, detections):
     sto_to_nists = {}
     sto_to_det = {}
 
+    preface = " The following Splunk SOAR playbooks can be used in the response to this story's analytics: "
     baselines = [object for object in detections  if 'Baseline' in object['type']]
 
     for detection in detections:
         if detection['type'] == 'Baseline':
+            rule_name = str('ESCU - ' + detection['name'])
             continue
         if 'analytic_story' in detection['tags']:
             for story in detection['tags']['analytic_story']:
-                rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
+                if detection['type'] != "Investigation":
+                    rule_name = str('ESCU - ' + detection['name'] + ' - Rule')
 
                 if story in sto_to_det.keys():
                     sto_to_det[story].add(rule_name)
@@ -489,6 +534,7 @@ def prepare_stories(stories, detections):
 
     sto_res = map_response_tasks_to_stories(detections)
     sto_bas = map_baselines_to_stories(baselines)
+    sto_play = map_playbooks_to_stories(playbooks)
 
     for story in stories:
         story['author_name'], story['author_company'] = parse_author_company(story)
@@ -497,6 +543,9 @@ def prepare_stories(stories, detections):
         story['searches'] = story['detections']
         if story['name'] in sto_to_data_models:
             story['data_models'] = sorted(sto_to_data_models[story['name']])
+        if story['name'] in sto_play:
+            story['description'] = str(story['description']) + preface + str(sto_play[story['name']])
+            story['description'] = story['description'].replace('{', ' ').replace('}', ' ')
         if story['name'] in sto_to_mitre_attack_ids:
             story['mitre_attack'] = sorted(sto_to_mitre_attack_ids[story['name']])
         if story['name'] in sto_to_kill_chain_phases:
@@ -514,6 +563,7 @@ def prepare_stories(stories, detections):
                 story['workbench_panels'].append(s)
         if story['name'] in sto_bas:
             story['baselines'] = sorted(list(sto_bas[story['name']]))
+
 
 
         keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
@@ -549,7 +599,7 @@ def generate_mitre_lookup(OUTPUT_PATH):
             csv_mitre_rows.append([technique['technique_id'], technique['technique'], '|'.join(technique['tactic']).replace('-',' ').title(), '|'.join(apt_groups)])
 
     with open(path.join(OUTPUT_PATH, 'lookups/mitre_enrichment.csv'), 'w', newline='', encoding="utf-8") as file:
-        writer = csv.writer(file)
+        writer = csv.writer(file,quoting=csv.QUOTE_ALL)
         writer.writerows(csv_mitre_rows)
 
 
@@ -561,6 +611,7 @@ def import_objects(VERBOSE, REPO_PATH):
         "responses": load_objects("responses/*.yml", VERBOSE, REPO_PATH),
         "deployments": load_objects("deployments/*.yml", VERBOSE, REPO_PATH),
         "detections": load_objects("detections/*/*.yml", VERBOSE, REPO_PATH),
+        "playbooks": load_objects("playbooks/*.yml", VERBOSE, REPO_PATH),
     }
     objects["detections"].extend(load_objects("detections/*/*/*.yml", VERBOSE, REPO_PATH))
 
@@ -571,6 +622,11 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
         objects["detections"]  = [object for object in objects["detections"]  if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         objects["stories"] = [object for object in objects["stories"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
 
+    if PRODUCT == "DevSecOps":
+        objects["detections"]  = [object for object in objects["detections"]  if 'Dev Sec Ops Analytics' in object['tags']['product']]
+        objects["stories"] = [object for object in objects["stories"] if 'Dev Sec Ops Analytics' in object['tags']['product']]
+
+
     # only use ESCU detections to the configurations
     objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
     # only use ESCU stories to the configuration
@@ -578,8 +634,8 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
 
     objects["macros"] = sorted(objects["macros"], key=lambda m: m['name'])
 
-    objects["detections"] = prepare_detections(objects["detections"], objects["deployments"], OUTPUT_PATH)
-    objects["stories"] = prepare_stories(objects["stories"], objects["detections"])
+    objects["detections"] = prepare_detections(objects["detections"], objects["deployments"], objects["playbooks"], OUTPUT_PATH)
+    objects["stories"] = prepare_stories(objects["stories"], objects["detections"], objects["playbooks"])
 
     return objects
 
@@ -589,7 +645,8 @@ def get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     return objects
 
 def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
-
+    global global_product
+    global_product = PRODUCT
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     objects = get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
@@ -641,6 +698,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     parser.add_argument("--product", required=True, default="ESCU", help="package type")
 
+    
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
