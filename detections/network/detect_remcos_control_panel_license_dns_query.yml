@@ -18,37 +18,37 @@ known_false_positives: This specific domain its also associated with other produ
 references:
 - https://attack.mitre.org/software/S0332/
 tags:
-analytic_story:
-- Remcos
-dataset:
-  - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_control_panel_license_dns_query.log
-kill_chain_phases:
-- Exploitation
-mitre_attack_id:
-- T1016
-product:
-- Splunk Enterprise
-- Splunk Enterprise Security
-- Splunk Cloud
-required_fields:
-- _time
-- DNS.answer
-- DNS.query
-- host
-security_domain: network
-impact: 90
-confidence: 90
-  # (impact * confidence)/100
-risk_score: 90
-context:
-message: A dns query $query$ from your infrastructure attempted a connection to a Remcos RAT suspicious domain from
-    host $host$
-observable:
-name: host
-type: Hostname
-role:
-  - Victim
-name: query
-type: dnsquery
-role:
-  - Attacker
+  analytic_story:
+  - Remcos
+  dataset:
+    - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_control_panel_license_dns_query.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1016
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - DNS.answer
+  - DNS.query
+  - host
+  security_domain: network
+  impact: 90
+  confidence: 90
+    # (impact * confidence)/100
+  risk_score: 81
+  context:
+  message: A dns query $query$ from your infrastructure attempted a connection to a Remcos RAT suspicious domain from
+      host $host$
+  observable:
+  name: host
+  type: Hostname
+  role:
+    - Victim
+  name: query
+  type: dnsquery
+  role:
+    - Attacker
