@@ -21,26 +21,24 @@ tags:
   - network
   - resolution
   - dns
-  analytic_story:
+analytic_story:
   - Remcos
   - Command and Control
-  asset_type: Endpoint 
-  cis20:
-  - N/A
-  confidence: 90
-  context:
+asset_type: Endpoint
+confidence: 90
+context:
   - source: endpoint
   - stage: Initial Access
-  dataset:
+dataset:
   - https://github.com/splunk/attack_data/blob/master/datasets/malware/remcos/remcos_panel_client/remcos_control_panel_license_dns_query.log
-  impact: 90
-  kill_chain_phases:
+impact: 90
+kill_chain_phases:
   - Command and Control
-  message: A dns query $query$ from your infrastructure attempted a connection to a Remcos RAT suspicious domain from
+message: A dns query $query$ from your infrastructure attempted a connection to a Remcos RAT suspicious domain from
     host  $host$
-  mitre_attack_id:
+mitre_attack_id:
   - T1016
-  observable:
+observable:
   - name: host
     type: Hostname
     role:
@@ -49,14 +47,14 @@ tags:
     type: dnsquery
     role:
     - Attacker
-  product:
+product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields:
+required_fields:
   - _time
   - DNS.answer
   - DNS.query
   - host
-  risk_score: 90
-  security_domain: network
+risk_score: 90
+security_domain: network
