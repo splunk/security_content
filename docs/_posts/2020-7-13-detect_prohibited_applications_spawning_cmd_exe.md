@@ -22,12 +22,12 @@ tags:
 
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
 
-- **ID**: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-7-13
 - **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 
 
 #### ATT&CK

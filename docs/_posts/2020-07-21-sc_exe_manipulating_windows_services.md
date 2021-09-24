@@ -26,12 +26,12 @@ tags:
 
 This search looks for arguments to sc.exe indicating the creation or modification of a Windows service.
 
-- **ID**: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: Rico Valdez, Splunk
+- **ID**: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 
 
 #### ATT&CK

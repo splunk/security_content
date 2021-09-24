@@ -17,11 +17,11 @@ tags:
 
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the SamSam ransomware, including looking for file writes associated with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware extensions, suspicious psexec use, and more.
 
-- **ID**: c4b89506-fbcf-4cb7-bfd6-527e54789604
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic), [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2018-12-13
 - **Author**: Rico Valdez, Splunk
+- **ID**: c4b89506-fbcf-4cb7-bfd6-527e54789604
 
 #### Narrative
 

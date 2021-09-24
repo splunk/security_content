@@ -24,12 +24,12 @@ tags:
 
 This search looks for reading lsass memory consistent with credential dumping.
 
-- **ID**: 2c365e57-4414-4540-8dc0-73ab10729996
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-03
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 2c365e57-4414-4540-8dc0-73ab10729996
 
 
 #### ATT&CK

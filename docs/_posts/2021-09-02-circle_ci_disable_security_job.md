@@ -25,12 +25,12 @@ tags:
 
 This search looks for disable security job in CircleCI pipeline.
 
-- **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-02
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
 
 
 #### ATT&CK

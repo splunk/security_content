@@ -25,12 +25,12 @@ tags:
 
 This search looks for registry activity associated with application compatibility shims, which can be leveraged by attackers for various nefarious purposes.
 
-- **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-26
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
+- **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 
 
 #### ATT&CK

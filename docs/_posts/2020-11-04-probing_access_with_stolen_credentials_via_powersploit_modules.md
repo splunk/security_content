@@ -28,12 +28,12 @@ tags:
 
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
-- **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-04
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247
 
 
 #### ATT&CK

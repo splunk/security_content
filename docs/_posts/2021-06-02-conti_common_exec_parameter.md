@@ -25,12 +25,12 @@ tags:
 
 This search detects the suspicious commandline argument of revil ransomware to encrypt specific or all local drive and network shares of the compromised machine or host.
 
-- **ID**: 624919bc-c382-11eb-adcc-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 624919bc-c382-11eb-adcc-acde48001122
 
 
 #### ATT&CK

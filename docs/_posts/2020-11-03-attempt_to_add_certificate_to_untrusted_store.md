@@ -26,12 +26,12 @@ tags:
 
 Attempt To Add Certificate To Untrusted Store
 
-- **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-03
 - **Author**: Patrick Bareiss, Rico Valdez, Splunk
+- **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 
 
 #### ATT&CK

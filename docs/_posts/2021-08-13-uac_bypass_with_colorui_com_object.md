@@ -25,12 +25,12 @@ tags:
 
 This search is to detect a possible uac bypass using the colorui.dll COM Object. this technique was seen in so many malware and ransomware like lockbit where it make use of the colorui.dll COM CLSID to bypass UAC.
 
-- **ID**: 2bcccd20-fc2b-11eb-8d22-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-13
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 2bcccd20-fc2b-11eb-8d22-acde48001122
 
 
 #### ATT&CK

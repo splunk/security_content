@@ -24,12 +24,12 @@ tags:
 
 This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
 
-- **ID**: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Rod Soto, Patrick Bareiss Splunk
+- **ID**: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 
 
 #### ATT&CK

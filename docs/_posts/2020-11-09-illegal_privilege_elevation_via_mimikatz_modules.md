@@ -27,12 +27,12 @@ tags:
 
 This detection identifies use of Mimikatz modules for illegal privilege elevation.
 
-- **ID**: 2f873b1f-6352-4844-b7b9-b419f09a42c7
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 2f873b1f-6352-4844-b7b9-b419f09a42c7
 
 
 #### ATT&CK

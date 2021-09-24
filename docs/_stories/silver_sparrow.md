@@ -15,11 +15,11 @@ tags:
 
 Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking MacOS (Intel and M1) malicious software downloader utilizing JavaScript for execution and a launchAgent to establish persistence.
 
-- **ID**: cb4f48fe-7699-11eb-af77-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-24
 - **Author**: Michael Haag, Splunk
+- **ID**: cb4f48fe-7699-11eb-af77-acde48001122
 
 #### Narrative
 

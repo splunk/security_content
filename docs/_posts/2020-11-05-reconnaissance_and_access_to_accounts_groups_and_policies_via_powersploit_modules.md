@@ -32,12 +32,12 @@ tags:
 
 This detection identifies access to PowerSploit modules that discover accounts, groups and policies that can be accessed or taken over.
 
-- **ID**: 63422f8e-766c-468f-8133-2ba6795e263b
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 63422f8e-766c-468f-8133-2ba6795e263b
 
 
 #### ATT&CK

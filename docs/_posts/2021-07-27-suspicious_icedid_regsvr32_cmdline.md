@@ -25,12 +25,12 @@ tags:
 
 this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execute a dll files. This technique was seen in IcedID malware to execute its initial downloader dll that will download the 2nd stage loader that will download and decrypt the config payload.
 
-- **ID**: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-27
 - **Author**: Teoderick Contreras,
+- **ID**: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
 
 
 #### ATT&CK

@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for an increase of data transfers from your email server to your clients. This could be indicative of a malicious actor collecting data using your email server.
 
-- **ID**: 7f5fb3e1-4209-4914-90db-0ec21b556368
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 7f5fb3e1-4209-4914-90db-0ec21b556368
 
 
 #### ATT&CK

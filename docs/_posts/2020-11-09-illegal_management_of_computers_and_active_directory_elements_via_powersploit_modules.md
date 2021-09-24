@@ -29,12 +29,12 @@ tags:
 
 This detection identifies access to PowerSploit modules that enable illegal management of computers and Active Directory elements.
 
-- **ID**: 75760c11-7d48-4968-b828-013b299e8f6d
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 75760c11-7d48-4968-b828-013b299e8f6d
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 This search is to detect a suspicious rundll32 process that drops executable (.exe or .dll) files. this behavior seen in rundll32 process of IcedID that tries to drop copy of itself in temp folder or download executable drop it either appdata or programdata as part of its execution.
 
-- **ID**: 6338266a-ee2a-11eb-bf68-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-26
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 6338266a-ee2a-11eb-bf68-acde48001122
 
 
 #### ATT&CK

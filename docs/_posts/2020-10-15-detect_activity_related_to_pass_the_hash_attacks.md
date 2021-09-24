@@ -25,12 +25,12 @@ tags:
 
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts at using the Pass-the-Hash technique.
 
-- **ID**: f5939373-8054-40ad-8c64-cec478a22a4b
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-15
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
+- **ID**: f5939373-8054-40ad-8c64-cec478a22a4b
 
 
 #### ATT&CK

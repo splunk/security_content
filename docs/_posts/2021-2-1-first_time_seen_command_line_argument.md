@@ -28,12 +28,12 @@ tags:
 
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.
 
-- **ID**: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-2-1
 - **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
 
 
 #### ATT&CK

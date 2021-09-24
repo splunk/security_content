@@ -16,11 +16,11 @@ tags:
 
 Monitor your cloud authentication events. Searches within this Analytic Story leverage the recent cloud updates to the Authentication data model to help you stay aware of and investigate suspicious login activity. 
 
-- **ID**: 6380ebbb-55c5-4fce-b754-01fd565fb73c
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2020-06-04
 - **Author**: Rico Valdez, Splunk
+- **ID**: 6380ebbb-55c5-4fce-b754-01fd565fb73c
 
 #### Narrative
 

@@ -25,12 +25,12 @@ tags:
 
 This analytics are designed to indentify a high frequency of process termination on a machine which is a common behavior of ransomware malware before encrypting files. This technique is designed to avoid an exception error while accessing (docs, images, database and etc..) in the infected machine for encryption.
 
-- **ID**: 17cd75b2-8666-11eb-9ab4-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-16
 - **Author**: Teoderick Contreras
+- **ID**: 17cd75b2-8666-11eb-9ab4-acde48001122
 
 
 #### ATT&CK

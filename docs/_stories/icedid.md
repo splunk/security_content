@@ -15,11 +15,11 @@ tags:
 
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the IcedID banking trojan, including looking for file writes associated with its payload, process injection, shellcode execution and data collection.
 
-- **ID**: 1d2cc747-63d7-49a9-abb8-93aa36305603
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-29
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 1d2cc747-63d7-49a9-abb8-93aa36305603
 
 #### Narrative
 

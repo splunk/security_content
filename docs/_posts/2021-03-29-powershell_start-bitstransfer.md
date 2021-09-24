@@ -26,12 +26,12 @@ tags:
 
 Start-BitsTransfer is the PowerShell &#34;version&#34; of BitsAdmin.exe. Similar functionality is present. This technique variation is not as commonly used by adversaries, but has been abused in the past. Lesser known uses include the ability to set the `-TransferType` to `Upload` for exfiltration of files. In an instance where `Upload` is used, it is highly possible files will be archived. During triage, review parallel processes and process lineage. Capture any files on disk and review. For the remote domain or IP, what is the reputation?
 
-- **ID**: 39e2605a-90d8-11eb-899e-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-29
 - **Author**: Michael Haag, Splunk
+- **ID**: 39e2605a-90d8-11eb-899e-acde48001122
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 The following analytics identifies a big number of instance of ransomware notes (filetype e.g .txt, .html, .hta) file creation to the infected machine. This behavior is a good sensor if the ransomware note filename is quite new for security industry or the ransomware note filename is not in your ransomware lookup table list for monitoring.
 
-- **ID**: eff7919a-8330-11eb-83f8-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-12
 - **Author**: Teoderick Contreras
+- **ID**: eff7919a-8330-11eb-83f8-acde48001122
 
 
 #### ATT&CK

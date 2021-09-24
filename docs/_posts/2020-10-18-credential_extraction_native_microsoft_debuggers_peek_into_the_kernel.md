@@ -22,12 +22,12 @@ tags:
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Native Microsoft debuggers, such as kd, ntkd, livekd and windbg, can be leveraged to read credential material directly from memory and process dumps.
 
-- **ID**: c20bb8ec-e1b0-4640-b0ef-3a4c54f8c112
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-18
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: c20bb8ec-e1b0-4640-b0ef-3a4c54f8c112
 
 
 #### ATT&CK

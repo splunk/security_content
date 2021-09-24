@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search provides detection of suspicious use of sts:GetSessionToken. These tokens can be created on the go and used by attackers to move laterally and escalate privileges.
 
-- **ID**: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
 - **Author**: Rod Soto, Splunk
+- **ID**: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
 
 
 #### ATT&CK

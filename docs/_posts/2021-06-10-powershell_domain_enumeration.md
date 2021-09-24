@@ -26,12 +26,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies specific PowerShell modules typically used to enumerate an organizations domain or users. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **ID**: e1866ce2-ca22-11eb-8e44-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-10
 - **Author**: Michael Haag, Splunk
+- **ID**: e1866ce2-ca22-11eb-8e44-acde48001122
 
 
 #### ATT&CK

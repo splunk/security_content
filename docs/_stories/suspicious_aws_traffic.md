@@ -14,11 +14,11 @@ tags:
 
 Leverage these searches to monitor your AWS network traffic for evidence of anomalous activity and suspicious behaviors, such as a spike in blocked outbound traffic in your virtual private cloud (VPC).
 
-- **ID**: 2e8948a5-5239-406b-b56b-6c50f2168af3
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-05-07
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2e8948a5-5239-406b-b56b-6c50f2168af3
 
 #### Narrative
 

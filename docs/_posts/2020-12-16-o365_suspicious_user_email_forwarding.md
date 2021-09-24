@@ -25,12 +25,12 @@ tags:
 
 This search detects when multiple user configured a forwarding rule to the same destination.
 
-- **ID**: f8dfe015-dbb3-4569-ba75-b13787e06aa4
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: f8dfe015-dbb3-4569-ba75-b13787e06aa4
 
 
 #### ATT&CK

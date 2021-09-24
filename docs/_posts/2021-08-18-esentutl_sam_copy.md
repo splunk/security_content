@@ -26,12 +26,12 @@ tags:
 
 The following analytic identifies the process - `esentutl.exe` - being used to capture credentials stored in ntds.dit or the SAM file on disk. During triage, review parallel processes and determine if legitimate activity. Upon determination of illegitimate activity, take further action to isolate and contain the threat.
 
-- **ID**: d372f928-ce4f-11eb-a762-acde48001122
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-18
 - **Author**: Michael Haag, Splunk
+- **ID**: d372f928-ce4f-11eb-a762-acde48001122
 
 
 #### ATT&CK

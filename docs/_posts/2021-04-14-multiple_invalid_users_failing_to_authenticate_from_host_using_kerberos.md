@@ -28,12 +28,12 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will only trigger on domain controllers, not on member servers or workstations.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source ip and attempted user accounts.
 
-- **ID**: 001266a6-9d5b-11eb-829b-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-14
 - **Author**: Mauricio Velazco, Splunk
+- **ID**: 001266a6-9d5b-11eb-829b-acde48001122
 
 
 #### ATT&CK

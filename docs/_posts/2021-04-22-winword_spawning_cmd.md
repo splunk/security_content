@@ -25,12 +25,12 @@ tags:
 
 The following detection identifies Microsoft Word spawning `cmd.exe`. Typically, this is not common behavior and not default with winword.exe. Winword.exe will generally be found in the following path `C:\Program Files\Microsoft Office\root\Office16` (version will vary). Cmd.exe spawning from winword.exe is common for a spearphishing attachment and is actively used. Albeit, the command-line will indicate what is being executed. During triage, review parallel processes and identify any files that may have been written. It is possible that COM is utilized to trampoline the child process to `explorer.exe` or `wmiprvse.exe`.
 
-- **ID**: 6fcbaedc-a37b-11eb-956b-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-22
 - **Author**: Michael Haag, Splunk
+- **ID**: 6fcbaedc-a37b-11eb-956b-acde48001122
 
 
 #### ATT&CK

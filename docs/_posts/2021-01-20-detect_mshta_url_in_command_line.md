@@ -25,12 +25,12 @@ tags:
 
 This analytic identifies when Microsoft HTML Application Host (mshta.exe) utility is used to make remote http connections. Adversaries may use mshta.exe to proxy the download and execution of remote .hta files. The analytic identifies command line arguments of http and https being used. This technique is commonly used by malicious software to bypass preventative controls. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process &#34;rundll32.exe&#34; and its parent process.
 
-- **ID**: 9b3af1e6-5b68-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-20
 - **Author**: Michael Haag, Splunk
+- **ID**: 9b3af1e6-5b68-11eb-ae93-0242ac130002
 
 
 #### ATT&CK

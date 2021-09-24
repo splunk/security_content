@@ -25,12 +25,12 @@ tags:
 
 The following analytic identifies `WmiPrvSE.exe` spawning a process. This typically occurs when a process is instantiated from a local or remote process using `wmic.exe`. During triage, review parallel processes for suspicious behavior or commands executed. Review the process and command-line spawning from `wmiprvse.exe`. Contain and remediate the endpoint as necessary.
 
-- **ID**: 24869767-8579-485d-9a4f-d9ddfd8f0cac
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
 - **Author**: Rico Valdez, Michael Haag, Splunk
+- **ID**: 24869767-8579-485d-9a4f-d9ddfd8f0cac
 
 
 #### ATT&CK

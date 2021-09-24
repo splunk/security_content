@@ -27,12 +27,12 @@ tags:
 
 This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.
 
-- **ID**: c026e3dd-7e18-4abb-8f41-929e836efe74
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
+- **ID**: c026e3dd-7e18-4abb-8f41-929e836efe74
 
 
 #### ATT&CK

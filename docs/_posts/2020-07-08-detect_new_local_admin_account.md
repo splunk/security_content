@@ -25,12 +25,12 @@ tags:
 
 This search looks for newly created accounts that have been elevated to local administrators.
 
-- **ID**: b25f6f62-0712-43c1-b203-083231ffd97d
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-08
 - **Author**: David Dorsey, Splunk
+- **ID**: b25f6f62-0712-43c1-b203-083231ffd97d
 
 
 #### ATT&CK

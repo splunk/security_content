@@ -24,12 +24,12 @@ tags:
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect local file inclusion attacks.
 
-- **ID**: 0f83244b-425b-4528-83db-7a88c5f66e48
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-20
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 0f83244b-425b-4528-83db-7a88c5f66e48
 
 
 #### ATT&CK

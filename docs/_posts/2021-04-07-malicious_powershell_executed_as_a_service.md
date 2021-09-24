@@ -25,12 +25,12 @@ tags:
 
 This detection is to identify the abuse the Windows SC.exe to execute malicious commands or payloads via PowerShell.
 
-- **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-07
 - **Author**: Ryan Becwar
+- **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 
 
 #### ATT&CK

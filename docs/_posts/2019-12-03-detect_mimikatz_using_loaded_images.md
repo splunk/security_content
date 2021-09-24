@@ -24,12 +24,12 @@ tags:
 
 This search looks for reading loaded Images unique to credential dumping with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon Event Code.
 
-- **ID**: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-03
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
 
 
 #### ATT&CK

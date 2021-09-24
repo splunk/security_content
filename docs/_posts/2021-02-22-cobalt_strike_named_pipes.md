@@ -26,12 +26,12 @@ tags:
 The following analytic identifies the use of default or publicly known named pipes used with Cobalt Strike. A named pipe is a named, one-way or duplex pipe for communication between the pipe server and one or more pipe clients. Cobalt Strike uses named pipes in many ways and has default values used with the Artifact Kit and Malleable C2 Profiles. The following query assists with identifying these default named pipes. Each EDR product presents named pipes a little different. Consider taking the values and generating a query based on the product of choice. \
 Upon triage, review the process performing the named pipe. If it is explorer.exe, It is possible it was injected into by another process. Review recent parallel processes to identify suspicious patterns or behaviors. A parallel process may have a network connection, review and follow the connection back to identify any file modifications.
 
-- **ID**: 5876d429-0240-4709-8b93-ea8330b411b5
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
 - **Author**: Michael Haag, Splunk
+- **ID**: 5876d429-0240-4709-8b93-ea8330b411b5
 
 
 #### ATT&CK

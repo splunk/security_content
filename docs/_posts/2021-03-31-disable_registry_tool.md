@@ -25,12 +25,12 @@ tags:
 
 This search identifies modification of registry to disable the regedit or registry tools of the windows operating system. Since registry tool is a swiss knife in analyzing registry, malware such as RAT or trojan Spy disable this application to prevent the removal of their registry entry such as persistence, file less components and defense evasion.
 
-- **ID**: cd2cf33c-9201-11eb-a10a-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: cd2cf33c-9201-11eb-a10a-acde48001122
 
 
 #### ATT&CK

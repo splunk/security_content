@@ -14,11 +14,11 @@ tags:
 
 This story is focused around detecting attacks on a DevSecOps lifeccycle which consists of the phases plan, code, build, test, release, deploy, operate and monitor.
 
-- **ID**: 0ca8c38e-631e-4b81-940c-f9c5450ce41e
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-18
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 0ca8c38e-631e-4b81-940c-f9c5450ce41e
 
 #### Narrative
 

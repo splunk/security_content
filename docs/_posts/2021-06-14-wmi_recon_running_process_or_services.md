@@ -24,12 +24,12 @@ tags:
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104, where WMI is performing an event query looking for running processes or running services. This technique is commonly found in malware and APT events where the adversary will map all running security applications or services on the compromised machine. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **ID**: b5cd5526-cce7-11eb-b3bd-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-14
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: b5cd5526-cce7-11eb-b3bd-acde48001122
 
 
 #### ATT&CK

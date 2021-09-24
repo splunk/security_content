@@ -17,11 +17,11 @@ tags:
 
 Detect instances of prohibited network traffic allowed in the environment, as well as protocols running on non-standard ports. Both of these types of behaviors typically violate policy and can be leveraged by attackers.
 
-- **ID**: 6d13121c-90f3-446d-8ac3-27efbbc65218
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2017-09-11
 - **Author**: Rico Valdez, Splunk
+- **ID**: 6d13121c-90f3-446d-8ac3-27efbbc65218
 
 #### Narrative
 

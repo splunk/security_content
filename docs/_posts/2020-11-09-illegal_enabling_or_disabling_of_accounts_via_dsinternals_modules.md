@@ -28,12 +28,12 @@ tags:
 
 This detection identifies use of DSInternals modules that enable or disable accounts illegaly.
 
-- **ID**: 3e0f9962-9989-445f-878c-939443326b63
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 3e0f9962-9989-445f-878c-939443326b63
 
 
 #### ATT&CK

@@ -14,11 +14,11 @@ tags:
 
 Track when a user assumes an IAM role in another AWS account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
 
-- **ID**: 2f2f610a-d64d-48c2-b57c-967a2b49ab5a
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-06-04
 - **Author**: David Dorsey, Splunk
+- **ID**: 2f2f610a-d64d-48c2-b57c-967a2b49ab5a
 
 #### Narrative
 

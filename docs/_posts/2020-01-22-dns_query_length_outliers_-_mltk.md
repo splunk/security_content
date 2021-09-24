@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search allows you to identify DNS requests that are unusually large for the record type being requested in your environment.
 
-- **ID**: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-01-22
 - **Author**: Rico Valdez, Splunk
+- **ID**: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 
 
 #### ATT&CK

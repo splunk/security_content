@@ -25,12 +25,12 @@ tags:
 
 This search looks for flags passed to bcdedit.exe modifications to the built-in Windows error recovery boot configurations. This is typically used by ransomware to prevent recovery.
 
-- **ID**: 809b31d2-5462-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-21
 - **Author**: Michael Haag, Splunk
+- **ID**: 809b31d2-5462-11eb-ae93-0242ac130002
 
 
 #### ATT&CK

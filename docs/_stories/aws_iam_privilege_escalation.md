@@ -15,11 +15,11 @@ tags:
 
 This analytic story contains detections that query your AWS Cloudtrail for activities related to privilege escalation.
 
-- **ID**: ced74200-8465-4bc3-bd2c-22782eec6750
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-03-08
 - **Author**: Bhavin Patel, Splunk
+- **ID**: ced74200-8465-4bc3-bd2c-22782eec6750
 
 #### Narrative
 

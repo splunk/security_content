@@ -25,12 +25,12 @@ tags:
 
 This search detects the use of wmic and Powershell to create a shadow copy.
 
-- **ID**: 2ed8b538-d284-449a-be1d-82ad1dbd186b
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-12-10
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 2ed8b538-d284-449a-be1d-82ad1dbd186b
 
 
 #### ATT&CK

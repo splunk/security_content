@@ -25,12 +25,12 @@ tags:
 
 This analytic identifies excessive usage of `taskkill.exe` application. This application is commonly used by adversaries to evade detections by killing security product processes or even other processes to evade detection.
 
-- **ID**: fe5bca48-accb-11eb-a67c-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-04
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: fe5bca48-accb-11eb-a67c-acde48001122
 
 
 #### ATT&CK

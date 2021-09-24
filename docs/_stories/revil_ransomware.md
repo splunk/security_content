@@ -15,11 +15,11 @@ tags:
 
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Revil ransomware, including looking for file writes associated with Revil, encrypting network shares, deleting shadow volume storage, registry key modification, deleting of security logs, and more.
 
-- **ID**: 817cae42-f54b-457a-8a36-fbf45521e29e
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-04
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 817cae42-f54b-457a-8a36-fbf45521e29e
 
 #### Narrative
 

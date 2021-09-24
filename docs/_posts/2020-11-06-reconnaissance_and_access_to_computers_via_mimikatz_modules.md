@@ -22,12 +22,12 @@ tags:
 
 This detection identifies use of Mimikatz modules for discovery of computers and servers and access to them.
 
-- **ID**: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
 
 
 #### ATT&CK

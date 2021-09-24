@@ -25,12 +25,12 @@ tags:
 
 The following analytic identifies child processes spawning from  &#34;mshta.exe&#34;. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, parent process &#34;mshta.exe&#34; and its child process.
 
-- **ID**: 60023bb6-5500-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
+- **ID**: 60023bb6-5500-11eb-ae93-0242ac130002
 
 
 #### ATT&CK

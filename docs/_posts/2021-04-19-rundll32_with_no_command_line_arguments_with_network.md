@@ -25,12 +25,12 @@ tags:
 
 The following analytic identifies rundll32.exe with no command line arguments and performing a network connection. It is unusual for rundll32.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, triage any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
-- **ID**: 35307032-a12d-11eb-835f-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-19
 - **Author**: Michael Haag, Splunk
+- **ID**: 35307032-a12d-11eb-835f-acde48001122
 
 
 #### ATT&CK

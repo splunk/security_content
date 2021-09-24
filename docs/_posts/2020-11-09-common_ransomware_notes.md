@@ -25,12 +25,12 @@ tags:
 
 The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.
 
-- **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd71
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
+- **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd71
 
 
 #### ATT&CK

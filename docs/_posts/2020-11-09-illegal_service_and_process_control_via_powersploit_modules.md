@@ -29,12 +29,12 @@ tags:
 
 This detection identifies access to PowerSploit modules that enable illegal control of services and processes, such as installing or spoofing of malicious services, injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands, modifying access to service objects, etc.
 
-- **ID**: 0e910e5b-309d-4bc3-8af2-0030c02aa353
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 0e910e5b-309d-4bc3-8af2-0030c02aa353
 
 
 #### ATT&CK

@@ -26,12 +26,12 @@ tags:
 
 This search is to detect suspicious process injection in command shell. This technique was seen in IcedID where it execute cmd.exe process to inject its shellcode as part of its execution as banking trojan. It is really uncommon to have a create remote thread execution in the following application.
 
-- **ID**: 10399c1e-f51e-11eb-b920-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-04
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 10399c1e-f51e-11eb-b920-acde48001122
 
 
 #### ATT&CK

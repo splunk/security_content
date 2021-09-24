@@ -32,12 +32,12 @@ tags:
 
 This detection identifies use of Mimikatz modules for discovery of accounts and groups and access to them.
 
-- **ID**: 1bce67aa-3fc4-4886-9089-67f0bfebbef6
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 1bce67aa-3fc4-4886-9089-67f0bfebbef6
 
 
 #### ATT&CK

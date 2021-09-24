@@ -26,12 +26,12 @@ tags:
 
 This search is to detect a COM CLSID execution through powershell. This technique was seen in several adversaries and malware like ransomware conti where it has a feature to execute command using COM Object. This technique may use by network operator at some cases but a good indicator if some application want to gain privilege escalation or bypass uac.
 
-- **ID**: 65711630-f9bf-11eb-8d72-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 65711630-f9bf-11eb-8d72-acde48001122
 
 
 #### ATT&CK

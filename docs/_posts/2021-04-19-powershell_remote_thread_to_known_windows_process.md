@@ -26,12 +26,12 @@ tags:
 
 this search is designed to detect suspicious powershell process that tries to inject code and to known/critical windows process and execute it using CreateRemoteThread. This technique is seen in several malware like trickbot and offensive tooling like cobaltstrike where it load a shellcode to svchost.exe to execute reverse shell to c2 and download another payload
 
-- **ID**: ec102cb2-a0f5-11eb-9b38-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-19
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: ec102cb2-a0f5-11eb-9b38-acde48001122
 
 
 #### ATT&CK

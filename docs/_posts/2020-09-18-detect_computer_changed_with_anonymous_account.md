@@ -24,12 +24,12 @@ tags:
 
 This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An account was successfully logged on) with an anonymous account.
 
-- **ID**: 1400624a-d42d-484d-8843-e6753e6e3645
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-09-18
 - **Author**: Rod Soto, Jose Hernandez, Splunk
+- **ID**: 1400624a-d42d-484d-8843-e6753e6e3645
 
 
 #### ATT&CK

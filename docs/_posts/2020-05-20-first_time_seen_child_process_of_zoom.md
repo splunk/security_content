@@ -25,12 +25,12 @@ tags:
 
 This search looks for child processes spawned by zoom.exe or zoom.us that has not previously been seen.
 
-- **ID**: e91bd102-d630-4e76-ab73-7e3ba22c5961
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-05-20
 - **Author**: David Dorsey, Splunk
+- **ID**: e91bd102-d630-4e76-ab73-7e3ba22c5961
 
 
 #### ATT&CK

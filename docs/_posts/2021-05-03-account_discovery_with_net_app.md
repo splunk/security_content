@@ -25,12 +25,12 @@ tags:
 
 this search is to detect a potential account discovery series of command used by several malware or attack to recon the target machine. This technique is also seen in some note worthy malware like trickbot where it runs a cmd process, or even drop its module that will execute the said series of net command. This series of command are good correlation search and indicator of attacker recon if seen in the machines within a none technical user or department (HR, finance, ceo and etc) network.
 
-- **ID**: 339805ce-ac30-11eb-b87d-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-03
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 339805ce-ac30-11eb-b87d-acde48001122
 
 
 #### ATT&CK

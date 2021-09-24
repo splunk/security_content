@@ -26,12 +26,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks at GCP Storage bucket-access logs and detects new or previously unseen remote IP addresses that have successfully accessed a GCP Storage bucket.
 
-- **ID**: ccc3246a-daa1-11ea-87d0-0242ac130022
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-08-10
 - **Author**: Shannon Davis, Splunk
+- **ID**: ccc3246a-daa1-11ea-87d0-0242ac130022
 
 
 #### ATT&CK

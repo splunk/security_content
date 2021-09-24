@@ -14,11 +14,11 @@ tags:
 
 Leverage searches that allow you to detect and investigate unusual activities that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example of some of these activities are changing sensative binaries in the MacOS sub-system, detecting process names and executables associated with the RAT, detecting when a keyboard tab is installed on a MacOS machine and more.
 
-- **ID**: bd91a2bc-d20b-4f44-a982-1bea98e86390
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-01-09
 - **Author**: Jose Hernandez, Splunk
+- **ID**: bd91a2bc-d20b-4f44-a982-1bea98e86390
 
 #### Narrative
 

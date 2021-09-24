@@ -28,12 +28,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for RDP application network traffic and filters any source/destination pair generating more than twice the standard deviation of the average traffic.
 
-- **ID**: a98727cc-286b-4ff2-b898-41df64695923
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-21
 - **Author**: Jose Hernandez, Splunk
+- **ID**: a98727cc-286b-4ff2-b898-41df64695923
 
 
 #### ATT&CK

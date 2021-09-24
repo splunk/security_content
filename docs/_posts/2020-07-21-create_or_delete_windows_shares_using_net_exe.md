@@ -25,12 +25,12 @@ tags:
 
 This search looks for the creation or deletion of hidden shares using net.exe.
 
-- **ID**: qw9919ed-fe5f-492c-b139-151bb162140e
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: qw9919ed-fe5f-492c-b139-151bb162140e
 
 
 #### ATT&CK

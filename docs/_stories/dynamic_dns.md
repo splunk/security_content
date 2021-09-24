@@ -16,11 +16,11 @@ tags:
 
 Detect and investigate hosts in your environment that may be communicating with dynamic domain providers. Attackers may leverage these services to help them avoid firewall blocks and deny lists.
 
-- **ID**: 8169f17b-ef68-4b59-aae8-586907301221
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2018-09-06
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 8169f17b-ef68-4b59-aae8-586907301221
 
 #### Narrative
 

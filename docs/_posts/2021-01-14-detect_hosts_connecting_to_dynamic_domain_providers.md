@@ -26,12 +26,12 @@ tags:
 
 Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, block lists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains.
 
-- **ID**: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2021-01-14
 - **Author**: Bhavin Patel, Splunk
+- **ID**: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 
 
 #### ATT&CK

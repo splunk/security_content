@@ -25,12 +25,12 @@ tags:
 
 The following analytic identifies usage of `wmic.exe` spawning a local or remote process, identified by the `node` switch. During triage, review parallel processes for additional commands executed. Look for any file modifications before and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm execution or file modifications. Contain and isolate the endpoint as needed.
 
-- **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-03
 - **Author**: Rico Valdez, Michael Haag, Splunk
+- **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
 
 
 #### ATT&CK

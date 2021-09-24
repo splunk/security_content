@@ -23,12 +23,12 @@ tags:
 
 This search detects writes to the recycle bin by a process other than explorer.exe.
 
-- **ID**: b5541828-8ffd-4070-9d95-b3da4de924cb
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-22
 - **Author**: Rico Valdez, Splunk
+- **ID**: b5541828-8ffd-4070-9d95-b3da4de924cb
 
 
 #### ATT&CK

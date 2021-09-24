@@ -31,12 +31,12 @@ tags:
 
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
-- **ID**: 01fc7d91-eb0c-478e-8633-e4fa4904463a
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 01fc7d91-eb0c-478e-8633-e4fa4904463a
 
 
 #### ATT&CK

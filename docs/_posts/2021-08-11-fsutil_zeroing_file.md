@@ -25,12 +25,12 @@ tags:
 
 This search is to detect a suspicious fsutil process to zeroing a target file. This technique was seen in lockbit ransomware where it tries to zero out its malware path as part of its defense evasion after encrypting the compromised host.
 
-- **ID**: 4e5e024e-fabb-11eb-8b8f-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-11
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 4e5e024e-fabb-11eb-8b8f-acde48001122
 
 
 #### ATT&CK

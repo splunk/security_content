@@ -24,12 +24,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The search queries the authentication logs for assets that are categorized as routers in the ES Assets and Identity Framework, to identify connections that have not been seen before in the last 30 days.
 
-- **ID**: 104658f4-afdc-499e-9719-17243rr826f1
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2017-09-12
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 104658f4-afdc-499e-9719-17243rr826f1
 
 
 

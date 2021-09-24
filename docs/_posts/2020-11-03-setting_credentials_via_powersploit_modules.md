@@ -31,12 +31,12 @@ tags:
 
 This detection identifies illegal setting of credentials via PowerSploit modules.
 
-- **ID**: 07b2a501-f967-4ddc-9f56-2dce46dfce44
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 07b2a501-f967-4ddc-9f56-2dce46dfce44
 
 
 #### ATT&CK

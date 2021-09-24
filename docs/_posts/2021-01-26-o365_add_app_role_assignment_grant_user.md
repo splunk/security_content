@@ -25,12 +25,12 @@ tags:
 
 This search detects the creation of a new Federation setting by alerting about an specific event related to its creation.
 
-- **ID**: b2c81cc6-6040-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
+- **ID**: b2c81cc6-6040-11eb-ae93-0242ac130002
 
 
 #### ATT&CK

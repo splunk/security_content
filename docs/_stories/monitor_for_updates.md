@@ -15,11 +15,11 @@ tags:
 
 Monitor your enterprise to ensure that your endpoints are being patched and updated. Adversaries notoriously exploit known vulnerabilities that could be mitigated by applying routine security patches.
 
-- **ID**: 9ef8d677-7b52-4213-a038-99cfc7acc2d8
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Updates](https://docs.splunk.com/Documentation/CIM/latest/User/Updates)
 - **Last Updated**: 2017-09-15
 - **Author**: Rico Valdez, Splunk
+- **ID**: 9ef8d677-7b52-4213-a038-99cfc7acc2d8
 
 #### Narrative
 

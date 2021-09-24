@@ -25,12 +25,12 @@ tags:
 
 The search looks for AWS CloudTrail events to detect if any network ACLs were created with all the ports open to a specified CIDR.
 
-- **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd75
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
+- **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd75
 
 
 #### ATT&CK

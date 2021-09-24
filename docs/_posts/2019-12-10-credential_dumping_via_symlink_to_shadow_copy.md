@@ -25,12 +25,12 @@ tags:
 
 This search detects the creation of a symlink to a shadow copy.
 
-- **ID**: c5eac648-fae0-4263-91a6-773df1f4c903
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-12-10
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: c5eac648-fae0-4263-91a6-773df1f4c903
 
 
 #### ATT&CK

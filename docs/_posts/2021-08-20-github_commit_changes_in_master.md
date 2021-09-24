@@ -24,12 +24,12 @@ tags:
 
 This search is to detect a pushed or commit to master or main branch. This is to avoid unwanted modification to master without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a PR for review. of course in some cases admin of the project may did a changes directly to master branch
 
-- **ID**: c9d2bfe2-019f-11ec-a8eb-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-20
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: c9d2bfe2-019f-11ec-a8eb-acde48001122
 
 
 #### ATT&CK

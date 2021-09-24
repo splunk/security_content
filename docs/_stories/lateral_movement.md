@@ -16,11 +16,11 @@ tags:
 
 Detect and investigate tactics, techniques, and procedures around how attackers move laterally within the enterprise. Because lateral movement can expose the adversary to detection, it should be an important focus for security analysts.
 
-- **ID**: 399d65dc-1f08-499b-a259-aad9051f38ad
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-02-04
 - **Author**: David Dorsey, Splunk
+- **ID**: 399d65dc-1f08-499b-a259-aad9051f38ad
 
 #### Narrative
 

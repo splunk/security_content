@@ -28,12 +28,12 @@ To enable 5145 events via Group Policy - Computer Configuration-&gt;Polices-&gt;
 It is possible this is not enabled by default and may need to be reviewed and enabled. \
 During triage, review parallel security events to identify further suspicious activity.
 
-- **ID**: 95b8061a-0a67-11ec-85ec-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-31
 - **Author**: Michael Haag, Mauricio Velazco, Splunk
+- **ID**: 95b8061a-0a67-11ec-85ec-acde48001122
 
 
 #### ATT&CK

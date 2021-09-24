@@ -25,12 +25,12 @@ tags:
 
 The search looks for modifications to registry keys that control the enforcement of Windows User Account Control (UAC).
 
-- **ID**: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-18
 - **Author**: David Dorsey, Patrick Bareiss, Splunk
+- **ID**: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
 
 
 #### ATT&CK

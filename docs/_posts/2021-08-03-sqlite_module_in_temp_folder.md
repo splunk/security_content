@@ -25,12 +25,12 @@ tags:
 
 This search is to detect a suspicious file creation of sqlite3.dll in %temp% folder. This behavior was seen in IcedID malware where it download sqlite module to parse browser database like for chrome or firefox to stole browser information related to bank, credit card or credentials.
 
-- **ID**: 0f216a38-f45f-11eb-b09c-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-03
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 0f216a38-f45f-11eb-b09c-acde48001122
 
 
 #### ATT&CK

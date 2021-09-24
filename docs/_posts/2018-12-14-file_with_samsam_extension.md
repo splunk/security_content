@@ -22,12 +22,12 @@ tags:
 
 The search looks for file writes with extensions consistent with a SamSam ransomware attack.
 
-- **ID**: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
 - **Author**: Rico Valdez, Splunk
+- **ID**: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
 
 
 

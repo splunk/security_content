@@ -25,12 +25,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for processes referencing the plist files that determine which applications are re-opened when a user reboots their machine.
 
-- **ID**: 40bb64f9-f619-4e3d-8732-328d40377c4b
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-02-07
 - **Author**: Jamie Windley, Splunk
+- **ID**: 40bb64f9-f619-4e3d-8732-328d40377c4b
 
 
 

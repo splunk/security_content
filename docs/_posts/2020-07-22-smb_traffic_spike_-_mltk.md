@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the number of Server Message Block (SMB) connections.
 
-- **ID**: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-22
 - **Author**: Rico Valdez, Splunk
+- **ID**: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 
 
 #### ATT&CK

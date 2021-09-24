@@ -28,12 +28,12 @@ tags:
 
 The following analytic is to identify a modification in the Windows registry to prevent users from seeing all the files with hidden attributes. This event or techniques are known on some worm and trojan spy malware that will drop hidden files on the infected machine.
 
-- **ID**: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
+- **ID**: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
 
 
 #### ATT&CK

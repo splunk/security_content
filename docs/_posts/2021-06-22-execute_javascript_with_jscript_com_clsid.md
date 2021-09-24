@@ -25,12 +25,12 @@ tags:
 
 This analytic will identify suspicious process of cscript.exe where it tries to execute javascript using jscript.encode CLSID (COM OBJ). This technique was seen in ransomware (reddot ransomware) where it execute javascript with this com object with combination of amsi disabling technique.
 
-- **ID**: dc64d064-d346-11eb-8588-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-22
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: dc64d064-d346-11eb-8588-acde48001122
 
 
 #### ATT&CK

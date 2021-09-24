@@ -26,12 +26,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search will return a table of rare processes, the names of the systems running them, and the users who initiated each process.
 
-- **ID**: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
 
 
 

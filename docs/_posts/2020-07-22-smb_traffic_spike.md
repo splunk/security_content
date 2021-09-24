@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for spikes in the number of Server Message Block (SMB) traffic connections.
 
-- **ID**: 7f5fb3e1-4209-4914-90db-0ec21b936378
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-07-22
 - **Author**: David Dorsey, Splunk
+- **ID**: 7f5fb3e1-4209-4914-90db-0ec21b936378
 
 
 #### ATT&CK

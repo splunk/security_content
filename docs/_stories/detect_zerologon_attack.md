@@ -14,11 +14,11 @@ tags:
 
 Uncover activity related to the execution of Zerologon CVE-2020-11472, a technique wherein attackers target a Microsoft Windows Domain Controller to reset its computer account password. The result from this attack is attackers can now provide themselves high privileges and take over Domain Controller. The included searches in this Analytic Story are designed to identify attempts to reset Domain Controller Computer Account via exploit code remotely or via the use of tool Mimikatz as payload carrier.
 
-- **ID**: 5d14a962-569e-4578-939f-f386feb63ce4
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-09-18
 - **Author**: Rod Soto, Jose Hernandez, Stan Miskowicz, David Dorsey, Shannon Davis Splunk
+- **ID**: 5d14a962-569e-4578-939f-f386feb63ce4
 
 #### Narrative
 

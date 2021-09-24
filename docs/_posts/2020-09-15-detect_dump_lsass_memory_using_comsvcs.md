@@ -22,12 +22,12 @@ tags:
 
 This search detects the memory of lsass.exe being dumped for offline credential theft attack.
 
-- **ID**: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-09-15
 - **Author**: Jose Hernandez, Splunk
+- **ID**: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 
 
 #### ATT&CK

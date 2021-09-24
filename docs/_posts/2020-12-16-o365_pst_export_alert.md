@@ -25,12 +25,12 @@ tags:
 
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content
 
-- **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Rod Soto, Splunk
+- **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 
 
 #### ATT&CK

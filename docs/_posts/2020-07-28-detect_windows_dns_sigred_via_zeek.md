@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search detects SIGRed via Zeek DNS and Zeek Conn data.
 
-- **ID**: c5c622e4-d073-11ea-87d0-0242ac130003
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-07-28
 - **Author**: Shannon Davis, Splunk
+- **ID**: c5c622e4-d073-11ea-87d0-0242ac130003
 
 
 #### ATT&CK

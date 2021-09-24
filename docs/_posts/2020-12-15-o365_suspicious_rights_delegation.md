@@ -25,12 +25,12 @@ tags:
 
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
-- **ID**: b25d2973-303e-47c8-bacd-52b61604c6a7
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-15
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: b25d2973-303e-47c8-bacd-52b61604c6a7
 
 
 #### ATT&CK

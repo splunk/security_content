@@ -15,11 +15,11 @@ tags:
 
 Adversaries may attempt to gather information on domain trust relationships that may be used to identify lateral movement opportunities in Windows multi-domain/forest environments.
 
-- **ID**: e6f30f14-8daf-11eb-a017-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-25
 - **Author**: Michael Haag, Splunk
+- **ID**: e6f30f14-8daf-11eb-a017-acde48001122
 
 #### Narrative
 

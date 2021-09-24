@@ -24,12 +24,12 @@ tags:
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 that is using memory stream as new object backstore. The malicious PowerShell script will contain stream flate data and will be decompressed in memory to run or drop the actual payload. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **ID**: c396a0c4-c9f2-11eb-b4f5-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: c396a0c4-c9f2-11eb-b4f5-acde48001122
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 The following analytics are designed to identifies some CLOP ransomware variant that using arguments to execute its main code or feature of its code. In this variant if the parameter is &#34;runrun&#34;, CLOP ransomware will try to encrypt files in network shares and if it is &#34;temp.dat&#34;, it will try to read from some stream pipe or file start encrypting files within the infected local machines. This technique can be also identified as an anti-sandbox technique to make its code non-responsive since it is waiting for some parameter to execute properly.
 
-- **ID**: 5a8a2a72-8322-11eb-9ee9-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-17
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 5a8a2a72-8322-11eb-9ee9-acde48001122
 
 
 #### ATT&CK

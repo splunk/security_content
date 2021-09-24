@@ -27,12 +27,12 @@ tags:
 
 This search detects accounts with high number of Single Sign ON (SSO) logon errors. Excessive logon errors may indicate attempts to bruteforce of password or single sign on token hijack or reuse.
 
-- **ID**: 8158ccc4-6038-11eb-ae93-0242ac130002
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
+- **ID**: 8158ccc4-6038-11eb-ae93-0242ac130002
 
 
 #### ATT&CK

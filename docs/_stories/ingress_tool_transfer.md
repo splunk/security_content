@@ -15,11 +15,11 @@ tags:
 
 Adversaries may transfer tools or other files from an external system into a compromised environment. Files may be copied from an external adversary controlled system through the command and control channel to bring tools into the victim network or through alternate protocols with another tool such as FTP.
 
-- **ID**: b3782036-8cbd-11eb-9d8e-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-24
 - **Author**: Michael Haag, Splunk
+- **ID**: b3782036-8cbd-11eb-9d8e-acde48001122
 
 #### Narrative
 

@@ -25,12 +25,12 @@ tags:
 
 This search is to identifies suspicious firewall disabling using netsh application. this technique is commonly seen in malware that tries to communicate or download its component or other payload to its C2 server.
 
-- **ID**: 6860a62c-9203-11eb-9e05-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 6860a62c-9203-11eb-9e05-acde48001122
 
 
 #### ATT&CK

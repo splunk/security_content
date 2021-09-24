@@ -25,12 +25,12 @@ tags:
 
 This detection targets behaviors observed in post exploit kits like Meterpreter and Koadic that are run in memory.  We have observed that these tools must invoke an excessive number of taskhost.exe and taskhostex.exe processes to complete various actions (discovery, lateral movement, etc.).  It is extremely uncommon in the course of normal operations to see so many distinct taskhost and taskhostex processes running concurrently in a short time frame.
 
-- **ID**: f443dac2-c7cf-11eb-ab51-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-07
 - **Author**: Michael Hart
+- **ID**: f443dac2-c7cf-11eb-ab51-acde48001122
 
 
 #### ATT&CK

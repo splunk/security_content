@@ -25,12 +25,12 @@ tags:
 
 This search detects the addition of a new Federated domain.
 
-- **ID**: e155876a-6048-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
+- **ID**: e155876a-6048-11eb-ae93-0242ac130002
 
 
 #### ATT&CK

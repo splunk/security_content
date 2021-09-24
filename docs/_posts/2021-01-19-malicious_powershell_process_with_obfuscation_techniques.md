@@ -26,12 +26,12 @@ tags:
 
 This search looks for PowerShell processes launched with arguments that have characters indicative of obfuscation on the command-line.
 
-- **ID**: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-19
 - **Author**: David Dorsey, Splunk
+- **ID**: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
 
 
 #### ATT&CK

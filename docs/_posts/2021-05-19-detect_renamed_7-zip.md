@@ -25,12 +25,12 @@ tags:
 
 The following analytic identifies renamed 7-Zip usage using Sysmon. At this stage of an attack, review parallel processes and file modifications for data that is staged or potentially have been exfiltrated. This analytic utilizes the OriginalFileName to capture the renamed process.
 
-- **ID**: 4057291a-b8cf-11eb-95fe-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-19
 - **Author**: Michael Haag, Splunk
+- **ID**: 4057291a-b8cf-11eb-95fe-acde48001122
 
 
 #### ATT&CK

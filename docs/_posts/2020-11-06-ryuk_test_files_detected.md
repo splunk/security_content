@@ -24,12 +24,12 @@ tags:
 
 The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Ryuk propagation.
 
-- **ID**: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Rod Soto, Jose Hernandez, Splunk
+- **ID**: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
 
-- **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-04-05
 - **Author**: Michael Haag, Splunk
+- **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
 
 
 #### ATT&CK

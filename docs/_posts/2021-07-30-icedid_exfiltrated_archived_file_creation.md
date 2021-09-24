@@ -25,12 +25,12 @@ tags:
 
 This search is to detect a suspicious file creation namely passff.tar and cookie.tar. This files are possible archived of stolen browser information like history and cookies in a compromised machine with IcedID.
 
-- **ID**: 0db4da70-f14b-11eb-8043-acde48001122
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-30
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 0db4da70-f14b-11eb-8043-acde48001122
 
 
 #### ATT&CK

@@ -23,12 +23,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for suspicious Java classes that are often used to exploit remote command execution in common Java frameworks, such as Apache Struts.
 
-- **ID**: if1fea6da-3c86-4c1d-b255-fc3b2781a491
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-12-06
 - **Author**: Jose Hernandez, Splunk
+- **ID**: if1fea6da-3c86-4c1d-b255-fc3b2781a491
 
 
 

@@ -26,12 +26,12 @@ tags:
 
 This search is to detect a suspicious modification of registry that may related to UAC bypassed. This registry will be trigger once the attacker abuse the silentcleanup task schedule to gain high privilege execution that will bypass User control account.
 
-- **ID**: 56d7cfcc-da63-11eb-92d4-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 56d7cfcc-da63-11eb-92d4-acde48001122
 
 
 #### ATT&CK

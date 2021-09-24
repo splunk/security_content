@@ -27,12 +27,12 @@ tags:
 
 This search looks for flags passed to schtasks.exe on the command-line that indicate that a forced reboot of system is scheduled.
 
-- **ID**: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-07
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
 
 
 #### ATT&CK

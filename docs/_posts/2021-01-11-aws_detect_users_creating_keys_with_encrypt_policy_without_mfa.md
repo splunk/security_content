@@ -24,12 +24,12 @@ tags:
 
 This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
-- **ID**: c79c164f-4b21-4847-98f9-cf6a9f49179e
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Rod Soto, Patrick Bareiss Splunk
+- **ID**: c79c164f-4b21-4847-98f9-cf6a9f49179e
 
 
 #### ATT&CK

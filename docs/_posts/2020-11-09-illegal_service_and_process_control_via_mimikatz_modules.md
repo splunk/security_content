@@ -29,12 +29,12 @@ tags:
 
 This detection identifies use of Mimikatz modules for illegal control over services and processes, including the authentication service.
 
-- **ID**: aaf3adf1-73e1-4477-b4ee-3771898964f1
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: aaf3adf1-73e1-4477-b4ee-3771898964f1
 
 
 #### ATT&CK

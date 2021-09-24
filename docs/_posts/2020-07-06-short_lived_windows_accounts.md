@@ -24,12 +24,12 @@ tags:
 
 This search detects accounts that were created and deleted in a short time period.
 
-- **ID**: b25f6f62-0782-43c1-b403-083231ffd97d
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-06
 - **Author**: David Dorsey, Splunk
+- **ID**: b25f6f62-0782-43c1-b403-083231ffd97d
 
 
 #### ATT&CK

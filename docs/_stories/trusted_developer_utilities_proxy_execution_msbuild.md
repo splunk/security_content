@@ -15,11 +15,11 @@ tags:
 
 Monitor and detect techniques used by attackers who leverage the msbuild.exe process to execute malicious code.
 
-- **ID**: be3418e2-551b-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-21
 - **Author**: Michael Haag, Splunk
+- **ID**: be3418e2-551b-11eb-ae93-0242ac130002
 
 #### Narrative
 

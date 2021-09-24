@@ -15,11 +15,11 @@ tags:
 
 Monitor and detect registry changes initiated from remote locations, which can be a sign that an attacker has infiltrated your system.
 
-- **ID**: 2b1800dd-92f9-47dd-a981-fdf1351e5d55
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-05-31
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2b1800dd-92f9-47dd-a981-fdf1351e5d55
 
 #### Narrative
 

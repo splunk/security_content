@@ -25,12 +25,12 @@ tags:
 
 This search allows you to identify DNS requests and compute the standard deviation on the length of the names being resolved, then filter on two times the standard deviation to show you those queries that are unusually large for your environment.
 
-- **ID**: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2021-07-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
 
 
 #### ATT&CK

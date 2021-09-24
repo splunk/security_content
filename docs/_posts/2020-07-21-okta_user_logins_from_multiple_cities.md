@@ -28,12 +28,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search detects logins from the same user from different cities in a 24 hour period.
 
-- **ID**: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Rico Valdez, Splunk
+- **ID**: 7594fa07-9f34-4d01-81cc-d6af6a5db9e8
 
 
 #### ATT&CK

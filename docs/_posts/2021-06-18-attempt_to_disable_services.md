@@ -23,12 +23,12 @@ tags:
 
 This analytic will identify suspicious series of command-line to disable several services. This technique is seen where the adversary attempts to disable security app services or other malware services to complete the objective on the compromised system.
 
-- **ID**: afb31de4-d023-11eb-98d5-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-18
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: afb31de4-d023-11eb-98d5-acde48001122
 
 
 #### ATT&CK

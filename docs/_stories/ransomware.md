@@ -16,11 +16,11 @@ tags:
 
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage, the presence of common ransomware extensions, and system processes run from unexpected locations, and many others.
 
-- **ID**: cf309d0d-d4aa-4fbb-963d-1e79febd3756
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-02-04
 - **Author**: David Dorsey, Splunk
+- **ID**: cf309d0d-d4aa-4fbb-963d-1e79febd3756
 
 #### Narrative
 

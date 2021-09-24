@@ -27,12 +27,12 @@ tags:
 
 The search looks for reg.exe modifying registry keys that define Windows services and their configurations.
 
-- **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-26
 - **Author**: Rico Valdez, Splunk
+- **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
 
 
 #### ATT&CK

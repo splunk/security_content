@@ -28,12 +28,12 @@ tags:
 
 This detection identifies access to PowerSploit modules that discover and access network and distributed file system shares.
 
-- **ID**: 6b7ca431-6b1e-4b40-9589-21cb368e369e
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 6b7ca431-6b1e-4b40-9589-21cb368e369e
 
 
 #### ATT&CK

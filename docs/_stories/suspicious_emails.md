@@ -15,11 +15,11 @@ tags:
 
 Email remains one of the primary means for attackers to gain an initial foothold within the modern enterprise. Detect and investigate suspicious emails in your environment with the help of the searches in this Analytic Story.
 
-- **ID**: 2b1800dd-92f9-47ec-a981-fdf1351e5d55
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2020-01-27
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2b1800dd-92f9-47ec-a981-fdf1351e5d55
 
 #### Narrative
 

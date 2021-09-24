@@ -25,12 +25,12 @@ tags:
 
 The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot.
 
-- **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-20
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
 
 
 #### ATT&CK

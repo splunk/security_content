@@ -15,11 +15,11 @@ tags:
 
 Uncover activity consistent with credential dumping, a technique wherein attackers compromise systems and attempt to obtain and exfiltrate passwords. The threat actors use these pilfered credentials to further escalate privileges and spread throughout a target environment. The included searches in this Analytic Story are designed to identify attempts to credential dumping.
 
-- **ID**: 854d78bf-d0e2-4f4e-b05c-640905f86d7a
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-02-04
 - **Author**: Rico Valdez, Splunk
+- **ID**: 854d78bf-d0e2-4f4e-b05c-640905f86d7a
 
 #### Narrative
 

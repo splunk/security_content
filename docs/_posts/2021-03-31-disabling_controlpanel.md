@@ -25,12 +25,12 @@ tags:
 
 this search is to identify registry modification to disable control panel window. This technique is commonly seen in malware to prevent their artifacts , persistence removed on the infected machine.
 
-- **ID**: 6ae0148e-9215-11eb-a94a-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 6ae0148e-9215-11eb-a94a-acde48001122
 
 
 #### ATT&CK

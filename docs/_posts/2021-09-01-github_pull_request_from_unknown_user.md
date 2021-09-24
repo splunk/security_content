@@ -25,12 +25,12 @@ tags:
 
 This search looks for Pull Request from unknown user.
 
-- **ID**: 9d7b9100-8878-4404-914e-ca5e551a641e
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 9d7b9100-8878-4404-914e-ca5e551a641e
 
 
 #### ATT&CK

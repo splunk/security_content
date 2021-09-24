@@ -25,12 +25,12 @@ tags:
 
 This search looks for Dependabot Alerts in Github logs.
 
-- **ID**: 05032b04-4469-4034-9df7-05f607d75cba
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 05032b04-4469-4034-9df7-05f607d75cba
 
 
 #### ATT&CK

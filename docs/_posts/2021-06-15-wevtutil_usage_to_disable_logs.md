@@ -23,12 +23,12 @@ tags:
 
 This search is to detect execution of wevtutil.exe to disable logs. This technique was seen in several ransomware to disable the event logs to evade alerts and detections in compromised host.
 
-- **ID**: a4bdc944-cdd9-11eb-ac97-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-15
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: a4bdc944-cdd9-11eb-ac97-acde48001122
 
 
 #### ATT&CK

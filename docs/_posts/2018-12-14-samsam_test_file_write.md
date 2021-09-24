@@ -25,12 +25,12 @@ tags:
 
 The search looks for a file named &#34;test.txt&#34; written to the windows system directory tree, which is consistent with Samsam propagation.
 
-- **ID**: 493a879d-519d-428f-8f57-a06a0fdc107e
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
 - **Author**: Rico Valdez, Splunk
+- **ID**: 493a879d-519d-428f-8f57-a06a0fdc107e
 
 
 #### ATT&CK

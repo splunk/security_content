@@ -31,12 +31,12 @@ tags:
 
 This detection identifies illegal setting of credentials via DSInternals modules.
 
-- **ID**: d5ef590f-9bde-49eb-9c63-2f5b62a65b9c
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: d5ef590f-9bde-49eb-9c63-2f5b62a65b9c
 
 
 #### ATT&CK

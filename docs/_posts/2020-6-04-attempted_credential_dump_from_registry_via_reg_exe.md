@@ -22,12 +22,12 @@ tags:
 
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
-- **ID**: 14038953-e5f2-4daf-acff-5452062baf03
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-6-04
 - **Author**: Jose Hernandez, Splunk
+- **ID**: 14038953-e5f2-4daf-acff-5452062baf03
 
 
 #### ATT&CK

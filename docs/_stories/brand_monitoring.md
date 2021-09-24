@@ -16,11 +16,11 @@ tags:
 
 Detect and investigate activity that may indicate that an adversary is using faux domains to mislead users into interacting with malicious infrastructure. Monitor DNS, email, and web traffic for permutations of your brand name.
 
-- **ID**: 91c676cf-0b23-438d-abee-f6335e1fce78
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email), [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-12-19
 - **Author**: David Dorsey, Splunk
+- **ID**: 91c676cf-0b23-438d-abee-f6335e1fce78
 
 #### Narrative
 

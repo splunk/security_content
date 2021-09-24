@@ -22,12 +22,12 @@ tags:
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. DSInternals is a collection of PowerShell modules commonly employed in exploits.
 
-- **ID**: 5d2172f0-8a7d-4ecd-aad9-2dcc95699e0d
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 5d2172f0-8a7d-4ecd-aad9-2dcc95699e0d
 
 
 #### ATT&CK

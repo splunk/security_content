@@ -15,11 +15,11 @@ tags:
 
 Keep a careful inventory of every asset on your network to make it easier to detect rogue devices. Unauthorized/unmanaged devices could be an indication of malicious behavior that should be investigated further.
 
-- **ID**: 91c676cf-0b23-438d-abee-f6335e1fce77
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Sessions](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkSessions)
 - **Last Updated**: 2017-09-13
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 91c676cf-0b23-438d-abee-f6335e1fce77
 
 #### Narrative
 

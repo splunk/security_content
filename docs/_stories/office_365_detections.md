@@ -15,11 +15,11 @@ tags:
 
 This story is focused around detecting Office 365 Attacks.
 
-- **ID**: 1a51dd71-effc-48b2-abc4-3e9cdb61e5b9
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 1a51dd71-effc-48b2-abc4-3e9cdb61e5b9
 
 #### Narrative
 

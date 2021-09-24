@@ -34,12 +34,12 @@ tags:
 
 This detection identifies access to PowerSploit modules for reconnaissance and access to elements of Active Directory infrastructure, such as domain identifiers, AD sites and forests, and trust relations.
 
-- **ID**: db08ac40-ee14-43e9-9a75-dddd059ef812
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: db08ac40-ee14-43e9-9a75-dddd059ef812
 
 
 #### ATT&CK

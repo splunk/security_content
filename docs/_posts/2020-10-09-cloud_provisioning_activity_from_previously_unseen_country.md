@@ -28,12 +28,12 @@ tags:
 
 This search looks for cloud provisioning activities from previously unseen countries. Provisioning activities are defined broadly as any event that runs or creates something.
 
-- **ID**: 94994255-3acf-4213-9b3f-0494df03bb31
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-10-09
 - **Author**: Rico Valdez, Bhavin Patel, Splunk
+- **ID**: 94994255-3acf-4213-9b3f-0494df03bb31
 
 
 #### ATT&CK

@@ -27,12 +27,12 @@ tags:
 
 Attacker activity may compromise executing several LOLBAS applications in conjunction to accomplish their objectives. We are looking for more than usual LOLBAS applications over a window of time, by building profiles per machine.
 
-- **ID**: 59c0dd70-169c-4900-9a1f-bfcf13302f93
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-08-25
 - **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: 59c0dd70-169c-4900-9a1f-bfcf13302f93
 
 
 #### ATT&CK

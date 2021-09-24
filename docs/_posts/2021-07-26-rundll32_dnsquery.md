@@ -25,12 +25,12 @@ tags:
 
 This search is to detect a suspicious rundll32.exe process having a http connection and do a dns query in some web domain. This technique was seen in IcedID malware where the rundll32 that execute its payload will contact amazon.com to check internet connect and to communicate to its C&amp;C server to download config and other file component.
 
-- **ID**: f1483f5e-ee29-11eb-9d23-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-26
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: f1483f5e-ee29-11eb-9d23-acde48001122
 
 
 #### ATT&CK

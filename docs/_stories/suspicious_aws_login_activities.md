@@ -16,11 +16,11 @@ tags:
 
 Monitor your AWS authentication events using your CloudTrail logs. Searches within this Analytic Story will help you stay aware of and investigate suspicious logins. 
 
-- **ID**: 2e8948a5-5239-406b-b56b-6c59f1268af3
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2019-05-01
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2e8948a5-5239-406b-b56b-6c59f1268af3
 
 #### Narrative
 

@@ -29,12 +29,12 @@ tags:
 
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment about security groups by a user.
 
-- **ID**: d4dfb7f3-7a37-498a-b5df-f19334e871af
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-07
 - **Author**: David Dorsey, Splunk
+- **ID**: d4dfb7f3-7a37-498a-b5df-f19334e871af
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 This search looks for executing scripts with rundll32. Adversaries may abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice executing directly, may avoid triggering security tools that may not monitor execution of the rundll32.exe process because of allowlists or false positives from normal operations.
 
-- **ID**: 6c135f8d-5e60-454e-80b7-c56eed739833
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-30
 - **Author**: David Dorsey, Splunk
+- **ID**: 6c135f8d-5e60-454e-80b7-c56eed739833
 
 
 #### ATT&CK

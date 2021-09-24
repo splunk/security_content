@@ -14,11 +14,11 @@ tags:
 
 Use the searches in this Analytic Story to monitor your GCP Storage buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open storage buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
 
-- **ID**: 4d656b2e-d6be-11ea-87d0-0242ac130003
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-08-05
 - **Author**: Shannon Davis, Splunk
+- **ID**: 4d656b2e-d6be-11ea-87d0-0242ac130003
 
 #### Narrative
 

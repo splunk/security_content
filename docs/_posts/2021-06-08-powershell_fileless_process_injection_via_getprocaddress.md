@@ -31,12 +31,12 @@ This analytic identifies `GetProcAddress` in the script block. This is not norma
 In use, `$var_gpa = $var_unsafe_native_methods.GetMethod(GetProcAddress` and later referenced/executed elsewhere. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **ID**: a26d9db4-c883-11eb-9d75-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-08
 - **Author**: Michael Haag, Splunk
+- **ID**: a26d9db4-c883-11eb-9d75-acde48001122
 
 
 #### ATT&CK

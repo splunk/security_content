@@ -25,12 +25,12 @@ tags:
 
 The following analytic identifies regasm.exe spawning a process. This particular technique has been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe are signed by Microsoft. Spawning of a child process is rare from either process and should be investigated further. During investigation, identify and retrieve the content being loaded. Review parallel processes for additional suspicious behavior. Gather any other file modifications and review accordingly. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
-- **ID**: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-12
 - **Author**: Michael Haag, Splunk
+- **ID**: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
 
 
 #### ATT&CK

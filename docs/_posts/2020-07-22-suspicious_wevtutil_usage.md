@@ -25,12 +25,12 @@ tags:
 
 The wevtutil.exe application is the windows event log utility. This searches for wevtutil.exe with parameters for clearing the application, security, setup, or system event logs.
 
-- **ID**: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-22
 - **Author**: David Dorsey, Splunk
+- **ID**: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
 
 
 #### ATT&CK

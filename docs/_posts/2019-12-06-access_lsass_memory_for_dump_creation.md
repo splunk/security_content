@@ -24,12 +24,12 @@ tags:
 
 Detect memory dumping of the LSASS process.
 
-- **ID**: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 
 
 #### ATT&CK

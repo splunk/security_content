@@ -31,12 +31,12 @@ This analytic identifies `FromBase64String` within the script block. A typical m
 Command example - `[Byte[]]$var_code = [System.Convert]::FromBase64String(38uqIyMjQ6rG....` \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **ID**: 8acbc04c-c882-11eb-b060-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-08
 - **Author**: Michael Haag, Splunk
+- **ID**: 8acbc04c-c882-11eb-b060-acde48001122
 
 
 #### ATT&CK

@@ -22,12 +22,12 @@ tags:
 
 This detection identifies access to PowerSploit modules that create accounts illegaly.
 
-- **ID**: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 
 
 #### ATT&CK

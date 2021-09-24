@@ -28,12 +28,12 @@ tags:
 
 This detection identifies access to PowerSploit modules for reconnaissance of connectivity.
 
-- **ID**: 525d32fd-65dd-4732-9b72-3cfc7ddddbd2
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 525d32fd-65dd-4732-9b72-3cfc7ddddbd2
 
 
 #### ATT&CK

@@ -14,11 +14,11 @@ tags:
 
 PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC Protocol that can allow an unauthenticated account to escalate privileges to domain administrator given the right circumstances.
 
-- **ID**: 97aecafc-0a68-11ec-962f-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-31
 - **Author**: Michael Haag, Mauricio Velazco, Splunk
+- **ID**: 97aecafc-0a68-11ec-962f-acde48001122
 
 #### Narrative
 

@@ -15,11 +15,11 @@ tags:
 
 Attackers are increasingly abusing Windows Management Instrumentation (WMI), a framework and associated utilities available on all modern Windows operating systems. Because WMI can be leveraged to manage both local and remote systems, it is important to identify the processes executed and the user context within which the activity occurred.
 
-- **ID**: c8ddc5be-69bc-4202-b3ab-4010b27d7ad5
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-10-23
 - **Author**: Rico Valdez, Splunk
+- **ID**: c8ddc5be-69bc-4202-b3ab-4010b27d7ad5
 
 #### Narrative
 

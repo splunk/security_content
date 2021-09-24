@@ -25,12 +25,12 @@ tags:
 
 The following detection identifies the latest behavior utilized by Ursnif malware family. This detection identifies any Windows Office Product spawning `wmic.exe`. In malicious instances, the command-line of `wmic.exe` will contain `wmic process call create`. In addition, Threat Research has released a detection identifying the use of `wmic process call create` on the command-line of `wmic.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze any artifacts on disk. The Office Product, or `wmic.exe` will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
 
-- **ID**: ffc236d6-a6c9-11eb-95f1-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-26
 - **Author**: Michael Haag, Splunk
+- **ID**: ffc236d6-a6c9-11eb-95f1-acde48001122
 
 
 #### ATT&CK

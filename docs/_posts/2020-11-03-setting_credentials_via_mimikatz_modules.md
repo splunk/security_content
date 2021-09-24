@@ -31,12 +31,12 @@ tags:
 
 This detection identifies illegal setting of credentials via Mimikatz modules.
 
-- **ID**: c8b84699-7652-4363-910f-efd1ca82f780
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: c8b84699-7652-4363-910f-efd1ca82f780
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 This search detects when an admin configured a forwarding rule for multiple mailboxes to the same destination.
 
-- **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 
 
 #### ATT&CK

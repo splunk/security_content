@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search looks for execution of process `outlook.exe` where the process is writing a `.zip` file to the disk.
 
-- **ID**: a51bfe1a-94f0-4822-b1e4-16ae10145893
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: a51bfe1a-94f0-4822-b1e4-16ae10145893
 
 
 #### ATT&CK

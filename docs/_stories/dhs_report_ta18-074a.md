@@ -16,11 +16,11 @@ tags:
 
 Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA18-074A. Some of the activities that adversaries used in these compromises included spearfishing attacks, malware, watering-hole domains, many and more.
 
-- **ID**: 0c016e5c-88be-4e2c-8c6c-c2b55b4fb4ef
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-01-22
 - **Author**: Rico Valdez, Splunk
+- **ID**: 0c016e5c-88be-4e2c-8c6c-c2b55b4fb4ef
 
 #### Narrative
 

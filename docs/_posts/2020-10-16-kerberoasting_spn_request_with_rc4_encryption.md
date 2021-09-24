@@ -24,12 +24,12 @@ tags:
 
 This search detects a potential kerberoasting attack via service principal name requests
 
-- **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-16
 - **Author**: Jose Hernandez, Patrick Bareiss, Splunk
+- **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
 
 
 #### ATT&CK

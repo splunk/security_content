@@ -25,12 +25,12 @@ tags:
 
 This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket over the aws cli.
 
-- **ID**: 39c61d09-8b30-4154-922b-2d0a694ecc22
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 39c61d09-8b30-4154-922b-2d0a694ecc22
 
 
 #### ATT&CK

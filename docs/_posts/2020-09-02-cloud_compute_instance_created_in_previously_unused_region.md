@@ -26,12 +26,12 @@ tags:
 
 This search looks at cloud-infrastructure events where an instance is created in any region within the last hour and then compares it to a lookup file of previously seen regions where instances have been created.
 
-- **ID**: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-02
 - **Author**: David Dorsey, Splunk
+- **ID**: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 
 
 #### ATT&CK

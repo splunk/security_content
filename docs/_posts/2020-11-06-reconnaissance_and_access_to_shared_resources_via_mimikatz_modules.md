@@ -28,12 +28,12 @@ tags:
 
 This detection identifies use of Mimikatz modules for discovery and access to network shares.
 
-- **ID**: c97b6eb9-1d8b-4017-bbbb-2af7fc17bc3f
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: c97b6eb9-1d8b-4017-bbbb-2af7fc17bc3f
 
 
 #### ATT&CK

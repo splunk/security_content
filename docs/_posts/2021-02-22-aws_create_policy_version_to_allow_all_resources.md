@@ -28,12 +28,12 @@ tags:
 
 This search looks for AWS CloudTrail events where a user created a policy version that allows them to access any resource in their account
 
-- **ID**: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
 
 
 #### ATT&CK

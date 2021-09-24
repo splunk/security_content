@@ -21,12 +21,12 @@ tags:
 
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 
-- **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
 
 
 

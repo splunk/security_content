@@ -24,12 +24,12 @@ tags:
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 that is using the `mutex` function. This function is commonly seen in some obfuscated PowerShell scripts to make sure that only one instance of there process is running on a compromise machine. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **ID**: 637557ec-ca08-11eb-bd0a-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 637557ec-ca08-11eb-bd0a-acde48001122
 
 
 #### ATT&CK

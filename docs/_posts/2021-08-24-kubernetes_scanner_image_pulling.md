@@ -24,12 +24,12 @@ tags:
 
 This search uses the Kubernetes logs from Splunk Connect from Kubernetes to detect Kubernetes Security Scanner.
 
-- **ID**: 4890cd6b-0112-4974-a272-c5c153aee551
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-24
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 4890cd6b-0112-4974-a272-c5c153aee551
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 The following analytic identifies &#34;rundll32.exe&#34; execution with inline protocol handlers. &#34;JavaScript&#34;, &#34;VBScript&#34;, and &#34;About&#34; are the only supported options when invoking HTA content directly on the command-line. This type of behavior is commonly observed with fileless malware or application whitelisting bypass techniques. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process &#34;rundll32.exe&#34; and its parent process.
 
-- **ID**: 91c79f14-5b41-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-20
 - **Author**: Michael Haag, Splunk
+- **ID**: 91c79f14-5b41-11eb-ae93-0242ac130002
 
 
 #### ATT&CK

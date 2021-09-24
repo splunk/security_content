@@ -16,11 +16,11 @@ tags:
 
 Monitor for and investigate activities--such as suspicious writes to the Windows Recycling Bin or email servers sending high amounts of traffic to specific hosts, for example--that may indicate that an adversary is harvesting and exfiltrating sensitive data. 
 
-- **ID**: 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-02-03
 - **Author**: Rico Valdez, Splunk
+- **ID**: 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
 
 #### Narrative
 

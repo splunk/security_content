@@ -26,12 +26,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 This search detects SIGRed via Splunk Stream.
 
-- **ID**: babd8d10-d073-11ea-87d0-0242ac130003
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-28
 - **Author**: Shannon Davis, Splunk
+- **ID**: babd8d10-d073-11ea-87d0-0242ac130003
 
 
 #### ATT&CK

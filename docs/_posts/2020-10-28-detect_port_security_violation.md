@@ -36,12 +36,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 By enabling Port Security on a Cisco switch you can restrict input to an interface by limiting and identifying MAC addresses of the workstations that are allowed to access the port. When you assign secure MAC addresses to a secure port, the port does not forward packets with source addresses outside the group of defined addresses. If you limit the number of secure MAC addresses to one and assign a single secure MAC address, the workstation attached to that port is assured the full bandwidth of the port. If a port is configured as a secure port and the maximum number of secure MAC addresses is reached, when the MAC address of a workstation attempting to access the port is different from any of the identified secure MAC addresses, a security violation occurs.
 
-- **ID**: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-28
 - **Author**: Mikael Bjerkeland, Splunk
+- **ID**: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
 
 
 #### ATT&CK

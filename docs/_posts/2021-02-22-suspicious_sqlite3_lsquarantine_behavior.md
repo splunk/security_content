@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The following analytic identifies the use of a SQLite3 querying the MacOS preferences to identify the original URL the pkg was downloaded from. This particular behavior is common with MacOS adware-malicious software. Upon triage, review other processes in parallel for suspicious activity. Identify any recent package installations.
 
-- **ID**: e1997b2e-655f-4561-82fd-aeba8e1c1a86
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-22
 - **Author**: Michael Haag, Splunk
+- **ID**: e1997b2e-655f-4561-82fd-aeba8e1c1a86
 
 
 #### ATT&CK

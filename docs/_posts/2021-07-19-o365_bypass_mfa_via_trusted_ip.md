@@ -25,12 +25,12 @@ tags:
 
 This search detects newly added IP addresses/CIDR blocks to the list of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known to use this technique so that they can bypass the MFA system.
 
-- **ID**: c783dd98-c703-4252-9e8a-f19d9f66949e
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Bhavin Patel, Splunk
+- **ID**: c783dd98-c703-4252-9e8a-f19d9f66949e
 
 
 #### ATT&CK

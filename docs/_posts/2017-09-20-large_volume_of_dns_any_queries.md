@@ -27,12 +27,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 The search is used to identify attempts to use your DNS Infrastructure for DDoS purposes via a DNS amplification attack leveraging ANY queries.
 
-- **ID**: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2017-09-20
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
 
 
 #### ATT&CK

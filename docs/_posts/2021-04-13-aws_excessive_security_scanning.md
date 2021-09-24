@@ -25,12 +25,12 @@ tags:
 
 This search looks for AWS CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
 
-- **ID**: 1fdd164a-def8-4762-83a9-9ffe24e74d5a
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-04-13
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 1fdd164a-def8-4762-83a9-9ffe24e74d5a
 
 
 #### ATT&CK

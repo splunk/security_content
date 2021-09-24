@@ -16,11 +16,11 @@ tags:
 
 Attackers often attempt to hide within or otherwise abuse the domain name system (DNS). You can thwart attempts to manipulate this omnipresent protocol by monitoring for these types of abuses.
 
-- **ID**: 3c3835c0-255d-4f9e-ab84-e29ec9ec9b56
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2017-09-18
 - **Author**: Rico Valdez, Splunk
+- **ID**: 3c3835c0-255d-4f9e-ab84-e29ec9ec9b56
 
 #### Narrative
 

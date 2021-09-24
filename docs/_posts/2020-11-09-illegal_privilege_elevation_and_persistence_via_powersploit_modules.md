@@ -32,12 +32,12 @@ tags:
 
 This detection identifies access to PowerSploit modules that illegaly elevate general privileges or ensure persistence, e.g., enable manipulation of registry, task scheduling, persistent WMI, access to OS objects under desired identities.
 
-- **ID**: 88c10ee9-fe72-4bce-b343-5b129044b991
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 88c10ee9-fe72-4bce-b343-5b129044b991
 
 
 #### ATT&CK

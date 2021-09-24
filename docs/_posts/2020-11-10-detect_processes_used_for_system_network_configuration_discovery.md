@@ -27,12 +27,12 @@ tags:
 
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
-- **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
 - **Author**: Bhavin Patel, Splunk
+- **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 
 
 #### ATT&CK

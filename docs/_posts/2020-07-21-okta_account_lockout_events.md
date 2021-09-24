@@ -28,12 +28,12 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 Detect Okta user lockout events
 
-- **ID**: 62b70968-a0a5-4724-8ac4-67871e6f544d
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Rico Valdez, Splunk
+- **ID**: 62b70968-a0a5-4724-8ac4-67871e6f544d
 
 
 #### ATT&CK

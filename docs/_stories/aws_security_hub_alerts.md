@@ -15,11 +15,11 @@ tags:
 
 This story is focused around detecting Security Hub alerts generated from AWS
 
-- **ID**: 2f2f610a-d64d-48c2-b57c-96722b49ab5a
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-08-04
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2f2f610a-d64d-48c2-b57c-96722b49ab5a
 
 #### Narrative
 

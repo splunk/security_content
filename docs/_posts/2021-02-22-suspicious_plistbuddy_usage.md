@@ -35,12 +35,12 @@ The following analytic identifies the use of a native MacOS utility, PlistBuddy,
 - PlistBuddy -c &#34;Add :ProgramArguments:1 string -c&#34; ~/Library/Launchagents/init_verx.plist \
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
-- **ID**: c3194009-e0eb-4f84-87a9-4070f8688f00
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-22
 - **Author**: Michael Haag, Splunk
+- **ID**: c3194009-e0eb-4f84-87a9-4070f8688f00
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 Detect system information discovery techniques used by attackers to understand configurations of the system to further exploit it.
 
-- **ID**: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-10-12
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 
 
 #### ATT&CK

@@ -25,12 +25,12 @@ tags:
 
 This search is to detect known mailsniper.ps1 functions executed in a machine. This technique was seen in some attacker to harvest some sensitive e-mail in a compromised exchange server.
 
-- **ID**: a36972c8-b894-11eb-9f78-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-19
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: a36972c8-b894-11eb-9f78-acde48001122
 
 
 #### ATT&CK
