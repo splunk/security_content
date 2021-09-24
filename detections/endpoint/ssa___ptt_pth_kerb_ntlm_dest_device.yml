@@ -34,7 +34,7 @@ search: '| from read_ssa_enriched_events()
 | where NOT dest_user="-" AND 
         totalKerberos > 0 AND 
         totalNtlm > 0 AND 
-        endTime - startTime > 1800 AND  
+        endTime - startTime > 1800000 AND  
         (totalKerberos > 10 * totalNtlm AND totalKerberos > 50)  AND 
         (endTime - startTime) > 3 * (endNTLMTime - startNTLMTime)
 
