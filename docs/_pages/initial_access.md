@@ -7,6 +7,3 @@ permalink: /detections/initial_access/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

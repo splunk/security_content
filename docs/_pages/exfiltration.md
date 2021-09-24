@@ -7,6 +7,3 @@ permalink: /detections/exfiltration/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

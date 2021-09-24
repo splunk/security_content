@@ -7,6 +7,3 @@ permalink: /detections/impact/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

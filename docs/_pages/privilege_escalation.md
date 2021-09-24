@@ -7,6 +7,3 @@ permalink: /detections/privilege_escalation/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

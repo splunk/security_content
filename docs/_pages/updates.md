@@ -7,6 +7,3 @@ permalink: /detections/updates/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

@@ -7,6 +7,3 @@ permalink: /detections/network_resolution/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

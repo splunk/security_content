@@ -7,6 +7,3 @@ permalink: /detections/reconnaissance/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

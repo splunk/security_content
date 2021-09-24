@@ -7,6 +7,3 @@ permalink: /detections/persistence/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

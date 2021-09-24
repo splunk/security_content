@@ -7,6 +7,3 @@ permalink: /detections/collection/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

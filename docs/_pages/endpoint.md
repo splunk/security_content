@@ -7,6 +7,3 @@ permalink: /detections/endpoint/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

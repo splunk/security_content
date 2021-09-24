@@ -7,6 +7,3 @@ permalink: /detections/credential_access/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

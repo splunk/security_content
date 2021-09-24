@@ -7,6 +7,3 @@ permalink: /detections/network_traffic/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|

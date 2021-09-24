@@ -7,6 +7,3 @@ permalink: /detections/defense_evasion/
 sidebar:
   nav: "detections"
 ---
-
-| Name    |   Technique |     Tactic   |
-| ----------- | ----------- |--------------|
