@@ -12,7 +12,7 @@ search: '| tstats `security_content_summariesonly` count values(Registry.registr
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\Software\\Remcos*)|
   `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `remcos_client_registry_install_entry_filter`'
 how_to_implement: In order to successfully implement this search, you need to be ingesting
-  logs with the TargetObject registry key, registry Details from your endpoints.
+  logs with the TargetObject registry keys, registry Details from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
