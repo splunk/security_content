@@ -41,7 +41,7 @@ search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_ev
   as timestamp | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device"
   window=2419200000L | where label AND quantile>0.99 | eval start_time = window_start,
   end_time = timestamp, entities = mvappend(device), body=create_map(["lolbas_counter",
-  lolbas_counter]) | into write_null();'
+  lolbas_counter, "quantile", quantile, "device", device]) | into write_ssa_detected_events();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: 'Some administrative tasks may involve multiple use of LOLBAS
   applications in a short period of time. This might trigger false positives at the
