@@ -41,6 +41,7 @@ Upon triage, review the process performing the named pipe. If it is explorer.exe
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 
+
 #### Search
 
 ```

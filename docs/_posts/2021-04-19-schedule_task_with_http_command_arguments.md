@@ -42,6 +42,7 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 
+
 #### Search
 
 ```

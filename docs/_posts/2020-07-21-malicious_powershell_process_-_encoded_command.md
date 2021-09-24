@@ -41,6 +41,7 @@ This search looks for PowerShell processes that have encoded the script within t
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
 
 
+
 #### Search
 
 ```

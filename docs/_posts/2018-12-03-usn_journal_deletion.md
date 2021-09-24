@@ -40,6 +40,7 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 
+
 #### Search
 
 ```

@@ -40,7 +40,10 @@ This detection identifies access to PowerSploit modules that discover computers,
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance || [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance || [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+| [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
 
 
 #### Search

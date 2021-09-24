@@ -42,6 +42,7 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
 
+
 #### Search
 
 ```

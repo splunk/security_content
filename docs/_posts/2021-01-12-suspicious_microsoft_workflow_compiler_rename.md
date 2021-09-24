@@ -39,7 +39,8 @@ The following analytic identifies a renamed instance of microsoft.workflow.compi
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion || [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 
 #### Search

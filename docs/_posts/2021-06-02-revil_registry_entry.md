@@ -40,6 +40,7 @@ This analytic identifies suspicious modification in registry entry to keep some 
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
 
+
 #### Search
 
 ```

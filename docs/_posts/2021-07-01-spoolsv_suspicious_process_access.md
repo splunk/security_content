@@ -40,6 +40,7 @@ This analytic identifies a suspicious behavior related to PrintNightmare, or CVE
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 
+
 #### Search
 
 ```

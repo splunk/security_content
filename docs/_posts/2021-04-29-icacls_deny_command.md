@@ -40,6 +40,7 @@ This analytic identifies a potential adversary that changes the security permiss
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 
+
 #### Search
 
 ```

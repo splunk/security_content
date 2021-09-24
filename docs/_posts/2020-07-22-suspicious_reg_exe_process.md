@@ -40,6 +40,7 @@ This search looks for reg.exe being launched from a command prompt not started b
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
 
+
 #### Search
 
 ```

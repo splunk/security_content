@@ -41,6 +41,7 @@ This search detects SIGRed via Splunk Stream.
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 
+
 #### Search
 
 ```

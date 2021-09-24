@@ -40,6 +40,7 @@ This analytic identifies suspicious commandline parameter that are commonly used
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 
+
 #### Search
 
 ```

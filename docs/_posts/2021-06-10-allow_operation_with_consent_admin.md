@@ -41,6 +41,7 @@ This analytic identifies a potential privilege escalation attempt to perform mal
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 
+
 #### Search
 
 ```

@@ -41,6 +41,7 @@ This detection is to identify the common service name created by the CLOP ransom
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 
+
 #### Search
 
 ```

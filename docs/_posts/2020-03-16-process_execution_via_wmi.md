@@ -40,6 +40,7 @@ The following analytic identifies `WmiPrvSE.exe` spawning a process. This typica
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 
+
 #### Search
 
 ```

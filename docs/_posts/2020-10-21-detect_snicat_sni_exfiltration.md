@@ -41,6 +41,7 @@ This search looks for commands that the SNICat tool uses in the TLS SNI field.
 | [T1041](https://attack.mitre.org/techniques/T1041/) | Exfiltration Over C2 Channel | Exfiltration |
 
 
+
 #### Search
 
 ```

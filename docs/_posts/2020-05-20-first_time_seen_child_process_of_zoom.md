@@ -40,6 +40,7 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 
+
 #### Search
 
 ```

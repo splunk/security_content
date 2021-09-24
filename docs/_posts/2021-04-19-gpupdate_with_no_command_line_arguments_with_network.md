@@ -41,6 +41,7 @@ The following analytic identifies gpupdate.exe with no command line arguments an
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 
+
 #### Search
 
 ```

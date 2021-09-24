@@ -44,6 +44,7 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 
+
 #### Search
 
 ```

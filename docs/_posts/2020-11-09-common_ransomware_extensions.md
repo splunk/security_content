@@ -40,6 +40,7 @@ The search looks for file modifications with extensions commonly used by Ransomw
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 
+
 #### Search
 
 ```

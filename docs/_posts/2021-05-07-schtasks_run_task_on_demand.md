@@ -42,6 +42,7 @@ This analytic identifies an on demand run of a Windows Schedule Task through she
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 
+
 #### Search
 
 ```

@@ -38,6 +38,7 @@ This analytic will identify a suspicious command-line that disables a user accou
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 
+
 #### Search
 
 ```

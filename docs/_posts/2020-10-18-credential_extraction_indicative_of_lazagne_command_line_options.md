@@ -37,7 +37,9 @@ Credential extraction is often an illegal recovery of credential material from s
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access || [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+| [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
+
 
 
 #### Search

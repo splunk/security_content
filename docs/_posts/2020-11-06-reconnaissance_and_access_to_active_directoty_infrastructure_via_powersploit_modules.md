@@ -46,7 +46,12 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery || [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance || [T1591](https://attack.mitre.org/techniques/T1591/) | Gather Victim Org Information | Reconnaissance || [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+| [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
+| [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+| [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
+| [T1591](https://attack.mitre.org/techniques/T1591/) | Gather Victim Org Information | Reconnaissance |
+| [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+
 
 
 #### Search

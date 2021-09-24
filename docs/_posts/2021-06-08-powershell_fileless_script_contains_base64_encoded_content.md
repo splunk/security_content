@@ -43,7 +43,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion || [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+| [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 
 #### Search

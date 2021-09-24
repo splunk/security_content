@@ -40,6 +40,7 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 
+
 #### Search
 
 ```

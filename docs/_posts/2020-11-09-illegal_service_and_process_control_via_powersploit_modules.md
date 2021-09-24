@@ -41,7 +41,10 @@ This detection identifies access to PowerSploit modules that enable illegal cont
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation || [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution || [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+| [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+| [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+
 
 
 #### Search

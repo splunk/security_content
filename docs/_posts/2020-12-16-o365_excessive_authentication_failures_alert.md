@@ -40,6 +40,7 @@ This search detects when an excessive number of authentication failures occur th
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 
+
 #### Search
 
 ```

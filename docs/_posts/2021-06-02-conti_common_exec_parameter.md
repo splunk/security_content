@@ -40,6 +40,7 @@ This search detects the suspicious commandline argument of revil ransomware to e
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 
+
 #### Search
 
 ```

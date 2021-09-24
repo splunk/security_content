@@ -40,6 +40,7 @@ The following detection identifes when a policy is deleted on AWS. This does not
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 
 
+
 #### Search
 
 ```

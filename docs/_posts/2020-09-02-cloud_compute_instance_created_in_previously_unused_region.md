@@ -41,6 +41,7 @@ This search looks at cloud-infrastructure events where an instance is created in
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
 
 
+
 #### Search
 
 ```

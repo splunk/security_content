@@ -40,6 +40,7 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
 
 
+
 #### Search
 
 ```

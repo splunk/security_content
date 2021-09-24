@@ -43,6 +43,7 @@ This search looks for new commands from each user role.
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
+
 #### Search
 
 ```

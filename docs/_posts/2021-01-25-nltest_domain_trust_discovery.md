@@ -40,6 +40,7 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 
+
 #### Search
 
 ```

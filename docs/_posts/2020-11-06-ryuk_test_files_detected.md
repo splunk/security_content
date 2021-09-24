@@ -39,6 +39,7 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 
+
 #### Search
 
 ```

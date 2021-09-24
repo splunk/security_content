@@ -46,7 +46,11 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution || [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation || [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
+| [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
+
 
 
 #### Search

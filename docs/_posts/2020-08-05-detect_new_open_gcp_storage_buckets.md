@@ -41,6 +41,7 @@ This search looks for GCP PubSub events where a user has created an open/public 
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 
+
 #### Search
 
 ```

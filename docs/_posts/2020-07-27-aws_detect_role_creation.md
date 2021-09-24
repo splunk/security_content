@@ -44,6 +44,7 @@ This search provides detection of role creation by IAM users. Role creation is a
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
+
 #### Search
 
 ```

@@ -40,6 +40,7 @@ This search is to detect a suspicious bcdedit.exe execution to ignore all failur
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 
+
 #### Search
 
 ```

@@ -37,6 +37,7 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 
+
 #### Search
 
 ```

@@ -40,6 +40,7 @@ Detect system information discovery techniques used by attackers to understand c
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 
+
 #### Search
 
 ```

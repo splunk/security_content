@@ -42,6 +42,7 @@ The following analytic identifies the use of a SQLite3 querying the MacOS prefer
 | [T1074](https://attack.mitre.org/techniques/T1074/) | Data Staged | Collection |
 
 
+
 #### Search
 
 ```

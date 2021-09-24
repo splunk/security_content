@@ -39,6 +39,7 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 
+
 #### Search
 
 ```

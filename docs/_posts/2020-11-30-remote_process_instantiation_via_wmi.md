@@ -40,6 +40,7 @@ This search looks for wmic.exe being launched with parameters to spawn a process
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 
+
 #### Search
 
 ```

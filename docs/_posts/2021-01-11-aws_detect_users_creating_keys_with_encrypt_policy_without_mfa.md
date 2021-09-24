@@ -39,6 +39,7 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 
+
 #### Search
 
 ```

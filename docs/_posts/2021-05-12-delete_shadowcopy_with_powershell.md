@@ -40,6 +40,7 @@ This following analytic detects PowerShell command to delete shadow copy using t
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 
+
 #### Search
 
 ```

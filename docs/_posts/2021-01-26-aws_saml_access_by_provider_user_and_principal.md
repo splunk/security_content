@@ -42,6 +42,7 @@ This search provides specific SAML access from specific Service Provider, user a
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
+
 #### Search
 
 ```

@@ -40,6 +40,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 
+
 #### Search
 
 ```

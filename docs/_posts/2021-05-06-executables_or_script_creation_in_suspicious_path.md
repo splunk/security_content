@@ -40,6 +40,7 @@ This analytic will identify suspicious executable or scripts (known file extensi
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 
+
 #### Search
 
 ```

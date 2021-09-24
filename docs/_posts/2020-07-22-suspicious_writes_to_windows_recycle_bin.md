@@ -38,6 +38,7 @@ This search detects writes to the recycle bin by a process other than explorer.e
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 
+
 #### Search
 
 ```
