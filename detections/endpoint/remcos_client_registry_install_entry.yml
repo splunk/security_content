@@ -2,7 +2,7 @@ name: Remcos client registry install entry
 id: f2a1615a-1d63-11ec-97d2-acde48001122
 version: 1
 date: '2021-09-24'
-author: Rod Soto
+author: Bhavin Patel, Rod Soto, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -11,9 +11,10 @@ search: '| tstats `security_content_summariesonly` count values(Registry.registr
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\Software\\Remcos*)|
   `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `remcos_client_registry_install_entry_filter`'
-how_to_implement: In order to successfully implement this search, you need to be ingesting
-  logs with the TargetObject registry key, registry Details from your endpoints.
-  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
 known_false_positives: unknown
 references:
 -  https://attack.mitre.org/software/S0332/
@@ -40,6 +41,8 @@ tags:
   # (impact * confidence)/100
   risk_score: 90
   context:
+    - Source:Endpoint
+    - Stage:Credential Access
   message: A registry entry $registry_path$ with registry value $registry_key_name$
      related to Remcos RAT in host $dest$
   observable:
