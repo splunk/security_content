@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Exploitation
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search is to detect a suspicious attachment file extension in Gsuite email that may related to spear phishing attack. This file type is commonly used by malware to lure user to click on it to execute malicious code to compromised targetted machine. But this search can also catch some normal files related to this file type that maybe send by employee or network admin.
 
 - **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-16
 - **Author**: Teoderick Contreras, Splunk
@@ -43,7 +44,9 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 
 ```
 `gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh", "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go") 
-| stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by destination{}.service num_message_attachments  subject destination{}.address source.address 
+| eval phase="plan" 
+| eval severity="medium" 
+| stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by destination{}.service num_message_attachments  subject destination{}.address source.address phase severity 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `gsuite_email_suspicious_attachment_filter`

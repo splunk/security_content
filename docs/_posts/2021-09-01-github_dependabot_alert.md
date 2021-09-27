@@ -44,8 +44,9 @@ This search looks for Dependabot Alerts in Github logs.
 
 ```
 `github` alert.id=* action=create 
-| rename repository.full_name as repository, repository.html_url as repository_url 
-| stats min(_time) as firstTime max(_time) as lastTime by action alert.affected_package_name alert.affected_range alert.created_at alert.external_identifier alert.external_reference alert.fixed_in alert.severity repository repository_url 
+| rename repository.full_name as repository, repository.html_url as repository_url sender.login as user 
+| stats min(_time) as firstTime max(_time) as lastTime by action alert.affected_package_name alert.affected_range alert.created_at alert.external_identifier alert.external_reference alert.fixed_in alert.severity repository repository_url user 
+| eval phase="code" 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `github_dependabot_alert_filter`

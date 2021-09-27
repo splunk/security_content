@@ -39,9 +39,9 @@ This story addresses Darkside ransomware. This ransomware payload has many simil
 | [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
 | [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
 | [Detect RClone Command-Line Usage](/endpoint/detect_rclone_command-line_usage/) | [Automated Exfiltration](/tags/#automated-exfiltration) | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | TTP |
-| [Detect Renamed RClone](/endpoint/detect_renamed_rclone/) | [Automated Exfiltration](/tags/#automated-exfiltration) | TTP |
-| [Extract SAM from Registry](/endpoint/extract_sam_from_registry/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | Hunting |
+| [Detect Renamed RClone](/endpoint/detect_renamed_rclone/) | [Automated Exfiltration](/tags/#automated-exfiltration) | Hunting |
+| [Extraction of Registry Hives](/endpoint/extraction_of_registry_hives/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
 | [Ransomware Notes bulk creation](/endpoint/ransomware_notes_bulk_creation/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Anomaly |
 | [SLUI RunAs Elevated](/endpoint/slui_runas_elevated/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
 | [SLUI Spawning a Process](/endpoint/slui_spawning_a_process/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |

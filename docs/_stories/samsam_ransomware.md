@@ -42,7 +42,7 @@ This Analytic Story includes searches designed to help detect and investigate si
 | [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | [Data Destruction](/tags/#data-destruction) | Hunting |
 | [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
 | [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | Hunting |
 | [Detect attackers scanning for vulnerable JBoss servers](/web/detect_attackers_scanning_for_vulnerable_jboss_servers/) | [System Information Discovery](/tags/#system-information-discovery) | TTP |
 | [Detect malicious requests to exploit JBoss servers](/web/detect_malicious_requests_to_exploit_jboss_servers/) |  | TTP |
 | [File with Samsam Extension](/endpoint/file_with_samsam_extension/) |  | TTP |

@@ -22,7 +22,7 @@ tags:
 
 #### Description
 
-The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable no critical endpoints or all. \
+The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell execution. Script Block Logging captures the command sent to PowerShell, the full command to be executed. Upon enabling, logs will output to Windows event logs. Dependent upon volume, enable on critical endpoints or all. \
 This analytic identifies specific PowerShell modules typically used to enumerate an organizations domain or users. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
@@ -45,7 +45,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 ```
 `powershell` EventCode=4104 Message IN (*get-netdomaintrust*, *get-netforesttrust*, *get-addomain*, *get-adgroupmember*, *get-domainuser*) 
-| stats count min(_time) as firstTime max(_time) as lastTime by OpCode ComputerName User EventCode Message 
+| stats count min(_time) as firstTime max(_time) as lastTime by ComputerName EventCode Message 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `powershell_domain_enumeration_filter`
@@ -61,9 +61,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 #### Required field
 * _time
 * Message
-* OpCode
 * ComputerName
-* User
 * EventCode
 
 

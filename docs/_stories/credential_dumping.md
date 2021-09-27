@@ -60,9 +60,8 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 | [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
 | [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
 | [Dump LSASS via procdump](/endpoint/dump_lsass_via_procdump/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
-| [Dump LSASS via procdump Rename](/endpoint/dump_lsass_via_procdump_rename/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
 | [Esentutl SAM Copy](/endpoint/esentutl_sam_copy/) | [Security Account Manager](/tags/#security-account-manager) | Hunting |
-| [Extract SAM from Registry](/endpoint/extract_sam_from_registry/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
+| [Extraction of Registry Hives](/endpoint/extraction_of_registry_hives/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
 | [Ntdsutil Export NTDS](/endpoint/ntdsutil_export_ntds/) | [NTDS](/tags/#ntds) | TTP |
 | [SAM Database File Access Attempt](/endpoint/sam_database_file_access_attempt/) | [Security Account Manager](/tags/#security-account-manager) | Hunting |
 | [SecretDumps Offline NTDS Dumping Tool](/endpoint/secretdumps_offline_ntds_dumping_tool/) | [NTDS](/tags/#ntds) | TTP |

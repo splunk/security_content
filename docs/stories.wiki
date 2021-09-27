@@ -224,84 +224,855 @@ Defense Evasion
 Monitor for activities and techniques associated with Discovery and Reconnaissance within with Active Directory environments.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1087.002/ T1087.002], [https://attack.mitre.org/techniques/T1201/ T1201], [https://attack.mitre.org/techniques/T1087.001/ T1087.001]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-08-20
+* '''Use Case''': Advanced Threat Detection
 
-<div class="toccolours mw-collapsible mw-collapsed">
+<div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
-
-* [[Documentation:ESSOC:detections:Detections#Adsisearcher_account_discovery|AdsiSearcher Account Discovery]]
-
-* [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_net_app|Domain Account Discovery With Net App]]
-
-* [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_dsquery|Domain Account Discovery with Dsquery]]
-
-* [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_wmic|Domain Account Discovery with Wmic]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_addefaultdomainpasswordpolicy_with_powershell|Get ADDefaultDomainPasswordPolicy with Powershell]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_addefaultdomainpasswordpolicy_with_powershell_script_block|Get ADDefaultDomainPasswordPolicy with Powershell Script Block]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_aduser_with_powershell|Get ADUser with PowerShell]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_aduser_with_powershell_script_block|Get ADUser with PowerShell Script Block]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_aduserresultantpasswordpolicy_with_powershell|Get ADUserResultantPasswordPolicy with Powershell]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_aduserresultantpasswordpolicy_with_powershell_script_block|Get ADUserResultantPasswordPolicy with Powershell Script Block]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_domainpolicy_with_powershell|Get DomainPolicy with Powershell]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_domainpolicy_with_powershell_script_block|Get DomainPolicy with Powershell Script Block]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_domainuser_with_powershell|Get DomainUser with PowerShell]]
-
-* [[Documentation:ESSOC:detections:Detections#Get_domainuser_with_powershell_script_block|Get DomainUser with PowerShell Script Block]]
-
-* [[Documentation:ESSOC:detections:Detections#Getlocaluser_with_powershell|GetLocalUser with PowerShell]]
-
-* [[Documentation:ESSOC:detections:Detections#Getlocaluser_with_powershell_script_block|GetLocalUser with PowerShell Script Block]]
-
-* [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_user_with_powershell|GetWmiObject DS User with PowerShell]]
-
-* [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_user_with_powershell_script_block|GetWmiObject DS User with PowerShell Script Block]]
-
-* [[Documentation:ESSOC:detections:Detections#Getwmiobject_user_account_with_powershell|GetWmiObject User Account with PowerShell]]
-
-* [[Documentation:ESSOC:detections:Detections#Getwmiobject_user_account_with_powershell_script_block|GetWmiObject User Account with PowerShell Script Block]]
-
-* [[Documentation:ESSOC:detections:Detections#Local_account_discovery_with_wmic|Local Account Discovery With Wmic]]
-
-* [[Documentation:ESSOC:detections:Detections#Local_account_discovery_with_net|Local Account Discovery with Net]]
-
-* [[Documentation:ESSOC:detections:Detections#Password_policy_discovery_with_net|Password Policy Discovery with Net]]
-
-
-
-====ATT&CK====
 {|
-! style="text-align:left;"| ID
+! style="text-align:left;"| name
+! ID
 ! Technique
 ! Tactic
+! Type
 |-
-| T1087.002
-| Domain Account
-| Discovery
+| [[Documentation:ESSOC:detections:Detections#Adsisearcher_account_discovery|AdsiSearcher Account Discovery]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002], 
+[https://attack.mitre.org/techniques/T1482/ T1482], 
+[https://attack.mitre.org/techniques/T1018/ T1018], 
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002], 
+[https://attack.mitre.org/techniques/T1201/ T1201], 
+[https://attack.mitre.org/techniques/T1069.001/ T1069.001], 
+[https://attack.mitre.org/techniques/T1033/ T1033], 
+[https://attack.mitre.org/techniques/T1087.001/ T1087.001], 
+[https://attack.mitre.org/techniques/T1049/ T1049]
+|
+Domain Account, 
+Domain Trust Discovery, 
+Remote System Discovery, 
+Domain Groups, 
+Password Policy Discovery, 
+Local Groups, 
+System Owner/User Discovery, 
+Local Account, 
+System Network Connections Discovery
+|
+Discovery, 
+Discovery, 
+Discovery, 
+Discovery, 
+Discovery, 
+Discovery, 
+Discovery, 
+Discovery, 
+Discovery
+
+| TTP
 |-
-| T1201
-| Password Policy Discovery
-| Discovery
+| [[Documentation:ESSOC:detections:Detections#Dsquery_domain_discovery|DSQuery Domain Discovery]]
+
+|
+[https://attack.mitre.org/techniques/T1482/ T1482], 
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Domain Trust Discovery, 
+Remote System Discovery
+|
+Discovery, 
+Discovery
+
+| TTP
 |-
-| T1087.001
-| Local Account
-| Discovery
+| [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_net_app|Domain Account Discovery With Net App]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_dsquery|Domain Account Discovery with Dsquery]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Domain_account_discovery_with_wmic|Domain Account Discovery with Wmic]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Domain_controller_discovery_with_nltest|Domain Controller Discovery with Nltest]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Domain_controller_discovery_with_wmic|Domain Controller Discovery with Wmic]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Domain_group_discovery_with_dsquery|Domain Group Discovery With Dsquery]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Domain_group_discovery_with_net|Domain Group Discovery With Net]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Domain_group_discovery_with_wmic|Domain Group Discovery With Wmic]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Domain_group_discovery_with_adsisearcher|Domain Group Discovery with Adsisearcher]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Elevated_group_discovery_with_net|Elevated Group Discovery With Net]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Elevated_group_discovery_with_wmic|Elevated Group Discovery With Wmic]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Elevated_group_discovery_with_powerview|Elevated Group Discovery with PowerView]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_addefaultdomainpasswordpolicy_with_powershell|Get ADDefaultDomainPasswordPolicy with Powershell]]
+
+|
+[https://attack.mitre.org/techniques/T1201/ T1201]
+|
+Password Policy Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_addefaultdomainpasswordpolicy_with_powershell_script_block|Get ADDefaultDomainPasswordPolicy with Powershell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1201/ T1201]
+|
+Password Policy Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_aduser_with_powershell|Get ADUser with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_aduser_with_powershell_script_block|Get ADUser with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_aduserresultantpasswordpolicy_with_powershell|Get ADUserResultantPasswordPolicy with Powershell]]
+
+|
+[https://attack.mitre.org/techniques/T1201/ T1201]
+|
+Password Policy Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_aduserresultantpasswordpolicy_with_powershell_script_block|Get ADUserResultantPasswordPolicy with Powershell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1201/ T1201]
+|
+Password Policy Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_domainpolicy_with_powershell|Get DomainPolicy with Powershell]]
+
+|
+[https://attack.mitre.org/techniques/T1201/ T1201]
+|
+Password Policy Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_domainpolicy_with_powershell_script_block|Get DomainPolicy with Powershell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1201/ T1201]
+|
+Password Policy Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_domainuser_with_powershell|Get DomainUser with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_domainuser_with_powershell_script_block|Get DomainUser with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_wmiobject_group_discovery|Get WMIObject Group Discovery]]
+
+|
+[https://attack.mitre.org/techniques/T1069.001/ T1069.001]
+|
+Local Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Get_wmiobject_group_discovery_with_script_block_logging|Get WMIObject Group Discovery with Script Block Logging]]
+
+|
+[https://attack.mitre.org/techniques/T1069.001/ T1069.001]
+|
+Local Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Get-domaintrust_with_powershell|Get-DomainTrust with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1482/ T1482]
+|
+Domain Trust Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get-domaintrust_with_powershell_script_block|Get-DomainTrust with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1482/ T1482]
+|
+Domain Trust Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get-foresttrust_with_powershell|Get-ForestTrust with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1482/ T1482]
+|
+Domain Trust Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Get-foresttrust_with_powershell_script_block|Get-ForestTrust with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1482/ T1482]
+|
+Domain Trust Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getadcomputer_with_powershell|GetAdComputer with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getadcomputer_with_powershell_script_block|GetAdComputer with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getadgroup_with_powershell|GetAdGroup with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getadgroup_with_powershell_script_block|GetAdGroup with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getcurrent_user_with_powershell|GetCurrent User with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1033/ T1033]
+|
+System Owner/User Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getcurrent_user_with_powershell_script_block|GetCurrent User with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1033/ T1033]
+|
+System Owner/User Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getdomaincomputer_with_powershell|GetDomainComputer with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getdomaincomputer_with_powershell_script_block|GetDomainComputer with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getdomaincontroller_with_powershell|GetDomainController with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getdomaincontroller_with_powershell_script_block|GetDomainController with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getdomaingroup_with_powershell|GetDomainGroup with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getdomaingroup_with_powershell_script_block|GetDomainGroup with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getlocaluser_with_powershell|GetLocalUser with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1087.001/ T1087.001]
+|
+Local Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getlocaluser_with_powershell_script_block|GetLocalUser with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1087.001/ T1087.001]
+|
+Local Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getnettcpconnection_with_powershell|GetNetTcpconnection with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1049/ T1049]
+|
+System Network Connections Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getnettcpconnection_with_powershell_script_block|GetNetTcpconnection with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1049/ T1049]
+|
+System Network Connections Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_user_with_powershell|GetWmiObject DS User with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_user_with_powershell_script_block|GetWmiObject DS User with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
+|
+Domain Account
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_computer_with_powershell|GetWmiObject Ds Computer with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_computer_with_powershell_script_block|GetWmiObject Ds Computer with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_group_with_powershell|GetWmiObject Ds Group with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getwmiobject_ds_group_with_powershell_script_block|GetWmiObject Ds Group with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1069.002/ T1069.002]
+|
+Domain Groups
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Getwmiobject_user_account_with_powershell|GetWmiObject User Account with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1087.001/ T1087.001]
+|
+Local Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Getwmiobject_user_account_with_powershell_script_block|GetWmiObject User Account with PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1087.001/ T1087.001]
+|
+Local Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Local_account_discovery_with_wmic|Local Account Discovery With Wmic]]
+
+|
+[https://attack.mitre.org/techniques/T1087.001/ T1087.001]
+|
+Local Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Local_account_discovery_with_net|Local Account Discovery with Net]]
+
+|
+[https://attack.mitre.org/techniques/T1087.001/ T1087.001]
+|
+Local Account
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Nltest_domain_trust_discovery|NLTest Domain Trust Discovery]]
+
+|
+[https://attack.mitre.org/techniques/T1482/ T1482]
+|
+Domain Trust Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Net_localgroup_discovery|Net Localgroup Discovery]]
+
+|
+[https://attack.mitre.org/techniques/T1069.001/ T1069.001]
+|
+Local Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Network_connection_discovery_with_arp|Network Connection Discovery With Arp]]
+
+|
+[https://attack.mitre.org/techniques/T1049/ T1049]
+|
+System Network Connections Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Network_connection_discovery_with_net|Network Connection Discovery With Net]]
+
+|
+[https://attack.mitre.org/techniques/T1049/ T1049]
+|
+System Network Connections Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Network_connection_discovery_with_netstat|Network Connection Discovery With Netstat]]
+
+|
+[https://attack.mitre.org/techniques/T1049/ T1049]
+|
+System Network Connections Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Password_policy_discovery_with_net|Password Policy Discovery with Net]]
+
+|
+[https://attack.mitre.org/techniques/T1201/ T1201]
+|
+Password Policy Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Powershell_get_localgroup_discovery|PowerShell Get LocalGroup Discovery]]
+
+|
+[https://attack.mitre.org/techniques/T1069.001/ T1069.001]
+|
+Local Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Powershell_get_localgroup_discovery_with_script_block_logging|Powershell Get LocalGroup Discovery with Script Block Logging]]
+
+|
+[https://attack.mitre.org/techniques/T1069.001/ T1069.001]
+|
+Local Groups
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Remote_system_discovery_with_adsisearcher|Remote System Discovery with Adsisearcher]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Remote_system_discovery_with_dsquery|Remote System Discovery with Dsquery]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Remote_system_discovery_with_net|Remote System Discovery with Net]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Remote_system_discovery_with_wmic|Remote System Discovery with Wmic]]
+
+|
+[https://attack.mitre.org/techniques/T1018/ T1018]
+|
+Remote System Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#System_user_discovery_with_query|System User Discovery With Query]]
+
+|
+[https://attack.mitre.org/techniques/T1033/ T1033]
+|
+System Owner/User Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#System_user_discovery_with_whoami|System User Discovery With Whoami]]
+
+|
+[https://attack.mitre.org/techniques/T1033/ T1033]
+|
+System Owner/User Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#User_discovery_with_env_vars_powershell|User Discovery With Env Vars PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1033/ T1033]
+|
+System Owner/User Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#User_discovery_with_env_vars_powershell_script_block|User Discovery With Env Vars PowerShell Script Block]]
+
+|
+[https://attack.mitre.org/techniques/T1033/ T1033]
+|
+System Owner/User Discovery
+|
+Discovery
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Wmic_group_discovery|Wmic Group Discovery]]
+
+|
+[https://attack.mitre.org/techniques/T1069.001/ T1069.001]
+|
+Local Groups
+|
+Discovery
+
+| Hunting
 |}
 
-
 ====Kill Chain Phase====
+
+* Exploitation
 
 * Reconnaissance
 
@@ -869,7 +1640,7 @@ Rename System Utilities
 Defense Evasion, 
 Defense Evasion
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Suspicious_msbuild_path|Suspicious msbuild path]]
 
@@ -957,7 +1728,7 @@ Collection,
 Collection, 
 Defense Evasion
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_renamed_winrar|Detect Renamed WinRAR]]
 
@@ -968,7 +1739,7 @@ Archive via Utility
 |
 Collection
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Email_files_written_outside_of_the_outlook_directory|Email files written outside of the Outlook directory]]
 
@@ -1753,21 +2524,6 @@ Credential Access
 |-
 | [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump|Dump LSASS via procdump]]
 
-<<<<<<< HEAD
-|
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001]
-|
-LSASS Memory
-|
-Credential Access
-=======
-* [[Documentation:ESSOC:detections:Detections#Extraction_of_registry_hives|Extraction of Registry Hives]]
->>>>>>> develop
-
-| TTP
-|-
-| [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump_rename|Dump LSASS via procdump Rename]]
-
 |
 [https://attack.mitre.org/techniques/T1003.001/ T1003.001]
 |
@@ -1788,7 +2544,7 @@ Credential Access
 
 | Hunting
 |-
-| [[Documentation:ESSOC:detections:Detections#Extract_sam_from_registry|Extract SAM from Registry]]
+| [[Documentation:ESSOC:detections:Detections#Extraction_of_registry_hives|Extraction of Registry Hives]]
 
 |
 [https://attack.mitre.org/techniques/T1003.002/ T1003.002]
@@ -2593,7 +3349,7 @@ Service Execution
 |
 Execution
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_comsvcs_dll|Dump LSASS via comsvcs DLL]]
 
@@ -2607,17 +3363,6 @@ Credential Access
 | TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump|Dump LSASS via procdump]]
-
-|
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001]
-|
-LSASS Memory
-|
-Credential Access
-
-| TTP
-|-
-| [[Documentation:ESSOC:detections:Detections#Dump_lsass_via_procdump_rename|Dump LSASS via procdump Rename]]
 
 |
 [https://attack.mitre.org/techniques/T1003.001/ T1003.001]
@@ -3022,7 +3767,7 @@ Service Execution
 |
 Execution
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Kerberoasting_spn_request_with_rc4_encryption|Kerberoasting spn request with RC4 encryption]]
 
@@ -3032,6 +3777,28 @@ Execution
 Kerberoasting
 |
 Credential Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Potential_pass_the_token_or_hash_observed_at_the_destination_device|Potential Pass the Token or Hash Observed at the Destination Device]]
+
+|
+[https://attack.mitre.org/techniques/T1550.002/ T1550.002]
+|
+Pass the Hash
+|
+Defense Evasion, Lateral Movement
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Potential_pass_the_token_or_hash_observed_by_an_event_collecting_device|Potential Pass the Token or Hash Observed by an Event Collecting Device]]
+
+|
+[https://attack.mitre.org/techniques/T1550.002/ T1550.002]
+|
+Pass the Hash
+|
+Defense Evasion, Lateral Movement
 
 | TTP
 |-
@@ -3637,7 +4404,7 @@ Rename System Utilities
 Defense Evasion, 
 Defense Evasion
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Suspicious_microsoft_workflow_compiler_rename|Suspicious microsoft workflow compiler rename]]
 
@@ -3651,7 +4418,7 @@ Rename System Utilities
 Defense Evasion, 
 Defense Evasion
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Suspicious_msbuild_path|Suspicious msbuild path]]
 
@@ -3763,46 +4530,93 @@ Discovery
 CVE-2021-40444 is a remote code execution vulnerability in MSHTML, recently used to delivery targeted spearphishing documents.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1218.002/ T1218.002], [https://attack.mitre.org/techniques/T1566.001/ T1566.001], [https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-09-08
+* '''Use Case''': Advanced Threat Detection
 
-<div class="toccolours mw-collapsible mw-collapsed">
+<div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
-
-* [[Documentation:ESSOC:detections:Detections#Control_loading_from_world_writable_directory|Control Loading from World Writable Directory]]
-
-* [[Documentation:ESSOC:detections:Detections#Mshtml_module_load_in_office_product|MSHTML Module Load in Office Product]]
-
-* [[Documentation:ESSOC:detections:Detections#Office_spawning_control|Office Spawning Control]]
-
-* [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_hunt|Rundll32 Control RunDLL Hunt]]
-
-* [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_world_writable_directory|Rundll32 Control RunDLL World Writable Directory]]
-
-
-
-====ATT&CK====
 {|
-! style="text-align:left;"| ID
+! style="text-align:left;"| name
+! ID
 ! Technique
 ! Tactic
+! Type
 |-
-| T1218.002
-| Control Panel
-| Defense Evasion
-|-
-| T1566.001
-| Spearphishing Attachment
-| Initial Access
-|-
-| T1218.011
-| Rundll32
-| Defense Evasion
-|}
+| [[Documentation:ESSOC:detections:Detections#Control_loading_from_world_writable_directory|Control Loading from World Writable Directory]]
 
+|
+[https://attack.mitre.org/techniques/T1218.002/ T1218.002], 
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001], 
+[https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+|
+Control Panel, 
+Spearphishing Attachment, 
+Rundll32
+|
+Defense Evasion, 
+Initial Access, 
+Defense Evasion
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Mshtml_module_load_in_office_product|MSHTML Module Load in Office Product]]
+
+|
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+|
+Spearphishing Attachment
+|
+Initial Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Office_product_writing_cab_or_inf|Office Product Writing cab or inf]]
+
+|
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+|
+Spearphishing Attachment
+|
+Initial Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Office_spawning_control|Office Spawning Control]]
+
+|
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+|
+Spearphishing Attachment
+|
+Initial Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_hunt|Rundll32 Control RunDLL Hunt]]
+
+|
+[https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+|
+Rundll32
+|
+Defense Evasion
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_world_writable_directory|Rundll32 Control RunDLL World Writable Directory]]
+
+|
+[https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+|
+Rundll32
+|
+Defense Evasion
+
+| TTP
+|}
 
 ====Kill Chain Phase====
 
@@ -4170,71 +4984,6 @@ Credential Access
 
 ----
 
-===Petitpotam ntlm relay on active directory certificate services===
-PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC Protocol that can allow an unauthenticated account to escalate privileges to domain administrator given the right circumstances.
-
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1187/ T1187], [https://attack.mitre.org/techniques/T1003/ T1003]
-* '''Last Updated''': 2021-08-31
-
-<div class="toccolours mw-collapsible mw-collapsed">
-<div class="mw-collapsible-content">
-
-====Detection Profile====
-
-* [[Documentation:ESSOC:detections:Detections#Petitpotam_network_share_access_request|PetitPotam Network Share Access Request]]
-
-* [[Documentation:ESSOC:detections:Detections#Petitpotam_suspicious_kerberos_tgt_request|PetitPotam Suspicious Kerberos TGT Request]]
-
-
-
-====ATT&CK====
-{|
-! style="text-align:left;"| ID
-! Technique
-! Tactic
-|-
-| T1187
-| Forced Authentication
-| Credential Access
-|-
-| T1003
-| OS Credential Dumping
-| Credential Access
-|}
-
-
-====Kill Chain Phase====
-
-* Exploitation
-
-* Lateral Movement
-
-
-====Reference====
-
-* https://us-cert.cisa.gov/ncas/current-activity/2021/07/27/microsoft-releases-guidance-mitigating-petitpotam-ntlm-relay
-
-* https://support.microsoft.com/en-us/topic/kb5005413-mitigating-ntlm-relay-attacks-on-active-directory-certificate-services-ad-cs-3612b773-4043-4aa9-b23d-b87910cd3429
-
-* https://www.specterops.io/assets/resources/Certified_Pre-Owned.pdf
-
-* https://github.com/topotam/PetitPotam/
-
-* https://github.com/gentilkiwi/mimikatz/releases/tag/2.2.0-20210723
-
-* https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36942
-
-* https://attack.mitre.org/techniques/T1187/
-
-
-''version'': 1
-</div>
-</div>
-
-----
-
 ===Possible backdoor activity associated with mudcarp espionage campaigns===
 Monitor your environment for suspicious behaviors that resemble the techniques employed by the MUDCARP threat group.
 
@@ -4385,75 +5134,6 @@ Persistence
 
 | TTP
 |}
-
-====Kill Chain Phase====
-
-* Exploitation
-
-* Reconnaissance
-
-
-====Reference====
-
-* https://y4y.space/2021/08/12/my-steps-of-reproducing-proxyshell/
-
-* https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
-
-* https://www.youtube.com/watch?v=FC6iHw258RI
-
-* https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
-
-* https://i.blackhat.com/USA21/Wednesday-Handouts/us-21-ProxyLogon-Is-Just-The-Tip-Of-The-Iceberg-A-New-Attack-Surface-On-Microsoft-Exchange-Server.pdf
-
-
-''version'': 1
-</div>
-</div>
-
-----
-
-===Proxyshell===
-ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server - CVE-2021-34473, CVE-2021-34523, and CVE-2021-31207.
-
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1505.003/ T1505.003], [https://attack.mitre.org/techniques/T1190/ T1190], [https://attack.mitre.org/techniques/T1059.001/ T1059.001]
-* '''Last Updated''': 2021-08-24
-
-<div class="toccolours mw-collapsible mw-collapsed">
-<div class="mw-collapsible-content">
-
-====Detection Profile====
-
-* [[Documentation:ESSOC:detections:Detections#Detect_exchange_web_shell|Detect Exchange Web Shell]]
-
-* [[Documentation:ESSOC:detections:Detections#Exchange_powershell_abuse_via_ssrf|Exchange PowerShell Abuse via SSRF]]
-
-* [[Documentation:ESSOC:detections:Detections#Exchange_powershell_module_usage|Exchange PowerShell Module Usage]]
-
-* [[Documentation:ESSOC:detections:Detections#W3wp_spawning_shell|W3WP Spawning Shell]]
-
-
-
-====ATT&CK====
-{|
-! style="text-align:left;"| ID
-! Technique
-! Tactic
-|-
-| T1505.003
-| Web Shell
-| Persistence
-|-
-| T1190
-| Exploit Public-Facing Application
-| Initial Access
-|-
-| T1059.001
-| PowerShell
-| Execution
-|}
-
 
 ====Kill Chain Phase====
 
@@ -4663,15 +5343,9 @@ Security Account Manager
 |
 Credential Access
 
-<<<<<<< HEAD
 | TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Excel_spawning_windows_script_host|Excel Spawning Windows Script Host]]
-=======
-* [[Documentation:ESSOC:detections:Detections#Mshtml_module_load_in_office_product|MSHTML Module Load in Office Product]]
-
-* [[Documentation:ESSOC:detections:Detections#Office_application_spawn_rundll32_process|Office Application Spawn rundll32 process]]
->>>>>>> develop
 
 |
 [https://attack.mitre.org/techniques/T1003.002/ T1003.002]
@@ -4679,6 +5353,17 @@ Credential Access
 Security Account Manager
 |
 Credential Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Mshtml_module_load_in_office_product|MSHTML Module Load in Office Product]]
+
+|
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+|
+Spearphishing Attachment
+|
+Initial Access
 
 | TTP
 |-
@@ -4717,18 +5402,12 @@ Initial Access
 |-
 | [[Documentation:ESSOC:detections:Detections#Office_document_spawned_child_process_to_download|Office Document Spawned Child Process To Download]]
 
-<<<<<<< HEAD
 |
 [https://attack.mitre.org/techniques/T1566.001/ T1566.001]
 |
 Spearphishing Attachment
 |
 Initial Access
-=======
-* [[Documentation:ESSOC:detections:Detections#Office_spawning_control|Office Spawning Control]]
-
-* [[Documentation:ESSOC:detections:Detections#Process_creating_lnk_file_in_suspicious_location|Process Creating LNK file in Suspicious Location]]
->>>>>>> develop
 
 | TTP
 |-
@@ -4777,6 +5456,28 @@ Initial Access
 | TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Office_product_spawning_wmic|Office Product Spawning Wmic]]
+
+|
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+|
+Spearphishing Attachment
+|
+Initial Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Office_product_writing_cab_or_inf|Office Product Writing cab or inf]]
+
+|
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+|
+Spearphishing Attachment
+|
+Initial Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Office_spawning_control|Office Spawning Control]]
 
 |
 [https://attack.mitre.org/techniques/T1566.001/ T1566.001]
@@ -4992,7 +5693,7 @@ Compiled HTML File
 |
 Defense Evasion
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_html_help_spawn_child_process|Detect HTML Help Spawn Child Process]]
 
@@ -5352,7 +6053,7 @@ Mshta
 |
 Defense Evasion
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
 
@@ -5711,20 +6412,12 @@ Defense Evasion
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_rundll32_application_control_bypass_-_syssetup|Detect Rundll32 Application Control Bypass - syssetup]]
 
-<<<<<<< HEAD
 |
 [https://attack.mitre.org/techniques/T1218.011/ T1218.011]
 |
 Rundll32
 |
 Defense Evasion
-=======
-* [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_hunt|Rundll32 Control RunDLL Hunt]]
-
-* [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_world_writable_directory|Rundll32 Control RunDLL World Writable Directory]]
-
-* [[Documentation:ESSOC:detections:Detections#Rundll32_with_no_command_line_arguments_with_network|Rundll32 with no Command Line Arguments with Network]]
->>>>>>> develop
 
 | TTP
 |-
@@ -5736,6 +6429,28 @@ Defense Evasion
 LSASS Memory
 |
 Credential Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_hunt|Rundll32 Control RunDLL Hunt]]
+
+|
+[https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+|
+Rundll32
+|
+Defense Evasion
+
+| Hunting
+|-
+| [[Documentation:ESSOC:detections:Detections#Rundll32_control_rundll_world_writable_directory|Rundll32 Control RunDLL World Writable Directory]]
+
+|
+[https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+|
+Rundll32
+|
+Defense Evasion
 
 | TTP
 |-
@@ -5762,7 +6477,7 @@ Rename System Utilities
 Defense Evasion, 
 Defense Evasion
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Suspicious_rundll32_startw|Suspicious Rundll32 StartW]]
 
@@ -6169,7 +6884,7 @@ Rename System Utilities
 Defense Evasion, 
 Defense Evasion
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Suspicious_microsoft_workflow_compiler_usage|Suspicious microsoft workflow compiler usage]]
 
@@ -8929,14 +9644,8 @@ Persistence
 ===Dev sec ops===
 This story is focused around detecting attacks on a DevSecOps lifeccycle which consists of the phases plan, code, build, test, release, deploy, operate and monitor.
 
-<<<<<<< HEAD
-* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''':
-=======
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
-* '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1204.003/ T1204.003], [https://attack.mitre.org/techniques/T1554/ T1554], [https://attack.mitre.org/techniques/T1195.001/ T1195.001], [https://attack.mitre.org/techniques/T1212/ T1212], [https://attack.mitre.org/techniques/T1526/ T1526]
->>>>>>> develop
+* '''Datamodel''':
 * '''Last Updated''': 2021-08-18
 * '''Use Case''': Security Monitoring
 
@@ -9009,28 +9718,12 @@ Execution
 |-
 | [[Documentation:ESSOC:detections:Detections#Aws_ecr_container_upload_unknown_user|AWS ECR Container Upload Unknown User]]
 
-<<<<<<< HEAD
 |
 [https://attack.mitre.org/techniques/T1204.003/ T1204.003]
 |
 Malicious Image
 |
 Execution
-=======
-* [[Documentation:ESSOC:detections:Detections#Circle_ci_disable_security_job|Circle CI Disable Security Job]]
-
-* [[Documentation:ESSOC:detections:Detections#Circle_ci_disable_security_step|Circle CI Disable Security Step]]
-
-* [[Documentation:ESSOC:detections:Detections#Correlation_by_repository_and_risk|Correlation by Repository and Risk]]
-
-* [[Documentation:ESSOC:detections:Detections#Correlation_by_user_and_risk|Correlation by User and Risk]]
-
-* [[Documentation:ESSOC:detections:Detections#Github_dependabot_alert|GitHub Dependabot Alert]]
-
-* [[Documentation:ESSOC:detections:Detections#Github_pull_request_from_unknown_user|GitHub Pull Request from Unknown User]]
-
-* [[Documentation:ESSOC:detections:Detections#Kubernetes_nginx_ingress_lfi|Kubernetes Nginx Ingress LFI]]
->>>>>>> develop
 
 | Anomaly
 |-
@@ -9056,6 +9749,28 @@ Persistence
 
 | Anomaly
 |-
+| [[Documentation:ESSOC:detections:Detections#Correlation_by_repository_and_risk|Correlation by Repository and Risk]]
+
+|
+[https://attack.mitre.org/techniques/T1204.003/ T1204.003]
+|
+Malicious Image
+|
+Execution
+
+| Correlation
+|-
+| [[Documentation:ESSOC:detections:Detections#Correlation_by_user_and_risk|Correlation by User and Risk]]
+
+|
+[https://attack.mitre.org/techniques/T1204.003/ T1204.003]
+|
+Malicious Image
+|
+Execution
+
+| Correlation
+|-
 | [[Documentation:ESSOC:detections:Detections#Github_dependabot_alert|GitHub Dependabot Alert]]
 
 |
@@ -9078,7 +9793,6 @@ Initial Access
 
 | Anomaly
 |-
-<<<<<<< HEAD
 | [[Documentation:ESSOC:detections:Detections#Kubernetes_nginx_ingress_lfi|Kubernetes Nginx Ingress LFI]]
 
 |
@@ -9089,19 +9803,6 @@ Exploitation for Credential Access
 Credential Access
 
 | TTP
-=======
-| T1554
-| Compromise Client Software Binary
-| Persistence
-|-
-| T1195.001
-| Compromise Software Dependencies and Development Tools
-| Initial Access
-|-
-| T1212
-| Exploitation for Credential Access
-| Credential Access
->>>>>>> develop
 |-
 | [[Documentation:ESSOC:detections:Detections#Kubernetes_nginx_ingress_rfi|Kubernetes Nginx Ingress RFI]]
 
@@ -10256,54 +10957,107 @@ Defense Evasion
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the BlackMatter ransomware, including looking for file writes associated with BlackMatter, force safe mode boot, autadminlogon account registry modification and more.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-* '''Datamodel''': Endpoint
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1552.002/ T1552.002], [https://attack.mitre.org/techniques/T1490/ T1490], [https://attack.mitre.org/techniques/T1491/ T1491], [https://attack.mitre.org/techniques/T1486/ T1486]
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
 * '''Last Updated''': 2021-09-06
+* '''Use Case''': Advanced Threat Detection
 
-<div class="toccolours mw-collapsible mw-collapsed">
+<div class="toccolours mw-collapsible">
 <div class="mw-collapsible-content">
 
 ====Detection Profile====
-
-* [[Documentation:ESSOC:detections:Detections#Add_defaultuser_and_password_in_registry|Add DefaultUser And Password In Registry]]
-
-* [[Documentation:ESSOC:detections:Detections#Auto_admin_logon_registry_entry|Auto Admin Logon Registry Entry]]
-
-* [[Documentation:ESSOC:detections:Detections#Bcdedit_command_back_to_normal_mode_boot|Bcdedit Command Back To Normal Mode Boot]]
-
-* [[Documentation:ESSOC:detections:Detections#Change_to_safe_mode_with_network_config|Change To Safe Mode With Network Config]]
-
-* [[Documentation:ESSOC:detections:Detections#Known_services_killed_by_ransomware|Known Services Killed by Ransomware]]
-
-* [[Documentation:ESSOC:detections:Detections#Modification_of_wallpaper|Modification Of Wallpaper]]
-
-* [[Documentation:ESSOC:detections:Detections#Ransomware_notes_bulk_creation|Ransomware Notes bulk creation]]
-
-
-
-====ATT&CK====
 {|
-! style="text-align:left;"| ID
+! style="text-align:left;"| name
+! ID
 ! Technique
 ! Tactic
+! Type
 |-
-| T1552.002
-| Credentials in Registry
-| Credential Access
-|-
-| T1490
-| Inhibit System Recovery
-| Impact
-|-
-| T1491
-| Defacement
-| Impact
-|-
-| T1486
-| Data Encrypted for Impact
-| Impact
-|}
+| [[Documentation:ESSOC:detections:Detections#Add_defaultuser_and_password_in_registry|Add DefaultUser And Password In Registry]]
 
+|
+[https://attack.mitre.org/techniques/T1552.002/ T1552.002], 
+[https://attack.mitre.org/techniques/T1490/ T1490], 
+[https://attack.mitre.org/techniques/T1491/ T1491], 
+[https://attack.mitre.org/techniques/T1486/ T1486]
+|
+Credentials in Registry, 
+Inhibit System Recovery, 
+Defacement, 
+Data Encrypted for Impact
+|
+Credential Access, 
+Impact, 
+Impact, 
+Impact
+
+| Anomaly
+|-
+| [[Documentation:ESSOC:detections:Detections#Auto_admin_logon_registry_entry|Auto Admin Logon Registry Entry]]
+
+|
+[https://attack.mitre.org/techniques/T1552.002/ T1552.002]
+|
+Credentials in Registry
+|
+Credential Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Bcdedit_command_back_to_normal_mode_boot|Bcdedit Command Back To Normal Mode Boot]]
+
+|
+[https://attack.mitre.org/techniques/T1490/ T1490]
+|
+Inhibit System Recovery
+|
+Impact
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Change_to_safe_mode_with_network_config|Change To Safe Mode With Network Config]]
+
+|
+[https://attack.mitre.org/techniques/T1490/ T1490]
+|
+Inhibit System Recovery
+|
+Impact
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Known_services_killed_by_ransomware|Known Services Killed by Ransomware]]
+
+|
+[https://attack.mitre.org/techniques/T1490/ T1490]
+|
+Inhibit System Recovery
+|
+Impact
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Modification_of_wallpaper|Modification Of Wallpaper]]
+
+|
+[https://attack.mitre.org/techniques/T1491/ T1491]
+|
+Defacement
+|
+Impact
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Ransomware_notes_bulk_creation|Ransomware Notes bulk creation]]
+
+|
+[https://attack.mitre.org/techniques/T1486/ T1486]
+|
+Data Encrypted for Impact
+|
+Impact
+
+| Anomaly
+|}
 
 ====Kill Chain Phase====
 
@@ -10729,7 +11483,7 @@ Service Execution
 |
 Execution
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_execution_policy_bypass|Malicious PowerShell Process - Execution Policy Bypass]]
 
@@ -11031,7 +11785,7 @@ Service Execution
 |
 Execution
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_renamed_rclone|Detect Renamed RClone]]
 
@@ -11042,9 +11796,9 @@ Automated Exfiltration
 |
 Exfiltration
 
-| TTP
+| Hunting
 |-
-| [[Documentation:ESSOC:detections:Detections#Extract_sam_from_registry|Extract SAM from Registry]]
+| [[Documentation:ESSOC:detections:Detections#Extraction_of_registry_hives|Extraction of Registry Hives]]
 
 |
 [https://attack.mitre.org/techniques/T1003.002/ T1003.002]
@@ -11053,13 +11807,9 @@ Security Account Manager
 |
 Credential Access
 
-<<<<<<< HEAD
 | TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Ransomware_notes_bulk_creation|Ransomware Notes bulk creation]]
-=======
-* [[Documentation:ESSOC:detections:Detections#Extraction_of_registry_hives|Extraction of Registry Hives]]
->>>>>>> develop
 
 |
 [https://attack.mitre.org/techniques/T1486/ T1486]
@@ -12320,7 +13070,7 @@ Automated Exfiltration
 |
 Exfiltration
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_sharphound_command-line_arguments|Detect SharpHound Command-Line Arguments]]
 
@@ -13593,7 +14343,7 @@ Service Execution
 |
 Execution
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_attackers_scanning_for_vulnerable_jboss_servers|Detect attackers scanning for vulnerable JBoss servers]]
 
@@ -15057,11 +15807,7 @@ Discovery
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-<<<<<<< HEAD
-# On Date: 2021-09-24 12:57:13.248739 UTC
-=======
-# On Date: 2021-09-09 18:52:03.926030 UTC
->>>>>>> develop
+# On Date: 2021-09-27 13:15:29.459006 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############

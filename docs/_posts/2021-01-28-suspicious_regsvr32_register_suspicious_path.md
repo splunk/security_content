@@ -44,7 +44,7 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=regsvr32.exe (Processes.process=*appdata* OR Processes.process=*programdata* OR Processes.process=*windows\temp*) (Processes.process!=*.dll Processes.process!=*.ax Processes.process!=*.ocx) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` (Processes.process=*appdata* OR Processes.process=*programdata* OR Processes.process=*windows\temp*) (Processes.process!=*.dll Processes.process!=*.ax Processes.process!=*.ocx) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.original_file_name Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -57,17 +57,20 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 
 #### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. Tune the query by filtering additional extensions found to be used by  legitimate processes.
+You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model. Tune the query by filtering additional extensions found to be used by  legitimate processes. To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* Processes.process_name
-* Processes.process
 * Processes.dest
 * Processes.user
+* Processes.parent_process_name
 * Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
 * Processes.process
 * Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
 * Processes.parent_process_id
 
 
@@ -106,4 +109,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_regsvr32_register_suspicious_path.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_regsvr32_register_suspicious_path.yml) \| *version*: **2**

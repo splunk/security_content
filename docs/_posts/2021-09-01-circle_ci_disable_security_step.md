@@ -55,6 +55,8 @@ This search looks for disable security step in CircleCI pipeline.
 | search mandatory_step=* 
 | eval mandatory_step_executed=if(like(step_names, "%".mandatory_step."%"), 1, 0) 
 | where mandatory_step_executed=0 
+| rex field=url "(?<repository>[^\/]*\/[^\/]*)$" 
+| eval phase="build"  
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `circle_ci_disable_security_step_filter`

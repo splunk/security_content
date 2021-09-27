@@ -56,6 +56,7 @@ The following analytics identifies a big number of instance of ransomware notes 
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
 * [DarkSide Ransomware](/stories/darkside_ransomware)
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
 
 
 #### How To Implement

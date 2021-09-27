@@ -44,7 +44,7 @@ The following analytic identifies the use of `wmic.exe` using `delete` to remove
 
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where   Processes.process_name = "wmic.exe" AND Processes.process="*process*" AND Processes.process="*executablepath*" AND Processes.process="*delete*" by  Processes.parent_process_name Processes.process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where `process_wmic` AND Processes.process="*process*" AND Processes.process="*executablepath*" AND Processes.process="*delete*" by  Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -56,16 +56,21 @@ The following analytic identifies the use of `wmic.exe` using `delete` to remove
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed wmic.exe may be used.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* Processes.parent_process_name
-* Processes.process_name
 * Processes.dest
 * Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
 * Processes.process
 * Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -99,4 +104,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/process_kill_base_on_file_path.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/process_kill_base_on_file_path.yml) \| *version*: **2**

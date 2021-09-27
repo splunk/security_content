@@ -53,7 +53,7 @@ While investigating a detection related to this Analytic Story, keep in mind the
 | [Suspicious Rundll32 StartW](/endpoint/suspicious_rundll32_startw/) | [Rundll32](/tags/#rundll32) | TTP |
 | [Suspicious Rundll32 no Command Line Arguments](/endpoint/suspicious_rundll32_no_command_line_arguments/) | [Rundll32](/tags/#rundll32) | TTP |
 | [Suspicious SearchProtocolHost no Command Line Arguments](/endpoint/suspicious_searchprotocolhost_no_command_line_arguments/) | [Process Injection](/tags/#process-injection) | TTP |
-| [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
+| [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
 | [Suspicious msbuild path](/endpoint/suspicious_msbuild_path/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
 
 #### Reference

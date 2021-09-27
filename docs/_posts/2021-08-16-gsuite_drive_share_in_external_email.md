@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Exfiltration
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
 
 - **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-16
 - **Author**: Teoderick Contreras, Splunk
@@ -46,7 +47,10 @@ This search is to detect suspicious google drive or google docs files shared out
 | rex field=parameters.owner "[^@]+@(?<src_domain>[^@]+)" 
 | rex field=email "[^@]+@(?<dest_domain>[^@]+)" 
 | where src_domain = "internal_test_email.com" and not dest_domain = "internal_test_email.com" 
-| stats values(parameters.doc_title) as doc_title, values(parameters.doc_type) as doc_types, values(email) as dst_email_list, values(parameters.visibility) as visibility, count min(_time) as firstTime max(_time) as lastTime by parameters.owner 
+| eval phase="plan" 
+| eval severity="low" 
+| stats values(parameters.doc_title) as doc_title, values(parameters.doc_type) as doc_types, values(email) as dst_email_list, values(parameters.visibility) as visibility, values(parameters.doc_id) as doc_id, count min(_time) as firstTime max(_time) as lastTime by parameters.owner ip_address phase severity  
+| rename parameters.owner as user ip_address as src_ip 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `gsuite_drive_share_in_external_email_filter`
@@ -83,7 +87,7 @@ network admin or normal user may share files to customer and external team.
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 9.0 | 30 | 30 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
+| 72.0 | 80 | 90 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
 
 
 

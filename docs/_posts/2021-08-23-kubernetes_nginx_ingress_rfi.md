@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Actions on Objectives
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search uses the Kubernetes logs from a nginx ingress controller to detect remote file inclusion attacks.
 
 - **Type**: TTP
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
 - **Author**: Patrick Bareiss, Splunk
@@ -49,7 +50,9 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 | rex field=url "(?<dest_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})" 
 | search dest_ip=* 
 | rename remote_addr AS src_ip, upstream_status as status, proxy_upstream_name as proxy 
-| stats count min(_time) as firstTime max(_time) as lastTime by src_ip, dest_ip status, url, http_method, host, http_user_agent, proxy 
+| eval phase="operate" 
+| eval severity="medium" 
+| stats count min(_time) as firstTime max(_time) as lastTime by src_ip, dest_ip status, url, http_method, host, http_user_agent, proxy, phase, severity 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `kubernetes_nginx_ingress_rfi_filter`

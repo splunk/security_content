@@ -59,6 +59,7 @@ In addition to trust discovery, review parallel processes for additional behavio
 
 #### Associated Analytic Story
 * [Domain Trust Discovery](/stories/domain_trust_discovery)
+* [Active Directory Discovery](/stories/active_directory_discovery)
 
 
 #### How To Implement

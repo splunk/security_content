@@ -37,8 +37,10 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 | [Detect Activity Related to Pass the Hash Attacks](/endpoint/detect_activity_related_to_pass_the_hash_attacks/) | [Pass the Hash](/tags/#pass-the-hash), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [Kerberoasting](/tags/#kerberoasting), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Scheduled Task](/tags/#scheduled-task) | TTP |
 | [Detect Pass the Hash](/endpoint/detect_pass_the_hash/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
 | [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | Hunting |
 | [Kerberoasting spn request with RC4 encryption](/endpoint/kerberoasting_spn_request_with_rc4_encryption/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
+| [Potential Pass the Token or Hash Observed at the Destination Device](/endpoint/potential_pass_the_token_or_hash_observed_at_the_destination_device/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
+| [Potential Pass the Token or Hash Observed by an Event Collecting Device](/endpoint/potential_pass_the_token_or_hash_observed_by_an_event_collecting_device/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
 | [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | Anomaly |
 | [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | Hunting |
 | [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | [Scheduled Task](/tags/#scheduled-task) | TTP |

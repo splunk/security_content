@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Exploitation
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic &lt; 20 with attachment.
 
 - **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-17
 - **Author**: Teoderick Contreras, Stanislav Miskovic, Splunk
@@ -46,7 +47,9 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" 
 | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)" 
 | where source_domain="internal_test_email.com" and not dest_domain="internal_test_email.com" 
-| stats values(subject) as subject, values(source.from_header_address) as src_domain_list, count as numEvents, dc(source.from_header_address) as numSrcAddresses, min(_time) as firstTime max(_time) as lastTime by dest_domain 
+| eval phase="plan" 
+| eval severity="low" 
+| stats values(subject) as subject, values(source.from_header_address) as src_domain_list, count as numEvents, dc(source.from_header_address) as numSrcAddresses, min(_time) as firstTime max(_time) as lastTime by dest_domain phase severity 
 | where numSrcAddresses < 20 
 |sort - numSrcAddresses 
 | `security_content_ctime(firstTime)` 

@@ -44,7 +44,7 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = "mshta.exe"  (Processes.process_name=rundll32.exe OR Processes.process_name=regsvr32.exe) by Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = "mshta.exe"  `process_rundll32` OR `process_regsvr32` by Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest 
 | `drop_dm_object_name("Processes")` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -57,15 +57,21 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed mshta.exe may be used.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* parent_process
-* process_name
-* process
-* process_id
-* process_guid
+* Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -99,4 +105,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/mshta_spawning_rundll32_or_regsvr32_process.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/mshta_spawning_rundll32_or_regsvr32_process.yml) \| *version*: **2**

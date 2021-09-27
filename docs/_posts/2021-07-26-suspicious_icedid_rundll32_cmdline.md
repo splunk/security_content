@@ -44,7 +44,7 @@ This search is to detect a suspicious rundll32.exe commandline to execute dll fi
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*/i:* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*/i:* by  Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -56,18 +56,21 @@ This search is to detect a suspicious rundll32.exe commandline to execute dll fi
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* process_name
-* process
-* parent_process_name
-* parent_process
-* process_id
-* parent_process_id
-* dest
-* user
+* Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -101,4 +104,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_icedid_rundll32_cmdline.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_icedid_rundll32_cmdline.yml) \| *version*: **2**

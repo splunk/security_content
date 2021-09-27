@@ -6,7 +6,7 @@ categories:
 last_modified_at: 2021-02-04
 toc: true
 tags:
-  - TTP
+  - Hunting
   - T1218.011
   - Rundll32
   - Defense Evasion
@@ -16,6 +16,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
   - Actions on Objectives
 ---
 
@@ -25,11 +26,11 @@ tags:
 
 #### Description
 
-The following analytic identifies renamed instances of rundll32.exe executing. rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, validate it is the legitimate rundll32.exe executing and what script content it is loading. This query relies on the OriginalFileName from Sysmon, or internal name from the PE meta data. Expand the query as needed by looking for specific command line arguments outlined in other analytics.
+The following analytic identifies renamed instances of rundll32.exe executing. rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, validate it is the legitimate rundll32.exe executing and what script content it is loading. This query relies on the original filename or internal name from the PE meta data. Expand the query as needed by looking for specific command line arguments outlined in other analytics.
 
-- **Type**: TTP
+- **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-04
 - **Author**: Michael Haag, Splunk
 - **ID**: 7360137f-abad-473e-8189-acbdaa34d114
@@ -45,11 +46,11 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 #### Search
 
 ```
-`sysmon` EventID=1 OriginalFileName=RUNDLL32.EXE NOT process_name=rundll32.exe 
-| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine 
-| rename Computer as dest 
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)`
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rundll32` by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
 | `suspicious_rundll32_rename_filter`
 ```
 
@@ -59,18 +60,21 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* EventID
-* OriginalFileName
-* process_name
-* Computer
-* User
-* parent_process_name
-* process_path
-* CommandLine
+* Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -106,4 +110,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_rundll32_rename.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_rundll32_rename.yml) \| *version*: **3**

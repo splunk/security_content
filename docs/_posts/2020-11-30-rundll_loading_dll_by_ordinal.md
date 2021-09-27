@@ -44,7 +44,7 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = rundll32.exe by Processes.process_name Processes.parent_process_name Processes.process Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rundll32` by Processes.process_name Processes.parent_process_name Processes.original_file_name Processes.process Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -56,15 +56,21 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* Processes.process_name
-* Processes.parent_process_name
-* Processes.process
 * Processes.dest
 * Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -95,4 +101,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll_loading_dll_by_ordinal.yml) \| *version*: **4**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll_loading_dll_by_ordinal.yml) \| *version*: **5**

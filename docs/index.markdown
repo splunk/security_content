@@ -14,14 +14,14 @@ feature_row:
   - image_path: /static/feature_detection.png
     alt: "customizable"
     title: "Detections"
-    excerpt: "See all **539** Splunk Analytics built to find evil 😈."
+    excerpt: "See all **624** Splunk Analytics built to find evil 😈."
     url: "/detections"
     btn_class: "btn--primary"
     btn_label: "Explore"
   - image_path: /static/feature_stories.png
     alt: "fully responsive"
     title: "Analytic Stories"
-    excerpt: "See all **99** use cases, 📦 of detections built to address a threat."
+    excerpt: "See all **102** use cases, 📦 of detections built to address a threat."
     url: "/stories"
     btn_class: "btn--primary"
     btn_label: "Explore"

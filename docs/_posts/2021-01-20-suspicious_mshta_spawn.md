@@ -44,7 +44,7 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name=svchost.exe OR Processes.parent_process_name=wmiprvse.exe) AND Processes.process_name=mshta.exe by Processes.dest Processes.parent_process Processes.user 
+| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name=svchost.exe OR Processes.parent_process_name=wmiprvse.exe) AND `process_mshta` by Processes.dest Processes.parent_process Processes.user Processes.original_file_name
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -56,16 +56,21 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 
 
 #### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
+* Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
 * Processes.process_name
 * Processes.process
-* Processes.parent_process_name
-* Processes.dest
-* Processes.parent_process
-* Processes.user
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -101,4 +106,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_mshta_spawn.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_mshta_spawn.yml) \| *version*: **2**

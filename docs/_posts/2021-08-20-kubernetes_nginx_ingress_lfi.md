@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Actions on Objectives
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search uses the Kubernetes logs from a nginx ingress controller to detect local file inclusion attacks.
 
 - **Type**: TTP
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-20
 - **Author**: Patrick Bareiss, Splunk
@@ -49,7 +50,9 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 | search lfi_path=yes 
 | rename remote_addr AS src_ip, upstream_status as status, proxy_upstream_name as proxy 
 | rex field=request "^(?<http_method>\S+)\s(?<url>\S+)\s" 
-| stats count min(_time) as firstTime max(_time) as lastTime by src_ip, status, url, http_method, host, http_user_agent, proxy 
+| eval phase="operate" 
+| eval severity="high" 
+| stats count min(_time) as firstTime max(_time) as lastTime by src_ip, status, url, http_method, host, http_user_agent, proxy, phase, severity 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `kubernetes_nginx_ingress_lfi_filter`

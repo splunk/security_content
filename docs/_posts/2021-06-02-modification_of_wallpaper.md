@@ -54,6 +54,7 @@ This analytic identifies suspicious modification of registry to deface or change
 #### Associated Analytic Story
 * [Ransomware](/stories/ransomware)
 * [Revil Ransomware](/stories/revil_ransomware)
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
 
 
 #### How To Implement

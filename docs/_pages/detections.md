@@ -40,6 +40,8 @@ sidebar:
 | [Abnormally High Number Of Cloud Security Group API Calls](/cloud/abnormally_high_number_of_cloud_security_group_api_calls/) | [Cloud Accounts](/tags/#cloud-accounts) | [Defense Evasion](/tags/#defense-evasion) | Anomaly |
 | [Access LSASS Memory for Dump Creation](/endpoint/access_lsass_memory_for_dump_creation/) | [LSASS Memory](/tags/#lsass-memory) | [Credential Access](/tags/#credential-access) | TTP |
 | [Account Discovery With Net App](/endpoint/account_discovery_with_net_app/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | TTP |
+| [Add DefaultUser And Password In Registry](/endpoint/add_defaultuser_and_password_in_registry/) | [Credentials in Registry](/tags/#credentials-in-registry) | [Credential Access](/tags/#credential-access) | Anomaly |
+| [AdsiSearcher Account Discovery](/endpoint/adsisearcher_account_discovery/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | TTP |
 | [Allow File And Printing Sharing In Firewall](/endpoint/allow_file_and_printing_sharing_in_firewall/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Allow Inbound Traffic By Firewall Rule Registry](/endpoint/allow_inbound_traffic_by_firewall_rule_registry/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | [Lateral Movement](/tags/#lateral-movement) | TTP |
 | [Allow Inbound Traffic In Firewall Rule](/endpoint/allow_inbound_traffic_in_firewall_rule/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | [Lateral Movement](/tags/#lateral-movement) | TTP |
@@ -60,10 +62,12 @@ sidebar:
 | [Attempt To delete Services](/endpoint/attempt_to_delete_services/) | [Service Stop](/tags/#service-stop) | [Impact](/tags/#impact) | TTP |
 | [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [OS Credential Dumping](/tags/#os-credential-dumping) | [Credential Access](/tags/#credential-access) | TTP |
 | [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager) | [Credential Access](/tags/#credential-access) | TTP |
+| [Auto Admin Logon Registry Entry](/endpoint/auto_admin_logon_registry_entry/) | [Credentials in Registry](/tags/#credentials-in-registry) | [Credential Access](/tags/#credential-access) | TTP |
 | [BCDEdit Failure Recovery Modification](/endpoint/bcdedit_failure_recovery_modification/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | [Impact](/tags/#impact) | TTP |
 | [BITS Job Persistence](/endpoint/bits_job_persistence/) | [BITS Jobs](/tags/#bits-jobs) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [BITSAdmin Download File](/endpoint/bitsadmin_download_file/) | [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Batch File Write to System32](/endpoint/batch_file_write_to_system32/) | [Malicious File](/tags/#malicious-file) | [Execution](/tags/#execution) | TTP |
+| [Bcdedit Command Back To Normal Mode Boot](/endpoint/bcdedit_command_back_to_normal_mode_boot/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | [Impact](/tags/#impact) | TTP |
 | [CHCP Command Execution](/endpoint/chcp_command_execution/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | [Execution](/tags/#execution) | TTP |
 | [CMD Echo Pipe - Escalation](/endpoint/cmd_echo_pipe_-_escalation/) | [Windows Command Shell](/tags/#windows-command-shell), [Windows Service](/tags/#windows-service) | [Execution](/tags/#execution) | TTP |
 | [CMLUA Or CMSTPLUA UAC Bypass](/endpoint/cmlua_or_cmstplua_uac_bypass/) | [CMSTP](/tags/#cmstp) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -71,6 +75,7 @@ sidebar:
 | [CertUtil Download With VerifyCtl and Split Arguments](/endpoint/certutil_download_with_verifyctl_and_split_arguments/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Command And Control](/tags/#command-and-control) | TTP |
 | [CertUtil With Decode Argument](/endpoint/certutil_with_decode_argument/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Certutil exe certificate extraction]() | None | None | TTP |
+| [Change To Safe Mode With Network Config](/endpoint/change_to_safe_mode_with_network_config/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | [Impact](/tags/#impact) | TTP |
 | [Child Processes of Spoolsv exe](/endpoint/child_processes_of_spoolsv_exe/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
 | [Circle CI Disable Security Job](/cloud/circle_ci_disable_security_job/) | [Compromise Client Software Binary](/tags/#compromise-client-software-binary) | [Persistence](/tags/#persistence) | Anomaly |
 | [Circle CI Disable Security Step](/cloud/circle_ci_disable_security_step/) | [Compromise Client Software Binary](/tags/#compromise-client-software-binary) | [Persistence](/tags/#persistence) | Anomaly |
@@ -91,6 +96,9 @@ sidebar:
 | [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | [Data Destruction](/tags/#data-destruction) | [Impact](/tags/#impact) | Hunting |
 | [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | [Data Destruction](/tags/#data-destruction) | [Impact](/tags/#impact) | Hunting |
 | [Conti Common Exec parameter](/endpoint/conti_common_exec_parameter/) | [User Execution](/tags/#user-execution) | [Execution](/tags/#execution) | TTP |
+| [Control Loading from World Writable Directory](/endpoint/control_loading_from_world_writable_directory/) | [Control Panel](/tags/#control-panel) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Correlation by Repository and Risk](/cloud/correlation_by_repository_and_risk/) | [Malicious Image](/tags/#malicious-image) | [Execution](/tags/#execution) | Correlation |
+| [Correlation by User and Risk](/cloud/correlation_by_user_and_risk/) | [Malicious Image](/tags/#malicious-image) | [Execution](/tags/#execution) | Correlation |
 | [Create Remote Thread In Shell Application](/endpoint/create_remote_thread_in_shell_application/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Create Remote Thread into LSASS](/endpoint/create_remote_thread_into_lsass/) | [LSASS Memory](/tags/#lsass-memory) | [Credential Access](/tags/#credential-access) | TTP |
 | [Create Service In Suspicious File Path](/endpoint/create_service_in_suspicious_file_path/) | [Service Execution](/tags/#service-execution) | [Execution](/tags/#execution) | TTP |
@@ -142,7 +150,7 @@ sidebar:
 | [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) | TTP |
 | [Detect F5 TMUI RCE CVE-2020-5902](/web/detect_f5_tmui_rce_cve-2020-5902/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) | TTP |
 | [Detect GCP Storage access from a new IP](/cloud/detect_gcp_storage_access_from_a_new_ip/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | [Collection](/tags/#collection) | Anomaly |
-| [Detect HTML Help Renamed](/endpoint/detect_html_help_renamed/) | [Compiled HTML File](/tags/#compiled-html-file) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Detect HTML Help Renamed](/endpoint/detect_html_help_renamed/) | [Compiled HTML File](/tags/#compiled-html-file) | [Defense Evasion](/tags/#defense-evasion) | Hunting |
 | [Detect HTML Help Spawn Child Process](/endpoint/detect_html_help_spawn_child_process/) | [Compiled HTML File](/tags/#compiled-html-file) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Detect HTML Help URL in Command Line](/endpoint/detect_html_help_url_in_command_line/) | [Compiled HTML File](/tags/#compiled-html-file) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Detect HTML Help Using InfoTech Storage Handlers](/endpoint/detect_html_help_using_infotech_storage_handlers/) | [Compiled HTML File](/tags/#compiled-html-file) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -174,10 +182,10 @@ sidebar:
 | [Detect Regsvcs with Network Connection](/endpoint/detect_regsvcs_with_network_connection/) | [Regsvcs/Regasm](/tags/#regsvcs/regasm) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Detect Regsvcs with No Command Line Arguments](/endpoint/detect_regsvcs_with_no_command_line_arguments/) | [Regsvcs/Regasm](/tags/#regsvcs/regasm) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Detect Regsvr32 Application Control Bypass](/endpoint/detect_regsvr32_application_control_bypass/) | [Regsvr32](/tags/#regsvr32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
-| [Detect Renamed 7-Zip](/endpoint/detect_renamed_7-zip/) | [Archive via Utility](/tags/#archive-via-utility) | [Collection](/tags/#collection) | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | [Execution](/tags/#execution) | TTP |
-| [Detect Renamed RClone](/endpoint/detect_renamed_rclone/) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) | TTP |
-| [Detect Renamed WinRAR](/endpoint/detect_renamed_winrar/) | [Archive via Utility](/tags/#archive-via-utility) | [Collection](/tags/#collection) | TTP |
+| [Detect Renamed 7-Zip](/endpoint/detect_renamed_7-zip/) | [Archive via Utility](/tags/#archive-via-utility) | [Collection](/tags/#collection) | Hunting |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | [Execution](/tags/#execution) | Hunting |
+| [Detect Renamed RClone](/endpoint/detect_renamed_rclone/) | [Automated Exfiltration](/tags/#automated-exfiltration) | [Exfiltration](/tags/#exfiltration) | Hunting |
+| [Detect Renamed WinRAR](/endpoint/detect_renamed_winrar/) | [Archive via Utility](/tags/#archive-via-utility) | [Collection](/tags/#collection) | Hunting |
 | [Detect Rogue DHCP Server](/network/detect_rogue_dhcp_server/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Man-in-the-Middle](/tags/#man-in-the-middle) | [Initial Access](/tags/#initial-access) | TTP |
 | [Detect Rundll32 Application Control Bypass - advpack](/endpoint/detect_rundll32_application_control_bypass_-_advpack/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Detect Rundll32 Application Control Bypass - setupapi](/endpoint/detect_rundll32_application_control_bypass_-_setupapi/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -204,7 +212,7 @@ sidebar:
 | [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise) | [Initial Access](/tags/#initial-access) | TTP |
 | [Detect malicious requests to exploit JBoss servers]() | None | None | TTP |
 | [Detect mshta inline hta execution](/endpoint/detect_mshta_inline_hta_execution/) | [Mshta](/tags/#mshta) | [Defense Evasion](/tags/#defense-evasion) | TTP |
-| [Detect mshta renamed](/endpoint/detect_mshta_renamed/) | [Mshta](/tags/#mshta) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Detect mshta renamed](/endpoint/detect_mshta_renamed/) | [Mshta](/tags/#mshta) | [Defense Evasion](/tags/#defense-evasion) | Hunting |
 | [Detect processes used for System Network Configuration Discovery](/endpoint/detect_processes_used_for_system_network_configuration_discovery/) | [System Network Configuration Discovery](/tags/#system-network-configuration-discovery) | [Discovery](/tags/#discovery) | TTP |
 | [Detect shared ec2 snapshot](/cloud/detect_shared_ec2_snapshot/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account) | [Exfiltration](/tags/#exfiltration) | TTP |
 | [Detection of tools built by NirSoft](/endpoint/detection_of_tools_built_by_nirsoft/) | [Software Deployment Tools](/tags/#software-deployment-tools) | [Execution](/tags/#execution) | TTP |
@@ -226,11 +234,22 @@ sidebar:
 | [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
 | [Disabling SystemRestore In Registry](/endpoint/disabling_systemrestore_in_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Disabling Task Manager](/endpoint/disabling_task_manager/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Domain Account Discovery With Net App](/endpoint/domain_account_discovery_with_net_app/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | TTP |
+| [Domain Account Discovery with Dsquery](/endpoint/domain_account_discovery_with_dsquery/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | Hunting |
+| [Domain Account Discovery with Wmic](/endpoint/domain_account_discovery_with_wmic/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | TTP |
+| [Domain Controller Discovery with Nltest](/endpoint/domain_controller_discovery_with_nltest/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Domain Controller Discovery with Wmic](/endpoint/domain_controller_discovery_with_wmic/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [Domain Group Discovery With Dsquery](/endpoint/domain_group_discovery_with_dsquery/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | Hunting |
+| [Domain Group Discovery With Net](/endpoint/domain_group_discovery_with_net/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | Hunting |
+| [Domain Group Discovery With Wmic](/endpoint/domain_group_discovery_with_wmic/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | Hunting |
+| [Domain Group Discovery with Adsisearcher](/endpoint/domain_group_discovery_with_adsisearcher/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | TTP |
 | [Download Files Using Telegram](/endpoint/download_files_using_telegram/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Command And Control](/tags/#command-and-control) | TTP |
 | [Drop IcedID License dat](/endpoint/drop_icedid_license_dat/) | [Malicious File](/tags/#malicious-file) | [Execution](/tags/#execution) | Hunting |
 | [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory) | [Credential Access](/tags/#credential-access) | TTP |
 | [Dump LSASS via procdump](/endpoint/dump_lsass_via_procdump/) | [LSASS Memory](/tags/#lsass-memory) | [Credential Access](/tags/#credential-access) | TTP |
-| [Dump LSASS via procdump Rename](/endpoint/dump_lsass_via_procdump_rename/) | [LSASS Memory](/tags/#lsass-memory) | [Credential Access](/tags/#credential-access) | TTP |
+| [Elevated Group Discovery With Net](/endpoint/elevated_group_discovery_with_net/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | TTP |
+| [Elevated Group Discovery With Wmic](/endpoint/elevated_group_discovery_with_wmic/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | TTP |
+| [Elevated Group Discovery with PowerView](/endpoint/elevated_group_discovery_with_powerview/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | Hunting |
 | [Email Attachments With Lots Of Spaces]() | None | None | Anomaly |
 | [Email files written outside of the Outlook directory](/application/email_files_written_outside_of_the_outlook_directory/) | [Local Email Collection](/tags/#local-email-collection) | [Collection](/tags/#collection) | TTP |
 | [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | [Remote Email Collection](/tags/#remote-email-collection) | [Collection](/tags/#collection) | Anomaly |
@@ -256,7 +275,7 @@ sidebar:
 | [Executables Or Script Creation In Suspicious Path](/endpoint/executables_or_script_creation_in_suspicious_path/) | [Masquerading](/tags/#masquerading) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Execute Javascript With Jscript COM CLSID](/endpoint/execute_javascript_with_jscript_com_clsid/) | [Visual Basic](/tags/#visual-basic) | [Execution](/tags/#execution) | TTP |
 | [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | TTP |
-| [Extract SAM from Registry](/endpoint/extract_sam_from_registry/) | [Security Account Manager](/tags/#security-account-manager) | [Credential Access](/tags/#credential-access) | TTP |
+| [Extraction of Registry Hives](/endpoint/extraction_of_registry_hives/) | [Security Account Manager](/tags/#security-account-manager) | [Credential Access](/tags/#credential-access) | TTP |
 | [File with Samsam Extension]() | None | None | TTP |
 | [First Time Seen Child Process of Zoom](/endpoint/first_time_seen_child_process_of_zoom/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) | Anomaly |
 | [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [Service Execution](/tags/#service-execution) | [Execution](/tags/#execution) | Anomaly |
@@ -267,6 +286,46 @@ sidebar:
 | [GCP Kubernetes cluster pod scan detection](/cloud/gcp_kubernetes_cluster_pod_scan_detection/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Discovery](/tags/#discovery) | Hunting |
 | [GPUpdate with no Command Line Arguments with Network](/endpoint/gpupdate_with_no_command_line_arguments_with_network/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [GSuite Email Suspicious Attachment](/cloud/gsuite_email_suspicious_attachment/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | Anomaly |
+| [Get ADDefaultDomainPasswordPolicy with Powershell](/endpoint/get_addefaultdomainpasswordpolicy_with_powershell/) | [Password Policy Discovery](/tags/#password-policy-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [Get ADDefaultDomainPasswordPolicy with Powershell Script Block](/endpoint/get_addefaultdomainpasswordpolicy_with_powershell_script_block/) | [Password Policy Discovery](/tags/#password-policy-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [Get ADUser with PowerShell](/endpoint/get_aduser_with_powershell/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | Hunting |
+| [Get ADUser with PowerShell Script Block](/endpoint/get_aduser_with_powershell_script_block/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | Hunting |
+| [Get ADUserResultantPasswordPolicy with Powershell](/endpoint/get_aduserresultantpasswordpolicy_with_powershell/) | [Password Policy Discovery](/tags/#password-policy-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Get ADUserResultantPasswordPolicy with Powershell Script Block](/endpoint/get_aduserresultantpasswordpolicy_with_powershell_script_block/) | [Password Policy Discovery](/tags/#password-policy-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Get DomainPolicy with Powershell](/endpoint/get_domainpolicy_with_powershell/) | [Password Policy Discovery](/tags/#password-policy-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Get DomainPolicy with Powershell Script Block](/endpoint/get_domainpolicy_with_powershell_script_block/) | [Password Policy Discovery](/tags/#password-policy-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Get DomainUser with PowerShell](/endpoint/get_domainuser_with_powershell/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | TTP |
+| [Get DomainUser with PowerShell Script Block](/endpoint/get_domainuser_with_powershell_script_block/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | TTP |
+| [Get WMIObject Group Discovery](/endpoint/get_wmiobject_group_discovery/) | [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) | Hunting |
+| [Get WMIObject Group Discovery with Script Block Logging](/endpoint/get_wmiobject_group_discovery_with_script_block_logging/) | [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) | Hunting |
+| [Get-DomainTrust with PowerShell](/endpoint/get-domaintrust_with_powershell/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Get-DomainTrust with PowerShell Script Block](/endpoint/get-domaintrust_with_powershell_script_block/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Get-ForestTrust with PowerShell](/endpoint/get-foresttrust_with_powershell/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Get-ForestTrust with PowerShell Script Block](/endpoint/get-foresttrust_with_powershell_script_block/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [GetAdComputer with PowerShell](/endpoint/getadcomputer_with_powershell/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [GetAdComputer with PowerShell Script Block](/endpoint/getadcomputer_with_powershell_script_block/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [GetAdGroup with PowerShell](/endpoint/getadgroup_with_powershell/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | Hunting |
+| [GetAdGroup with PowerShell Script Block](/endpoint/getadgroup_with_powershell_script_block/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | Hunting |
+| [GetCurrent User with PowerShell](/endpoint/getcurrent_user_with_powershell/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [GetCurrent User with PowerShell Script Block](/endpoint/getcurrent_user_with_powershell_script_block/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [GetDomainComputer with PowerShell](/endpoint/getdomaincomputer_with_powershell/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [GetDomainComputer with PowerShell Script Block](/endpoint/getdomaincomputer_with_powershell_script_block/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [GetDomainController with PowerShell](/endpoint/getdomaincontroller_with_powershell/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [GetDomainController with PowerShell Script Block](/endpoint/getdomaincontroller_with_powershell_script_block/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [GetDomainGroup with PowerShell](/endpoint/getdomaingroup_with_powershell/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | TTP |
+| [GetDomainGroup with PowerShell Script Block](/endpoint/getdomaingroup_with_powershell_script_block/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | TTP |
+| [GetLocalUser with PowerShell](/endpoint/getlocaluser_with_powershell/) | [Local Account](/tags/#local-account) | [Discovery](/tags/#discovery) | Hunting |
+| [GetLocalUser with PowerShell Script Block](/endpoint/getlocaluser_with_powershell_script_block/) | [Local Account](/tags/#local-account) | [Discovery](/tags/#discovery) | Hunting |
+| [GetNetTcpconnection with PowerShell](/endpoint/getnettcpconnection_with_powershell/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [GetNetTcpconnection with PowerShell Script Block](/endpoint/getnettcpconnection_with_powershell_script_block/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [GetWmiObject DS User with PowerShell](/endpoint/getwmiobject_ds_user_with_powershell/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | TTP |
+| [GetWmiObject DS User with PowerShell Script Block](/endpoint/getwmiobject_ds_user_with_powershell_script_block/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | TTP |
+| [GetWmiObject Ds Computer with PowerShell](/endpoint/getwmiobject_ds_computer_with_powershell/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [GetWmiObject Ds Computer with PowerShell Script Block](/endpoint/getwmiobject_ds_computer_with_powershell_script_block/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [GetWmiObject Ds Group with PowerShell](/endpoint/getwmiobject_ds_group_with_powershell/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | TTP |
+| [GetWmiObject Ds Group with PowerShell Script Block](/endpoint/getwmiobject_ds_group_with_powershell_script_block/) | [Domain Groups](/tags/#domain-groups) | [Discovery](/tags/#discovery) | TTP |
+| [GetWmiObject User Account with PowerShell](/endpoint/getwmiobject_user_account_with_powershell/) | [Local Account](/tags/#local-account) | [Discovery](/tags/#discovery) | Hunting |
+| [GetWmiObject User Account with PowerShell Script Block](/endpoint/getwmiobject_user_account_with_powershell_script_block/) | [Local Account](/tags/#local-account) | [Discovery](/tags/#discovery) | Hunting |
 | [GitHub Dependabot Alert](/cloud/github_dependabot_alert/) | [Compromise Software Dependencies and Development Tools](/tags/#compromise-software-dependencies-and-development-tools) | [Initial Access](/tags/#initial-access) | Anomaly |
 | [GitHub Pull Request from Unknown User](/cloud/github_pull_request_from_unknown_user/) | [Compromise Software Dependencies and Development Tools](/tags/#compromise-software-dependencies-and-development-tools) | [Initial Access](/tags/#initial-access) | Anomaly |
 | [Github Commit Changes In Master](/cloud/github_commit_changes_in_master/) | [Trusted Relationship](/tags/#trusted-relationship) | [Initial Access](/tags/#initial-access) | Anomaly |
@@ -303,6 +362,9 @@ sidebar:
 | [Kubernetes Nginx Ingress RFI](/cloud/kubernetes_nginx_ingress_rfi/) | [Exploitation for Credential Access](/tags/#exploitation-for-credential-access) | [Credential Access](/tags/#credential-access) | TTP |
 | [Kubernetes Scanner Image Pulling](/cloud/kubernetes_scanner_image_pulling/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Discovery](/tags/#discovery) | TTP |
 | [Large Volume of DNS ANY Queries](/network/large_volume_of_dns_any_queries/) | [Reflection Amplification](/tags/#reflection-amplification) | [Impact](/tags/#impact) | Anomaly |
+| [Local Account Discovery With Wmic](/endpoint/local_account_discovery_with_wmic/) | [Local Account](/tags/#local-account) | [Discovery](/tags/#discovery) | Hunting |
+| [Local Account Discovery with Net](/endpoint/local_account_discovery_with_net/) | [Local Account](/tags/#local-account) | [Discovery](/tags/#discovery) | Hunting |
+| [MSHTML Module Load in Office Product](/endpoint/mshtml_module_load_in_office_product/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [MacOS - Re-opened Applications]() | None | None | TTP |
 | [Mailsniper Invoke functions](/endpoint/mailsniper_invoke_functions/) | [Local Email Collection](/tags/#local-email-collection) | [Collection](/tags/#collection) | TTP |
 | [Malicious PowerShell Process - Connect To Internet With Hidden Window](/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell) | [Execution](/tags/#execution) | TTP |
@@ -331,6 +393,10 @@ sidebar:
 | [Multiple Users Remotely Failing To Authenticate From Host](/endpoint/multiple_users_remotely_failing_to_authenticate_from_host/) | [Password Spraying](/tags/#password-spraying) | [Credential Access](/tags/#credential-access) | Anomaly |
 | [NET Profiler UAC bypass](/endpoint/net_profiler_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
 | [NLTest Domain Trust Discovery](/endpoint/nltest_domain_trust_discovery/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Net Localgroup Discovery](/endpoint/net_localgroup_discovery/) | [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) | Hunting |
+| [Network Connection Discovery With Arp](/endpoint/network_connection_discovery_with_arp/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [Network Connection Discovery With Net](/endpoint/network_connection_discovery_with_net/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [Network Connection Discovery With Netstat](/endpoint/network_connection_discovery_with_netstat/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery) | [Discovery](/tags/#discovery) | Hunting |
 | [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | [Implant Internal Image](/tags/#implant-internal-image) | [Persistence](/tags/#persistence) | Hunting |
 | [Nishang PowershellTCPOneLine](/endpoint/nishang_powershelltcponeline/) | [PowerShell](/tags/#powershell) | [Execution](/tags/#execution) | TTP |
 | [No Windows Updates in a time frame]() | None | None | Hunting |
@@ -357,17 +423,23 @@ sidebar:
 | [Office Product Spawning MSHTA](/endpoint/office_product_spawning_mshta/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [Office Product Spawning Rundll32 with no DLL](/endpoint/office_product_spawning_rundll32_with_no_dll/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [Office Product Spawning Wmic](/endpoint/office_product_spawning_wmic/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
+| [Office Product Writing cab or inf](/endpoint/office_product_writing_cab_or_inf/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
+| [Office Spawning Control](/endpoint/office_spawning_control/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [Okta Account Lockout Events](/application/okta_account_lockout_events/) | [Default Accounts](/tags/#default-accounts) | [Defense Evasion](/tags/#defense-evasion) | Anomaly |
 | [Okta Failed SSO Attempts](/application/okta_failed_sso_attempts/) | [Default Accounts](/tags/#default-accounts) | [Defense Evasion](/tags/#defense-evasion) | Anomaly |
 | [Okta User Logins From Multiple Cities](/application/okta_user_logins_from_multiple_cities/) | [Default Accounts](/tags/#default-accounts) | [Defense Evasion](/tags/#defense-evasion) | Anomaly |
 | [Overwriting Accessibility Binaries](/endpoint/overwriting_accessibility_binaries/) | [Accessibility Features](/tags/#accessibility-features) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
+| [Password Policy Discovery with Net](/endpoint/password_policy_discovery_with_net/) | [Password Policy Discovery](/tags/#password-policy-discovery) | [Discovery](/tags/#discovery) | Hunting |
 | [Permission Modification using Takeown App](/endpoint/permission_modification_using_takeown_app/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [PetitPotam Network Share Access Request](/endpoint/petitpotam_network_share_access_request/) | [Forced Authentication](/tags/#forced-authentication) | [Credential Access](/tags/#credential-access) | TTP |
 | [PetitPotam Suspicious Kerberos TGT Request](/endpoint/petitpotam_suspicious_kerberos_tgt_request/) | [OS Credential Dumping](/tags/#os-credential-dumping) | [Credential Access](/tags/#credential-access) | TTP |
 | [Phishing Email Detection by Machine Learning Method - SSA](/application/phishing_email_detection_by_machine_learning_method_-_ssa/) | [Phishing](/tags/#phishing) | [Initial Access](/tags/#initial-access) | Anomaly |
 | [Plain HTTP POST Exfiltrated Data](/network/plain_http_post_exfiltrated_data/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol) | [Exfiltration](/tags/#exfiltration) | TTP |
+| [Potential Pass the Token or Hash Observed at the Destination Device](/endpoint/potential_pass_the_token_or_hash_observed_at_the_destination_device/) | [Pass the Hash](/tags/#pass-the-hash) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Potential Pass the Token or Hash Observed by an Event Collecting Device](/endpoint/potential_pass_the_token_or_hash_observed_by_an_event_collecting_device/) | [Pass the Hash](/tags/#pass-the-hash) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [PowerShell 4104 Hunting](/endpoint/powershell_4104_hunting/) | [PowerShell](/tags/#powershell) | [Execution](/tags/#execution) | Hunting |
 | [PowerShell Domain Enumeration](/endpoint/powershell_domain_enumeration/) | [PowerShell](/tags/#powershell) | [Execution](/tags/#execution) | TTP |
+| [PowerShell Get LocalGroup Discovery](/endpoint/powershell_get_localgroup_discovery/) | [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) | Hunting |
 | [PowerShell Loading DotNET into Memory via System Reflection Assembly](/endpoint/powershell_loading_dotnet_into_memory_via_system_reflection_assembly/) | [PowerShell](/tags/#powershell) | [Execution](/tags/#execution) | TTP |
 | [PowerShell Start-BitsTransfer](/endpoint/powershell_start-bitstransfer/) | [BITS Jobs](/tags/#bits-jobs) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Powershell Creating Thread Mutex](/endpoint/powershell_creating_thread_mutex/) | [Indicator Removal from Tools](/tags/#indicator-removal-from-tools) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -376,6 +448,7 @@ sidebar:
 | [Powershell Execute COM Object](/endpoint/powershell_execute_com_object/) | [Component Object Model Hijacking](/tags/#component-object-model-hijacking) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
 | [Powershell Fileless Process Injection via GetProcAddress](/endpoint/powershell_fileless_process_injection_via_getprocaddress/) | [Process Injection](/tags/#process-injection), [PowerShell](/tags/#powershell) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Powershell Fileless Script Contains Base64 Encoded Content](/endpoint/powershell_fileless_script_contains_base64_encoded_content/) | [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [PowerShell](/tags/#powershell) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Powershell Get LocalGroup Discovery with Script Block Logging](/endpoint/powershell_get_localgroup_discovery_with_script_block_logging/) | [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) | Hunting |
 | [Powershell Processing Stream Of Data](/endpoint/powershell_processing_stream_of_data/) | [PowerShell](/tags/#powershell) | [Execution](/tags/#execution) | TTP |
 | [Powershell Remote Thread To Known Windows Process](/endpoint/powershell_remote_thread_to_known_windows_process/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Powershell Using memory As Backing Store](/endpoint/powershell_using_memory_as_backing_store/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -420,12 +493,18 @@ sidebar:
 | [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | [Lateral Movement](/tags/#lateral-movement) | Anomaly |
 | [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | [Lateral Movement](/tags/#lateral-movement) | Hunting |
 | [Remote Process Instantiation via WMI](/endpoint/remote_process_instantiation_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | [Execution](/tags/#execution) | TTP |
+| [Remote System Discovery with Adsisearcher](/endpoint/remote_system_discovery_with_adsisearcher/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | TTP |
+| [Remote System Discovery with Dsquery](/endpoint/remote_system_discovery_with_dsquery/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [Remote System Discovery with Net](/endpoint/remote_system_discovery_with_net/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [Remote System Discovery with Wmic](/endpoint/remote_system_discovery_with_wmic/) | [Remote System Discovery](/tags/#remote-system-discovery) | [Discovery](/tags/#discovery) | TTP |
 | [Remote WMI Command Attempt](/endpoint/remote_wmi_command_attempt/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | [Execution](/tags/#execution) | TTP |
 | [Resize ShadowStorage volume](/endpoint/resize_shadowstorage_volume/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | [Impact](/tags/#impact) | TTP |
 | [Resize Shadowstorage Volume](/endpoint/resize_shadowstorage_volume/) | [Service Stop](/tags/#service-stop) | [Impact](/tags/#impact) | TTP |
 | [Revil Common Exec Parameter](/endpoint/revil_common_exec_parameter/) | [User Execution](/tags/#user-execution) | [Execution](/tags/#execution) | TTP |
 | [Revil Registry Entry](/endpoint/revil_registry_entry/) | [Modify Registry](/tags/#modify-registry) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [RunDLL Loading DLL By Ordinal](/endpoint/rundll_loading_dll_by_ordinal/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Rundll32 Control RunDLL Hunt](/endpoint/rundll32_control_rundll_hunt/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | Hunting |
+| [Rundll32 Control RunDLL World Writable Directory](/endpoint/rundll32_control_rundll_world_writable_directory/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Rundll32 Create Remote Thread To A Process](/endpoint/rundll32_create_remote_thread_to_a_process/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Rundll32 CreateRemoteThread In Browser](/endpoint/rundll32_createremotethread_in_browser/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Rundll32 DNSQuery](/endpoint/rundll32_dnsquery/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -441,6 +520,7 @@ sidebar:
 | [SQL Injection with Long URLs](/web/sql_injection_with_long_urls/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) | TTP |
 | [Samsam Test File Write](/endpoint/samsam_test_file_write/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | [Impact](/tags/#impact) | TTP |
 | [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service) | [Persistence](/tags/#persistence) | TTP |
+| [SchCache Change By App Connect And Create ADSI Object](/endpoint/schcache_change_by_app_connect_and_create_adsi_object/) | [Domain Account](/tags/#domain-account) | [Discovery](/tags/#discovery) | Anomaly |
 | [Schedule Task with HTTP Command Arguments](/endpoint/schedule_task_with_http_command_arguments/) | [Scheduled Task/Job](/tags/#scheduled-task/job) | [Execution](/tags/#execution) | TTP |
 | [Schedule Task with Rundll32 Command Trigger](/endpoint/schedule_task_with_rundll32_command_trigger/) | [Scheduled Task/Job](/tags/#scheduled-task/job) | [Execution](/tags/#execution) | TTP |
 | [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) | TTP |
@@ -488,14 +568,14 @@ sidebar:
 | [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | [Modify Registry](/tags/#modify-registry) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious Regsvr32 Register Suspicious Path](/endpoint/suspicious_regsvr32_register_suspicious_path/) | [Regsvr32](/tags/#regsvr32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious Rundll32 PluginInit](/endpoint/suspicious_rundll32_plugininit/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
-| [Suspicious Rundll32 Rename](/endpoint/suspicious_rundll32_rename/) | [Rundll32](/tags/#rundll32), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Suspicious Rundll32 Rename](/endpoint/suspicious_rundll32_rename/) | [Rundll32](/tags/#rundll32), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | Hunting |
 | [Suspicious Rundll32 StartW](/endpoint/suspicious_rundll32_startw/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious Rundll32 dllregisterserver](/endpoint/suspicious_rundll32_dllregisterserver/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious Rundll32 no Command Line Arguments](/endpoint/suspicious_rundll32_no_command_line_arguments/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious SQLite3 LSQuarantine Behavior](/endpoint/suspicious_sqlite3_lsquarantine_behavior/) | [Data Staged](/tags/#data-staged) | [Collection](/tags/#collection) | TTP |
 | [Suspicious Scheduled Task from Public Directory](/endpoint/suspicious_scheduled_task_from_public_directory/) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) | Anomaly |
 | [Suspicious SearchProtocolHost no Command Line Arguments](/endpoint/suspicious_searchprotocolhost_no_command_line_arguments/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
-| [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | Hunting |
 | [Suspicious microsoft workflow compiler usage](/endpoint/suspicious_microsoft_workflow_compiler_usage/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious msbuild path](/endpoint/suspicious_msbuild_path/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious mshta child process](/endpoint/suspicious_mshta_child_process/) | [Mshta](/tags/#mshta) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -505,6 +585,8 @@ sidebar:
 | [System Information Discovery Detection](/endpoint/system_information_discovery_detection/) | [System Information Discovery](/tags/#system-information-discovery) | [Discovery](/tags/#discovery) | TTP |
 | [System Process Running from Unexpected Location](/endpoint/system_process_running_from_unexpected_location/) | [Masquerading](/tags/#masquerading) | [Defense Evasion](/tags/#defense-evasion) | Anomaly |
 | [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [System User Discovery With Query](/endpoint/system_user_discovery_with_query/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [System User Discovery With Whoami](/endpoint/system_user_discovery_with_whoami/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) | Hunting |
 | [TOR Traffic](/network/tor_traffic/) | [Web Protocols](/tags/#web-protocols) | [Command And Control](/tags/#command-and-control) | TTP |
 | [Trickbot Named Pipe](/endpoint/trickbot_named_pipe/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [UAC Bypass MMC Load Unsigned Dll](/endpoint/uac_bypass_mmc_load_unsigned_dll/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
@@ -518,6 +600,8 @@ sidebar:
 | [Unusually Long Command Line]() | None | None | Anomaly |
 | [Unusually Long Command Line - MLTK]() | None | None | Anomaly |
 | [Unusually Long Content-Type Length]() | None | None | Anomaly |
+| [User Discovery With Env Vars PowerShell](/endpoint/user_discovery_with_env_vars_powershell/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) | Hunting |
+| [User Discovery With Env Vars PowerShell Script Block](/endpoint/user_discovery_with_env_vars_powershell_script_block/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) | Hunting |
 | [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) | TTP |
 | [WBAdmin Delete System Backups](/endpoint/wbadmin_delete_system_backups/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | [Impact](/tags/#impact) | TTP |
 | [WMI Permanent Event Subscription](/endpoint/wmi_permanent_event_subscription/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | [Execution](/tags/#execution) | TTP |
@@ -542,6 +626,7 @@ sidebar:
 | [Winword Spawning Cmd](/endpoint/winword_spawning_cmd/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [Winword Spawning PowerShell](/endpoint/winword_spawning_powershell/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [Winword Spawning Windows Script Host](/endpoint/winword_spawning_windows_script_host/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
+| [Wmic Group Discovery](/endpoint/wmic_group_discovery/) | [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) | Hunting |
 | [Write Executable in SMB Share](/endpoint/write_executable_in_smb_share/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | [Lateral Movement](/tags/#lateral-movement) | TTP |
 | [XMRIG Driver Loaded](/endpoint/xmrig_driver_loaded/) | [Windows Service](/tags/#windows-service) | [Persistence](/tags/#persistence) | TTP |
 | [aws detect attach to role policy](/cloud/aws_detect_attach_to_role_policy/) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) | Hunting |

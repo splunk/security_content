@@ -35,7 +35,7 @@ tags:
 
 #### Description
 
-The following analytic identifies SharpHound binary usage by using the `OriginalFileName` from Sysmon. In addition to renaming the PE, other coverage is available to detect command-line arguments. This particular analytic only looks for the OriginalFileName of `SharpHound.exe`. It is possible older instances of SharpHound.exe have different original filenames. Dependent upon the operator, the code may be re-compiled and the attributes removed or changed to anything else. During triage, review the metadata of the binary in question. Review parallel processes for suspicious behavior. Identify the source of this binary.
+The following analytic identifies SharpHound binary usage by using the original filena,e. In addition to renaming the PE, other coverage is available to detect command-line arguments. This particular analytic looks for the original_file_name of `SharpHound.exe` and the process name. It is possible older instances of SharpHound.exe have different original filenames. Dependent upon the operator, the code may be re-compiled and the attributes removed or changed to anything else. During triage, review the metadata of the binary in question. Review parallel processes for suspicious behavior. Identify the source of this binary.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -56,9 +56,9 @@ The following analytic identifies SharpHound binary usage by using the `Original
 #### Search
 
 ```
-`sysmon` EventID=1 (OriginalFileName=SharpHound.exe process_name!=sharphound.exe) 
-| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine Product 
-| rename Computer as dest 
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=sharphound.exe OR Processes.original_file_name=SharpHound.exe) by Processes.dest Processes.user Processes.parent_process_name Processes.original_file_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `detect_sharphound_usage_filter`
@@ -70,18 +70,21 @@ The following analytic identifies SharpHound binary usage by using the `Original
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* dest
-* User
-* parent_process_name
-* process_name
-* OriginalFileName
-* process_path
-* CommandLine
-* Product
+* Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -119,4 +122,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_sharphound_usage.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_sharphound_usage.yml) \| *version*: **2**

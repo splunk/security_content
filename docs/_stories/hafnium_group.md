@@ -36,10 +36,9 @@ The following Splunk detections assist with identifying the HAFNIUM groups trade
 | [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application), [PowerShell](/tags/#powershell) | TTP |
 | [Detect New Local Admin account](/endpoint/detect_new_local_admin_account/) | [Local Account](/tags/#local-account) | TTP |
 | [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | Hunting |
 | [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
 | [Dump LSASS via procdump](/endpoint/dump_lsass_via_procdump/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
-| [Dump LSASS via procdump Rename](/endpoint/dump_lsass_via_procdump_rename/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
 | [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | [Remote Email Collection](/tags/#remote-email-collection) | Anomaly |
 | [Malicious PowerShell Process - Connect To Internet With Hidden Window](/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
 | [Malicious PowerShell Process - Execution Policy Bypass](/endpoint/malicious_powershell_process_-_execution_policy_bypass/) | [PowerShell](/tags/#powershell) | TTP |

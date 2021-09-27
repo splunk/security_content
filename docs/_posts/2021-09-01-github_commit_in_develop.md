@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Exploitation
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search is to detect a pushed or commit to develop branch. This is to avoid unwanted modification to develop without a review to the changes. Ideally in terms of devsecops the changes made in a branch and do a PR for review. of course in some cases admin of the project may did a changes directly to master branch
 
 - **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Teoderick Contreras, Splunk
@@ -45,6 +46,7 @@ This search is to detect a pushed or commit to develop branch. This is to avoid 
 ```
 `github` branches{}.name = main OR branches{}.name = develop 
 |  stats count min(_time) as firstTime max(_time) as lastTime  by commit.author.html_url commit.commit.author.email commit.author.login commit.commit.message repository.pushed_at commit.commit.committer.date 
+| eval phase="code" 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `github_commit_in_develop_filter`

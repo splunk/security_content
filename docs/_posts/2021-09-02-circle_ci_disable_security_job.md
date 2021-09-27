@@ -45,12 +45,14 @@ This search looks for disable security job in CircleCI pipeline.
 
 ```
 `circleci` 
-| rename vcs.committer_name as user vcs.subject as commit_message vcs.url as url workflows.* as * 
+| rename vcs.committer_name as user vcs.subject as commit_message vcs.url as url workflows.* as *  
 | stats values(job_name) as job_names by workflow_id workflow_name user commit_message url branch 
 | lookup mandatory_job_for_workflow workflow_name OUTPUTNEW job_name AS mandatory_job 
 | search mandatory_job=* 
 | eval mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0) 
 | where mandatory_job_executed=0 
+| eval phase="build" 
+| rex field=url "(?<repository>[^\/]*\/[^\/]*)$" 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `circle_ci_disable_security_job_filter`

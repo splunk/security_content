@@ -44,7 +44,7 @@ The following analytic identifies rundll32.exe loading setupapi.dll and iesetupa
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*setupapi* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*setupapi* by Processes.dest Processes.user Processes.parent_process_name Processes.original_file_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -63,9 +63,13 @@ To successfully implement this search you need to be ingesting information on pr
 * Processes.dest
 * Processes.user
 * Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
 * Processes.process_name
 * Processes.process
 * Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
 * Processes.parent_process_id
 
 
@@ -104,4 +108,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_rundll32_application_control_bypass_-_setupapi.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_rundll32_application_control_bypass_-_setupapi.yml) \| *version*: **2**

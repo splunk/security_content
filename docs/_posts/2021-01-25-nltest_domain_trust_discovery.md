@@ -56,6 +56,7 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [Domain Trust Discovery](/stories/domain_trust_discovery)
 * [IcedID](/stories/icedid)
+* [Active Directory Discovery](/stories/active_directory_discovery)
 
 
 #### How To Implement

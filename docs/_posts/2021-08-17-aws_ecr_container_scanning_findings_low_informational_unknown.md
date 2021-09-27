@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Actions on Objectives
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search looks for AWS CloudTrail events from AWS Elastic Container Service (ECR). You need to activate image scanning in order to get the event DescribeImageScanFindings with the results.
 
 - **Type**: Hunting
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-17
 - **Author**: Patrick Bareiss, Splunk
@@ -49,7 +50,9 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 | search severity IN (LOW, INFORMATIONAL, UNKNWON) 
 | rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest as imageDigest, requestParameters.repositoryName as repositoryName 
 | eval finding = finding_name.", ".finding_description 
-| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, repositoryName, user, userName, src_ip, finding 
+| eval phase="release" 
+| eval severity="low" 
+| stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, repositoryName, user, userName, src_ip, finding, phase, severity 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `aws_ecr_container_scanning_findings_low_informational_unknown_filter`
@@ -87,7 +90,7 @@ unknown
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 49.0 | 70 | 70 | Vulnerabilities with severity high found in repository $repositoryName$ |
+| 7.0 | 10 | 70 | Vulnerabilities with severity high found in repository $repositoryName$ |
 
 
 

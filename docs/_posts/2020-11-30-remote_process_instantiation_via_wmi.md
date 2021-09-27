@@ -23,7 +23,7 @@ tags:
 
 #### Description
 
-This search looks for wmic.exe being launched with parameters to spawn a process on a remote system.
+This analytic identifies wmic.exe being launched with parameters to spawn a process on a remote system.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -45,7 +45,7 @@ This search looks for wmic.exe being launched with parameters to spawn a process
 
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = wmic.exe Processes.process="*/node*" Processes.process="*process*" Processes.process="*call*" Processes.process="*create*"   by Processes.process_name Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process="*/node*" Processes.process="*process*" Processes.process="*call*" Processes.process="*create*"   by Processes.process_name Processes.original_file_name Processes.parent_process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
@@ -58,15 +58,21 @@ This search looks for wmic.exe being launched with parameters to spawn a process
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* Processes.process_name
-* Processes.process
-* Processes.parent_process_name
 * Processes.dest
 * Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -97,4 +103,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/remote_process_instantiation_via_wmi.yml) \| *version*: **5**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/remote_process_instantiation_via_wmi.yml) \| *version*: **6**

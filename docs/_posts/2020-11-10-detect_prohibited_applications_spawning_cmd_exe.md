@@ -44,7 +44,7 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=cmd.exe by Processes.parent_process_name Processes.process_name Processes.dest Processes.user
+| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_cmd` by Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.dest Processes.user
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)` 
@@ -60,7 +60,7 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts and populates the Endpoint data model with the resultant dataset. This search includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list of processes that should not be spawning cmd.exe. You can modify this lookup to better suit your environment.
+You must be ingesting data that records process activity from your hosts and populates the Endpoint data model with the resultant dataset. This search includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list of processes that should not be spawning cmd.exe. You can modify this lookup to better suit your environment. To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
@@ -105,4 +105,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_prohibited_applications_spawning_cmd_exe.yml) \| *version*: **5**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_prohibited_applications_spawning_cmd_exe.yml) \| *version*: **6**

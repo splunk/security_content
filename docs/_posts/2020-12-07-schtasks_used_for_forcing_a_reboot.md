@@ -59,7 +59,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 
 #### How To Implement
-To successfully implement this search you need to be ingesting logs with both the process name and command-line from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time

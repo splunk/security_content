@@ -45,7 +45,7 @@ This search looks for PowerShell processes launched with arguments that have cha
 
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe by Processes.user Processes.process_name Processes.parent_process_name Processes.dest Processes.process 
+| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user Processes.process_name Processes.original_file_name Processes.parent_process_name Processes.dest Processes.process 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
@@ -59,16 +59,21 @@ This search looks for PowerShell processes launched with arguments that have cha
 
 
 #### How To Implement
-You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* Processes.process
-* Processes.parent_process
-* Processes.process_name
+* Processes.dest
 * Processes.user
 * Processes.parent_process_name
-* Processes.dest
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -100,4 +105,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_with_obfuscation_techniques.yml) \| *version*: **4**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_with_obfuscation_techniques.yml) \| *version*: **5**

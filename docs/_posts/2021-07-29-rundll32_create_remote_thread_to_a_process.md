@@ -24,7 +24,7 @@ tags:
 
 #### Description
 
-This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to cmd.exe process . This technique was seen in IcedID malware to execute its malicious code in normal process for defense evasion and to steal sensitive information the the compromised host. browser process.
+This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to cmd.exe process. This technique was seen in IcedID malware to execute its malicious code in normal process for defense evasion and to steal sensitive information the the compromised host. browser process.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud

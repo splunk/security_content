@@ -39,6 +39,7 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 | [Detect Outlook exe writing a zip file](/endpoint/detect_outlook_exe_writing_a_zip_file/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Security Account Manager](/tags/#security-account-manager), [Spearphishing Link](/tags/#spearphishing-link) | TTP |
 | [Excel Spawning PowerShell](/endpoint/excel_spawning_powershell/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
 | [Excel Spawning Windows Script Host](/endpoint/excel_spawning_windows_script_host/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
+| [MSHTML Module Load in Office Product](/endpoint/mshtml_module_load_in_office_product/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Office Application Spawn rundll32 process](/endpoint/office_application_spawn_rundll32_process/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Office Document Creating Schedule Task](/endpoint/office_document_creating_schedule_task/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Office Document Executing Macro Code](/endpoint/office_document_executing_macro_code/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
@@ -48,6 +49,8 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 | [Office Product Spawning MSHTA](/endpoint/office_product_spawning_mshta/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Office Product Spawning Rundll32 with no DLL](/endpoint/office_product_spawning_rundll32_with_no_dll/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Office Product Spawning Wmic](/endpoint/office_product_spawning_wmic/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
+| [Office Product Writing cab or inf](/endpoint/office_product_writing_cab_or_inf/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
+| [Office Spawning Control](/endpoint/office_spawning_control/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Process Creating LNK file in Suspicious Location](/endpoint/process_creating_lnk_file_in_suspicious_location/) | [Spearphishing Link](/tags/#spearphishing-link) | TTP |
 | [Winword Spawning Cmd](/endpoint/winword_spawning_cmd/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Winword Spawning PowerShell](/endpoint/winword_spawning_powershell/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |

@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Exploitation
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search is to detect a gsuite email contains suspicious subject having known file type used in spear phishing. This technique is a common and effective entry vector of attacker to compromise a network by luring the user to click or execute the suspicious attachment send from external email account because of the effective social engineering of subject related to delivery, bank and so on. On the other hand this detection may catch a normal email traffic related to legitimate transaction so better to check the email sender, spelling and etc. avoid click link or opening the attachment if you are not expecting this type of e-mail.
 
 - **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-19
 - **Author**: Teoderick Contreras, Splunk
@@ -46,7 +47,9 @@ This search is to detect a gsuite email contains suspicious subject having known
 | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" 
 | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)" 
 | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
-| stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by destination{}.service num_message_attachments  subject destination{}.address source.address 
+| eval phase="plan" 
+| eval severity="medium" 
+| stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size by destination{}.service num_message_attachments  subject destination{}.address source.address phase severity 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `gsuite_email_suspicious_subject_with_attachment_filter`
@@ -70,13 +73,6 @@ To successfully implement this search, you need to be ingesting logs related to 
 #### Known False Positives
 normal user or normal transaction may contain the subject and file type attachment that this detection try to search.
 
-
-
-#### RBA
-
-| Risk Score  | Impact      | Confidence   | Message      |
-| ----------- | ----------- |--------------|--------------|
-| 25.0 | 50 | 50 | suspicious email from $source.address$ to $destination{}.address$ |
 
 
 

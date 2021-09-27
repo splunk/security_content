@@ -44,7 +44,7 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe Processes.process=*comsvcs.dll* Processes.process=*MiniDump* by Processes.user Processes.process_name Processes.process Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*comsvcs.dll* Processes.process=*MiniDump* by Processes.user Processes.process_name Processes.original_file_name Processes.process Processes.dest 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -58,16 +58,20 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 
 
 #### How To Implement
-You must be ingesting endpoint data that tracks process activity, including parent-child relationships from your endpoints, to populate the Endpoint data model in the Processes node. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
 * Processes.dest
 * Processes.user
 * Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
 * Processes.process_name
 * Processes.process
 * Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
 * Processes.parent_process_id
 
 
@@ -103,4 +107,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/dump_lsass_via_comsvcs_dll.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/dump_lsass_via_comsvcs_dll.yml) \| *version*: **2**

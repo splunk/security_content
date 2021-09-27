@@ -16,6 +16,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint
   - Exploitation
 ---
 
@@ -29,7 +30,7 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
 - **ID**: 4006adac-5937-11eb-ae93-0242ac130002
@@ -45,11 +46,11 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 #### Search
 
 ```
-`sysmon` EventID=1 (OriginalFileName=msbuild.exe process_name!=msbuild.exe) 
-| stats count min(_time) as firstTime max(_time) as lastTime by Computer, User, parent_process_name, process_name, OriginalFileName, process_path, CommandLine 
-| rename Computer as dest 
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)`
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_msbuild` by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
 | `suspicious_msbuild_rename_filter`
 ```
 
@@ -60,18 +61,21 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* EventID
-* OriginalFileName
-* process_name
-* Computer
-* User
-* parent_process_name
-* process_path
-* CommandLine
+* Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -107,4 +111,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_msbuild_rename.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_msbuild_rename.yml) \| *version*: **2**

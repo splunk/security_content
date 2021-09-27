@@ -44,7 +44,7 @@ The following analytic identifies rundll32.exe with no command line arguments an
 
 ```
 
-| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name 
+| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_rundll32` by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name Processes.original_file_name 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -64,17 +64,21 @@ The following analytic identifies rundll32.exe with no command line arguments an
 
 
 #### How To Implement
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `port` node. To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* EventID
-* process_name
-* process_id
-* parent_process_name
-* dest_port
-* process_path
 * Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -111,4 +115,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll32_with_no_command_line_arguments_with_network.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll32_with_no_command_line_arguments_with_network.yml) \| *version*: **2**

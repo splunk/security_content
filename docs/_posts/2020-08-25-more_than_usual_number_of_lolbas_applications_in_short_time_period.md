@@ -56,8 +56,8 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 | rename window_end as timestamp 
 | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device" window=2419200000L 
 | where label AND quantile>0.99 
-| eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body=create_map(["lolbas_counter", lolbas_counter]) 
-| into write_null();
+| eval start_time = window_start, end_time = timestamp, entities = mvappend(device), body=create_map(["lolbas_counter", lolbas_counter, "quantile", quantile, "device", device]) 
+| into write_ssa_detected_events();
 ```
 
 #### Associated Analytic Story

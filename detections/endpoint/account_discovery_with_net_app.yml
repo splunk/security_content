@@ -1,7 +1,7 @@
 name: Account Discovery With Net App
 id: 339805ce-ac30-11eb-b87d-acde48001122
-version: 1
-date: '2021-05-03'
+version: 3
+date: '2021-09-16'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -16,15 +16,15 @@ description: this search is to detect a potential account discovery series of co
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.process_name="net.exe" OR Processes.process_name="net1.exe" AND
-  (Processes.process="*user*" OR  Processes.process="*config*" OR Processes.process="*view
-  /all*") by  Processes.process_name Processes.dest Processes.user Processes.parent_process_name
-  | where count >=5 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `account_discovery_with_net_app_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+  where `process_net` AND (Processes.process="*user*" OR  Processes.process="*config*"
+  OR Processes.process="*view /all*") by  Processes.process_name Processes.dest Processes.user
+  Processes.parent_process_name | where count >=5 | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `account_discovery_with_net_app_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product..
 known_false_positives: admin or power user may used this series of command.
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
@@ -66,13 +66,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Processes.dest
+  - Processes.user
   - Processes.parent_process_name
-  - Processes.parent_process_id
+  - Processes.parent_process
+  - Processes.original_file_name
   - Processes.process_name
   - Processes.process
   - Processes.process_id
-  - Processes.process_guid
-  - Processes.dest
-  - Processes.user
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 5
   security_domain: endpoint

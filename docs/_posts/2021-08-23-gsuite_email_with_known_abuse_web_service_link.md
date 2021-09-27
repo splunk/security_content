@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Exploitation
 ---
 
@@ -25,7 +26,7 @@ tags:
 This analytics is to detect a gmail containing a link that are known to be abused by malware or attacker like pastebin, telegram and discord to deliver malicious payload. This event can encounter some normal email traffic within organization and external email that normally using this application and services.
 
 - **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
 - **Author**: Teoderick Contreras, Splunk
@@ -46,7 +47,9 @@ This analytics is to detect a gmail containing a link that are known to be abuse
 | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)" 
 | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)" 
 | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
-|stats values(link_domain{}) as link_domains min(_time) as firstTime max(_time) as lastTime count by is_spam source.address source.from_header_address subject destination{}.address 
+| eval phase="plan" 
+| eval severity="low" 
+|stats values(link_domain{}) as link_domains min(_time) as firstTime max(_time) as lastTime count by is_spam source.address source.from_header_address subject destination{}.address phase severity 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `gsuite_email_with_known_abuse_web_service_link_filter`
@@ -70,13 +73,6 @@ To successfully implement this search, you need to be ingesting logs related to 
 #### Known False Positives
 normal email contains this link that are known application within the organization or network can be catched by this detection.
 
-
-
-#### RBA
-
-| Risk Score  | Impact      | Confidence   | Message      |
-| ----------- | ----------- |--------------|--------------|
-| 25.0 | 50 | 50 | suspicious email from $source.address$ to $destination{}.address$ |
 
 
 

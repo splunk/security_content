@@ -53,6 +53,7 @@ This search detects a suspicioous termination of known services killed by ransom
 
 #### Associated Analytic Story
 * [Ransomware](/stories/ransomware)
+* [BlackMatter Ransomware](/stories/blackmatter_ransomware)
 
 
 #### How To Implement

@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Exploitation
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search is to detect a shared file in google drive with suspicious file name that are commonly used by spear phishing campaign. This technique is very popular to lure the user by running a malicious document or click a malicious link within the shared file that will redirected to malicious website. This detection can also catch some normal email communication between organization and its external customer.
 
 - **Type**: Anomaly
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
 - **Author**: Teoderick Contreras, Splunk
@@ -46,7 +47,10 @@ This search is to detect a shared file in google drive with suspicious file name
 | rex field=parameters.owner "[^@]+@(?<source_domain>[^@]+)" 
 | rex field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)" 
 | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" 
-| stats count min(_time) as firstTime max(_time) as lastTime by email parameters.owner parameters.target_user parameters.doc_title parameters.doc_type 
+| eval phase="plan" 
+| eval severity="low" 
+| stats count min(_time) as firstTime max(_time) as lastTime by email parameters.owner parameters.target_user parameters.doc_title parameters.doc_type phase severity 
+| rename parameters.target_user AS user 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `gsuite_suspicious_shared_file_name_filter`
@@ -83,7 +87,7 @@ normal user or normal transaction may contain the subject and file type attachme
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 9.0 | 30 | 30 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
+| 21.0 | 30 | 70 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
 
 
 

@@ -45,7 +45,7 @@ This analytic will identify a suspicious command-line that disables a user accou
 
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.parent_process) as parent_process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name="net.exe" OR Processes.process_name="net1.exe" AND Processes.process="*user*" AND Processes.process="*/active:no*" by  Processes.process_name Processes.dest Processes.user Processes.parent_process_name 
+| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.parent_process) as parent_process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_net` AND Processes.process="*user*" AND Processes.process="*/active:no*" by  Processes.process_name Processes.original_file_name Processes.dest Processes.user Processes.parent_process_name 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -57,16 +57,21 @@ This analytic will identify a suspicious command-line that disables a user accou
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe/net1.exe may be used.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* Processes.process_name
 * Processes.dest
 * Processes.user
 * Processes.parent_process_name
-* Processes.process_id
 * Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -100,4 +105,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/disabling_net_user_account.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/disabling_net_user_account.yml) \| *version*: **2**

@@ -13,6 +13,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   - Actions on Objectives
 ---
 
@@ -25,7 +26,7 @@ tags:
 This search uses the Kubernetes logs from Splunk Connect from Kubernetes to detect Kubernetes Security Scanner.
 
 - **Type**: TTP
-- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-08-24
 - **Author**: Patrick Bareiss, Splunk
@@ -47,7 +48,9 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 | rename object.* AS * 
 | rename involvedObject.* AS * 
 | rename source.host AS host 
-| stats min(_time) as firstTime max(_time) as lastTime count by host, name, namespace, kind, reason, message 
+| eval phase="operate" 
+| eval severity="high" 
+| stats min(_time) as firstTime max(_time) as lastTime count by host, name, namespace, kind, reason, message, phase, severity 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
 | `kubernetes_scanner_image_pulling_filter`
@@ -83,7 +86,7 @@ unknown
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 49.0 | 70 | 70 | Kubernetes Scanner image pulled on host $host$ |
+| 81.0 | 90 | 90 | Kubernetes Scanner image pulled on host $host$ |
 
 
 

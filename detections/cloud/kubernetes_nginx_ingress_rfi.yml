@@ -33,6 +33,8 @@ tags:
   kill_chain_phases:
   - Actions on Objectives
   message: Remote File Inclusion Attack detected on $host$
+  deployments:
+  - Slack Alert
   mitre_attack_id:
   - T1212
   nist:

@@ -33,8 +33,8 @@ There will be false positives as some native Windows processes are moved or ran 
 | ----------- | ----------- |--------------|
 | [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild), [Rundll32](/tags/#rundll32), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Masquerading](/tags/#masquerading) | TTP |
 | [Suspicious MSBuild Rename](/endpoint/suspicious_msbuild_rename/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
-| [Suspicious Rundll32 Rename](/endpoint/suspicious_rundll32_rename/) | [Rundll32](/tags/#rundll32), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
-| [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
+| [Suspicious Rundll32 Rename](/endpoint/suspicious_rundll32_rename/) | [Rundll32](/tags/#rundll32), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
+| [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
 | [Suspicious msbuild path](/endpoint/suspicious_msbuild_path/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
 | [System Process Running from Unexpected Location](/endpoint/system_process_running_from_unexpected_location/) | [Masquerading](/tags/#masquerading) | Anomaly |
 | [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
