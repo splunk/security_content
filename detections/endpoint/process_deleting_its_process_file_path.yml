@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
+  - Remcos
   automated_detection_testing: passed
   confidence: 100
   context:
@@ -41,7 +42,7 @@ tags:
   message: A process $Image$ tries to delete its process path in commandline $cmdline$
     as part of defense evasion in host $Computer$
   mitre_attack_id:
-  - T1003.002
+  - T1070
   observable:
   - name: Computer
     type: Hostname
