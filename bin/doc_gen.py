@@ -32,7 +32,7 @@ def mitre_attack_object(technique, attack):
             if tactic['kill_chain_name'] == 'mitre-attack':
                 tactic = tactic['phase_name'].replace('-', ' ')
                 tactics.append(tactic.title())
-                
+
     mitre_attack['tactic'] = tactics
     return mitre_attack
 
@@ -65,14 +65,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
                 sys.exit(1)
         story_yaml = object
 
-        # enrich the mitre object
-        mitre_attacks = []
-        if 'mitre_attack_id' in story_yaml['tags']:
-            for mitre_technique_id in story_yaml['tags']['mitre_attack_id']:
-                mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
-                mitre_attacks.append(mitre_attack)
-            # story_yaml['mitre_attacks'] = sorted(mitre_attacks, key = lambda i: i['tactic'])
-            story_yaml['mitre_attacks'] = mitre_attacks
+
         stories.append(story_yaml)
 
     sorted_stories = sorted(stories, key=lambda i: i['name'])
@@ -87,9 +80,12 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
         if 'analytic_story' in detection['tags']:
             for story in detection['tags']['analytic_story']:
                 if story in sto_to_det.keys():
-                    sto_to_det[story].add(detection['name'])
+                    sto_to_det[story]['detections'].append(detection)
                 else:
-                    sto_to_det[story] = {detection['name']}
+                    sto_to_det[story] = {}
+                    sto_to_det[story]['detections'] = []
+                    sto_to_det[story]['detections'].append(detection)
+
                 data_model = detection['datamodel']
                 if data_model:
                     for d in data_model:
@@ -122,7 +118,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
     # add the enrich objects to the story
     for story in sorted_stories:
-        story['detections'] = sorted(sto_to_det[story['name']])
+        story['detections'] = sto_to_det[story['name']]['detections']
         if story['name'] in sto_to_data_models:
             story['data_models'] = sorted(sto_to_data_models[story['name']])
         if story['name'] in sto_to_mitre_attack_ids:
@@ -152,13 +148,81 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
                              trim_blocks=False)
-    # write markdown
-    template = j2_env.get_template('doc_stories_markdown.j2')
-    output_path = path.join(OUTPUT_DIR + '/stories.md')
-    output = template.render(categories=categories,time=datetime.datetime.now())
+
+    # write detection navigation
+    # first collect datamodels and tactics
+    datamodels = []
+    tactics = []
+    for detection in sorted_detections:
+        data_model = detection['datamodel']
+        if data_model:
+            for d in data_model:
+                if d not in datamodels:
+                    datamodels.append(d)
+        if 'mitre_attacks' in detection:
+            for attack in detection['mitre_attacks']:
+                for t in attack['tactic']:
+                    if t not in tactics:
+                        tactics.append(t)
+
+    template = j2_env.get_template('doc_navigation_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/_data/navigation.yml')
+    output = template.render(tactics=sorted(tactics), datamodels=sorted(datamodels), categories=sorted(category_names))
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    messages.append("doc_gen.py wrote {0} stories documentation in markdown to: {1}".format(len(stories),output_path))
+    messages.append("doc_gen.py wrote navigation.yml structure to: {0}".format(output_path))
+
+    # write navigation _pages
+    # for datamodels
+    template = j2_env.get_template('doc_navigation_pages_markdown.j2')
+    for datamodel in sorted(datamodels):
+        output_path = path.join(OUTPUT_DIR + '/_pages/' + datamodel.lower().replace(" ", "_") + ".md")
+        output = template.render(tag=datamodel)
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, datamodel))
+    # for tactics
+    for tactic in sorted(tactics):
+        output_path = path.join(OUTPUT_DIR + '/_pages/' + tactic.lower().replace(" ", "_") + ".md")
+        output = template.render(tag=tactic)
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, tactic))
+
+    # for story categories
+    template = j2_env.get_template('doc_navigation_story_pages_markdown.j2')
+    for category in categories:
+        output_path = path.join(OUTPUT_DIR + '/_pages/' + category['name'].lower().replace(" ", "_") + ".md")
+        output = template.render(category=category)
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+        messages.append("doc_gen.py wrote _page for: {0} structure to: {1}".format(category['name'], output_path))
+
+    # write index updated metrics
+    template = j2_env.get_template('doc_index_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/index.markdown')
+    output = template.render(detection_count=len(sorted_detections), story_count=len(sorted_stories))
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote site index page to: {0}".format(output_path))
+
+    # write stories listing markdown
+    template = j2_env.get_template('doc_story_page_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/_pages/stories.md')
+    output = template.render(stories=sorted_stories)
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote _pages for story to: {0}".format(output_path))
+
+    # write stories markdown
+    template = j2_env.get_template('doc_stories_markdown.j2')
+    for story in sorted_stories:
+        file_name = story['name'].lower().replace(" ","_") + '.md'
+        output_path = path.join(OUTPUT_DIR + '/_stories/' + file_name)
+        output = template.render(story=story, time=datetime.datetime.now())
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+    messages.append("doc_gen.py wrote {0} story documentation in markdown to: {1}".format(len(sorted_stories),OUTPUT_DIR + '/_stories/'))
 
     # write wikimarkup
     template = j2_env.get_template('doc_stories_wiki.j2')
@@ -167,6 +231,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     messages.append("doc_gen.py wrote {0} stories documentation in mediawiki to: {1}".format(len(stories),output_path))
+
     return sorted_stories, messages
 
 
@@ -201,22 +266,42 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                 mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
                 mitre_attacks.append(mitre_attack)
             detection_yaml['mitre_attacks'] = mitre_attacks
-            #detection_yaml['mitre_attacks'] = sorted(mitre_attacks, key = lambda i: i['tactic'])
+
+        # grab the kind
         detection_yaml['kind'] = manifest_file.split('/')[-2]
-        detections.append(detection_yaml)
+
+        # check if is experimental, add the flag
+        if "experimental" == manifest_file.split('/')[2]:
+            detection_yaml['experimental'] = True
+
+        # skip baselines and Investigation
+        if detection_yaml['type'] == 'Baseline' or detection_yaml['type'] == 'Investigation':
+            continue
+        else:
+            detections.append(detection_yaml)
 
     sorted_detections = sorted(detections, key=lambda i: i['name'])
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
-                             trim_blocks=False)
+                             trim_blocks=False, autoescape=True)
 
     # write markdown
     template = j2_env.get_template('doc_detections_markdown.j2')
-    output_path = path.join(OUTPUT_DIR + '/detections.md')
+    for detection in sorted_detections:
+        file_name = detection['date'] + "-" + detection['name'].lower().replace(" ","_") + '.md'
+        output_path = path.join(OUTPUT_DIR + '/_posts/' + file_name)
+        output = template.render(detection=detection, time=datetime.datetime.now())
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+    messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(sorted_detections),OUTPUT_DIR + '/_posts/'))
+
+    # write markdown detection page
+    template = j2_env.get_template('doc_detection_page_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/_pages/detections.md')
     output = template.render(detections=sorted_detections, time=datetime.datetime.now())
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
-    messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(detections),output_path))
+    messages.append("doc_gen.py wrote detections.md page to: {0}".format(output_path))
 
     #sort detections by kind into categories
     kinds = []
@@ -253,14 +338,14 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
 
-    
+
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path
     OUTPUT_DIR = args.output
     VERBOSE = args.verbose
 
-    
+
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     if VERBOSE:
