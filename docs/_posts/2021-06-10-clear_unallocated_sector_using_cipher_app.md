@@ -1,0 +1,108 @@
+---
+title: "Clear Unallocated Sector Using Cipher App"
+excerpt: "File Deletion"
+categories:
+  - Endpoint
+last_modified_at: 2021-06-10
+toc: true
+tags:
+  - TTP
+  - T1070.004
+  - File Deletion
+  - Defense Evasion
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Endpoint
+  - Exploitation
+---
+
+
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+this search is to detect execution of `cipher.exe` to clear the unallocated sectors of a specific disk. This technique was seen in some ransomware to make it impossible to forensically recover deleted files.
+
+- **Type**: TTP
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Last Updated**: 2021-06-10
+- **Author**: Teoderick Contreras, Splunk
+- **ID**: cd80a6ac-c9d9-11eb-8839-acde48001122
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
+
+
+#### Search
+
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cipher.exe" Processes.process = "*/w:*" by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.dest Processes.user Processes.process_id Processes.process_guid 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `clear_unallocated_sector_using_cipher_app_filter`
+```
+
+#### Associated Analytic Story
+* [Ransomware](/stories/ransomware)
+
+
+#### How To Implement
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node.
+
+#### Required field
+* _time
+* Processes.dest
+* Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
+
+
+#### Kill Chain Phase
+* Exploitation
+
+
+#### Known False Positives
+administrator may execute this app to manage disk
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 90.0 | 100 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to clear the unallocated sectors of a specific disk. |
+
+
+
+#### Reference
+
+* [https://unit42.paloaltonetworks.com/vatet-pyxie-defray777/3/](https://unit42.paloaltonetworks.com/vatet-pyxie-defray777/3/)
+* [https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/sophoslabs-ransomware-behavior-report.pdf](https://www.sophos.com/en-us/medialibrary/PDFs/technical-papers/sophoslabs-ransomware-behavior-report.pdf)
+
+
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log)
+
+
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/clear_unallocated_sector_using_cipher_app.yml) \| *version*: **1**

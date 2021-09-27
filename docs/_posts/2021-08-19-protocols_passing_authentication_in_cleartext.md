@@ -1,0 +1,90 @@
+---
+title: "Protocols passing authentication in cleartext"
+excerpt: ""
+categories:
+  - Network
+last_modified_at: 2021-08-19
+toc: true
+tags:
+  - TTP
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Network_Traffic
+  - Reconnaissance
+  - Actions on Objectives
+---
+
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+The following analytic identifies cleartext protocols at risk of leaking sensitive information. Currently, this consists of legacy protocols such as telnet (port 23), POP3 (port 110), IMAP (port 143), and non-anonymous FTP (port 21) sessions. While some of these protocols may be used over SSL, they typically are found on different assigned ports in those instances.
+
+- **Type**: TTP
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Last Updated**: 2021-08-19
+- **Author**: Rico Valdez, Splunk
+- **ID**: 6923cd64-17a0-453c-b945-81ac2d8c6db9
+
+
+
+#### Search
+
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.action!=blocked AND All_Traffic.transport="tcp" AND (All_Traffic.dest_port="23" OR All_Traffic.dest_port="143" OR All_Traffic.dest_port="110" OR (All_Traffic.dest_port="21" AND All_Traffic.user != "anonymous")) by All_Traffic.user All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `drop_dm_object_name("All_Traffic")` 
+| `protocols_passing_authentication_in_cleartext_filter`
+```
+
+#### Associated Analytic Story
+* [Use of Cleartext Protocols](/stories/use_of_cleartext_protocols)
+
+
+#### How To Implement
+This search requires you to be ingesting your network traffic, and populating the Network_Traffic data model. For more accurate result it&#39;s better to limit destination to organization private and public IP range, like All_Traffic.dest IN(192.168.0.0/16,172.16.0.0/12,10.0.0.0/8, x.x.x.x/22)
+
+#### Required field
+* _time
+* All_Traffic.transport
+* All_Traffic.dest_port
+* All_Traffic.user
+* All_Traffic.src
+* All_Traffic.dest
+* All_Traffic.action
+
+
+#### Kill Chain Phase
+* Reconnaissance
+* Actions on Objectives
+
+
+#### Known False Positives
+Some networks may use kerberized FTP or telnet servers, however, this is rare.
+
+
+
+
+#### Reference
+
+* [https://www.rackaid.com/blog/secure-your-email-and-file-transfers/](https://www.rackaid.com/blog/secure-your-email-and-file-transfers/)
+* [https://www.infosecmatter.com/capture-passwords-using-wireshark/](https://www.infosecmatter.com/capture-passwords-using-wireshark/)
+
+
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+
+
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/network/protocols_passing_authentication_in_cleartext.yml) \| *version*: **3**
