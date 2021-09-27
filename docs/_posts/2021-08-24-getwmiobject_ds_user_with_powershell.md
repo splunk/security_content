@@ -1,0 +1,104 @@
+---
+title: "GetWmiObject DS User with PowerShell"
+excerpt: "Domain Account"
+categories:
+  - Endpoint
+last_modified_at: 2021-08-24
+toc: true
+tags:
+  - TTP
+  - T1087.002
+  - Domain Account
+  - Discovery
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Endpoint
+  - Reconnaissance
+---
+
+
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+This analytic looks for the execution of `powershell.exe` with command-line arguments utilized to query for domain users. The `Get-WmiObject` commandlet combined with the `-class ds_user` parameter can be used to return the full list of users in a Windows domain. Red Teams and adversaries alike may leverage WMI in this case, using PowerShell, to enumerate domain users for situational awareness and Active Directory Discovery.
+
+- **Type**: TTP
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Last Updated**: 2021-08-24
+- **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
+- **ID**: 22d3b118-04df-11ec-8fa3-acde48001122
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
+
+
+#### Search
+
+```
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="cmd.exe" OR Processes.process_name="powershell*") AND Processes.process = "*get-wmiobject*" AND Processes.process = "*ds_user*" AND Processes.process = "*root\\directory\\ldap*" AND Processes.process = "*-namespace*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `getwmiobject_ds_user_with_powershell_filter`
+```
+
+#### Associated Analytic Story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
+#### How To Implement
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+
+#### Required field
+* _time
+* Processes.dest
+* Processes.user
+* Processes.parent_process
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_id
+* Processes.parent_process_name
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
+
+#### Known False Positives
+Administrators or power users may use this command for troubleshooting.
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | an instance of process $process_name$ with commandline $process$ in $dest$ |
+
+
+
+#### Reference
+
+* [https://jpcertcc.github.io/ToolAnalysisResultSheet/details/dsquery.htm](https://jpcertcc.github.io/ToolAnalysisResultSheet/details/dsquery.htm)
+
+
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log)
+
+
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/getwmiobject_ds_user_with_powershell.yml) \| *version*: **1**
