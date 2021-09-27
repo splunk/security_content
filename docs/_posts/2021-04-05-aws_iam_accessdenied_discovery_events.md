@@ -1,0 +1,103 @@
+---
+title: "AWS IAM AccessDenied Discovery Events"
+excerpt: "Cloud Infrastructure Discovery"
+categories:
+  - Cloud
+last_modified_at: 2021-04-05
+toc: true
+tags:
+  - Anomaly
+  - T1580
+  - Cloud Infrastructure Discovery
+  - Discovery
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Splunk Security Analytics for AWS
+  - Reconnaissance
+---
+
+
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
+
+- **Type**: Anomaly
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
+- **Datamodel**: 
+- **Last Updated**: 2021-04-05
+- **Author**: Michael Haag, Splunk
+- **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic       |
+| ----------- | ----------- |--------------|
+| [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
+
+
+
+#### Search
+
+```
+`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com) 
+| bucket _time span=1h 
+| stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(eventName) as methods, dc(eventSource) as sources values(userIdentity.arn) by src_ip, userIdentity.arn, _time 
+| where failures >= 5 and methods >= 1 and sources >= 1 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `aws_iam_accessdenied_discovery_events_filter`
+```
+
+#### Associated Analytic Story
+* [Suspicious Cloud User Activities](/stories/suspicious_cloud_user_activities)
+
+
+#### How To Implement
+The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS Cloudtrail logs.
+
+#### Required field
+* _time
+* eventName
+* eventSource
+* userAgent
+* errorCode
+* userIdentity.type
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
+
+#### Known False Positives
+It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 10.0 | 20 | 50 | User $userIdentity.arn$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied. |
+
+
+
+#### Reference
+
+* [https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/](https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/)
+
+
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json)
+
+
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_iam_accessdenied_discovery_events.yml) \| *version*: **1**
