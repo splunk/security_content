@@ -1,6 +1,6 @@
 name: Disabling Firewall with Netsh
 id: 6860a62c-9203-11eb-9e05-acde48001122
-version: 1
+version: 2
 date: '2021-03-31'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -10,15 +10,12 @@ description: This search is to identifies suspicious firewall disabling using ne
   application. this technique is commonly seen in malware that tries to communicate
   or download its component or other payload to its C2 server.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe
+  as lastTime from datamodel=Endpoint.Processes where `process_netsh`
   Processes.process= "*firewall*" (Processes.process= "*off*" OR  Processes.process=
-  "*disable*") by Processes.dest Processes.user Processes.parent_process Processes.process_name
+  "*disable*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.original_file_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_firewall_with_netsh_filter`'
-how_to_implement: You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint file-system data model node. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: admin may disable firewall during testing or fixing network
   problem.
 references:
@@ -56,13 +53,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.process_name
-  - Processes.process
   - Processes.dest
   - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
   - Processes.parent_process_id
   risk_score: 25
   security_domain: endpoint
