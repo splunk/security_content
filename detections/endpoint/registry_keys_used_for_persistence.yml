@@ -45,6 +45,7 @@ tags:
   - Windows Persistence Techniques
   - 'Emotet Malware  DHS Report TA18-201A '
   - IcedID
+  - Remcos
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
