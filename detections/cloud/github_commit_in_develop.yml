@@ -22,6 +22,7 @@ references:
 tags:
   analytic_story:
   - DevSecOps
+  automated_detection_testing: passed
   confidence: 30
   context:
   - Source:Endpoint
@@ -43,10 +44,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   required_fields:
   - _time
   risk_score: 9
   security_domain: endpoint
-  automated_detection_testing: passed
-
-  

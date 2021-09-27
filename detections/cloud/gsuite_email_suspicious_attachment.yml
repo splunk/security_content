@@ -12,10 +12,11 @@ description: This search is to detect a suspicious attachment file extension in 
   file type that maybe send by employee or network admin.
 search: '`gsuite_gmail` "attachment{}.file_extension_type" IN ("pl", "py", "rb", "sh",
   "bat", "exe", "dll", "cpl", "com", "js", "vbs", "ps1", "reg","swf", "cmd", "go")
-  | stats count min(_time) as firstTime max(_time) as lastTime values(attachment{}.file_extension_type)
-  as email_attachments, values(attachment{}.sha256) as attachment_sha256, values(payload_size)
-  as payload_size by destination{}.service num_message_attachments  subject destination{}.address
-  source.address | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | eval phase="plan" | eval severity="medium" | stats count min(_time) as firstTime
+  max(_time) as lastTime values(attachment{}.file_extension_type) as email_attachments,
+  values(attachment{}.sha256) as attachment_sha256, values(payload_size) as payload_size
+  by destination{}.service num_message_attachments  subject destination{}.address
+  source.address phase severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `gsuite_email_suspicious_attachment_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite having the file attachment metadata like file type, file
@@ -53,6 +54,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   required_fields:
   - _time
   - attachment{}.file_extension_type

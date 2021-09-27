@@ -10,8 +10,9 @@ description: This search uses the Kubernetes logs from a nginx ingress controlle
 search: '`kubernetes_container_controller` | rex field=_raw "^(?<remote_addr>\S+)\s+-\s+-\s+\[(?<time_local>[^\]]*)\]\s\"(?<request>[^\"]*)\"\s(?<status>\S*)\s(?<body_bytes_sent>\S*)\s\"(?<http_referer>[^\"]*)\"\s\"(?<http_user_agent>[^\"]*)\"\s(?<request_length>\S*)\s(?<request_time>\S*)\s\[(?<proxy_upstream_name>[^\]]*)\]\s\[(?<proxy_alternative_upstream_name>[^\]]*)\]\s(?<upstream_addr>\S*)\s(?<upstream_response_length>\S*)\s(?<upstream_response_time>\S*)\s(?<upstream_status>\S*)\s(?<req_id>\S*)"
   | rex field=request "^(?<http_method>\S+)?\s(?<url>\S+)\s" | rex field=url "(?<dest_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
   | search dest_ip=* | rename remote_addr AS src_ip, upstream_status as status, proxy_upstream_name
-  as proxy | stats count min(_time) as firstTime max(_time) as lastTime by src_ip,
-  dest_ip status, url, http_method, host, http_user_agent, proxy | `security_content_ctime(firstTime)`
+  as proxy | eval phase="operate" | eval severity="medium" | stats count min(_time)
+  as firstTime max(_time) as lastTime by src_ip, dest_ip status, url, http_method,
+  host, http_user_agent, proxy, phase, severity | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `kubernetes_nginx_ingress_rfi_filter`'
 how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 known_false_positives: unknown
@@ -47,6 +48,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   required_fields:
   - raw
   risk_score: 49

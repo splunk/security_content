@@ -17,10 +17,10 @@ search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_tit
   "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet",
   "presentation") | rex field=parameters.owner "[^@]+@(?<source_domain>[^@]+)" | rex
   field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com"
-  and dest_domain="internal_test_email.com" | stats count min(_time) as firstTime
-  max(_time) as lastTime by email parameters.owner parameters.target_user parameters.doc_title
-  parameters.doc_type | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `gsuite_suspicious_shared_file_name_filter`'
+  and dest_domain="internal_test_email.com" | eval phase="plan" | eval severity="low"
+  | stats count min(_time) as firstTime max(_time) as lastTime by email parameters.owner
+  parameters.target_user parameters.doc_title parameters.doc_type phase severity |
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `gsuite_suspicious_shared_file_name_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite having the file attachment metadata like file type, file
   extension, source email, destination email, num of attachment and etc.
@@ -58,6 +58,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Dev Sec Ops Analytics
   required_fields:
   - _time
   - parameters.doc_title
