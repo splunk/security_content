@@ -7,10 +7,8 @@ type: TTP
 datamodel:
 - Endpoint
 description: This search detects registry key license at host where Remcos RAT agent is installed.
-search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
-  as registry_key_name values(Registry.registry_path) as registry_path min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\Software\\Remcos*)|
-  `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `remcos_client_registry_install_entry_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time)
+  as firstTime max(_time) as lastTime values(Registry.registry_path) as  registry_path FROM datamodel=Endpoint.Registry where (Registry.registry_key_name=*\\Software\\Remcos*) by Registry.dest  Registry.user Registry.registry_key_name Registry.process_id| `drop_dm_object_name(Registry)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`| `remcos_client_registry_install_entry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -35,6 +33,9 @@ tags:
   - _time
   - Registry.registry_path
   - Registry.registry_key_name
+  - Registry.process_id
+  - Registry.dest
+  - Registry.user
   security_domain: endpoint
   impact: 90
   confidence: 100
@@ -42,8 +43,7 @@ tags:
   risk_score: 90
   context:
   - Source:Endpoint
-  - Stage:Credential Access
-  message: A registry entry $registry_path$ with registry value $registry_key_name$ related to Remcos RAT in host $dest$
+  message: A registry entry $registry_path$ with registry keyname $registry_key_name$ related to Remcos RAT in host $dest$
   observable:
   - name: dest
     type: Hostname
