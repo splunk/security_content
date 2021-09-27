@@ -8,7 +8,7 @@ header:
   overlay_image: /static/splunk_banner.png
   actions:
     - label: "Download"
-      url: "https://github.com/splunk/security_content/releases"
+      url: "https://splunkbase.splunk.com/app/3449/"
 excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with over 400+ detections for Splunk."
 feature_row:
   - image_path: /static/feature_detection.png
