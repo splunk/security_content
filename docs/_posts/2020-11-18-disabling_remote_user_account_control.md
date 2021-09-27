@@ -52,6 +52,7 @@ The search looks for modifications to registry keys that control the enforcement
 #### Associated Analytic Story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

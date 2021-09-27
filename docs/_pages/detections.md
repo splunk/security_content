@@ -76,6 +76,7 @@ sidebar:
 | [CertUtil With Decode Argument](/endpoint/certutil_with_decode_argument/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Certutil exe certificate extraction]() | None | None | TTP |
 | [Change To Safe Mode With Network Config](/endpoint/change_to_safe_mode_with_network_config/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | [Impact](/tags/#impact) | TTP |
+| [Check Elevated CMD using whoami](/endpoint/check_elevated_cmd_using_whoami/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) | TTP |
 | [Child Processes of Spoolsv exe](/endpoint/child_processes_of_spoolsv_exe/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
 | [Circle CI Disable Security Job](/cloud/circle_ci_disable_security_job/) | [Compromise Client Software Binary](/tags/#compromise-client-software-binary) | [Persistence](/tags/#persistence) | Anomaly |
 | [Circle CI Disable Security Step](/cloud/circle_ci_disable_security_step/) | [Compromise Client Software Binary](/tags/#compromise-client-software-binary) | [Persistence](/tags/#persistence) | Anomaly |
@@ -92,6 +93,7 @@ sidebar:
 | [Cloud Provisioning Activity From Previously Unseen Country](/cloud/cloud_provisioning_activity_from_previously_unseen_country/) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) | Anomaly |
 | [Cloud Provisioning Activity From Previously Unseen IP Address](/cloud/cloud_provisioning_activity_from_previously_unseen_ip_address/) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) | Anomaly |
 | [Cloud Provisioning Activity From Previously Unseen Region](/cloud/cloud_provisioning_activity_from_previously_unseen_region/) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) | Anomaly |
+| [Cmdline Tool Not Executed In CMD Shell](/endpoint/cmdline_tool_not_executed_in_cmd_shell/) | [JavaScript](/tags/#javascript) | [Execution](/tags/#execution) | TTP |
 | [Cobalt Strike Named Pipes](/endpoint/cobalt_strike_named_pipes/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | [Data Destruction](/tags/#data-destruction) | [Impact](/tags/#impact) | Hunting |
 | [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | [Data Destruction](/tags/#data-destruction) | [Impact](/tags/#impact) | Hunting |
@@ -355,6 +357,7 @@ sidebar:
 | [Illegal Privilege Elevation via Mimikatz modules](/endpoint/illegal_privilege_elevation_via_mimikatz_modules/) | [Access Token Manipulation](/tags/#access-token-manipulation), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Illegal Service and Process Control via Mimikatz modules](/endpoint/illegal_service_and_process_control_via_mimikatz_modules/) | [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Illegal Service and Process Control via PowerSploit modules](/endpoint/illegal_service_and_process_control_via_powersploit_modules/) | [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Jscript Execution Using Cscript App](/endpoint/jscript_execution_using_cscript_app/) | [JavaScript](/tags/#javascript) | [Execution](/tags/#execution) | TTP |
 | [Kerberoasting spn request with RC4 encryption](/endpoint/kerberoasting_spn_request_with_rc4_encryption/) | [Kerberoasting](/tags/#kerberoasting) | [Credential Access](/tags/#credential-access) | TTP |
 | [Known Services Killed by Ransomware](/endpoint/known_services_killed_by_ransomware/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | [Impact](/tags/#impact) | TTP |
 | [Kubernetes AWS detect suspicious kubectl calls]() | None | None | Hunting |
@@ -364,6 +367,8 @@ sidebar:
 | [Large Volume of DNS ANY Queries](/network/large_volume_of_dns_any_queries/) | [Reflection Amplification](/tags/#reflection-amplification) | [Impact](/tags/#impact) | Anomaly |
 | [Local Account Discovery With Wmic](/endpoint/local_account_discovery_with_wmic/) | [Local Account](/tags/#local-account) | [Discovery](/tags/#discovery) | Hunting |
 | [Local Account Discovery with Net](/endpoint/local_account_discovery_with_net/) | [Local Account](/tags/#local-account) | [Discovery](/tags/#discovery) | Hunting |
+| [MS Scripting Process Loading Ldap Module](/endpoint/ms_scripting_process_loading_ldap_module/) | [JavaScript](/tags/#javascript) | [Execution](/tags/#execution) | Anomaly |
+| [MS Scripting Process Loading WMI Module](/endpoint/ms_scripting_process_loading_wmi_module/) | [JavaScript](/tags/#javascript) | [Execution](/tags/#execution) | Anomaly |
 | [MSHTML Module Load in Office Product](/endpoint/mshtml_module_load_in_office_product/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [MacOS - Re-opened Applications]() | None | None | TTP |
 | [Mailsniper Invoke functions](/endpoint/mailsniper_invoke_functions/) | [Local Email Collection](/tags/#local-email-collection) | [Collection](/tags/#collection) | TTP |
@@ -400,6 +405,8 @@ sidebar:
 | [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | [Implant Internal Image](/tags/#implant-internal-image) | [Persistence](/tags/#persistence) | Hunting |
 | [Nishang PowershellTCPOneLine](/endpoint/nishang_powershelltcponeline/) | [PowerShell](/tags/#powershell) | [Execution](/tags/#execution) | TTP |
 | [No Windows Updates in a time frame]() | None | None | Hunting |
+| [Non Chrome Process Accessing Chrome Default Dir](/endpoint/non_chrome_process_accessing_chrome_default_dir/) | [Credentials from Web Browsers](/tags/#credentials-from-web-browsers) | [Credential Access](/tags/#credential-access) | Anomaly |
+| [Non Firefox Process Access Firefox Profile Dir](/endpoint/non_firefox_process_access_firefox_profile_dir/) | [Credentials from Web Browsers](/tags/#credentials-from-web-browsers) | [Credential Access](/tags/#credential-access) | Anomaly |
 | [Ntdsutil Export NTDS](/endpoint/ntdsutil_export_ntds/) | [NTDS](/tags/#ntds) | [Credential Access](/tags/#credential-access) | TTP |
 | [O365 Add App Role Assignment Grant User](/cloud/o365_add_app_role_assignment_grant_user/) | [Cloud Account](/tags/#cloud-account) | [Persistence](/tags/#persistence) | TTP |
 | [O365 Added Service Principal](/cloud/o365_added_service_principal/) | [Cloud Account](/tags/#cloud-account) | [Persistence](/tags/#persistence) | TTP |
@@ -412,6 +419,7 @@ sidebar:
 | [O365 Suspicious Admin Email Forwarding](/cloud/o365_suspicious_admin_email_forwarding/) | [Email Forwarding Rule](/tags/#email-forwarding-rule) | [Collection](/tags/#collection) | Anomaly |
 | [O365 Suspicious Rights Delegation](/cloud/o365_suspicious_rights_delegation/) | [Remote Email Collection](/tags/#remote-email-collection) | [Collection](/tags/#collection) | TTP |
 | [O365 Suspicious User Email Forwarding](/cloud/o365_suspicious_user_email_forwarding/) | [Email Forwarding Rule](/tags/#email-forwarding-rule) | [Collection](/tags/#collection) | Anomaly |
+| [Office Application Drop Executable](/endpoint/office_application_drop_executable/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [Office Application Spawn Regsvr32 process](/endpoint/office_application_spawn_regsvr32_process/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [Office Application Spawn rundll32 process](/endpoint/office_application_spawn_rundll32_process/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
 | [Office Document Creating Schedule Task](/endpoint/office_document_creating_schedule_task/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) | TTP |
@@ -457,7 +465,7 @@ sidebar:
 | [Print Spooler Failed to Load a Plug-in](/endpoint/print_spooler_failed_to_load_a_plug-in/) | [Print Processors](/tags/#print-processors) | [Persistence](/tags/#persistence) | TTP |
 | [Probing Access with Stolen Credentials via PowerSploit modules](/endpoint/probing_access_with_stolen_credentials_via_powersploit_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Process Creating LNK file in Suspicious Location](/endpoint/process_creating_lnk_file_in_suspicious_location/) | [Spearphishing Link](/tags/#spearphishing-link) | [Initial Access](/tags/#initial-access) | TTP |
-| [Process Deleting Its Process File Path](/endpoint/process_deleting_its_process_file_path/) | [Security Account Manager](/tags/#security-account-manager) | [Credential Access](/tags/#credential-access) | TTP |
+| [Process Deleting Its Process File Path](/endpoint/process_deleting_its_process_file_path/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Process Execution via WMI](/endpoint/process_execution_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | [Execution](/tags/#execution) | TTP |
 | [Process Kill Base On File Path](/endpoint/process_kill_base_on_file_path/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Processes Tapping Keyboard Events]() | None | None | TTP |
@@ -489,6 +497,7 @@ sidebar:
 | [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | [Persistence](/tags/#persistence) | TTP |
 | [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | [Image File Execution Options Injection](/tags/#image-file-execution-options-injection) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
 | [Registry Keys for Creating SHIM Databases](/endpoint/registry_keys_for_creating_shim_databases/) | [Application Shimming](/tags/#application-shimming) | [Privilege Escalation](/tags/#privilege-escalation) | TTP |
+| [Remcos RAT File Creation in Remcos Folder](/endpoint/remcos_rat_file_creation_in_remcos_folder/) | [Screen Capture](/tags/#screen-capture) | [Collection](/tags/#collection) | TTP |
 | [Remote Desktop Network Bruteforce](/network/remote_desktop_network_bruteforce/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | [Lateral Movement](/tags/#lateral-movement) | TTP |
 | [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | [Lateral Movement](/tags/#lateral-movement) | Anomaly |
 | [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | [Lateral Movement](/tags/#lateral-movement) | Hunting |
@@ -559,6 +568,7 @@ sidebar:
 | [Suspicious GPUpdate no Command Line Arguments](/endpoint/suspicious_gpupdate_no_command_line_arguments/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious IcedID Regsvr32 Cmdline](/endpoint/suspicious_icedid_regsvr32_cmdline/) | [Regsvr32](/tags/#regsvr32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious IcedID Rundll32 Cmdline](/endpoint/suspicious_icedid_rundll32_cmdline/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Suspicious Image Creation In Appdata Folder](/endpoint/suspicious_image_creation_in_appdata_folder/) | [Screen Capture](/tags/#screen-capture) | [Collection](/tags/#collection) | TTP |
 | [Suspicious Java Classes]() | None | None | Anomaly |
 | [Suspicious MSBuild Rename](/endpoint/suspicious_msbuild_rename/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious MSBuild Spawn](/endpoint/suspicious_msbuild_spawn/) | [MSBuild](/tags/#msbuild) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -575,6 +585,7 @@ sidebar:
 | [Suspicious SQLite3 LSQuarantine Behavior](/endpoint/suspicious_sqlite3_lsquarantine_behavior/) | [Data Staged](/tags/#data-staged) | [Collection](/tags/#collection) | TTP |
 | [Suspicious Scheduled Task from Public Directory](/endpoint/suspicious_scheduled_task_from_public_directory/) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) | Anomaly |
 | [Suspicious SearchProtocolHost no Command Line Arguments](/endpoint/suspicious_searchprotocolhost_no_command_line_arguments/) | [Process Injection](/tags/#process-injection) | [Defense Evasion](/tags/#defense-evasion) | TTP |
+| [Suspicious WAV file in Appdata Folder](/endpoint/suspicious_wav_file_in_appdata_folder/) | [Screen Capture](/tags/#screen-capture) | [Collection](/tags/#collection) | TTP |
 | [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | Hunting |
 | [Suspicious microsoft workflow compiler usage](/endpoint/suspicious_microsoft_workflow_compiler_usage/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [Suspicious msbuild path](/endpoint/suspicious_msbuild_path/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) | TTP |
@@ -629,6 +640,7 @@ sidebar:
 | [Wmic Group Discovery](/endpoint/wmic_group_discovery/) | [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) | Hunting |
 | [Write Executable in SMB Share](/endpoint/write_executable_in_smb_share/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | [Lateral Movement](/tags/#lateral-movement) | TTP |
 | [XMRIG Driver Loaded](/endpoint/xmrig_driver_loaded/) | [Windows Service](/tags/#windows-service) | [Persistence](/tags/#persistence) | TTP |
+| [XSL Script Execution With WMIC](/endpoint/xsl_script_execution_with_wmic/) | [XSL Script Processing](/tags/#xsl-script-processing) | [Defense Evasion](/tags/#defense-evasion) | TTP |
 | [aws detect attach to role policy](/cloud/aws_detect_attach_to_role_policy/) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) | Hunting |
 | [aws detect permanent key creation](/cloud/aws_detect_permanent_key_creation/) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) | Hunting |
 | [aws detect role creation](/cloud/aws_detect_role_creation/) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) | Hunting |

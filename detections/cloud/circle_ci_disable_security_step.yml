@@ -11,8 +11,8 @@ search: '`circleci` | rename workflows.job_id AS job_id | join job_id [ | search
   job_id job_name vcs.committer_name vcs.subject vcs.url owners{} | rename vcs.* as
   * , owners{} as user | lookup mandatory_step_for_job job_name OUTPUTNEW step_name
   AS mandatory_step | search mandatory_step=* | eval mandatory_step_executed=if(like(step_names,
-  "%".mandatory_step."%"), 1, 0) | where mandatory_step_executed=0
-  | rex field=url "(?<repository>[^\/]*\/[^\/]*)$" | eval phase="build"  | `security_content_ctime(firstTime)`
+  "%".mandatory_step."%"), 1, 0) | where mandatory_step_executed=0 | rex field=url
+  "(?<repository>[^\/]*\/[^\/]*)$" | eval phase="build"  | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `circle_ci_disable_security_step_filter`'
 how_to_implement: You must index CircleCI logs.
 known_false_positives: unknown

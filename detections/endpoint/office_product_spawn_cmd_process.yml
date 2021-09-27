@@ -30,6 +30,7 @@ references:
 tags:
   analytic_story:
   - Trickbot
+  automated_detection_testing: passed
   confidence: 80
   context:
   - source:endpoint
@@ -71,4 +72,3 @@ tags:
   - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint
-  automated_detection_testing: passed
