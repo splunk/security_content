@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This query detects the Nishang Invoke-PowerShellTCPOneLine utility that spawns a call back to a remote command and control server. This is a powershell oneliner. In addition, this will capture on the command-line additional utilities used by Nishang. Triage the endpoint and identify any parallel processes that look suspicious. Review the reputation of the remote IP or domain contacted by the powershell process.
 
-- **ID**: 1a382c6c-7c2e-11eb-ac69-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-03
 - **Author**: Michael Haag, Splunk
+- **ID**: 1a382c6c-7c2e-11eb-ac69-acde48001122
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ Limited false positives may be present. Filter as needed based on initial analys
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | Possible Nishang Invoke-PowerShellTCPOneLine behavior on $dest$ |
 
 
 

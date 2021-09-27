@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search identifies endpoints that have caused a relatively high number of account lockouts in a short period.
 
-- **ID**: c026e3dd-7e18-4abb-8f41-929e836efe74
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
+- **ID**: c026e3dd-7e18-4abb-8f41-929e836efe74
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ It&#39;s possible that a widely used system, such as a kiosk, could cause a larg
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 36.0 | 60 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 36.0 | 60 | 60 | Multiple accounts have been locked out. Review $dest$ and results related to $user$. |
 
 
 

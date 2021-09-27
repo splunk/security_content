@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies rundll32.exe loading syssetup.dll by calling the LaunchINFSection function on the command line. This particular technique will load script code from a file. Upon a successful execution, the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During investigation, identify script content origination. Generally, a child process will spawn from rundll32.exe, but that may be bypassed based on script code contents. Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, review any network connections and obtain the script content executed. It&#39;s possible other files are on disk.
 
-- **ID**: 71b9bf37-cde1-45fb-b899-1b0aa6fa1183
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-04
 - **Author**: Michael Haag, Splunk
+- **ID**: 71b9bf37-cde1-45fb-b899-1b0aa6fa1183
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ Although unlikely, some legitimate applications may use syssetup.dll, triggering
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ loading syssetup.dll by calling the LaunchINFSection function on the command line was identified on endpoint $dest$ by user $user$. |
 
 
 

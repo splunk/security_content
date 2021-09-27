@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for PowerShell processes started with parameters used to bypass the local execution policy for scripts. These parameters are often observed in attacks leveraging PowerShell scripts as they override the default PowerShell execution policy.
 
-- **ID**: 9be56c82-b1cc-4318-87eb-d138afaaca39
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: Rico Valdez, Mauricio Velazco, Splunk
+- **ID**: 9be56c82-b1cc-4318-87eb-d138afaaca39
 
 
 #### ATT&CK
@@ -82,9 +82,9 @@ There may be legitimate reasons to bypass the PowerShell execution policy. The P
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | PowerShell local execution policy bypass attempt on $dest$ |
 
 
 

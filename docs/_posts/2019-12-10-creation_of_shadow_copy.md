@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 
-- **ID**: eb120f5f-b879-4a63-97c1-93352b5df844
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2019-12-10
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: eb120f5f-b879-4a63-97c1-93352b5df844
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ Legitimate administrator usage of Vssadmin or Wmic will create false positives.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 81.0 | 90 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 81.0 | 90 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to create a shadow copy to perform offline password cracking. |
 
 
 

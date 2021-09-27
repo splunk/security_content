@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect execution of wevtutil.exe to disable logs. This technique was seen in several ransomware to disable the event logs to evade alerts and detections in compromised host.
 
-- **ID**: a4bdc944-cdd9-11eb-ac97-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-15
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: a4bdc944-cdd9-11eb-ac97-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ network operator may disable audit event logs for debugging purposes.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A wevtutil process $process_name$ with commandline $cmd_line$ to disable event logs in host $dest_device_id$ |
 
 
 

@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,12 +28,12 @@ The detection calculates the standard deviation for each host and leverages the 
 This detection will trigger on the host that is the target of the password spraying attack. This could be a domain controller as well as a member server or workstation.\
 The analytics returned fields allow analysts to investigate the event further by providing fields like source process name, source account and attempted user accounts.
 
-- **ID**: 80f9d53e-9ca1-11eb-b0d6-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-13
 - **Author**: Mauricio Velazco, Splunk
+- **ID**: 80f9d53e-9ca1-11eb-b0d6-acde48001122
 
 
 #### ATT&CK
@@ -85,9 +85,9 @@ A host failing to authenticate with multiple valid users against a remote host i
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | Potential password spraying attack on $ComputerName$ |
 
 
 

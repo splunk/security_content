@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies Regsvcs.exe with a network connection to a public IP address, exluding private IP space. This particular technique has been used in the wild to bypass application control products. Regasm.exe and Regsvcs.exe are signed by Microsoft. By contacting a remote command and control server, the adversary will have the ability to escalate privileges and complete the objectives. During investigation, identify and retrieve the content being loaded. Review parallel processes for additional suspicious behavior. Gather any other file modifications and review accordingly. Review the reputation of the remote IP or domain and block as needed. regsvcs.exe and regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
 
-- **ID**: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-16
 - **Author**: Michael Haag, Splunk
+- **ID**: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ Although unlikely, limited instances of regsvcs.exe may cause a false positive. 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | An instance of $process_name$ contacting a remote destination was identified on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$. |
 
 
 

@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for a Windows Security Account Manager (SAM) was stopped via command-line. This is consistent with Ryuk infections across a fleet of endpoints.
 
-- **ID**: 69c12d59-d951-431e-ab77-ec426b8d65e6
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Rod Soto, Jose Hernandez, Splunk
+- **ID**: 69c12d59-d951-431e-ab77-ec426b8d65e6
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ SAM is a critical windows service, stopping it would cause major issues on an en
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | The Windows Security Account Manager (SAM) was stopped via cli by $user$ on $dest$ by this command: $processs$ |
 
 
 

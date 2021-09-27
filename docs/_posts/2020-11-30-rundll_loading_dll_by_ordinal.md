@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for executing scripts with rundll32. Adversaries may abuse rundll32.exe to proxy execution of malicious code. Using rundll32.exe, vice executing directly, may avoid triggering security tools that may not monitor execution of the rundll32.exe process because of allowlists or false positives from normal operations.
 
-- **ID**: 6c135f8d-5e60-454e-80b7-c56eed739833
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-30
 - **Author**: David Dorsey, Splunk
+- **ID**: 6c135f8d-5e60-454e-80b7-c56eed739833
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ While not common, loading a DLL under %AppData% and calling a function by ordina
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | A rundll32 process $process_name$ with ordinal parameter like this process commandline $process$ in host $dest$ |
 
 
 

@@ -21,18 +21,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search identifies DNS query failures by counting the number of DNS responses that do not indicate success, and trigger on more than 50 occurrences.
 
-- **ID**: 104658f4-afdc-499e-9719-17243f9826f1
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 104658f4-afdc-499e-9719-17243f9826f1
 
 
 #### ATT&CK

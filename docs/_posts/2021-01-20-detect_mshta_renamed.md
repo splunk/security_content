@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies renamed instances of mshta.exe executing. Mshta.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. This analytic utilizes the internal name of the PE to identify if is the legitimate mshta binary. Further analysis should be performed to review the executed content and validation it is the real mshta.
 
-- **ID**: 8f45fcf0-5b68-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-20
 - **Author**: Michael Haag, Splunk
+- **ID**: 8f45fcf0-5b68-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ Although unlikely, some legitimate applications may use a moved copy of mshta.ex
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$. |
 
 
 

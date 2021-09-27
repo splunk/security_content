@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Adversaries may attempt to gather information on domain trust relationships that may be used to identify lateral movement opportunities in Windows multi-domain/forest environments.
 
-- **ID**: e6f30f14-8daf-11eb-a017-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-25
 - **Author**: Michael Haag, Splunk
+- **ID**: e6f30f14-8daf-11eb-a017-acde48001122
 
 #### Narrative
 

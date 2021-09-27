@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect memory dumping of the LSASS process.
 
-- **ID**: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ Administrators can create memory dumps for debugging purposes, but memory dumps 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | process $SourceImage$ injected into $TargetImage$ and was attempted dump LSASS on $dest$. Adversaries tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS). |
 
 
 

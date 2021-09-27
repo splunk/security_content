@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 performing checks to identify anti-virus products installed on the endpoint. This technique is commonly found in malware and APT events where the adversary will map all running security applications or services. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **ID**: 28077620-c9f6-11eb-8785-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 28077620-c9f6-11eb-8785-acde48001122
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ network administrator may used this command for checking purposes
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A suspicious powershell script contains AV recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
 
 
 

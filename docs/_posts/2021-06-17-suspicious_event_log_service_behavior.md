@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic utilizes Windows Event ID 1100 to identify when Windows event log service is shutdown. Note that this is a voluminous analytic that will require tuning or restricted to specific endpoints based on criticality. This event generates every time Windows Event Log service has shut down. It also generates during normal system shutdown. During triage, based on time of day and user, determine if this was planned. If not planned, follow through with reviewing parallel alerts and other data sources to determine what else may have occurred.
 
-- **ID**: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-17
 - **Author**: Mauricio Velazco, Splunk
+- **ID**: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
 
 
 #### ATT&CK
@@ -75,9 +75,9 @@ It is possible the Event Logging service gets shut down due to system errors or 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 9.0 | 30 | 30 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 9.0 | 30 | 30 | The Windows Event Log Service shutdown on $ComputerName$ |
 
 
 

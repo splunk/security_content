@@ -23,18 +23,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for specific command-line arguments that may indicate the execution of tools made by Nirsoft, which are legitimate, but may be abused by attackers.
 
-- **ID**: 1297fb80-f42a-4q4a-9c8b-78c061417cf6
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 1297fb80-f42a-4q4a-9c8b-78c061417cf6
 
 
 #### ATT&CK
@@ -42,6 +42,7 @@ This search looks for specific command-line arguments that may indicate the exec
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
+
 
 
 #### Search

@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect suspicious google drive or google docs files shared outside or externally. This behavior might be a good hunting query to monitor exfitration of data made by an attacker or insider to a targetted machine.
 
-- **ID**: f6ee02d6-fea0-11eb-b2c2-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-16
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: f6ee02d6-fea0-11eb-b2c2-acde48001122
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ network admin or normal user may share files to customer and external team.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 9.0 | 30 | 30 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 9.0 | 30 | 30 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
 
 
 

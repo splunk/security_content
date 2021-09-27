@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects when an admin configured a forwarding rule for multiple mailboxes to the same destination.
 
-- **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 80 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 80 | 60 | User $user$ has configured a forwarding rule for multiple mailboxes to the same destination $ForwardingAddress$ |
 
 
 

@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies the Microsoft Software Licensing User Interface Tool, `slui.exe`, elevating access using the `-verb runas` function. This particular bypass utilizes a registry key/value. Identified by two sources, the registry keys are `HKCU\Software\Classes\exefile\shell` and `HKCU\Software\Classes\launcher.Systemsettings\Shell\open\command`. To simulate this behavior, multiple POC are available. The analytic identifies the use of `runas` by `slui.exe`.
 
-- **ID**: 8d124810-b3e4-11eb-96c7-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-13
 - **Author**: Michael Haag, Splunk
+- **ID**: 8d124810-b3e4-11eb-96c7-acde48001122
 
 
 #### ATT&CK
@@ -82,9 +82,9 @@ Limited false positives should be present as this is not commonly used by legiti
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A slui process $process_name$ with elevated commandline $process$ in host $dest$ |
 
 
 

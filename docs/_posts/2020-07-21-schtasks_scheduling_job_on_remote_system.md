@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for flags passed to schtasks.exe on the command-line that indicate a job is being scheduled on a remote system.
 
-- **ID**: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
+- **ID**: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ Administrators may create jobs on remote systems, but this activity is usually l
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A schedule task process $process_name$ with remote job commandline $process$ in host $dest$ |
 
 
 

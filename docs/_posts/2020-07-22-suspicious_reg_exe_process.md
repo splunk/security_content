@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for reg.exe being launched from a command prompt not started by the user. When a user launches cmd.exe, the parent process is usually explorer.exe. This search filters out those instances.
 
-- **ID**: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-22
 - **Author**: David Dorsey, Splunk
+- **ID**: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for reg.exe being launched from a command prompt not started b
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
 
 
 #### Search
@@ -90,9 +91,9 @@ It&#39;s possible for system administrators to write scripts that exhibit this b
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 70 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 70 | 50 | Suspicious $Processes.process_path.file_path$ process running with an uncommon parent process $Processes.parent_process_name$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifes Event Code 4768, A `Kerberos authentication ticket (TGT) was requested`, successfull occurs. This behavior has been identified to assist with detecting PetitPotam, CVE-2021-36942. Once an attacer obtains a computer certificate by abusing Active Directory Certificate Services in combination with PetitPotam, the next step would be to leverage the certificate for malicious purposes. One way of doing this is to request a Kerberos Ticket Granting Ticket using a tool like Rubeus. This request will generate a 4768 event with some unusual fields depending on the environment. This analytic will require tuning, we recommend filtering Account_Name to Domain Controllers for your environment.
 
-- **ID**: e3ef244e-0a67-11ec-abf2-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-31
 - **Author**: Michael Haag, Mauricio Velazco, Splunk
+- **ID**: e3ef244e-0a67-11ec-abf2-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following analytic identifes Event Code 4768, A `Kerberos authentication tic
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ False positives are possible if the environment is using certificates for authen
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 80 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 80 | 70 | A Kerberos TGT was requested in a non-standard manner against $dest$, potentially related to CVE-2021-36942, PetitPotam. |
 
 
 

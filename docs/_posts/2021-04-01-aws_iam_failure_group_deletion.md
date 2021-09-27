@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies failure attempts to delete groups. We want to identify when a group is attempting to be deleted, but either access is denied, there is a conflict or there is no group. This is indicative of administrators performing an action, but also could be suspicious behavior occurring. Review parallel IAM events - recently added users, new groups and so forth.
 
-- **ID**: 723b861a-92eb-11eb-93b8-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-04-01
 - **Author**: Michael Haag, Splunk
+- **ID**: 723b861a-92eb-11eb-93b8-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This detection identifies failure attempts to delete groups. We want to identify
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ This detection will require tuning to provide high fidelity detection capabiltie
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 5.0 | 10 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 5.0 | 10 | 50 | User $user_arn$ has had mulitple failures while attempting to delete groups from $src$ |
 
 
 

@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects a potential kerberoasting attack via service principal name requests
 
-- **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-16
 - **Author**: Jose Hernandez, Patrick Bareiss, Splunk
+- **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
 
 
 #### ATT&CK
@@ -77,9 +77,9 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | Potential kerberoasting attack via service principal name requests detected on $dest$ |
 
 
 

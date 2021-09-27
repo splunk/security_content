@@ -9,17 +9,17 @@ tags:
   - Splunk Cloud
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Use the searches in this Analytic Story to monitor your AWS S3 buckets for evidence of anomalous activity and suspicious behaviors, such as detecting open S3 buckets and buckets being accessed from a new IP. The contextual and investigative searches will give you more information, when required.
 
-- **ID**: 2e8948a5-5239-406b-b56b-6c50w3168af3
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-07-24
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2e8948a5-5239-406b-b56b-6c50w3168af3
 
 #### Narrative
 

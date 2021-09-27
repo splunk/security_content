@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for PowerShell processes started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet. This combination of command-line options is suspicious because it&#39;s overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Deprecated becaue hidden is not needed when download file with System.Net.WebClient.
 
-- **ID**: ee18ed37-0802-4268-9435-b3b91aaa18db
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-20
 - **Author**: David Dorsey, Splunk
+- **ID**: ee18ed37-0802-4268-9435-b3b91aaa18db
 
 
 #### ATT&CK
@@ -82,9 +82,9 @@ Legitimate process can have this combination of command-line options, but it&#39
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 81.0 | 90 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 81.0 | 90 | 90 | PowerShell processes $process$ started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet on host $dest$ executed by user $user$. |
 
 
 

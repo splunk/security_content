@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides detection of KMS keys where action kms:Encrypt is accessible for everyone (also outside of your organization). This is an indicator that your account is compromised and the attacker uses the encryption key to compromise another company.
 
-- **ID**: c79c164f-4b21-4847-98f9-cf6a9f49179e
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Rod Soto, Patrick Bareiss Splunk
+- **ID**: c79c164f-4b21-4847-98f9-cf6a9f49179e
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
 
 
 #### Search
@@ -83,9 +84,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 25.0 | 50 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | AWS account is potentially compromised and user $userIdentity.principalId$ is trying to compromise other accounts. |
 
 
 

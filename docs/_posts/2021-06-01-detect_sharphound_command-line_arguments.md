@@ -31,25 +31,26 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies common command-line arguments used by SharpHound `-collectionMethod` and `invoke-bloodhound`. Being the script is FOSS, function names may be modified, but these changes are dependent upon the operator. In most instances the defaults are used. This analytic works to identify the common command-line attributes used. It does not cover the entirety of every argument in order to avoid false positives.
 
-- **ID**: a0bdd2f6-c2ff-11eb-b918-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-01
 - **Author**: Michael Haag, Splunk
+- **ID**: a0bdd2f6-c2ff-11eb-b918-acde48001122
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery || [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
 
 #### Search
@@ -93,9 +94,9 @@ False positives should be limited as the arguments used are specific to SharpHou
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 24.0 | 30 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 24.0 | 30 | 80 | Possible SharpHound command-Line arguments identified on $dest$ |
 
 
 

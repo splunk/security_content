@@ -23,18 +23,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides detection of an user attaching itself to a different role trust policy. This can be used for lateral movement and escalation of privileges.
 
-- **ID**: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
 - **Author**: Rod Soto, Splunk
+- **ID**: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
 
 
 #### ATT&CK
@@ -42,6 +42,7 @@ This search provides detection of an user attaching itself to a different role t
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search

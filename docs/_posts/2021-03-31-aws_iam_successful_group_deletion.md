@@ -22,18 +22,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following query uses IAM events to track the success of a group being deleted on AWS. This is typically not indicative of malicious behavior, but a precurser to additional events thay may unfold. Review parallel IAM events - recently added users, new groups and so forth. Inversely, review failed attempts in a similar manner.
 
-- **ID**: e776d06c-9267-11eb-819b-acde48001122
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-03-31
 - **Author**: Michael Haag, Splunk
+- **ID**: e776d06c-9267-11eb-819b-acde48001122
 
 
 #### ATT&CK
@@ -41,6 +41,7 @@ The following query uses IAM events to track the success of a group being delete
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1069.003](https://attack.mitre.org/techniques/T1069/003/) | Cloud Groups | Discovery || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ This detection will require tuning to provide high fidelity detection capabiltie
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 5.0 | 10 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 5.0 | 10 | 50 | User $user_arn$ has sucessfully deleted mulitple groups $group_deleted$ from $src$ |
 
 
 

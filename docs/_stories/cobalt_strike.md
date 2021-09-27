@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility.
 
-- **ID**: bcfd17e8-5461-400a-80a2-3b7d1459220c
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-16
 - **Author**: Michael Haag, Splunk
+- **ID**: bcfd17e8-5461-400a-80a2-3b7d1459220c
 
 #### Narrative
 

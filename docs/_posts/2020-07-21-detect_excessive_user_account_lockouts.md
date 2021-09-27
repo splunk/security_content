@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects user accounts that have been locked out a relatively high number of times in a short period.
 
-- **ID**: 95a7f9a5-6096-437e-a19e-86f42ac609bd
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
+- **ID**: 95a7f9a5-6096-437e-a19e-86f42ac609bd
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ It is possible that a legitimate user is experiencing an issue causing multiple 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 36.0 | 60 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 36.0 | 60 | 60 | Multiple accounts have been locked out. Review $nodename$ and $result$ related to $user$. |
 
 
 

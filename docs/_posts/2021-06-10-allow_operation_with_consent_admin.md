@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies a potential privilege escalation attempt to perform malicious task. This registry modification is designed to allow the `Consent Admin` to perform an operation that requires elevation without consent or credentials. We also found this in some attacker to gain privilege escalation to the compromise machine.
 
-- **ID**: 7de17d7a-c9d8-11eb-a812-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 7de17d7a-c9d8-11eb-a812-acde48001122
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ This analytic identifies a potential privilege escalation attempt to perform mal
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 25.0 | 50 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | Suspicious registry modification was performed on endpoint $dest$ by user $user$. This behavior is indicative of privilege escalation. |
 
 
 

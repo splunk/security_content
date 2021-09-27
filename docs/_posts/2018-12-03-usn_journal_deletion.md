@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The fsutil.exe application is a legitimate Windows utility used to perform tasks related to the file allocation table (FAT) and NTFS file systems. The update sequence number (USN) change journal provides a log of all changes made to the files on the disk. This search looks for fsutil.exe deleting the USN journal.
 
-- **ID**: b6e0ff70-b122-4227-9368-4cf322ab43c3
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-03
 - **Author**: David Dorsey, Splunk
+- **ID**: b6e0ff70-b122-4227-9368-4cf322ab43c3
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ None identified
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 45.0 | 50 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 45.0 | 50 | 90 | Possible USN journal deletion on $dest$ |
 
 
 

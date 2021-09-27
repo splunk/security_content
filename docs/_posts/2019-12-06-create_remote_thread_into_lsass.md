@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect remote thread creation into LSASS consistent with credential dumping.
 
-- **ID**: 67d4dbef-9564-4699-8da8-03a151529edc
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-12-06
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 67d4dbef-9564-4699-8da8-03a151529edc
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ Other tools can access LSASS for legitimate reasons and generate an event. In th
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 81.0 | 90 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 81.0 | 90 | 90 | A process has created a remote thread into $TargetImage$ on $dest$. This behavior is indicative of credential dumping and should be investigated. |
 
 
 

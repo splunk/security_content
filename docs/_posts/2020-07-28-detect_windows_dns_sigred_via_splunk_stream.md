@@ -20,18 +20,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects SIGRed via Splunk Stream.
 
-- **ID**: babd8d10-d073-11ea-87d0-0242ac130003
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-28
 - **Author**: Shannon Davis, Splunk
+- **ID**: babd8d10-d073-11ea-87d0-0242ac130003
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ This search detects SIGRed via Splunk Stream.
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
+
 
 
 #### Search

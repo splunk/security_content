@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. PowerSploit and DSInternals are common exploit APIs offering PowerShell modules for various exploits of Windows and Active Directory environments.
 
-- **ID**: e4f126b5-e6bc-4a5c-b1a8-d07bc6c4a49f
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-18
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: e4f126b5-e6bc-4a5c-b1a8-d07bc6c4a49f
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -77,9 +78,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | PowerSploit malware is accessing stored credentials via Get-ADDBAccount module. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

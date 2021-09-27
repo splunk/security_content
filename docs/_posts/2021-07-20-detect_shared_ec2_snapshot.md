@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic utilizes AWS CloudTrail events to identify when an EC2 snapshot permissions are modified to be shared with a different AWS account. This method is used by adversaries to exfiltrate the EC2 snapshot.
 
-- **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-20
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
+
 
 
 #### Search
@@ -82,9 +83,9 @@ It is possible that an AWS admin has legitimately shared a snapshot with others 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 60 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 60 | 80 | AWS EC2 snapshot from account $aws_account_id$ is shared with $requested_account_id$ by user $user_arn$ from $src_ip$ |
 
 
 

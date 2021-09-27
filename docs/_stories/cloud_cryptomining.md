@@ -10,17 +10,17 @@ tags:
   - Change
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor your cloud compute instances for activities related to cryptojacking/cryptomining. New instances that originate from previously unseen regions, users who launch abnormally high numbers of instances, or compute instances started by previously unseen users are just a few examples of potentially malicious behavior.
 
-- **ID**: 3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2019-10-02
 - **Author**: David Dorsey, Splunk
+- **ID**: 3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a
 
 #### Narrative
 

@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic will detect a suspicious net.exe/net1.exe command-line to delete a user on a system. This technique may be use by an administrator for legitimate purposes, however this behavior has been used in the wild to impair some user or deleting adversaries tracks created during its lateral movement additional systems. During triage, review parallel processes for additional behavior. Identify any other user accounts created before or after.
 
-- **ID**: 8776d79c-d26e-11eb-9a56-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-21
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 8776d79c-d26e-11eb-9a56-acde48001122
 
 
 #### ATT&CK
@@ -36,6 +36,7 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
 
 
 #### Search

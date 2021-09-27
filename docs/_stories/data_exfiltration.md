@@ -10,17 +10,17 @@ tags:
   - Network_Traffic
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The stealing of data by an adversary.
 
-- **ID**: 66b0fe0c-1351-11eb-adc1-0242ac120002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-10-21
 - **Author**: Shannon Davis, Splunk
+- **ID**: 66b0fe0c-1351-11eb-adc1-0242ac120002
 
 #### Narrative
 

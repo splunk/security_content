@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies the process - `esentutl.exe` - being used to capture credentials stored in ntds.dit or the SAM file on disk. During triage, review parallel processes and determine if legitimate activity. Upon determination of illegitimate activity, take further action to isolate and contain the threat.
 
-- **ID**: d372f928-ce4f-11eb-a762-acde48001122
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-18
 - **Author**: Michael Haag, Splunk
+- **ID**: d372f928-ce4f-11eb-a762-acde48001122
 
 
 #### ATT&CK
@@ -86,9 +86,9 @@ False positives should be limited. Filter as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user user$ attempting to capture credentials for offline cracking or observability. |
 
 
 

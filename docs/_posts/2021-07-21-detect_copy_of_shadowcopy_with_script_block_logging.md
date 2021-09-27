@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -26,12 +26,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies `copy` or `[System.IO.File]::Copy` being used to capture the SAM, SYSTEM or SECURITY hives identified in script block. This will catch the most basic use cases for credentials being taken for offline cracking. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **ID**: 9251299c-ea5b-11eb-a8de-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-21
 - **Author**: Michael Haag, Splunk
+- **ID**: 9251299c-ea5b-11eb-a8de-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hive
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | PowerShell was identified running a script to capture the SAM hive on endpoint $ComputerName$ by user $user$. |
 
 
 

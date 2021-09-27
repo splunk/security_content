@@ -31,25 +31,26 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies SharpHound binary usage by using the `OriginalFileName` from Sysmon. In addition to renaming the PE, other coverage is available to detect command-line arguments. This particular analytic only looks for the OriginalFileName of `SharpHound.exe`. It is possible older instances of SharpHound.exe have different original filenames. Dependent upon the operator, the code may be re-compiled and the attributes removed or changed to anything else. During triage, review the metadata of the binary in question. Review parallel processes for suspicious behavior. Identify the source of this binary.
 
-- **ID**: dd04b29a-beed-11eb-87bc-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-27
 - **Author**: Michael Haag, Splunk
+- **ID**: dd04b29a-beed-11eb-87bc-acde48001122
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery || [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
 
 #### Search
@@ -94,9 +95,9 @@ False positives should be limited as this is specific to a file attribute not us
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 24.0 | 30 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 24.0 | 30 | 80 | Potential SharpHound binary identified on $dest$ |
 
 
 

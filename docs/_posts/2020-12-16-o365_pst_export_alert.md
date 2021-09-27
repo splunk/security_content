@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects when a user has performed an Ediscovery search or exported a PST file from the search. This PST file usually has sensitive information including email body content
 
-- **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Rod Soto, Splunk
+- **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search detects when a user has performed an Ediscovery search or exported a
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 80 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 80 | 60 | User $Source$ has exported a PST file from the search using this operation- $Operation$ with a severity of $Severity$ |
 
 
 

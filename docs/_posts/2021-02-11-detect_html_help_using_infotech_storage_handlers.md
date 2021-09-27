@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTML Help (CHM) file using InfoTech Storage Handlers. This particular technique will load Windows script code from a compiled help file, using InfoTech Storage Handlers. itss.dll will load upon execution. Three InfoTech Storage handlers are supported - ms-its, its, mk:@MSITStore. ITSS may be used to launch a specific html/htm file from within a CHM file. CHM files may contain nearly any file type embedded. Upon a successful execution, the following script engines may be used for execution - JScript, VBScript, VBScript.Encode, JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll loading into hh.exe upon execution. The &#34;htm&#34; and &#34;html&#34; file extensions were the only extensions observed to be supported for the execution of Shortcut commands or WSH script code. During investigation, identify script content origination. hh.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
-- **ID**: 0b2eefa5-5508-450d-b970-3dd2fb761aec
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-11
 - **Author**: Michael Haag, Splunk
+- **ID**: 0b2eefa5-5508-450d-b970-3dd2fb761aec
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ It is rare to see instances of InfoTech Storage Handlers being used, but it does
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | $process_name$ has been identified using Infotech Storage Handlers to load a specific file within a CHM on $dest$ under user $user$. |
 
 
 

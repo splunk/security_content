@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a modification to registry to enable rdp to a machine with different port number. This technique was seen in some atttacker tries to do lateral movement and remote access to a compromised machine to gain control of it.
 
-- **ID**: 99495452-b899-11eb-96dc-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-19
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 99495452-b899-11eb-96dc-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search is to detect a modification to registry to enable rdp to a machine w
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
 
 
 #### Search
@@ -77,9 +78,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | RDP was moved to a non-standard port on $dest$ by $user$. |
 
 
 

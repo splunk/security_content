@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect tactics used by malware to evade defenses on Windows endpoints. A few of these include suspicious `reg.exe` processes, files hidden with `attrib.exe` and disabling user-account control, among many others 
 
-- **ID**: 56e24a28-5003-4047-b2db-e8f3c4618064
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-05-31
 - **Author**: David Dorsey, Splunk
+- **ID**: 56e24a28-5003-4047-b2db-e8f3c4618064
 
 #### Narrative
 

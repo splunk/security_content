@@ -25,25 +25,29 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies access to PowerSploit modules that enable illegaly access user content, such as key logging, audio recording, screenshots, tapping into http and RDP sessions, etc.
 
-- **ID**: 01fc7d91-eb0c-478e-8633-e4fa4904463a
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 01fc7d91-eb0c-478e-8633-e4fa4904463a
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement || [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection || [T1123](https://attack.mitre.org/techniques/T1123/) | Audio Capture | Collection || [T1563](https://attack.mitre.org/techniques/T1563/) | Remote Service Session Hijacking | Lateral Movement |
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+| [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
+| [T1123](https://attack.mitre.org/techniques/T1123/) | Audio Capture | Collection |
+| [T1563](https://attack.mitre.org/techniques/T1563/) | Remote Service Session Hijacking | Lateral Movement |
+
 
 
 #### Search
@@ -84,9 +88,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 85.0 | 85 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 85.0 | 85 | 100 | PowerSploit malware is tapping into user content - microphone, camera, ongoing HTTP or RDP session. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

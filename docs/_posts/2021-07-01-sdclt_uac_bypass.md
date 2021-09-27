@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a suspicious sdclt.exe registry modification. This technique is commonly seen when attacker try to bypassed UAC by using sdclt.exe application by modifying some registry that sdclt.exe tries to open or query with payload file path on it to be executed.
 
-- **ID**: d71efbf6-da63-11eb-8c6e-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: d71efbf6-da63-11eb-8c6e-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ Limited to no false positives are expected.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | Suspicious modification of registry $registry_path$ with possible payload path $registry_value_name$ in $dest$ |
 
 
 

@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 An attacker tries might try to use different version of a system command without overriding original, or they might try to avoid some detection running the process from a different folder. This detection checks that a list of system processes run inside C:\\Windows\System32 or C:\\Windows\SysWOW64 The list of system processes has been extracted from https://github.com/splunk/security_content/blob/develop/lookups/is_windows_system_file.csv and the original detection https://github.com/splunk/security_content/blob/develop/detections/system_processes_run_from_unexpected_locations.yml
 
-- **ID**: 28179107-099a-464a-94d3-08301e6c055f
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-08-25
 - **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: 28179107-099a-464a-94d3-08301e6c055f
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ An attacker tries might try to use different version of a system command without
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
 
 
 #### Search
@@ -100,9 +101,9 @@ None
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A system process $process_name$ with commandline $cmd_line$ spawn in non-default folder path in host $dest_device_id$ |
 
 
 

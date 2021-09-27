@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides detection of users with KMS keys performing encryption specifically against S3 buckets.
 
-- **ID**: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-11
 - **Author**: Rod Soto, Patrick Bareiss Splunk
+- **ID**: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ This search provides detection of users with KMS keys performing encryption spec
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ bucket with S3 encryption
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 15.0 | 30 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | User $user$ with KMS keys is performing encryption, against S3 buckets on these files $dest_file$ |
 
 
 

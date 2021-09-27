@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following detection identifies excessive AccessDenied events within an hour timeframe. It is possible that an access key to AWS may have been stolen and is being misused to perform discovery events. In these instances, the access is not available with the key stolen therefore these events will be generated.
 
-- **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-04-05
 - **Author**: Michael Haag, Splunk
+- **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following detection identifies excessive AccessDenied events within an hour 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ It is possible to start this detection will need to be tuned by source IP or use
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 10.0 | 20 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 10.0 | 20 | 50 | User $userIdentity.arn$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied. |
 
 
 

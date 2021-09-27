@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor for and investigate activities that may be associated with a Windows privilege-escalation attack, including unusual processes running on endpoints, modified registry keys, and more.
 
-- **ID**: 644e22d3-598a-429c-a007-16fdb802cae5
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-02-04
 - **Author**: David Dorsey, Splunk
+- **ID**: 644e22d3-598a-429c-a007-16fdb802cae5
 
 #### Narrative
 

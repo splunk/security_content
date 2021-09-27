@@ -20,7 +20,7 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,12 +30,12 @@ A suspicious event will have `PowerShell`, the method `POST` and `autodiscover.j
 An event will look similar to `POST /autodiscover/autodiscover.json a=dsxvu@fnsso.flq/powershell/?X-Rps-CAT=VgEAVAdXaW5kb3d...` (abbreviated) \
 Review the source attempting to perform this activity against your environment. In addition, review PowerShell logs and access recently granted to Exchange roles.
 
-- **ID**: 29228ab4-0762-11ec-94aa-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-27
 - **Author**: Michael Haag, Splunk
+- **ID**: 29228ab4-0762-11ec-94aa-acde48001122
 
 
 #### ATT&CK
@@ -43,6 +43,7 @@ Review the source attempting to perform this activity against your environment. 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
 
 
 #### Search
@@ -82,9 +83,9 @@ Limited false positives, however, tune as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | Activity related to ProxyShell has been identified on $dest$. Review events and take action accordingly. |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies searchprotocolhost.exe with no command line arguments. It is unusual for searchprotocolhost.exe to execute with no command line arguments present. This particular behavior is common with malicious software, including Cobalt Strike. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. searchprotocolhost.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64.
 
-- **ID**: f52d2db8-31f9-4aa7-a176-25779effe55c
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-23
 - **Author**: Michael Haag, Splunk
+- **ID**: f52d2db8-31f9-4aa7-a176-25779effe55c
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
 
 
 #### Search
@@ -83,9 +84,9 @@ Limited false positives may be present in small environments. Tuning may be requ
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | Suspicious searchprotocolhost.exe process with no command line arguments executed on $dest$ by $user$ |
 
 
 

@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor and detect techniques used by attackers who leverage the regsvr32.exe process to execute malicious code.
 
-- **ID**: b8bee41e-624f-11eb-ae93-0242ac130002
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-29
 - **Author**: Michael Haag, Splunk
+- **ID**: b8bee41e-624f-11eb-ae93-0242ac130002
 
 #### Narrative
 

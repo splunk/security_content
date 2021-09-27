@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor and detect techniques used by attackers who leverage the mshta.exe process to execute malicious code.
 
-- **ID**: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-20
 - **Author**: Bhavin Patel, Michael Haag, Splunk
+- **ID**: 2b1800dd-92f9-47dd-a981-fdf13w1q5d55
 
 #### Narrative
 

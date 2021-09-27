@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 this search is to detect a suspicious office product process that spawn cmd child process. This is commonly seen in a ms office product having macro to execute shell command to download or execute malicious lolbin relative to its malicious code. This is seen in trickbot spear phishing doc where it execute shell cmd to run mshta payload.
 
-- **ID**: b8b19420-e892-11eb-9244-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-19
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: b8b19420-e892-11eb-9244-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ IT or network admin may create an document automation that will run shell script
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | an office product parent process $parent_process_name$ spawn child process $process_name$ in host $dest$ |
 
 
 

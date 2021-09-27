@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects accounts with high number of Single Sign ON (SSO) logon errors. Excessive logon errors may indicate attempts to bruteforce of password or single sign on token hijack or reuse.
 
-- **ID**: 8158ccc4-6038-11eb-ae93-0242ac130002
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
+- **ID**: 8158ccc4-6038-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -40,6 +40,7 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ Logon errors may not be malicious in nature however it may indicate attempts to 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | User $UserId$ has caused excessive number of SSO logon errors from $ActorIpAddress$ using UserAgent $UserAgent$. |
 
 
 

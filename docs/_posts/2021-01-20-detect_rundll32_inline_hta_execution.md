@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies &#34;rundll32.exe&#34; execution with inline protocol handlers. &#34;JavaScript&#34;, &#34;VBScript&#34;, and &#34;About&#34; are the only supported options when invoking HTA content directly on the command-line. This type of behavior is commonly observed with fileless malware or application whitelisting bypass techniques. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process &#34;rundll32.exe&#34; and its parent process.
 
-- **ID**: 91c79f14-5b41-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-20
 - **Author**: Michael Haag, Splunk
+- **ID**: 91c79f14-5b41-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | Suspicious rundll32.exe inline HTA execution on $dest$ |
 
 
 

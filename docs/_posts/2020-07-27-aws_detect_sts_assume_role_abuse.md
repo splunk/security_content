@@ -23,18 +23,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides detection of suspicious use of sts:AssumeRole. These tokens can be created on the go and used by attackers to move laterally and escalate privileges.
 
-- **ID**: 8e565314-b6a2-46d8-9f05-1a34a176a662
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
 - **Author**: Rod Soto, Splunk
+- **ID**: 8e565314-b6a2-46d8-9f05-1a34a176a662
 
 
 #### ATT&CK
@@ -42,6 +42,7 @@ This search provides detection of suspicious use of sts:AssumeRole. These tokens
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search

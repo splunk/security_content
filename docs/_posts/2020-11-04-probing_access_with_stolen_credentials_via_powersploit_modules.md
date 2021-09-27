@@ -22,25 +22,27 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies use of PowerSploit modules that facilitate access probing with admin credentials as well as probing access to system services.
 
-- **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-04
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
 
 
 #### Search
@@ -81,9 +83,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 60.0 | 60 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 60.0 | 60 | 100 | PowerSploit malware is probing access with stolen credentials. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

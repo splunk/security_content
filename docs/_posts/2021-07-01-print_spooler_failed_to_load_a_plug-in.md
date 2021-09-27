@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -29,12 +29,12 @@ Within the proof of concept code, the following error will occur - &#34;The prin
 The analytic is based on file path and failure to load the plug-in. \
 During triage, isolate the endpoint and review for source of exploitation. Capture any additional file modification events.
 
-- **ID**: 1adc9548-da7c-11eb-8f13-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
 - **Author**: Mauricio Velazco, Michael Haag, Splunk
+- **ID**: 1adc9548-da7c-11eb-8f13-acde48001122
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ False positives are unknown and filtering may be required.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. |
 
 
 

@@ -21,25 +21,26 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe. Microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319 and is rarely utilized. When investigating, identify the executed code on disk and review. A spawned child process from microsoft.workflow.compiler.exe is uncommon. In any instance, microsoft.workflow.compiler.exe spawning from an Office product or any living off the land binary is highly suspect.
 
-- **ID**: f0db4464-55d9-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
+- **ID**: f0db4464-55d9-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion || [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 
 #### Search
@@ -85,9 +86,9 @@ Although unlikely, some legitimate applications may use a moved copy of microsof
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | Suspicious renamed microsoft.workflow.compiler.exe binary ran on $dest$ by $user$ |
 
 
 

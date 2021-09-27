@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for the execution of `nltest.exe` with command-line arguments utilized to query for Domain Trust information. Two arguments `/domain trusts`, returns a list of trusted domains, and `/all_trusts`, returns all trusted domains. Red Teams and adversaries alike use NLTest.exe to enumerate the current domain to assist with further understanding where to pivot next.
 
-- **ID**: c3e05466-5f22-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-25
 - **Author**: Michael Haag, Splunk
+- **ID**: c3e05466-5f22-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
 
 
 #### Search
@@ -82,9 +83,9 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 15.0 | 30 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | Domain trust discovery execution on $dest$ |
 
 
 

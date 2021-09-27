@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 this search is to detect potential trickbot infection through the create/connected named pipe to the system. This technique is used by trickbot to communicate to its c2 to post or get command during infection.
 
-- **ID**: 1804b0a4-a682-11eb-8f68-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-26
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 1804b0a4-a682-11eb-8f68-acde48001122
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ this search is to detect potential trickbot infection through the create/connect
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | Possible Trickbot namedpipe created on $Computer$ by $Image$ |
 
 
 

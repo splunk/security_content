@@ -22,18 +22,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect failed Okta SSO events
 
-- **ID**: 371a6545-2618-4032-ad84-93386b8698c5
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Rico Valdez, Splunk
+- **ID**: 371a6545-2618-4032-ad84-93386b8698c5
 
 
 #### ATT&CK

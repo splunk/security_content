@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for a batch file (.bat) written to the Windows system directory tree.
 
-- **ID**: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
 - **Author**: Rico Valdez, Splunk
+- **ID**: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ It is possible for this search to generate a notable event for a batch file writ
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A file - $file_name$ was written to system32 has occurred on endpoint $dest$ by user $user$. |
 
 
 

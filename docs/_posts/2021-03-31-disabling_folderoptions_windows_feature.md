@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to identify registry modification to disable folder options feature of windows to show hidden files, file extension and etc. This technique used by malware in combination if disabling show hidden files feature to hide their files and also to hide the file extension to lure the user base on file icons or fake file extensions.
 
-- **ID**: 83776de4-921a-11eb-868a-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 83776de4-921a-11eb-868a-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ admin may disable this application for non technical user.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 25.0 | 50 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | The Windows Folder Options, to hide files, was disabled on $dest$ by $user$. |
 
 
 

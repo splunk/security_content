@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
 
-- **ID**: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-7-13
 - **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 
 
 #### Search
@@ -83,9 +84,9 @@ There are circumstances where an application may legitimately execute and intera
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | Potential malicious landing to the console via unexpected programs that called cmd.exe.  Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ where parent process $parent_process$ spwaned $process_name$. |
 
 
 

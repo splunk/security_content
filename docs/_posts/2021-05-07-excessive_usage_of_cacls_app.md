@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe` or `icacls.exe` application to change file or folder permission. This behavior is commonly seen where the adversary attempts to impair some users from deleting or accessing its malware components or artifact from the compromised system.
 
-- **ID**: 0bdf6092-af17-11eb-939a-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-07
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 0bdf6092-af17-11eb-939a-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe` o
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ Administrators or administrative scripts may use this application. Filter as nee
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | An excessive amount of $process_name$ was executed on $dest$ attempting to modify permissions. |
 
 
 

@@ -17,18 +17,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK) to help identify command lines with lengths that are unusual for a given user.
 
-- **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2019-05-08
 - **Author**: Rico Valdez, Splunk
+- **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
 
 
 

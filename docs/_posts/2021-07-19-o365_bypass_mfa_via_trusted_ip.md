@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects newly added IP addresses/CIDR blocks to the list of MFA Trusted IPs to bypass multi factor authentication. Attackers are often known to use this technique so that they can bypass the MFA system.
 
-- **ID**: c783dd98-c703-4252-9e8a-f19d9f66949e
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Bhavin Patel, Splunk
+- **ID**: c783dd98-c703-4252-9e8a-f19d9f66949e
 
 
 #### ATT&CK
@@ -86,9 +86,9 @@ Unless it is a special case, it is uncommon to continually update Trusted IPs to
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a list of trusted IPs to bypass MFA |
 
 
 

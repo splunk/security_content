@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect potential plain HTTP POST method data exfiltration. This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary where arguments or commands are sent in plain text to the remote C2 server using HTTP POST method as part of data exfiltration.
 
-- **ID**: e2b36208-a364-11eb-8909-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2021-04-22
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: e2b36208-a364-11eb-8909-acde48001122
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A http post $http_method$ sending packet with plain text of information $form_data$ in uri path $uri_path$ |
 
 
 

@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies a potential adversary that changes the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft, ransomware or coinminer scripts. This behavior is meant to evade detection and prevent access to their component files.
 
-- **ID**: b76eae28-cd25-11eb-9c92-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-14
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: b76eae28-cd25-11eb-9c92-acde48001122
 
 
 #### ATT&CK
@@ -36,6 +36,7 @@ This analytic identifies a potential adversary that changes the security permiss
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
 
 
 #### Search
@@ -77,9 +78,9 @@ network administrator may use this windows utility but this is not a common prac
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 50 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 50 | 70 | A cacls process $process_name$ with commandline $cmd_line$ try to deny a permission of a file or directory in host $dest_device_id$ |
 
 
 

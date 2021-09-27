@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects the assignment of rights to accesss content from another mailbox. This is usually only assigned to a service account.
 
-- **ID**: b25d2973-303e-47c8-bacd-52b61604c6a7
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-15
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: b25d2973-303e-47c8-bacd-52b61604c6a7
 
 
 #### ATT&CK
@@ -77,9 +77,9 @@ Service Accounts
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 80 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 80 | 60 | User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$ that allow access to sensitive |
 
 
 

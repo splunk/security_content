@@ -23,18 +23,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search will detect a spike in the number of API calls made to your cloud infrastructure environment by a user.
 
-- **ID**: 0840ddf1-8c89-46ff-b730-c8d6722478c0
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-07
 - **Author**: David Dorsey, Splunk
+- **ID**: 0840ddf1-8c89-46ff-b730-c8d6722478c0
 
 
 #### ATT&CK
@@ -91,9 +91,9 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 15.0 | 30 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | user $user$ has made $api_calls$ api calls, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$. |
 
 
 

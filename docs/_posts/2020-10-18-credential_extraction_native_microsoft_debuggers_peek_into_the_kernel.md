@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Native Microsoft debuggers, such as kd, ntkd, livekd and windbg, can be leveraged to read credential material directly from memory and process dumps.
 
-- **ID**: c20bb8ec-e1b0-4640-b0ef-3a4c54f8c112
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-18
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: c20bb8ec-e1b0-4640-b0ef-3a4c54f8c112
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ Although unlikely, using debuggers this way may be indicative of developers anal
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | Malicious actor is extracting/decoding encoded credentials via Microsoft&#39;s native debugging tools. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for PowerShell processes that have encoded the script within the command-line. Malware has been seen using this parameter, as it obfuscates the code and makes it relatively easy to pass a script on the command-line.
 
-- **ID**: c4db14d9-7909-48b4-a054-aa14d89dbb19
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
+- **ID**: c4db14d9-7909-48b4-a054-aa14d89dbb19
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ This search looks for PowerShell processes that have encoded the script within t
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
+
 
 
 #### Search
@@ -82,9 +83,9 @@ System administrators may use this option, but it&#39;s not common.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 70 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 70 | 50 | Powershell.exe running potentially malicious encodede commands on $dest$ |
 
 
 

@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search uses the Kubernetes logs from a nginx ingress controller to detect local file inclusion attacks.
 
-- **ID**: 0f83244b-425b-4528-83db-7a88c5f66e48
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-20
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 0f83244b-425b-4528-83db-7a88c5f66e48
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | Local File Inclusion Attack detected on $host$ |
 
 
 

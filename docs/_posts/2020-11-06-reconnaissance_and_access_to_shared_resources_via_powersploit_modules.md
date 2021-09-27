@@ -22,25 +22,27 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies access to PowerSploit modules that discover and access network and distributed file system shares.
 
-- **ID**: 6b7ca431-6b1e-4b40-9589-21cb368e369e
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 6b7ca431-6b1e-4b40-9589-21cb368e369e
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement || [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery || [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
+| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement || [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
+| [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
+
 
 
 #### Search
@@ -81,9 +83,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | PowerSploit malware is searching for and accessing network shares. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

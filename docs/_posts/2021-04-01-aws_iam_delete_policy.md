@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following detection identifes when a policy is deleted on AWS. This does not identify whether successful or failed, but the error messages tell a story of suspicious attempts. There is a specific process to follow when deleting a policy. First, detach the policy from all users, groups, and roles that the policy is attached to, using DetachUserPolicy , DetachGroupPolicy , or DetachRolePolicy.
 
-- **ID**: ec3a9362-92fe-11eb-99d0-acde48001122
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
 - **Last Updated**: 2021-04-01
 - **Author**: Michael Haag, Splunk
+- **ID**: ec3a9362-92fe-11eb-99d0-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following detection identifes when a policy is deleted on AWS. This does not
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ This detection will require tuning to provide high fidelity detection capabiltie
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 10.0 | 20 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 10.0 | 20 | 50 | User $user_arn$ has deleted AWS Policies from IP address $src$ by executing the following command $eventName$ |
 
 
 

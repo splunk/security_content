@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Adversaries may use Obfuscated Files or Information to hide artifacts of an intrusion from analysis.
 
-- **ID**: 0bd01a54-8cbe-11eb-abcd-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-24
 - **Author**: Michael Haag, Splunk
+- **ID**: 0bd01a54-8cbe-11eb-abcd-acde48001122
 
 #### Narrative
 

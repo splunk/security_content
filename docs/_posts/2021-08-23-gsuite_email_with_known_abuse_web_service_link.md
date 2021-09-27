@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytics is to detect a gmail containing a link that are known to be abused by malware or attacker like pastebin, telegram and discord to deliver malicious payload. This event can encounter some normal email traffic within organization and external email that normally using this application and services.
 
-- **ID**: 8630aa22-042b-11ec-af39-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 8630aa22-042b-11ec-af39-acde48001122
 
 
 #### ATT&CK
@@ -74,9 +74,9 @@ normal email contains this link that are known application within the organizati
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 25.0 | 50 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | suspicious email from $source.address$ to $destination{}.address$ |
 
 
 

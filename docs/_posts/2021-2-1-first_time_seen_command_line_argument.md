@@ -22,25 +22,28 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for command-line arguments that use a `/c` parameter to execute a command that has not previously been seen. This is an implementation on SPL2 of the rule `First time seen command line argument` by @bpatel.
 
-- **ID**: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-2-1
 - **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution || [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  || [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+| [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  |
+| [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
+
 
 
 #### Search
@@ -87,9 +90,9 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 30.0 | 50 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 30.0 | 50 | 60 | A cmd process $process_name$ with commandline $cmd_line$ try to execute command has not previously seen in host $dest_device_id$ |
 
 
 

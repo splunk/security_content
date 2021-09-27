@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies access to PowerSploit modules that create accounts illegaly.
 
-- **ID**: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ This detection identifies access to PowerSploit modules that create accounts ill
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1585](https://attack.mitre.org/techniques/T1585/) | Establish Accounts | Resource Development |
+
 
 
 #### Search
@@ -75,9 +76,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | PowerSploit malware is creating illegal domain accounts. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

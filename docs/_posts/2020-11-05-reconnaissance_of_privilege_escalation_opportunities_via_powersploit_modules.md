@@ -25,25 +25,28 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies use of PowerSploit modules for assessment of privilege escalation opportunities.
 
-- **ID**: b9b4492c-2af8-449b-beb4-b1b78d963321
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: b9b4492c-2af8-449b-beb4-b1b78d963321
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+| [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
 
 
 #### Search
@@ -84,9 +87,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 60.0 | 60 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 60.0 | 60 | 100 | PowerSploit malware is engaging its privilege escalation module. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

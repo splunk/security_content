@@ -20,7 +20,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,12 +30,12 @@ schtasks.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64
 The following DLL(s) are loaded when schtasks.exe or TaskService is launched -`taskschd.dll`. If found loaded by another process, it is possible a scheduled task is being registered within that process context in memory.\
 Upon triage, identify the task scheduled source. Was it schtasks.exe or via TaskService? Review the job created and the Command to be executed. Capture any artifacts on disk and review. Identify any parallel processes within the same timeframe to identify source.
 
-- **ID**: 203ef0ea-9bd8-11eb-8201-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-04-12
 - **Author**: Michael Haag, Splunk
+- **ID**: 203ef0ea-9bd8-11eb-8201-acde48001122
 
 
 #### ATT&CK
@@ -85,9 +85,9 @@ False positives are possible if legitimate applications are allowed to register 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | A windows scheduled task was created (task name=$Task_Name$) on $dest$ by the following command: $Command$ |
 
 
 

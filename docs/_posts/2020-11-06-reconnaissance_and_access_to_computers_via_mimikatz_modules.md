@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies use of Mimikatz modules for discovery of computers and servers and access to them.
 
-- **ID**: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ This detection identifies use of Mimikatz modules for discovery of computers and
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
 
 
 #### Search
@@ -75,9 +76,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 50.0 | 50 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 50.0 | 50 | 100 | Mimikatz malware is collecting information about computers. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe.
 
-- **ID**: dcfd6b40-42f9-469d-a433-2e53f7486664
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
 - **Author**: Bhavin Patel, Splunk
+- **ID**: dcfd6b40-42f9-469d-a433-2e53f7486664
 
 
 #### ATT&CK
@@ -88,9 +88,9 @@ There are circumstances where an application may legitimately execute and intera
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ running prohibited applications. |
 
 
 

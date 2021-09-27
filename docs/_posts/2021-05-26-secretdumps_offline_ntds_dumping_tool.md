@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic detects a potential usage of secretsdump.py tool for dumping credentials (ntlm hash) from a copy of ntds.dit and SAM.Security,SYSTEM registrry hive. This technique was seen in some attacker that dump ntlm hashes offline after having a copy of ntds.dit and SAM/SYSTEM/SECURITY registry hive.
 
-- **ID**: 5672819c-be09-11eb-bbfb-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-26
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 5672819c-be09-11eb-bbfb-acde48001122
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | A secretdump process $process_name$ with secretdump commandline $process$ to dump credentials in host $dest$ |
 
 
 

@@ -8,17 +8,17 @@ tags:
   - Splunk Cloud
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Track when a user assumes an IAM role in another GCP account to obtain cross-account access to services and resources in that account. Accessing new roles could be an indication of malicious activity.
 
-- **ID**: 0432039c-ef41-4b03-b157-450c25dad1e6
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-09-01
 - **Author**: Rod Soto, Splunk
+- **ID**: 0432039c-ef41-4b03-b157-450c25dad1e6
 
 #### Narrative
 

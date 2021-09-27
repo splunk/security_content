@@ -25,18 +25,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search finds for the number successfully destroyed cloud instances for every 4 hour block. This is split up between weekdays and the weekend. It then applies the probability densitiy model previously created and alerts on any outliers.
 
-- **ID**: ef629fc9-1583-4590-b62a-f2247fbf7bbf
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-08-21
 - **Author**: David Dorsey, Splunk
+- **ID**: ef629fc9-1583-4590-b62a-f2247fbf7bbf
 
 
 #### ATT&CK

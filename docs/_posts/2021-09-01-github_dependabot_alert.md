@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for Dependabot Alerts in Github logs.
 
-- **ID**: 05032b04-4469-4034-9df7-05f607d75cba
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 05032b04-4469-4034-9df7-05f607d75cba
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 27.0 | 30 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 27.0 | 30 | 90 | Vulnerabilities found in packages used by GitHub repository $repository$ |
 
 
 

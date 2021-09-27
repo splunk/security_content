@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a suspicious bcdedit.exe execution to ignore all failures. This technique was used by ransomware to prevent the compromise machine automatically boot in repair mode.
 
-- **ID**: 7742aa92-c9d9-11eb-bbfc-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 7742aa92-c9d9-11eb-bbfc-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search is to detect a suspicious bcdedit.exe execution to ignore all failur
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ Administrators may modify the boot configuration ignore failure during testing a
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A suspicious process $process_name$ with process id $process_id$ contains commandline $process$ to ignore all bcdedit execution failure in host $dest$ |
 
 
 

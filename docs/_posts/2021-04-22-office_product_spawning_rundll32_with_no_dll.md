@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following detection identifies the latest behavior utilized by IcedID malware family. This detection identifies any Windows Office Product spawning `rundll32.exe` without a `.dll` file extension. In malicious instances, the command-line of `rundll32.exe` will look like `rundll32 ..\oepddl.igk2,DllRegisterServer`. In addition, Threat Research has released a detection identifying the use of `DllRegisterServer` on the command-line of `rundll32.exe`. In this instance, we narrow our detection down to the Office suite as a parent process. During triage, review all file modifications. Capture and analyze the `DLL` that was dropped to disk. The Office Product will have reached out to a remote destination, capture and block the IPs or domain. Review additional parallel processes for further activity.
 
-- **ID**: c661f6be-a38c-11eb-be57-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-22
 - **Author**: Michael Haag, Splunk
+- **ID**: c661f6be-a38c-11eb-be57-acde48001122
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ False positives should be limited, but if any are present, filter as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | office parent process $parent_process_name$ will execute a suspicious child process $process_name$ with process id $process_id$ and no dll commandline $process$ in host $dest$ |
 
 
 

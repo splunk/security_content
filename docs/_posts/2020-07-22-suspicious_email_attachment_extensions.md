@@ -21,18 +21,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for emails that have attachments with suspicious file extensions.
 
-- **ID**: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Email](https://docs.splunk.com/Documentation/CIM/latest/User/Email)
 - **Last Updated**: 2020-07-22
 - **Author**: David Dorsey, Splunk
+- **ID**: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 
 
 #### ATT&CK

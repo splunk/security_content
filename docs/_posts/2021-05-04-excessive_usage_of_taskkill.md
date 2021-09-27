@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies excessive usage of `taskkill.exe` application. This application is commonly used by adversaries to evade detections by killing security product processes or even other processes to evade detection.
 
-- **ID**: fe5bca48-accb-11eb-a67c-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-04
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: fe5bca48-accb-11eb-a67c-acde48001122
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ Unknown. Filter as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 28.0 | 40 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 28.0 | 40 | 70 | Excessive usage  of taskkill.exe with process id $process_id$ (more than 10 within 1m) has been detected on $dest$ with a parent process of $parent_process_name$. |
 
 
 

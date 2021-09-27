@@ -29,25 +29,27 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect various attacks such as packet forging in the Infrastructure.
 
-- **ID**: c3be767e-7959-44c5-8976-0e9c12a91ad2
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-28
 - **Author**: Mikael Bjerkeland, Splunk
+- **ID**: c3be767e-7959-44c5-8976-0e9c12a91ad2
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access || [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact || [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
+| [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
+| [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+| [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
 
 
 #### Search

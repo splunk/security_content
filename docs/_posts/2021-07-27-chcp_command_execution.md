@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect execution of chcp.exe application. this utility is used to change the active code page of the console. This technique was seen in icedid malware to know the locale region/language/country of the compromise host.
 
-- **ID**: 21d236ec-eec1-11eb-b23e-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-27
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 21d236ec-eec1-11eb-b23e-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search is to detect execution of chcp.exe application. this utility is used
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ other tools or script may used this to change code page to UTF-* or others
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 9.0 | 30 | 30 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 9.0 | 30 | 30 | parent process $parent_process_name$ spawning chcp process $process_name$ with parent command line $parent_process$ |
 
 
 

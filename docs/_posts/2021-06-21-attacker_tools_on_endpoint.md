@@ -27,25 +27,27 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for execution of commonly used attacker tools on an endpoint.
 
-- **ID**: a51bfe1a-94f0-48cc-b4e4-16a110145893
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: a51bfe1a-94f0-48cc-b4e4-16a110145893
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion || [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+| [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion || [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -91,9 +93,9 @@ Some administrator activity can be potentially triggered, please add those users
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | An attacker tool $process_name$,listed in attacker_tools.csv is executed on host $dest$ by User $user$. This process $process_name$ is known to do- $description$ |
 
 
 

@@ -23,25 +23,28 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies access to PowerSploit modules that enable illegal control of services and processes, such as installing or spoofing of malicious services, injecting malicious code in DLLs and EXEs, invoking shell code and WMI commands, modifying access to service objects, etc.
 
-- **ID**: 0e910e5b-309d-4bc3-8af2-0030c02aa353
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 0e910e5b-309d-4bc3-8af2-0030c02aa353
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation || [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution || [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+| [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+| [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+
 
 
 #### Search
@@ -84,9 +87,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 90.0 | 90 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 90.0 | 90 | 100 | PowerSploit malware is controlling computer&#39;s processess and services. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

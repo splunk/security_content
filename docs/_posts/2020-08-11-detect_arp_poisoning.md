@@ -29,25 +29,27 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 By enabling Dynamic ARP Inspection as a Layer 2 Security measure on the organization&#39;s network devices, we will be able to detect ARP Poisoning attacks in the Infrastructure.
 
-- **ID**: b44bebd6-bd39-467b-9321-73971bcd7aac
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-08-11
 - **Author**: Mikael Bjerkeland, Splunk
+- **ID**: b44bebd6-bd39-467b-9321-73971bcd7aac
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access || [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact || [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
+| [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
+| [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+| [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
 
 
 #### Search

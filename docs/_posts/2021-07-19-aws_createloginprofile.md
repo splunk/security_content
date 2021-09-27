@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for AWS CloudTrail events where a user A(victim A) creates a login profile for user B, followed by a AWS Console login event from user B from the same src_ip as user B. This correlated event can be indicative of privilege escalation since both events happened from the same src_ip
 
-- **ID**: 2a9b80d3-6340-4345-11ad-212bf444d111
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2a9b80d3-6340-4345-11ad-212bf444d111
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | User $user_arn$ is attempting to create a login profile for $requestParameters.userName$ and did a console login from this IP $src_ip$ |
 
 
 

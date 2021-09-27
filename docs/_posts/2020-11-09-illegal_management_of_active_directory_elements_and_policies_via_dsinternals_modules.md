@@ -23,25 +23,28 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies use of DSInternals modules for illegal management of Active Directoty elements and policies.
 
-- **ID**: a587ca9f-c138-47b4-ba51-699f319b8cc5
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: a587ca9f-c138-47b4-ba51-699f319b8cc5
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence || [T1207](https://attack.mitre.org/techniques/T1207/) | Rogue Domain Controller | Defense Evasion || [T1484](https://attack.mitre.org/techniques/T1484/) | Domain Policy Modification | Defense Evasion, Privilege Escalation |
+| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+| [T1207](https://attack.mitre.org/techniques/T1207/) | Rogue Domain Controller | Defense Evasion |
+| [T1484](https://attack.mitre.org/techniques/T1484/) | Domain Policy Modification | Defense Evasion, Privilege Escalation |
+
 
 
 #### Search
@@ -82,9 +85,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 90.0 | 90 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 90.0 | 90 | 100 | DSInternals malware is controlling infrastructure by modifying Active Directory elements, domain controllers, and policies. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

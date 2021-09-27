@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 this search is designed to detect suspicious wermgr.exe process that tries to connect to known IP web services. This technique is know for trickbot and other trojan spy malware to recon the infected machine and look for its ip address without so much finger print on the commandline process. Since wermgr.exe is designed for error handling process of windows it is really suspicious that this process is trying to connect to this IP web services cause that maybe cause of some malicious code injection.
 
-- **ID**: ed313326-a0f9-11eb-a89c-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-19
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: ed313326-a0f9-11eb-a89c-acde48001122
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | Wermgr.exe process connecting IP location web services on $ComputerName$ |
 
 
 

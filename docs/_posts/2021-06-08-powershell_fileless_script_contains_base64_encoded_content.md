@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -31,19 +31,20 @@ This analytic identifies `FromBase64String` within the script block. A typical m
 Command example - `[Byte[]]$var_code = [System.Convert]::FromBase64String(38uqIyMjQ6rG....` \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **ID**: 8acbc04c-c882-11eb-b060-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-08
 - **Author**: Michael Haag, Splunk
+- **ID**: 8acbc04c-c882-11eb-b060-acde48001122
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion || [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+| [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 
 #### Search
@@ -84,9 +85,9 @@ False positives should be limited. Filter as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A suspicious powershell script contains base64 command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
 
 
 

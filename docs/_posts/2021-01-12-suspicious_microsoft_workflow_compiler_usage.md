@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies microsoft.workflow.compiler.exe usage. microsoft.workflow.compiler.exe is natively found in C:\Windows\Microsoft.NET\Framework64\v4.0.30319 and is rarely utilized. When investigating, identify the executed code on disk and review. It is not a commonly used process by many applications.
 
-- **ID**: 9bbc62e8-55d8-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
+- **ID**: 9bbc62e8-55d8-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following analytic identifies microsoft.workflow.compiler.exe usage. microso
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ Although unlikely, limited instances have been identified coming from native Mic
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 70 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 70 | 50 | Suspicious microsoft.workflow.compiler.exe process ran on $dest$ by $user$ |
 
 
 

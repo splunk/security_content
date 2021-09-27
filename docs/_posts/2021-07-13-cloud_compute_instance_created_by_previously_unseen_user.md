@@ -22,18 +22,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for cloud compute instances created by users who have not created them before.
 
-- **ID**: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2021-07-13
 - **Author**: Rico Valdez, Splunk
+- **ID**: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ It&#39;s possible that a user will start to create compute instances for the fir
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 18.0 | 30 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 18.0 | 30 | 60 | User $user$ is creating a new instance $dest$ for the first time |
 
 
 

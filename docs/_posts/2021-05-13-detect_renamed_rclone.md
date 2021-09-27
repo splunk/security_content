@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies the usage of `rclone.exe`, renamed, being used to exfiltrate data to a remote destination. RClone has been used by multiple ransomware groups to exfiltrate data. In many instances, it will be downloaded from the legitimate site and executed accordingly. During triage, isolate the endpoint and begin to review parallel processes for additional behavior. At this stage, the adversary may have staged data to be exfiltrated.
 
-- **ID**: 6dca1124-b3ec-11eb-9328-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-05-13
 - **Author**: Michael Haag, Splunk
+- **ID**: 6dca1124-b3ec-11eb-9328-acde48001122
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ The following analytic identifies the usage of `rclone.exe`, renamed, being used
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ False positives should be limited as this analytic identifies renamed instances 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 27.0 | 30 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 27.0 | 30 | 90 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. |
 
 
 

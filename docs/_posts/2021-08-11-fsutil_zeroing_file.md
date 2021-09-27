@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a suspicious fsutil process to zeroing a target file. This technique was seen in lockbit ransomware where it tries to zero out its malware path as part of its defense evasion after encrypting the compromised host.
 
-- **ID**: 4e5e024e-fabb-11eb-8b8f-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-11
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 4e5e024e-fabb-11eb-8b8f-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search is to detect a suspicious fsutil process to zeroing a target file. T
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 54.0 | 60 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 54.0 | 60 | 90 | Possible file data deletion on $dest$ using $process$ |
 
 
 

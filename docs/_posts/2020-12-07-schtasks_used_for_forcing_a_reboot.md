@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for flags passed to schtasks.exe on the command-line that indicate that a forced reboot of system is scheduled.
 
-- **ID**: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-07
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ Administrators may create jobs on systems forcing reboots to perform updates, ma
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A schedule task process $process_name$ with force reboot commandline $process$ in host $dest$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies potential adversaries that modify the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft and coinminer scripts to evade detections and restrict access to their component files.
 
-- **ID**: b1b1e316-accc-11eb-a9b4-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-04
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: b1b1e316-accc-11eb-a9b4-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This analytic identifies potential adversaries that modify the security permissi
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ Unknown. Filter as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | Process name $process_name$ with grant argument executed by $user$ to change security permission of a specific file or directory on host $dest$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection is to identify a suspicious process that tries to delete the process file path related to its process. This technique is known to be defense evasion once a certain condition of malware is satisfied or not. Clop ransomware use this technique where it will try to delete its process file path using a .bat command if the keyboard layout is not the layout it tries to infect.
 
-- **ID**: f7eda4bc-871c-11eb-b110-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-17
 - **Author**: Teoderick Contreras
+- **ID**: f7eda4bc-871c-11eb-b110-acde48001122
 
 
 #### ATT&CK
@@ -83,9 +83,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 60.0 | 60 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 60.0 | 60 | 100 | A process $Image$ tries to delete its process path in commandline $cmdline$ as part of defense evasion in host $Computer$ |
 
 
 

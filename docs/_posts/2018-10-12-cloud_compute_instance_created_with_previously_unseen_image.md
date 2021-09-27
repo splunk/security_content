@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for cloud compute instances being created with previously unseen image IDs.
 
-- **ID**: bc24922d-987c-4645-b288-f8c73ec194c4
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2018-10-12
 - **Author**: David Dorsey, Splunk
+- **ID**: bc24922d-987c-4645-b288-f8c73ec194c4
 
 
 
@@ -74,9 +74,9 @@ After a new image is created, the first systems created with that image will cau
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 36.0 | 60 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 36.0 | 60 | 60 | User $user$ is creating an instance $dest$ with an image that has not been previously seen. |
 
 
 

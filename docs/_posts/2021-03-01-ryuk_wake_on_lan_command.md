@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware. The Ryuk Ransomware uses the Wake-on-Lan feature to turn on powered off devices on a compromised network to have greater success encrypting them. This is a high fidelity indicator of Ryuk ransomware executing on an endpoint. Upon triage, isolate the endpoint. Additional file modification events will be within the users profile (\appdata\roaming) and in public directories (users\public\). Review all Scheduled Tasks on the isolated endpoint and across the fleet. Suspicious Scheduled Tasks will include a path to a unknown binary and those endpoints should be isolated until triaged.
 
-- **ID**: 538d0152-7aaa-11eb-beaa-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-01
 - **Author**: Michael Haag, Splunk
+- **ID**: 538d0152-7aaa-11eb-beaa-acde48001122
 
 
 #### ATT&CK
@@ -83,9 +83,9 @@ Limited to no known false positives.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A process $process_name$ with wake on LAN commandline $process$ in host $dest$ |
 
 
 

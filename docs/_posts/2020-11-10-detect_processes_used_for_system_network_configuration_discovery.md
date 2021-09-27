@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for fast execution of processes used for system network configuration discovery on the endpoint.
 
-- **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-10
 - **Author**: Bhavin Patel, Splunk
+- **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 
 
 #### ATT&CK
@@ -40,6 +40,7 @@ This search looks for fast execution of processes used for system network config
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
+
 
 
 #### Search
@@ -92,9 +93,9 @@ It is uncommon for normal users to execute a series of commands used for network
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 32.0 | 40 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 32.0 | 40 | 80 | An instance of $parent_process_name$ spawning multiple $process_name$ was identified on endpoint $dest$ by user $user$ typically not a normal behavior of the process. |
 
 
 

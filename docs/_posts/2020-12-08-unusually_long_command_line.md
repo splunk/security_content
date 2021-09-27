@@ -15,18 +15,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
-- **ID**: c77162d3-f93c-45cc-80c8-22f6a4264e7f
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-08
 - **Author**: David Dorsey, Splunk
+- **ID**: c77162d3-f93c-45cc-80c8-22f6a4264e7f
 
 
 
@@ -75,9 +75,9 @@ Some legitimate applications start with long command lines.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | Unusually long command line $Processes.process_name$ on $dest$ |
 
 
 

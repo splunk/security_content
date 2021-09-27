@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies suspicious series of attempt to kill multiple services on a system using either `net.exe` or `sc.exe`. This technique is use by adversaries to terminate security services or other related services to continue there objective and evade detections.
 
-- **ID**: a0c8c292-d01a-11eb-aa18-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-18
 - **Author**: Teoderick Contreras, splunk
+- **ID**: a0c8c292-d01a-11eb-aa18-acde48001122
 
 
 #### ATT&CK
@@ -36,6 +36,7 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
 
 
 #### Search

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection is to identify the abuse the Windows SC.exe to execute malicious commands or payloads via PowerShell.
 
-- **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-07
 - **Author**: Ryan Becwar
+- **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 
 
 #### ATT&CK
@@ -88,9 +88,9 @@ Creating a hidden powershell service is rare and could key off of those instance
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $Service_File_Name$ by $user$ on $dest$ |
 
 
 

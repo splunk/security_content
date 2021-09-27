@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor for changes of the ExecutionPolicy in the registry to the values &#34;unrestricted&#34; or &#34;bypass,&#34; which allows the execution of malicious scripts.
 
-- **ID**: c2590137-0b08-4985-9ec5-6ae23d92f63d
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-06
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: c2590137-0b08-4985-9ec5-6ae23d92f63d
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ Administrators may attempt to change the default execution policy on a system fo
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 60 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 60 | 80 | A registry modification in $registry_path$ with reg key $registry_key_name$ and reg value $registry_value_name$ in host $dest$ |
 
 
 

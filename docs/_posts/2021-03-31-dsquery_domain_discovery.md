@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,12 +30,12 @@ DSQuery.exe is natively found in `C:\Windows\system32` and `C:\Windows\syswow64`
 The following DLL(s) are loaded when DSQuery.exe is launched `dsquery.dll`. If found loaded by another process, it is possible dsquery is running within that process context in memory.\
 In addition to trust discovery, review parallel processes for additional behaviors performed. Identify the parent process and capture any files (batch files, for example) being used.
 
-- **ID**: cc316032-924a-11eb-91a2-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Michael Haag, Splunk
+- **ID**: cc316032-924a-11eb-91a2-acde48001122
 
 
 #### ATT&CK
@@ -43,6 +43,7 @@ In addition to trust discovery, review parallel processes for additional behavio
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
 
 
 #### Search
@@ -85,9 +86,9 @@ Limited false positives. If there is a true false positive, filter based on comm
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified performing domain discovery on endpoint $dest$ by user $user$. |
 
 
 

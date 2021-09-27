@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic will identify suspicious series of process executions.  We have observed that post exploit framework tools like Koadic and Meterpreter will launch an excessive number of processes with distinct file paths from Windows\Temp to execute actions on objective.  This behavior is extremely anomalous compared to typical application behaviors that use Windows\Temp.
 
-- **ID**: 23587b6a-c479-11eb-b671-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-03
 - **Author**: Michael Hart, Splunk
+- **ID**: 23587b6a-c479-11eb-b671-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This analytic will identify suspicious series of process executions.  We have ob
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 
 
 #### Search
@@ -77,9 +78,9 @@ Many benign applications will create processes from executables in Windows\Temp,
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | Multiple processes were executed out of windows\temp within a short amount of time on $dest$. |
 
 
 

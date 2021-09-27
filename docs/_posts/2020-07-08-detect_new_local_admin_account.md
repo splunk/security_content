@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for newly created accounts that have been elevated to local administrators.
 
-- **ID**: b25f6f62-0712-43c1-b203-083231ffd97d
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-08
 - **Author**: David Dorsey, Splunk
+- **ID**: b25f6f62-0712-43c1-b203-083231ffd97d
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ The activity may be legitimate. For this reason, it&#39;s best to verify the acc
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 60 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 60 | 70 | A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not. |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for AWS CloudTrail events and analyse the amount of eventNames which starts with Describe by a single user. This indicates that this user scans the configuration of your AWS cloud environment.
 
-- **ID**: 1fdd164a-def8-4762-83a9-9ffe24e74d5a
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-04-13
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 1fdd164a-def8-4762-83a9-9ffe24e74d5a
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for AWS CloudTrail events and analyse the amount of eventNames
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ While this search has no known false positives.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 18.0 | 30 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 18.0 | 30 | 60 | user $user$ has excessive number of api calls $dc_events$ from these IP addresses $src$, violating the threshold of 50,  using the following commands $command$. |
 
 
 

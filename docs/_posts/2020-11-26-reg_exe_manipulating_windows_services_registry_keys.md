@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for reg.exe modifying registry keys that define Windows services and their configurations.
 
-- **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-26
 - **Author**: Rico Valdez, Splunk
+- **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
 
 
 #### ATT&CK
@@ -82,9 +82,9 @@ It is unusual for a service to be created or modified by directly manipulating t
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 45.0 | 75 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 45.0 | 75 | 60 | A reg.exe process $process_name$ with commandline $process$ in host $dest$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for registry activity associated with application compatibility shims, which can be leveraged by attackers for various nefarious purposes.
 
-- **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-26
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
+- **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ There are many legitimate applications that leverage shim databases for compatib
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A registry activity in $registry_path$ related to shim modication in host $dest$ |
 
 
 

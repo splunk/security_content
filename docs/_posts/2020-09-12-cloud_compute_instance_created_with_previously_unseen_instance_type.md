@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Find EC2 instances being created with previously unseen instance types.
 
-- **ID**: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-12
 - **Author**: David Dorsey, Splunk
+- **ID**: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
 
 
 
@@ -74,9 +74,9 @@ It is possible that an admin will create a new system using a new instance type 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 30.0 | 50 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 30.0 | 50 | 60 | User $user$ is creating an instance $dest$ with an instance type $instance_type$ that has not been previously seen. |
 
 
 

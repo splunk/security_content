@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect activities and various techniques associated with the Orangeworm Attack Group, a group that frequently targets the healthcare industry.
 
-- **ID**: bb9f5ed2-916e-4364-bb6d-97c370efcf52
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-01-22
 - **Author**: David Dorsey, Splunk
+- **ID**: bb9f5ed2-916e-4364-bb6d-97c370efcf52
 
 #### Narrative
 

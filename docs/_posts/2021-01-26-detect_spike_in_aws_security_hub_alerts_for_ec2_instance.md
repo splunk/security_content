@@ -15,18 +15,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for a spike in number of of AWS security Hub alerts for an EC2 instance in 4 hours intervals
 
-- **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
 
 
 
@@ -72,9 +72,9 @@ None
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 15.0 | 30 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$ |
 
 
 

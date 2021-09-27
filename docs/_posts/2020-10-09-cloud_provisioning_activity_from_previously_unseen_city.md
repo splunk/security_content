@@ -22,18 +22,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for cloud provisioning activities from previously unseen cities. Provisioning activities are defined broadly as any event that runs or creates something.
 
-- **ID**: e7ecc5e0-88df-48b9-91af-51104c68f02f
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-10-09
 - **Author**: Rico Valdez, Bhavin Patel, Splunk
+- **ID**: e7ecc5e0-88df-48b9-91af-51104c68f02f
 
 
 #### ATT&CK
@@ -41,6 +41,7 @@ This search looks for cloud provisioning activities from previously unseen citie
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search
@@ -89,9 +90,9 @@ This is a strictly behavioral search, so we define &#34;false positive&#34; slig
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 18.0 | 30 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 18.0 | 30 | 60 | User $user$ is starting or creating an instance $dest$ for the first time in City $City$ from IP address $src$ |
 
 
 

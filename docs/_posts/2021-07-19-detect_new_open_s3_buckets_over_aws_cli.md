@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for AWS CloudTrail events where a user has created an open/public S3 bucket over the aws cli.
 
-- **ID**: 39c61d09-8b30-4154-922b-2d0a694ecc22
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 39c61d09-8b30-4154-922b-2d0a694ecc22
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
+
 
 
 #### Search
@@ -85,9 +86,9 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 60 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 60 | 80 | User $userIdentity.userName$ has created an open/public bucket $bucketName$ using AWS CLI with the following permissions - $requestParameters.accessControlList.x-amz-grant-read$ $requestParameters.accessControlList.x-amz-grant-read-acp$ $requestParameters.accessControlList.x-amz-grant-write$ $requestParameters.accessControlList.x-amz-grant-write-acp$ $requestParameters.accessControlList.x-amz-grant-full-control$ |
 
 
 

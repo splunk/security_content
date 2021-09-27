@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An account was successfully logged on) with an anonymous account.
 
-- **ID**: 1400624a-d42d-484d-8843-e6753e6e3645
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-09-18
 - **Author**: Rod Soto, Jose Hernandez, Splunk
+- **ID**: 1400624a-d42d-484d-8843-e6753e6e3645
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An ac
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1210](https://attack.mitre.org/techniques/T1210/) | Exploitation of Remote Services | Lateral Movement |
+
 
 
 #### Search
@@ -74,9 +75,9 @@ None thus far found
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | The following $EventCode$ occurred on $dest$ by $user$ with Logon Type 3, which may be indicative of the an account or group being changed by an anonymous account. |
 
 
 

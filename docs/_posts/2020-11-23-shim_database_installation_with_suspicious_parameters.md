@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects the process execution and arguments required to silently create a shim database.  The sdbinst.exe application is used to install shim database files (.sdb). A shim is a small library which transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.
 
-- **ID**: 404620de-46d8-48b6-90cc-8a8d7b0876a3
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-23
 - **Author**: David Dorsey, Splunk
+- **ID**: 404620de-46d8-48b6-90cc-8a8d7b0876a3
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ None identified
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A process $process_name$ that possible create a shim db silently in host $dest$ |
 
 
 

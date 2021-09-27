@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for files created with names matching those typically used in ransomware notes that tell the victim how to get their data back.
 
-- **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd71
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
+- **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd71
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The search looks for files created with names matching those typically used in r
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ It&#39;s possible that a legitimate file could be created with the same name use
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 90.0 | 90 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 90.0 | 90 | 100 | A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware note file and should be reviewed immediately. |
 
 
 

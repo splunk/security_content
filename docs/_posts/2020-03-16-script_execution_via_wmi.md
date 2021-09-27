@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for scripts launched via WMI.
 
-- **ID**: aa73f80d-d728-4077-b226-81ea0c8be589
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-03-16
 - **Author**: Rico Valdez, Michael Haag, Splunk
+- **ID**: aa73f80d-d728-4077-b226-81ea0c8be589
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for scripts launched via WMI.
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ Although unlikely, administrators may use wmi to launch scripts for legitimate p
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 36.0 | 60 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 36.0 | 60 | 60 | A wmic.exe process $process_name$ taht execute script in host $dest$ |
 
 
 

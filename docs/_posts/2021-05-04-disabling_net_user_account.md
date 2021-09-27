@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic will identify a suspicious command-line that disables a user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt availability of such users to do their malicious act.
 
-- **ID**: c0325326-acd6-11eb-98c2-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-04
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: c0325326-acd6-11eb-98c2-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This analytic will identify a suspicious command-line that disables a user accou
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified disabling a user account on endpoint $dest$ by user $user$. |
 
 
 

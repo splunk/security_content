@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a possible uac bypass using the colorui.dll COM Object. this technique was seen in so many malware and ransomware like lockbit where it make use of the colorui.dll COM CLSID to bypass UAC.
 
-- **ID**: 2bcccd20-fc2b-11eb-8d22-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-08-13
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 2bcccd20-fc2b-11eb-8d22-acde48001122
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ not so common. but 3rd part app may load this dll.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 60 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 60 | 80 | The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $Computer$ by user $user$. |
 
 
 

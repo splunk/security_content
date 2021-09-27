@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies a suspicious behavior related to PrintNightmare, or CVE-2021-34527 previously (CVE-2021-1675),  to gain privilege escalation on the vulnerable machine. This exploit attacks a critical Windows Print Spooler Vulnerability to elevate privilege. This detection is to look for suspicious process access made by the spoolsv.exe that may related to the attack.
 
-- **ID**: 799b606e-da81-11eb-93f8-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-01
 - **Author**: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
+- **ID**: 799b606e-da81-11eb-93f8-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This analytic identifies a suspicious behavior related to PrintNightmare, or CVE
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
+
 
 
 #### Search
@@ -77,9 +78,9 @@ Unknown. Filter as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | $SourceImage$ was GrantedAccess open access to $TargetImage$ on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare. |
 
 
 

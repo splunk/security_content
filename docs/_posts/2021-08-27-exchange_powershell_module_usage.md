@@ -21,7 +21,7 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,12 +30,12 @@ Inherently, the usage of the modules is not malicious, but reviewing parallel pr
 Module - New-MailboxExportRequest will begin the process of exporting contents of a primary mailbox or archive to a .pst file. \
 Module - New-managementroleassignment can assign a management role to a management role group, management role assignment policy, user, or universal security group (USG).
 
-- **ID**: 2d10095e-05ae-11ec-8fdf-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-27
 - **Author**: Michael Haag
+- **ID**: 2d10095e-05ae-11ec-8fdf-acde48001122
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 15.0 | 30 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | Local user discovery enumeration using PowerShell on $dest$ by $user$ |
 
 
 

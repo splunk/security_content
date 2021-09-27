@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
-- **ID**: 14038953-e5f2-4daf-acff-5452062baf03
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-6-04
 - **Author**: Jose Hernandez, Splunk
+- **ID**: 14038953-e5f2-4daf-acff-5452062baf03
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | Malicious actor is dumping stored credentials from the registry sections SAM, Security, or System. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

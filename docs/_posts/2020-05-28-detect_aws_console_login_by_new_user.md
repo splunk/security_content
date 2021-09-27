@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
-- **ID**: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
 - **Type**: Hunting
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2020-05-28
 - **Author**: Rico Valdez, Splunk
+- **ID**: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
 
 
 
@@ -71,9 +71,9 @@ When a legitimate new user logins for the first time, this activity will be dete
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 30.0 | 50 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 30.0 | 50 | 60 | User $user$ is logging into the AWS console for the first time |
 
 
 

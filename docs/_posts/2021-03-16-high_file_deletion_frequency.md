@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for high frequency of file deletion relative to process name and process id. These events usually happen when the ransomware tries to encrypt the files with the ransomware file extensions and sysmon treat the original files to be deleted as soon it was replace as encrypted data.
 
-- **ID**: 45b125c4-866f-11eb-a95a-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-16
 - **Author**: Teoderick Contreras
+- **ID**: 45b125c4-866f-11eb-a95a-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for high frequency of file deletion relative to process name a
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ user may delete bunch of pictures or files in a folder.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | High frequency file deletion activity detected on host $Computer$ |
 
 
 

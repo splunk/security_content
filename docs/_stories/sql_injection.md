@@ -9,17 +9,17 @@ tags:
   - Web
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Use the searches in this Analytic Story to help you detect structured query language (SQL) injection attempts characterized by long URLs that contain malicious parameters.
 
-- **ID**: 4f6632f5-449c-4686-80df-57625f59bab3
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2017-09-19
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 4f6632f5-449c-4686-80df-57625f59bab3
 
 #### Narrative
 

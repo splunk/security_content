@@ -19,19 +19,19 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies the use of default or publicly known named pipes used with Cobalt Strike. A named pipe is a named, one-way or duplex pipe for communication between the pipe server and one or more pipe clients. Cobalt Strike uses named pipes in many ways and has default values used with the Artifact Kit and Malleable C2 Profiles. The following query assists with identifying these default named pipes. Each EDR product presents named pipes a little different. Consider taking the values and generating a query based on the product of choice. \
 Upon triage, review the process performing the named pipe. If it is explorer.exe, It is possible it was injected into by another process. Review recent parallel processes to identify suspicious patterns or behaviors. A parallel process may have a network connection, review and follow the connection back to identify any file modifications.
 
-- **ID**: 5876d429-0240-4709-8b93-ea8330b411b5
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
 - **Author**: Michael Haag, Splunk
+- **ID**: 5876d429-0240-4709-8b93-ea8330b411b5
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ Upon triage, review the process performing the named pipe. If it is explorer.exe
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
 
 
 #### Search
@@ -82,9 +83,9 @@ The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | An instance of $process_name$ was identified on endpoint $Computer$ by user $user$ accessing known suspicious named pipes related to Cobalt Strike. |
 
 
 

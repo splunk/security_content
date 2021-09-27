@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for process names that consist only of a single letter.
 
-- **ID**: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-08
 - **Author**: David Dorsey, Splunk
+- **ID**: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ Single-letter executables are not always malicious. Investigate this activity wi
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A suspicious process $process_name$ with single letter in host $dest$ |
 
 
 

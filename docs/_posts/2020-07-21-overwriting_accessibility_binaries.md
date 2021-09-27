@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Microsoft Windows contains accessibility features that can be launched with a key combination before a user has logged in. An adversary can modify or replace these programs so they can get a command prompt or backdoor without logging in to the system. This search looks for modifications to these binaries.
 
-- **ID**: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-21
 - **Author**: David Dorsey, Splunk
+- **ID**: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ Microsoft may provide updates to these binaries. Verify that these changes do no
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | A suspicious file modification or replace in $file_path$  in host $dest$ |
 
 
 

@@ -18,18 +18,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search will detect spike in blocked outbound network connections originating from within your AWS environment.  It will also update the cache file that factors in the latest data.
 
-- **ID**: ada0f278-84a8-46w1-a3f1-w32372d4bd53
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-05-07
 - **Author**: Bhavin Patel, Splunk
+- **ID**: ada0f278-84a8-46w1-a3f1-w32372d4bd53
 
 
 

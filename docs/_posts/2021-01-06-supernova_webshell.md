@@ -21,18 +21,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search aims to detect the Supernova webshell used in the SUNBURST attack.
 
-- **ID**: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2021-01-06
 - **Author**: John Stoner, Splunk
+- **ID**: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
 
 
 #### ATT&CK

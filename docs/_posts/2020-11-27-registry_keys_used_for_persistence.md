@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for modifications to registry keys that can be used to launch an application or service at system startup.
 
-- **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-27
 - **Author**: David Dorsey, Splunk
+- **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
 
 
 #### ATT&CK
@@ -85,9 +85,9 @@ There are many legitimate applications that must execute on system startup and w
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 76.0 | 80 | 95 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 76.0 | 80 | 95 | A registry activity in $registry_path$ related to persistence in host $dest$ |
 
 
 

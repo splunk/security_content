@@ -9,17 +9,17 @@ tags:
   - Splunk Cloud
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitors for behaviors associated with adversaries discovering objects in the environment that can be leveraged in the progression of the attack.
 
-- **ID**: f7aba570-7d59-11eb-825e-acde48001122
 - **Product**: Splunk Behavioral Analytics, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-03-04
 - **Author**: Michael Hart, Splunk
+- **ID**: f7aba570-7d59-11eb-825e-acde48001122
 
 #### Narrative
 

@@ -8,17 +8,17 @@ tags:
   - Splunk Cloud
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect and investigate dormant user accounts for your AWS environment that have become active again. Because inactive and ad-hoc accounts are common attack targets, it's critical to enable governance within your environment.
 
-- **ID**: 2e8948a5-5239-406b-b56b-6c50f1269af3
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-03-12
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2e8948a5-5239-406b-b56b-6c50f1269af3
 
 #### Narrative
 

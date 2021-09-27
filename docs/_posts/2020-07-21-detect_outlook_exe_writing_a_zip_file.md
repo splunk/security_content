@@ -21,18 +21,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for execution of process `outlook.exe` where the process is writing a `.zip` file to the disk.
 
-- **ID**: a51bfe1a-94f0-4822-b1e4-16ae10145893
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: a51bfe1a-94f0-4822-b1e4-16ae10145893
 
 
 #### ATT&CK

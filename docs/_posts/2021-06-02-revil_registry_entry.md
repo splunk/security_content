@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies suspicious modification in registry entry to keep some malware data during its infection. This technique seen in several apt implant, malware and ransomware like REVIL where it keep some information like the random generated file extension it uses for all the encrypted files and ransomware notes file name in the compromised host.
 
-- **ID**: e3d3f57a-c381-11eb-9e35-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: e3d3f57a-c381-11eb-9e35-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This analytic identifies suspicious modification in registry entry to keep some 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 60.0 | 60 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 60.0 | 60 | 100 | A registry entry $registry_path$ with registry value $registry_value_name$ and $registry_value_name$ related to revil ransomware in host $dest$ |
 
 
 

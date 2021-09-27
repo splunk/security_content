@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a modification or registry add to the safeboot registry as an autostart mechanism. This technique was seen in some ransomware to automatically execute its code upon a safe mode boot.
 
-- **ID**: c6149154-c9d8-11eb-9da7-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: c6149154-c9d8-11eb-9da7-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ updated windows application needed in safe boot may used this registry
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 60 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 60 | 70 | Safeboot registry $registry_path$ was added or modified with a new value $registry_value_name$ on $dest$ |
 
 
 

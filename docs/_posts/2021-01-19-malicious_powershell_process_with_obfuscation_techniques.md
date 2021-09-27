@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for PowerShell processes launched with arguments that have characters indicative of obfuscation on the command-line.
 
-- **ID**: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-19
 - **Author**: David Dorsey, Splunk
+- **ID**: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
 
 
 #### ATT&CK
@@ -83,9 +83,9 @@ These characters might be legitimately on the command-line, but it is not common
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | Powershell.exe running with potential obfuscated arguments on $dest$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Enforcing network-access controls is one of the defensive mechanisms used by cloud administrators to restrict access to a cloud instance. After the attacker has gained control of the AWS console by compromising an admin account, they can delete a network ACL and gain access to the instance from anywhere. This search will query the AWS CloudTrail logs to detect users deleting network ACLs.
 
-- **ID**: ada0f478-84a8-4641-a3f1-d82362d6fd75
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-12
 - **Author**: Bhavin Patel, Patrick Bareiss, Splunk
+- **ID**: ada0f478-84a8-4641-a3f1-d82362d6fd75
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ It&#39;s possible that a user has legitimately deleted a network ACL.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 5.0 | 10 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 5.0 | 10 | 50 | User $user_arn$ from $src$ has sucessfully deleted network ACLs entry (eventName= $eventName$), such that the instance is accessible from anywhere |
 
 
 

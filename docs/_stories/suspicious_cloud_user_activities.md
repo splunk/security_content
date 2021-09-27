@@ -10,17 +10,17 @@ tags:
   - Change
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect and investigate suspicious activities by users and roles in your cloud environments.
 
-- **ID**: 1ed5ce7d-5469-4232-92af-89d1a3595b39
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-04
 - **Author**: David Dorsey, Splunk
+- **ID**: 1ed5ce7d-5469-4232-92af-89d1a3595b39
 
 #### Narrative
 

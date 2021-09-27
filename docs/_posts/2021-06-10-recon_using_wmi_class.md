@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies suspicious PowerShell via EventCode 4104, where WMI is performing an event query looking for running processes or running services. This technique is commonly found where the adversary will identify services and system information on the compromised machine. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **ID**: 018c1972-ca07-11eb-9473-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 018c1972-ca07-11eb-9473-acde48001122
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ The following analytic identifies suspicious PowerShell via EventCode 4104, wher
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
 
 
 #### Search
@@ -75,9 +76,9 @@ network administrator may used this command for checking purposes
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 60.0 | 75 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 60.0 | 75 | 80 | A suspicious powershell script contains host recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
 
 
 

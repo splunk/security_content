@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects a potential kerberoasting attack via service principal name requests
 
-- **ID**: dabdd6d7-3e10-42be-8711-4e124f7a3850
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
 - **Author**: Xiao Lin, Splunk
+- **ID**: dabdd6d7-3e10-42be-8711-4e124f7a3850
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 14.0 | 70 | 20 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 14.0 | 70 | 20 | Kerberoasting malware is potentially applying stolen credentials. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

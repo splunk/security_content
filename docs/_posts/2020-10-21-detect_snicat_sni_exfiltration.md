@@ -20,18 +20,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for commands that the SNICat tool uses in the TLS SNI field.
 
-- **ID**: 82d06410-134c-11eb-adc1-0242ac120002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
 - **Author**: Shannon Davis, Splunk
+- **ID**: 82d06410-134c-11eb-adc1-0242ac120002
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ This search looks for commands that the SNICat tool uses in the TLS SNI field.
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1041](https://attack.mitre.org/techniques/T1041/) | Exfiltration Over C2 Channel | Exfiltration |
+
 
 
 #### Search

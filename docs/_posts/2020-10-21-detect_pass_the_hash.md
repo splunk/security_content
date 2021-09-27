@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for specific authentication events from the Windows Security Event logs to detect potential attempts using Pass-the-Hash technique.
 
-- **ID**: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
 - **Author**: Xiao Lin, Splunk
+- **ID**: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 16.0 | 80 | 20 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 16.0 | 80 | 20 | Potential use of the pass the hash/token attacks that spoof authentication. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

@@ -13,18 +13,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
 
-- **ID**: 58f43aba-1775-445e-b19c-be2b87d83ae3
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-06
 - **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: 58f43aba-1775-445e-b19c-be2b87d83ae3
 
 
 
@@ -73,9 +73,9 @@ This detection may flag suspiciously long command lines when there is not suffic
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 12.0 | 30 | 40 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 12.0 | 30 | 40 | A  process $process_name$ with a long commandline $cmd_line$ executed in host $dest_device_id$ |
 
 
 

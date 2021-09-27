@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for a file named &#34;test.txt&#34; written to the windows system directory tree, which is consistent with Samsam propagation.
 
-- **ID**: 493a879d-519d-428f-8f57-a06a0fdc107e
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-14
 - **Author**: Rico Valdez, Splunk
+- **ID**: 493a879d-519d-428f-8f57-a06a0fdc107e
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The search looks for a file named &#34;test.txt&#34; written to the windows syst
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
 
 
 #### Search
@@ -77,9 +78,9 @@ No false positives have been identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 12.0 | 60 | 20 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 12.0 | 60 | 20 | A samsam ransomware test file creation in $file_path$ in host $dest$ |
 
 
 

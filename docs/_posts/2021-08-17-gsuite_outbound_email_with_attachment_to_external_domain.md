@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a suspicious outbound e-mail from internal email to external email domain. This can be a good hunting query to monitor insider or outbound email traffic for not common domain e-mail. The idea is to parse the domain of destination email check if there is a minimum outbound traffic &lt; 20 with attachment.
 
-- **ID**: dc4dc3a8-ff54-11eb-8bf7-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-17
 - **Author**: Teoderick Contreras, Stanislav Miskovic, Splunk
+- **ID**: dc4dc3a8-ff54-11eb-8bf7-acde48001122
 
 
 #### ATT&CK
@@ -76,9 +76,9 @@ network admin and normal user may send this file attachment as part of their day
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 9.0 | 30 | 30 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 9.0 | 30 | 30 | suspicious email from $source.address$ to $destination{}.address$ |
 
 
 

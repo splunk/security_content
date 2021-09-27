@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for disable security step in CircleCI pipeline.
 
-- **ID**: 72cb9de9-e98b-4ac9-80b2-5331bba6ea97
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 72cb9de9-e98b-4ac9-80b2-5331bba6ea97
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for disable security step in CircleCI pipeline.
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | disable security step $mandatory_step$ in job $job_name$ from user $user$ |
 
 
 

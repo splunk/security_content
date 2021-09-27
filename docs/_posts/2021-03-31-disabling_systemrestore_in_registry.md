@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following search identifies the modification of registry related in disabling the system restore of a machine. This event or behavior are seen in some RAT malware to make the restore of the infected machine  difficult and keep their infection on the box.
 
-- **ID**: f4f837e2-91fb-11eb-8bf6-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: f4f837e2-91fb-11eb-8bf6-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ in some cases admin can disable systemrestore on a machine.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | The Windows registry was modified to disable system restore on $dest$ by $user$. |
 
 
 

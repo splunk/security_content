@@ -21,18 +21,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies the use of a curl contacting suspicious remote domains to checkin to command and control servers or download further implants. In the context of Silver Sparrow, curl is identified contacting s3.amazonaws.com. This particular behavior is common with MacOS adware-malicious software.
 
-- **ID**: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-02-22
 - **Author**: Michael Haag, Splunk
+- **ID**: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
 
 
 #### ATT&CK
@@ -40,6 +40,7 @@ The following analytic identifies the use of a curl contacting suspicious remote
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
+
 
 
 #### Search

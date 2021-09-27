@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for disable security job in CircleCI pipeline.
 
-- **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-02
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for disable security job in CircleCI pipeline.
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
+
 
 
 #### Search
@@ -77,9 +78,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 80 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 80 | 90 | disable security job $mandatory_job$ in workflow $workflow_name$ from user $user$ |
 
 
 

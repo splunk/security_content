@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect the usage of comsvcs.dll for dumping the lsass process.
 
-- **ID**: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-02-21
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
 
 
 #### ATT&CK
@@ -82,9 +82,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified accessing credentials using comsvcs.dll on endpoint $dest$ by user $user$. |
 
 
 

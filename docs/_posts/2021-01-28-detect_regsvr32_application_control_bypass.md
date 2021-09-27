@@ -19,19 +19,19 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Adversaries may abuse Regsvr32.exe to proxy execution of malicious code. Regsvr32.exe is a command-line program used to register and unregister object linking and embedding controls, including dynamic link libraries (DLLs), on Windows systems. Regsvr32.exe is also a Microsoft signed binary.This variation of the technique is often referred to as a &#34;Squiblydoo&#34; attack. \
 Upon investigating, look for network connections to remote destinations (internal or external). Be cautious to modify the query to look for &#34;scrobj.dll&#34;, the &#34;.dll&#34; is not required to load scrobj. &#34;scrobj.dll&#34; will be loaded by &#34;regsvr32.exe&#34; upon execution. 
 
-- **ID**: 070e9b80-6252-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-28
 - **Author**: Michael Haag, Splunk
+- **ID**: 070e9b80-6252-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -86,9 +86,9 @@ Limited false positives related to third party software registering .DLL&#39;s.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ in an attempt to bypass detection and preventative controls was identified on endpoint $dest$ by user $user$. |
 
 
 

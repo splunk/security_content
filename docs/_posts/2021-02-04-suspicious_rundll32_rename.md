@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies renamed instances of rundll32.exe executing. rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During investigation, validate it is the legitimate rundll32.exe executing and what script content it is loading. This query relies on the OriginalFileName from Sysmon, or internal name from the PE meta data. Expand the query as needed by looking for specific command line arguments outlined in other analytics.
 
-- **ID**: 7360137f-abad-473e-8189-acbdaa34d114
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-04
 - **Author**: Michael Haag, Splunk
+- **ID**: 7360137f-abad-473e-8189-acbdaa34d114
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ Although unlikely, some legitimate applications may use a moved copy of rundll32
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | Suspicious renamed rundll32.exe binary ran on $dest$ by $user$ |
 
 
 

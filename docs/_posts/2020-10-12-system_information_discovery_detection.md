@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Detect system information discovery techniques used by attackers to understand configurations of the system to further exploit it.
 
-- **ID**: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-10-12
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ Detect system information discovery techniques used by attackers to understand c
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ Administrators debugging servers
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 15.0 | 30 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | Potential system information discovery behavior on $dest$ by $User$ |
 
 
 

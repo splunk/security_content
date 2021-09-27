@@ -21,18 +21,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides detection of suspicious use of sts:GetSessionToken. These tokens can be created on the go and used by attackers to move laterally and escalate privileges.
 
-- **ID**: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-27
 - **Author**: Rod Soto, Splunk
+- **ID**: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
 
 
 #### ATT&CK
@@ -40,6 +40,7 @@ This search provides detection of suspicious use of sts:GetSessionToken. These t
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
+
 
 
 #### Search

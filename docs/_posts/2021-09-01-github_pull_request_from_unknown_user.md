@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for Pull Request from unknown user.
 
-- **ID**: 9d7b9100-8878-4404-914e-ca5e551a641e
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Dev Sec Ops Analytics
 - **Datamodel**: 
 - **Last Updated**: 2021-09-01
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 9d7b9100-8878-4404-914e-ca5e551a641e
 
 
 #### ATT&CK
@@ -85,9 +85,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 27.0 | 30 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 27.0 | 30 | 90 | Vulnerabilities found in packages used by GitHub repository $repository$ |
 
 
 

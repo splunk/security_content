@@ -22,7 +22,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -31,19 +31,20 @@ This analytic identifies `GetProcAddress` in the script block. This is not norma
 In use, `$var_gpa = $var_unsafe_native_methods.GetMethod(GetProcAddress` and later referenced/executed elsewhere. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **ID**: a26d9db4-c883-11eb-9d75-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-08
 - **Author**: Michael Haag, Splunk
+- **ID**: a26d9db4-c883-11eb-9d75-acde48001122
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation || [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+| [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 
 #### Search
@@ -83,9 +84,9 @@ Limited false positives. Filter as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 48.0 | 60 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 48.0 | 60 | 80 | A suspicious powershell script contains GetProcAddress API in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
 
 
 

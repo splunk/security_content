@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies use of PowerSploit modules for assessment of presence of defensive tools.
 
-- **ID**: 24b4e659-63a2-4e7b-89ac-87dd659c7110
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 24b4e659-63a2-4e7b-89ac-87dd659c7110
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 40.0 | 40 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 40.0 | 40 | 100 | PowerSploit malware is looking for presence of anti virus software. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

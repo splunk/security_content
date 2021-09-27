@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies access to PowerSploit modules that delete event logs.
 
-- **ID**: 4ddb3b0d-f95f-4ae2-b4e8-663296453a7b
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 4ddb3b0d-f95f-4ae2-b4e8-663296453a7b
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ This detection identifies access to PowerSploit modules that delete event logs.
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
 
 
 #### Search
@@ -75,9 +76,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 50.0 | 50 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 50.0 | 50 | 100 | Mimikatz malware is deleting event logs to cover tracks of malicious activity. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

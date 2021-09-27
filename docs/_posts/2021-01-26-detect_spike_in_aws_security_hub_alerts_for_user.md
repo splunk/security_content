@@ -16,18 +16,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for a spike in number of of AWS security Hub alerts for an AWS IAM User in 4 hours intervals.
 
-- **ID**: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
 
 
 

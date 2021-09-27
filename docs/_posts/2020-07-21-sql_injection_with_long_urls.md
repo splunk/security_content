@@ -21,18 +21,18 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for long URLs that have several SQL commands visible within them.
 
-- **ID**: e0aad4cf-0790-423b-8328-7564d0d938f9
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Web](https://docs.splunk.com/Documentation/CIM/latest/User/Web)
 - **Last Updated**: 2020-07-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: e0aad4cf-0790-423b-8328-7564d0d938f9
 
 
 #### ATT&CK
@@ -40,6 +40,7 @@ This search looks for long URLs that have several SQL commands visible within th
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
 
 
 #### Search

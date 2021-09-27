@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -30,12 +30,12 @@ All event subscriptions have three components \
 1. Binding - Registers a filter to a consumer. EventID equals 21 \
 Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToConsumerBinding. It may be pertinent to review all 3 to identify the flow of execution. In addition, EventCode 4104 may assist with any other PowerShell script usage that registered the subscription.
 
-- **ID**: 01d9a0c2-cece-11eb-ab46-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-16
 - **Author**: Michael Haag, Splunk
+- **ID**: 01d9a0c2-cece-11eb-ab46-acde48001122
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ It is possible some applications will create a consumer and may be required to b
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | Possible malicious WMI Subscription created on $dest$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects a suspicioous termination of known services killed by ransomware before encrypting files in a compromised machine. This technique is commonly seen in most of ransomware now a days to avoid exception error while accessing the targetted files it wants to encrypts because of the open handle of those services to the targetted file.
 
-- **ID**: 3070f8e0-c528-11eb-b2a0-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-04
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 3070f8e0-c528-11eb-b2a0-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search detects a suspicioous termination of known services killed by ransom
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ Admin activities or installing related updates may do a sudden stop to list of s
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | Known services $Message$ terminated by a potential ransomware on $dest$ |
 
 
 

@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -28,12 +28,12 @@ To enable 5145 events via Group Policy - Computer Configuration-&gt;Polices-&gt;
 It is possible this is not enabled by default and may need to be reviewed and enabled. \
 During triage, review parallel security events to identify further suspicious activity.
 
-- **ID**: 95b8061a-0a67-11ec-85ec-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-31
 - **Author**: Michael Haag, Mauricio Velazco, Splunk
+- **ID**: 95b8061a-0a67-11ec-85ec-acde48001122
 
 
 #### ATT&CK
@@ -41,6 +41,7 @@ During triage, review parallel security events to identify further suspicious ac
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
+
 
 
 #### Search
@@ -82,9 +83,9 @@ False positives have been limited when the Anonymous Logon is used for Account N
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 80 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 80 | 70 | A remote host is enumerating a $dest$ to identify permissions. This is a precursor event to CVE-2021-36942, PetitPotam. |
 
 
 

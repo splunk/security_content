@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service.  Wmic is an interface to the Windows Management Instrumentation.  This search looks for either of these tools being used to delete shadow copies.
 
-- **ID**: b89919ed-ee5f-492c-b139-95dbb162039e
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-09
 - **Author**: David Dorsey, Splunk
+- **ID**: b89919ed-ee5f-492c-b139-95dbb162039e
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
 
 
 #### Search
@@ -87,9 +88,9 @@ vssadmin.exe and wmic.exe are standard applications shipped with modern versions
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 81.0 | 90 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 81.0 | 90 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to delete shadow copies. |
 
 
 

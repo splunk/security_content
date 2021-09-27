@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection is to identify a creation of &#34;user mode service&#34; where the service file path is located in non-common service folder in windows.
 
-- **ID**: 429141be-8311-11eb-adb6-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-12
 - **Author**: Teoderick Contreras
+- **ID**: 429141be-8311-11eb-adb6-acde48001122
 
 
 #### ATT&CK
@@ -77,9 +77,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A service $Service_File_Name$ was created from a non-standard path using $Service_Name$, potentially leading to a privilege escalation. |
 
 
 

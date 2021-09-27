@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides specific SAML access from specific Service Provider, user and targeted principal at AWS. This search provides specific information to detect abnormal access or potential credential hijack or forgery, specially in federated environments using SAML protocol inside the perimeter or cloud provider.
 
-- **ID**: bbe23980-6019-11eb-ae93-0242ac130002
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
+- **ID**: bbe23980-6019-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -40,6 +40,7 @@ This search provides specific SAML access from specific Service Provider, user a
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ Attacks using a Golden SAML or SAML assertion hijacks or forgeries are very diff
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for account ID $recipientAccountId$ |
 
 
 

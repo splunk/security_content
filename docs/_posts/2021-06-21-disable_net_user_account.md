@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic will identify a suspicious command-line that disables a user account using the `net.exe` utility native to Windows. This technique may used by the adversaries to interrupt availability of such users to do their malicious act.
 
-- **ID**: ba858b08-d26c-11eb-af9b-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-21
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: ba858b08-d26c-11eb-af9b-acde48001122
 
 
 #### ATT&CK
@@ -36,6 +36,7 @@ This analytic will identify a suspicious command-line that disables a user accou
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
 
 
 #### Search

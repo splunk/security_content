@@ -21,25 +21,27 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Attacker activity may compromise executing several LOLBAS applications in conjunction to accomplish their objectives. We are looking for more than usual LOLBAS applications over a window of time, by building profiles per machine.
 
-- **ID**: 59c0dd70-169c-4900-9a1f-bfcf13302f93
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-08-25
 - **Author**: Ignacio Bermudez Corrales, Splunk
+- **ID**: 59c0dd70-169c-4900-9a1f-bfcf13302f93
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
 
 
 #### Search
@@ -83,9 +85,9 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 25.0 | 50 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | A system process $process_name$ with commandline $cmd_line$ spawn iin short period of time in host $dest_device_id$ |
 
 
 

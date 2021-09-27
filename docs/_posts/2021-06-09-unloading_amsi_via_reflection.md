@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -26,12 +26,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies the behavior of AMSI being tampered with. Implemented natively in many frameworks, the command will look similar to `SEtValuE($Null,(New-OBJEct COLlECtionS.GenerIC.HAshSEt{[StrINg]))}$ReF=[ReF].AsSeMbLY.GeTTyPe(&#34;System.Management.Automation.Amsi&#34;+&#34;Utils&#34;)` taken from Powershell-Empire. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **ID**: a21e3484-c94d-11eb-b55b-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-09
 - **Author**: Michael Haag, Splunk
+- **ID**: a21e3484-c94d-11eb-b55b-acde48001122
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ Potential for some third party applications to disable AMSI upon invocation. Fil
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | Possible AMSI Unloading via Reflection using PowerShell on $ComputerName$ |
 
 
 

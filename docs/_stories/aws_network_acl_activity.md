@@ -9,17 +9,17 @@ tags:
   - Splunk Cloud
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor your AWS network infrastructure for bad configurations and malicious activity. Investigative searches help you probe deeper, when the facts warrant it.
 
-- **ID**: 2e8948a5-5239-406b-b56b-6c50ff268af4
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2018-05-21
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2e8948a5-5239-406b-b56b-6c50ff268af4
 
 #### Narrative
 

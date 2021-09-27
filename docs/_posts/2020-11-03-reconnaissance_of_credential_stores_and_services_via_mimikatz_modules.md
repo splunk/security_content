@@ -34,25 +34,28 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies reconnaissance of credential stores and use of CryptoAPI services by Mimikatz modules.
 
-- **ID**: 5facee5b-79e4-47ab-b0e6-c625acc0554f
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 5facee5b-79e4-47ab-b0e6-c625acc0554f
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1589.001](https://attack.mitre.org/techniques/T1589/001/) | Credentials | Reconnaissance || [T1590.001](https://attack.mitre.org/techniques/T1590/001/) | Domain Properties | Reconnaissance || [T1590.003](https://attack.mitre.org/techniques/T1590/003/) | Network Trust Dependencies | Reconnaissance || [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+| [T1589.001](https://attack.mitre.org/techniques/T1589/001/) | Credentials | Reconnaissance || [T1590.001](https://attack.mitre.org/techniques/T1590/001/) | Domain Properties | Reconnaissance || [T1590.003](https://attack.mitre.org/techniques/T1590/003/) | Network Trust Dependencies | Reconnaissance || [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
 
 
 #### Search
@@ -93,9 +96,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | Mimikatz malware is searching for and accessing credential stores. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

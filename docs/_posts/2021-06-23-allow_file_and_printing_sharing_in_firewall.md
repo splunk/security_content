@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a suspicious modification of firewall to allow file and printer sharing. This technique was seen in ransomware to be able to discover more machine connected to the compromised host to encrypt more files
 
-- **ID**: ce27646e-d411-11eb-8a00-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-23
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: ce27646e-d411-11eb-8a00-acde48001122
 
 
 #### ATT&CK

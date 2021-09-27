@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies &#34;mshta.exe&#34; execution with inline protocol handlers. &#34;JavaScript&#34;, &#34;VBScript&#34;, and &#34;About&#34; are the only supported options when invoking HTA content directly on the command-line. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, process &#34;mshta.exe&#34; and its parent process.
 
-- **ID**: a0873b32-5b68-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-20
 - **Author**: Bhavin Patel, Michael Haag, Splunk
+- **ID**: a0873b32-5b68-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 90.0 | 90 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing with inline HTA, indicative of defense evasion. |
 
 
 

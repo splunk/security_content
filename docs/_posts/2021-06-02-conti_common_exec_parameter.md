@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects the suspicious commandline argument of revil ransomware to encrypt specific or all local drive and network shares of the compromised machine or host.
 
-- **ID**: 624919bc-c382-11eb-adcc-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 624919bc-c382-11eb-adcc-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search detects the suspicious commandline argument of revil ransomware to e
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
 
 
 #### Search
@@ -84,9 +85,9 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing specific Conti Ransomware related parameters. |
 
 
 

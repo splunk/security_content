@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 this search is to detect potential malicious office document executing lolbin child process to download payload or other malware. Since most of the attacker abused the capability of office document to execute living on land application to blend it to the normal noise in the infected machine to cover its track.
 
-- **ID**: 6fed27d2-9ec7-11eb-8fe4-aa665a019aa3
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-23
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 6fed27d2-9ec7-11eb-8fe4-aa665a019aa3
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ default browser not in the filter list
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 70 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 70 | 50 | Office document spawning suspicious child process on $dest$ |
 
 
 

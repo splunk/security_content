@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for flags passed to schtasks.exe on the command-line that indicate a task was created via command like. This has been associated with the Dragonfly threat actor, and the SUNBURST attack against Solarwinds.
 
-- **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-12-17
 - **Author**: Bhavin Patel, Splunk
+- **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
 
 
 #### ATT&CK
@@ -82,9 +82,9 @@ Tasks should not be manually created via CLI, this is rarely done by admins as w
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A schedule task process $process_name$ with create or delete commandline $process$ in host $dest$ |
 
 
 

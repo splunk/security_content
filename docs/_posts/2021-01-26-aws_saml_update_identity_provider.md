@@ -21,18 +21,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search provides detection of updates to SAML provider in AWS. Updates to SAML provider need to be monitored closely as they may indicate possible perimeter compromise of federated credentials, or backdoor access from another cloud provider set by attacker.
 
-- **ID**: 2f0604c6-6030-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
+- **ID**: 2f0604c6-6030-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -40,6 +40,7 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ Updating a SAML provider or creating a new one may not necessarily be malicious 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | User $userIdentity.principalId$ from IP address $sourceIPAddress$ has trigged an event $eventName$ to update the SAML provider to $requestParameters.sAMLProviderArn$ |
 
 
 

@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. FGdump is a newer version of pwdump tool that extracts NTLM and LanMan password hashes from Windows. Cachedump is a publicly-available tool that extracts cached password hashes from a system&#39;s registry.
 
-- **ID**: 312582f2-5e91-42c1-a275-cd67f31373c8
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-18
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 312582f2-5e91-42c1-a275-cd67f31373c8
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | Malicious actor is accessing stored credentials via FGDump or CacheDump tools. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

@@ -22,18 +22,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for cloud instances being modified by users who have not previously modified them.
 
-- **ID**: 7fb15084-b14e-405a-bd61-a6de15a40722
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-07-29
 - **Author**: Rico Valdez, Splunk
+- **ID**: 7fb15084-b14e-405a-bd61-a6de15a40722
 
 
 #### ATT&CK
@@ -86,9 +86,9 @@ It&#39;s possible that a new user will start to modify EC2 instances when they h
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | User $user$ is modifying an instance $dest$ for the first time. |
 
 
 

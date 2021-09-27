@@ -31,25 +31,26 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 SharpHound is used as a reconnaissance collector, ingestor, for BloodHound. SharpHound will query the domain controller and begin gathering all the data related to the domain and trusts. For output, it will drop a .zip file upon completion following a typical pattern that is often not changed. This analytic focuses on the default file name scheme. Note that this may be evaded with different parameters within SharpHound, but that depends on the operator. `-randomizefilenames` and `-encryptzip` are two examples. In addition, executing SharpHound via .exe or .ps1 without any command-line arguments will still perform activity and dump output to the default filename. Example default filename `20210601181553_BloodHound.zip`. SharpHound creates multiple temp files following the same pattern `20210601182121_computers.json`, `domains.json`, `gpos.json`, `ous.json` and `users.json`. Tuning may be required, or remove these json&#39;s entirely if it is too noisy. During traige, review parallel processes for further suspicious behavior. Typically, the process executing the `.ps1` ingestor will be PowerShell.
 
-- **ID**: 42b4b438-beed-11eb-ba1d-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-27
 - **Author**: Michael Haag, Splunk
+- **ID**: 42b4b438-beed-11eb-ba1d-acde48001122
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery || [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
 
 #### Search
@@ -91,9 +92,9 @@ False positives should be limited as the analytic is specific to a filename with
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 24.0 | 30 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 24.0 | 30 | 80 | Potential SharpHound file modifications identified on $dest$ |
 
 
 

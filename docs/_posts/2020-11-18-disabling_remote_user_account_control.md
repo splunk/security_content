@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for modifications to registry keys that control the enforcement of Windows User Account Control (UAC).
 
-- **ID**: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-18
 - **Author**: David Dorsey, Patrick Bareiss, Splunk
+- **ID**: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ This registry key may be modified via administrators to implement a change in sy
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | The Windows registry keys that control the enforcement of Windows User Account Control (UAC) were modified on $dest$ by $user$. |
 
 
 

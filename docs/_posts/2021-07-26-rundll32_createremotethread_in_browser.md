@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies the suspicious Remote Thread execution of rundll32.exe process to &#34;firefox.exe&#34; and &#34;chrome.exe&#34; browser. This technique was seen in IcedID malware where it hooks the browser to parse banking information as user used the targetted browser process.
 
-- **ID**: f8a22586-ee2d-11eb-a193-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-26
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: f8a22586-ee2d-11eb-a193-acde48001122
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | rundl32 process $SourceImage$ create a remote thread to browser process $TargetImage$ in host $Computer$ |
 
 
 

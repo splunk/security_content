@@ -9,17 +9,17 @@ tags:
   - Network_Resolution
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 DNS poses a serious threat as a Denial of Service (DOS) amplifier, if it responds to `ANY` queries. This Analytic Story can help you detect attackers who may be abusing your company's DNS infrastructure to launch amplification attacks, causing Denial of Service to other victims.
 
-- **ID**: e8afd39e-3294-11e6-b39d-a45e60c6700
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2016-09-13
 - **Author**: Bhavin Patel, Splunk
+- **ID**: e8afd39e-3294-11e6-b39d-a45e60c6700
 
 #### Narrative
 

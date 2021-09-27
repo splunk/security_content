@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 this search is to identify registry modification to disable control panel window. This technique is commonly seen in malware to prevent their artifacts , persistence removed on the infected machine.
 
-- **ID**: 6ae0148e-9215-11eb-a94a-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-31
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 6ae0148e-9215-11eb-a94a-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ admin may disable this application for non technical user.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 25.0 | 50 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 25.0 | 50 | 50 | The Windows Control Panel was disabled on $dest$ by $user$. |
 
 
 

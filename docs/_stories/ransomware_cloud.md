@@ -9,17 +9,17 @@ tags:
   - Splunk Cloud
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Leverage searches that allow you to detect and investigate unusual activities that might relate to ransomware. These searches include cloud related objects that may be targeted by malicious actors via cloud providers own encryption features.
 
-- **ID**: f52f6c43-05f8-4b19-a9d3-5b8c56da91c2
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-10-27
 - **Author**: Rod Soto, David Dorsey, Splunk
+- **ID**: f52f6c43-05f8-4b19-a9d3-5b8c56da91c2
 
 #### Narrative
 

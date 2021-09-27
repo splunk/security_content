@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects the creation of a new Federation setting by alerting about an specific event related to its creation.
 
-- **ID**: 1668812a-6047-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
+- **ID**: 1668812a-6047-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ The creation of a new Federation is not necessarily malicious, however these eve
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | User $Actor.ID$ created a new federation setting on $Target.ID$ and added service principal credentials from IP Address $ActorIpAddress$ |
 
 
 

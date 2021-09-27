@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies the use of `reg.exe` exporting Windows Registry hives containing credentials. Adversaries may use this technique to export registry hives for offline credential access attacks. Typically found executed from a untrusted process or script. Upon execution, a file will be written to disk.
 
-- **ID**: 8bbb7d58-b360-11eb-ba21-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-12
 - **Author**: Michael Haag, Splunk
+- **ID**: 8bbb7d58-b360-11eb-ba21-acde48001122
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ It is possible some agent based products will generate false positives. Filter a
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 80 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 80 | 70 | Suspicious use of `reg.exe` exporting Windows Registry hives containing credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$ |
 
 
 

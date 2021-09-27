@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects writes to the recycle bin by a process other than explorer.exe.
 
-- **ID**: b5541828-8ffd-4070-9d95-b3da4de924cb
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-07-22
 - **Author**: Rico Valdez, Splunk
+- **ID**: b5541828-8ffd-4070-9d95-b3da4de924cb
 
 
 #### ATT&CK
@@ -36,6 +36,7 @@ This search detects writes to the recycle bin by a process other than explorer.e
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 28.0 | 40 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 28.0 | 40 | 70 | Suspicious writes to windows Recycle Bin process $Processes.process_name$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies usage of `wmic.exe` spawning a local or remote process, identified by the `node` switch. During triage, review parallel processes for additional commands executed. Look for any file modifications before and after `wmic.exe` execution. In addition, identify the remote endpoint and confirm execution or file modifications. Contain and isolate the endpoint as needed.
 
-- **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2018-12-03
 - **Author**: Rico Valdez, Michael Haag, Splunk
+- **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ Administrators may use this legitimately to gather info from remote systems. Fil
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 36.0 | 60 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 36.0 | 60 | 60 | A wmic.exe process $process$ contain node commandline $process$ in host $dest$ |
 
 
 

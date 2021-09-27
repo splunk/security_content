@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic will identify a suspicious download by the Telegram application on a Windows system. This behavior was identified on a honeypot where the adversary gained access, installed Telegram and followed through with downloading different network scanners (port, bruteforcer, masscan) to the system and later used to mapped the whole network and further move laterally.
 
-- **ID**: 58194e28-ae5e-11eb-8912-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-06
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 58194e28-ae5e-11eb-8912-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ The following analytic will identify a suspicious download by the Telegram appli
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
+
 
 
 #### Search
@@ -78,9 +79,9 @@ normal download of file in telegram app. (if it was a common app in network)
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | Suspicious files were downloaded with the Telegram application on $dest$ by $user$. |
 
 
 

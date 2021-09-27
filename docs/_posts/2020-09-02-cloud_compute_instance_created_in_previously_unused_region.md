@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks at cloud-infrastructure events where an instance is created in any region within the last hour and then compares it to a lookup file of previously seen regions where instances have been created.
 
-- **ID**: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Change](https://docs.splunk.com/Documentation/CIM/latest/User/Change)
 - **Last Updated**: 2020-09-02
 - **Author**: David Dorsey, Splunk
+- **ID**: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ This search looks at cloud-infrastructure events where an instance is created in
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 
 #### Search
@@ -83,9 +84,9 @@ It&#39;s possible that a user has unknowingly started an instance in a new regio
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | User $user$ is creating an instance $dest$ in a new region for the first time |
 
 
 

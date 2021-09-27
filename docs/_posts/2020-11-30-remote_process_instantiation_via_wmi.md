@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for wmic.exe being launched with parameters to spawn a process on a remote system.
 
-- **ID**: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-30
 - **Author**: Rico Valdez, Splunk
+- **ID**: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for wmic.exe being launched with parameters to spawn a process
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ The wmic.exe utility is a benign Windows application. It may be used legitimatel
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | A wmic.exe process $process$ contain process spawn commandline $process$ in host $dest$ |
 
 
 

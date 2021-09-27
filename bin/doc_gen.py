@@ -191,12 +191,12 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
     # for story categories
     template = j2_env.get_template('doc_navigation_story_pages_markdown.j2')
-    for category in sorted(category_names):
-        output_path = path.join(OUTPUT_DIR + '/_pages/' + category.lower().replace(" ", "_") + ".md")
-        output = template.render(tag=category)
+    for category in categories:
+        output_path = path.join(OUTPUT_DIR + '/_pages/' + category['name'].lower().replace(" ", "_") + ".md")
+        output = template.render(category=category)
         with open(output_path, 'w', encoding="utf-8") as f:
             f.write(output)
-        messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, category))
+        messages.append("doc_gen.py wrote _page for: {0} structure to: {1}".format(category['name'], output_path))
 
     # write index updated metrics
     template = j2_env.get_template('doc_index_markdown.j2')

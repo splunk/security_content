@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic will detect suspicious driver loaded paths. This technique is commonly used by malicious software like coin miners (xmrig) to register its malicious driver from notable directories where executable or drivers do not commonly exist. During triage, validate this driver is for legitimate business use. Review the metadata and certificate information. Unsigned drivers from non-standard paths is not normal, but occurs. In addition, review driver loads into `ntoskrnl.exe` for possible other drivers of interest. Long tail analyze drivers by path (outside of default, and in default) for further review.
 
-- **ID**: f880acd4-a8f1-11eb-a53b-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-29
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: f880acd4-a8f1-11eb-a53b-acde48001122
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ Limited false positives will be present. Some applications do load drivers
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | Suspicious driver $ImageLoaded$ on $Computer$ |
 
 
 

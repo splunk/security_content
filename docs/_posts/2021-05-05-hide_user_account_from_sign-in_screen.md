@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies a suspicious registry modification to hide a user account on the Windows Login screen. This technique was seen in some tradecraft where the adversary will create a hidden user account with Admin privileges in login screen to avoid noticing by the user that they already compromise and to persist on that said machine.
 
-- **ID**: 834ba832-ad89-11eb-937d-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-05
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 834ba832-ad89-11eb-937d-acde48001122
 
 
 #### ATT&CK
@@ -77,9 +77,9 @@ Unknown. Filter as needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | Suspicious registry modification ($registry_value_name$) which is used go hide a user account on the Windows Login screen detected on $dest$ executed by $user$ |
 
 
 

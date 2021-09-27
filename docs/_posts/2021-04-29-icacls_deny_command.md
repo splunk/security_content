@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies a potential adversary that changes the security permission of a specific file or directory. This technique is commonly seen in APT tradecraft or coinminer scripts. This behavior is meant to evade detection and prevent access to their component files.
 
-- **ID**: cf8d753e-a8fe-11eb-8f58-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-29
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: cf8d753e-a8fe-11eb-8f58-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This analytic identifies a potential adversary that changes the security permiss
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ Unknown. It is possible some administrative scripts use ICacls. Filter as needed
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 72.0 | 90 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 72.0 | 90 | 80 | Process name $process_name$ with deny argument executed by $user$ to change security permission of a specific file or directory on host $dest$ |
 
 
 

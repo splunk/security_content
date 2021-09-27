@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for AWS CloudTrail events where a user A who has already permission to update login profile, makes an API call to update login profile for another user B . Attackers have been know to use this technique for Privilege Escalation in case new victim(user B) has more permissions than old victim(user B)
 
-- **ID**: 2a9b80d3-6a40-4115-11ad-212bf3d0d111
 - **Type**: TTP
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-07-19
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 2a9b80d3-6a40-4115-11ad-212bf3d0d111
 
 
 #### ATT&CK
@@ -77,9 +77,9 @@ While this search has no known false positives, it is possible that an AWS admin
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 30.0 | 50 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 30.0 | 50 | 60 | From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for updating the existing login profile, potentially giving user $user_arn$ more access privilleges |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for child processes spawned by zoom.exe or zoom.us that has not previously been seen.
 
-- **ID**: e91bd102-d630-4e76-ab73-7e3ba22c5961
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-05-20
 - **Author**: David Dorsey, Splunk
+- **ID**: e91bd102-d630-4e76-ab73-7e3ba22c5961
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
+
 
 
 #### Search
@@ -82,9 +83,9 @@ A new child process of zoom isn&#39;t malicious by that fact alone. Further inve
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously on host $dest$ |
 
 
 

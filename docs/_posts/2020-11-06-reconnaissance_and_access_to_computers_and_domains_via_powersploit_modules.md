@@ -22,25 +22,28 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies access to PowerSploit modules that discover computers, servers and domains that can be accessed or taken over.
 
-- **ID**: fe1c4c5a-09f3-4b43-8129-560a7f38a08b
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: fe1c4c5a-09f3-4b43-8129-560a7f38a08b
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance || [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance || [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+| [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
 
 
 #### Search
@@ -81,9 +84,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | PowerSploit malware is seaching for or accessing domain controllers, computers, file servers, etc. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

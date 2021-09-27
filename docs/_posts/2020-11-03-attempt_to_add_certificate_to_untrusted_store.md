@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Attempt To Add Certificate To Untrusted Store
 
-- **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-11-03
 - **Author**: Patrick Bareiss, Rico Valdez, Splunk
+- **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 
 
 #### ATT&CK
@@ -83,9 +83,9 @@ There may be legitimate reasons for administrators to add a certificate to the u
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 70 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 70 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified attempting to add a certificate to the store on endpoint $dest$ by user $user$. |
 
 
 

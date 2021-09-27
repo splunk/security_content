@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The search looks for files that contain the key word *Ryuk* under any folder in the C drive, which is consistent with Ryuk propagation.
 
-- **ID**: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-11-06
 - **Author**: Rod Soto, Jose Hernandez, Splunk
+- **ID**: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
 
 
 #### Search
@@ -75,9 +76,9 @@ If there are files with this keywoord as file names it might trigger false possi
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | A creation of ryuk test file $file_path$ in host $dest$ |
 
 
 

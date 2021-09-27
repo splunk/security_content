@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 this search is designed to detect potential malicious process loading COM object to wbemprox.dll,
 
-- **ID**: 9d911ce0-c3be-11eb-b177-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 9d911ce0-c3be-11eb-b177-acde48001122
 
 
 #### ATT&CK
@@ -82,9 +82,9 @@ legitimate process that are not in the exception list may trigger this event.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 70 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 70 | 50 | Suspicious COM Object Execution on $Computer$ |
 
 
 

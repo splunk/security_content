@@ -19,7 +19,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -27,12 +27,12 @@ Monitor for signs that Ntdsutil is being used to Extract Active Directory databa
 ntdsutil &#34;ac i ntds&#34; &#34;ifm&#34; &#34;create full C:\Temp&#34; q q \
 This technique uses &#34;Install from Media&#34; (IFM), which will extract a copy of the Active Directory database. A successful export of the Active Directory database will yield a file modification named ntds.dit to the destination.
 
-- **ID**: da63bc76-61ae-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-28
 - **Author**: Michael Haag, Patrick Bareiss, Splunk
+- **ID**: da63bc76-61ae-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -83,9 +83,9 @@ Highly possible Server Administrators will troubleshoot with ntdsutil.exe, gener
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 50.0 | 100 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 50.0 | 100 | 50 | Active Directory NTDS export on $dest$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior is indicative of a DCOM object being utilized to spawn mshta from wmiprvse.exe or svchost.exe. In this instance, adversaries may use LethalHTA that will spawn mshta.exe from svchost.exe.
 
-- **ID**: 4d33a488-5b5f-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-20
 - **Author**: Michael Haag, Splunk
+- **ID**: 4d33a488-5b5f-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | mshta.exe spawned by wmiprvse.exe on $dest$ |
 
 
 

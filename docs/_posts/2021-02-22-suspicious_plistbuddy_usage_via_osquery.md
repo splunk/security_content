@@ -21,7 +21,7 @@ tags:
 We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -34,12 +34,12 @@ The following analytic identifies the use of a native MacOS utility, PlistBuddy,
 - PlistBuddy -c &#34;Add :ProgramArguments:1 string -c&#34; ~/Library/Launchagents/init_verx.plist \
 Upon triage, capture the property list file being written to disk and review for further indicators. Contain the endpoint and triage further.
 
-- **ID**: 20ba6c32-c733-4a32-b64e-2688cf231399
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-02-22
 - **Author**: Michael Haag, Splunk
+- **ID**: 20ba6c32-c733-4a32-b64e-2688cf231399
 
 
 #### ATT&CK

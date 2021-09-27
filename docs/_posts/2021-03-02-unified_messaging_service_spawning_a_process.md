@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies Microsoft Exchange Server&#39;s Unified Messaging services, umworkerprocess.exe and umservice.exe, spawning a child process, indicating possible exploitation of CVE-2021-26857 vulnerability. The query filters out werfault.exe and wermgr.exe mostly due to potential false positives, however, if there is an excessive amount of &#34;wermgr.exe&#34; or &#34;WerFault.exe&#34; failures, it may be due to the active exploitation. During triage, identify any additional suspicious parallel processes. Identify any recent out of place file modifications. Review Exchange logs following Microsofts guide. To contain, perform egress filtering or restrict public access to Exchange. In final, patch the vulnerablity and monitor.
 
-- **ID**: f1126df0-7bd5-11eb-988f-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-02
 - **Author**: Michael Haag, Splunk
+- **ID**: f1126df0-7bd5-11eb-988f-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This detection identifies Microsoft Exchange Server&#39;s Unified Messaging serv
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ Unknown. Tune out child processes as needed to limit volume of false positives.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | Possible CVE-2021-26857 exploitation on $dest$ |
 
 
 

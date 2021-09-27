@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a shared file in google drive with suspicious file name that are commonly used by spear phishing campaign. This technique is very popular to lure the user by running a malicious document or click a malicious link within the shared file that will redirected to malicious website. This detection can also catch some normal email communication between organization and its external customer.
 
-- **ID**: 07eed200-03f5-11ec-98fb-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-23
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 07eed200-03f5-11ec-98fb-acde48001122
 
 
 #### ATT&CK
@@ -81,9 +81,9 @@ normal user or normal transaction may contain the subject and file type attachme
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 9.0 | 30 | 30 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 9.0 | 30 | 30 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
 
 
 

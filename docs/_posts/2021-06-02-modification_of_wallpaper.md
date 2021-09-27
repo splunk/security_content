@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies suspicious modification of registry to deface or change the wallpaper of a compromised machines as part of its payload. This technique was commonly seen in ransomware like REVIL where it create a bitmap file contain a note that the machine was compromised and make it as a wallpaper.
 
-- **ID**: accb0712-c381-11eb-8e5b-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-02
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: accb0712-c381-11eb-8e5b-acde48001122
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This analytic identifies suspicious modification of registry to deface or change
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1491](https://attack.mitre.org/techniques/T1491/) | Defacement | Impact |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ To successfully implement this search, you need to be ingesting logs with the Im
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 54.0 | 60 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 54.0 | 60 | 90 | Wallpaper modification on $dest$ |
 
 
 

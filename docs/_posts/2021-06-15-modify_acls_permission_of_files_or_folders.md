@@ -17,18 +17,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This analytic identifies suspicious modification of ACL permission to a files or folder to make it available to everyone or to a specific user. This technique may be used by the adversary to evade ACLs or protected files access. This changes is commonly configured by the file or directory owner with appropriate permission. This behavior is a good indicator if this command seen on a machine utilized by an account with no permission to do so.
 
-- **ID**: 9ae9a48a-cdbe-11eb-875a-acde48001122
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-06-15
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 9ae9a48a-cdbe-11eb-875a-acde48001122
 
 
 #### ATT&CK
@@ -36,6 +36,7 @@ This analytic identifies suspicious modification of ACL permission to a files or
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
 
 
 #### Search
@@ -77,9 +78,9 @@ network administrator may use this windows utility. filter is needed.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 50 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 50 | 70 | A cacls process $process_name$ with commandline $cmd_line$ try to modify a permission of a file or directory in host $dest_device_id$ |
 
 
 

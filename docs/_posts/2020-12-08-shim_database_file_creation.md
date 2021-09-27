@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for shim database files being written to default directories. The sdbinst.exe application is used to install shim database files (.sdb). According to Microsoft, a shim is a small library that transparently intercepts an API, changes the parameters passed, handles the operation itself, or redirects the operation elsewhere.
 
-- **ID**: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-08
 - **Author**: David Dorsey, Splunk
+- **ID**: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 
 
 #### ATT&CK
@@ -77,9 +77,9 @@ Because legitimate shim files are created and used all the time, this event, in 
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A process that possibly write shim database in $file_path$ in host $dest$ |
 
 
 

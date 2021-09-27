@@ -18,7 +18,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -26,12 +26,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 This analytic identifies the use of PowerShell loading .net assembly via reflection. This is commonly found in malicious PowerShell usage, including Empire and Cobalt Strike. In addition, the `load(` value may be modifed by removing `(` and it will identify more events to review. \
 During triage, review parallel processes using an EDR product or 4688 events. It will be important to understand the timeline of events around this activity. Review the entire logged PowerShell script block.
 
-- **ID**: 85bc3f30-ca28-11eb-bd21-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-10
 - **Author**: Michael Haag, Splunk
+- **ID**: 85bc3f30-ca28-11eb-bd21-acde48001122
 
 
 #### ATT&CK
@@ -78,9 +78,9 @@ False positives should be limited as day to day scripts do not use this method.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A suspicious powershell script contains reflective class assembly  command in $Message$ to load .net code in memory with EventCode $EventCode$ in host $ComputerName$ |
 
 
 

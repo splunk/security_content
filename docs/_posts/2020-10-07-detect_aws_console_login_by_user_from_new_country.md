@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search looks for AWS CloudTrail events wherein a console login event by a user was recorded within the last hour, then compares the event to a lookup file of previously seen users (by ARN values) who have logged into the console. The alert is fired if the user has logged into the console for the first time within the last hour
 
-- **ID**: 67bd3def-c41c-4bf6-837b-ae196b4257c6
 - **Type**: Hunting
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2020-10-07
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 67bd3def-c41c-4bf6-837b-ae196b4257c6
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
+
 
 
 #### Search
@@ -88,9 +89,9 @@ When a legitimate new user logins for the first time, this activity will be dete
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 42.0 | 70 | 60 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 42.0 | 70 | 60 | User $user$ is logging into the AWS console from Country $Country$ for the first time |
 
 
 

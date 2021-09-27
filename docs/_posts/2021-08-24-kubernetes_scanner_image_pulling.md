@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search uses the Kubernetes logs from Splunk Connect from Kubernetes to detect Kubernetes Security Scanner.
 
-- **ID**: 4890cd6b-0112-4974-a272-c5c153aee551
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-08-24
 - **Author**: Patrick Bareiss, Splunk
+- **ID**: 4890cd6b-0112-4974-a272-c5c153aee551
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+
 
 
 #### Search
@@ -80,9 +81,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | Kubernetes Scanner image pulled on host $host$ |
 
 
 

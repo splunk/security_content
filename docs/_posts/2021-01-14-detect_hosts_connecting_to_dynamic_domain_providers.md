@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Malicious actors often abuse legitimate Dynamic DNS services to host malicious payloads or interactive command and control nodes. Attackers will automate domain resolution changes by routing dynamic domains to countless IP addresses to circumvent firewall blocks, block lists as well as frustrate a network defenders analytic and investigative processes. This search will look for DNS queries made from within your infrastructure to suspicious dynamic domains.
 
-- **ID**: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2021-01-14
 - **Author**: Bhavin Patel, Splunk
+- **ID**: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1189](https://attack.mitre.org/techniques/T1189/) | Drive-by Compromise | Initial Access |
+
 
 
 #### Search
@@ -89,9 +90,9 @@ Some users and applications may leverage Dynamic DNS to reach out to some domain
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 56.0 | 70 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 56.0 | 70 | 80 | A dns query $query$ from your infra connecting to suspicious domain in host  $host$ |
 
 
 

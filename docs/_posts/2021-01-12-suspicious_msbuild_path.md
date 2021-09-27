@@ -22,18 +22,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies msbuild.exe executing from a non-standard path. Msbuild.exe is natively found in C:\Windows\Microsoft.NET\Framework\v4.0.30319 and C:\Windows\Microsoft.NET\Framework64\v4.0.30319. Instances of Visual Studio will run a copy of msbuild.exe. A moved instance of MSBuild is suspicious, however there are instances of build applications that will move or use a copy of MSBuild.
 
-- **ID**: f5198224-551c-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
+- **ID**: f5198224-551c-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -84,9 +84,9 @@ Some legitimate applications may use a moved copy of msbuild.exe, triggering a f
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 49.0 | 70 | 70 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$ |
 
 
 

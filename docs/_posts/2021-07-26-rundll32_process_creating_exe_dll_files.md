@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search is to detect a suspicious rundll32 process that drops executable (.exe or .dll) files. this behavior seen in rundll32 process of IcedID that tries to drop copy of itself in temp folder or download executable drop it either appdata or programdata as part of its execution.
 
-- **ID**: 6338266a-ee2a-11eb-bf68-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-26
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 6338266a-ee2a-11eb-bf68-acde48001122
 
 
 #### ATT&CK
@@ -77,9 +77,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 80.0 | 80 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 80.0 | 80 | 100 | rundll32 process $process_name$ drops a file $TargetFilename$ in host $dest$ |
 
 
 

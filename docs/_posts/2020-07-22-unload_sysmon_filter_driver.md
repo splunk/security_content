@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Attackers often disable security tools to avoid detection. This search looks for the usage of process `fltMC.exe` to unload a Sysmon Driver that will stop sysmon from collecting the data.
 
-- **ID**: c77162d3-f93c-45cc-80c8-22f665664g9f
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2020-07-22
 - **Author**: Bhavin Patel, Splunk
+- **ID**: c77162d3-f93c-45cc-80c8-22f665664g9f
 
 
 #### ATT&CK
@@ -80,9 +80,9 @@ You must be ingesting data that records process activity from your hosts to popu
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 45.0 | 50 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 45.0 | 50 | 90 | Possible Sysmon filter driver unloading on $dest$ |
 
 
 

@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies child processes spawning from  &#34;mshta.exe&#34;. The search will return the first time and last time these command-line arguments were used for these executions, as well as the target system, the user, parent process &#34;mshta.exe&#34; and its child process.
 
-- **ID**: 60023bb6-5500-11eb-ae93-0242ac130002
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-01-12
 - **Author**: Michael Haag, Splunk
+- **ID**: 60023bb6-5500-11eb-ae93-0242ac130002
 
 
 #### ATT&CK
@@ -79,9 +79,9 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 40.0 | 50 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 40.0 | 50 | 80 | suspicious mshta child process detected on host $dest$ by user $user$. |
 
 
 

@@ -24,7 +24,7 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
@@ -34,19 +34,20 @@ Fodhelper.exe has a known UAC bypass as it attempts to look for specific registr
 1. `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`\
 Upon triage, fodhelper.exe will have a child process and read access will occur on the registry keys. Isolate the endpoint and review parallel processes for additional behavior.
 
-- **ID**: 909f8fd8-7ac8-11eb-a1f3-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-03-01
 - **Author**: Michael Haag, Splunk
+- **ID**: 909f8fd8-7ac8-11eb-a1f3-acde48001122
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion || [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
 #### Search
@@ -92,9 +93,9 @@ Limited to no false positives are expected.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 81.0 | 90 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 81.0 | 90 | 90 | Suspcious registy keys added by process fodhelper.exe (process_id- $process_id), with a parent_process of $parent_process_name$ that has been executed on $dest$ by $user$. |
 
 
 

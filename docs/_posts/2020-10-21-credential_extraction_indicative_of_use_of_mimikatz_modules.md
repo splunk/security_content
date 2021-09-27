@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Credential extraction is often an illegal recovery of credential material from secured authentication resources and repositories. This process may also involve decryption or other transformations of the stored credential material. Mimikatz is a collection of tools and modules commonly employed in Windows exploits.
 
-- **ID**: 966b635f-98e8-4aa4-9b49-47ed2cedcc85
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-10-21
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: 966b635f-98e8-4aa4-9b49-47ed2cedcc85
 
 
 #### ATT&CK
@@ -35,6 +35,7 @@ Credential extraction is often an illegal recovery of credential material from s
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -76,9 +77,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 66.5 | 70 | 95 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 66.5 | 70 | 95 | Mimikatz malware is extracting/decoding encoded credentials from stores such as SAM or LSA dumps. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

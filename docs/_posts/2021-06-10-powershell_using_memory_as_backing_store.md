@@ -18,18 +18,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic identifies suspicious PowerShell script execution via EventCode 4104 that is using memory stream as new object backstore. The malicious PowerShell script will contain stream flate data and will be decompressed in memory to run or drop the actual payload. During triage, review parallel processes within the same timeframe. Review the full script block to identify other related artifacts.
 
-- **ID**: c396a0c4-c9f2-11eb-b4f5-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2021-06-10
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: c396a0c4-c9f2-11eb-b4f5-acde48001122
 
 
 #### ATT&CK
@@ -37,6 +37,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
+
 
 
 #### Search
@@ -75,9 +76,9 @@ powershell may used this function to store out object into memory.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 40.0 | 50 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $Message$ as new object backstore with EventCode $EventCode$ in host $ComputerName$ |
 
 
 

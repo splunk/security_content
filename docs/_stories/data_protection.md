@@ -9,17 +9,17 @@ tags:
   - Network_Resolution
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Fortify your data-protection arsenal--while continuing to ensure data confidentiality and integrity--with searches that monitor for and help you investigate possible signs of data exfiltration.
 
-- **ID**: 91c676cf-0b23-438d-abee-f6335e1fce33
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Network_Resolution](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkResolution)
 - **Last Updated**: 2017-09-14
 - **Author**: Bhavin Patel, Splunk
+- **ID**: 91c676cf-0b23-438d-abee-f6335e1fce33
 
 #### Narrative
 

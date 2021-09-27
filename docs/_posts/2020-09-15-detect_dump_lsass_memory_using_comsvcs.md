@@ -16,18 +16,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects the memory of lsass.exe being dumped for offline credential theft attack.
 
-- **ID**: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-09-15
 - **Author**: Jose Hernandez, Splunk
+- **ID**: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 
 
 #### ATT&CK
@@ -74,9 +74,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 70.0 | 70 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 70.0 | 70 | 100 | Malicious actor is dumping encoded credentials via Microsoft&#39;s native comsvc DLL. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 

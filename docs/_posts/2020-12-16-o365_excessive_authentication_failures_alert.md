@@ -19,18 +19,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This search detects when an excessive number of authentication failures occur this search also includes attempts against MFA prompt codes
 
-- **ID**: d441364c-349c-453b-b55f-12eccab67cf9
 - **Type**: Anomaly
 - **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: 
 - **Last Updated**: 2020-12-16
 - **Author**: Rod Soto, Splunk
+- **ID**: d441364c-349c-453b-b55f-12eccab67cf9
 
 
 #### ATT&CK
@@ -38,6 +38,7 @@ This search detects when an excessive number of authentication failures occur th
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+
 
 
 #### Search
@@ -79,9 +80,9 @@ The threshold for alert is above 10 attempts and this should reduce the number o
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 64.0 | 80 | 80 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | User $user$ has caused excessive number of authentication failures from $src_ip$ using UserAgent $UserAgent$. |
 
 
 

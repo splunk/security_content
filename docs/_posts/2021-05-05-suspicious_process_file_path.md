@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 The following analytic will detect a suspicious process running in a file path where a process is not commonly seen and is most commonly used by malicious softtware. This behavior has been used by adversaries where they drop and run an exe in a path that is accessible without admin privileges.
 
-- **ID**: 9be25988-ad82-11eb-a14f-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-05-05
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: 9be25988-ad82-11eb-a14f-acde48001122
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ The following analytic will detect a suspicious process running in a file path w
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
 
 
 #### Search
@@ -81,9 +82,9 @@ Administrators may allow execution of specific binaries in non-standard paths. F
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 35.0 | 70 | 50 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 35.0 | 70 | 50 | Suspicioues process $Processes.process_path.file_path$ running from suspicious location |
 
 
 

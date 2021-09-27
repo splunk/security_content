@@ -9,17 +9,17 @@ tags:
   - Endpoint
 ---
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 Monitor for activities and techniques associated with Password Spraying attacks within Active Directory environments.
 
-- **ID**: 3de109da-97d2-11eb-8b6a-acde48001122
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-07
 - **Author**: Mauricio Velazco, Splunk
+- **ID**: 3de109da-97d2-11eb-8b6a-acde48001122
 
 #### Narrative
 

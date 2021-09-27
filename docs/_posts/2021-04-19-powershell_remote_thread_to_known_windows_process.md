@@ -20,18 +20,18 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 this search is designed to detect suspicious powershell process that tries to inject code and to known/critical windows process and execute it using CreateRemoteThread. This technique is seen in several malware like trickbot and offensive tooling like cobaltstrike where it load a shellcode to svchost.exe to execute reverse shell to c2 and download another payload
 
-- **ID**: ec102cb2-a0f5-11eb-9b38-acde48001122
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-04-19
 - **Author**: Teoderick Contreras, Splunk
+- **ID**: ec102cb2-a0f5-11eb-9b38-acde48001122
 
 
 #### ATT&CK
@@ -39,6 +39,7 @@ this search is designed to detect suspicious powershell process that tries to in
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
 
 
 #### Search
@@ -83,9 +84,9 @@ unknown
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 63.0 | 70 | 90 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 63.0 | 70 | 90 | A suspicious powershell process $process_name$ that tries to create a remote thread on target process $TargetImage$ with eventcode $EventCode$ in host $Computer$ |
 
 
 

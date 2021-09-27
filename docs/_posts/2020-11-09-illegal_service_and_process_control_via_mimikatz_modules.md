@@ -23,25 +23,28 @@ tags:
 
 
 
-[Try in Splunk Cloud](#https://www.splunk.com/en_us/software/splunk-cloud-platform.html){: .btn .btn--success}
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 #### Description
 
 This detection identifies use of Mimikatz modules for illegal control over services and processes, including the authentication service.
 
-- **ID**: aaf3adf1-73e1-4477-b4ee-3771898964f1
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
+- **ID**: aaf3adf1-73e1-4477-b4ee-3771898964f1
 
 
 #### ATT&CK
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation || [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution || [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+| [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+| [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+
 
 
 #### Search
@@ -82,9 +85,9 @@ None identified.
 
 #### RBA
 
-| Risk Score  | Impact      | Confidence   |
-| ----------- | ----------- |--------------|
-| 90.0 | 90 | 100 |
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 90.0 | 90 | 100 | Mimikatz malware is controlling computer&#39;s processess and services. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
 
 
 
