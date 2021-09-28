@@ -474,11 +474,6 @@ jobs:
           source venv/bin/activate
           python3 bin/pretty_yaml.py --path . -v 
 
-      - name: Run generate-actors-map
-        run: |
-          source venv/bin/activate
-          python3 bin/generate-actors-map.py --projects_path . --output docs/mitre-map/
-      
       - name: Run generate-coverage-map
         run: |
           source venv/bin/activate
