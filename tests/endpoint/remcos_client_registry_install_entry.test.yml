@@ -3,7 +3,7 @@ tests:
 - name: Remcos client registry install entry
   file: endpoint/remcos_client_registry_install_entry.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-15d'
+  earliest_time: '-30d'
   latest_time: 'now'
   attack_data:
   - file_name: agent_license.log
