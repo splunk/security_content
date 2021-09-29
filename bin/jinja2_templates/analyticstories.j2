@@ -38,7 +38,7 @@ how_to_implement = {{ detection.how_to_implement }}
 {% else %}
 how_to_implement = none
 {% endif %}
-annotations = {{ detection.mappings | tojson }}
+annotations = {{ detection.savedsearch_annotations | tojson }}
 known_false_positives = {{ detection.known_false_positives }}
 providing_technologies = []
 
