@@ -44,12 +44,28 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Registry.dest 
+  - Registry.user 
+  - Registry.registry_path 
+  - Registry.registry_key_name 
+  - Registry.registry_value_name 
   security_domain: endpoint
-  impact: 
-  confidence: 
+  impact: 80
+  confidence: 100
   # (impact * confidence)/100
-  risk_score: 
+  risk_score: 80
   context:
-  message: 
+  - source:endpoint
+  - stage:Privilege Escalation Persistence
+  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
+  
   
