@@ -51,9 +51,9 @@ tags:
   - Registry.registry_value_name 
   security_domain: endpoint
   impact: 80
-  confidence: 100
+  confidence: 80
   # (impact * confidence)/100
-  risk_score: 80
+  risk_score: 64
   context:
   - source:endpoint
   - stage:Privilege Escalation Persistence
