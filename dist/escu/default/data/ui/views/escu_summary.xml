@@ -3,11 +3,6 @@
   <!-- Example uses stats transforming command -->
   <!-- This limits evnts passed to post-process search -->
   <title>Splunk Security Content</title>
-    <row>
-          <html>
-        <h2 style="color:red">Explore the Analytic Stories included with Splunk Security via <a href="https://www.splunk.com/en_us/resources/videos/splunk-enterprise-security-use-case-library.html">ES Use Case Library</a> or <a href="https://splunkbase.splunk.com/app/3435/">Splunk Security Essentials</a>.</h2>
-      </html>
-  </row>
   <search id="baseSS">
     <query>| rest /services/saved/searches splunk_server=local count=0 | search title="ESCU - *"</query>
   </search>
@@ -24,11 +19,11 @@
   <!-- Rows for  Analytic Story Table -->
   <!-- Rows for  Search Stats -->
   <fieldset submitButton="false"></fieldset>
-  <row depends="$explore-use-case-es-show$">
+  <row>
     <panel>
       <html>
-        <div id="explore-use-case-es-info"/>
-    </html>
+        <h2 style="color:red">Explore the Analytic Stories included with Splunk Security via <a href="https://www.splunk.com/en_us/resources/videos/splunk-enterprise-security-use-case-library.html">ES Use Case Library</a> or <a href="https://splunkbase.splunk.com/app/3435/">Splunk Security Essentials</a>.</h2>
+      </html>
     </panel>
   </row>
   <row id="analytic_stories_header_stats">
@@ -58,7 +53,7 @@
       <single>
         <title>Total Detections</title>
         <search base="baseSS">
-      <query>stats count by action.correlationsearch.label|  eventstats sum(count) as total_detection_count|  fields total_detection_count</query>
+          <query>stats count by action.correlationsearch.label|  eventstats sum(count) as total_detection_count|  fields total_detection_count</query>
         </search>
         <!-- post-process search -->
         <option name="colorBy">value</option>
@@ -171,24 +166,10 @@
         <suffix>"</suffix>
         <default>*</default>
       </input>
-      <input type="dropdown" token="as_category">
-        <label>Category</label>
-        <choice value="*">All</choice>
-        <search >
-          <latest>now</latest>
-          <query>| rest /services/configs/conf-analyticstories splunk_server=local count=0
-   |  search title="analytic_story://*" ||  table category</query>
-        </search>
-        <fieldForLabel>category</fieldForLabel>
-        <fieldForValue>category</fieldForValue>
-        <default>*</default>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
-      </input>
       <input type="dropdown" token="as_attack_id">
         <label>MITRE Technique ID</label>
         <choice value="*">All</choice>
-        <search >
+        <search>
           <latest>now</latest>
           <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
 |  search action.escu.search_type = detection 
@@ -199,23 +180,6 @@
         <prefix>"</prefix>
         <suffix>"</suffix>
         <default>*</default>
-      </input>
-      <input type="dropdown" token="as_data_models">
-        <label>Data Models</label>
-        <choice value="*">All</choice>
-        <search>
-          <latest>now</latest>
-          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
-|  search action.escu.search_type = detection 
-| spath input=action.escu.data_models path={} output=dm
-|  dedup dm 
-|   fields dm</query>
-        </search>
-        <fieldForLabel>dm</fieldForLabel>
-        <fieldForValue>dm</fieldForValue>
-        <default>*</default>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
       </input>
       <html>
             <input id="analytic_filter_clear" class="btn btn-primary" type="button" value="Clear All"/>
