@@ -6,25 +6,27 @@ author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: This analytic is to detect a possible abuse of verclsid to execute malicious file through generate CLSID. 
-  This process is a normal application of windows to verify the CLSID COM object before it is instantiated by Windows Explorer.
-  This hunting query can be a good pivot point to analyze what is he CLSID or COM object pointing too to check if it is a valid application or not.
+description: This analytic is to detect a possible abuse of verclsid to execute malicious
+  file through generate CLSID. This process is a normal application of windows to
+  verify the CLSID COM object before it is instantiated by Windows Explorer. This
+  hunting query can be a good pivot point to analyze what is he CLSID or COM object
+  pointing too to check if it is a valid application or not.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_verclsid` AND Processes.process="*/S*" Processes.process="*/C*" AND  Processes.process="*{*" AND Processes.process="*}*"
-  by  Processes.process_name Processes.original_file_name Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+  where `process_verclsid` AND Processes.process="*/S*" Processes.process="*/C*" AND  Processes.process="*{*"
+  AND Processes.process="*}*" by  Processes.process_name Processes.original_file_name
+  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `verclsid_clsid_execution_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: windows can used this application for its normal COm object validation
+  Sysmon TA.
+known_false_positives: windows can used this application for its normal COm object
+  validation
 references:
--  https://gist.github.com/NickTyrer/0598b60112eaafe6d07789f7964290d5
+- https://gist.github.com/NickTyrer/0598b60112eaafe6d07789f7964290d5
 - https://bohops.com/2018/08/18/abusing-the-com-registry-structure-part-2-loading-techniques-for-evasion-and-persistence/
 tags:
   analytic_story:
@@ -41,21 +43,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.process_name 
-  - Processes.original_file_name 
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process_name 
+  - Processes.process_name
+  - Processes.original_file_name
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
   - Processes.parent_process
   security_domain: endpoint
   impact: 50
   confidence: 50
-  # (impact * confidence)/100
   risk_score: 25
   context:
   - source:endpoint
   - stage:Defense Evasion
-  message: process $process_name$ to execute possible clsid commandline $process$ in $dest$
+  message: process $process_name$ to execute possible clsid commandline $process$
+    in $dest$
   observable:
   - name: dest
     type: Hostname
@@ -65,3 +67,4 @@ tags:
     type: user
     role:
     - Victim
+  automated_detection_testing: passed
