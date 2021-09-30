@@ -54,6 +54,7 @@ This analytic will identify suspicious executable or scripts (known file extensi
 
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

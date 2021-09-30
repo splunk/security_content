@@ -55,6 +55,7 @@ The following analytic will detect a suspicious process running in a file path w
 
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

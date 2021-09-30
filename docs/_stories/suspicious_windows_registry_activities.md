@@ -31,7 +31,7 @@ Attackers are developing increasingly sophisticated techniques for hijacking tar
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Port Monitors](/tags/#port-monitors), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Application Shimming](/tags/#application-shimming) | TTP |
+| [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Masquerading](/tags/#masquerading), [Port Monitors](/tags/#port-monitors), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Application Shimming](/tags/#application-shimming), [Screen Capture](/tags/#screen-capture), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [Monitor Registry Keys for Print Monitors](/endpoint/monitor_registry_keys_for_print_monitors/) | [Port Monitors](/tags/#port-monitors) | TTP |
 | [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
 | [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | [Image File Execution Options Injection](/tags/#image-file-execution-options-injection) | TTP |

@@ -1,15 +1,15 @@
 ---
 title: "Process Deleting Its Process File Path"
-excerpt: "Security Account Manager"
+excerpt: "Indicator Removal on Host"
 categories:
   - Endpoint
 last_modified_at: 2021-03-17
 toc: true
 tags:
   - TTP
-  - T1003.002
-  - Security Account Manager
-  - Credential Access
+  - T1070
+  - Indicator Removal on Host
+  - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -37,7 +37,8 @@ This detection is to identify a suspicious process that tries to delete the proc
 
 | ID          | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
 
 
 #### Search
@@ -54,6 +55,7 @@ This detection is to identify a suspicious process that tries to delete the proc
 
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

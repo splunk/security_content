@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - Ingress Tool Transfer
+  automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
@@ -83,4 +84,3 @@ tags:
   - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint
-  automated_detection_testing: passed
