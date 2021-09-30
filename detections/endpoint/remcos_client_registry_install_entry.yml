@@ -2,7 +2,7 @@ name: Remcos client registry install entry
 id: f2a1615a-1d63-11ec-97d2-acde48001122
 version: 1
 date: '2021-09-24'
-author: Bhavin Patel, Rod Soto, Splunk
+author: Bhavin Patel, Rod Soto, Splunk!
 type: TTP
 datamodel:
 - Endpoint
