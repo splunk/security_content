@@ -3,7 +3,7 @@ tests:
 - name: Print Processor Registry Autostart
   file: endpoint/print_processor_registry_autostart.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-21d'
+  earliest_time: '-365d'
   latest_time: 'now'
   attack_data:
   - file_name: sysmon.log
