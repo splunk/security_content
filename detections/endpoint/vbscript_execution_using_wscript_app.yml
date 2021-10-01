@@ -6,27 +6,25 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious wscript commandline to execute vbscript. 
-  This technique was seen in several malware to execute malicious vbs file using wscript application. 
-  commonly vbs script is associated to cscript process and this can be a technique to evade process parent child detections or 
-  even some av script emulation system.
+description: This analytic is to detect a suspicious wscript commandline to execute
+  vbscript. This technique was seen in several malware to execute malicious vbs file
+  using wscript application. commonly vbs script is associated to cscript process
+  and this can be a technique to evade process parent child detections or even some
+  av script emulation system.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name
   = "wscript.exe" AND Processes.parent_process = "*//e:vbscript*") OR (Processes.process_name
   = "wscript.exe" AND Processes.process = "*//e:vbscript*") by Processes.parent_process_name
   Processes.parent_process Processes.process_name Processes.process_id Processes.process
-  Processes.dest Processes.user 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `vbscript_execution_using_wscript_app_filter`'
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `vbscript_execution_using_wscript_app_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 known_false_positives: unknown
 references:
--  https://www.joesandbox.com/analysis/369332/0/html
+- https://www.joesandbox.com/analysis/369332/0/html
 tags:
   analytic_story:
   - FIN7
@@ -53,7 +51,6 @@ tags:
   security_domain: endpoint
   impact: 70
   confidence: 70
-  # (impact * confidence)/100
   risk_score: 49
   context:
   - Source:Endpoint
@@ -68,3 +65,4 @@ tags:
     type: User
     role:
     - Victim
+  automated_detection_testing: passed
