@@ -134,7 +134,7 @@
   </row>
   <row id="analytic_stories_details_table">
     <panel>
-      <input type="dropdown" token="as_story">
+      <input type="dropdown" token="story">
         <label>Analytic Story</label>
         <choice value="*">All</choice>
         <search>
@@ -150,36 +150,7 @@
         <default>*</default>
         <prefix>"</prefix>
         <suffix>"</suffix>
-      </input>
-      <input type="dropdown" token="detection">
-        <label>Detections</label>
-        <choice value="*">All</choice>
-        <search>
-          <latest>now</latest>
-          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
-|  search title="ESCU - *" action.escu.search_type = detection 
-| rename title as Detection | dedup Detection |  fields Detection</query>
-        </search>
-        <fieldForLabel>Detection</fieldForLabel>
-        <fieldForValue>Detection</fieldForValue>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
-        <default>*</default>
-      </input>
-      <input type="dropdown" token="as_attack_id">
-        <label>MITRE Technique ID</label>
-        <choice value="*">All</choice>
-        <search>
-          <latest>now</latest>
-          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
-|  search action.escu.search_type = detection 
-| spath input=action.correlationsearch.annotations path=mitre_attack{} output="MITRE Technique ID" | mvexpand "MITRE Technique ID"| dedup "MITRE Technique ID" | fields "MITRE Technique ID"</query>
-        </search>
-        <fieldForLabel>MITRE Technique ID</fieldForLabel>
-        <fieldForValue>MITRE Technique ID</fieldForValue>
-        <prefix>"</prefix>
-        <suffix>"</suffix>
-        <default>*</default>
+        <initialValue>*</initialValue>
       </input>
       <html>
             <input id="analytic_filter_clear" class="btn btn-primary" type="button" value="Clear All"/>
@@ -187,27 +158,28 @@
       <table>
         <title>Analytic Story Details</title>
         <search>
-          <query>
-               | rest /services/configs/conf-savedsearches splunk_server=local count=0 
-|  search action.escu.search_type = detection 
+          <query>| rest /services/configs/conf-savedsearches splunk_server=local count=0 
+| search action.escu.search_type = detection 
 | spath input=action.correlationsearch.annotations path=analytic_story{} output="analytic_story" 
 | spath input=action.correlationsearch.annotations path=mitre_attack{} output="mitre_attack" 
-| spath input=action.escu.data_models path={} output="Data Models"
-| rename title as "Detections"
-| join type=outer analytic_story
-    [| rest /services/configs/conf-analyticstories splunk_server=local count=0
-   |  search title="analytic_story://*" 
+| spath input=action.escu.data_models path={} output="Data Models" 
+| rename title as "Detections" 
+| join  analytic_story 
+    [| rest /services/configs/conf-analyticstories splunk_server=local count=0 
+    | search title="analytic_story://*" 
     | eval "analytic_story"=replace(title,"analytic_story://","" ) 
-    ]  
-| fillnull value="-"
-                | search "Analytic Story"=$as_story$
-                | search "Data Models"=$as_data_models$
-                | search "Category"=$as_category$
-                | search "MITRE Technique ID"=$as_attack_id$
-                | search "Detections"=$detection$
-                | table "Analytic Story", Description, Category, "MITRE Technique ID", "Data Models", Detections, "Last Updated"
-           </query>
+        ] 
+| search analytic_story=  $story$
+|stats values(Detections) as Detections values(mitre_attack) as "MITRE Technique ID" values(last_updated) as "Last Updated" values("narrative") as Description by analytic_story| rename analytic_story as "Analytic Story"| table "Analytic Story" Description Detections "MITRE Technique ID"</query>
+          <earliest>$earliest$</earliest>
+          <latest>$latest$</latest>
         </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option>
+        <option name="wrap">true</option>
         <drilldown>
           <link target="_blank">
             <![CDATA[
@@ -215,11 +187,6 @@
             ]]>
           </link>
         </drilldown>
-        <option name="drilldown">row</option>
-        <option name="wrap">true</option>
-        <option name="rowNumbers">true</option>
-        <option name="dataOverlayMode">none</option>
-        <option name="count">5</option>
       </table>
     </panel>
   </row>
