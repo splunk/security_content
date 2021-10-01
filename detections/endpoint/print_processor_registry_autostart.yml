@@ -32,7 +32,7 @@ tags:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/print_reg/sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/print_reg/sysmon_print.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
