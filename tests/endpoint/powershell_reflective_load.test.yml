@@ -7,6 +7,6 @@ tests:
   latest_time: 'now'
   attack_data:
   - file_name: powershell.log
-    data: - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/T1127.001/regsvr32_silent/powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/T1127.001/regsvr32_silent/powershell.log
     source: WinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: WinEventLog
