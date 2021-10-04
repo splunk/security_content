@@ -170,7 +170,7 @@
     | eval "analytic_story"=replace(title,"analytic_story://","" ) 
         ] 
 | search analytic_story=  $story$
-|stats values(Detections) as Detections values(mitre_attack) as "MITRE Technique ID" values(last_updated) as "Last Updated" values("narrative") as Description by analytic_story| rename analytic_story as "Analytic Story"| table "Analytic Story" Description Detections "MITRE Technique ID" "Last Updated"</query>
+|stats values(Detections) as Detections values(mitre_attack) as "MITRE Technique ID" values(last_updated) as "Last Updated"  by analytic_story description| rename analytic_story as "Analytic Story"| rename description as Description| table "Analytic Story" Description Detections "MITRE Technique ID" "Last Updated"</query>
           <earliest>$earliest$</earliest>
           <latest>$latest$</latest>
         </search>
