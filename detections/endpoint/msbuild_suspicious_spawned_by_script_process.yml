@@ -6,24 +6,25 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious msbuild process by MS scripting process. 
-  This behavior or event are commonly seen and used by malware or adversaries to execute malicious msbuild process using malicious script in the 
-  compromised host. This behavior is not common and can be a good indicator to start checking the content of the script that execute the said msbuild process.
+description: This analytic is to detect a suspicious msbuild process by MS scripting
+  process. This behavior or event are commonly seen and used by malware or adversaries
+  to execute malicious msbuild process using malicious script in the compromised host.
+  This behavior is not common and can be a good indicator to start checking the content
+  of the script that execute the said msbuild process.
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("wscript.exe", "cscript.exe")
-  AND `process_msbuild` by Processes.dest Processes.parent_process Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.user 
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `msbuild_suspicious_spawned_by_script_process_filter`'
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
+  IN ("wscript.exe", "cscript.exe") AND `process_msbuild` by Processes.dest Processes.parent_process
+  Processes.parent_process_name Processes.process_name Processes.original_file_name
+  Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `msbuild_suspicious_spawned_by_script_process_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: unknown
 references:
--  https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
+- https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
 tags:
   analytic_story:
   - Trusted Developer Utilities Proxy Execution MSBuild
@@ -39,21 +40,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.parent_process 
-  - Processes.parent_process_name 
-  - Processes.process_name 
-  - Processes.original_file_name 
-  - Processes.user 
+  - Processes.dest
+  - Processes.parent_process
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.original_file_name
+  - Processes.user
   security_domain: endpoint
   impact: 70
   confidence: 70
-  # (impact * confidence)/100
   risk_score: 49
   context:
   - Stage:Execution
   - Stage:Defense Evasion
-  message: Msbuild.exe process spawned by $parent_process_name$ on $dest$ executed by $user$
+  message: Msbuild.exe process spawned by $parent_process_name$ on $dest$ executed
+    by $user$
   observable:
   - name: dest
     type: Endpoint
@@ -63,3 +64,4 @@ tags:
     type: User
     role:
     - Victim
+  automated_detection_testing: passed
