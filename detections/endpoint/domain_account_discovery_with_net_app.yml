@@ -6,15 +6,16 @@ author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic looks for the execution of `net.exe` or `net1.exe` with command-line arguments utilized to query for domain users.
- Red Teams and adversaries alike may use net.exe to enumerate domain users for situational awareness and Active Directory Discovery.
+description: This analytic looks for the execution of `net.exe` or `net1.exe` with
+  command-line arguments utilized to query for domain users. Red Teams and adversaries
+  alike may use net.exe to enumerate domain users for situational awareness and Active
+  Directory Discovery.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="net.exe"
-  OR Processes.process_name="net1.exe") AND Processes.process = "* user*" AND Processes.process
-  = "*/do*" by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `domain_account_discovery_with_net_app_filter`'
+  as lastTime from datamodel=Endpoint.Processes where `process_net` AND Processes.process
+  = "* user*" AND Processes.process = "*/do*" by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `domain_account_discovery_with_net_app_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
