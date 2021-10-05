@@ -7,10 +7,10 @@ type: TTP
 datamodel:
 - Endpoint
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainUser` commandlet. `GetDomainUser`
-  is part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
-  Red Teams and adversaries alike may use PowerView to enumerate domain users
-  for situational awareness and Active Directory Discovery.
+  to identify the execution of the `Get-DomainUser` commandlet. `GetDomainUser` is
+  part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
+  Red Teams and adversaries alike may use PowerView to enumerate domain users for
+  situational awareness and Active Directory Discovery.
 search: '`powershell` EventCode=4104 Message = "*Get-DomainUser*" | stats count min(_time)
   as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `get_domainuser_with_powershell_script_block_filter`'

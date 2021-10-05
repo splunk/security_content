@@ -1,7 +1,7 @@
 name: Detect mshta inline hta execution
 id: a0873b32-5b68-11eb-ae93-0242ac130002
-version: 5
-date: '2021-01-20'
+version: 6
+date: '2021-09-16'
 author: Bhavin Patel, Michael Haag, Splunk
 type: TTP
 datamodel:
@@ -13,14 +13,16 @@ description: The following analytic identifies "mshta.exe" execution with inline
   as well as the target system, the user, process "mshta.exe" and its parent process.
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=mshta.exe
-  (Processes.process=*vbscript* OR Processes.process=*javascript* OR Processes.process=*about*)
-  by Processes.user Processes.process_name Processes.parent_process_name Processes.dest  |
-  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `detect_mshta_inline_hta_execution_filter`'
+  max(_time) as lastTime from datamodel=Endpoint.Processes where `process_mshta` (Processes.process=*vbscript*
+  OR Processes.process=*javascript* OR Processes.process=*about*) by Processes.user
+  Processes.process_name Processes.original_file_name Processes.parent_process_name
+  Processes.dest  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)` | `detect_mshta_inline_hta_execution_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: Although unlikely, some legitimate applications may exhibit
   this behavior, triggering a false positive.
 references:
