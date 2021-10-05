@@ -27,7 +27,7 @@ references:
 - https://www.offensive-security.com/metasploit-unleashed/about-meterpreter/
 tags:
   analytic_story:
-  - meterpreter
+  - Meterpreter
   automated_detection_testing: passed
   confidence: 100
   context:
