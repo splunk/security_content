@@ -46,12 +46,12 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-- dest
-- process_name 
-- registry_path 
-- registry_key_name
-- registry_value_name 
-- user  
+  - dest
+  - process_name 
+  - registry_path 
+  - registry_key_name
+  - registry_value_name 
+  - user  
   security_domain: endpoint
   impact: 80
   confidence: 100

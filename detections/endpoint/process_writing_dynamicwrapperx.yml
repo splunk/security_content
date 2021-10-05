@@ -59,7 +59,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
-  message: An instance of  $process_name$ was identified on endpoint $dest$ downloading the DynamicWrapperX dll
+  message: An instance of $process_name$ was identified on endpoint $dest$ downloading the DynamicWrapperX dll.
   observable:
   - name: user
     type: User
