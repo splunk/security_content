@@ -68,7 +68,7 @@ toml==0.10.2
 tomli==1.2.1
 typing==3.7.4.3
 tzlocal==3.0
-urllib3==1.26.6
+urllib3==1.26.7
 virtualenv==20.7.2
 wcwidth==0.2.5
 webencodings==0.5.1
