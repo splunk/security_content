@@ -6,10 +6,10 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies a process modifying the registry with a known malicious CLSID under InProcServer32.
-  Most COM classes are registered with the operating system and are identified by a GUID that represents the Class Identifier (CLSID) within the registry (usually under HKLM\Software\Classes\CLSID or HKCU\Software\Classes\CLSID).  Behind the implementation of a COM class is the ‘server’ (some binary) that is referenced within registry keys under the CLSID.  The LocalServer32 key represents a path to an executable (exe) implementation, and the InprocServer32 key represents a path to a dynamic link library (DLL) implementation (Bohops).
-  During triage, review parallel processes for suspicious activity. Pivot on the process GUID to see the full timeline of events. Analyze the value and look for file modifications. Being this is looking for inprocserver32, a DLL found in the value will most likely be loaded by a parallel process.
-  search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+description: 'The following analytic identifies a process modifying the registry with a known malicious CLSID under InProcServer32.
+  Most COM classes are registered with the operating system and are identified by a GUID that represents the Class Identifier (CLSID) within the registry (usually under HKLM\\Software\\Classes\\CLSID or HKCU\\Software\\Classes\\CLSID).  Behind the implementation of a COM class is the server (some binary) that is referenced within registry keys under the CLSID.  The LocalServer32 key represents a path to an executable (exe) implementation, and the InprocServer32 key represents a path to a dynamic link library (DLL) implementation (Bohops).
+  During triage, review parallel processes for suspicious activity. Pivot on the process GUID to see the full timeline of events. Analyze the value and look for file modifications. Being this is looking for inprocserver32, a DLL found in the value will most likely be loaded by a parallel process.'
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   by _time Processes.process_id Processes.process_name
   Processes.dest Processes.process_guid Processes.user 
   | `drop_dm_object_name(Processes)` 
