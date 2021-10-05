@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   | `security_content_ctime(lastTime)`
   | `malicious_inprocserver32_modification_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: False positives should be limited, filter as needed. In our test case, Remcos used regsvr32.exe to modify the registry.
+known_false_positives: False positives should be limited, filter as needed. In our test case, Remcos used regsvr32.exe to modify the registry. It may be required, dependent upon the EDR tool producing registry events, to remove (Default) from the command-line.
 references:
   - https://bohops.com/2018/06/28/abusing-com-registry-structure-clsid-localserver32-inprocserver32/  
   - https://tria.ge/210929-ap75vsddan
