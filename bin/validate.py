@@ -73,7 +73,7 @@ def validate_objects(REPO_PATH, objects, verbose):
     for lookup in objects['lookups']:
         errors = errors + validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
-    objects_array = objects['stories'] + objects['detections'] + objects['response_tasks'] + objects['responses']
+    objects_array = objects['stories'] + objects['detections'] 
     for object in objects_array:
         validation_errors, uuids = validate_standard_fields(object, uuids)
         errors = errors + validation_errors
@@ -244,7 +244,7 @@ def validate_tests(REPO_PATH, object):
 
 def main(REPO_PATH, verbose):
 
-    validation_objects = ['macros','lookups','stories','detections','response_tasks','responses','deployments', 'tests']
+    validation_objects = ['macros','lookups','stories','detections','deployments', 'tests']
 
     objects = {}
     schema_error = False
@@ -272,8 +272,7 @@ def main(REPO_PATH, verbose):
 if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
-        Validates security manifest for correctness, adhering to spec and other common items.
-        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
+        Validates security manifest for correctness, adhering to spec and other common items.""")
     parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
     parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
     # parse them
