@@ -21,6 +21,8 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: False positives should be limited as winhlp32.exe is typically not used with the latest flavors of Windows OS. However, filter as needed.
 references:
   - https://www.exploit-db.com/exploits/16541 
+  - https://tria.ge/210929-ap75vsddan
+  - https://www.virustotal.com/gui/file/cb77b93150cb0f7fe65ce8a7e2a5781e727419451355a7736db84109fa215a89
 tags:
   analytic_story:
   - Remcos
