@@ -146,9 +146,13 @@ def main(args):
                     for dataset in test_file['tests'][counter]['attack_data']:
                         datasets.append(dataset['data'])
                     detection_obj['tags']['dataset'] = datasets
-
-                with open(file_path, 'w') as f:
-                    yaml.dump(detection_obj, f, sort_keys=False, allow_unicode=True)
+                try:
+                    with open(file_path, 'w') as f:
+                        yaml.dump(detection_obj, f, sort_keys=False, allow_unicode=True)
+                except Exception as e:
+                        print("There was an error dumping to YAML file: [%s]"%(str(e)))
+                        print("Here is the full text of the object that we were trying to dump:")
+                        print(detection_obj)
 
                 changed_file_path = 'detections/' + test['detection_result']['detection_file']
                 security_content_repo_obj.index.add([changed_file_path])
