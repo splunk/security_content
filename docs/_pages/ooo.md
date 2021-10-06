@@ -1,7 +1,7 @@
 ---
 permalink: /ooo/
 title: "OOO"
-author_profile: true
+author_profile: false
 layout: single
 ---
 
