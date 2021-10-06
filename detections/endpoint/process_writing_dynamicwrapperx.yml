@@ -75,14 +75,10 @@ tags:
     type: User
     role:
     - Victim
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: parent_process_name
-    type: Parent Process
-    role:
-    - Parent Process
   - name: process_name
     type: Process
     role:
