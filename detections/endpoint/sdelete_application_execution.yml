@@ -6,26 +6,26 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect the execution of sdelete.exe application sysinternal tools. 
- This tool is one of the most use tool of malware and adversaries to remove or clear their tracks and artifact in the targetted host.
- This tool is designed to delete securely a file in file system that remove the forensic evidence on the machine. A good TTP query to check why user 
- execute this application which is not a common practice.
+description: This analytic is to detect the execution of sdelete.exe application sysinternal
+  tools. This tool is one of the most use tool of malware and adversaries to remove
+  or clear their tracks and artifact in the targetted host. This tool is designed
+  to delete securely a file in file system that remove the forensic evidence on the
+  machine. A good TTP query to check why user execute this application which is not
+  a common practice.
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_sdelete` by  Processes.process_name Processes.original_file_name
   Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `sdelete_application_execution_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: user may execute and use this application
 references:
--  https://app.any.run/tasks/956f50be-2c13-465a-ac00-6224c14c5f89/
+- https://app.any.run/tasks/956f50be-2c13-465a-ac00-6224c14c5f89/
 tags:
   analytic_story:
   - Masquerading - Rename System Utilities
@@ -66,3 +66,4 @@ tags:
     type: User
     role:
     - Victim
+  automated_detection_testing: passed
