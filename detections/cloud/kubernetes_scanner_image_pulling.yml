@@ -27,12 +27,12 @@ tags:
   confidence: 90
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json
+  deployments:
+  - Slack Alert
   impact: 90
   kill_chain_phases:
   - Actions on Objectives
   message: Kubernetes Scanner image pulled on host $host$
-  deployments:
-  - Slack Alert
   mitre_attack_id:
   - T1526
   nist:

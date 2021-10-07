@@ -6,7 +6,7 @@ author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic looks for the execution of `powershell.exe` executing the 
+description: This analytic looks for the execution of `powershell.exe` executing the
   `Get-DomainPolicy` commandlet used to obtain the password policy in a Windows domain.
   Red Teams and adversaries alike may use PowerShell to enumerate domain policies
   for situational awareness and Active Directory Discovery.

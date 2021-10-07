@@ -480,7 +480,7 @@ def prepare_stories(stories, detections, playbooks):
     sto_to_nists = {}
     sto_to_det = {}
 
-    preface = " The following Splunk SOAR playbooks can be used in the response to this story's analytics: "
+    preface = " /n**SOAR:** The following Splunk SOAR playbooks can be used in the response to this story's analytics: "
     baselines = [object for object in detections  if 'Baseline' in object['type']]
 
     for detection in detections:
