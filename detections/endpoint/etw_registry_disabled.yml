@@ -6,22 +6,22 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a registry modification to disable ETW feature of windows. 
-  This technique is to evade EDR appliance to evade detections and hide its execution from audit logs.
+description: This analytic is to detect a registry modification to disable ETW feature
+  of windows. This technique is to evade EDR appliance to evade detections and hide
+  its execution from audit logs.
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*") 
+  max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*")
   Registry.registry_value_name = ETWEnabled Registry.registry_value_data=0x00000000
-  by Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data 
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` 
-  | `etw_registry_disabled_filter`'
+  by Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.registry_value_data | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)` | `etw_registry_disabled_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
+  Sysmon TA.
 known_false_positives: unknown
 references:
--  https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
+- https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
 tags:
   analytic_story:
   - Windows Persistence Techniques
@@ -62,4 +62,4 @@ tags:
     type: user
     role:
     - Victim
-  
+  automated_detection_testing: passed
