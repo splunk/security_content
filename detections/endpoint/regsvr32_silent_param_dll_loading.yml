@@ -22,10 +22,11 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: other third part application may used this parameter but not
-  so common in base windows environment
+known_false_positives: Other third part application may used this parameter but not
+  so common in base windows environment.
 references:
 - https://app.any.run/tasks/dc93ee63-050c-4ff8-b07e-8277af9ab939/#
+- https://attack.mitre.org/techniques/T1218/010/
 tags:
   analytic_story:
   - Suspicious Regsvr32 Activity

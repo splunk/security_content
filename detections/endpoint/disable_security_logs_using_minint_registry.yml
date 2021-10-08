@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: THis analytic is to detect a suspicious registry modification to disable
+description: This analytic is to detect a suspicious registry modification to disable
   security audit logs. This technique was shared by a researcher to disable Security
   logs of windows by adding this registry. The Windows will think it is WinPE and
   will not log any event to the Security Log
@@ -15,8 +15,13 @@ search: '| tstats `security_content_summariesonly` count  min(_time) as firstTim
   by Registry.dest Registry.user Registry.registry_value_name Registry.registry_key_name
   Registry.registry_path Registry.registry_value_data | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `disable_security_logs_using_minint_registry_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: To successfully implement this search, you must be ingesting
+  data that records registry activity from your hosts to populate the endpoint data
+  model in the registry node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is typically generated via logs that report reads and writes
+  to the registry.
+known_false_positives: Unknown.
 references:
 - https://twitter.com/0gtweet/status/1182516740955226112
 tags:
@@ -47,14 +52,14 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
-  message: wdigest registry $registry_path$ was added in $dest$
+  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   observable:
-  - name: user
-    type: User
-    role:
-    - Victim
   - name: dest
     type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
     role:
     - Victim
   automated_detection_testing: passed

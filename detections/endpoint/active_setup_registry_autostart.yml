@@ -19,13 +19,13 @@ search: '| tstats `security_content_summariesonly` count  min(_time) as firstTim
   Components*" by Registry.dest  Registry.user Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `active_setup_registry_autostart_filter`'
-how_to_implement: UPDATE_HOW_To successfully implement this search, you must be ingesting
+how_to_implement: To successfully implement this search, you must be ingesting
   data that records registry activity from your hosts to populate the endpoint data
   model in the registry node. This is typically populated via endpoint detection-and-response
   product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
   used for this search is typically generated via logs that report reads and writes
-  to the registry.TO_IMPLEMENT
-known_false_positives: active setup installer may add or modify this registry
+  to the registry.
+known_false_positives: Active setup installer may add or modify this registry.
 references:
 - https://www.microsoft.com/en-us/wdsi/threats/malware-encyclopedia-description?Name=Backdoor%3aWin32%2fPoisonivy.E
 - https://attack.mitre.org/techniques/T1547/014/

@@ -9,8 +9,7 @@ datamodel:
 description: This search is to detect a suspicious modification of registry entry
   to persist and gain privilege escalation upon booting up of compromised host. This
   technique was seen in several APT and malware where it modify UserInitMprLogonScript
-  registry entry to its malicious payload to be executed upon boot up of the machine
-  since this is a
+  registry entry to its malicious payload to be executed upon boot up of the machine.
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
   IN ("*\\Environment\\UserInitMprLogonScript") by Registry.dest  Registry.user Registry.registry_path

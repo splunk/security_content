@@ -47,13 +47,17 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process_id
-  - Processes.process
   - Processes.dest
   - Processes.user
+  - Processes.parent_process_name #parent process name
+  - Processes.parent_process #parent cmdline
+  - Processes.original_file_name
+  - Processes.process_name #process name
+  - Processes.process #process cmdline
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   security_domain: endpoint
   impact: 70
   confidence: 70
@@ -61,7 +65,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Execution
-  message: wscript or cscript parent process spawned  $process_name$ in $dest$
+  message: wscript or cscript parent process spawned $process_name$ in $dest$
   observable:
   - name: dest
     type: Endpoint
