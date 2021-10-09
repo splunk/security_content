@@ -2,7 +2,7 @@ name: WBAdmin Delete System Backups
 id: cd5aed7e-5cea-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-22'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

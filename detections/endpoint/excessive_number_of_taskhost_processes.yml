@@ -2,7 +2,7 @@ name: Excessive number of taskhost processes
 id: f443dac2-c7cf-11eb-ab51-acde48001122
 version: 1
 date: '2021-06-07'
-author: Michael Hart
+author: ___Michael Hart
 type: Anomaly
 datamodel:
 - Endpoint

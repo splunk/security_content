@@ -2,7 +2,7 @@ name: Office Product Spawning BITSAdmin
 id: e8c591f4-a6d7-11eb-8cf7-acde48001122
 version: 1
 date: '2021-04-26'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

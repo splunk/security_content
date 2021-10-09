@@ -2,7 +2,7 @@ name: Modify ACLs Permission Of Files Or Folders
 id: 9ae9a48a-cdbe-11eb-875a-acde48001122
 version: 1
 date: '2021-06-15'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

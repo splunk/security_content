@@ -2,7 +2,7 @@ name: Windows Updates Install Successes
 id: 6a80535c-86a6-4b54-894c-4b446d0c701d
 version: 1
 date: '2017-09-14'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Baseline
 datamodel: []
 description: This search is intended to give you a feel for how often successful Windows

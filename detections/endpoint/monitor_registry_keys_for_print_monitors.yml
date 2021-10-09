@@ -2,7 +2,7 @@ name: Monitor Registry Keys for Print Monitors
 id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
 version: 2
 date: '2020-11-23'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: TTP
 datamodel: []
 description: This search looks for registry activity associated with modifications

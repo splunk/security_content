@@ -2,7 +2,7 @@ name: Office Product Writing cab or inf
 id: f48cd1d4-125a-11ec-a447-acde48001122
 version: 1
 date: '2021-09-10'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Get Logon Rights Modifications For Endpoint
 id: 03bffe94-ec7a-4cbe-b677-6af40d1c4505
 version: 2
 date: '2017-09-12'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Investigation
 datamodel: []
 description: This search allows you to retrieve any modifications to logon rights

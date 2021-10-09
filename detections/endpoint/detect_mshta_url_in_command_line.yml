@@ -2,7 +2,7 @@ name: Detect MSHTA Url in Command Line
 id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-20'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

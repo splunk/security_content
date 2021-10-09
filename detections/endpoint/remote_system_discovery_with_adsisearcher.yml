@@ -2,7 +2,7 @@ name: Remote System Discovery with Adsisearcher
 id: 70803451-0047-4e12-9d63-77fa7eb8649c
 version: 1
 date: '2021-09-01'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

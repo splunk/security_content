@@ -2,7 +2,7 @@ name: Get DomainUser with PowerShell Script Block
 id: 61994268-04f4-11ec-865c-acde48001122
 version: 1
 date: '2021-08-24'
-author: Teoderick Contreras, Mauricio Velazco, Splunk
+author: ___Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Detect HTML Help URL in Command Line
 id: 8c5835b9-39d9-438b-817c-95f14c69a31e
 version: 1
 date: '2021-02-11'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

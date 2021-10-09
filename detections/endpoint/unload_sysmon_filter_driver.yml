@@ -2,7 +2,7 @@ name: Unload Sysmon Filter Driver
 id: c77162d3-f93c-45cc-80c8-22f665664g9f
 version: 3
 date: '2020-07-22'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: TTP
 datamodel:
 - Endpoint

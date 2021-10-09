@@ -2,7 +2,7 @@ name: UAC Bypass With Colorui COM Object
 id: 2bcccd20-fc2b-11eb-8d22-acde48001122
 version: 1
 date: '2021-08-13'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

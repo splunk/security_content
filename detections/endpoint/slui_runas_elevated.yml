@@ -2,7 +2,7 @@ name: SLUI RunAs Elevated
 id: 8d124810-b3e4-11eb-96c7-acde48001122
 version: 1
 date: '2021-05-13'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

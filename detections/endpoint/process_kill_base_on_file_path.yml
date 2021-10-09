@@ -2,7 +2,7 @@ name: Process Kill Base On File Path
 id: 5ffaa42c-acdb-11eb-9ad3-acde48001122
 version: 1
 date: '2021-05-04'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

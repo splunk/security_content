@@ -2,7 +2,7 @@ name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
 version: 4
 date: '2020-11-09'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Hunting
 datamodel:
 - Endpoint

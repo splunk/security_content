@@ -2,7 +2,7 @@ name: Detect processes used for System Network Configuration Discovery
 id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 version: 2
 date: '2020-11-10'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: TTP
 datamodel:
 - Endpoint

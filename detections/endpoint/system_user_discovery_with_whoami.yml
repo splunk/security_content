@@ -2,7 +2,7 @@ name: System User Discovery With Whoami
 id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
 version: 1
 date: '2021-09-13'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint

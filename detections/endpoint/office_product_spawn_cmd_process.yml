@@ -2,7 +2,7 @@ name: Office Product Spawn CMD Process
 id: b8b19420-e892-11eb-9244-acde48001122
 version: 1
 date: '2021-07-19'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

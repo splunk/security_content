@@ -2,7 +2,7 @@ name: Investigate Failed Logins for Multiple Destinations
 id: 097e8030-8662-4254-a735-bf0bdda696e3
 version: 1
 date: '2019-12-10'
-author: Patrick Bareiss, Splunk
+author: ___Patrick Bareiss, Splunk
 type: Investigation
 datamodel:
 - Authentication

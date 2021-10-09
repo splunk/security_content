@@ -2,7 +2,7 @@ name: Esentutl SAM Copy
 id: d372f928-ce4f-11eb-a762-acde48001122
 version: 1
 date: '2021-08-18'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: Hunting
 datamodel:
 - Endpoint

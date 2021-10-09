@@ -2,7 +2,7 @@ name: Investigate Previous Unseen User
 id: 5de385bf-4f1e-404e-9b67-92d162ff8938ad
 version: 1
 date: '2019-12-10'
-author: Patrick Bareiss, Splunk
+author: ___Patrick Bareiss, Splunk
 type: Investigation
 datamodel:
 - Authentication

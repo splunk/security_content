@@ -2,7 +2,7 @@ name: Multiple Invalid Users Failing To Authenticate From Host Using NTLM
 id: 57ad5a64-9df7-11eb-a290-acde48001122
 version: 1
 date: '2021-04-15'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

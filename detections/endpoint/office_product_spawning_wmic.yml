@@ -2,7 +2,7 @@ name: Office Product Spawning Wmic
 id: ffc236d6-a6c9-11eb-95f1-acde48001122
 version: 1
 date: '2021-04-26'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

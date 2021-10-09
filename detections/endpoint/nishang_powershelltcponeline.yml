@@ -2,7 +2,7 @@ name: Nishang PowershellTCPOneLine
 id: 1a382c6c-7c2e-11eb-ac69-acde48001122
 version: 1
 date: '2021-03-03'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

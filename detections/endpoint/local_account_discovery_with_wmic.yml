@@ -2,7 +2,7 @@ name: Local Account Discovery With Wmic
 id: 4902d7aa-0134-11ec-9d65-acde48001122
 version: 1
 date: '2021-08-19'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint

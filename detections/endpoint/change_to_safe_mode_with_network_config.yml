@@ -2,7 +2,7 @@ name: Change To Safe Mode With Network Config
 id: 81f1dce0-0f18-11ec-a5d7-acde48001122
 version: 1
 date: '2021-09-06'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

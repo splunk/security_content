@@ -2,7 +2,7 @@ name: Detect Rundll32 Application Control Bypass - setupapi
 id: 61e7b44a-6088-4f26-b788-9a96ba13b37a
 version: 1
 date: '2021-02-04'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

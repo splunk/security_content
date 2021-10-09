@@ -2,7 +2,7 @@ name: Auto Admin Logon Registry Entry
 id: 1379d2b8-0f18-11ec-8ca3-acde48001122
 version: 1
 date: '2021-09-06'
-author: Teoderick Contreras, Splunk!
+author: ___Teoderick Contreras, Splunk!
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
 version: 5
 date: '2020-12-17'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: BCDEdit Failure Recovery Modification
 id: 809b31d2-5462-11eb-ae93-0242ac130002
 version: 1
 date: '2020-12-21'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

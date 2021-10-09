@@ -2,7 +2,7 @@ name: Remote Process Instantiation via WMI
 id: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
 version: 5
 date: '2020-11-30'
-author: Rico Valdez, Splunk
+author: ___Rico Valdez, Splunk
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Detect Activity Related to Pass the Hash Attacks
 id: f5939373-8054-40ad-8c64-cec478a22a4b
 version: 5
 date: '2020-10-15'
-author: Bhavin Patel, Patrick Bareiss, Splunk
+author: ___Bhavin Patel, Patrick Bareiss, Splunk
 type: TTP
 datamodel: []
 description: This search looks for specific authentication events from the Windows

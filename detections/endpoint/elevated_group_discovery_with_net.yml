@@ -2,7 +2,7 @@ name: Elevated Group Discovery With Net
 id: a23a0e20-0b1b-4a07-82e5-ec5f70811e7a
 version: 1
 date: '2021-08-25'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

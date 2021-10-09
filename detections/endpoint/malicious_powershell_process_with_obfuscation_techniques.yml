@@ -2,7 +2,7 @@ name: Malicious PowerShell Process With Obfuscation Techniques
 id: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
 version: 4
 date: '2021-01-19'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: TTP
 datamodel:
 - Endpoint

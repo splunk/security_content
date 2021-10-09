@@ -2,7 +2,7 @@ name: PowerShell 4104 Hunting
 id: d6f2b006-0041-11ec-8885-acde48001122
 version: 1
 date: '2021-08-18'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: Hunting
 datamodel: []
 description: The following Hunting analytic assists with identifying suspicious PowerShell

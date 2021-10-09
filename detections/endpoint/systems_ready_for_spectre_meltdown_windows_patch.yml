@@ -2,7 +2,7 @@ name: Systems Ready for Spectre-Meltdown Windows Patch
 id: fc0edc95-ff2b-48b0-9f6f-63da3789fd61
 version: 1
 date: '2018-01-08'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Baseline
 datamodel:
 - Change

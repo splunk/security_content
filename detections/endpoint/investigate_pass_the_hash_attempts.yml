@@ -2,7 +2,7 @@ name: Investigate Pass the Hash Attempts
 id: ed3fff45-cba6-4990-983f-6fac72bee659
 version: 1
 date: '2019-12-10'
-author: Patrick Bareiss, Splunk
+author: ___Patrick Bareiss, Splunk
 type: Investigation
 datamodel: []
 description: This search hunts for dumped NTLM hashes used for pass the hash.

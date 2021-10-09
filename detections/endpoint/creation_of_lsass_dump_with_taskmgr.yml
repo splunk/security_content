@@ -2,7 +2,7 @@ name: Creation of lsass Dump with Taskmgr
 id: b2fbe95a-9c62-4c12-8a29-24b97e84c0cd
 version: 1
 date: '2020-02-03'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel: []
 description: Detect the hands on keyboard behavior of Windows Task Manager creating

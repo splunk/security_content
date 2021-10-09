@@ -2,7 +2,7 @@ name: Previously seen command line arguments
 id: 56059acf-50fe-4f60-98d1-b75b51b5c2f3
 version: 2
 date: '2019-03-01'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: Baseline
 datamodel:
 - Endpoint

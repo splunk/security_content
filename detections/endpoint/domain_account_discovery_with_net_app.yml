@@ -2,7 +2,7 @@ name: Domain Account Discovery With Net App
 id: 98f6a534-04c2-11ec-96b2-acde48001122
 version: 1
 date: '2021-08-24'
-author: Teoderick Contreras, Mauricio Velazco, Splunk
+author: ___Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

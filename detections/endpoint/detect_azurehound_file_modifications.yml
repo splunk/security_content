@@ -2,7 +2,7 @@ name: Detect AzureHound File Modifications
 id: 1c34549e-c31b-11eb-996b-acde48001122
 version: 1
 date: '2021-06-01'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

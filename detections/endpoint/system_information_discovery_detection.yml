@@ -2,7 +2,7 @@ name: System Information Discovery Detection
 id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 version: 2
 date: '2021-09-07'
-author: Patrick Bareiss, Splunk
+author: ___Patrick Bareiss, Splunk
 type: TTP
 datamodel:
 - Endpoint

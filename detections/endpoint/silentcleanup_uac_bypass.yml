@@ -2,7 +2,7 @@ name: SilentCleanup UAC Bypass
 id: 56d7cfcc-da63-11eb-92d4-acde48001122
 version: 1
 date: '2021-07-01'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

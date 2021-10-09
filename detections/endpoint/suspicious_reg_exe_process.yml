@@ -2,7 +2,7 @@ name: Suspicious Reg exe Process
 id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 version: 4
 date: '2020-07-22'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: TTP
 datamodel:
 - Endpoint

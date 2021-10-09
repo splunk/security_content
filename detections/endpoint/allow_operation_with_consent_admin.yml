@@ -2,7 +2,7 @@ name: Allow Operation with Consent Admin
 id: 7de17d7a-c9d8-11eb-a812-acde48001122
 version: 1
 date: '2021-06-10'
-author: Teoderick Contreras, Splunk!
+author: ___Teoderick Contreras, Splunk!
 type: TTP
 datamodel:
 - Endpoint

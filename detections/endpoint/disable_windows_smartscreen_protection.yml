@@ -2,7 +2,7 @@ name: Disable Windows SmartScreen Protection
 id: 664f0fd0-91ff-11eb-a56f-acde48001122
 version: 1
 date: '2021-03-31'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

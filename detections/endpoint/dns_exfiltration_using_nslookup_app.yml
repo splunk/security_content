@@ -2,7 +2,7 @@ name: DNS Exfiltration Using Nslookup App
 id: 2452e632-9e0d-11eb-bacd-acde48001122
 version: 1
 date: '2021-04-15'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

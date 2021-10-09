@@ -2,7 +2,7 @@ name: Network Connection Discovery With Arp
 id: ae008c0f-83bd-4ed4-9350-98d4328e15d2
 version: 1
 date: '2021-09-10'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint

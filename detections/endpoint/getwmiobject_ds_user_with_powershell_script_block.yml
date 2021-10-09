@@ -2,7 +2,7 @@ name: GetWmiObject DS User with PowerShell Script Block
 id: fabd364e-04f3-11ec-b34b-acde48001122
 version: 1
 date: '2021-08-24'
-author: Teoderick Contreras, Mauricio Velazco, Splunk
+author: ___Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

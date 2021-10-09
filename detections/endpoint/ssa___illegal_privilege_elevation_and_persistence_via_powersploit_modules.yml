@@ -2,7 +2,7 @@ name: Illegal Privilege Elevation and Persistence via PowerSploit modules
 id: 88c10ee9-fe72-4bce-b343-5b129044b991
 version: 1
 date: '2020-11-09'
-author: Stanislav Miskovic, Splunk
+author: ___Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules that illegaly

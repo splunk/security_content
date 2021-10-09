@@ -2,7 +2,7 @@ name: Illegal Privilege Elevation via Mimikatz modules
 id: 2f873b1f-6352-4844-b7b9-b419f09a42c7
 version: 1
 date: '2020-11-09'
-author: Stanislav Miskovic, Splunk
+author: ___Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
 description: This detection identifies use of Mimikatz modules for illegal privilege

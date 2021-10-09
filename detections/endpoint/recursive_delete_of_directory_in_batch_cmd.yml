@@ -2,7 +2,7 @@ name: Recursive Delete of Directory In Batch CMD
 id: ba570b3a-d356-11eb-8358-acde48001122
 version: 1
 date: '2021-06-22'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

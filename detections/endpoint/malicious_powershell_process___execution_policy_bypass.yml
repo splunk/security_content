@@ -2,7 +2,7 @@ name: Malicious PowerShell Process - Execution Policy Bypass
 id: 9be56c82-b1cc-4318-87eb-d138afaaca39
 version: 4
 date: '2020-07-21'
-author: Rico Valdez, Mauricio Velazco, Splunk
+author: ___Rico Valdez, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

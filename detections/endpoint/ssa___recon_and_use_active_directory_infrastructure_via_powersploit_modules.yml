@@ -3,7 +3,7 @@ name: Reconnaissance and Access to Active Directoty Infrastructure via PowerSplo
 id: db08ac40-ee14-43e9-9a75-dddd059ef812
 version: 1
 date: '2020-11-06'
-author: Stanislav Miskovic, Splunk
+author: ___Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules for reconnaissance

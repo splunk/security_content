@@ -2,7 +2,7 @@ name: Get DomainPolicy with Powershell
 id: b8f9947e-065a-11ec-aafb-acde48001122
 version: 1
 date: '2021-08-26'
-author: Teoderick Contreras, Mauricio Velazco, Splunk
+author: ___Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

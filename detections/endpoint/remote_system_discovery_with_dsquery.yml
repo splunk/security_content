@@ -2,7 +2,7 @@ name: Remote System Discovery with Dsquery
 id: 9fb562f4-42f8-4139-8e11-a82edf7ed718
 version: 1
 date: '2021-08-31'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint

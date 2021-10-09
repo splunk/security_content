@@ -2,7 +2,7 @@ name: Net Localgroup Discovery
 id: 54f5201e-155b-11ec-a6e2-acde48001122
 version: 1
 date: '2021-09-14'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: Hunting
 datamodel:
 - Endpoint

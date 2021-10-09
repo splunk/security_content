@@ -2,7 +2,7 @@ name: Suspicious microsoft workflow compiler rename
 id: f0db4464-55d9-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel: []
 description: The following analytic identifies a renamed instance of microsoft.workflow.compiler.exe.

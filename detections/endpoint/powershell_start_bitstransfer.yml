@@ -2,7 +2,7 @@ name: PowerShell Start-BitsTransfer
 id: 39e2605a-90d8-11eb-899e-acde48001122
 version: 1
 date: '2021-03-29'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

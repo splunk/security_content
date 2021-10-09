@@ -2,7 +2,7 @@ name: SchCache Change By App Connect And Create ADSI Object
 id: 991eb510-0fc6-11ec-82d3-acde48001122
 version: 1
 date: '2021-09-07'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

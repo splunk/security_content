@@ -2,7 +2,7 @@ name: Ryuk Wake on LAN Command
 id: 538d0152-7aaa-11eb-beaa-acde48001122
 version: 1
 date: '2021-03-01'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

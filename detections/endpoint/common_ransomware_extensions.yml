@@ -2,7 +2,7 @@ name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
 version: 4
 date: '2020-11-09'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Hunting
 datamodel:
 - Endpoint

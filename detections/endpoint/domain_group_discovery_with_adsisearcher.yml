@@ -2,7 +2,7 @@ name: Domain Group Discovery with Adsisearcher
 id: 089c862f-5f83-49b5-b1c8-7e4ff66560c7
 version: 1
 date: '2021-08-25'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

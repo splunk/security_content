@@ -2,7 +2,7 @@ name: Get Process Responsible For The DNS Traffic
 id: 910e6512-edc9-4f93-ba24-5b786f47a672
 version: 2
 date: '2019-04-01'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: Investigation
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Trickbot Named Pipe
 id: 1804b0a4-a682-11eb-8f68-acde48001122
 version: 1
 date: '2021-04-26'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

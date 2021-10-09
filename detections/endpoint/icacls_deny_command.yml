@@ -2,7 +2,7 @@ name: Icacls Deny Command
 id: cf8d753e-a8fe-11eb-8f58-acde48001122
 version: 1
 date: '2021-04-29'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

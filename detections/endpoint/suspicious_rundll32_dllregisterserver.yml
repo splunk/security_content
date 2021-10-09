@@ -2,7 +2,7 @@ name: Suspicious Rundll32 dllregisterserver
 id: 8c00a385-9b86-4ac0-8932-c9ec3713b159
 version: 1
 date: '2021-02-09'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

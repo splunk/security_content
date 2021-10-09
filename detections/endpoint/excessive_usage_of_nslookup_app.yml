@@ -2,7 +2,7 @@ name: Excessive Usage of NSLOOKUP App
 id: 0a69fdaa-a2b8-11eb-b16d-acde48001122
 version: 1
 date: '2021-04-21'
-author: Teoderick Contreras, Stanislav Miskovic, Splunk
+author: ___Teoderick Contreras, Stanislav Miskovic, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

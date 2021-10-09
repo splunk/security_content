@@ -2,7 +2,7 @@ name: Illegal Service and Process Control via Mimikatz modules
 id: aaf3adf1-73e1-4477-b4ee-3771898964f1
 version: 1
 date: '2020-11-09'
-author: Stanislav Miskovic, Splunk
+author: ___Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
 description: This detection identifies use of Mimikatz modules for illegal control

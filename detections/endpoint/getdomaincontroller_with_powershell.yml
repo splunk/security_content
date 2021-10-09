@@ -2,7 +2,7 @@ name: GetDomainController with PowerShell
 id: 868ee0e4-52ab-484a-833a-6d85b7c028d0
 version: 1
 date: '2021-09-07'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint

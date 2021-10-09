@@ -2,7 +2,7 @@ name: GetDomainComputer with PowerShell
 id: ed550c19-712e-43f6-bd19-6f58f61b3a5e
 version: 1
 date: '2021-09-07'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

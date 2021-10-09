@@ -2,7 +2,7 @@ name: Office Document Creating Schedule Task
 id: cc8b7b74-9d0f-11eb-8342-acde48001122
 version: 1
 date: '2021-04-14'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

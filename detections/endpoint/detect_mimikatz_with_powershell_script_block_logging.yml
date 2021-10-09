@@ -2,7 +2,7 @@ name: Detect Mimikatz With PowerShell Script Block Logging
 id: 8148c29c-c952-11eb-9255-acde48001122
 version: 1
 date: '2021-06-09'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel: []
 description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)

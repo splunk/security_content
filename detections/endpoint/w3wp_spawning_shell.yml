@@ -2,7 +2,7 @@ name: W3WP Spawning Shell
 id: 0f03423c-7c6a-11eb-bc47-acde48001122
 version: 1
 date: '2021-03-03'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

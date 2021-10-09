@@ -2,7 +2,7 @@ name: GetDomainGroup with PowerShell Script Block
 id: 09725404-a44f-4ed3-9efa-8ed5d69e4c53
 version: 1
 date: '2021-08-26'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

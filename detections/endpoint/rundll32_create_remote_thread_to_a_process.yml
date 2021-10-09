@@ -2,7 +2,7 @@ name: Rundll32 Create Remote Thread To A Process
 id: 2dbeee3a-f067-11eb-96c0-acde48001122
 version: 1
 date: '2021-07-29'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

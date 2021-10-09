@@ -2,7 +2,7 @@ name: Detect PsExec With accepteula Flag
 id: b89919ed-fe5f-492c-b139-151xb162040e
 version: 3
 date: '2020-11-10'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: TTP
 datamodel:
 - Endpoint

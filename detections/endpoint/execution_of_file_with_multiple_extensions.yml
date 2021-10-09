@@ -2,7 +2,7 @@ name: Execution of File with Multiple Extensions
 id: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
 version: 3
 date: '2020-11-18'
-author: Rico Valdez, Splunk
+author: ___Rico Valdez, Splunk
 type: TTP
 datamodel:
 - Endpoint

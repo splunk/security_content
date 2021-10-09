@@ -2,7 +2,7 @@ name: Shim Database Installation With Suspicious Parameters
 id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
 version: 4
 date: '2020-11-23'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: TTP
 datamodel:
 - Endpoint

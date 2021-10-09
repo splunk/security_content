@@ -2,7 +2,7 @@ name: UAC Bypass MMC Load Unsigned Dll
 id: 7f04349c-e30d-11eb-bc7f-acde48001122
 version: 1
 date: '2021-07-12'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

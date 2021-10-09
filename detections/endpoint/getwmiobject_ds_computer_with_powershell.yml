@@ -2,7 +2,7 @@ name: GetWmiObject Ds Computer with PowerShell
 id: 7141122c-3bc2-4aaa-ab3b-7a85a0bbefc3
 version: 1
 date: '2021-09-07'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

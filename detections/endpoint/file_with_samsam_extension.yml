@@ -2,7 +2,7 @@ name: File with Samsam Extension
 id: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
 version: 1
 date: '2018-12-14'
-author: Rico Valdez, Splunk
+author: ___Rico Valdez, Splunk
 type: TTP
 datamodel:
 - Endpoint

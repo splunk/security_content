@@ -2,7 +2,7 @@ name: Previously Seen Zoom Child Processes - Update
 id: 80aea7fd-5da2-4533-b3c2-560533bfbaee
 version: 1
 date: '2020-05-20'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Baseline
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: GetDomainController with PowerShell Script Block
 id: 676b600a-a94d-4951-b346-11329431e6c1
 version: 1
 date: '2021-09-02'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

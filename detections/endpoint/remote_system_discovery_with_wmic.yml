@@ -2,7 +2,7 @@ name: Remote System Discovery with Wmic
 id: d82eced3-b1dc-42ab-859e-a2fc98827359
 version: 1
 date: '2021-09-01'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

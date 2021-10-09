@@ -2,7 +2,7 @@ name: Resize ShadowStorage volume
 id: bc760ca6-8336-11eb-bcbb-acde48001122
 version: 1
 date: '2021-03-12'
-author: Teoderick Contreras
+author: ___Teoderick Contreras
 type: TTP
 datamodel:
 - Endpoint

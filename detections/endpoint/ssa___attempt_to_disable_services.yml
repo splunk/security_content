@@ -2,7 +2,7 @@ name: Attempt To Disable Services
 id: afb31de4-d023-11eb-98d5-acde48001122
 version: 1
 date: '2021-06-18'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

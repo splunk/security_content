@@ -2,7 +2,7 @@ name: Get DomainPolicy with Powershell Script Block
 id: a360d2b2-065a-11ec-b0bf-acde48001122
 version: 1
 date: '2021-08-26'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Previously Seen Running Windows Services - Update
 id: 2e3bdd68-1863-46ee-81f8-87273eee7f1c
 version: 3
 date: '2020-06-23'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Baseline
 datamodel: []
 description: This search returns the first and last time a Windows service was seen

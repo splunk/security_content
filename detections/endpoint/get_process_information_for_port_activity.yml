@@ -2,7 +2,7 @@ name: Get Process Information For Port Activity
 id: 9925d08f-561e-4faa-8912-e3888a842341
 version: 2
 date: '2019-04-01'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: Investigation
 datamodel:
 - Endpoint

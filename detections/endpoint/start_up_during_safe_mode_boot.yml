@@ -2,7 +2,7 @@ name: Start Up During Safe Mode Boot
 id: c6149154-c9d8-11eb-9da7-acde48001122
 version: 1
 date: '2021-06-10'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

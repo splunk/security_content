@@ -2,7 +2,7 @@ name: Extraction of Registry Hives
 id: 8bbb7d58-b360-11eb-ba21-acde48001122
 version: 2
 date: '2021-09-09'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

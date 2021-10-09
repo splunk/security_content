@@ -2,7 +2,7 @@ name: Get Parent Process Info
 id: fecf2918-670d-4f1c-872b-3d7317a41bf9
 version: 2
 date: '2019-02-28'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: Investigation
 datamodel:
 - Endpoint

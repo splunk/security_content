@@ -2,7 +2,7 @@ name: Windows Security Account Manager Stopped
 id: 69c12d59-d951-431e-ab77-ec426b8d65e6
 version: 1
 date: '2020-11-06'
-author: Rod Soto, Jose Hernandez, Splunk
+author: ___Rod Soto, Jose Hernandez, Splunk
 type: TTP
 datamodel: []
 description: The search looks for a Windows Security Account Manager (SAM) was stopped

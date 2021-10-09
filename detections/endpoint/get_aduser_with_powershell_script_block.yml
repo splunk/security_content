@@ -2,7 +2,7 @@ name: Get ADUser with PowerShell Script Block
 id: 21432e40-04f4-11ec-b7e6-acde48001122
 version: 1
 date: '2021-08-24'
-author: Teoderick Contreras, Mauricio Velazco, Splunk
+author: ___Teoderick Contreras, Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint

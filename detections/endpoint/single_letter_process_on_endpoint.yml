@@ -2,7 +2,7 @@ name: Single Letter Process On Endpoint
 id: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
 version: 3
 date: '2020-12-08'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
 version: 4
 date: '2020-07-21'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Hunting
 datamodel:
 - Endpoint

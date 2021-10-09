@@ -2,7 +2,7 @@ name: CHCP Command Execution
 id: 21d236ec-eec1-11eb-b23e-acde48001122
 version: 1
 date: '2021-07-27'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

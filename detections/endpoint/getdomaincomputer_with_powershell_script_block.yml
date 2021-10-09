@@ -2,7 +2,7 @@ name: GetDomainComputer with PowerShell Script Block
 id: f64da023-b988-4775-8d57-38e512beb56e
 version: 1
 date: '2021-09-02'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

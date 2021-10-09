@@ -2,7 +2,7 @@ name: User Discovery With Env Vars PowerShell
 id: 0cdf318b-a0dd-47d7-b257-c621c0247de8
 version: 1
 date: '2021-09-13'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint

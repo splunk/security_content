@@ -2,7 +2,7 @@ name: CertUtil With Decode Argument
 id: bfe94226-8c10-11eb-a4b3-acde48001122
 version: 1
 date: '2021-03-23'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

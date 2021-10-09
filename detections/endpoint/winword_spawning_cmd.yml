@@ -2,7 +2,7 @@ name: Winword Spawning Cmd
 id: 6fcbaedc-a37b-11eb-956b-acde48001122
 version: 1
 date: '2021-04-22'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

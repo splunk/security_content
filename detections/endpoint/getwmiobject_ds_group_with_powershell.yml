@@ -2,7 +2,7 @@ name: GetWmiObject Ds Group with PowerShell
 id: df275a44-4527-443b-b884-7600e066e3eb
 version: 1
 date: '2021-08-25'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Get Process File Activity
 id: 6a9ad4d9-6ef2-4b85-953f-a37ab256acd5
 version: 2
 date: '2019-11-06'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Investigation
 datamodel:
 - Endpoint

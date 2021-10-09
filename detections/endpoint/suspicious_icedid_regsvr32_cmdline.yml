@@ -2,7 +2,7 @@ name: Suspicious IcedID Regsvr32 Cmdline
 id: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
 version: 1
 date: '2021-07-27'
-author: Teoderick Contreras,
+author: ___Teoderick Contreras,
 type: TTP
 datamodel:
 - Endpoint

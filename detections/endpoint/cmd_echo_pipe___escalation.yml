@@ -2,7 +2,7 @@ name: CMD Echo Pipe - Escalation
 id: eb277ba0-b96b-11eb-b00e-acde48001122
 version: 1
 date: '2021-05-20'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Processes launching netsh
 id: b89919ed-fe5f-492c-b139-95dbb162040e
 version: 3
 date: '2020-07-10'
-author: Josef Kuepker, Splunk
+author: ___Josef Kuepker, Splunk
 type: TTP
 datamodel:
 - Endpoint

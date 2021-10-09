@@ -2,7 +2,7 @@ name: Fsutil Zeroing File
 id: 4e5e024e-fabb-11eb-8b8f-acde48001122
 version: 1
 date: '2021-08-11'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

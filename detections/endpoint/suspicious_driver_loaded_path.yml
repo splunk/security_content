@@ -2,7 +2,7 @@ name: Suspicious Driver Loaded Path
 id: f880acd4-a8f1-11eb-a53b-acde48001122
 version: 1
 date: '2021-04-29'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

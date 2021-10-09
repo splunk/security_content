@@ -2,7 +2,7 @@ name: Permission Modification using Takeown App
 id: fa7ca5c6-c9d8-11eb-bce9-acde48001122
 version: 1
 date: '2021-06-10'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

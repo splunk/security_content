@@ -2,7 +2,7 @@ name: Get Process Info
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd71
 version: 2
 date: '2019-04-01'
-author: Bhavin Patel, Splunk
+author: ___Bhavin Patel, Splunk
 type: Investigation
 datamodel:
 - Endpoint

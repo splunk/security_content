@@ -2,7 +2,7 @@ name: Deny Permission using Cacls Utility
 id: b76eae28-cd25-11eb-9c92-acde48001122
 version: 1
 date: '2021-06-14'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

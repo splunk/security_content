@@ -2,7 +2,7 @@ name: Investigate Successful Remote Desktop Authentications
 id: b6618e8e-be04-40a0-a0b9-f0bd4b6c81bc
 version: 1
 date: '2018-12-14'
-author: Jose Hernandez, Splunk
+author: ___Jose Hernandez, Splunk
 type: Investigation
 datamodel:
 - Authentication

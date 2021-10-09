@@ -2,7 +2,7 @@ name: Detect Pass the Hash
 id: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f
 version: 1
 date: '2020-10-21'
-author: Xiao Lin, Splunk
+author: ___Xiao Lin, Splunk
 type: TTP
 datamodel: []
 description: This search looks for specific authentication events from the Windows

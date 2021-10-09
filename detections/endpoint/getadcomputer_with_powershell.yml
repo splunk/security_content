@@ -2,7 +2,7 @@ name: GetAdComputer with PowerShell
 id: c5a31f80-5888-4d81-9f78-1cc65026316e
 version: 1
 date: '2021-09-07'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint

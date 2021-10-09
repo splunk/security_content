@@ -2,7 +2,7 @@ name: Reconnaissance and Access to Processes and Services via Mimikatz modules
 id: 0243d37c-57c1-4182-bfd1-39b212255fc8
 version: 1
 date: '2020-11-06'
-author: Stanislav Miskovic, Splunk
+author: ___Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
 description: This detection identifies use of Mimikatz modules for discovery and access

@@ -2,7 +2,7 @@ name: Reconnaissance of Connectivity via PowerSploit modules
 id: 525d32fd-65dd-4732-9b72-3cfc7ddddbd2
 version: 1
 date: '2020-11-06'
-author: Stanislav Miskovic, Splunk
+author: ___Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules for reconnaissance

@@ -2,7 +2,7 @@ name: Multiple Disabled Users Failing To Authenticate From Host Using Kerberos
 id: 98f22d82-9d62-11eb-9fcf-acde48001122
 version: 1
 date: '2021-04-14'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

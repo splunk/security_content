@@ -2,7 +2,7 @@ name: Reconnaissance and Access to Operating System Elements via PowerSploit mod
 id: c1d33ad9-1727-4f9f-a474-4adbe4fed68a
 version: 1
 date: '2020-11-06'
-author: Stanislav Miskovic, Splunk
+author: ___Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
 description: This detection identifies access to PowerSploit modules that discover

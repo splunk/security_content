@@ -2,7 +2,7 @@ name: Office Product Spawning CertUtil
 id: 6925fe72-a6d5-11eb-9e17-acde48001122
 version: 1
 date: '2021-04-26'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

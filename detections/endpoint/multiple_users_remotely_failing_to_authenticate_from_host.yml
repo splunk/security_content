@@ -2,7 +2,7 @@ name: Multiple Users Remotely Failing To Authenticate From Host
 id: 80f9d53e-9ca1-11eb-b0d6-acde48001122
 version: 1
 date: '2021-04-13'
-author: Mauricio Velazco, Splunk
+author: ___Mauricio Velazco, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

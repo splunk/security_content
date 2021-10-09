@@ -2,7 +2,7 @@ name: Suspicious Scheduled Task from Public Directory
 id: 7feb7972-7ac3-11eb-bac8-acde48001122
 version: 1
 date: '2021-03-01'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: Anomaly
 datamodel:
 - Endpoint

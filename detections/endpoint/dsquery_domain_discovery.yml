@@ -2,7 +2,7 @@ name: DSQuery Domain Discovery
 id: cc316032-924a-11eb-91a2-acde48001122
 version: 1
 date: '2021-03-31'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint

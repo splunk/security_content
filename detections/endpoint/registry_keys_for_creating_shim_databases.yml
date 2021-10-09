@@ -2,7 +2,7 @@ name: Registry Keys for Creating SHIM Databases
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 version: 3
 date: '2020-11-26'
-author: Bhavin Patel, Patrick Bareiss, Splunk
+author: ___Bhavin Patel, Patrick Bareiss, Splunk
 type: TTP
 datamodel: []
 description: This search looks for registry activity associated with application compatibility

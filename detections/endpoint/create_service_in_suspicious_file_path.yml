@@ -2,7 +2,7 @@ name: Create Service In Suspicious File Path
 id: 429141be-8311-11eb-adb6-acde48001122
 version: 1
 date: '2021-03-12'
-author: Teoderick Contreras
+author: ___Teoderick Contreras
 type: TTP
 datamodel:
 - Endpoint

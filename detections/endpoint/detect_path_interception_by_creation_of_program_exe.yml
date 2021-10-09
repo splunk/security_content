@@ -2,7 +2,7 @@ name: Detect Path Interception By Creation Of program exe
 id: c77162d3-f93c-45cc-80c8-22f6v5264g9f
 version: 3
 date: '2020-07-03'
-author: Patrick Bareiss, Splunk
+author: ___Patrick Bareiss, Splunk
 type: TTP
 datamodel:
 - Endpoint

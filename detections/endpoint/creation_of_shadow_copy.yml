@@ -2,7 +2,7 @@ name: Creation of Shadow Copy
 id: eb120f5f-b879-4a63-97c1-93352b5df844
 version: 1
 date: '2019-12-10'
-author: Patrick Bareiss, Splunk
+author: ___Patrick Bareiss, Splunk
 type: TTP
 datamodel:
 - Endpoint

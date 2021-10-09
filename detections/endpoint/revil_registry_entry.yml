@@ -2,7 +2,7 @@ name: Revil Registry Entry
 id: e3d3f57a-c381-11eb-9e35-acde48001122
 version: 1
 date: '2021-06-02'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

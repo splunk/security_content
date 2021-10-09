@@ -2,7 +2,7 @@ name: Disable Net User Account
 id: ba858b08-d26c-11eb-af9b-acde48001122
 version: 1
 date: '2021-06-21'
-author: Teoderick Contreras, Splunk
+author: ___Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint

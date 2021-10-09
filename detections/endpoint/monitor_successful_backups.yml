@@ -2,7 +2,7 @@ name: Monitor Successful Backups
 id: b4d0dfb2-2195-4f6e-93a3-48468ed9734e
 version: 1
 date: '2017-09-12'
-author: David Dorsey, Splunk
+author: ___David Dorsey, Splunk
 type: Baseline
 datamodel: []
 description: This search is intended to give you a feel for how often successful backups

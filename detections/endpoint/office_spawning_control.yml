@@ -2,7 +2,7 @@ name: Office Spawning Control
 id: 053e027c-10c7-11ec-8437-acde48001122
 version: 1
 date: '2021-09-08'
-author: Michael Haag, Splunk
+author: ___Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
