@@ -1,5 +1,5 @@
 ansible==3.4.0
-ansible-runner==1.4.7
+ansible-runner==2.0.2
 apipkg==1.5
 aspy.yaml==1.3.0
 atomicwrites==1.4.0
@@ -7,13 +7,13 @@ attackcti==0.3.4.3
 attrs==21.2.0
 azure-common==1.1.27
 azure-core==1.18.0
-azure-identity==1.6.0
+azure-identity==1.6.1
 azure-mgmt-compute==20.0.0
 azure-mgmt-core==1.2.1
 azure-mgmt-network==19.0.0
 azure-mgmt-resource==17.0.0
 bcrypt==3.2.0
-boto3==1.17.104
+boto3==1.18.38
 botocore==1.20.105
 certifi==2021.5.30
 cffi==1.14.5
@@ -45,7 +45,7 @@ path==15.1.2
 path.py==12.5.0
 pexpect==4.8.0
 pluggy==0.13.1
-pre-commit==2.13.0
+pre-commit==2.15.0
 protobuf==3.17.0
 psutil==5.8.0
 ptyprocess==0.7.0
