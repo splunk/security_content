@@ -80,12 +80,15 @@ def test_detection_search(splunk_host, splunk_port, splunk_password, search, pas
               "dispatch.latest_time": "now"}
 
     splunk_search = search + ' ' + pass_condition
-
+    print("SEARCH:")
+    print(splunk_search)
+    print("Sleep for 30 seconds")
+    sleep(30)
     try:
         job = service.jobs.create(splunk_search, **kwargs)
     except Exception as e:
         print("Unable to execute detection: " + str(e))
-        raise(Exception("NO EXECUTION EXCEPTION"))
+        raise(Exception("***********NO EXECUTION EXCEPTION***********"))
         return 1, {}
 
     test_results = dict()
@@ -106,6 +109,8 @@ def test_detection_search(splunk_host, splunk_port, splunk_password, search, pas
 
 
 def delete_attack_data(splunk_host, splunk_password, splunk_port):
+    #print("DO NOT DELETE ANYTHING!")
+    #return None
     try:
         service = client.connect(
             host=splunk_host,
