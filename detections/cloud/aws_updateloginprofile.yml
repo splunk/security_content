@@ -39,6 +39,7 @@ tags:
     user $user_arn$ more access privilleges
   mitre_attack_id:
   - T1136.003
+  - T1136
   nist:
   - PR.DS
   - PR.AC

@@ -45,6 +45,7 @@ tags:
     event $eventName$ for updating the the default policy version
   mitre_attack_id:
   - T1078.004
+  - T1078
   nist:
   - PR.DS
   - PR.AC

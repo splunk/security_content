@@ -39,6 +39,7 @@ tags:
     the same destination $ForwardingAddress$
   mitre_attack_id:
   - T1114.003
+  - T1114
   nist:
   - DE.DP
   - DE.AE
