@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-09-15
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1190

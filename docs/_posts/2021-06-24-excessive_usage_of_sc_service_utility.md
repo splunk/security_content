@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-24
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1569.002

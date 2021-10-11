@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-13
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.003

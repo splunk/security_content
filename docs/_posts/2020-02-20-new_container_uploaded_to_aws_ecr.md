@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-02-20
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1525

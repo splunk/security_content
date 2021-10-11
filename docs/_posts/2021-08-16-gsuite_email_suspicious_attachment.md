@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-08-16
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1566.001

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-29
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1543.003

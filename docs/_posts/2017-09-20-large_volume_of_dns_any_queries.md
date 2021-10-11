@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2017-09-20
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1498.002

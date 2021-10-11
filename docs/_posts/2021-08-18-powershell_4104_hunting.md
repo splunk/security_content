@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-18
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1059.001

@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-01-22
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1071.004

@@ -2,6 +2,7 @@
 title: "AWS Network ACL Activity"
 last_modified_at: 2018-05-21
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise

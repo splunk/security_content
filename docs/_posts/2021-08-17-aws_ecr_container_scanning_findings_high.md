@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-08-17
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1204.003

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-03
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1059
@@ -54,7 +55,7 @@ This analytic will identify suspicious series of process executions.  We have ob
 ```
 
 #### Associated Analytic Story
-* [meterpreter](/stories/meterpreter)
+* [Meterpreter](/stories/meterpreter)
 
 
 #### How To Implement

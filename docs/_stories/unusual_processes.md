@@ -2,6 +2,7 @@
 title: "Unusual Processes"
 last_modified_at: 2020-02-04
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -31,7 +32,7 @@ In the event an unusual process is identified, it is imperative to better unders
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Active Scanning](/tags/#active-scanning), [OS Credential Dumping](/tags/#os-credential-dumping), [Service Stop](/tags/#service-stop), [Malicious File](/tags/#malicious-file), [Data Destruction](/tags/#data-destruction), [Account Access Removal](/tags/#account-access-removal), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [System Information Discovery](/tags/#system-information-discovery), [System Network Configuration Discovery](/tags/#system-network-configuration-discovery), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [Account Discovery](/tags/#account-discovery), [Masquerading](/tags/#masquerading), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Regsvr32](/tags/#regsvr32), [Indirect Command Execution](/tags/#indirect-command-execution), [Scheduled Task/Job](/tags/#scheduled-task/job), [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Software Deployment Tools](/tags/#software-deployment-tools), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Rundll32](/tags/#rundll32), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Rename System Utilities](/tags/#rename-system-utilities), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Active Scanning](/tags/#active-scanning), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction indicative of FGDump and CacheDump with s option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_s_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction indicative of FGDump and CacheDump with v option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction indicative of use of Mimikatz modules](/endpoint/credential_extraction_indicative_of_use_of_mimikatz_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |

@@ -5,6 +5,7 @@ categories:
   - Web
 last_modified_at: 2021-01-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1505.003

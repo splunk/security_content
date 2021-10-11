@@ -2,6 +2,7 @@
 title: "FIN7"
 last_modified_at: 2021-09-14
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ FIN7 is a Russian criminal advanced persistent threat group that has primarily t
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Check Elevated CMD using whoami](/endpoint/check_elevated_cmd_using_whoami/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery), [JavaScript](/tags/#javascript), [Credentials from Web Browsers](/tags/#credentials-from-web-browsers), [Spearphishing Attachment](/tags/#spearphishing-attachment), [XSL Script Processing](/tags/#xsl-script-processing) | TTP |
+| [Check Elevated CMD using whoami](/endpoint/check_elevated_cmd_using_whoami/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | TTP |
 | [Cmdline Tool Not Executed In CMD Shell](/endpoint/cmdline_tool_not_executed_in_cmd_shell/) | [JavaScript](/tags/#javascript) | TTP |
 | [Jscript Execution Using Cscript App](/endpoint/jscript_execution_using_cscript_app/) | [JavaScript](/tags/#javascript) | TTP |
 | [MS Scripting Process Loading Ldap Module](/endpoint/ms_scripting_process_loading_ldap_module/) | [JavaScript](/tags/#javascript) | Anomaly |

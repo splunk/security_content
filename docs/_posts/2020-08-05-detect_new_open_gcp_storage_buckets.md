@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-08-05
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1530

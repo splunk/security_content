@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1560.001

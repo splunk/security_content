@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1140

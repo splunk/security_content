@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-07-13
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1078.004

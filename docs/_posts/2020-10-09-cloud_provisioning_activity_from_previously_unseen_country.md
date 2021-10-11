@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-10-09
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1078

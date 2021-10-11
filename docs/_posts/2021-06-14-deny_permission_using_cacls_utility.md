@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-14
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1222

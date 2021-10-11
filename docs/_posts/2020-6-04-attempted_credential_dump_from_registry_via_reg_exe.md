@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-6-04
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003

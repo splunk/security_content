@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-08-25
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1036

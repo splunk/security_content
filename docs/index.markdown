@@ -9,12 +9,12 @@ header:
   actions:
     - label: "Download"
       url: "https://splunkbase.splunk.com/app/3449/"
-excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with over 400+ detections for Splunk."
+excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with **637** detections for Splunk."
 feature_row:
   - image_path: /static/feature_detection.png
     alt: "customizable"
     title: "Detections"
-    excerpt: "See all **636** Splunk Analytics built to find evil 😈."
+    excerpt: "See all **637** Splunk Analytics built to find evil 😈."
     url: "/detections"
     btn_class: "btn--primary"
     btn_label: "Explore"
@@ -44,9 +44,9 @@ This project gives you access to our repository of Analytic Stories that are sec
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
 
 ## [Detection Coverage](https://mitremap.splunkresearch.com/) 🗺
-Below is a snapshot in time of what technique we currently have some detection coverage for. The darker the shade of blue the more detections we have for this particular technique. This map is automatically updated on every release and generated from the [generate-coverage-map.py](https://github.com/splunk/security_content/blob/develop/bin/generate-coverage-map.py).
+Below is a snapshot in time of what technique we currently have some detection coverage for. The darker the shade of blue the more detections we have for this particular technique.
 
-![](mitre-map/coverage.png)
+[![](mitre-map/coverage.png)](https://mitremap.splunkresearch.com/)
 
 ## View Our Content 🔎
 

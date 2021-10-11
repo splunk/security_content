@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-09-02
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1554

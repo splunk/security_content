@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-2-1
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1059

@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-01-11
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1562.007
