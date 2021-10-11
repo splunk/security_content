@@ -40,6 +40,7 @@ tags:
   message: suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:
   - T1566.001
+  - T1566
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
