@@ -6,7 +6,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   mapped to the MITRE ATT&CK Framework, the Lockheed Martin Cyber Kill Chain, and CIS Controls.
   They include Splunk searches, machine learning algorithms and
   Splunk Phantom playbooks (where available)—all designed to work together to detect, investigate, and respond to threats.
-name: Jose Hernandez
+name: Splunk Threat Research Team (STRT)
 url: "https://splunkresearch.com"
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://splunkresearch.com" # the base hostname & protocol for your site, e.g. http://example.com
