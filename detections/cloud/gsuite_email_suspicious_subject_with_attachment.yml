@@ -35,7 +35,7 @@ references:
 - https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   automated_detection_testing: passed
   confidence: 50
   context:
