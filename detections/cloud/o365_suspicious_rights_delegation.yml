@@ -38,6 +38,7 @@ tags:
     that allow access to sensitive
   mitre_attack_id:
   - T1114.002
+  - T1114
   nist:
   - DE.DP
   - DE.AE
