@@ -14,6 +14,53 @@ class DataManipulation:
         if source == 'WinEventLog:Security':
             return self.manipulate_timestamp_windows_event_log_raw(file_path)
 
+        if sourcetype == 'aws:cloudtrail':
+            return self.manipulate_timestamp_aws_raw(file_path)
+
+    def manipulate_timestamp_aws_raw(self, file_path):
+        f = io.open(file_path, "r", encoding="utf-8")
+
+        try:
+            first_line = f.readline()
+            d = json.loads(first_line)
+            latest_event  = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%S.%fZ")
+
+            now = datetime.now()
+            now = now.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+            now = datetime.strptime(now,"%Y-%m-%dT%H:%M:%S.%fZ")
+        except ValueError:
+            first_line = f.readline()
+            d = json.loads(first_line)
+            latest_event  = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%SZ")
+
+            now = datetime.now()
+            now = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+            now = datetime.strptime(now,"%Y-%m-%dT%H:%M:%SZ")
+
+        difference = now - latest_event
+        f.close()
+
+        for line in fileinput.input(file_path, inplace=True):
+            try:
+                d = json.loads(line)
+                original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%S.%fZ")
+                new_time = (difference + original_time)
+
+                original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+                new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+                print (line.replace(original_time, new_time),end ='')
+            except ValueError:
+                d = json.loads(line)
+                original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%SZ")
+                new_time = (difference + original_time)
+
+                original_time = original_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+                new_time = new_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+                print (line.replace(original_time, new_time),end ='')
+
+        return file_path
+
+
 
     def manipulate_timestamp_windows_event_log_raw(self, file_path):
         path = file_path
