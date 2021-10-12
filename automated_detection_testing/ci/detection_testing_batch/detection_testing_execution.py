@@ -13,8 +13,14 @@ from modules import aws_service, testing_service
 import time
 import subprocess
 from datetime import datetime
-index_file_container_path = "/opt/splunk/etc/apps/search/"
+
+SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
+index_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "search")
+
+datamodel_file_local_path = "datamodels.conf.tar"
+datamodel_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "Splunk_SA_CIM")
+
 
 PASSWORD_LENGTH=20
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING=2
@@ -90,6 +96,8 @@ def main(args):
     parser.add_argument("-i", "--reuse_images", required=False, type=bool, default=False, help="Should existing images be re-used, or should they be redownloaded?")
     parser.add_argument("-c", "--reuse_containers", required=False, type=bool, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
 
+    parser.add_argument("-s", "--success", type=str, required=False, help="File that contains previously successful runs that we don't need to test")
+
     args = parser.parse_args()
     branch = args.branch
     uuid_test = args.uuid
@@ -97,6 +105,13 @@ def main(args):
     num_containers = args.num_containers
     reuse_containers = args.reuse_containers
     reuse_images = args.reuse_images
+    success_file = args.success_file
+
+    if success_file is not None:
+        with open(success_file, "r") as successes:
+            success_tests = [x.strip() for x in successes.readlines()]
+    else:
+        success_tests = []
 
 
     if num_containers < 1:
@@ -119,11 +134,18 @@ def main(args):
         #aws_service.dynamo_db_nothing_to_test(REGION, uuid_test, str(int(time.time())))
         sys.exit(0)
     print("The files to test: %s", str(test_files))
+    new_test_files = []
+    for f in test_files:
+        if f not in success_tests:
+            new_test_files.append(f)
+        else:
+            print("Already found [%s] in success file, not testing it again"%(f))
+    test_files = new_test_files
     
     #Go into the security content directory
     print("****GENERATE NEW CONTENT****")
     os.chdir("security_content")
-    commands = ["python3 -m venv .venv", "source .venv/bin/activate", "python3 -m pip install -r requirements.txt", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu"]
+    commands = ["python3 -m venv .venv", "source .venv/bin/activate", "python3 -m pip install wheel", "python3 -m pip install -r requirements.txt", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu"]
     ret = subprocess.run("; ".join(commands), shell=True, capture_output=False)
     if ret.returncode != 0:
         print("Error generating new content.  Exiting...")
@@ -167,7 +189,6 @@ def main(args):
         test_file_queue.put(filename)
     # print("***Test files enqueued")
 
-    testing_service.test_detection_wrapper(None, None, splunk_password, None, test_file_queue.get(), 0%1, uuid_test)
     
     # print("Getting docker client")
     client = docker.client.from_env()
@@ -310,16 +331,28 @@ def main(args):
     results_queue = queue.Queue()
     success_names_queue = queue.Queue()
     failure_names_queue = queue.Queue()
+    
+
+    
     for container_index in range(num_containers):
         container_name = "%s_%d"%(BASE_CONTAINER_NAME, container_index)
         
         web_port = BASE_CONTAINER_WEB_PORT  + container_index
         management_port = BASE_CONTAINER_MANAGEMENT_PORT + container_index
 
+        SPLUNK_COMMON_INFORMATION_MODEL = "https://splunkbase.splunk.com/app/1621/release/4.20.2/download"        
+        SPLUNK_SECURITY_ESSENTIALS = "https://splunkbase.splunk.com/app/3435/release/3.3.4/download"
+        #SPLUNK_ADD_ON_FOR_SYSMON = "https://splunkbase.splunk.com/app/5709/release/1.0.1/download"
+        SPLUNK_ADD_ON_FOR_SYSMON = "https://splunkbase.splunk.com/app/1914/release/10.6.2/download"
+        SYSMON_APP_FOR_SPLUNK = "https://splunkbase.splunk.com/app/3544/release/2.0.0/download"
+        SPLUNK_ES_CONTENT_UPDATE = "https://splunkbase.splunk.com/app/3449/release/3.29.0/download"
+
+        SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, SPLUNK_SECURITY_ESSENTIALS, SPLUNK_ADD_ON_FOR_SYSMON, SYSMON_APP_FOR_SPLUNK, SPLUNK_ES_CONTENT_UPDATE]
+
         #docker run -p8089:8089 -p 8000:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD=123456qwertyQWERTY" -e "SPLUNK_APPS_URL=https://splunkbase.splunk.com/app/3435/release/3.3.4/download,https://splunkbase.splunk.com/app/5709/release/1.0.1/download,https://splunkbase.splunk.com/app/3449/release/3.29.0/download,https://splunkbase.splunk.com/app/1621/release/4.20.2/download" -e "SPLUNKBASE_USERNAME=ericmcginnistwo" -e "SPLUNKBASE_PASSWORD=splunkSecondAccount5@" -name splunktemplate splunk/splunk:latest 
         environment = {"SPLUNK_START_ARGS": "--accept-license",
                         "SPLUNK_PASSWORD"  : splunk_password, 
-                        "SPLUNK_APPS_URL"   : "https://splunkbase.splunk.com/app/3435/release/3.3.4/download,https://splunkbase.splunk.com/app/5709/release/1.0.1/download,https://splunkbase.splunk.com/app/3449/release/3.29.0/download,https://splunkbase.splunk.com/app/1621/release/4.20.2/download",
+                        "SPLUNK_APPS_URL"   : ','.join(SPLUNK_APPS),
                         "SPLUNKBASE_USERNAME" : "emcginnistwo",
                         "SPLUNKBASE_PASSWORD" : "splunkSecondAccount5@"
                         }
@@ -360,6 +393,10 @@ def main(args):
 
     print("DONE!")
     #read all the results out from the output queue
+    strtime = str(int(time.time()))
+    #write success and failure
+    success_output = open("success_%s"%(strtime), "w") 
+    failure_output = open("failure_%s"%(strtime), "w")
     try:
         while True:
 
@@ -391,6 +428,23 @@ def queue_status_thread(total_tests_count, testing_queue, results_queue, success
         else:
             time.sleep(10)
 
+def copy_file_to_container(localFilePath, remoteFilePath, containerName, sleepTimeSeconds=5):
+    successful_copy = False
+    #need to use the low level client to put a file onto a container
+    apiclient = docker.APIClient()
+    while not successful_copy:
+        try:
+            with open(localFilePath,"rb") as fileData:
+                #splunk will restart a few times will installation of apps takes place so it will reload its indexes...
+                apiclient.put_archive(container=containerName, path=remoteFilePath, data=fileData)
+                successful_copy=True
+        except Exception as e:
+            print("Failed copy of [%s] file to CONTAINER:[%s]...we will try again"%(localFilePath, containerName))
+            time.sleep(10)
+            successful_copy=False
+    print("Successfully copied [%s] to [%s] on [%s]"%(localFilePath, remoteFilePath, containerName))
+            
+
 def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_password, splunk_port, uuid_test, results_queue, success_names_queue, failure_names_queue):
     print("Starting the container [%s] after a sleep"%(container_name))
     #Is this going to be safe to use in different threads
@@ -405,32 +459,28 @@ def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_pa
     container = client.containers.get(container_name)
     print("Starting the container [%s]"%(container_name))
 
-    #need to use the low level client to put a file onto a container
-    apiclient = docker.APIClient()
+    
 
     container.start()
-    successful_copy = False
-    while not successful_copy:
-        try:
-            with open(index_file_local_path,"rb") as indexData:
-                #splunk will restart a few times will installation of apps takes place so it will reload its indexes...
-                time.sleep(10)
-                apiclient.put_archive(container=container_name, path=index_file_container_path, data=indexData)
-                successful_copy=True
-        except Exception as e:
-            print("Failed copy of index file to CONTAINER:[%s]...we will try again"%(container_name))
-            successful_copy=False
-            
+    print("Start copying files to container")
+    copy_file_to_container(index_file_local_path, index_file_container_path, container_name)
+    copy_file_to_container(datamodel_file_local_path, datamodel_file_container_path, container_name)
+    print("Finished copying files to container!")
 
 
     wait_for_splunk_ready(max_seconds=120)
+    from modules.splunk_sdk import enable_delete_for_admin
+    if not enable_delete_for_admin(splunk_ip, splunk_port, splunk_password):
+        print("COULD NOT ENABLE DELETE FOR [%s].... quitting"%(container_name))
+        sys.exit(0)
+    
+    print("Successfully enabled DELETE for [%s]"%(container_name))
 
     index=0
     try:
         while True:
             #Try to get something from the queue
             detection_to_test = testing_queue.get(block=False)
-            
             
             #There is a detection to test
             print("Container [%s]--->[%s]"%(container_name, detection_to_test))

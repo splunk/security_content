@@ -4,7 +4,7 @@ import os
 import logging
 import glob
 import subprocess
-
+import yaml
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
@@ -33,7 +33,7 @@ class GithubService:
         branch2 = 'develop'
         g = git.Git('security_content')
         changed_test_files = []
-
+        changed_detection_files = []
         if branch1 != 'develop':
             differ = g.diff('--name-status', branch2 + '...' + branch1)
             changed_files = differ.splitlines()
@@ -49,12 +49,67 @@ class GithubService:
                     # changed detections
                     if 'detections' in file_path:
                         if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.yml'):
-                            file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
-                            file_path_new = file_path_base + '.yml'
-                            if file_path_new not in changed_test_files:
-                                changed_test_files.append(file_path_new)
+                            changed_detection_files.append(file_path)
+                            #file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
+                            #file_path_new = file_path_base + '.yml'
+                            #if file_path_new not in changed_test_files:
+                            #    changed_test_files.append(file_path_new)
 
+        #all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
+        changed_test_files = [name.split('\t')[1] for name in changed_test_files if len(name.split('\t')) == 2]
+        changed_detection_files = [name.split('\t')[1] for name in changed_detection_files if len(name.split('\t')) == 2]
+
+
+        detections_to_test,_,_ = self.filter_test_types(changed_detection_files)
+        for f in detections_to_test:
+            file_path_base = os.path.splitext(f)[0].replace('detections', 'tests') + '.test'
+            file_path_new = file_path_base + '.yml'
+            if file_path_new not in changed_test_files:
+                changed_test_files.append(file_path_new)
+
+        
+        
+       
+        
+        print("Total things to test (test files and detection files changed): [%d]"%(len(changed_test_files)))
+        #for l in changed_test_files:
+        #    print(l)
+        #print(len(changed_test_files))
+        import time
+        time.sleep(5)
         return changed_test_files
+
+    def filter_test_types(self, test_files, test_types = ["Anomaly", "Hunting", "TTP"]):
+        files_to_test = []
+        files_not_to_test = []
+        error_files = []
+        for filename in test_files:
+            try:
+                with open(os.path.join("security_content", filename), "r") as fileData:
+                    yaml_dict = list(yaml.safe_load_all(fileData))[0]
+                    if 'type' not in yaml_dict.keys():
+                        print("Failed to find 'type' in the yaml for: [%s]"%(filename))
+                        error_files.append(filename)
+                    if yaml_dict['type'] in test_types:
+                        files_to_test.append(filename)
+                    else:
+                        files_not_to_test.append(filename)
+            except Exception as e:
+                print("Error on trying to scan [%s]: [%s]"%(filename, str(e)))
+                error_files.append(filename)
+        print("***Detection Information***\n"\
+              "\tTotal Files       : %d"
+              "\tFiles to test     : %d"
+              "\tFiles not to test : %d"
+              "\tError files       : %d"%(len(test_files), len(files_to_test), len(files_not_to_test), len(error_files)))
+        import time
+        time.sleep(5)
+        return files_to_test, files_not_to_test, error_files    
+
+
+
+                
+
 
 
 

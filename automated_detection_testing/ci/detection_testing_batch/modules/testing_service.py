@@ -28,8 +28,9 @@ def test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_po
     result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var)
     
 
+    #enter = input("Run some tests from [%s] on [%s] - we don't delete until you hit enter :)"%(container_name, test_file))
     # delete test data
-    #splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port)
+    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port)
 
     
     if result_test['detection_result']['error']:
@@ -42,7 +43,7 @@ def test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_po
 
 def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var):
     try:
-        test_file_obj = load_file("security_content/" + test_file[2:])
+        test_file_obj = load_file(os.path.join("security_content/", test_file))
     except Exception as e:
         raise
         #print('Error: ' + str(e))
@@ -64,18 +65,21 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
     for attack_data in test_file_obj['tests'][0]['attack_data']:
         url = attack_data['data']
         r = requests.get(url, allow_redirects=True)
-        open(folder_name + '/' + attack_data['file_name'], 'wb').write(r.content)
-        print(folder_name + '/' + attack_data['file_name'])
+        target_file = os.path.join(folder_name, attack_data['file_name'])
+        with open(target_file, 'wb') as target:
+            target.write(r.content)
+        print(target_file)
 
         # Update timestamps before replay
         if 'update_timestamp' in attack_data:
             if attack_data['update_timestamp'] == True:
                 data_manipulation = DataManipulation()
-                data_manipulation.manipulate_timestamp(folder_name + '/' + attack_data['file_name'], attack_data['sourcetype'], attack_data['source'])
-
-        replay_attack_dataset(container_name, splunk_password, folder_name, 'test' + str(test_index), attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
+                data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
+        INDEX_TO_REPLAY_INTO = 'test' + str(test_index)
+        INDEX_TO_REPLAY_INTO = 'main'
+        replay_attack_dataset(container_name, splunk_password, folder_name, INDEX_TO_REPLAY_INTO, attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
     print("START SLEEP AFTER REPLAY")
-    time.sleep(30)
+    time.sleep(60)
     print("DONE SLEEP AFTER REPLAY")
     result_test = {}
     test = test_file_obj['tests'][0]
@@ -120,7 +124,7 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
 def load_file(file_path):
     try:
         print("Opening file path [%s]"%(file_path))
-        sys.exit(0)
+        
         with open(file_path, 'r', encoding="utf-8") as stream:
             try:
                 file = list(yaml.safe_load_all(stream))[0]

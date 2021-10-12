@@ -5,6 +5,31 @@ import splunklib.client as client
 import splunklib.results as results
 import requests
 
+
+def enable_delete_for_admin(splunk_host, splunk_port, splunk_password):
+    try:
+        service = client.connect(
+            host=splunk_host,
+            port=splunk_port,
+            username='admin',
+            password=splunk_password
+        )
+    except Exception as e:
+        print("Unable to connect to Splunk instance: " + str(e))
+        return 1, {}
+
+    # search and replace \\ with \\\
+    # search = search.replace('\\','\\\\')
+    role = service.roles['admin']
+    try:
+        role.grant('delete_by_keyword')
+    except Exception as e:
+        print("Error - failed trying to grant 'can_delete' privs to admin: [%s]"%(str(e)))
+        return False
+    return True
+
+
+
 def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass_condition, baseline_name, baseline_file, earliest_time, latest_time):
     try:
         service = client.connect(
@@ -82,8 +107,8 @@ def test_detection_search(splunk_host, splunk_port, splunk_password, search, pas
     splunk_search = search + ' ' + pass_condition
     print("SEARCH:")
     print(splunk_search)
-    print("Sleep for 30 seconds")
-    sleep(30)
+    #print("Sleep for 30 seconds")
+    #sleep(30)
     try:
         job = service.jobs.create(splunk_search, **kwargs)
     except Exception as e:
@@ -109,8 +134,7 @@ def test_detection_search(splunk_host, splunk_port, splunk_password, search, pas
 
 
 def delete_attack_data(splunk_host, splunk_password, splunk_port):
-    #print("DO NOT DELETE ANYTHING!")
-    #return None
+    print("Deleting test data!")
     try:
         service = client.connect(
             host=splunk_host,
@@ -122,8 +146,8 @@ def delete_attack_data(splunk_host, splunk_password, splunk_port):
         print("Unable to connect to Splunk instance: " + str(e))
         return 1, {}
 
-    splunk_search = 'search index=test* | delete'
-
+    #splunk_search = 'search index=test* | delete'
+    splunk_search = 'search index=main | delete'
     kwargs = {"exec_mode": "blocking",
               "dispatch.earliest_time": "-1d",
               "dispatch.latest_time": "now"}
