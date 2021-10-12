@@ -33,6 +33,7 @@ tags:
   message: Vulnerabilities found in packages used by GitHub repository $repository$
   mitre_attack_id:
   - T1195.001
+  - T1195
   nist:
   - PR.DS
   - PR.AC
