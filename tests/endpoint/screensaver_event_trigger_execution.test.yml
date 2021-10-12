@@ -1,6 +1,6 @@
 name: Screensaver Event Trigger Execution  Unit Test
 tests:
-- name: Screensaver Event Trigger Execution 
+- name: Manual datasets generation for Screensaver Event Trigger Execution. 
   file: endpoint/screensaver_event_trigger_execution.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'

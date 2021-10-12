@@ -1,22 +1,20 @@
-name: Screensaver Event Trigger Execution
-id: 58cea3ec-1f6d-11ec-8560-acde48001122
+name: Logon Script Event Trigger Execution
+id: 4c38c264-1f74-11ec-b5fa-acde48001122
 version: 1
 date: '2021-09-27'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is developed to detect possible event trigger execution
-  through screensaver registry entry modification for persistence or privilege escalation.
-  This technique was seen in several APT and malware where they put the malicious
-  payload path to the SCRNSAVE.EXE registry key to redirect the execution to their
-  malicious payload path. This TTP is a good indicator that some attacker may modify
-  this entry for their persistence and privilege escalation.
+description: This search is to detect a suspicious modification of registry entry
+  to persist and gain privilege escalation upon booting up of compromised host. This
+  technique was seen in several APT and malware where it modify UserInitMprLogonScript
+  registry entry to its malicious payload to be executed upon boot up of the machine.
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\Control
-  Panel\\Desktop\\SCRNSAVE.EXE*") by Registry.dest Registry.user Registry.registry_path
+  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
+  IN ("*\\Environment\\UserInitMprLogonScript") by Registry.dest  Registry.user Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `screensaver_event_trigger_execution_filter`'
+  | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `logon_script_event_trigger_execution_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records registry activity from your hosts to populate the endpoint data model
   in the registry node. This is typically populated via endpoint detection-and-response
@@ -25,18 +23,17 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   to the registry.
 known_false_positives: unknown
 references:
-- https://attack.mitre.org/techniques/T1546/002/
-- https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/privilege-escalation/untitled-3/screensaver
+- https://attack.mitre.org/techniques/T1037/001
 tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.002/scrnsave_reg/sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.001/logonscript_reg/sysmon.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
-  - T1546.002
+  - T1037.001
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -50,8 +47,8 @@ tags:
   - Registry.registry_value_name
   security_domain: endpoint
   impact: 80
-  confidence: 90
-  risk_score: 72
+  confidence: 100
+  risk_score: 80
   context:
   - source:endpoint
   - stage:Privilege Escalation Persistence
