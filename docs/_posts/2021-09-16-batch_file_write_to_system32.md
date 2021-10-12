@@ -36,8 +36,8 @@ The search looks for a batch file (.bat) written to the Windows system directory
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 

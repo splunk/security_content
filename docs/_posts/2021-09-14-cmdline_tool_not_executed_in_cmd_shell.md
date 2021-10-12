@@ -36,8 +36,8 @@ This search is to detect a suspicious parent process execution of commandline to
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 

@@ -36,8 +36,8 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
 

@@ -37,8 +37,8 @@ This search is to detect a COM CLSID execution through powershell. This techniqu
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Privilege Escalation, Persistence |
 
 

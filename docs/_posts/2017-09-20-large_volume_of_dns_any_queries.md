@@ -38,8 +38,8 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
 
 

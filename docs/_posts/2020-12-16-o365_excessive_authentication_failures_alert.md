@@ -36,8 +36,8 @@ This search detects when an excessive number of authentication failures occur th
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 

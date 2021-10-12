@@ -38,8 +38,8 @@ The following analytic identifies the use of a SQLite3 querying the MacOS prefer
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1074](https://attack.mitre.org/techniques/T1074/) | Data Staged | Collection |
 
 

@@ -34,8 +34,8 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 

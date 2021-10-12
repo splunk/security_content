@@ -36,8 +36,8 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1595.002](https://attack.mitre.org/techniques/T1595/002/) | Vulnerability Scanning | Reconnaissance || [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
 
 

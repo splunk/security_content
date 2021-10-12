@@ -327,6 +327,57 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
     messages.append("doc_gen.py wrote {0} detections documentation in mediawiki to: {1}".format(len(detections),output_path))
 
     return sorted_detections, messages
+
+def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, messages, VERBOSE):
+    manifest_files = []
+    for root, dirs, files in walk(REPO_PATH + '/playbooks/'):
+        for file in files:
+            if file.endswith(".yml"):
+                manifest_files.append((path.join(root, file)))
+
+    playbooks = []
+    for manifest_file in manifest_files:
+        detection_yaml = dict()
+        if VERBOSE:
+            print("processing manifest {0}".format(manifest_file))
+
+        with open(manifest_file, 'r') as stream:
+            try:
+                object = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print("Error reading {0}".format(manifest_file))
+                sys.exit(1)
+
+        playbooks.append(object)
+
+    sorted_playbooks = sorted(playbooks, key=lambda i: i['name'])
+
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                             trim_blocks=False, autoescape=True)
+
+    # write markdown
+    template = j2_env.get_template('doc_playbooks_markdown.j2')
+    for playbook in sorted_playbooks:
+        file_name = playbook['name'].lower().replace(" ","_") + '.md'
+        output_path = path.join(OUTPUT_DIR + '/_playbooks/' + file_name)
+        output = template.render(playbook=playbook, time=datetime.datetime.now())
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+    messages.append("doc_gen.py wrote {0} playbook documentation in markdown to: {1}".format(len(sorted_playbooks),OUTPUT_DIR + '/_playbooks/'))
+
+    # write markdown detection page
+    template = j2_env.get_template('doc_playbooks_page_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/_pages/playbooks.md')
+    output = template.render(playbooks=sorted_playbooks, time=datetime.datetime.now())
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote playbooks.md page to: {0}".format(output_path))
+
+    return sorted_playbooks, messages
+
+
+
 if __name__ == "__main__":
 
     # grab arguments
@@ -353,6 +404,7 @@ if __name__ == "__main__":
     messages = []
     sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, messages, VERBOSE)
     sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, sorted_detections, messages, VERBOSE)
+    sorted_playbooks, messages = generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, messages, VERBOSE)
 
     # print all the messages from generation
     for m in messages:

@@ -36,8 +36,8 @@ This search is to detect known mailsniper.ps1 functions executed in a machine. T
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
 
 

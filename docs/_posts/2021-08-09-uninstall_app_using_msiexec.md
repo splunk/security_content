@@ -36,8 +36,8 @@ This search is to detect a suspicious un-installation of application using msiex
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.007](https://attack.mitre.org/techniques/T1218/007/) | Msiexec | Defense Evasion |
 
 

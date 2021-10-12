@@ -36,8 +36,8 @@ This analytic identifies suspicious commandline parameter that are commonly used
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 

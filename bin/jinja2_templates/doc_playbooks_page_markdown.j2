@@ -1,0 +1,15 @@
+---
+title: "Playbooks"
+layout: collection
+author_profile: false
+permalink: /playbooks/
+classes: wide
+sidebar:
+  nav: "playbooks"
+---
+
+| Name    | Analytic Story | Type        |
+| --------| -------------- | ----------- |
+{% for playbook in playbooks -%}
+| [{{ playbook.name }}](/playbooks/{{ playbook.name | lower | replace(' ', '_') }}/) | None | {{ playbook.type }} |
+{%- endfor -%}

@@ -44,8 +44,8 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion || [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 

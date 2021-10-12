@@ -34,8 +34,8 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 

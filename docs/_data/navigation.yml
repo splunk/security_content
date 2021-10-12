@@ -85,3 +85,12 @@ stories:
         url: /stories/malware/
       - title: Vulnerability
         url: /stories/vulnerability/
+playbooks:
+  - title: "Type"
+    children:
+      - title: "Splunk Enterprise Security"
+        url: /tags/#splunk-enterprise-security
+      - title: "Splunk Behavioral Analytics"
+        url: /tags/#splunk-behavioral-analytics
+      - title: "Splunk Security Analytics for AWS"
+        url: /tags/#splunk-security-analytics-for-aws

@@ -39,8 +39,8 @@ The following query uses IAM events to track the success of a group being delete
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1069.003](https://attack.mitre.org/techniques/T1069/003/) | Cloud Groups | Discovery || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 
 

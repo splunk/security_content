@@ -36,8 +36,8 @@ this search is to detect a suspicious registry modification to implement auto ad
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1552.002](https://attack.mitre.org/techniques/T1552/002/) | Credentials in Registry | Credential Access |
 
 

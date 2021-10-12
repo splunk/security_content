@@ -33,8 +33,8 @@ This detection identifies access to PowerSploit modules that create accounts ill
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1585](https://attack.mitre.org/techniques/T1585/) | Establish Accounts | Resource Development |
 
 

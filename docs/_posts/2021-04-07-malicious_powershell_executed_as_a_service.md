@@ -36,8 +36,8 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 

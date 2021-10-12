@@ -37,8 +37,8 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
 
 

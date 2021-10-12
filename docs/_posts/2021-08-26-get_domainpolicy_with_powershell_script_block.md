@@ -36,8 +36,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
 
 

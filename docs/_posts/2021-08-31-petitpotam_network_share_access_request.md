@@ -39,8 +39,8 @@ During triage, review parallel security events to identify further suspicious ac
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
 
 

@@ -36,8 +36,8 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 

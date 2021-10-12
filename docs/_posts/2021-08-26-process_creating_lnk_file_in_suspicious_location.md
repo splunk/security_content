@@ -37,8 +37,8 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1566.002](https://attack.mitre.org/techniques/T1566/002/) | Spearphishing Link | Initial Access |
 
 

@@ -36,8 +36,8 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 

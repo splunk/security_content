@@ -47,8 +47,8 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |

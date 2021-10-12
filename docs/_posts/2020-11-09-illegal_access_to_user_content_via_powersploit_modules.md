@@ -42,8 +42,8 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
 | [T1123](https://attack.mitre.org/techniques/T1123/) | Audio Capture | Collection |

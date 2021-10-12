@@ -36,8 +36,8 @@ This analytic looks for the execution of `powershell.exe` with command-line util
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
 
 

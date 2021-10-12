@@ -36,8 +36,8 @@ This search is to detect a suspicious file creation of sqlite3.dll in %temp% fol
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1005](https://attack.mitre.org/techniques/T1005/) | Data from Local System | Collection |
 
 

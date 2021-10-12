@@ -36,8 +36,8 @@ This analytic identifies suspicious modification of registry to deface or change
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1491](https://attack.mitre.org/techniques/T1491/) | Defacement | Impact |
 
 

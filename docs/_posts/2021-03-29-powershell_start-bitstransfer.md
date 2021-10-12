@@ -37,8 +37,8 @@ Start-BitsTransfer is the PowerShell &#34;version&#34; of BitsAdmin.exe. Similar
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1197](https://attack.mitre.org/techniques/T1197/) | BITS Jobs | Defense Evasion, Persistence |
 
 
