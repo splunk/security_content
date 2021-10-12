@@ -27,7 +27,7 @@ references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   confidence: 30
   context:
   - Source:Endpoint
