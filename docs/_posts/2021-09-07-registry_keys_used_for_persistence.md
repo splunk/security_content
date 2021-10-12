@@ -61,6 +61,7 @@ The search looks for modifications to registry keys that can be used to launch a
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [IcedID](/stories/icedid)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

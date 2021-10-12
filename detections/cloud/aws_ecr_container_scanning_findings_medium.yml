@@ -35,6 +35,7 @@ tags:
   message: Vulnerabilities with severity high found in image $image$
   mitre_attack_id:
   - T1204.003
+  - T1204
   nist:
   - PR.DS
   - PR.AC

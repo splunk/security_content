@@ -1,4 +1,4 @@
-ansible==2.9.20
+ansible==4.2.0
 ansible-runner==1.4.4
 attackcti==0.3.4.3
 boto3==1.11.0

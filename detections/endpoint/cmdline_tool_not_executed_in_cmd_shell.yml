@@ -31,12 +31,29 @@ references:
 tags:
   analytic_story:
   - FIN7
+  automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log
+  impact: 70
   kill_chain_phases:
   - Exploitation
+  message: parent process name $parent_process_name$ with child process $process_name$
+    to execute commandline tool in $dest$
   mitre_attack_id:
   - T1059.007
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -50,22 +67,5 @@ tags:
   - Processes.process
   - Processes.dest
   - Processes.user
-  security_domain: endpoint
-  impact: 70
-  confidence: 80
   risk_score: 56
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  message: parent process name $parent_process_name$ with child process $process_name$
-    to execute commandline tool in $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

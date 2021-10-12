@@ -25,7 +25,7 @@ known_false_positives: Administrators or power users may use this command for tr
 references:
 - https://www.blackhillsinfosec.com/red-blue-purple/
 - https://attack.mitre.org/techniques/T1087/002/
-- https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2019-ps 
+- https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2019-ps
 tags:
   analytic_story:
   - Active Directory Discovery
