@@ -26,7 +26,7 @@ references:
 - https://news.sophos.com/en-us/2021/07/22/malware-increasingly-targets-discord-for-abuse/
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   automated_detection_testing: passed
   confidence: 50
   context:
