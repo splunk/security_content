@@ -15,6 +15,7 @@ class DataManipulation:
             return self.manipulate_timestamp_windows_event_log_raw(file_path)
 
         if sourcetype == 'aws:cloudtrail':
+            print ("testing AWS \n\n\n\n\n\n")
             return self.manipulate_timestamp_aws_raw(file_path)
 
     def manipulate_timestamp_aws_raw(self, file_path):
