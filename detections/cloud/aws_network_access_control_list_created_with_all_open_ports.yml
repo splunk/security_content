@@ -46,6 +46,7 @@ tags:
     CIDR $requestParameters.cidrBlock$
   mitre_attack_id:
   - T1562.007
+  - T1562
   nist:
   - DE.DP
   - DE.AE

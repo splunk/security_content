@@ -45,6 +45,7 @@ tags:
     list of trusted IPs to bypass MFA
   mitre_attack_id:
   - T1562.007
+  - T1562
   observable:
   - name: ip_addresses_new_added
     type: IP Address
