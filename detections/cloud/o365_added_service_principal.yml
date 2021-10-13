@@ -44,6 +44,7 @@ tags:
     service principal credentials from IP Address $ActorIpAddress$
   mitre_attack_id:
   - T1136.003
+  - T1136
   observable:
   - name: ActorIpAddress
     type: IP Address
