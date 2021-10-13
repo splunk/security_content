@@ -52,6 +52,7 @@ tags:
     $dest$
   mitre_attack_id:
   - T1566.002
+  - T1566
   nist:
   - ID.AM
   - PR.DS

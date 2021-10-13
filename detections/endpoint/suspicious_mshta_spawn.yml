@@ -47,6 +47,7 @@ tags:
   message: mshta.exe spawned by wmiprvse.exe on $dest$
   mitre_attack_id:
   - T1218.005
+  - T1218
   nist:
   - PR.PT
   - DE.CM

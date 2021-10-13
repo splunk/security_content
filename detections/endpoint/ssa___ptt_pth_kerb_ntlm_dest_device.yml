@@ -64,6 +64,7 @@ tags:
     $dest_user_id$ and observed by the destination device $dest_device_id$
   mitre_attack_id:
   - T1550.002
+  - T1550
   nist:
   - PR.PT
   - PR.AT

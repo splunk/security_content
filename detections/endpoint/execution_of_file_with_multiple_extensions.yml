@@ -43,6 +43,7 @@ tags:
     $dest$ by $user$
   mitre_attack_id:
   - T1036.003
+  - T1036
   nist:
   - DE.CM
   - PR.PT

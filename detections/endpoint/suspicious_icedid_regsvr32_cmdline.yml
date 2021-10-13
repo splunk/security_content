@@ -41,6 +41,7 @@ tags:
   message: regsvr32 process $process_name$ with commandline $process$ in host $dest$
   mitre_attack_id:
   - T1218.010
+  - T1218
   observable:
   - name: dest
     type: Hostname

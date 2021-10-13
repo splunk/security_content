@@ -54,6 +54,7 @@ tags:
     on endpoint $dest$ by user $user$ running the utility for possibly the first time.
   mitre_attack_id:
   - T1021.002
+  - T1021
   nist:
   - PR.PT
   - DE.CM

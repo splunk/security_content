@@ -59,6 +59,7 @@ tags:
   - T1083
   - T1518
   - T1592.002
+  - T1592
   nist:
   - PR.AC
   - PR.IP

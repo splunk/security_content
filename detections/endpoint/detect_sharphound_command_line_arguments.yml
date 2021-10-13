@@ -49,6 +49,10 @@ tags:
   - T1482
   - T1069.002
   - T1069.001
+  - T1087
+  - T1087
+  - T1069
+  - T1069
   observable:
   - name: dest
     type: Endpoint

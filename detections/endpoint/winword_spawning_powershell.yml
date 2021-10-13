@@ -48,6 +48,7 @@ tags:
     process: $process_name$ which is very common in spearphishing attacks'
   mitre_attack_id:
   - T1566.001
+  - T1566
   observable:
   - name: dest
     type: Endpoint

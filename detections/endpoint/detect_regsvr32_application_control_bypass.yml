@@ -57,6 +57,7 @@ tags:
     by user $user$.
   mitre_attack_id:
   - T1218.010
+  - T1218
   nist:
   - DE.CM
   observable:

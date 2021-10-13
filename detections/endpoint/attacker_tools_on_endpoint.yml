@@ -53,6 +53,7 @@ tags:
   - T1036.005
   - T1595
   - T1003
+  - T1036
   nist:
   - ID.AM
   - PR.DS

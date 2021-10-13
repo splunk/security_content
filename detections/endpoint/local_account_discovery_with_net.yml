@@ -38,6 +38,7 @@ tags:
   message: Local user discovery enumeration on $dest$ by $user$
   mitre_attack_id:
   - T1087.001
+  - T1087
   observable:
   - name: dest
     type: Endpoint

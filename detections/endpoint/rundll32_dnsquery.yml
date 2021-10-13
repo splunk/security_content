@@ -39,6 +39,7 @@ tags:
     $Computer$
   mitre_attack_id:
   - T1218.011
+  - T1218
   observable:
   - name: Computer
     type: Hostname

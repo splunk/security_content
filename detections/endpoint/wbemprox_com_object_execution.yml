@@ -39,6 +39,7 @@ tags:
   message: Suspicious COM Object Execution on $Computer$
   mitre_attack_id:
   - T1218.003
+  - T1218
   observable:
   - name: Computer
     type: Endpoint

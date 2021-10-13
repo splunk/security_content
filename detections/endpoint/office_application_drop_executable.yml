@@ -46,6 +46,7 @@ tags:
   message: process $process_name$ drops a file $TargetFilename$ in host $dest$
   mitre_attack_id:
   - T1566.001
+  - T1566
   observable:
   - name: Computer
     type: Hostname

@@ -50,6 +50,7 @@ tags:
   message: Local group discovery on $dest$ by $user$.
   mitre_attack_id:
   - T1069.001
+  - T1069
   observable:
   - name: dest
     type: Endpoint

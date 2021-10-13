@@ -44,6 +44,7 @@ tags:
     commandline $process$ in host $dest$
   mitre_attack_id:
   - T1218.011
+  - T1218
   nist:
   - PR.PT
   - DE.CM

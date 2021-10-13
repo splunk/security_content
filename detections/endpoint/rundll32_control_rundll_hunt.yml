@@ -51,6 +51,7 @@ tags:
     on endpoint $dest$ by user $user$ attempting to load a suspicious file from disk.
   mitre_attack_id:
   - T1218.011
+  - T1218
   observable:
   - name: user
     type: User

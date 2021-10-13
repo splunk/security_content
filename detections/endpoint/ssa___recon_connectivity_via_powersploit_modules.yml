@@ -51,6 +51,7 @@ tags:
   - T1021.002
   - T1135
   - T1039
+  - T1021
   nist:
   - PR.AC
   - PR.IP

@@ -49,6 +49,7 @@ tags:
   message: Suspicious msbuild.exe process executed on $dest$ by $user$
   mitre_attack_id:
   - T1127.001
+  - T1127
   nist:
   - PR.PT
   - DE.CM

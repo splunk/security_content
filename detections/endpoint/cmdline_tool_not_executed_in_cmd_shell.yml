@@ -45,6 +45,7 @@ tags:
     to execute commandline tool in $dest$
   mitre_attack_id:
   - T1059.007
+  - T1059
   observable:
   - name: dest
     type: Endpoint

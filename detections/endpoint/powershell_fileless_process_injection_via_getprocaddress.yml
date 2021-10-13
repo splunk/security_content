@@ -51,6 +51,7 @@ tags:
   mitre_attack_id:
   - T1055
   - T1059.001
+  - T1059
   observable:
   - name: ComputerName
     type: Hostname

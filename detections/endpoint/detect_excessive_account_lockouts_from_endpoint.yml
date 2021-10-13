@@ -50,6 +50,7 @@ tags:
     to $user$.
   mitre_attack_id:
   - T1078.002
+  - T1078
   nist:
   - PR.IP
   observable:

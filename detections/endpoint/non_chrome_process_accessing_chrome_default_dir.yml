@@ -41,6 +41,7 @@ tags:
   message: a non firefox browser process $process_name$ accessing $Object_Name$
   mitre_attack_id:
   - T1555.003
+  - T1555
   observable:
   - name: dest
     type: Endpoint

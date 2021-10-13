@@ -49,6 +49,7 @@ tags:
     on endpoint $dest$ by user $user$ running prohibited applications.
   mitre_attack_id:
   - T1059.003
+  - T1059
   nist:
   - PR.PT
   - DE.CM

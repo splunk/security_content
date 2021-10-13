@@ -39,6 +39,7 @@ tags:
     3, which may be indicative of the pass the hash technique.
   mitre_attack_id:
   - T1550.002
+  - T1550
   nist:
   - PR.PT
   - PR.AT

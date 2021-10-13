@@ -49,6 +49,7 @@ tags:
     any command-line arguments on $dest$ by $user$.
   mitre_attack_id:
   - T1218.009
+  - T1218
   nist:
   - PR.PT
   - DE.CM

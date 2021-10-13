@@ -48,6 +48,7 @@ tags:
     via command $cmd_line$
   mitre_attack_id:
   - T1550.002
+  - T1550
   nist:
   - PR.PT
   - PR.AT

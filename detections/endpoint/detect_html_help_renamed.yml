@@ -54,6 +54,7 @@ tags:
     $parent_process_name$.
   mitre_attack_id:
   - T1218.001
+  - T1218
   nist:
   - PR.PT
   - DE.CM

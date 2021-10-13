@@ -43,6 +43,7 @@ tags:
     on endpoint $dest$ by user $user$ enumerating Windows file shares.
   mitre_attack_id:
   - T1070.005
+  - T1070
   nist:
   - PR.PT
   - DE.CM

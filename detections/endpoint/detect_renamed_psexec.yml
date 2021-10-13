@@ -50,6 +50,7 @@ tags:
     $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
   - T1569.002
+  - T1569
   observable:
   - name: user
     type: User

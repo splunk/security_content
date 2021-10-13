@@ -37,6 +37,7 @@ tags:
     $Service_Name$, potentially leading to a privilege escalation.
   mitre_attack_id:
   - T1569.002
+  - T1569
   observable:
   - name: Service_File_Name
     type: Other

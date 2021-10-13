@@ -39,6 +39,7 @@ tags:
   message: WevtUtil.exe used to disable Event Logging on $dest
   mitre_attack_id:
   - T1070.001
+  - T1070
   observable:
   - name: dest
     type: Endpoint

@@ -62,6 +62,7 @@ tags:
     on endpoint $dest$ by user $user$ executing suspicious commands.
   mitre_attack_id:
   - T1059.001
+  - T1059
   observable:
   - name: user
     type: User

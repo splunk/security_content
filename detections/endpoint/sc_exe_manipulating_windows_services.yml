@@ -49,6 +49,7 @@ tags:
     services in host $dest$
   mitre_attack_id:
   - T1543.003
+  - T1543
   nist:
   - PR.IP
   - PR.PT

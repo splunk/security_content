@@ -44,6 +44,8 @@ tags:
   mitre_attack_id:
   - T1595.002
   - T1592.002
+  - T1595
+  - T1592
   nist:
   - PR.AC
   - PR.IP

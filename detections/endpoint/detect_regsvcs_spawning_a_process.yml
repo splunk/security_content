@@ -49,6 +49,7 @@ tags:
     on endpoint $dest$ by user $user$ typically not normal for this process.
   mitre_attack_id:
   - T1218.009
+  - T1218
   nist:
   - PR.PT
   - DE.CM

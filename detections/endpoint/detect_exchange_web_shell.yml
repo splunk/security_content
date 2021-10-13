@@ -66,6 +66,7 @@ tags:
     $dest$ by user $user$.
   mitre_attack_id:
   - T1505.003
+  - T1505
   observable:
   - name: user
     type: User

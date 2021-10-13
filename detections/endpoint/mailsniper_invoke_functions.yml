@@ -39,6 +39,7 @@ tags:
     $user$.
   mitre_attack_id:
   - T1114.001
+  - T1114
   observable:
   - name: dest
     type: Endpoint

@@ -46,6 +46,8 @@ tags:
   mitre_attack_id:
   - T1059.003
   - T1543.003
+  - T1059
+  - T1543
   observable:
   - name: user
     type: User

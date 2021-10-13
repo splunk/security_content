@@ -47,6 +47,7 @@ tags:
   message: The Windows Event Log Service shutdown on $ComputerName$
   mitre_attack_id:
   - T1070.001
+  - T1070
   nist:
   - DE.DP
   - PR.IP

@@ -42,6 +42,7 @@ tags:
     EventCode $EventCode$ in host $ComputerName$
   mitre_attack_id:
   - T1027.005
+  - T1027
   observable:
   - name: ComputerName
     type: Hostname

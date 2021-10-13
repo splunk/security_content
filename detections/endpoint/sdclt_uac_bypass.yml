@@ -44,6 +44,7 @@ tags:
     path $registry_value_name$ in $dest$
   mitre_attack_id:
   - T1548.002
+  - T1548
   observable:
   - name: dest
     type: Hostname

@@ -51,6 +51,7 @@ tags:
     by user $user$.
   mitre_attack_id:
   - T1204.002
+  - T1204
   nist:
   - PR.PT
   - DE.CM

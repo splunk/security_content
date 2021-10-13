@@ -50,6 +50,7 @@ tags:
     cab file to this. This is not typical of $process_name$.
   mitre_attack_id:
   - T1566.001
+  - T1566
   observable:
   - name: dest
     type: Hostname

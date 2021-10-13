@@ -49,6 +49,7 @@ tags:
   message: A reg.exe process $process_name$ with commandline $process$ in host $dest$
   mitre_attack_id:
   - T1574.011
+  - T1574
   nist:
   - PR.IP
   - PR.PT

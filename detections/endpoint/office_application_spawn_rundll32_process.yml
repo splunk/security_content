@@ -44,6 +44,7 @@ tags:
   message: Office application spawning rundll32.exe on $dest$
   mitre_attack_id:
   - T1566.001
+  - T1566
   observable:
   - name: dest
     type: Endpoint

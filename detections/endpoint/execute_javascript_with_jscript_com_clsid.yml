@@ -40,6 +40,7 @@ tags:
     on $dest$ by $user$
   mitre_attack_id:
   - T1059.005
+  - T1059
   observable:
   - name: user
     type: User

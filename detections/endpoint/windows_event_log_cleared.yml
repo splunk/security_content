@@ -47,6 +47,7 @@ tags:
   message: Windows event logs cleared on $dest$ via EventCode $EventCode$
   mitre_attack_id:
   - T1070.001
+  - T1070
   nist:
   - DE.DP
   - PR.IP

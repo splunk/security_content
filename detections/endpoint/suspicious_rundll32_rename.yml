@@ -52,6 +52,8 @@ tags:
   mitre_attack_id:
   - T1218.011
   - T1036.003
+  - T1218
+  - T1036
   nist:
   - PR.PT
   - DE.CM

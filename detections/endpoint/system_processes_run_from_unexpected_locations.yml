@@ -54,6 +54,7 @@ tags:
   message: System process running from unexpected location on $dest$
   mitre_attack_id:
   - T1036.003
+  - T1036
   nist:
   - PR.PT
   - DE.CM
