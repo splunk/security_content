@@ -46,6 +46,7 @@ tags:
   message: A registry modification in $registry_path$ with reg key $registry_key_name$
     and reg value $registry_value_name$ in host $dest$
   mitre_attack_id:
+  - T1059
   - T1059.001
   nist:
   - DE.CM

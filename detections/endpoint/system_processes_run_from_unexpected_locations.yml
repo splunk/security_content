@@ -53,6 +53,7 @@ tags:
   - Actions on Objectives
   message: System process running from unexpected location on $dest$
   mitre_attack_id:
+  - T1036
   - T1036.003
   nist:
   - PR.PT
