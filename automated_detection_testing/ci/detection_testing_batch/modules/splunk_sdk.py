@@ -107,8 +107,7 @@ def test_detection_search(splunk_host, splunk_port, splunk_password, search, pas
     splunk_search = search + ' ' + pass_condition
     print("SEARCH:")
     print(splunk_search)
-    #print("Sleep for 30 seconds")
-    #sleep(30)
+
     try:
         job = service.jobs.create(splunk_search, **kwargs)
     except Exception as e:
@@ -147,6 +146,7 @@ def delete_attack_data(splunk_host, splunk_password, splunk_port):
         return 1, {}
 
     #splunk_search = 'search index=test* | delete'
+    #_ = input("****************Press ENTER to DELETE****************")
     splunk_search = 'search index=main | delete'
     kwargs = {"exec_mode": "blocking",
               "dispatch.earliest_time": "-1d",

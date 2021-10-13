@@ -12,7 +12,10 @@ from modules.github_service import GithubService
 from modules import aws_service, testing_service
 import time
 import subprocess
-from datetime import datetime
+
+from timeit import default_timer as timer
+from datetime import timedelta
+
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -24,7 +27,7 @@ datamodel_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "Splunk_
 
 PASSWORD_LENGTH=20
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING=2
-DOCKER_HUB_CONTAINER_PATH="splunk/splunk:latest"
+DOCKER_HUB_CONTAINER_PATH="splunk/splunk:8.1"
 BASE_CONTAINER_NAME="splunk"
 
 
@@ -86,7 +89,10 @@ def stop_container(docker_client, container_name, force=True):
 
 
 def main(args):
-    start_time = datetime.now()
+    
+    start_time = timer()
+    
+
     parser = argparse.ArgumentParser(description="CI Detection Testing")
     parser.add_argument("-b", "--branch", type=str, required=True, help="security content branch")
     parser.add_argument("-u", "--uuid", type=str, required=True, help="uuid for detection test")
@@ -96,7 +102,7 @@ def main(args):
     parser.add_argument("-i", "--reuse_images", required=False, type=bool, default=False, help="Should existing images be re-used, or should they be redownloaded?")
     parser.add_argument("-c", "--reuse_containers", required=False, type=bool, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
 
-    parser.add_argument("-s", "--success", type=str, required=False, help="File that contains previously successful runs that we don't need to test")
+    parser.add_argument("-s", "--success_file", type=str, required=False, help="File that contains previously successful runs that we don't need to test")
 
     args = parser.parse_args()
     branch = args.branch
@@ -107,11 +113,17 @@ def main(args):
     reuse_images = args.reuse_images
     success_file = args.success_file
 
+    success_tests = []
     if success_file is not None:
         with open(success_file, "r") as successes:
-            success_tests = [x.strip() for x in successes.readlines()]
+            for line in successes.readlines():
+                file_path_new = os.path.join("tests", os.path.splitext(line)[0]) + ".test.yml"
+                #file_path_base = os.path.splitext(line)[0].replace('detections', 'tests') + '.test'
+                #file_path_new = file_path_base + '.yml'
+                success_tests.append(file_path_new)
+                #success_tests = [x.strip() for x in successes.readlines()]
     else:
-        success_tests = []
+        pass
 
 
     if num_containers < 1:
@@ -141,6 +153,8 @@ def main(args):
         else:
             print("Already found [%s] in success file, not testing it again"%(f))
     test_files = new_test_files
+    print(test_files)
+    time.sleep(10)
     
     #Go into the security content directory
     print("****GENERATE NEW CONTENT****")
@@ -401,13 +415,23 @@ def main(args):
         while True:
 
             o = results_queue.get(block=False)
-            print(o)
+            o_result = o['detection_result']
+            if o_result['error'] is False:
+                success_output.write(o_result['detection_file']+'\n')
+            else:
+                failure_output.write(o_result['detection_file']+'\n')
+
+            print(o_result)
     except queue.Empty:
         print("That's all the output!")
     
+
+    success_output.close()
+    failure_output.close()
+
     #now we are done!
-    stop_time = datetime.now()
-    print("Total Execution Time: [%s]"%(stop_time-start_time))
+    stop_time = timer()
+    print("Total Execution Time: [%s]"%(timedelta(seconds=stop_time - start_time, microseconds=0)))
     
 
     #detection testing service has already been prepared, no need to do it here!
@@ -416,13 +440,15 @@ def main(args):
     #testing_service.test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test)
     
 def queue_status_thread(total_tests_count, testing_queue, results_queue, success_names_queue, failure_names_queue):
+    test_start_time = timer()
     while True:
         print("***Progress Update:\n"\
+              "\tElapsed Time           : %s\n"\
               "\tTests to run           : %d\n"\
               "\tTests currently running: %d\n"\
               "\tTests completed        : %d\n"\
               "\t\tSuccess : %d\n"\
-              "\t\tFailure : %d"%(testing_queue.qsize(), total_tests_count - testing_queue.qsize() - results_queue.qsize(), results_queue.qsize(), success_names_queue.qsize(), failure_names_queue.qsize()))
+              "\t\tFailure : %d"%(timedelta(seconds=timer() - test_start_time, microseconds=0), testing_queue.qsize(), total_tests_count - testing_queue.qsize() - results_queue.qsize(), results_queue.qsize(), success_names_queue.qsize(), failure_names_queue.qsize()))
         if results_queue.qsize() == total_tests_count:
             return
         else:
