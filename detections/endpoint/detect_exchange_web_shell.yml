@@ -65,6 +65,7 @@ tags:
     previously performed by HAFNIUM. Review further file modifications on endpoint
     $dest$ by user $user$.
   mitre_attack_id:
+  - T1505
   - T1505.003
   observable:
   - name: user

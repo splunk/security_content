@@ -45,6 +45,7 @@ tags:
     using unquoted service paths.
   mitre_attack_id:
   - T1574.009
+  - T1574
   nist:
   - PR.PT
   - DE.CM
