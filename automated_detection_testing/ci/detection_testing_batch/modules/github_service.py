@@ -71,12 +71,12 @@ class GithubService:
         
        
         
-        print("Total things to test (test files and detection files changed): [%d]"%(len(changed_test_files)))
+        #print("Total things to test (test files and detection files changed): [%d]"%(len(changed_test_files)))
         #for l in changed_test_files:
         #    print(l)
         #print(len(changed_test_files))
-        import time
-        time.sleep(5)
+        #import time
+        #time.sleep(5)
         return changed_test_files
 
     def filter_test_types(self, test_files, test_types = ["Anomaly", "Hunting", "TTP"]):

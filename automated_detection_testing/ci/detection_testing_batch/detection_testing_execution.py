@@ -27,7 +27,7 @@ datamodel_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "Splunk_
 
 PASSWORD_LENGTH=20
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING=2
-DOCKER_HUB_CONTAINER_PATH="splunk/splunk:8.1"
+DOCKER_HUB_CONTAINER_PATH="splunk/splunk:8.2.0"
 BASE_CONTAINER_NAME="splunk"
 
 
@@ -103,6 +103,8 @@ def main(args):
     parser.add_argument("-c", "--reuse_containers", required=False, type=bool, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
 
     parser.add_argument("-s", "--success_file", type=str, required=False, help="File that contains previously successful runs that we don't need to test")
+    parser.add_argument("-user", "--splunkbase_username", type=str, require=True, help="Splunkbase username for downloading Splunkbase apps")
+    parser.add_argument("-pw", "--splunkbase_password", type=str, require=True, help="Splunkbase password for downloading Splunkbase apps")
 
     args = parser.parse_args()
     branch = args.branch
@@ -112,6 +114,8 @@ def main(args):
     reuse_containers = args.reuse_containers
     reuse_images = args.reuse_images
     success_file = args.success_file
+    splunkbase_username = args.splunkbase_username
+    splunkbase_password = args.splunkbase_password
 
     success_tests = []
     if success_file is not None:
@@ -145,7 +149,7 @@ def main(args):
         print("No new detections to test.")
         #aws_service.dynamo_db_nothing_to_test(REGION, uuid_test, str(int(time.time())))
         sys.exit(0)
-    print("The files to test: %s", str(test_files))
+    #print("The files to test: %s", str(test_files))
     new_test_files = []
     for f in test_files:
         if f not in success_tests:
@@ -153,7 +157,25 @@ def main(args):
         else:
             print("Already found [%s] in success file, not testing it again"%(f))
     test_files = new_test_files
+    
+    test_files = [
+        #"tests/endpoint/disable_registry_tool.test.yml",
+        #"tests/endpoint/disable_show_hidden_files.test.yml",
+        #"tests/endpoint/disable_windows_behavior_monitoring.test.yml",
+        #"tests/endpoint/disable_windows_smartscreen_protection.test.yml",
+        #"tests/endpoint/disabling_cmd_application.test.yml",
+        #"tests/endpoint/disabling_controlpanel.test.yml",
+        #"tests/endpoint/disabling_folderoptions_windows_feature.test.yml"
+        #"tests/endpoint/disabling_norun_windows_app.test.yml",
+        #"tests/endpoint/disabling_systemrestore_in_registry.test.yml",
+        #"tests/endpoint/disabling_task_manager.test.yml"
+
+
+        "tests/endpoint/any_powershell_downloadfile.test.yml"
+        ]
+    
     print(test_files)
+    
     time.sleep(10)
     
     #Go into the security content directory
@@ -360,15 +382,17 @@ def main(args):
         SPLUNK_ADD_ON_FOR_SYSMON = "https://splunkbase.splunk.com/app/1914/release/10.6.2/download"
         SYSMON_APP_FOR_SPLUNK = "https://splunkbase.splunk.com/app/3544/release/2.0.0/download"
         SPLUNK_ES_CONTENT_UPDATE = "https://splunkbase.splunk.com/app/3449/release/3.29.0/download"
+        SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS = "https://splunkbase.splunk.com/app/742/release/8.1.2/download"
 
-        SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, SPLUNK_SECURITY_ESSENTIALS, SPLUNK_ADD_ON_FOR_SYSMON, SYSMON_APP_FOR_SPLUNK, SPLUNK_ES_CONTENT_UPDATE]
+
+        SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, SPLUNK_SECURITY_ESSENTIALS, SPLUNK_ADD_ON_FOR_SYSMON, SYSMON_APP_FOR_SPLUNK, SPLUNK_ES_CONTENT_UPDATE, SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS]
 
         #docker run -p8089:8089 -p 8000:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD=123456qwertyQWERTY" -e "SPLUNK_APPS_URL=https://splunkbase.splunk.com/app/3435/release/3.3.4/download,https://splunkbase.splunk.com/app/5709/release/1.0.1/download,https://splunkbase.splunk.com/app/3449/release/3.29.0/download,https://splunkbase.splunk.com/app/1621/release/4.20.2/download" -e "SPLUNKBASE_USERNAME=ericmcginnistwo" -e "SPLUNKBASE_PASSWORD=splunkSecondAccount5@" -name splunktemplate splunk/splunk:latest 
         environment = {"SPLUNK_START_ARGS": "--accept-license",
                         "SPLUNK_PASSWORD"  : splunk_password, 
                         "SPLUNK_APPS_URL"   : ','.join(SPLUNK_APPS),
-                        "SPLUNKBASE_USERNAME" : "emcginnistwo",
-                        "SPLUNKBASE_PASSWORD" : "splunkSecondAccount5@"
+                        "SPLUNKBASE_USERNAME" : splunkbase_username,
+                        "SPLUNKBASE_PASSWORD" : splunkbase_password
                         }
         ports= {"8000/tcp": web_port,
                 "8089/tcp": management_port
