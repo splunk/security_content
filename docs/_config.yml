@@ -88,6 +88,9 @@ collections:
   stories:
     output: true
     permalink: /:collection/:path/
+  playbooks:
+    output: true
+    permalink: /:collection/:path/
 
 defaults:
   # _docs

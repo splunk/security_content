@@ -1,6 +1,5 @@
 ---
 title: "Ransomware Investigate and Contain"
-excerpt: "Carbon Black Response, LDAP, Palo Alto Networks Firewall, WildFire, Cylance"
 last_modified_at: 2018-02-04
 toc: true
 toc_label: ""

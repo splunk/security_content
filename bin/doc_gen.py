@@ -212,9 +212,6 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     # write stories markdown
     template = j2_env.get_template('doc_stories_markdown.j2')
     for story in sorted_stories:
-        for d in story['detections']:
-            if 'mitre_attacks'in d:
-                print("story: {} - detection: {} - mitre: {}".format(story['name'], d['name'], d['mitre_attacks']))
         file_name = story['name'].lower().replace(" ","_") + '.md'
         output_path = path.join(OUTPUT_DIR + '/_stories/' + file_name)
         output = template.render(story=story, time=datetime.datetime.now())

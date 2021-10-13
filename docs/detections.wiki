@@ -10447,85 +10447,6 @@ unknown
 ===Attempted credential dump from registry via reg exe===
 Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
 
-* '''Product''': Splunk Behavioral Analytics
-* '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003/ T1003]
-* '''Last Updated''': 2020-6-04
-
-<div class="toccolours mw-collapsible mw-collapsed">
-<div class="mw-collapsible-content">
-
-====Search====
-<search> 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
-| eval process_name=lower(ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
-| where process_name=&#34;cmd.exe&#34; OR process_name=&#34;reg.exe&#34; 
-| where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name]) 
-| into write_ssa_detected_events(); </search>
-
-====Associated Analytic Story====
-
-* [[Documentation:ESSOC:stories:UseCase#Credential_Dumping|Credential Dumping]]
-
-
-====How To Implement====
-You must be ingesting windows endpoint data that tracks process activity, including parent-child relationships from your endpoints.
-
-====Required field====
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-====ATT&CK====
-{|
-! style="text-align:left;"| ID
-! Technique
-! Tactic
-|-
-| T1003
-| OS Credential Dumping
-| Credential Access
-|}
-
-
-====Kill Chain Phase====
-
-* Actions on Objectives
-
-
-====Known False Positives====
-None identified.
-
-====Reference====
-
-
-* https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
-
-
-
-====Test Dataset====
-
-
-''version'': 1
-</div>
-</div>
-
-----
-
-===Attempted credential dump from registry via reg exe===
-Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
-
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1003/002/ T1003.002]
@@ -10613,6 +10534,85 @@ None identified.
 
 
 ''version'': 6
+</div>
+</div>
+
+----
+
+===Attempted credential dump from registry via reg exe===
+Monitor for execution of reg.exe with parameters specifying an export of keys that contain hashed credentials that attackers may try to crack offline.
+
+* '''Product''': Splunk Behavioral Analytics
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1003/ T1003]
+* '''Last Updated''': 2020-6-04
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search> 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
+| eval process_name=lower(ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null)), cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| where process_name=&#34;cmd.exe&#34; OR process_name=&#34;reg.exe&#34; 
+| where cmd_line != null  AND match_regex(cmd_line, /(?i)save\s+/)=true AND ( match_regex(cmd_line, /(?i)HKLM\\Security/)=true OR match_regex(cmd_line, /(?i)HKLM\\SAM/)=true OR match_regex(cmd_line, /(?i)HKLM\\System/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\Security/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\SAM/)=true OR match_regex(cmd_line, /(?i)HKEY_LOCAL_MACHINE\\System/)=true ) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name]) 
+| into write_ssa_detected_events(); </search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Credential_Dumping|Credential Dumping]]
+
+
+====How To Implement====
+You must be ingesting windows endpoint data that tracks process activity, including parent-child relationships from your endpoints.
+
+====Required field====
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1003
+| OS Credential Dumping
+| Credential Access
+|}
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Known False Positives====
+None identified.
+
+====Reference====
+
+
+* https://github.com/splunk/security_content/blob/55a17c65f9f56c2220000b62701765422b46125d/detections/attempted_credential_dump_from_registry_via_reg_exe.yml
+
+
+
+====Test Dataset====
+
+
+''version'': 1
 </div>
 </div>
 
@@ -55283,7 +55283,7 @@ There might be false positives associted with this detection since items like ar
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-10-12 15:51:54.661682 UTC''
+# On Date: 2021-10-12 20:55:43.005687 UTC''
 # Author: Splunk Security Research''
 # Contact: research@splunk.com''
 #############

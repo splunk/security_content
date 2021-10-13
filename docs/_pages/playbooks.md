@@ -10,4 +10,4 @@ sidebar:
 
 | Name    | Analytic Story | Type        |
 | --------| -------------- | ----------- |
-| [Ransomware Investigate and Contain](/ransomware_investigate_and_contain/) | None | Response |
+| [Ransomware Investigate and Contain](/playbooks/ransomware_investigate_and_contain/) | None | Response |
