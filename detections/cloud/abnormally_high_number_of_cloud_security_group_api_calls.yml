@@ -49,6 +49,7 @@ tags:
     command $command$.
   mitre_attack_id:
   - T1078.004
+  - T1078
   nist:
   - DE.DP
   - DE.CM

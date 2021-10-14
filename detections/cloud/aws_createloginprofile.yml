@@ -46,6 +46,7 @@ tags:
     and did a console login from this IP $src_ip$
   mitre_attack_id:
   - T1136.003
+  - T1136
   nist:
   - PR.DS
   - PR.AC
