@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-07
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1033
@@ -35,8 +36,8 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
 
 

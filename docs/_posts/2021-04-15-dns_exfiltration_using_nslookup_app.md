@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-15
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1048
@@ -35,8 +36,8 @@ this search is to detect potential DNS exfiltration using nslookup application. 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
 

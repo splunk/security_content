@@ -2,6 +2,7 @@
 title: "Malicious PowerShell"
 last_modified_at: 2017-08-23
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -40,8 +41,8 @@ Most recently we have added new content related to PowerShell Script Block loggi
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Any Powershell DownloadFile](/endpoint/any_powershell_downloadfile/) | [PowerShell](/tags/#powershell), [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [OS Credential Dumping](/tags/#os-credential-dumping), [Remote Services](/tags/#remote-services), [Screen Capture](/tags/#screen-capture), [Audio Capture](/tags/#audio-capture), [Remote Service Session Hijacking](/tags/#remote-service-session-hijacking), [Scheduled Task/Job](/tags/#scheduled-task/job), [Access Token Manipulation](/tags/#access-token-manipulation), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [Indicator Removal from Tools](/tags/#indicator-removal-from-tools), [Component Object Model Hijacking](/tags/#component-object-model-hijacking), [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information), [Gather Victim Host Information](/tags/#gather-victim-host-information), [Impair Defenses](/tags/#impair-defenses) | TTP |
-| [Any Powershell DownloadString](/endpoint/any_powershell_downloadstring/) | [PowerShell](/tags/#powershell), [Web Shell](/tags/#web-shell), [Local Account](/tags/#local-account), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [LSASS Memory](/tags/#lsass-memory), [Remote Email Collection](/tags/#remote-email-collection), [NTDS](/tags/#ntds), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Any Powershell DownloadFile](/endpoint/any_powershell_downloadfile/) | [PowerShell](/tags/#powershell) | TTP |
+| [Any Powershell DownloadString](/endpoint/any_powershell_downloadstring/) | [PowerShell](/tags/#powershell) | TTP |
 | [Credential Extraction indicative of use of DSInternals credential conversion modules](/endpoint/credential_extraction_indicative_of_use_of_dsinternals_credential_conversion_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction indicative of use of DSInternals modules](/endpoint/credential_extraction_indicative_of_use_of_dsinternals_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction indicative of use of PowerSploit modules](/endpoint/credential_extraction_indicative_of_use_of_powersploit_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
@@ -51,7 +52,7 @@ Most recently we have added new content related to PowerShell Script Block loggi
 | [Illegal Access To User Content via PowerSploit modules](/endpoint/illegal_access_to_user_content_via_powersploit_modules/) | [Remote Services](/tags/#remote-services), [Screen Capture](/tags/#screen-capture), [Audio Capture](/tags/#audio-capture), [Remote Service Session Hijacking](/tags/#remote-service-session-hijacking) | TTP |
 | [Illegal Privilege Elevation and Persistence via PowerSploit modules](/endpoint/illegal_privilege_elevation_and_persistence_via_powersploit_modules/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Access Token Manipulation](/tags/#access-token-manipulation), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
 | [Illegal Service and Process Control via PowerSploit modules](/endpoint/illegal_service_and_process_control_via_powersploit_modules/) | [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services) | TTP |
-| [Malicious PowerShell Process - Connect To Internet With Hidden Window](/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
+| [Malicious PowerShell Process - Connect To Internet With Hidden Window](/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell) | Hunting |
 | [Malicious PowerShell Process - Encoded Command](/endpoint/malicious_powershell_process_-_encoded_command/) | [Obfuscated Files or Information](/tags/#obfuscated-files-or-information) | Hunting |
 | [Malicious PowerShell Process With Obfuscation Techniques](/endpoint/malicious_powershell_process_with_obfuscation_techniques/) | [PowerShell](/tags/#powershell) | TTP |
 | [PowerShell 4104 Hunting](/endpoint/powershell_4104_hunting/) | [PowerShell](/tags/#powershell) | Hunting |

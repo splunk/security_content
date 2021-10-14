@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-12-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1018
@@ -37,8 +38,8 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
 

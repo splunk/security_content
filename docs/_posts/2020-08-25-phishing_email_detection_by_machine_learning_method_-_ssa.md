@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2020-08-25
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1566
@@ -34,8 +35,8 @@ Malicious mails can conduct phishing that induces readers to open attachment, cl
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 

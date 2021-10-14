@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-22
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1112
@@ -35,8 +36,8 @@ This search looks for reg.exe being launched from a command prompt not started b
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
 

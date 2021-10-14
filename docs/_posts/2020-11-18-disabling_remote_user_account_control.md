@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-18
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1548.002
@@ -35,8 +36,8 @@ The search looks for modifications to registry keys that control the enforcement
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 
@@ -52,6 +53,7 @@ The search looks for modifications to registry keys that control the enforcement
 #### Associated Analytic Story
 * [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics)
 * [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

@@ -21,9 +21,8 @@ tags:
   detections:
   - Conti Common Exec parameter
   platform_tags:
-  - tag1
-  - tag2
-  - tag3
+  - Ransomware
+  - Response
   playbook_fields:
   - ComputerName
   - Username

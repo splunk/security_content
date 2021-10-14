@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-26
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1201
@@ -35,8 +36,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
 
 

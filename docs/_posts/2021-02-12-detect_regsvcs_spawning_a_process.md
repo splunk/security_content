@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-02-12
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.009
@@ -35,8 +36,8 @@ The following analytic identifies regsvcs.exe spawning a process. This particula
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
 
