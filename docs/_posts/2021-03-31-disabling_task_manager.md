@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-31
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1562.001
@@ -35,8 +36,8 @@ This search is to identifies modification of registry to disable the task manage
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 

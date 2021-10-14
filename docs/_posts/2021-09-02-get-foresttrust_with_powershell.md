@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-02
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1482
@@ -35,8 +36,8 @@ This analytic identifies Get-ForestTrust from PowerSploit in order to gather dom
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 

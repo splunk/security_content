@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-14
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1222
@@ -33,8 +34,8 @@ This analytic identifies a potential adversary that changes the security permiss
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-10
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1059.003
@@ -35,8 +36,8 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
 

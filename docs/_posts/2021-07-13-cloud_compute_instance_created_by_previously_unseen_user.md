@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-07-13
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1078.004
@@ -38,8 +39,8 @@ This search looks for cloud compute instances created by users who have not crea
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 

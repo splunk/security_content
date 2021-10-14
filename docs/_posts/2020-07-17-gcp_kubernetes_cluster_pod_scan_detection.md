@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-07-17
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1526
@@ -36,8 +37,8 @@ This search provides information of unauthenticated requests via user agent, and
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 

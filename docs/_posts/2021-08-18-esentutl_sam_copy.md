@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-18
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1003.002
@@ -36,8 +37,8 @@ The following analytic identifies the process - `esentutl.exe` - being used to c
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
 

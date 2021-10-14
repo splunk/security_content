@@ -5,6 +5,7 @@ categories:
   - Web
 last_modified_at: 2017-09-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - Splunk Enterprise

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-21
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1489
@@ -33,8 +34,8 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 

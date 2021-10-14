@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-07
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1018
@@ -35,8 +36,8 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
 
