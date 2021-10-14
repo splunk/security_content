@@ -2,7 +2,7 @@ name: Disabling ControlPanel
 id: 6ae0148e-9215-11eb-a94a-acde48001122
 version: 1
 date: '2021-03-31'
-author: Teoderick Contreras, Splunk!
+author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
@@ -11,8 +11,8 @@ description: this search is to identify registry modification to disable control
   persistence removed on the infected machine.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel"
-  Registry.registry_value_name = "DWORD (0x00000001)" by Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  Registry.registry_value_data = "0x00000001" by Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_data Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `disabling_controlpanel_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
