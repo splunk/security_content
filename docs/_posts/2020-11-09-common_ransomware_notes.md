@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-09
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1485
@@ -35,8 +36,8 @@ The search looks for files created with names matching those typically used in r
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 

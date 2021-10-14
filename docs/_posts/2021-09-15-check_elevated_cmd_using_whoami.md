@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-15
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1033
@@ -35,8 +36,8 @@ This search is to detect a suspicious whoami execution to check if the cmd or sh
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-20
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1059.003
@@ -40,8 +41,8 @@ This analytic identifies a common behavior by Cobalt Strike and other frameworks
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution || [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
 

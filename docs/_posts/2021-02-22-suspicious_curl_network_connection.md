@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-02-22
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1105
@@ -37,8 +38,8 @@ The following analytic identifies the use of a curl contacting suspicious remote
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
 

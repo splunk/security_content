@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1114.002
@@ -37,8 +38,8 @@ This search looks for an increase of data transfers from your email server to yo
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
 
 

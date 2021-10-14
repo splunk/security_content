@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-01-22
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1071.004
@@ -37,8 +38,8 @@ This search allows you to identify DNS requests that are unusually large for the
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
 
 

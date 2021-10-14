@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-31
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1482
@@ -40,8 +41,8 @@ In addition to trust discovery, review parallel processes for additional behavio
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 

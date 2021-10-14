@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2019-12-03
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003.001
@@ -34,8 +35,8 @@ This search looks for reading loaded Images unique to credential dumping with Mi
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 

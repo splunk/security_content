@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-09-01
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1199
@@ -35,8 +36,8 @@ This search is to detect a pushed or commit to develop branch. This is to avoid 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
 
 

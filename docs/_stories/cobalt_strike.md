@@ -2,6 +2,7 @@
 title: "Cobalt Strike"
 last_modified_at: 2021-02-16
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +39,7 @@ While investigating a detection related to this Analytic Story, keep in mind the
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | [Archive via Utility](/tags/#archive-via-utility), [Windows Command Shell](/tags/#windows-command-shell), [Windows Service](/tags/#windows-service), [Process Injection](/tags/#process-injection), [File Transfer Protocols](/tags/#file-transfer-protocols), [Regsvr32](/tags/#regsvr32), [Mshta](/tags/#mshta), [Service Execution](/tags/#service-execution), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [Rundll32](/tags/#rundll32), [Scheduled Task](/tags/#scheduled-task), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Web Shell](/tags/#web-shell), [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Web Protocols](/tags/#web-protocols), [Remote System Discovery](/tags/#remote-system-discovery) | Anomaly |
+| [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | [Archive via Utility](/tags/#archive-via-utility) | Anomaly |
 | [CMD Echo Pipe - Escalation](/endpoint/cmd_echo_pipe_-_escalation/) | [Windows Command Shell](/tags/#windows-command-shell), [Windows Service](/tags/#windows-service) | TTP |
 | [Cobalt Strike Named Pipes](/endpoint/cobalt_strike_named_pipes/) | [Process Injection](/tags/#process-injection) | TTP |
 | [DLLHost with no Command Line Arguments with Network](/endpoint/dllhost_with_no_command_line_arguments_with_network/) | [Process Injection](/tags/#process-injection) | TTP |

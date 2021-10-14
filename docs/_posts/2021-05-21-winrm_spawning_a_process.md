@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1190
@@ -39,8 +40,8 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 
