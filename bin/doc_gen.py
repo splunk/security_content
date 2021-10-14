@@ -10,6 +10,8 @@ import datetime
 from stix2 import FileSystemSource
 from stix2 import Filter
 
+
+
 def get_all_techniques(projects_path):
     path_cti = path.join(projects_path,'cti/enterprise-attack')
     fs = FileSystemSource(path_cti)
@@ -325,7 +327,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
 
     return sorted_detections, messages
 
-def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, messages, VERBOSE):
+def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, messages, VERBOSE):
     manifest_files = []
     for root, dirs, files in walk(REPO_PATH + '/playbooks/'):
         for file in files:
@@ -358,7 +360,7 @@ def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, messages, VERBO
     for playbook in sorted_playbooks:
         file_name = playbook['name'].lower().replace(" ","_") + '.md'
         output_path = path.join(OUTPUT_DIR + '/_playbooks/' + file_name)
-        output = template.render(playbook=playbook, time=datetime.datetime.now())
+        output = template.render(playbook=playbook, detections=sorted_detections, time=datetime.datetime.now())
         with open(output_path, 'w', encoding="utf-8") as f:
             f.write(output)
     messages.append("doc_gen.py wrote {0} playbook documentation in markdown to: {1}".format(len(sorted_playbooks),OUTPUT_DIR + '/_playbooks/'))
@@ -366,7 +368,7 @@ def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, messages, VERBO
     # write markdown detection page
     template = j2_env.get_template('doc_playbooks_page_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/_pages/playbooks.md')
-    output = template.render(playbooks=sorted_playbooks, time=datetime.datetime.now())
+    output = template.render(playbooks=sorted_playbooks, detections=sorted_detections, time=datetime.datetime.now())
     with open(output_path, 'w', encoding="utf-8") as f:
         f.write(output)
     messages.append("doc_gen.py wrote playbooks.md page to: {0}".format(output_path))
@@ -401,7 +403,7 @@ if __name__ == "__main__":
     messages = []
     sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, messages, VERBOSE)
     sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, sorted_detections, messages, VERBOSE)
-    sorted_playbooks, messages = generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, messages, VERBOSE)
+    sorted_playbooks, messages = generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, messages, VERBOSE)
 
     # print all the messages from generation
     for m in messages:

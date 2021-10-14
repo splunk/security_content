@@ -8,6 +8,6 @@ sidebar:
   nav: "playbooks"
 ---
 
-| Name    | Analytic Story | Type        |
-| --------| -------------- | ----------- |
-| [Ransomware Investigate and Contain](/playbooks/ransomware_investigate_and_contain/) | None | Response |
+| Name    | Detections | Type        |
+| --------| ---------- | ----------- |
+| [Ransomware Investigate and Contain](/playbooks/ransomware_investigate_and_contain/)|[Conti Common Exec parameter](/detections/TTP/conti_common_exec_parameter)| Response |

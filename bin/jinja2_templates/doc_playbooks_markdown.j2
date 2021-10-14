@@ -21,18 +21,25 @@ tags:
 
 - **Type**: {{ playbook.type }}
 - **Product**: {{ playbook.tags.product|join(', ') }}
-- **Apps**: {% for app in playbook.app_list %}{{ app }}{% if not loop.last %}, {% endif %}{%-endfor %}
+- **Apps**: {% for app in playbook.app_list %}[{{ app }}](https://splunkbase.splunk.com/apps/#/search/{{ app }}/product/soar){% if not loop.last %}, {% endif %}{%-endfor %}
 - **Last Updated**: {{ playbook.date }}
 - **Author**: {{playbook.author}}
 - **ID**: {{ playbook.id }}
 
-#### Associated Analytic Story
-{% for story in playbook.tags.analytic_story -%}
-* [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
+#### Associated Detections
+{% for detection in playbook.tags.detections -%}
+{% for d in detections -%}
+{% if d.name == detection -%}
+* [{{ detection }}](/detections/{{ d.type }}/{{detection|lower|replace(" ", "_")}})
+{% endif %}
+{% endfor %}
 {% endfor %}
 
 #### How To Implement
 {{ playbook.how_to_implement}}
+
+#### Playbooks
+![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/{{ playbook.name | lower | replace(" ", "_")}}.png)
 
 #### Required field
 {% for field in playbook.tags.playbook_fields -%}
