@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-24
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1569.002
@@ -35,8 +36,8 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 

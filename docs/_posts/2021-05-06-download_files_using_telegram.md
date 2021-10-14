@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1105
@@ -35,8 +36,8 @@ The following analytic will identify a suspicious download by the Telegram appli
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
 

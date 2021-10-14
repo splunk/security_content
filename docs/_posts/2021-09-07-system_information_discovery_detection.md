@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-07
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1082
@@ -35,8 +36,8 @@ Detect system information discovery techniques used by attackers to understand c
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 

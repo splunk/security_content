@@ -2,6 +2,7 @@
 title: "Ryuk Ransomware"
 last_modified_at: 2020-11-06
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,7 +31,7 @@ Cybersecurity Infrastructure Security Agency (CISA) released Alert (AA20-302A) o
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [BCDEdit Failure Recovery Modification](/endpoint/bcdedit_failure_recovery_modification/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Data Destruction](/tags/#data-destruction), [Domain Trust Discovery](/tags/#domain-trust-discovery), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Windows Command Shell](/tags/#windows-command-shell), [Scheduled Task](/tags/#scheduled-task), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Service Stop](/tags/#service-stop) | TTP |
+| [BCDEdit Failure Recovery Modification](/endpoint/bcdedit_failure_recovery_modification/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | [Data Destruction](/tags/#data-destruction) | Hunting |
 | [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | [Data Destruction](/tags/#data-destruction) | Hunting |
 | [NLTest Domain Trust Discovery](/endpoint/nltest_domain_trust_discovery/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | TTP |

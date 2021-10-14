@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-08-17
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1204.003
@@ -35,8 +36,8 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
 
 

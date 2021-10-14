@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1566.001
@@ -37,8 +38,8 @@ This search looks for execution of process `outlook.exe` where the process is wr
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-01
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1547.012
@@ -36,8 +37,8 @@ The following analytic identifies a suspicious child process, `rundll32.exe`, wi
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
 

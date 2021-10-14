@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1007
@@ -38,8 +39,8 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
 | [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
 | [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |

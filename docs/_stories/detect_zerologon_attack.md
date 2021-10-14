@@ -2,6 +2,7 @@
 title: "Detect Zerologon Attack"
 last_modified_at: 2020-09-18
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -28,7 +29,7 @@ This attack is a privilege escalation technique, where attacker targets a Netlog
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Computer Changed with Anonymous Account](/endpoint/detect_computer_changed_with_anonymous_account/) | [Exploitation of Remote Services](/tags/#exploitation-of-remote-services), [LSASS Memory](/tags/#lsass-memory), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | Hunting |
+| [Detect Computer Changed with Anonymous Account](/endpoint/detect_computer_changed_with_anonymous_account/) | [Exploitation of Remote Services](/tags/#exploitation-of-remote-services) | Hunting |
 | [Detect Credential Dumping through LSASS access](/endpoint/detect_credential_dumping_through_lsass_access/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
 | [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
 | [Detect Zerologon via Zeek](/network/detect_zerologon_via_zeek/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |

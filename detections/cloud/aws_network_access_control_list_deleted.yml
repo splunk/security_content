@@ -41,6 +41,7 @@ tags:
     $eventName$), such that the instance is accessible from anywhere
   mitre_attack_id:
   - T1562.007
+  - T1562
   nist:
   - DE.DP
   - DE.AE

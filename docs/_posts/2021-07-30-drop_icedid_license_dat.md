@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-30
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1204.002
@@ -35,8 +36,8 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 

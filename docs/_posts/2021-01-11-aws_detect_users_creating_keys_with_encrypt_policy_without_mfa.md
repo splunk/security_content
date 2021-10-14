@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-01-11
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1486
@@ -34,8 +35,8 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 

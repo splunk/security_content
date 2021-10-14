@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-07-27
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1078
@@ -39,8 +40,8 @@ This search provides detection of accounts creating permanent keys. Permanent ke
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 

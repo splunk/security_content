@@ -85,3 +85,10 @@ stories:
         url: /stories/malware/
       - title: Vulnerability
         url: /stories/vulnerability/
+playbooks:
+  - title: "Type"
+    children:
+      - title: "Response"
+        url: /tags/#response/
+      - title: "Investigation"
+        url: /tags/#investigation/

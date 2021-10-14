@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1547.010
@@ -35,8 +36,8 @@ This search looks for registry activity associated with modifications to the reg
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1547.010](https://attack.mitre.org/techniques/T1547/010/) | Port Monitors | Persistence, Privilege Escalation |
 
 

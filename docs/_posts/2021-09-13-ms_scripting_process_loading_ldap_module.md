@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-13
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1059.007
@@ -35,8 +36,8 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 
