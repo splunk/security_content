@@ -2,6 +2,7 @@
 title: "AWS Cross Account Activity"
 last_modified_at: 2018-06-04
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,7 +31,7 @@ This Analytic Story includes searches that will help you monitor your AWS CloudT
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [aws detect attach to role policy](/cloud/aws_detect_attach_to_role_policy/) | [Valid Accounts](/tags/#valid-accounts), [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material) | Hunting |
+| [aws detect attach to role policy](/cloud/aws_detect_attach_to_role_policy/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
 | [aws detect permanent key creation](/cloud/aws_detect_permanent_key_creation/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
 | [aws detect role creation](/cloud/aws_detect_role_creation/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
 | [aws detect sts assume role abuse](/cloud/aws_detect_sts_assume_role_abuse/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |

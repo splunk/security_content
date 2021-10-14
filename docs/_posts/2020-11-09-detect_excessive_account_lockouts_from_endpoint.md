@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-09
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1078.002
@@ -37,8 +38,8 @@ This search identifies endpoints that have caused a relatively high number of ac
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 

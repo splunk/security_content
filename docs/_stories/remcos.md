@@ -2,6 +2,7 @@
 title: "Remcos"
 last_modified_at: 2021-09-23
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,11 +30,12 @@ Remcos or Remote Control and Surveillance, marketed as a legitimate software for
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Masquerading](/tags/#masquerading), [Port Monitors](/tags/#port-monitors), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Application Shimming](/tags/#application-shimming), [Screen Capture](/tags/#screen-capture), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
+| [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
 | [Executables Or Script Creation In Suspicious Path](/endpoint/executables_or_script_creation_in_suspicious_path/) | [Masquerading](/tags/#masquerading) | TTP |
 | [Process Deleting Its Process File Path](/endpoint/process_deleting_its_process_file_path/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
 | [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
 | [Remcos RAT File Creation in Remcos Folder](/endpoint/remcos_rat_file_creation_in_remcos_folder/) | [Screen Capture](/tags/#screen-capture) | TTP |
+| [Remcos client registry install entry](/endpoint/remcos_client_registry_install_entry/) | [Modify Registry](/tags/#modify-registry) | TTP |
 | [Suspicious Image Creation In Appdata Folder](/endpoint/suspicious_image_creation_in_appdata_folder/) | [Screen Capture](/tags/#screen-capture) | TTP |
 | [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [Suspicious WAV file in Appdata Folder](/endpoint/suspicious_wav_file_in_appdata_folder/) | [Screen Capture](/tags/#screen-capture) | TTP |

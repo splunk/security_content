@@ -2,6 +2,7 @@
 title: "ProxyShell"
 last_modified_at: 2021-08-24
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -33,7 +34,7 @@ Upon successful exploitation, the remote attacker will have `SYSTEM` privileges 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | [Web Shell](/tags/#web-shell), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application), [PowerShell](/tags/#powershell) | TTP |
+| [Detect Exchange Web Shell](/endpoint/detect_exchange_web_shell/) | [Web Shell](/tags/#web-shell) | TTP |
 | [Exchange PowerShell Abuse via SSRF](/endpoint/exchange_powershell_abuse_via_ssrf/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 | [Exchange PowerShell Module Usage](/endpoint/exchange_powershell_module_usage/) | [PowerShell](/tags/#powershell) | TTP |
 | [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | [Web Shell](/tags/#web-shell) | TTP |

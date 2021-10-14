@@ -2,6 +2,7 @@
 title: "Masquerading - Rename System Utilities"
 last_modified_at: 2021-04-26
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -31,7 +32,7 @@ There will be false positives as some native Windows processes are moved or ran 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild), [Rundll32](/tags/#rundll32), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Masquerading](/tags/#masquerading) | TTP |
+| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
 | [Suspicious MSBuild Rename](/endpoint/suspicious_msbuild_rename/) | [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
 | [Suspicious Rundll32 Rename](/endpoint/suspicious_rundll32_rename/) | [Rundll32](/tags/#rundll32), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
 | [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |

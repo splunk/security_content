@@ -2,6 +2,7 @@
 title: "SamSam Ransomware"
 last_modified_at: 2018-12-13
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -36,11 +37,11 @@ This Analytic Story includes searches designed to help detect and investigate si
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Active Scanning](/tags/#active-scanning), [OS Credential Dumping](/tags/#os-credential-dumping), [Service Stop](/tags/#service-stop), [Malicious File](/tags/#malicious-file), [Data Destruction](/tags/#data-destruction), [Account Access Removal](/tags/#account-access-removal), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [System Information Discovery](/tags/#system-information-discovery), [System Network Configuration Discovery](/tags/#system-network-configuration-discovery), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [Account Discovery](/tags/#account-discovery), [Masquerading](/tags/#masquerading), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Regsvr32](/tags/#regsvr32), [Indirect Command Execution](/tags/#indirect-command-execution), [Scheduled Task/Job](/tags/#scheduled-task/job), [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Software Deployment Tools](/tags/#software-deployment-tools), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Rundll32](/tags/#rundll32), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Rename System Utilities](/tags/#rename-system-utilities), [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Active Scanning](/tags/#active-scanning), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Batch File Write to System32](/endpoint/batch_file_write_to_system32/) | [Malicious File](/tags/#malicious-file) | TTP |
 | [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | [Data Destruction](/tags/#data-destruction) | Hunting |
 | [Common Ransomware Notes](/endpoint/common_ransomware_notes/) | [Data Destruction](/tags/#data-destruction) | Hunting |
-| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
 | [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | Hunting |
 | [Detect attackers scanning for vulnerable JBoss servers](/web/detect_attackers_scanning_for_vulnerable_jboss_servers/) | [System Information Discovery](/tags/#system-information-discovery) | TTP |

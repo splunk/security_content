@@ -5,6 +5,7 @@ categories:
   - Web
 last_modified_at: 2017-09-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1082
@@ -37,8 +38,8 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 

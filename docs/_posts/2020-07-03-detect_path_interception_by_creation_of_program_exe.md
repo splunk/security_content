@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-03
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1574.009
@@ -37,8 +38,8 @@ The detection Detect Path Interception By Creation Of program exe is detecting t
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1574.009](https://attack.mitre.org/techniques/T1574/009/) | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-08-25
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1059
@@ -37,8 +38,8 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 

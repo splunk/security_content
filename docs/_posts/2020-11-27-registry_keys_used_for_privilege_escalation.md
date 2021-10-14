@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-27
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1546.012
@@ -35,8 +36,8 @@ This search looks for modifications to registry keys that can be used to elevate
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1546.012](https://attack.mitre.org/techniques/T1546/012/) | Image File Execution Options Injection | Privilege Escalation, Persistence |
 
 

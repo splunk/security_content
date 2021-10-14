@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-27
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1059.001
@@ -40,8 +41,8 @@ Module - New-managementroleassignment can assign a management role to a manageme
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 

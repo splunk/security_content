@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-09
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1053
@@ -42,8 +43,8 @@ This detection identifies access to PowerSploit modules that illegaly elevate ge
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 | [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |

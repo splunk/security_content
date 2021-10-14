@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-23
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1087.001
@@ -35,8 +36,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
 

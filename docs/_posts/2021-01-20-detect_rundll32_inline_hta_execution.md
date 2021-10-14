@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-01-20
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.005
@@ -35,8 +36,8 @@ The following analytic identifies &#34;rundll32.exe&#34; execution with inline p
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
 

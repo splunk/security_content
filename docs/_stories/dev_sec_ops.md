@@ -2,6 +2,7 @@
 title: "Dev Sec Ops"
 last_modified_at: 2021-08-18
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ DevSecOps is a collaborative framework, which thinks about application and infra
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS ECR Container Scanning Findings High](/cloud/aws_ecr_container_scanning_findings_high/) | [Malicious Image](/tags/#malicious-image), [Compromise Client Software Binary](/tags/#compromise-client-software-binary), [Compromise Software Dependencies and Development Tools](/tags/#compromise-software-dependencies-and-development-tools), [Exploitation for Credential Access](/tags/#exploitation-for-credential-access), [Cloud Service Discovery](/tags/#cloud-service-discovery) | TTP |
+| [AWS ECR Container Scanning Findings High](/cloud/aws_ecr_container_scanning_findings_high/) | [Malicious Image](/tags/#malicious-image) | TTP |
 | [AWS ECR Container Scanning Findings Low Informational Unknown](/cloud/aws_ecr_container_scanning_findings_low_informational_unknown/) | [Malicious Image](/tags/#malicious-image) | Hunting |
 | [AWS ECR Container Scanning Findings Medium](/cloud/aws_ecr_container_scanning_findings_medium/) | [Malicious Image](/tags/#malicious-image) | Anomaly |
 | [AWS ECR Container Upload Outside Business Hours](/cloud/aws_ecr_container_upload_outside_business_hours/) | [Malicious Image](/tags/#malicious-image) | Anomaly |

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-08-25
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1036
@@ -32,8 +33,8 @@ An attacker tries might try to use different version of a system command without
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 

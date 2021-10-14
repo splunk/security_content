@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1071.002
@@ -38,8 +39,8 @@ This search looks for outbound SMB connections made by hosts within your network
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1071.002](https://attack.mitre.org/techniques/T1071/002/) | File Transfer Protocols | Command And Control |
 
 

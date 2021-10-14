@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-04-01
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1098
@@ -35,8 +36,8 @@ The following detection identifes when a policy is deleted on AWS. This does not
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 
 
