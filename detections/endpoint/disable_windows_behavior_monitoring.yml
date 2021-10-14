@@ -2,7 +2,7 @@ name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
 version: 1
 date: '2021-03-31'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk!
 type: TTP
 datamodel:
 - Endpoint

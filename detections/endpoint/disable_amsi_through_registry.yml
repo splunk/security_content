@@ -2,7 +2,7 @@ name: Disable AMSI Through Registry
 id: 9c27ec42-d338-11eb-9044-acde48001122
 version: 1
 date: '2021-06-22'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk!
 type: TTP
 datamodel:
 - Endpoint

@@ -2,7 +2,7 @@ name: Disable Registry Tool
 id: cd2cf33c-9201-11eb-a10a-acde48001122
 version: 1
 date: '2021-03-31'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk!
 type: TTP
 datamodel:
 - Endpoint

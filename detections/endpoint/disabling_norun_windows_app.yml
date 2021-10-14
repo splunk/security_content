@@ -2,7 +2,7 @@ name: Disabling NoRun Windows App
 id: de81bc46-9213-11eb-adc9-acde48001122
 version: 1
 date: '2021-03-31'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk!
 type: TTP
 datamodel:
 - Endpoint
