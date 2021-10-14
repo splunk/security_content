@@ -14,7 +14,7 @@ narrative: DevSecOps is a collaborative framework, which thinks about applicatio
 references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
 tags:
-  analytic_story: DevSecOps
+  analytic_story: Dev Sec Ops
   category:
   - Cloud Security
   product:

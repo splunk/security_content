@@ -35,7 +35,7 @@ references:
 - https://www.fireeye.com/content/dam/fireeye-www/global/en/current-threats/pdfs/rpt-top-spear-phishing-words.pdf
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   automated_detection_testing: passed
   confidence: 50
   context:
@@ -49,6 +49,7 @@ tags:
   message: suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:
   - T1566.001
+  - T1566
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

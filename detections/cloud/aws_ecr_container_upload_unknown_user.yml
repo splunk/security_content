@@ -33,6 +33,7 @@ tags:
   message: Container uploaded from unknown user $user$
   mitre_attack_id:
   - T1204.003
+  - T1204
   nist:
   - PR.DS
   - PR.AC
