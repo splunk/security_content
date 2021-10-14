@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-01
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1018
@@ -35,8 +36,8 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
 

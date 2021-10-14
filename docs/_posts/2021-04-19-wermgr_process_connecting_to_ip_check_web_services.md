@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-19
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1590.005
@@ -35,8 +36,8 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1590.005](https://attack.mitre.org/techniques/T1590/005/) | IP Addresses | Reconnaissance |
 
 

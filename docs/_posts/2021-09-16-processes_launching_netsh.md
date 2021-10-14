@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1562.004
@@ -35,8 +36,8 @@ This search looks for processes launching netsh.exe. Netsh is a command-line scr
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1562.004](https://attack.mitre.org/techniques/T1562/004/) | Disable or Modify System Firewall | Defense Evasion |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-14
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1069.001
@@ -36,8 +37,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-22
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1036
@@ -33,8 +34,8 @@ This search detects writes to the recycle bin by a process other than explorer.e
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 

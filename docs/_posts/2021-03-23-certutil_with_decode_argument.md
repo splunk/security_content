@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1140
@@ -35,8 +36,8 @@ CertUtil.exe may be used to `encode` and `decode` a file, including PE and scrip
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
 
 

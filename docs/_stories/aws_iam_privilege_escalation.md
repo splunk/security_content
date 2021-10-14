@@ -2,6 +2,7 @@
 title: "AWS IAM Privilege Escalation"
 last_modified_at: 2021-03-08
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -30,7 +31,7 @@ However, if these IAM policies are misconfigured and have specific combinations 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS Create Policy Version to allow all resources](/cloud/aws_create_policy_version_to_allow_all_resources/) | [Cloud Accounts](/tags/#cloud-accounts), [Cloud Account](/tags/#cloud-account), [Cloud Infrastructure Discovery](/tags/#cloud-infrastructure-discovery), [Brute Force](/tags/#brute-force), [Account Manipulation](/tags/#account-manipulation), [Cloud Groups](/tags/#cloud-groups) | TTP |
+| [AWS Create Policy Version to allow all resources](/cloud/aws_create_policy_version_to_allow_all_resources/) | [Cloud Accounts](/tags/#cloud-accounts) | TTP |
 | [AWS CreateAccessKey](/cloud/aws_createaccesskey/) | [Cloud Account](/tags/#cloud-account) | Hunting |
 | [AWS CreateLoginProfile](/cloud/aws_createloginprofile/) | [Cloud Account](/tags/#cloud-account) | TTP |
 | [AWS IAM Assume Role Policy Brute Force](/cloud/aws_iam_assume_role_policy_brute_force/) | [Cloud Infrastructure Discovery](/tags/#cloud-infrastructure-discovery), [Brute Force](/tags/#brute-force) | TTP |

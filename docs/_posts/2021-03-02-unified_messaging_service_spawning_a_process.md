@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-02
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1190
@@ -35,8 +36,8 @@ This detection identifies Microsoft Exchange Server&#39;s Unified Messaging serv
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-10
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1547.001
@@ -36,8 +37,8 @@ This search is to detect a modification or registry add to the safeboot registry
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 
 

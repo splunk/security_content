@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-13
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1033
@@ -35,8 +36,8 @@ This analytic looks for the execution of `query.exe` with command-line arguments
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
 
 

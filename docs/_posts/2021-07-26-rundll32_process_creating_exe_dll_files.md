@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-26
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.011
@@ -35,8 +36,8 @@ This search is to detect a suspicious rundll32 process that drops executable (.e
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-02
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1482
@@ -37,8 +38,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 

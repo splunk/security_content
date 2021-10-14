@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1059.003
@@ -35,8 +36,8 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
 

@@ -2,6 +2,7 @@
 title: "DNS Amplification Attacks"
 last_modified_at: 2016-09-13
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
