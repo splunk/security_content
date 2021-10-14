@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2021-04-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1048.003
@@ -35,8 +36,8 @@ This search is designed to detect high frequency of archive files data exfiltrat
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
 

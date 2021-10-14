@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-19
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1053
@@ -37,8 +38,8 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 

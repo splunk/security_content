@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-08
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1136.001
@@ -35,8 +36,8 @@ This search looks for newly created accounts that have been elevated to local ad
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1546.011
@@ -36,8 +37,8 @@ This search detects the process execution and arguments required to silently cre
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-7-13
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1059
@@ -32,8 +33,8 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-12-08
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1204.002
@@ -35,8 +36,8 @@ This search looks for process names that consist only of a single letter.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-03
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1005
@@ -35,8 +36,8 @@ This search is to detect a suspicious file creation of sqlite3.dll in %temp% fol
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1005](https://attack.mitre.org/techniques/T1005/) | Data from Local System | Collection |
 
 

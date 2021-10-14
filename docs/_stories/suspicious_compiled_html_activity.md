@@ -2,6 +2,7 @@
 title: "Suspicious Compiled HTML Activity"
 last_modified_at: 2021-02-11
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
