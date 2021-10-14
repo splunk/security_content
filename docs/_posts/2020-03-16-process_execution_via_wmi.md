@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-03-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1047
@@ -35,8 +36,8 @@ The following analytic identifies `WmiPrvSE.exe` spawning a process. This typica
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 

@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2019-04-01
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1082
@@ -37,8 +38,8 @@ This search looks for suspicious processes on all systems labeled as web servers
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 

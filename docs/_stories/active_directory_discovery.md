@@ -2,6 +2,7 @@
 title: "Active Directory Discovery"
 last_modified_at: 2021-08-20
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,8 +31,8 @@ Once an attacker obtains an initial foothold in an Active Directory environment,
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AdsiSearcher Account Discovery](/endpoint/adsisearcher_account_discovery/) | [Domain Account](/tags/#domain-account), [Domain Trust Discovery](/tags/#domain-trust-discovery), [Remote System Discovery](/tags/#remote-system-discovery), [Domain Groups](/tags/#domain-groups), [Password Policy Discovery](/tags/#password-policy-discovery), [Local Groups](/tags/#local-groups), [System Owner/User Discovery](/tags/#system-owner/user-discovery), [Local Account](/tags/#local-account), [System Network Connections Discovery](/tags/#system-network-connections-discovery) | TTP |
-| [DSQuery Domain Discovery](/endpoint/dsquery_domain_discovery/) | [Domain Trust Discovery](/tags/#domain-trust-discovery), [Remote System Discovery](/tags/#remote-system-discovery) | TTP |
+| [AdsiSearcher Account Discovery](/endpoint/adsisearcher_account_discovery/) | [Domain Account](/tags/#domain-account) | TTP |
+| [DSQuery Domain Discovery](/endpoint/dsquery_domain_discovery/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | TTP |
 | [Domain Account Discovery With Net App](/endpoint/domain_account_discovery_with_net_app/) | [Domain Account](/tags/#domain-account) | TTP |
 | [Domain Account Discovery with Dsquery](/endpoint/domain_account_discovery_with_dsquery/) | [Domain Account](/tags/#domain-account) | Hunting |
 | [Domain Account Discovery with Wmic](/endpoint/domain_account_discovery_with_wmic/) | [Domain Account](/tags/#domain-account) | TTP |

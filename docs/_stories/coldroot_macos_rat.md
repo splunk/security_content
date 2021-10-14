@@ -2,6 +2,7 @@
 title: "ColdRoot MacOS RAT"
 last_modified_at: 2019-01-09
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security

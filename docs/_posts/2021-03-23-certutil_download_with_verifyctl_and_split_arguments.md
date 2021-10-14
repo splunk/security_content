@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1105
@@ -35,8 +36,8 @@ Certutil.exe may download a file from a remote destination using `-VerifyCtl`. T
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
 

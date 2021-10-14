@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-26
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1574.011
@@ -37,8 +38,8 @@ The search looks for reg.exe modifying registry keys that define Windows service
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
 
 

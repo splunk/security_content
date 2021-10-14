@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-26
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1055
@@ -36,8 +37,8 @@ this search is to detect potential trickbot infection through the create/connect
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 

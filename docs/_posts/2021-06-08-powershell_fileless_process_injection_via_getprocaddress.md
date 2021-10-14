@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-08
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1055
@@ -41,8 +42,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 

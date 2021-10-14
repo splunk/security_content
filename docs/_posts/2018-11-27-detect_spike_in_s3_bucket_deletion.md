@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2018-11-27
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1530
@@ -36,8 +37,8 @@ This search detects users creating spikes in API activity related to deletion of
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 

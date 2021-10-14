@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-07
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1087.002
@@ -35,8 +36,8 @@ This analytic is to detect an application try to connect and create ADSI Object 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 
