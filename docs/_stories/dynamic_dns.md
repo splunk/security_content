@@ -2,6 +2,7 @@
 title: "Dynamic DNS"
 last_modified_at: 2018-09-06
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,7 +31,7 @@ Dynamic DNS services (DDNS) are legitimate low-cost or free services that allow 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol), [DNS](/tags/#dns), [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [Non-Application Layer Protocol](/tags/#non-application-layer-protocol), [Exfiltration Over C2 Channel](/tags/#exfiltration-over-c2-channel), [Drive-by Compromise](/tags/#drive-by-compromise), [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account), [Local Email Collection](/tags/#local-email-collection), [Email Collection](/tags/#email-collection), [Email Forwarding Rule](/tags/#email-forwarding-rule), [Web Protocols](/tags/#web-protocols) | TTP |
+| [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | TTP |
 | [Detect hosts connecting to dynamic domain providers](/network/detect_hosts_connecting_to_dynamic_domain_providers/) | [Drive-by Compromise](/tags/#drive-by-compromise) | TTP |
 | [Excessive Usage of NSLOOKUP App](/endpoint/excessive_usage_of_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | Anomaly |
 

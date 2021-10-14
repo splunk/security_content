@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1021.001
@@ -38,8 +39,8 @@ This search looks for RDP application network traffic and filters any source/des
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
 
 

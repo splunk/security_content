@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1199
@@ -44,8 +45,8 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 | [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |

@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-07-20
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1537
@@ -35,8 +36,8 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
 
 

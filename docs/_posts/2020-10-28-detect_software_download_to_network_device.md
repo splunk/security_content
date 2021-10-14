@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-10-28
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1542.005
@@ -38,8 +39,8 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1542.005](https://attack.mitre.org/techniques/T1542/005/) | TFTP Boot | Defense Evasion, Persistence |
 
 

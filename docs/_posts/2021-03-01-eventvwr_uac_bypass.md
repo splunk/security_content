@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-01
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1548.002
@@ -37,8 +38,8 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 

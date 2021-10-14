@@ -2,6 +2,7 @@
 title: "Suspicious Emails"
 last_modified_at: 2020-01-27
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security

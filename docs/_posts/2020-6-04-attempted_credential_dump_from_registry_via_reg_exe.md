@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-6-04
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003
@@ -32,8 +33,8 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 

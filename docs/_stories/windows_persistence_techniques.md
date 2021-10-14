@@ -2,6 +2,7 @@
 title: "Windows Persistence Techniques"
 last_modified_at: 2018-05-31
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,7 +31,7 @@ Maintaining persistence is one of the first steps taken by attackers after the i
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
 | [Certutil exe certificate extraction](/endpoint/certutil_exe_certificate_extraction/) |  | TTP |
-| [Detect Path Interception By Creation Of program exe](/endpoint/detect_path_interception_by_creation_of_program_exe/) | [Path Interception by Unquoted Path](/tags/#path-interception-by-unquoted-path), [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification), [Establish Accounts](/tags/#establish-accounts), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation), [Rogue Domain Controller](/tags/#rogue-domain-controller), [Domain Policy Modification](/tags/#domain-policy-modification), [Scheduled Task/Job](/tags/#scheduled-task/job), [Access Token Manipulation](/tags/#access-token-manipulation), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Port Monitors](/tags/#port-monitors), [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Application Shimming](/tags/#application-shimming), [Windows Service](/tags/#windows-service), [Scheduled Task](/tags/#scheduled-task), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | TTP |
+| [Detect Path Interception By Creation Of program exe](/endpoint/detect_path_interception_by_creation_of_program_exe/) | [Path Interception by Unquoted Path](/tags/#path-interception-by-unquoted-path) | TTP |
 | [Hiding Files And Directories With Attrib exe](/endpoint/hiding_files_and_directories_with_attrib_exe/) | [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification) | TTP |
 | [Illegal Account Creation via PowerSploit modules](/endpoint/illegal_account_creation_via_powersploit_modules/) | [Establish Accounts](/tags/#establish-accounts) | TTP |
 | [Illegal Enabling or Disabling of Accounts via DSInternals modules](/endpoint/illegal_enabling_or_disabling_of_accounts_via_dsinternals_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | TTP |

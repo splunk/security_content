@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-30
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.011
@@ -35,8 +36,8 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 

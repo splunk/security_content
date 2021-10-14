@@ -2,6 +2,7 @@
 title: "NOBELIUM Group"
 last_modified_at: 2020-12-14
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -31,11 +32,11 @@ This Analytic Story supports you to detect Tactics, Techniques and Procedures (T
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | [Archive via Utility](/tags/#archive-via-utility), [Windows Command Shell](/tags/#windows-command-shell), [Windows Service](/tags/#windows-service), [Process Injection](/tags/#process-injection), [File Transfer Protocols](/tags/#file-transfer-protocols), [Regsvr32](/tags/#regsvr32), [Mshta](/tags/#mshta), [Service Execution](/tags/#service-execution), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [Rundll32](/tags/#rundll32), [Scheduled Task](/tags/#scheduled-task), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Web Shell](/tags/#web-shell), [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Web Protocols](/tags/#web-protocols), [Remote System Discovery](/tags/#remote-system-discovery) | Anomaly |
+| [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | [Archive via Utility](/tags/#archive-via-utility) | Anomaly |
 | [Detect Outbound SMB Traffic](/network/detect_outbound_smb_traffic/) | [File Transfer Protocols](/tags/#file-transfer-protocols) | TTP |
-| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
+| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Windows Command Shell](/tags/#windows-command-shell) | Hunting |
 | [Detect Rundll32 Inline HTA Execution](/endpoint/detect_rundll32_inline_hta_execution/) | [Mshta](/tags/#mshta) | TTP |
-| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [Service Execution](/tags/#service-execution), [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services), [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness), [Windows Service](/tags/#windows-service) | Anomaly |
+| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [Service Execution](/tags/#service-execution) | Anomaly |
 | [Malicious PowerShell Process - Encoded Command](/endpoint/malicious_powershell_process_-_encoded_command/) | [Obfuscated Files or Information](/tags/#obfuscated-files-or-information) | Hunting |
 | [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service) | TTP |
 | [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | [Scheduled Task](/tags/#scheduled-task) | TTP |

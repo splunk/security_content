@@ -2,6 +2,7 @@
 title: "Lateral Movement"
 last_modified_at: 2020-02-04
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -34,7 +35,7 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Activity Related to Pass the Hash Attacks](/endpoint/detect_activity_related_to_pass_the_hash_attacks/) | [Pass the Hash](/tags/#pass-the-hash), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [Kerberoasting](/tags/#kerberoasting), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Scheduled Task](/tags/#scheduled-task) | TTP |
+| [Detect Activity Related to Pass the Hash Attacks](/endpoint/detect_activity_related_to_pass_the_hash_attacks/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
 | [Detect Pass the Hash](/endpoint/detect_pass_the_hash/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
 | [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
 | [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | Hunting |

@@ -2,6 +2,7 @@
 title: "Trickbot"
 last_modified_at: 2021-04-20
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ trickbot banking trojan campaigns targeting banks and other vertical sectors.Thi
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Account Discovery With Net App](/endpoint/account_discovery_with_net_app/) | [Domain Account](/tags/#domain-account), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Process Injection](/tags/#process-injection), [Malicious File](/tags/#malicious-file), [Bypass User Account Control](/tags/#bypass-user-account-control), [Modify Registry](/tags/#modify-registry), [Archive via Utility](/tags/#archive-via-utility), [Mshta](/tags/#mshta), [Domain Trust Discovery](/tags/#domain-trust-discovery), [Spearphishing Attachment](/tags/#spearphishing-attachment), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Rundll32](/tags/#rundll32), [Scheduled Task/Job](/tags/#scheduled-task/job), [Data from Local System](/tags/#data-from-local-system), [Regsvr32](/tags/#regsvr32), [IP Addresses](/tags/#ip-addresses), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [Scheduled Task](/tags/#scheduled-task), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
+| [Account Discovery With Net App](/endpoint/account_discovery_with_net_app/) | [Domain Account](/tags/#domain-account) | TTP |
 | [Attempt To Stop Security Service](/endpoint/attempt_to_stop_security_service/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Cobalt Strike Named Pipes](/endpoint/cobalt_strike_named_pipes/) | [Process Injection](/tags/#process-injection) | TTP |
 | [Mshta spawning Rundll32 OR Regsvr32 Process](/endpoint/mshta_spawning_rundll32_or_regsvr32_process/) | [Mshta](/tags/#mshta) | TTP |

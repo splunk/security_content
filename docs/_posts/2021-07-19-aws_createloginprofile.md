@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-07-19
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1136.003
@@ -35,8 +36,8 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
 

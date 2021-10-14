@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-02-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003.001
@@ -35,8 +36,8 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
 

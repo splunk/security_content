@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-07-28
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1203
@@ -37,8 +38,8 @@ This search detects SIGRed via Zeek DNS and Zeek Conn data.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 
