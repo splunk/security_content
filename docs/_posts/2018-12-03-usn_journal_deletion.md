@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2018-12-03
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1070
@@ -35,8 +36,8 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 

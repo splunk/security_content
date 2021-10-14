@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-13
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1020
@@ -35,8 +36,8 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
 
 

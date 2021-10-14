@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-05-28
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - Splunk Security Analytics for AWS

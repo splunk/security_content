@@ -2,6 +2,7 @@
 title: "Ransomware"
 last_modified_at: 2020-02-04
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,13 +31,13 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [7zip CommandLine To SMB Share Path](/endpoint/7zip_commandline_to_smb_share_path/) | [Archive via Utility](/tags/#archive-via-utility), [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Service Stop](/tags/#service-stop), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [CMSTP](/tags/#cmstp), [File Deletion](/tags/#file-deletion), [Data Destruction](/tags/#data-destruction), [User Execution](/tags/#user-execution), [Automated Exfiltration](/tags/#automated-exfiltration), [Domain Account](/tags/#domain-account), [Local Account](/tags/#local-account), [Domain Trust Discovery](/tags/#domain-trust-discovery), [Domain Groups](/tags/#domain-groups), [Local Groups](/tags/#local-groups), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Clear Windows Event Logs](/tags/#clear-windows-event-logs), [Account Access Removal](/tags/#account-access-removal), [Service Execution](/tags/#service-execution), [Visual Basic](/tags/#visual-basic), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification), [Defacement](/tags/#defacement), [DLL Side-Loading](/tags/#dll-side-loading), [Indicator Removal from Tools](/tags/#indicator-removal-from-tools), [Component Object Model Hijacking](/tags/#component-object-model-hijacking), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol), [Gather Victim Host Information](/tags/#gather-victim-host-information), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Modify Registry](/tags/#modify-registry), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Scheduled Task](/tags/#scheduled-task), [Rename System Utilities](/tags/#rename-system-utilities), [Web Protocols](/tags/#web-protocols), [Msiexec](/tags/#msiexec) | Hunting |
+| [7zip CommandLine To SMB Share Path](/endpoint/7zip_commandline_to_smb_share_path/) | [Archive via Utility](/tags/#archive-via-utility) | Hunting |
 | [Allow File And Printing Sharing In Firewall](/endpoint/allow_file_and_printing_sharing_in_firewall/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall) | TTP |
-| [Allow Network Discovery In Firewall](/endpoint/allow_network_discovery_in_firewall/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Defacement](/tags/#defacement), [DLL Side-Loading](/tags/#dll-side-loading), [User Execution](/tags/#user-execution), [Modify Registry](/tags/#modify-registry), [CMSTP](/tags/#cmstp) | TTP |
+| [Allow Network Discovery In Firewall](/endpoint/allow_network_discovery_in_firewall/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall) | TTP |
 | [Allow Operation with Consent Admin](/endpoint/allow_operation_with_consent_admin/) | [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
 | [Attempt To Disable Services](/endpoint/attempt_to_disable_services/) | [Service Stop](/tags/#service-stop) | TTP |
 | [Attempt To delete Services](/endpoint/attempt_to_delete_services/) | [Service Stop](/tags/#service-stop) | TTP |
-| [BCDEdit Failure Recovery Modification](/endpoint/bcdedit_failure_recovery_modification/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Data Destruction](/tags/#data-destruction), [Domain Trust Discovery](/tags/#domain-trust-discovery), [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Windows Command Shell](/tags/#windows-command-shell), [Scheduled Task](/tags/#scheduled-task), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Service Stop](/tags/#service-stop) | TTP |
+| [BCDEdit Failure Recovery Modification](/endpoint/bcdedit_failure_recovery_modification/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [CMLUA Or CMSTPLUA UAC Bypass](/endpoint/cmlua_or_cmstplua_uac_bypass/) | [CMSTP](/tags/#cmstp) | TTP |
 | [Clear Unallocated Sector Using Cipher App](/endpoint/clear_unallocated_sector_using_cipher_app/) | [File Deletion](/tags/#file-deletion) | TTP |
 | [Common Ransomware Extensions](/endpoint/common_ransomware_extensions/) | [Data Destruction](/tags/#data-destruction) | Hunting |
@@ -44,7 +45,7 @@ Ransomware is an ever-present risk to the enterprise, wherein an infected host e
 | [Conti Common Exec parameter](/endpoint/conti_common_exec_parameter/) | [User Execution](/tags/#user-execution) | TTP |
 | [Delete A Net User](/endpoint/delete_a_net_user/) | [Service Stop](/tags/#service-stop) | Anomaly |
 | [Delete ShadowCopy With PowerShell](/endpoint/delete_shadowcopy_with_powershell/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
-| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Detect RClone Command-Line Usage](/endpoint/detect_rclone_command-line_usage/) | [Automated Exfiltration](/tags/#automated-exfiltration) | TTP |
 | [Detect Renamed RClone](/endpoint/detect_renamed_rclone/) | [Automated Exfiltration](/tags/#automated-exfiltration) | Hunting |
 | [Detect SharpHound Command-Line Arguments](/endpoint/detect_sharphound_command-line_arguments/) | [Domain Account](/tags/#domain-account), [Local Account](/tags/#local-account), [Domain Trust Discovery](/tags/#domain-trust-discovery), [Domain Groups](/tags/#domain-groups), [Local Groups](/tags/#local-groups) | TTP |

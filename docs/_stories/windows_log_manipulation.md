@@ -2,6 +2,7 @@
 title: "Windows Log Manipulation"
 last_modified_at: 2017-09-12
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,7 +31,7 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Illegal Deletion of Logs via Mimikatz modules](/endpoint/illegal_deletion_of_logs_via_mimikatz_modules/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
 | [Suspicious Event Log Service Behavior](/endpoint/suspicious_event_log_service_behavior/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
 | [Suspicious wevtutil Usage](/endpoint/suspicious_wevtutil_usage/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |

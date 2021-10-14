@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-01-28
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.010
@@ -36,8 +37,8 @@ Upon investigating, look for network connections to remote destinations (interna
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
 

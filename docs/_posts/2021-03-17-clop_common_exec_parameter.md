@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-17
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1204
@@ -35,8 +36,8 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 

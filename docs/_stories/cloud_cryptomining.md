@@ -2,6 +2,7 @@
 title: "Cloud Cryptomining"
 last_modified_at: 2019-10-02
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -33,7 +34,7 @@ This Analytic Story is focused on detecting suspicious new instances in your clo
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Abnormally High Number Of Cloud Instances Launched](/cloud/abnormally_high_number_of_cloud_instances_launched/) | [Cloud Accounts](/tags/#cloud-accounts), [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | Anomaly |
+| [Abnormally High Number Of Cloud Instances Launched](/cloud/abnormally_high_number_of_cloud_instances_launched/) | [Cloud Accounts](/tags/#cloud-accounts) | Anomaly |
 | [Cloud Compute Instance Created By Previously Unseen User](/cloud/cloud_compute_instance_created_by_previously_unseen_user/) | [Cloud Accounts](/tags/#cloud-accounts) | Anomaly |
 | [Cloud Compute Instance Created In Previously Unused Region](/cloud/cloud_compute_instance_created_in_previously_unused_region/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | Anomaly |
 | [Cloud Compute Instance Created With Previously Unseen Image](/cloud/cloud_compute_instance_created_with_previously_unseen_image/) |  | Anomaly |

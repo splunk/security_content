@@ -2,6 +2,7 @@
 title: "Suspicious AWS S3 Activities"
 last_modified_at: 2018-07-24
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise

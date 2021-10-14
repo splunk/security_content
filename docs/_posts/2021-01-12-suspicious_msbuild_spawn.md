@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-01-12
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1127.001
@@ -35,8 +36,8 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
 
 

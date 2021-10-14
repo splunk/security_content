@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-07-22
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1021.002
@@ -37,8 +38,8 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
 

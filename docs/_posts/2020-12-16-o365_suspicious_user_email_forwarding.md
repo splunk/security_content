@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-12-16
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1114.003
@@ -35,8 +36,8 @@ This search detects when multiple user configured a forwarding rule to the same 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection |
 
 
