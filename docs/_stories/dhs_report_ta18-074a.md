@@ -2,6 +2,7 @@
 title: "DHS Report TA18-074A"
 last_modified_at: 2020-01-22
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -33,7 +34,7 @@ Suspicious activities--spikes in SMB traffic, processes that launch netsh (to mo
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Create local admin accounts using net exe](/endpoint/create_local_admin_accounts_using_net_exe/) | [Local Account](/tags/#local-account), [File Transfer Protocols](/tags/#file-transfer-protocols), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Service Execution](/tags/#service-execution), [PowerShell](/tags/#powershell), [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Windows Service](/tags/#windows-service), [Scheduled Task](/tags/#scheduled-task), [Malicious File](/tags/#malicious-file), [Modify Registry](/tags/#modify-registry) | TTP |
+| [Create local admin accounts using net exe](/endpoint/create_local_admin_accounts_using_net_exe/) | [Local Account](/tags/#local-account) | TTP |
 | [Detect New Local Admin account](/endpoint/detect_new_local_admin_account/) | [Local Account](/tags/#local-account) | TTP |
 | [Detect Outbound SMB Traffic](/network/detect_outbound_smb_traffic/) | [File Transfer Protocols](/tags/#file-transfer-protocols) | TTP |
 | [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |

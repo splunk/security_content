@@ -44,6 +44,7 @@ tags:
   message: User $user$ is modifying an instance $dest$ for the first time.
   mitre_attack_id:
   - T1078.004
+  - T1078
   nist:
   - ID.AM
   observable:

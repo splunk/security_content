@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-01
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1068
@@ -35,8 +36,8 @@ This analytic identifies a suspicious behavior related to PrintNightmare, or CVE
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 

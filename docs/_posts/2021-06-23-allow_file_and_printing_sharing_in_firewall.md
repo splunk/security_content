@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1562.007
@@ -35,8 +36,8 @@ This search is to detect a suspicious modification of firewall to allow file and
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
 

@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-01-12
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1562.007
@@ -35,8 +36,8 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-26
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003.003
@@ -35,8 +36,8 @@ This analytic detects a potential usage of secretsdump.py tool for dumping crede
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
 

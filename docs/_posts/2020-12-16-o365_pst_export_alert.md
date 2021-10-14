@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-12-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1114
@@ -35,8 +36,8 @@ This search detects when a user has performed an Ediscovery search or exported a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
 

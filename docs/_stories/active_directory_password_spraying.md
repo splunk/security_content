@@ -2,6 +2,7 @@
 title: "Active Directory Password Spraying"
 last_modified_at: 2021-04-07
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security

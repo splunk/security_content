@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-01
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1053.005
@@ -38,8 +39,8 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
 

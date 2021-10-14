@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1553.004
@@ -36,8 +37,8 @@ Attempt To Add Certificate To Untrusted Store
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1553.004](https://attack.mitre.org/techniques/T1553/004/) | Install Root Certificate | Defense Evasion |
 
 

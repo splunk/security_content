@@ -2,6 +2,7 @@
 title: "Router and Infrastructure Security"
 last_modified_at: 2017-09-12
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -31,7 +32,7 @@ This Analytic Story helps you gain a better understanding of how your network de
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect ARP Poisoning](/network/detect_arp_poisoning/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [ARP Cache Poisoning](/tags/#arp-cache-poisoning), [Man-in-the-Middle](/tags/#man-in-the-middle), [TFTP Boot](/tags/#tftp-boot), [Traffic Duplication](/tags/#traffic-duplication) | TTP |
+| [Detect ARP Poisoning](/network/detect_arp_poisoning/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
 | [Detect IPv6 Network Infrastructure Threats](/network/detect_ipv6_network_infrastructure_threats/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
 | [Detect New Login Attempts to Routers](/application/detect_new_login_attempts_to_routers/) |  | TTP |
 | [Detect Port Security Violation](/network/detect_port_security_violation/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |

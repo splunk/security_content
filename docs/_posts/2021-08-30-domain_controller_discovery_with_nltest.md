@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-30
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1018
@@ -35,8 +36,8 @@ This analytic looks for the execution of `nltest.exe` with command-line argument
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
 

@@ -2,6 +2,7 @@
 title: "Suspicious GCP Storage Activities"
 last_modified_at: 2020-08-05
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security

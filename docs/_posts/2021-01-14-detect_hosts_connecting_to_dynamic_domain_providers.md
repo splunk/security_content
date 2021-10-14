@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2021-01-14
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1189
@@ -36,8 +37,8 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1189](https://attack.mitre.org/techniques/T1189/) | Drive-by Compromise | Initial Access |
 
 

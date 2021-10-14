@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003.003
@@ -35,8 +36,8 @@ This search detects the creation of a symlink to a shadow copy.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.005
@@ -35,8 +36,8 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
 

@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-04-13
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1526
@@ -35,8 +36,8 @@ This search looks for AWS CloudTrail events and analyse the amount of eventNames
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 

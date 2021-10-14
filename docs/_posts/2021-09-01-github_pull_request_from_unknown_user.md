@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-09-01
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1195.001
@@ -35,8 +36,8 @@ This search looks for Pull Request from unknown user.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1195.001](https://attack.mitre.org/techniques/T1195/001/) | Compromise Software Dependencies and Development Tools | Initial Access |
 
 

@@ -2,6 +2,7 @@
 title: "Suspicious Cloud Authentication Activities"
 last_modified_at: 2020-06-04
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise

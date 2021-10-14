@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-22
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1560.001
@@ -35,8 +36,8 @@ The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllh
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
 

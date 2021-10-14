@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-06
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1531
@@ -35,8 +36,8 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
 
 

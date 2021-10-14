@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-16
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1485
@@ -35,8 +36,8 @@ This search looks for high frequency of file deletion relative to process name a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 
