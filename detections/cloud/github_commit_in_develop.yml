@@ -22,7 +22,7 @@ references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   automated_detection_testing: passed
   confidence: 30
   context:

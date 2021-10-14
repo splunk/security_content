@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-31
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1187
@@ -38,8 +39,8 @@ During triage, review parallel security events to identify further suspicious ac
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
 
 

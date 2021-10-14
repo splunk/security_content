@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-02-20
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1525
@@ -35,8 +36,8 @@ This searches show information on uploaded containers including source user, ima
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
 
 

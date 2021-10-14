@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-12
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1548.002
@@ -36,8 +37,8 @@ This search is to detect modification of registry to bypass UAC windows feature.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
 

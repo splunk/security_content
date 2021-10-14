@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-04
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1531
@@ -35,8 +36,8 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
 
 

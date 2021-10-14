@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-08
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1566.001
@@ -35,8 +36,8 @@ The following detection identifies control.exe spawning from an office product. 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 

@@ -2,6 +2,7 @@
 title: "Office 365 Detections"
 last_modified_at: 2020-12-16
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -29,7 +30,7 @@ More and more companies are using Microsofts Office 365 cloud offering. Therefor
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [High Number of Login Failures from a single source](/cloud/high_number_of_login_failures_from_a_single_source/) | [Password Guessing](/tags/#password-guessing), [Cloud Account](/tags/#cloud-account), [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Modify Authentication Process](/tags/#modify-authentication-process), [Brute Force](/tags/#brute-force), [Email Collection](/tags/#email-collection), [Email Forwarding Rule](/tags/#email-forwarding-rule), [Remote Email Collection](/tags/#remote-email-collection) | Anomaly |
+| [High Number of Login Failures from a single source](/cloud/high_number_of_login_failures_from_a_single_source/) | [Password Guessing](/tags/#password-guessing) | Anomaly |
 | [O365 Add App Role Assignment Grant User](/cloud/o365_add_app_role_assignment_grant_user/) | [Cloud Account](/tags/#cloud-account) | TTP |
 | [O365 Added Service Principal](/cloud/o365_added_service_principal/) | [Cloud Account](/tags/#cloud-account) | TTP |
 | [O365 Bypass MFA via Trusted IP](/cloud/o365_bypass_mfa_via_trusted_ip/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall) | TTP |

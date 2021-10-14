@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-06
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1552.002
@@ -35,8 +36,8 @@ this search is to detect a suspicious registry modification to implement auto ad
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1552.002](https://attack.mitre.org/techniques/T1552/002/) | Credentials in Registry | Credential Access |
 
 

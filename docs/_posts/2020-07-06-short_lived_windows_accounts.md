@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1136.001
@@ -34,8 +35,8 @@ This search detects accounts that were created and deleted in a short time perio
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
 

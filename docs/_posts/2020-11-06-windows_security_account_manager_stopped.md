@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1489
@@ -34,8 +35,8 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 

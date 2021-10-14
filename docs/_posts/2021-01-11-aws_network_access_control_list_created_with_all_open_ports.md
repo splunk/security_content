@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-01-11
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1562.007
@@ -35,8 +36,8 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
 

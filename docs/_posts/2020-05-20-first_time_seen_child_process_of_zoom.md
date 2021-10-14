@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-05-20
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1068
@@ -35,8 +36,8 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 

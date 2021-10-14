@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-10-15
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1550.002
@@ -35,8 +36,8 @@ This search looks for specific authentication events from the Windows Security E
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
 
 

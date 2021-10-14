@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1113
@@ -35,8 +36,8 @@ This analytic is to detect a suspicious creation of .wav file in appdata folder.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
 
 
