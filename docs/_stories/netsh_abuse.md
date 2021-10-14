@@ -2,6 +2,7 @@
 title: "Netsh Abuse"
 last_modified_at: 2017-01-05
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-02
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.003
@@ -35,8 +36,8 @@ this search is designed to detect potential malicious process loading COM object
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
 

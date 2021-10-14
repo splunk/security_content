@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-12-14
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1203
@@ -36,8 +37,8 @@ The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-17
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1543
@@ -36,8 +37,8 @@ This detection is to identify the common service name created by the CLOP ransom
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 

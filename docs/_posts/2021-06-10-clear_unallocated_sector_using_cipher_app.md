@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-10
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1070.004
@@ -35,8 +36,8 @@ this search is to detect execution of `cipher.exe` to clear the unallocated sect
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
 
 

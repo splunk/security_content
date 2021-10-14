@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-10
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1548
@@ -36,8 +37,8 @@ This analytic identifies a potential privilege escalation attempt to perform mal
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 

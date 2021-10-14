@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1546.008
@@ -36,8 +37,8 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1546.008](https://attack.mitre.org/techniques/T1546/008/) | Accessibility Features | Privilege Escalation, Persistence |
 
 

@@ -2,6 +2,7 @@
 title: "Suspicious Okta Activity"
 last_modified_at: 2020-04-02
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security

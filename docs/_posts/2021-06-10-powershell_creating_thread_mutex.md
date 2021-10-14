@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-10
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1027.005
@@ -34,8 +35,8 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1027.005](https://attack.mitre.org/techniques/T1027/005/) | Indicator Removal from Tools | Defense Evasion |
 
 

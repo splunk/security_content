@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-14
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1566.001
@@ -35,8 +36,8 @@ this search detects a potential malicious office document that create schedule t
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 

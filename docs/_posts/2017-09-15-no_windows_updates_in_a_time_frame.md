@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2017-09-15
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - Splunk Enterprise

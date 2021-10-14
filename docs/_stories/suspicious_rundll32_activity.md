@@ -2,6 +2,7 @@
 title: "Suspicious Rundll32 Activity"
 last_modified_at: 2021-02-03
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ One common adversary tactic is to bypass application control solutions via the r
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Rundll32 Application Control Bypass - advpack](/endpoint/detect_rundll32_application_control_bypass_-_advpack/) | [Rundll32](/tags/#rundll32), [LSASS Memory](/tags/#lsass-memory), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
+| [Detect Rundll32 Application Control Bypass - advpack](/endpoint/detect_rundll32_application_control_bypass_-_advpack/) | [Rundll32](/tags/#rundll32) | TTP |
 | [Detect Rundll32 Application Control Bypass - setupapi](/endpoint/detect_rundll32_application_control_bypass_-_setupapi/) | [Rundll32](/tags/#rundll32) | TTP |
 | [Detect Rundll32 Application Control Bypass - syssetup](/endpoint/detect_rundll32_application_control_bypass_-_syssetup/) | [Rundll32](/tags/#rundll32) | TTP |
 | [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
