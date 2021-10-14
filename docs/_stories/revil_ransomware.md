@@ -2,6 +2,7 @@
 title: "Revil Ransomware"
 last_modified_at: 2021-06-04
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ Revil ransomware is a RaaS,that a single group may operates and manges the devel
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Allow Network Discovery In Firewall](/endpoint/allow_network_discovery_in_firewall/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Defacement](/tags/#defacement), [DLL Side-Loading](/tags/#dll-side-loading), [User Execution](/tags/#user-execution), [Modify Registry](/tags/#modify-registry), [CMSTP](/tags/#cmstp) | TTP |
+| [Allow Network Discovery In Firewall](/endpoint/allow_network_discovery_in_firewall/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall) | TTP |
 | [Delete ShadowCopy With PowerShell](/endpoint/delete_shadowcopy_with_powershell/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Disable Windows Behavior Monitoring](/endpoint/disable_windows_behavior_monitoring/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Modification Of Wallpaper](/endpoint/modification_of_wallpaper/) | [Defacement](/tags/#defacement) | TTP |

@@ -2,6 +2,7 @@
 title: "Disabling Security Tools"
 last_modified_at: 2020-02-04
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ Attackers employ a variety of tactics in order to avoid detection and operate wi
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attempt To Add Certificate To Untrusted Store](/endpoint/attempt_to_add_certificate_to_untrusted_store/) | [Install Root Certificate](/tags/#install-root-certificate), [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Windows Service](/tags/#windows-service), [Modify Registry](/tags/#modify-registry) | TTP |
+| [Attempt To Add Certificate To Untrusted Store](/endpoint/attempt_to_add_certificate_to_untrusted_store/) | [Install Root Certificate](/tags/#install-root-certificate) | TTP |
 | [Attempt To Stop Security Service](/endpoint/attempt_to_stop_security_service/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Processes launching netsh](/endpoint/processes_launching_netsh/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall) | TTP |
 | [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service) | TTP |

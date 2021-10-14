@@ -10,6 +10,7 @@ categories:
   - {{detection.kind|capitalize}}
 last_modified_at: {{detection.date}}
 toc: true
+toc_label: ""
 tags:
   - {{ detection.type }}
 {%- for attack in detection.mitre_attacks %}
@@ -51,8 +52,8 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 {% if detection.mitre_attacks %}
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 {% for attack in detection.mitre_attacks -%}
 {% if attack.technique_id -%}
 {%- set sub_technique = attack.technique_id.split('.') -%}{%- if sub_technique | length > 1 -%}

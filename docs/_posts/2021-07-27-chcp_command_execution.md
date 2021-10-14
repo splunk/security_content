@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-27
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1059
@@ -35,8 +36,8 @@ This search is to detect execution of chcp.exe application. this utility is used
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 

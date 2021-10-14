@@ -2,6 +2,7 @@
 title: "GCP Cross Account Activity"
 last_modified_at: 2020-09-01
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2019-12-10
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003.003
@@ -35,8 +36,8 @@ Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
 

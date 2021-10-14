@@ -2,6 +2,7 @@
 title: "Domain Trust Discovery"
 last_modified_at: 2021-03-25
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ Domain trusts provide a mechanism for a domain to allow access to resources base
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [DSQuery Domain Discovery](/endpoint/dsquery_domain_discovery/) | [Domain Trust Discovery](/tags/#domain-trust-discovery), [Remote System Discovery](/tags/#remote-system-discovery) | TTP |
+| [DSQuery Domain Discovery](/endpoint/dsquery_domain_discovery/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | TTP |
 | [NLTest Domain Trust Discovery](/endpoint/nltest_domain_trust_discovery/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | TTP |
 | [Windows AdFind Exe](/endpoint/windows_adfind_exe/) | [Remote System Discovery](/tags/#remote-system-discovery) | TTP |
 
