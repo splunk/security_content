@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-08-23
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1566.001
@@ -35,8 +36,8 @@ This analytics is to detect a gmail containing a link that are known to be abuse
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 

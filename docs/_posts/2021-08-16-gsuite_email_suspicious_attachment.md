@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-08-16
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1566.001
@@ -35,8 +36,8 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 

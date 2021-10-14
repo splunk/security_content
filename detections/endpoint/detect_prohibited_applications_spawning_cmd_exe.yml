@@ -17,7 +17,11 @@ how_to_implement: You must be ingesting data that records process activity from 
   hosts and populates the Endpoint data model with the resultant dataset. This search
   includes a lookup file, `prohibited_apps_launching_cmd.csv`, that contains a list
   of processes that should not be spawning cmd.exe. You can modify this lookup to
-  better suit your environment. To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+  better suit your environment. To successfully implement this search you need to
+  be ingesting information on process that include the name of the process responsible
+  for the changes from your endpoints into the `Endpoint` datamodel in the `Processes`
+  node. In addition, confirm the latest CIM App 4.20 or higher is installed and the
+  latest TA for the endpoint product.
 known_false_positives: There are circumstances where an application may legitimately
   execute and interact with the Windows command-line interface. Investigate and modify
   the lookup file, as appropriate.
@@ -73,11 +77,11 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
+  - Processes.parent_process_name
+  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
+  - Processes.process_name
+  - Processes.process
   - Processes.process_id
   - Processes.parent_process_path
   - Processes.process_path

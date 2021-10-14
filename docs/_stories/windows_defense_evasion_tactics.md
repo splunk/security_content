@@ -2,6 +2,7 @@
 title: "Windows Defense Evasion Tactics"
 last_modified_at: 2018-05-31
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Disable Registry Tool](/endpoint/disable_registry_tool/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Hidden Files and Directories](/tags/#hidden-files-and-directories), [Bypass User Account Control](/tags/#bypass-user-account-control), [Modify Registry](/tags/#modify-registry), [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification), [Masquerading](/tags/#masquerading) | TTP |
+| [Disable Registry Tool](/endpoint/disable_registry_tool/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Disable Show Hidden Files](/endpoint/disable_show_hidden_files/) | [Hidden Files and Directories](/tags/#hidden-files-and-directories), [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Disable Windows Behavior Monitoring](/endpoint/disable_windows_behavior_monitoring/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Disable Windows SmartScreen Protection](/endpoint/disable_windows_smartscreen_protection/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
@@ -38,7 +39,7 @@ Defense evasion is a tactic--identified in the MITRE ATT&CK framework--that adve
 | [Disabling Firewall with Netsh](/endpoint/disabling_firewall_with_netsh/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Disabling FolderOptions Windows Feature](/endpoint/disabling_folderoptions_windows_feature/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Disabling NoRun Windows App](/endpoint/disabling_norun_windows_app/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
-| [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Port Monitors](/tags/#port-monitors), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Application Shimming](/tags/#application-shimming) | TTP |
+| [Disabling Remote User Account Control](/endpoint/disabling_remote_user_account_control/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
 | [Disabling SystemRestore In Registry](/endpoint/disabling_systemrestore_in_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Disabling Task Manager](/endpoint/disabling_task_manager/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools) | TTP |
 | [Eventvwr UAC Bypass](/endpoint/eventvwr_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |

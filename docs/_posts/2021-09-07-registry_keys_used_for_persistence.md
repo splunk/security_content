@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-07
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1547.001
@@ -36,8 +37,8 @@ The search looks for modifications to registry keys that can be used to launch a
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 
 
@@ -61,6 +62,7 @@ The search looks for modifications to registry keys that can be used to launch a
 * [Windows Persistence Techniques](/stories/windows_persistence_techniques)
 * [Emotet Malware  DHS Report TA18-201A ](/stories/emotet_malware__dhs_report_ta18-201a_)
 * [IcedID](/stories/icedid)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

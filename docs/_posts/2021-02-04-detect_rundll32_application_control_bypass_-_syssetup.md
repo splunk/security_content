@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-02-04
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.011
@@ -35,8 +36,8 @@ The following analytic identifies rundll32.exe loading syssetup.dll by calling t
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 

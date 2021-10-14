@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-04-05
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1580
@@ -35,8 +36,8 @@ The following detection identifies excessive AccessDenied events within an hour 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
 
 

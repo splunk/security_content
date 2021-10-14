@@ -2,6 +2,7 @@
 title: "DarkSide Ransomware"
 last_modified_at: 2021-05-12
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,7 +30,7 @@ This story addresses Darkside ransomware. This ransomware payload has many simil
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager), [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer), [CMSTP](/tags/#cmstp), [Process Injection](/tags/#process-injection), [Inhibit System Recovery](/tags/#inhibit-system-recovery), [LSASS Memory](/tags/#lsass-memory), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Automated Exfiltration](/tags/#automated-exfiltration), [Service Execution](/tags/#service-execution), [Data Encrypted for Impact](/tags/#data-encrypted-for-impact), [Bypass User Account Control](/tags/#bypass-user-account-control) | TTP |
+| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
 | [BITSAdmin Download File](/endpoint/bitsadmin_download_file/) | [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [CMLUA Or CMSTPLUA UAC Bypass](/endpoint/cmlua_or_cmstplua_uac_bypass/) | [CMSTP](/tags/#cmstp) | TTP |
 | [CertUtil Download With URLCache and Split Arguments](/endpoint/certutil_download_with_urlcache_and_split_arguments/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |

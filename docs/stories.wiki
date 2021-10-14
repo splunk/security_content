@@ -242,34 +242,10 @@ Monitor for activities and techniques associated with Discovery and Reconnaissan
 | [[Documentation:ESSOC:detections:Detections#Adsisearcher_account_discovery|AdsiSearcher Account Discovery]]
 
 |
-[https://attack.mitre.org/techniques/T1087.002/ T1087.002], 
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1018/ T1018], 
-[https://attack.mitre.org/techniques/T1069.002/ T1069.002], 
-[https://attack.mitre.org/techniques/T1201/ T1201], 
-[https://attack.mitre.org/techniques/T1069.001/ T1069.001], 
-[https://attack.mitre.org/techniques/T1033/ T1033], 
-[https://attack.mitre.org/techniques/T1087.001/ T1087.001], 
-[https://attack.mitre.org/techniques/T1049/ T1049]
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
 |
-Domain Account, 
-Domain Trust Discovery, 
-Remote System Discovery, 
-Domain Groups, 
-Password Policy Discovery, 
-Local Groups, 
-System Owner/User Discovery, 
-Local Account, 
-System Network Connections Discovery
+Domain Account
 |
-Discovery, 
-Discovery, 
-Discovery, 
-Discovery, 
-Discovery, 
-Discovery, 
-Discovery, 
-Discovery, 
 Discovery
 
 | TTP
@@ -277,13 +253,10 @@ Discovery
 | [[Documentation:ESSOC:detections:Detections#Dsquery_domain_discovery|DSQuery Domain Discovery]]
 
 |
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1018/ T1018]
+[https://attack.mitre.org/techniques/T1482/ T1482]
 |
-Domain Trust Discovery, 
-Remote System Discovery
+Domain Trust Discovery
 |
-Discovery, 
 Discovery
 
 | TTP
@@ -1260,14 +1233,11 @@ Adversaries may abuse BITS jobs to persistently execute or clean up after malici
 | [[Documentation:ESSOC:detections:Detections#Bits_job_persistence|BITS Job Persistence]]
 
 |
-[https://attack.mitre.org/techniques/T1197/ T1197], 
-[https://attack.mitre.org/techniques/T1105/ T1105]
+[https://attack.mitre.org/techniques/T1197/ T1197]
 |
-BITS Jobs, 
-Ingress Tool Transfer
+BITS Jobs
 |
-Defense Evasion, Persistence, 
-Command And Control
+Defense Evasion, Persistence
 
 | TTP
 |-
@@ -1406,65 +1376,11 @@ Cobalt Strike is threat emulation software. Red teams and penetration testers us
 | [[Documentation:ESSOC:detections:Detections#Anomalous_usage_of_7zip|Anomalous usage of 7zip]]
 
 |
-[https://attack.mitre.org/techniques/T1560.001/ T1560.001], 
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1071.002/ T1071.002], 
-[https://attack.mitre.org/techniques/T1218.010/ T1218.010], 
-[https://attack.mitre.org/techniques/T1218.005/ T1218.005], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1027/ T1027], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1548/ T1548], 
-[https://attack.mitre.org/techniques/T1203/ T1203], 
-[https://attack.mitre.org/techniques/T1505.003/ T1505.003], 
-[https://attack.mitre.org/techniques/T1127.001/ T1127.001], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003], 
-[https://attack.mitre.org/techniques/T1127/ T1127], 
-[https://attack.mitre.org/techniques/T1071.001/ T1071.001], 
-[https://attack.mitre.org/techniques/T1018/ T1018]
+[https://attack.mitre.org/techniques/T1560.001/ T1560.001]
 |
-Archive via Utility, 
-Windows Command Shell, 
-Windows Service, 
-Process Injection, 
-File Transfer Protocols, 
-Regsvr32, 
-Mshta, 
-Service Execution, 
-Obfuscated Files or Information, 
-Rundll32, 
-Scheduled Task, 
-Abuse Elevation Control Mechanism, 
-Exploitation for Client Execution, 
-Web Shell, 
-MSBuild, 
-Rename System Utilities, 
-Trusted Developer Utilities Proxy Execution, 
-Web Protocols, 
-Remote System Discovery
+Archive via Utility
 |
-Collection, 
-Execution, 
-Persistence, Privilege Escalation, 
-Defense Evasion, Privilege Escalation, 
-Command And Control, 
-Defense Evasion, 
-Defense Evasion, 
-Execution, 
-Defense Evasion, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Privilege Escalation, Defense Evasion, 
-Execution, 
-Persistence, 
-Defense Evasion, 
-Defense Evasion, 
-Defense Evasion, 
-Command And Control, 
-Discovery
+Collection
 
 | Anomaly
 |-
@@ -1713,20 +1629,11 @@ Monitor for and investigate activities--such as suspicious writes to the Windows
 | [[Documentation:ESSOC:detections:Detections#Detect_renamed_7-zip|Detect Renamed 7-Zip]]
 
 |
-[https://attack.mitre.org/techniques/T1560.001/ T1560.001], 
-[https://attack.mitre.org/techniques/T1114.001/ T1114.001], 
-[https://attack.mitre.org/techniques/T1114.002/ T1114.002], 
-[https://attack.mitre.org/techniques/T1036/ T1036]
+[https://attack.mitre.org/techniques/T1560.001/ T1560.001]
 |
-Archive via Utility, 
-Local Email Collection, 
-Remote Email Collection, 
-Masquerading
+Archive via Utility
 |
-Collection, 
-Collection, 
-Collection, 
-Defense Evasion
+Collection
 
 | Hunting
 |-
@@ -1830,41 +1737,11 @@ Detect and investigate tactics, techniques, and procedures leveraged by attacker
 | [[Documentation:ESSOC:detections:Detections#Dns_exfiltration_using_nslookup_app|DNS Exfiltration Using Nslookup App]]
 
 |
-[https://attack.mitre.org/techniques/T1048/ T1048], 
-[https://attack.mitre.org/techniques/T1071.004/ T1071.004], 
-[https://attack.mitre.org/techniques/T1048.003/ T1048.003], 
-[https://attack.mitre.org/techniques/T1095/ T1095], 
-[https://attack.mitre.org/techniques/T1041/ T1041], 
-[https://attack.mitre.org/techniques/T1189/ T1189], 
-[https://attack.mitre.org/techniques/T1537/ T1537], 
-[https://attack.mitre.org/techniques/T1114.001/ T1114.001], 
-[https://attack.mitre.org/techniques/T1114/ T1114], 
-[https://attack.mitre.org/techniques/T1114.003/ T1114.003], 
-[https://attack.mitre.org/techniques/T1071.001/ T1071.001]
+[https://attack.mitre.org/techniques/T1048/ T1048]
 |
-Exfiltration Over Alternative Protocol, 
-DNS, 
-Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, 
-Non-Application Layer Protocol, 
-Exfiltration Over C2 Channel, 
-Drive-by Compromise, 
-Transfer Data to Cloud Account, 
-Local Email Collection, 
-Email Collection, 
-Email Forwarding Rule, 
-Web Protocols
+Exfiltration Over Alternative Protocol
 |
-Exfiltration, 
-Command And Control, 
-Exfiltration, 
-Command And Control, 
-Exfiltration, 
-Initial Access, 
-Exfiltration, 
-Collection, 
-Collection, 
-Collection, 
-Command And Control
+Exfiltration
 
 | TTP
 |-
@@ -2046,71 +1923,11 @@ Uncover activity consistent with credential dumping, a technique wherein attacke
 | [[Documentation:ESSOC:detections:Detections#Access_lsass_memory_for_dump_creation|Access LSASS Memory for Dump Creation]]
 
 |
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1068/ T1068], 
-[https://attack.mitre.org/techniques/T1078/ T1078], 
-[https://attack.mitre.org/techniques/T1098/ T1098], 
-[https://attack.mitre.org/techniques/T1134/ T1134], 
-[https://attack.mitre.org/techniques/T1543/ T1543], 
-[https://attack.mitre.org/techniques/T1547/ T1547], 
-[https://attack.mitre.org/techniques/T1548/ T1548], 
-[https://attack.mitre.org/techniques/T1554/ T1554], 
-[https://attack.mitre.org/techniques/T1556/ T1556], 
-[https://attack.mitre.org/techniques/T1558/ T1558], 
-[https://attack.mitre.org/techniques/T1555/ T1555], 
-[https://attack.mitre.org/techniques/T1087/ T1087], 
-[https://attack.mitre.org/techniques/T1201/ T1201], 
-[https://attack.mitre.org/techniques/T1552/ T1552], 
-[https://attack.mitre.org/techniques/T1003/ T1003], 
-[https://attack.mitre.org/techniques/T1003.002/ T1003.002], 
-[https://attack.mitre.org/techniques/T1003.003/ T1003.003], 
-[https://attack.mitre.org/techniques/T1558.003/ T1558.003], 
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
+[https://attack.mitre.org/techniques/T1003.001/ T1003.001]
 |
-LSASS Memory, 
-Process Injection, 
-Exploitation for Privilege Escalation, 
-Valid Accounts, 
-Account Manipulation, 
-Access Token Manipulation, 
-Create or Modify System Process, 
-Boot or Logon Autostart Execution, 
-Abuse Elevation Control Mechanism, 
-Compromise Client Software Binary, 
-Modify Authentication Process, 
-Steal or Forge Kerberos Tickets, 
-Credentials from Password Stores, 
-Account Discovery, 
-Password Policy Discovery, 
-Unsecured Credentials, 
-OS Credential Dumping, 
-Security Account Manager, 
-NTDS, 
-Kerberoasting, 
-PowerShell
+LSASS Memory
 |
-Credential Access, 
-Defense Evasion, Privilege Escalation, 
-Privilege Escalation, 
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Persistence, 
-Defense Evasion, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Privilege Escalation, Defense Evasion, 
-Persistence, 
-Credential Access, Defense Evasion, Persistence, 
-Credential Access, 
-Credential Access, 
-Discovery, 
-Discovery, 
-Credential Access, 
-Credential Access, 
-Credential Access, 
-Credential Access, 
-Credential Access, 
-Execution
+Credential Access
 
 | TTP
 |-
@@ -2236,44 +2053,11 @@ Credential Access
 | [[Documentation:ESSOC:detections:Detections#Attempted_credential_dump_from_registry_via_reg_exe|Attempted Credential Dump From Registry via Reg exe]]
 
 |
-[https://attack.mitre.org/techniques/T1003.002/ T1003.002], 
-[https://attack.mitre.org/techniques/T1197/ T1197], 
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1218.003/ T1218.003], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1020/ T1020], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1486/ T1486], 
-[https://attack.mitre.org/techniques/T1548.002/ T1548.002]
+[https://attack.mitre.org/techniques/T1003.002/ T1003.002]
 |
-Security Account Manager, 
-BITS Jobs, 
-Ingress Tool Transfer, 
-CMSTP, 
-Process Injection, 
-Inhibit System Recovery, 
-LSASS Memory, 
-SMB/Windows Admin Shares, 
-Automated Exfiltration, 
-Service Execution, 
-Data Encrypted for Impact, 
-Bypass User Account Control
+Security Account Manager
 |
-Credential Access, 
-Defense Evasion, Persistence, 
-Command And Control, 
-Defense Evasion, 
-Defense Evasion, Privilege Escalation, 
-Impact, 
-Credential Access, 
-Lateral Movement, 
-Exfiltration, 
-Execution, 
-Impact, 
-Privilege Escalation, Defense Evasion
+Credential Access
 
 | TTP
 |-
@@ -2703,41 +2487,11 @@ The stealing of data by an adversary.
 | [[Documentation:ESSOC:detections:Detections#Dns_exfiltration_using_nslookup_app|DNS Exfiltration Using Nslookup App]]
 
 |
-[https://attack.mitre.org/techniques/T1048/ T1048], 
-[https://attack.mitre.org/techniques/T1071.004/ T1071.004], 
-[https://attack.mitre.org/techniques/T1048.003/ T1048.003], 
-[https://attack.mitre.org/techniques/T1095/ T1095], 
-[https://attack.mitre.org/techniques/T1041/ T1041], 
-[https://attack.mitre.org/techniques/T1189/ T1189], 
-[https://attack.mitre.org/techniques/T1537/ T1537], 
-[https://attack.mitre.org/techniques/T1114.001/ T1114.001], 
-[https://attack.mitre.org/techniques/T1114/ T1114], 
-[https://attack.mitre.org/techniques/T1114.003/ T1114.003], 
-[https://attack.mitre.org/techniques/T1071.001/ T1071.001]
+[https://attack.mitre.org/techniques/T1048/ T1048]
 |
-Exfiltration Over Alternative Protocol, 
-DNS, 
-Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, 
-Non-Application Layer Protocol, 
-Exfiltration Over C2 Channel, 
-Drive-by Compromise, 
-Transfer Data to Cloud Account, 
-Local Email Collection, 
-Email Collection, 
-Email Forwarding Rule, 
-Web Protocols
+Exfiltration Over Alternative Protocol
 |
-Exfiltration, 
-Command And Control, 
-Exfiltration, 
-Command And Control, 
-Exfiltration, 
-Initial Access, 
-Exfiltration, 
-Collection, 
-Collection, 
-Collection, 
-Command And Control
+Exfiltration
 
 | TTP
 |-
@@ -2932,17 +2686,11 @@ Uncover activity related to the execution of Zerologon CVE-2020-11472, a techniq
 | [[Documentation:ESSOC:detections:Detections#Detect_computer_changed_with_anonymous_account|Detect Computer Changed with Anonymous Account]]
 
 |
-[https://attack.mitre.org/techniques/T1210/ T1210], 
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1190/ T1190]
+[https://attack.mitre.org/techniques/T1210/ T1210]
 |
-Exploitation of Remote Services, 
-LSASS Memory, 
-Exploit Public-Facing Application
+Exploitation of Remote Services
 |
-Lateral Movement, 
-Credential Access, 
-Initial Access
+Lateral Movement
 
 | Hunting
 |-
@@ -3026,22 +2774,10 @@ Looks for activities and techniques associated with the disabling of security to
 | [[Documentation:ESSOC:detections:Detections#Attempt_to_add_certificate_to_untrusted_store|Attempt To Add Certificate To Untrusted Store]]
 
 |
-[https://attack.mitre.org/techniques/T1553.004/ T1553.004], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1562.004/ T1562.004], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003], 
-[https://attack.mitre.org/techniques/T1112/ T1112]
+[https://attack.mitre.org/techniques/T1553.004/ T1553.004]
 |
-Install Root Certificate, 
-Disable or Modify Tools, 
-Disable or Modify System Firewall, 
-Windows Service, 
-Modify Registry
+Install Root Certificate
 |
-Defense Evasion, 
-Defense Evasion, 
-Defense Evasion, 
-Persistence, Privilege Escalation, 
 Defense Evasion
 
 | TTP
@@ -3146,13 +2882,10 @@ Adversaries may attempt to gather information on domain trust relationships that
 | [[Documentation:ESSOC:detections:Detections#Dsquery_domain_discovery|DSQuery Domain Discovery]]
 
 |
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1018/ T1018]
+[https://attack.mitre.org/techniques/T1482/ T1482]
 |
-Domain Trust Discovery, 
-Remote System Discovery
+Domain Trust Discovery
 |
-Discovery, 
 Discovery
 
 | TTP
@@ -3269,52 +3002,22 @@ HAFNIUM group was identified by Microsoft as exploiting 4 Microsoft Exchange CVE
 | [[Documentation:ESSOC:detections:Detections#Any_powershell_downloadstring|Any Powershell DownloadString]]
 
 |
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1505.003/ T1505.003], 
-[https://attack.mitre.org/techniques/T1136.001/ T1136.001], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1114.002/ T1114.002], 
-[https://attack.mitre.org/techniques/T1003.003/ T1003.003], 
-[https://attack.mitre.org/techniques/T1190/ T1190]
+[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 |
-PowerShell, 
-Web Shell, 
-Local Account, 
-SMB/Windows Admin Shares, 
-Service Execution, 
-LSASS Memory, 
-Remote Email Collection, 
-NTDS, 
-Exploit Public-Facing Application
+PowerShell
 |
-Execution, 
-Persistence, 
-Persistence, 
-Lateral Movement, 
-Execution, 
-Credential Access, 
-Collection, 
-Credential Access, 
-Initial Access
+Execution
 
 | TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_exchange_web_shell|Detect Exchange Web Shell]]
 
 |
-[https://attack.mitre.org/techniques/T1505.003/ T1505.003], 
-[https://attack.mitre.org/techniques/T1190/ T1190], 
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
+[https://attack.mitre.org/techniques/T1505.003/ T1505.003]
 |
-Web Shell, 
-Exploit Public-Facing Application, 
-PowerShell
+Web Shell
 |
-Persistence, 
-Initial Access, 
-Execution
+Persistence
 
 | TTP
 |-
@@ -3387,16 +3090,13 @@ Collection
 | [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_connect_to_internet_with_hidden_window|Malicious PowerShell Process - Connect To Internet With Hidden Window]]
 
 |
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001]
+[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 |
-PowerShell, 
-Registry Run Keys / Startup Folder
+PowerShell
 |
-Execution, 
-Persistence, Privilege Escalation
+Execution
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_execution_policy_bypass|Malicious PowerShell Process - Execution Policy Bypass]]
 
@@ -3519,103 +3219,22 @@ Adversaries may transfer tools or other files from an external system into a com
 | [[Documentation:ESSOC:detections:Detections#Any_powershell_downloadfile|Any Powershell DownloadFile]]
 
 |
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1197/ T1197], 
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1003/ T1003], 
-[https://attack.mitre.org/techniques/T1021/ T1021], 
-[https://attack.mitre.org/techniques/T1113/ T1113], 
-[https://attack.mitre.org/techniques/T1123/ T1123], 
-[https://attack.mitre.org/techniques/T1563/ T1563], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1134/ T1134], 
-[https://attack.mitre.org/techniques/T1548/ T1548], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1106/ T1106], 
-[https://attack.mitre.org/techniques/T1569/ T1569], 
-[https://attack.mitre.org/techniques/T1027/ T1027], 
-[https://attack.mitre.org/techniques/T1027.005/ T1027.005], 
-[https://attack.mitre.org/techniques/T1546.015/ T1546.015], 
-[https://attack.mitre.org/techniques/T1140/ T1140], 
-[https://attack.mitre.org/techniques/T1592/ T1592], 
-[https://attack.mitre.org/techniques/T1562/ T1562]
+[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 |
-PowerShell, 
-BITS Jobs, 
-Ingress Tool Transfer, 
-OS Credential Dumping, 
-Remote Services, 
-Screen Capture, 
-Audio Capture, 
-Remote Service Session Hijacking, 
-Scheduled Task/Job, 
-Access Token Manipulation, 
-Abuse Elevation Control Mechanism, 
-Process Injection, 
-Native API, 
-System Services, 
-Obfuscated Files or Information, 
-Indicator Removal from Tools, 
-Component Object Model Hijacking, 
-Deobfuscate/Decode Files or Information, 
-Gather Victim Host Information, 
-Impair Defenses
+PowerShell
 |
-Execution, 
-Defense Evasion, Persistence, 
-Command And Control, 
-Credential Access, 
-Lateral Movement, 
-Collection, 
-Collection, 
-Lateral Movement, 
-Execution, Persistence, Privilege Escalation, 
-Defense Evasion, Privilege Escalation, 
-Privilege Escalation, Defense Evasion, 
-Defense Evasion, Privilege Escalation, 
-Execution, 
-Execution, 
-Defense Evasion, 
-Defense Evasion, 
-Privilege Escalation, Persistence, 
-Defense Evasion, 
-Reconnaissance, 
-Defense Evasion
+Execution
 
 | TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Any_powershell_downloadstring|Any Powershell DownloadString]]
 
 |
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1505.003/ T1505.003], 
-[https://attack.mitre.org/techniques/T1136.001/ T1136.001], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1114.002/ T1114.002], 
-[https://attack.mitre.org/techniques/T1003.003/ T1003.003], 
-[https://attack.mitre.org/techniques/T1190/ T1190]
+[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 |
-PowerShell, 
-Web Shell, 
-Local Account, 
-SMB/Windows Admin Shares, 
-Service Execution, 
-LSASS Memory, 
-Remote Email Collection, 
-NTDS, 
-Exploit Public-Facing Application
+PowerShell
 |
-Execution, 
-Persistence, 
-Persistence, 
-Lateral Movement, 
-Execution, 
-Credential Access, 
-Collection, 
-Credential Access, 
-Initial Access
+Execution
 
 | TTP
 |-
@@ -3658,17 +3277,11 @@ Command And Control
 | [[Documentation:ESSOC:detections:Detections#Suspicious_curl_network_connection|Suspicious Curl Network Connection]]
 
 |
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1543.001/ T1543.001], 
-[https://attack.mitre.org/techniques/T1074/ T1074]
+[https://attack.mitre.org/techniques/T1105/ T1105]
 |
-Ingress Tool Transfer, 
-Launch Agent, 
-Data Staged
+Ingress Tool Transfer
 |
-Command And Control, 
-Persistence, Privilege Escalation, 
-Collection
+Command And Control
 
 | TTP
 |}
@@ -3713,26 +3326,11 @@ Detect and investigate tactics, techniques, and procedures around how attackers 
 | [[Documentation:ESSOC:detections:Detections#Detect_activity_related_to_pass_the_hash_attacks|Detect Activity Related to Pass the Hash Attacks]]
 
 |
-[https://attack.mitre.org/techniques/T1550.002/ T1550.002], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1558.003/ T1558.003], 
-[https://attack.mitre.org/techniques/T1021.001/ T1021.001], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005]
+[https://attack.mitre.org/techniques/T1550.002/ T1550.002]
 |
-Pass the Hash, 
-SMB/Windows Admin Shares, 
-Service Execution, 
-Kerberoasting, 
-Remote Desktop Protocol, 
-Scheduled Task
+Pass the Hash
 |
-Defense Evasion, Lateral Movement, 
-Lateral Movement, 
-Execution, 
-Credential Access, 
-Lateral Movement, 
-Execution, Persistence, Privilege Escalation
+Defense Evasion, Lateral Movement
 
 | TTP
 |-
@@ -3880,103 +3478,22 @@ Attackers are finding stealthy ways "live off the land," leveraging utilities an
 | [[Documentation:ESSOC:detections:Detections#Any_powershell_downloadfile|Any Powershell DownloadFile]]
 
 |
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1197/ T1197], 
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1003/ T1003], 
-[https://attack.mitre.org/techniques/T1021/ T1021], 
-[https://attack.mitre.org/techniques/T1113/ T1113], 
-[https://attack.mitre.org/techniques/T1123/ T1123], 
-[https://attack.mitre.org/techniques/T1563/ T1563], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1134/ T1134], 
-[https://attack.mitre.org/techniques/T1548/ T1548], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1106/ T1106], 
-[https://attack.mitre.org/techniques/T1569/ T1569], 
-[https://attack.mitre.org/techniques/T1027/ T1027], 
-[https://attack.mitre.org/techniques/T1027.005/ T1027.005], 
-[https://attack.mitre.org/techniques/T1546.015/ T1546.015], 
-[https://attack.mitre.org/techniques/T1140/ T1140], 
-[https://attack.mitre.org/techniques/T1592/ T1592], 
-[https://attack.mitre.org/techniques/T1562/ T1562]
+[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 |
-PowerShell, 
-BITS Jobs, 
-Ingress Tool Transfer, 
-OS Credential Dumping, 
-Remote Services, 
-Screen Capture, 
-Audio Capture, 
-Remote Service Session Hijacking, 
-Scheduled Task/Job, 
-Access Token Manipulation, 
-Abuse Elevation Control Mechanism, 
-Process Injection, 
-Native API, 
-System Services, 
-Obfuscated Files or Information, 
-Indicator Removal from Tools, 
-Component Object Model Hijacking, 
-Deobfuscate/Decode Files or Information, 
-Gather Victim Host Information, 
-Impair Defenses
+PowerShell
 |
-Execution, 
-Defense Evasion, Persistence, 
-Command And Control, 
-Credential Access, 
-Lateral Movement, 
-Collection, 
-Collection, 
-Lateral Movement, 
-Execution, Persistence, Privilege Escalation, 
-Defense Evasion, Privilege Escalation, 
-Privilege Escalation, Defense Evasion, 
-Defense Evasion, Privilege Escalation, 
-Execution, 
-Execution, 
-Defense Evasion, 
-Defense Evasion, 
-Privilege Escalation, Persistence, 
-Defense Evasion, 
-Reconnaissance, 
-Defense Evasion
+Execution
 
 | TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Any_powershell_downloadstring|Any Powershell DownloadString]]
 
 |
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1505.003/ T1505.003], 
-[https://attack.mitre.org/techniques/T1136.001/ T1136.001], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1114.002/ T1114.002], 
-[https://attack.mitre.org/techniques/T1003.003/ T1003.003], 
-[https://attack.mitre.org/techniques/T1190/ T1190]
+[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 |
-PowerShell, 
-Web Shell, 
-Local Account, 
-SMB/Windows Admin Shares, 
-Service Execution, 
-LSASS Memory, 
-Remote Email Collection, 
-NTDS, 
-Exploit Public-Facing Application
+PowerShell
 |
-Execution, 
-Persistence, 
-Persistence, 
-Lateral Movement, 
-Execution, 
-Credential Access, 
-Collection, 
-Credential Access, 
-Initial Access
+Execution
 
 | TTP
 |-
@@ -4103,16 +3620,13 @@ Execution
 | [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_connect_to_internet_with_hidden_window|Malicious PowerShell Process - Connect To Internet With Hidden Window]]
 
 |
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001]
+[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 |
-PowerShell, 
-Registry Run Keys / Startup Folder
+PowerShell
 |
-Execution, 
-Persistence, Privilege Escalation
+Execution
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_encoded_command|Malicious PowerShell Process - Encoded Command]]
 
@@ -4358,22 +3872,10 @@ Adversaries may rename legitimate system utilities to try to evade security mech
 | [[Documentation:ESSOC:detections:Detections#Execution_of_file_with_multiple_extensions|Execution of File with Multiple Extensions]]
 
 |
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003], 
-[https://attack.mitre.org/techniques/T1127.001/ T1127.001], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1127/ T1127], 
-[https://attack.mitre.org/techniques/T1036/ T1036]
+[https://attack.mitre.org/techniques/T1036.003/ T1036.003]
 |
-Rename System Utilities, 
-MSBuild, 
-Rundll32, 
-Trusted Developer Utilities Proxy Execution, 
-Masquerading
+Rename System Utilities
 |
-Defense Evasion, 
-Defense Evasion, 
-Defense Evasion, 
-Defense Evasion, 
 Defense Evasion
 
 | TTP
@@ -4494,6 +3996,17 @@ Meterpreter provides red teams, pen testers and threat actors interactive access
 ! Tactic
 ! Type
 |-
+| [[Documentation:ESSOC:detections:Detections#Excessive_number_of_distinct_processes_created_in_windows_temp_folder|Excessive number of distinct processes created in Windows Temp folder]]
+
+|
+[https://attack.mitre.org/techniques/T1059/ T1059]
+|
+Command and Scripting Interpreter
+|
+Execution
+
+| Anomaly
+|-
 | [[Documentation:ESSOC:detections:Detections#Excessive_number_of_taskhost_processes|Excessive number of taskhost processes]]
 
 |
@@ -4548,16 +4061,10 @@ CVE-2021-40444 is a remote code execution vulnerability in MSHTML, recently used
 | [[Documentation:ESSOC:detections:Detections#Control_loading_from_world_writable_directory|Control Loading from World Writable Directory]]
 
 |
-[https://attack.mitre.org/techniques/T1218.002/ T1218.002], 
-[https://attack.mitre.org/techniques/T1566.001/ T1566.001], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011]
+[https://attack.mitre.org/techniques/T1218.002/ T1218.002]
 |
-Control Panel, 
-Spearphishing Attachment, 
-Rundll32
+Control Panel
 |
-Defense Evasion, 
-Initial Access, 
 Defense Evasion
 
 | TTP
@@ -4660,65 +4167,11 @@ Sunburst is a trojanized updates to SolarWinds Orion IT monitoring and managemen
 | [[Documentation:ESSOC:detections:Detections#Anomalous_usage_of_7zip|Anomalous usage of 7zip]]
 
 |
-[https://attack.mitre.org/techniques/T1560.001/ T1560.001], 
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1071.002/ T1071.002], 
-[https://attack.mitre.org/techniques/T1218.010/ T1218.010], 
-[https://attack.mitre.org/techniques/T1218.005/ T1218.005], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1027/ T1027], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1548/ T1548], 
-[https://attack.mitre.org/techniques/T1203/ T1203], 
-[https://attack.mitre.org/techniques/T1505.003/ T1505.003], 
-[https://attack.mitre.org/techniques/T1127.001/ T1127.001], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003], 
-[https://attack.mitre.org/techniques/T1127/ T1127], 
-[https://attack.mitre.org/techniques/T1071.001/ T1071.001], 
-[https://attack.mitre.org/techniques/T1018/ T1018]
+[https://attack.mitre.org/techniques/T1560.001/ T1560.001]
 |
-Archive via Utility, 
-Windows Command Shell, 
-Windows Service, 
-Process Injection, 
-File Transfer Protocols, 
-Regsvr32, 
-Mshta, 
-Service Execution, 
-Obfuscated Files or Information, 
-Rundll32, 
-Scheduled Task, 
-Abuse Elevation Control Mechanism, 
-Exploitation for Client Execution, 
-Web Shell, 
-MSBuild, 
-Rename System Utilities, 
-Trusted Developer Utilities Proxy Execution, 
-Web Protocols, 
-Remote System Discovery
+Archive via Utility
 |
-Collection, 
-Execution, 
-Persistence, Privilege Escalation, 
-Defense Evasion, Privilege Escalation, 
-Command And Control, 
-Defense Evasion, 
-Defense Evasion, 
-Execution, 
-Defense Evasion, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Privilege Escalation, Defense Evasion, 
-Execution, 
-Persistence, 
-Defense Evasion, 
-Defense Evasion, 
-Defense Evasion, 
-Command And Control, 
-Discovery
+Collection
 
 | Anomaly
 |-
@@ -4736,20 +4189,11 @@ Command And Control
 | [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 |
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1068/ T1068], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003]
+[https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
-Windows Command Shell, 
-Command and Scripting Interpreter, 
-Exploitation for Privilege Escalation, 
-Rename System Utilities
+Windows Command Shell
 |
-Execution, 
-Execution, 
-Privilege Escalation, 
-Defense Evasion
+Execution
 
 | Hunting
 |-
@@ -4767,26 +4211,11 @@ Defense Evasion
 | [[Documentation:ESSOC:detections:Detections#First_time_seen_running_windows_service|First Time Seen Running Windows Service]]
 
 |
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1106/ T1106], 
-[https://attack.mitre.org/techniques/T1569/ T1569], 
-[https://attack.mitre.org/techniques/T1574.011/ T1574.011], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003]
+[https://attack.mitre.org/techniques/T1569.002/ T1569.002]
 |
-Service Execution, 
-Process Injection, 
-Native API, 
-System Services, 
-Services Registry Permissions Weakness, 
-Windows Service
+Service Execution
 |
-Execution, 
-Defense Evasion, Privilege Escalation, 
-Execution, 
-Execution, 
-Persistence, Privilege Escalation, Defense Evasion, 
-Persistence, Privilege Escalation
+Execution
 
 | Anomaly
 |-
@@ -4931,13 +4360,10 @@ PetitPotam (CVE-2021-36942,) is a vulnerablity identified in Microsofts EFSRPC P
 | [[Documentation:ESSOC:detections:Detections#Petitpotam_network_share_access_request|PetitPotam Network Share Access Request]]
 
 |
-[https://attack.mitre.org/techniques/T1187/ T1187], 
-[https://attack.mitre.org/techniques/T1003/ T1003]
+[https://attack.mitre.org/techniques/T1187/ T1187]
 |
-Forced Authentication, 
-OS Credential Dumping
+Forced Authentication
 |
-Credential Access, 
 Credential Access
 
 | TTP
@@ -5006,16 +4432,13 @@ Monitor your environment for suspicious behaviors that resemble the techniques e
 | [[Documentation:ESSOC:detections:Detections#Malicious_powershell_process_-_connect_to_internet_with_hidden_window|Malicious PowerShell Process - Connect To Internet With Hidden Window]]
 
 |
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001]
+[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
 |
-PowerShell, 
-Registry Run Keys / Startup Folder
+PowerShell
 |
-Execution, 
-Persistence, Privilege Escalation
+Execution
 
-| TTP
+| Hunting
 |-
 | [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
 
@@ -5087,17 +4510,11 @@ ProxyShell is a chain of exploits targeting on-premise Microsoft Exchange Server
 | [[Documentation:ESSOC:detections:Detections#Detect_exchange_web_shell|Detect Exchange Web Shell]]
 
 |
-[https://attack.mitre.org/techniques/T1505.003/ T1505.003], 
-[https://attack.mitre.org/techniques/T1190/ T1190], 
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001]
+[https://attack.mitre.org/techniques/T1505.003/ T1505.003]
 |
-Web Shell, 
-Exploit Public-Facing Application, 
-PowerShell
+Web Shell
 |
-Persistence, 
-Initial Access, 
-Execution
+Persistence
 
 | TTP
 |-
@@ -5232,17 +4649,11 @@ Silver Sparrow, identified by Red Canary Intelligence, is a new forward looking 
 | [[Documentation:ESSOC:detections:Detections#Suspicious_curl_network_connection|Suspicious Curl Network Connection]]
 
 |
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1543.001/ T1543.001], 
-[https://attack.mitre.org/techniques/T1074/ T1074]
+[https://attack.mitre.org/techniques/T1105/ T1105]
 |
-Ingress Tool Transfer, 
-Launch Agent, 
-Data Staged
+Ingress Tool Transfer
 |
-Command And Control, 
-Persistence, Privilege Escalation, 
-Collection
+Command And Control
 
 | TTP
 |-
@@ -5320,16 +4731,10 @@ Detect signs of malicious payloads that may indicate that your environment has b
 | [[Documentation:ESSOC:detections:Detections#Detect_outlook_exe_writing_a_zip_file|Detect Outlook exe writing a zip file]]
 
 |
-[https://attack.mitre.org/techniques/T1566.001/ T1566.001], 
-[https://attack.mitre.org/techniques/T1003.002/ T1003.002], 
-[https://attack.mitre.org/techniques/T1566.002/ T1566.002]
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
 |
-Spearphishing Attachment, 
-Security Account Manager, 
-Spearphishing Link
+Spearphishing Attachment
 |
-Initial Access, 
-Credential Access, 
 Initial Access
 
 | TTP
@@ -5564,20 +4969,11 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 | [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 |
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1068/ T1068], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003]
+[https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
-Windows Command Shell, 
-Command and Scripting Interpreter, 
-Exploitation for Privilege Escalation, 
-Rename System Utilities
+Windows Command Shell
 |
-Execution, 
-Execution, 
-Privilege Escalation, 
-Defense Evasion
+Execution
 
 | Hunting
 |-
@@ -5595,23 +4991,11 @@ Execution
 | [[Documentation:ESSOC:detections:Detections#Detect_use_of_cmd_exe_to_launch_script_interpreters|Detect Use of cmd exe to Launch Script Interpreters]]
 
 |
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1072/ T1072], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+[https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
-Windows Command Shell, 
-Software Deployment Tools, 
-Registry Run Keys / Startup Folder, 
-SMB/Windows Admin Shares, 
-Spearphishing Attachment
+Windows Command Shell
 |
-Execution, 
-Execution, Lateral Movement, 
-Persistence, Privilege Escalation, 
-Lateral Movement, 
-Initial Access
+Execution
 
 | TTP
 |-
@@ -5771,41 +5155,11 @@ Attackers often attempt to hide within or otherwise abuse the domain name system
 | [[Documentation:ESSOC:detections:Detections#Dns_exfiltration_using_nslookup_app|DNS Exfiltration Using Nslookup App]]
 
 |
-[https://attack.mitre.org/techniques/T1048/ T1048], 
-[https://attack.mitre.org/techniques/T1071.004/ T1071.004], 
-[https://attack.mitre.org/techniques/T1048.003/ T1048.003], 
-[https://attack.mitre.org/techniques/T1095/ T1095], 
-[https://attack.mitre.org/techniques/T1041/ T1041], 
-[https://attack.mitre.org/techniques/T1189/ T1189], 
-[https://attack.mitre.org/techniques/T1537/ T1537], 
-[https://attack.mitre.org/techniques/T1114.001/ T1114.001], 
-[https://attack.mitre.org/techniques/T1114/ T1114], 
-[https://attack.mitre.org/techniques/T1114.003/ T1114.003], 
-[https://attack.mitre.org/techniques/T1071.001/ T1071.001]
+[https://attack.mitre.org/techniques/T1048/ T1048]
 |
-Exfiltration Over Alternative Protocol, 
-DNS, 
-Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, 
-Non-Application Layer Protocol, 
-Exfiltration Over C2 Channel, 
-Drive-by Compromise, 
-Transfer Data to Cloud Account, 
-Local Email Collection, 
-Email Collection, 
-Email Forwarding Rule, 
-Web Protocols
+Exfiltration Over Alternative Protocol
 |
-Exfiltration, 
-Command And Control, 
-Exfiltration, 
-Command And Control, 
-Exfiltration, 
-Initial Access, 
-Exfiltration, 
-Collection, 
-Collection, 
-Collection, 
-Command And Control
+Exfiltration
 
 | TTP
 |-
@@ -5974,40 +5328,22 @@ Monitor and detect techniques used by attackers who leverage the mshta.exe proce
 | [[Documentation:ESSOC:detections:Detections#Detect_mshta_url_in_command_line|Detect MSHTA Url in Command Line]]
 
 |
-[https://attack.mitre.org/techniques/T1218.005/ T1218.005], 
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001]
+[https://attack.mitre.org/techniques/T1218.005/ T1218.005]
 |
-Mshta, 
-Windows Command Shell, 
-Command and Scripting Interpreter, 
-Registry Run Keys / Startup Folder
+Mshta
 |
-Defense Evasion, 
-Execution, 
-Execution, 
-Persistence, Privilege Escalation
+Defense Evasion
 
 | TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 |
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1068/ T1068], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003]
+[https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
-Windows Command Shell, 
-Command and Scripting Interpreter, 
-Exploitation for Privilege Escalation, 
-Rename System Utilities
+Windows Command Shell
 |
-Execution, 
-Execution, 
-Privilege Escalation, 
-Defense Evasion
+Execution
 
 | Hunting
 |-
@@ -6385,16 +5721,10 @@ Monitor and detect techniques used by attackers who leverage rundll32.exe to exe
 | [[Documentation:ESSOC:detections:Detections#Detect_rundll32_application_control_bypass_-_advpack|Detect Rundll32 Application Control Bypass - advpack]]
 
 |
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003]
+[https://attack.mitre.org/techniques/T1218.011/ T1218.011]
 |
-Rundll32, 
-LSASS Memory, 
-Rename System Utilities
+Rundll32
 |
-Defense Evasion, 
-Credential Access, 
 Defense Evasion
 
 | TTP
@@ -6557,14 +5887,11 @@ Attackers are increasingly abusing Windows Management Instrumentation (WMI), a f
 | [[Documentation:ESSOC:detections:Detections#Detect_wmi_event_subscription_persistence|Detect WMI Event Subscription Persistence]]
 
 |
-[https://attack.mitre.org/techniques/T1546.003/ T1546.003], 
-[https://attack.mitre.org/techniques/T1047/ T1047]
+[https://attack.mitre.org/techniques/T1546.003/ T1546.003]
 |
-Windows Management Instrumentation Event Subscription, 
-Windows Management Instrumentation
+Windows Management Instrumentation Event Subscription
 |
-Privilege Escalation, Persistence, 
-Execution
+Privilege Escalation, Persistence
 
 | TTP
 |-
@@ -6688,23 +6015,11 @@ Monitor and detect registry changes initiated from remote locations, which can b
 | [[Documentation:ESSOC:detections:Detections#Disabling_remote_user_account_control|Disabling Remote User Account Control]]
 
 |
-[https://attack.mitre.org/techniques/T1548.002/ T1548.002], 
-[https://attack.mitre.org/techniques/T1547.010/ T1547.010], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1546.012/ T1546.012], 
-[https://attack.mitre.org/techniques/T1546.011/ T1546.011]
+[https://attack.mitre.org/techniques/T1548.002/ T1548.002]
 |
-Bypass User Account Control, 
-Port Monitors, 
-Registry Run Keys / Startup Folder, 
-Image File Execution Options Injection, 
-Application Shimming
+Bypass User Account Control
 |
-Privilege Escalation, Defense Evasion, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Privilege Escalation, Persistence, 
-Privilege Escalation, Persistence
+Privilege Escalation, Defense Evasion
 
 | TTP
 |-
@@ -6793,20 +6108,11 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 | [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 |
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1068/ T1068], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003]
+[https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
-Windows Command Shell, 
-Command and Scripting Interpreter, 
-Exploitation for Privilege Escalation, 
-Rename System Utilities
+Windows Command Shell
 |
-Execution, 
-Execution, 
-Privilege Escalation, 
-Defense Evasion
+Execution
 
 | Hunting
 |-
@@ -7085,25 +6391,10 @@ Detect tactics used by malware to evade defenses on Windows endpoints. A few of 
 | [[Documentation:ESSOC:detections:Detections#Disable_registry_tool|Disable Registry Tool]]
 
 |
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1564.001/ T1564.001], 
-[https://attack.mitre.org/techniques/T1548.002/ T1548.002], 
-[https://attack.mitre.org/techniques/T1112/ T1112], 
-[https://attack.mitre.org/techniques/T1222.001/ T1222.001], 
-[https://attack.mitre.org/techniques/T1036/ T1036]
+[https://attack.mitre.org/techniques/T1562.001/ T1562.001]
 |
-Disable or Modify Tools, 
-Hidden Files and Directories, 
-Bypass User Account Control, 
-Modify Registry, 
-Windows File and Directory Permissions Modification, 
-Masquerading
+Disable or Modify Tools
 |
-Defense Evasion, 
-Defense Evasion, 
-Privilege Escalation, Defense Evasion, 
-Defense Evasion, 
-Defense Evasion, 
 Defense Evasion
 
 | TTP
@@ -7202,23 +6493,11 @@ Defense Evasion
 | [[Documentation:ESSOC:detections:Detections#Disabling_remote_user_account_control|Disabling Remote User Account Control]]
 
 |
-[https://attack.mitre.org/techniques/T1548.002/ T1548.002], 
-[https://attack.mitre.org/techniques/T1547.010/ T1547.010], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1546.012/ T1546.012], 
-[https://attack.mitre.org/techniques/T1546.011/ T1546.011]
+[https://attack.mitre.org/techniques/T1548.002/ T1548.002]
 |
-Bypass User Account Control, 
-Port Monitors, 
-Registry Run Keys / Startup Folder, 
-Image File Execution Options Injection, 
-Application Shimming
+Bypass User Account Control
 |
-Privilege Escalation, Defense Evasion, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Privilege Escalation, Persistence, 
-Privilege Escalation, Persistence
+Privilege Escalation, Defense Evasion
 
 | TTP
 |-
@@ -7448,98 +6727,14 @@ Monitors for behaviors associated with adversaries discovering objects in the en
 |
 [https://attack.mitre.org/techniques/T1078/ T1078], 
 [https://attack.mitre.org/techniques/T1087/ T1087], 
-[https://attack.mitre.org/techniques/T1484/ T1484], 
-[https://attack.mitre.org/techniques/T1199/ T1199], 
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1590/ T1590], 
-[https://attack.mitre.org/techniques/T1591/ T1591], 
-[https://attack.mitre.org/techniques/T1595/ T1595], 
-[https://attack.mitre.org/techniques/T1592/ T1592], 
-[https://attack.mitre.org/techniques/T1007/ T1007], 
-[https://attack.mitre.org/techniques/T1012/ T1012], 
-[https://attack.mitre.org/techniques/T1046/ T1046], 
-[https://attack.mitre.org/techniques/T1047/ T1047], 
-[https://attack.mitre.org/techniques/T1057/ T1057], 
-[https://attack.mitre.org/techniques/T1083/ T1083], 
-[https://attack.mitre.org/techniques/T1518/ T1518], 
-[https://attack.mitre.org/techniques/T1592.002/ T1592.002], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1135/ T1135], 
-[https://attack.mitre.org/techniques/T1039/ T1039], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1068/ T1068], 
-[https://attack.mitre.org/techniques/T1543/ T1543], 
-[https://attack.mitre.org/techniques/T1547/ T1547], 
-[https://attack.mitre.org/techniques/T1574/ T1574], 
-[https://attack.mitre.org/techniques/T1589.001/ T1589.001], 
-[https://attack.mitre.org/techniques/T1590.001/ T1590.001], 
-[https://attack.mitre.org/techniques/T1590.003/ T1590.003], 
-[https://attack.mitre.org/techniques/T1098/ T1098], 
-[https://attack.mitre.org/techniques/T1595.002/ T1595.002], 
-[https://attack.mitre.org/techniques/T1055/ T1055]
+[https://attack.mitre.org/techniques/T1484/ T1484]
 |
 Valid Accounts, 
 Account Discovery, 
-Domain Policy Modification, 
-Trusted Relationship, 
-Domain Trust Discovery, 
-Gather Victim Network Information, 
-Gather Victim Org Information, 
-Active Scanning, 
-Gather Victim Host Information, 
-System Service Discovery, 
-Query Registry, 
-Network Service Scanning, 
-Windows Management Instrumentation, 
-Process Discovery, 
-File and Directory Discovery, 
-Software Discovery, 
-Software, 
-SMB/Windows Admin Shares, 
-Network Share Discovery, 
-Data from Network Shared Drive, 
-Scheduled Task/Job, 
-Exploitation for Privilege Escalation, 
-Create or Modify System Process, 
-Boot or Logon Autostart Execution, 
-Hijack Execution Flow, 
-Credentials, 
-Domain Properties, 
-Network Trust Dependencies, 
-Account Manipulation, 
-Vulnerability Scanning, 
-Process Injection
+Domain Policy Modification
 |
 Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
 Discovery, 
-Defense Evasion, Privilege Escalation, 
-Initial Access, 
-Discovery, 
-Reconnaissance, 
-Reconnaissance, 
-Reconnaissance, 
-Reconnaissance, 
-Discovery, 
-Discovery, 
-Discovery, 
-Execution, 
-Discovery, 
-Discovery, 
-Discovery, 
-Reconnaissance, 
-Lateral Movement, 
-Discovery, 
-Collection, 
-Execution, Persistence, Privilege Escalation, 
-Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, Defense Evasion, 
-Reconnaissance, 
-Reconnaissance, 
-Reconnaissance, 
-Persistence, 
-Reconnaissance, 
 Defense Evasion, Privilege Escalation
 
 | TTP
@@ -7855,17 +7050,11 @@ Adversaries often try to cover their tracks by manipulating Windows logs. Use th
 | [[Documentation:ESSOC:detections:Detections#Deleting_shadow_copies|Deleting Shadow Copies]]
 
 |
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1070/ T1070], 
-[https://attack.mitre.org/techniques/T1070.001/ T1070.001]
+[https://attack.mitre.org/techniques/T1490/ T1490]
 |
-Inhibit System Recovery, 
-Indicator Removal on Host, 
-Clear Windows Event Logs
+Inhibit System Recovery
 |
-Impact, 
-Defense Evasion, 
-Defense Evasion
+Impact
 
 | TTP
 |-
@@ -7999,59 +7188,11 @@ Monitor for activities and techniques associated with maintaining persistence on
 | [[Documentation:ESSOC:detections:Detections#Detect_path_interception_by_creation_of_program_exe|Detect Path Interception By Creation Of program exe]]
 
 |
-[https://attack.mitre.org/techniques/T1574.009/ T1574.009], 
-[https://attack.mitre.org/techniques/T1222.001/ T1222.001], 
-[https://attack.mitre.org/techniques/T1585/ T1585], 
-[https://attack.mitre.org/techniques/T1078/ T1078], 
-[https://attack.mitre.org/techniques/T1098/ T1098], 
-[https://attack.mitre.org/techniques/T1207/ T1207], 
-[https://attack.mitre.org/techniques/T1484/ T1484], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1134/ T1134], 
-[https://attack.mitre.org/techniques/T1548/ T1548], 
-[https://attack.mitre.org/techniques/T1547.010/ T1547.010], 
-[https://attack.mitre.org/techniques/T1574.011/ T1574.011], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1546.011/ T1546.011], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1068/ T1068]
+[https://attack.mitre.org/techniques/T1574.009/ T1574.009]
 |
-Path Interception by Unquoted Path, 
-Windows File and Directory Permissions Modification, 
-Establish Accounts, 
-Valid Accounts, 
-Account Manipulation, 
-Rogue Domain Controller, 
-Domain Policy Modification, 
-Scheduled Task/Job, 
-Access Token Manipulation, 
-Abuse Elevation Control Mechanism, 
-Port Monitors, 
-Services Registry Permissions Weakness, 
-Registry Run Keys / Startup Folder, 
-Application Shimming, 
-Windows Service, 
-Scheduled Task, 
-Exploitation for Privilege Escalation
+Path Interception by Unquoted Path
 |
-Persistence, Privilege Escalation, Defense Evasion, 
-Defense Evasion, 
-Resource Development, 
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Persistence, 
-Defense Evasion, 
-Defense Evasion, Privilege Escalation, 
-Execution, Persistence, Privilege Escalation, 
-Defense Evasion, Privilege Escalation, 
-Privilege Escalation, Defense Evasion, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, Defense Evasion, 
-Persistence, Privilege Escalation, 
-Privilege Escalation, Persistence, 
-Persistence, Privilege Escalation, 
-Execution, Persistence, Privilege Escalation, 
-Privilege Escalation
+Persistence, Privilege Escalation, Defense Evasion
 
 | TTP
 |-
@@ -8389,29 +7530,11 @@ Monitor for and investigate activities that may be associated with a Windows pri
 | [[Documentation:ESSOC:detections:Detections#Child_processes_of_spoolsv_exe|Child Processes of Spoolsv exe]]
 
 |
-[https://attack.mitre.org/techniques/T1068/ T1068], 
-[https://attack.mitre.org/techniques/T1134/ T1134], 
-[https://attack.mitre.org/techniques/T1548/ T1548], 
-[https://attack.mitre.org/techniques/T1546.008/ T1546.008], 
-[https://attack.mitre.org/techniques/T1078/ T1078], 
-[https://attack.mitre.org/techniques/T1098/ T1098], 
-[https://attack.mitre.org/techniques/T1546.012/ T1546.012]
+[https://attack.mitre.org/techniques/T1068/ T1068]
 |
-Exploitation for Privilege Escalation, 
-Access Token Manipulation, 
-Abuse Elevation Control Mechanism, 
-Accessibility Features, 
-Valid Accounts, 
-Account Manipulation, 
-Image File Execution Options Injection
+Exploitation for Privilege Escalation
 |
-Privilege Escalation, 
-Defense Evasion, Privilege Escalation, 
-Privilege Escalation, Defense Evasion, 
-Privilege Escalation, Persistence, 
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Persistence, 
-Privilege Escalation, Persistence
+Privilege Escalation
 
 | TTP
 |-
@@ -8601,26 +7724,11 @@ Detect instances of prohibited network traffic allowed in the environment, as we
 | [[Documentation:ESSOC:detections:Detections#Allow_inbound_traffic_by_firewall_rule_registry|Allow Inbound Traffic By Firewall Rule Registry]]
 
 |
-[https://attack.mitre.org/techniques/T1021.001/ T1021.001], 
-[https://attack.mitre.org/techniques/T1189/ T1189], 
-[https://attack.mitre.org/techniques/T1021/ T1021], 
-[https://attack.mitre.org/techniques/T1048/ T1048], 
-[https://attack.mitre.org/techniques/T1048.003/ T1048.003], 
-[https://attack.mitre.org/techniques/T1071.001/ T1071.001]
+[https://attack.mitre.org/techniques/T1021.001/ T1021.001]
 |
-Remote Desktop Protocol, 
-Drive-by Compromise, 
-Remote Services, 
-Exfiltration Over Alternative Protocol, 
-Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, 
-Web Protocols
+Remote Desktop Protocol
 |
-Lateral Movement, 
-Initial Access, 
-Lateral Movement, 
-Exfiltration, 
-Exfiltration, 
-Command And Control
+Lateral Movement
 
 | TTP
 |-
@@ -8737,24 +7845,15 @@ Validate the security configuration of network infrastructure and verify that on
 |
 [https://attack.mitre.org/techniques/T1200/ T1200], 
 [https://attack.mitre.org/techniques/T1498/ T1498], 
-[https://attack.mitre.org/techniques/T1557.002/ T1557.002], 
-[https://attack.mitre.org/techniques/T1557/ T1557], 
-[https://attack.mitre.org/techniques/T1542.005/ T1542.005], 
-[https://attack.mitre.org/techniques/T1020.001/ T1020.001]
+[https://attack.mitre.org/techniques/T1557.002/ T1557.002]
 |
 Hardware Additions, 
 Network Denial of Service, 
-ARP Cache Poisoning, 
-Man-in-the-Middle, 
-TFTP Boot, 
-Traffic Duplication
+ARP Cache Poisoning
 |
 Initial Access, 
 Impact, 
-Credential Access, Collection, 
-Credential Access, Collection, 
-Defense Evasion, Persistence, 
-Exfiltration
+Credential Access, Collection
 
 | TTP
 |-
@@ -8943,14 +8042,11 @@ Track when a user assumes an IAM role in another AWS account to obtain cross-acc
 | [[Documentation:ESSOC:detections:Detections#Aws_detect_attach_to_role_policy|aws detect attach to role policy]]
 
 |
-[https://attack.mitre.org/techniques/T1078/ T1078], 
-[https://attack.mitre.org/techniques/T1550/ T1550]
+[https://attack.mitre.org/techniques/T1078/ T1078]
 |
-Valid Accounts, 
-Use Alternate Authentication Material
+Valid Accounts
 |
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Defense Evasion, Lateral Movement
+Defense Evasion, Persistence, Privilege Escalation, Initial Access
 
 | Hunting
 |-
@@ -9037,26 +8133,11 @@ This analytic story contains detections that query your AWS Cloudtrail for activ
 | [[Documentation:ESSOC:detections:Detections#Aws_create_policy_version_to_allow_all_resources|AWS Create Policy Version to allow all resources]]
 
 |
-[https://attack.mitre.org/techniques/T1078.004/ T1078.004], 
-[https://attack.mitre.org/techniques/T1136.003/ T1136.003], 
-[https://attack.mitre.org/techniques/T1580/ T1580], 
-[https://attack.mitre.org/techniques/T1110/ T1110], 
-[https://attack.mitre.org/techniques/T1098/ T1098], 
-[https://attack.mitre.org/techniques/T1069.003/ T1069.003]
+[https://attack.mitre.org/techniques/T1078.004/ T1078.004]
 |
-Cloud Accounts, 
-Cloud Account, 
-Cloud Infrastructure Discovery, 
-Brute Force, 
-Account Manipulation, 
-Cloud Groups
+Cloud Accounts
 |
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Persistence, 
-Discovery, 
-Credential Access, 
-Persistence, 
-Discovery
+Defense Evasion, Persistence, Privilege Escalation, Initial Access
 
 | TTP
 |-
@@ -9368,14 +8449,11 @@ Monitor your cloud compute instances for activities related to cryptojacking/cry
 | [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_instances_launched|Abnormally High Number Of Cloud Instances Launched]]
 
 |
-[https://attack.mitre.org/techniques/T1078.004/ T1078.004], 
-[https://attack.mitre.org/techniques/T1535/ T1535]
+[https://attack.mitre.org/techniques/T1078.004/ T1078.004]
 |
-Cloud Accounts, 
-Unused/Unsupported Cloud Regions
+Cloud Accounts
 |
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Defense Evasion
+Defense Evasion, Persistence, Privilege Escalation, Initial Access
 
 | Anomaly
 |-
@@ -9456,23 +8534,11 @@ This analytical story addresses events that indicate abuse of cloud federated cr
 | [[Documentation:ESSOC:detections:Detections#Aws_saml_access_by_provider_user_and_principal|AWS SAML Access by Provider User and Principal]]
 
 |
-[https://attack.mitre.org/techniques/T1078/ T1078], 
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1136.003/ T1136.003], 
-[https://attack.mitre.org/techniques/T1556/ T1556], 
-[https://attack.mitre.org/techniques/T1546.012/ T1546.012]
+[https://attack.mitre.org/techniques/T1078/ T1078]
 |
-Valid Accounts, 
-LSASS Memory, 
-Cloud Account, 
-Modify Authentication Process, 
-Image File Execution Options Injection
+Valid Accounts
 |
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Credential Access, 
-Persistence, 
-Credential Access, Defense Evasion, Persistence, 
-Privilege Escalation, Persistence
+Defense Evasion, Persistence, Privilege Escalation, Initial Access
 
 | Anomaly
 |-
@@ -9663,23 +8729,11 @@ This story is focused around detecting attacks on a DevSecOps lifeccycle which c
 | [[Documentation:ESSOC:detections:Detections#Aws_ecr_container_scanning_findings_high|AWS ECR Container Scanning Findings High]]
 
 |
-[https://attack.mitre.org/techniques/T1204.003/ T1204.003], 
-[https://attack.mitre.org/techniques/T1554/ T1554], 
-[https://attack.mitre.org/techniques/T1195.001/ T1195.001], 
-[https://attack.mitre.org/techniques/T1212/ T1212], 
-[https://attack.mitre.org/techniques/T1526/ T1526]
+[https://attack.mitre.org/techniques/T1204.003/ T1204.003]
 |
-Malicious Image, 
-Compromise Client Software Binary, 
-Compromise Software Dependencies and Development Tools, 
-Exploitation for Credential Access, 
-Cloud Service Discovery
+Malicious Image
 |
-Execution, 
-Persistence, 
-Initial Access, 
-Credential Access, 
-Discovery
+Execution
 
 | TTP
 |-
@@ -10025,32 +9079,11 @@ This story is focused around detecting Office 365 Attacks.
 | [[Documentation:ESSOC:detections:Detections#High_number_of_login_failures_from_a_single_source|High Number of Login Failures from a single source]]
 
 |
-[https://attack.mitre.org/techniques/T1110.001/ T1110.001], 
-[https://attack.mitre.org/techniques/T1136.003/ T1136.003], 
-[https://attack.mitre.org/techniques/T1562.007/ T1562.007], 
-[https://attack.mitre.org/techniques/T1556/ T1556], 
-[https://attack.mitre.org/techniques/T1110/ T1110], 
-[https://attack.mitre.org/techniques/T1114/ T1114], 
-[https://attack.mitre.org/techniques/T1114.003/ T1114.003], 
-[https://attack.mitre.org/techniques/T1114.002/ T1114.002]
+[https://attack.mitre.org/techniques/T1110.001/ T1110.001]
 |
-Password Guessing, 
-Cloud Account, 
-Disable or Modify Cloud Firewall, 
-Modify Authentication Process, 
-Brute Force, 
-Email Collection, 
-Email Forwarding Rule, 
-Remote Email Collection
+Password Guessing
 |
-Credential Access, 
-Persistence, 
-Defense Evasion, 
-Credential Access, Defense Evasion, Persistence, 
-Credential Access, 
-Collection, 
-Collection, 
-Collection
+Credential Access
 
 | Anomaly
 |-
@@ -10502,28 +9535,22 @@ Monitor your cloud infrastructure provisioning activities for behaviors originat
 | [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_instances_destroyed|Abnormally High Number Of Cloud Instances Destroyed]]
 
 |
-[https://attack.mitre.org/techniques/T1078.004/ T1078.004], 
-[https://attack.mitre.org/techniques/T1537/ T1537]
+[https://attack.mitre.org/techniques/T1078.004/ T1078.004]
 |
-Cloud Accounts, 
-Transfer Data to Cloud Account
+Cloud Accounts
 |
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Exfiltration
+Defense Evasion, Persistence, Privilege Escalation, Initial Access
 
 | Anomaly
 |-
 | [[Documentation:ESSOC:detections:Detections#Abnormally_high_number_of_cloud_instances_launched|Abnormally High Number Of Cloud Instances Launched]]
 
 |
-[https://attack.mitre.org/techniques/T1078.004/ T1078.004], 
-[https://attack.mitre.org/techniques/T1535/ T1535]
+[https://attack.mitre.org/techniques/T1078.004/ T1078.004]
 |
-Cloud Accounts, 
-Unused/Unsupported Cloud Regions
+Cloud Accounts
 |
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Defense Evasion
+Defense Evasion, Persistence, Privilege Escalation, Initial Access
 
 | Anomaly
 |-
@@ -10666,17 +9693,11 @@ Detect and investigate suspicious activities by users and roles in your cloud en
 | [[Documentation:ESSOC:detections:Detections#Aws_iam_accessdenied_discovery_events|AWS IAM AccessDenied Discovery Events]]
 
 |
-[https://attack.mitre.org/techniques/T1580/ T1580], 
-[https://attack.mitre.org/techniques/T1078.004/ T1078.004], 
-[https://attack.mitre.org/techniques/T1078/ T1078]
+[https://attack.mitre.org/techniques/T1580/ T1580]
 |
-Cloud Infrastructure Discovery, 
-Cloud Accounts, 
-Valid Accounts
+Cloud Infrastructure Discovery
 |
-Discovery, 
-Defense Evasion, Persistence, Privilege Escalation, Initial Access, 
-Defense Evasion, Persistence, Privilege Escalation, Initial Access
+Discovery
 
 | Anomaly
 |-
@@ -10821,17 +9842,11 @@ The following analytic story identifies behaviors related PrintNightmare, or CVE
 | [[Documentation:ESSOC:detections:Detections#Print_spooler_adding_a_printer_driver|Print Spooler Adding A Printer Driver]]
 
 |
-[https://attack.mitre.org/techniques/T1547.012/ T1547.012], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1068/ T1068]
+[https://attack.mitre.org/techniques/T1547.012/ T1547.012]
 |
-Print Processors, 
-Rundll32, 
-Exploitation for Privilege Escalation
+Print Processors
 |
-Persistence, Privilege Escalation, 
-Defense Evasion, 
-Privilege Escalation
+Persistence, Privilege Escalation
 
 | TTP
 |-
@@ -10975,20 +9990,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [[Documentation:ESSOC:detections:Detections#Add_defaultuser_and_password_in_registry|Add DefaultUser And Password In Registry]]
 
 |
-[https://attack.mitre.org/techniques/T1552.002/ T1552.002], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1491/ T1491], 
-[https://attack.mitre.org/techniques/T1486/ T1486]
+[https://attack.mitre.org/techniques/T1552.002/ T1552.002]
 |
-Credentials in Registry, 
-Inhibit System Recovery, 
-Defacement, 
-Data Encrypted for Impact
+Credentials in Registry
 |
-Credential Access, 
-Impact, 
-Impact, 
-Impact
+Credential Access
 
 | Anomaly
 |-
@@ -11103,35 +10109,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [[Documentation:ESSOC:detections:Detections#Clop_common_exec_parameter|Clop Common Exec Parameter]]
 
 |
-[https://attack.mitre.org/techniques/T1204/ T1204], 
-[https://attack.mitre.org/techniques/T1543/ T1543], 
-[https://attack.mitre.org/techniques/T1485/ T1485], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1486/ T1486], 
-[https://attack.mitre.org/techniques/T1003.002/ T1003.002], 
-[https://attack.mitre.org/techniques/T1489/ T1489], 
-[https://attack.mitre.org/techniques/T1070.001/ T1070.001]
+[https://attack.mitre.org/techniques/T1204/ T1204]
 |
-User Execution, 
-Create or Modify System Process, 
-Data Destruction, 
-Service Execution, 
-Inhibit System Recovery, 
-Data Encrypted for Impact, 
-Security Account Manager, 
-Service Stop, 
-Clear Windows Event Logs
+User Execution
 |
-Execution, 
-Persistence, Privilege Escalation, 
-Impact, 
-Execution, 
-Impact, 
-Impact, 
-Credential Access, 
-Impact, 
-Defense Evasion
+Execution
 
 | TTP
 |-
@@ -11182,17 +10164,11 @@ Execution
 | [[Documentation:ESSOC:detections:Detections#Deleting_shadow_copies|Deleting Shadow Copies]]
 
 |
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1070/ T1070], 
-[https://attack.mitre.org/techniques/T1070.001/ T1070.001]
+[https://attack.mitre.org/techniques/T1490/ T1490]
 |
-Inhibit System Recovery, 
-Indicator Removal on Host, 
-Clear Windows Event Logs
+Inhibit System Recovery
 |
-Impact, 
-Defense Evasion, 
-Defense Evasion
+Impact
 
 | TTP
 |-
@@ -11221,11 +10197,11 @@ Impact
 | [[Documentation:ESSOC:detections:Detections#Process_deleting_its_process_file_path|Process Deleting Its Process File Path]]
 
 |
-[https://attack.mitre.org/techniques/T1003.002/ T1003.002]
+[https://attack.mitre.org/techniques/T1070/ T1070]
 |
-Security Account Manager
+Indicator Removal on Host
 |
-Credential Access
+Defense Evasion
 
 | TTP
 |-
@@ -11403,41 +10379,11 @@ Monitor for suspicious activities associated with DHS Technical Alert US-CERT TA
 | [[Documentation:ESSOC:detections:Detections#Create_local_admin_accounts_using_net_exe|Create local admin accounts using net exe]]
 
 |
-[https://attack.mitre.org/techniques/T1136.001/ T1136.001], 
-[https://attack.mitre.org/techniques/T1071.002/ T1071.002], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1059.001/ T1059.001], 
-[https://attack.mitre.org/techniques/T1562.004/ T1562.004], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1204.002/ T1204.002], 
-[https://attack.mitre.org/techniques/T1112/ T1112]
+[https://attack.mitre.org/techniques/T1136.001/ T1136.001]
 |
-Local Account, 
-File Transfer Protocols, 
-SMB/Windows Admin Shares, 
-Service Execution, 
-PowerShell, 
-Disable or Modify System Firewall, 
-Registry Run Keys / Startup Folder, 
-Windows Service, 
-Scheduled Task, 
-Malicious File, 
-Modify Registry
+Local Account
 |
-Persistence, 
-Command And Control, 
-Lateral Movement, 
-Execution, 
-Execution, 
-Defense Evasion, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Execution, Persistence, Privilege Escalation, 
-Execution, 
-Defense Evasion
+Persistence
 
 | TTP
 |-
@@ -11633,44 +10579,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [[Documentation:ESSOC:detections:Detections#Attempted_credential_dump_from_registry_via_reg_exe|Attempted Credential Dump From Registry via Reg exe]]
 
 |
-[https://attack.mitre.org/techniques/T1003.002/ T1003.002], 
-[https://attack.mitre.org/techniques/T1197/ T1197], 
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1218.003/ T1218.003], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1003.001/ T1003.001], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1020/ T1020], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1486/ T1486], 
-[https://attack.mitre.org/techniques/T1548.002/ T1548.002]
+[https://attack.mitre.org/techniques/T1003.002/ T1003.002]
 |
-Security Account Manager, 
-BITS Jobs, 
-Ingress Tool Transfer, 
-CMSTP, 
-Process Injection, 
-Inhibit System Recovery, 
-LSASS Memory, 
-SMB/Windows Admin Shares, 
-Automated Exfiltration, 
-Service Execution, 
-Data Encrypted for Impact, 
-Bypass User Account Control
+Security Account Manager
 |
-Credential Access, 
-Defense Evasion, Persistence, 
-Command And Control, 
-Defense Evasion, 
-Defense Evasion, Privilege Escalation, 
-Impact, 
-Credential Access, 
-Lateral Movement, 
-Exfiltration, 
-Execution, 
-Impact, 
-Privilege Escalation, Defense Evasion
+Credential Access
 
 | TTP
 |-
@@ -11893,41 +10806,11 @@ Detect and investigate hosts in your environment that may be communicating with 
 | [[Documentation:ESSOC:detections:Detections#Dns_exfiltration_using_nslookup_app|DNS Exfiltration Using Nslookup App]]
 
 |
-[https://attack.mitre.org/techniques/T1048/ T1048], 
-[https://attack.mitre.org/techniques/T1071.004/ T1071.004], 
-[https://attack.mitre.org/techniques/T1048.003/ T1048.003], 
-[https://attack.mitre.org/techniques/T1095/ T1095], 
-[https://attack.mitre.org/techniques/T1041/ T1041], 
-[https://attack.mitre.org/techniques/T1189/ T1189], 
-[https://attack.mitre.org/techniques/T1537/ T1537], 
-[https://attack.mitre.org/techniques/T1114.001/ T1114.001], 
-[https://attack.mitre.org/techniques/T1114/ T1114], 
-[https://attack.mitre.org/techniques/T1114.003/ T1114.003], 
-[https://attack.mitre.org/techniques/T1071.001/ T1071.001]
+[https://attack.mitre.org/techniques/T1048/ T1048]
 |
-Exfiltration Over Alternative Protocol, 
-DNS, 
-Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, 
-Non-Application Layer Protocol, 
-Exfiltration Over C2 Channel, 
-Drive-by Compromise, 
-Transfer Data to Cloud Account, 
-Local Email Collection, 
-Email Collection, 
-Email Forwarding Rule, 
-Web Protocols
+Exfiltration Over Alternative Protocol
 |
-Exfiltration, 
-Command And Control, 
-Exfiltration, 
-Command And Control, 
-Exfiltration, 
-Initial Access, 
-Exfiltration, 
-Collection, 
-Collection, 
-Collection, 
-Command And Control
+Exfiltration
 
 | TTP
 |-
@@ -12010,23 +10893,11 @@ Detect rarely used executables, specific registry paths that may confer malware 
 | [[Documentation:ESSOC:detections:Detections#Detect_use_of_cmd_exe_to_launch_script_interpreters|Detect Use of cmd exe to Launch Script Interpreters]]
 
 |
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1072/ T1072], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+[https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
-Windows Command Shell, 
-Software Deployment Tools, 
-Registry Run Keys / Startup Folder, 
-SMB/Windows Admin Shares, 
-Spearphishing Attachment
+Windows Command Shell
 |
-Execution, 
-Execution, Lateral Movement, 
-Persistence, Privilege Escalation, 
-Lateral Movement, 
-Initial Access
+Execution
 
 | TTP
 |-
@@ -12122,6 +10993,156 @@ Initial Access
 
 ----
 
+===Fin7===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the FIN7 JS Implant and JSSLoader, including looking for Image Loading of ldap and wmi modules, associated with its payload, data collection and script execution.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
+* '''Last Updated''': 2021-09-14
+* '''Use Case''': Advanced Threat Detection
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+{|
+! style="text-align:left;"| name
+! ID
+! Technique
+! Tactic
+! Type
+|-
+| [[Documentation:ESSOC:detections:Detections#Check_elevated_cmd_using_whoami|Check Elevated CMD using whoami]]
+
+|
+[https://attack.mitre.org/techniques/T1033/ T1033]
+|
+System Owner/User Discovery
+|
+Discovery
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Cmdline_tool_not_executed_in_cmd_shell|Cmdline Tool Not Executed In CMD Shell]]
+
+|
+[https://attack.mitre.org/techniques/T1059.007/ T1059.007]
+|
+JavaScript
+|
+Execution
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Jscript_execution_using_cscript_app|Jscript Execution Using Cscript App]]
+
+|
+[https://attack.mitre.org/techniques/T1059.007/ T1059.007]
+|
+JavaScript
+|
+Execution
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Ms_scripting_process_loading_ldap_module|MS Scripting Process Loading Ldap Module]]
+
+|
+[https://attack.mitre.org/techniques/T1059.007/ T1059.007]
+|
+JavaScript
+|
+Execution
+
+| Anomaly
+|-
+| [[Documentation:ESSOC:detections:Detections#Ms_scripting_process_loading_wmi_module|MS Scripting Process Loading WMI Module]]
+
+|
+[https://attack.mitre.org/techniques/T1059.007/ T1059.007]
+|
+JavaScript
+|
+Execution
+
+| Anomaly
+|-
+| [[Documentation:ESSOC:detections:Detections#Non_chrome_process_accessing_chrome_default_dir|Non Chrome Process Accessing Chrome Default Dir]]
+
+|
+[https://attack.mitre.org/techniques/T1555.003/ T1555.003]
+|
+Credentials from Web Browsers
+|
+Credential Access
+
+| Anomaly
+|-
+| [[Documentation:ESSOC:detections:Detections#Non_firefox_process_access_firefox_profile_dir|Non Firefox Process Access Firefox Profile Dir]]
+
+|
+[https://attack.mitre.org/techniques/T1555.003/ T1555.003]
+|
+Credentials from Web Browsers
+|
+Credential Access
+
+| Anomaly
+|-
+| [[Documentation:ESSOC:detections:Detections#Office_application_drop_executable|Office Application Drop Executable]]
+
+|
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+|
+Spearphishing Attachment
+|
+Initial Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Office_product_spawning_wmic|Office Product Spawning Wmic]]
+
+|
+[https://attack.mitre.org/techniques/T1566.001/ T1566.001]
+|
+Spearphishing Attachment
+|
+Initial Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Xsl_script_execution_with_wmic|XSL Script Execution With WMIC]]
+
+|
+[https://attack.mitre.org/techniques/T1220/ T1220]
+|
+XSL Script Processing
+|
+Defense Evasion
+
+| TTP
+|}
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Reference====
+
+* https://en.wikipedia.org/wiki/FIN7
+
+* https://threatpost.com/fin7-windows-11-release/169206/
+
+* https://www.proofpoint.com/us/blog/threat-insight/jssloader-recoded-and-reloaded
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Hidden cobra malware===
 Monitor for and investigate activities, including the creation or deletion of hidden shares and file writes, that may be evidence of infiltration by North Korean government-sponsored cybercriminals. Details of this activity were reported in DHS Report TA-18-149A.
 
@@ -12144,26 +11165,11 @@ Monitor for and investigate activities, including the creation or deletion of hi
 | [[Documentation:ESSOC:detections:Detections#Create_or_delete_windows_shares_using_net_exe|Create or delete windows shares using net exe]]
 
 |
-[https://attack.mitre.org/techniques/T1070.005/ T1070.005], 
-[https://attack.mitre.org/techniques/T1071.004/ T1071.004], 
-[https://attack.mitre.org/techniques/T1048.003/ T1048.003], 
-[https://attack.mitre.org/techniques/T1071.002/ T1071.002], 
-[https://attack.mitre.org/techniques/T1021.001/ T1021.001], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002]
+[https://attack.mitre.org/techniques/T1070.005/ T1070.005]
 |
-Network Share Connection Removal, 
-DNS, 
-Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, 
-File Transfer Protocols, 
-Remote Desktop Protocol, 
-SMB/Windows Admin Shares
+Network Share Connection Removal
 |
-Defense Evasion, 
-Command And Control, 
-Exfiltration, 
-Command And Control, 
-Lateral Movement, 
-Lateral Movement
+Defense Evasion
 
 | TTP
 |-
@@ -12287,68 +11293,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [[Documentation:ESSOC:detections:Detections#Account_discovery_with_net_app|Account Discovery With Net App]]
 
 |
-[https://attack.mitre.org/techniques/T1087.002/ T1087.002], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1204.002/ T1204.002], 
-[https://attack.mitre.org/techniques/T1548.002/ T1548.002], 
-[https://attack.mitre.org/techniques/T1112/ T1112], 
-[https://attack.mitre.org/techniques/T1560.001/ T1560.001], 
-[https://attack.mitre.org/techniques/T1218.005/ T1218.005], 
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1566.001/ T1566.001], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1005/ T1005], 
-[https://attack.mitre.org/techniques/T1218.010/ T1218.010], 
-[https://attack.mitre.org/techniques/T1590.005/ T1590.005], 
-[https://attack.mitre.org/techniques/T1027/ T1027], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002]
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
 |
-Domain Account, 
-Disable or Modify Tools, 
-Command and Scripting Interpreter, 
-Process Injection, 
-Malicious File, 
-Bypass User Account Control, 
-Modify Registry, 
-Archive via Utility, 
-Mshta, 
-Domain Trust Discovery, 
-Spearphishing Attachment, 
-Registry Run Keys / Startup Folder, 
-Rundll32, 
-Scheduled Task/Job, 
-Data from Local System, 
-Regsvr32, 
-IP Addresses, 
-Obfuscated Files or Information, 
-Scheduled Task, 
-SMB/Windows Admin Shares
+Domain Account
 |
-Discovery, 
-Defense Evasion, 
-Execution, 
-Defense Evasion, Privilege Escalation, 
-Execution, 
-Privilege Escalation, Defense Evasion, 
-Defense Evasion, 
-Collection, 
-Defense Evasion, 
-Discovery, 
-Initial Access, 
-Persistence, Privilege Escalation, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Collection, 
-Defense Evasion, 
-Reconnaissance, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Lateral Movement
+Discovery
 
 | TTP
 |-
@@ -12655,26 +11604,11 @@ Detect activities and various techniques associated with the Orangeworm Attack G
 | [[Documentation:ESSOC:detections:Detections#First_time_seen_running_windows_service|First Time Seen Running Windows Service]]
 
 |
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1106/ T1106], 
-[https://attack.mitre.org/techniques/T1569/ T1569], 
-[https://attack.mitre.org/techniques/T1574.011/ T1574.011], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003]
+[https://attack.mitre.org/techniques/T1569.002/ T1569.002]
 |
-Service Execution, 
-Process Injection, 
-Native API, 
-System Services, 
-Services Registry Permissions Weakness, 
-Windows Service
+Service Execution
 |
-Execution, 
-Defense Evasion, Privilege Escalation, 
-Execution, 
-Execution, 
-Persistence, Privilege Escalation, Defense Evasion, 
-Persistence, Privilege Escalation
+Execution
 
 | Anomaly
 |-
@@ -12732,116 +11666,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [[Documentation:ESSOC:detections:Detections#7zip_commandline_to_smb_share_path|7zip CommandLine To SMB Share Path]]
 
 |
-[https://attack.mitre.org/techniques/T1560.001/ T1560.001], 
-[https://attack.mitre.org/techniques/T1562.007/ T1562.007], 
-[https://attack.mitre.org/techniques/T1548/ T1548], 
-[https://attack.mitre.org/techniques/T1489/ T1489], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1218.003/ T1218.003], 
-[https://attack.mitre.org/techniques/T1070.004/ T1070.004], 
-[https://attack.mitre.org/techniques/T1485/ T1485], 
-[https://attack.mitre.org/techniques/T1204/ T1204], 
-[https://attack.mitre.org/techniques/T1020/ T1020], 
-[https://attack.mitre.org/techniques/T1087.002/ T1087.002], 
-[https://attack.mitre.org/techniques/T1087.001/ T1087.001], 
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1069.002/ T1069.002], 
-[https://attack.mitre.org/techniques/T1069.001/ T1069.001], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1070.001/ T1070.001], 
-[https://attack.mitre.org/techniques/T1531/ T1531], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1059.005/ T1059.005], 
-[https://attack.mitre.org/techniques/T1070/ T1070], 
-[https://attack.mitre.org/techniques/T1222/ T1222], 
-[https://attack.mitre.org/techniques/T1491/ T1491], 
-[https://attack.mitre.org/techniques/T1574.002/ T1574.002], 
-[https://attack.mitre.org/techniques/T1027.005/ T1027.005], 
-[https://attack.mitre.org/techniques/T1546.015/ T1546.015], 
-[https://attack.mitre.org/techniques/T1048/ T1048], 
-[https://attack.mitre.org/techniques/T1592/ T1592], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1047/ T1047], 
-[https://attack.mitre.org/techniques/T1112/ T1112], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003], 
-[https://attack.mitre.org/techniques/T1071.001/ T1071.001], 
-[https://attack.mitre.org/techniques/T1218.007/ T1218.007]
+[https://attack.mitre.org/techniques/T1560.001/ T1560.001]
 |
-Archive via Utility, 
-Disable or Modify Cloud Firewall, 
-Abuse Elevation Control Mechanism, 
-Service Stop, 
-Inhibit System Recovery, 
-CMSTP, 
-File Deletion, 
-Data Destruction, 
-User Execution, 
-Automated Exfiltration, 
-Domain Account, 
-Local Account, 
-Domain Trust Discovery, 
-Domain Groups, 
-Local Groups, 
-Disable or Modify Tools, 
-Clear Windows Event Logs, 
-Account Access Removal, 
-Service Execution, 
-Visual Basic, 
-Indicator Removal on Host, 
-File and Directory Permissions Modification, 
-Defacement, 
-DLL Side-Loading, 
-Indicator Removal from Tools, 
-Component Object Model Hijacking, 
-Exfiltration Over Alternative Protocol, 
-Gather Victim Host Information, 
-Registry Run Keys / Startup Folder, 
-Windows Management Instrumentation, 
-Modify Registry, 
-SMB/Windows Admin Shares, 
-Scheduled Task, 
-Rename System Utilities, 
-Web Protocols, 
-Msiexec
+Archive via Utility
 |
-Collection, 
-Defense Evasion, 
-Privilege Escalation, Defense Evasion, 
-Impact, 
-Impact, 
-Defense Evasion, 
-Defense Evasion, 
-Impact, 
-Execution, 
-Exfiltration, 
-Discovery, 
-Discovery, 
-Discovery, 
-Discovery, 
-Discovery, 
-Defense Evasion, 
-Defense Evasion, 
-Impact, 
-Execution, 
-Execution, 
-Defense Evasion, 
-Defense Evasion, 
-Impact, 
-Persistence, Privilege Escalation, Defense Evasion, 
-Defense Evasion, 
-Privilege Escalation, Persistence, 
-Exfiltration, 
-Reconnaissance, 
-Persistence, Privilege Escalation, 
-Execution, 
-Defense Evasion, 
-Lateral Movement, 
-Execution, Persistence, Privilege Escalation, 
-Defense Evasion, 
-Command And Control, 
-Defense Evasion
+Collection
 
 | Hunting
 |-
@@ -12859,31 +11688,10 @@ Defense Evasion
 | [[Documentation:ESSOC:detections:Detections#Allow_network_discovery_in_firewall|Allow Network Discovery In Firewall]]
 
 |
-[https://attack.mitre.org/techniques/T1562.007/ T1562.007], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1491/ T1491], 
-[https://attack.mitre.org/techniques/T1574.002/ T1574.002], 
-[https://attack.mitre.org/techniques/T1204/ T1204], 
-[https://attack.mitre.org/techniques/T1112/ T1112], 
-[https://attack.mitre.org/techniques/T1218.003/ T1218.003]
+[https://attack.mitre.org/techniques/T1562.007/ T1562.007]
 |
-Disable or Modify Cloud Firewall, 
-Inhibit System Recovery, 
-Disable or Modify Tools, 
-Defacement, 
-DLL Side-Loading, 
-User Execution, 
-Modify Registry, 
-CMSTP
+Disable or Modify Cloud Firewall
 |
-Defense Evasion, 
-Impact, 
-Defense Evasion, 
-Impact, 
-Persistence, Privilege Escalation, Defense Evasion, 
-Execution, 
-Defense Evasion, 
 Defense Evasion
 
 | TTP
@@ -12924,34 +11732,10 @@ Impact
 | [[Documentation:ESSOC:detections:Detections#Bcdedit_failure_recovery_modification|BCDEdit Failure Recovery Modification]]
 
 |
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1485/ T1485], 
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1021.001/ T1021.001], 
-[https://attack.mitre.org/techniques/T1486/ T1486], 
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1489/ T1489]
+[https://attack.mitre.org/techniques/T1490/ T1490]
 |
-Inhibit System Recovery, 
-Data Destruction, 
-Domain Trust Discovery, 
-Remote Desktop Protocol, 
-Data Encrypted for Impact, 
-Windows Command Shell, 
-Scheduled Task, 
-Disable or Modify Tools, 
-Service Stop
+Inhibit System Recovery
 |
-Impact, 
-Impact, 
-Discovery, 
-Lateral Movement, 
-Impact, 
-Execution, 
-Execution, Persistence, Privilege Escalation, 
-Defense Evasion, 
 Impact
 
 | TTP
@@ -13036,17 +11820,11 @@ Impact
 | [[Documentation:ESSOC:detections:Detections#Deleting_shadow_copies|Deleting Shadow Copies]]
 
 |
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1070/ T1070], 
-[https://attack.mitre.org/techniques/T1070.001/ T1070.001]
+[https://attack.mitre.org/techniques/T1490/ T1490]
 |
-Inhibit System Recovery, 
-Indicator Removal on Host, 
-Clear Windows Event Logs
+Inhibit System Recovery
 |
-Impact, 
-Defense Evasion, 
-Defense Evasion
+Impact
 
 | TTP
 |-
@@ -13762,6 +12540,147 @@ Impact
 
 ----
 
+===Remcos===
+Leverage searches that allow you to detect and investigate unusual activities that might relate to the Remcos RAT trojan, including looking for file writes associated with its payload, screencapture, registry modification, UAC bypassed, persistence and data collection..
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''':[https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint Endpoint]
+* '''Last Updated''': 2021-09-23
+* '''Use Case''': Advanced Threat Detection
+
+<div class="toccolours mw-collapsible">
+<div class="mw-collapsible-content">
+
+====Detection Profile====
+{|
+! style="text-align:left;"| name
+! ID
+! Technique
+! Tactic
+! Type
+|-
+| [[Documentation:ESSOC:detections:Detections#Disabling_remote_user_account_control|Disabling Remote User Account Control]]
+
+|
+[https://attack.mitre.org/techniques/T1548.002/ T1548.002]
+|
+Bypass User Account Control
+|
+Privilege Escalation, Defense Evasion
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Executables_or_script_creation_in_suspicious_path|Executables Or Script Creation In Suspicious Path]]
+
+|
+[https://attack.mitre.org/techniques/T1036/ T1036]
+|
+Masquerading
+|
+Defense Evasion
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Process_deleting_its_process_file_path|Process Deleting Its Process File Path]]
+
+|
+[https://attack.mitre.org/techniques/T1070/ T1070]
+|
+Indicator Removal on Host
+|
+Defense Evasion
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Registry_keys_used_for_persistence|Registry Keys Used For Persistence]]
+
+|
+[https://attack.mitre.org/techniques/T1547.001/ T1547.001]
+|
+Registry Run Keys / Startup Folder
+|
+Persistence, Privilege Escalation
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Remcos_rat_file_creation_in_remcos_folder|Remcos RAT File Creation in Remcos Folder]]
+
+|
+[https://attack.mitre.org/techniques/T1113/ T1113]
+|
+Screen Capture
+|
+Collection
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Remcos_client_registry_install_entry|Remcos client registry install entry]]
+
+|
+[https://attack.mitre.org/techniques/T1112/ T1112]
+|
+Modify Registry
+|
+Defense Evasion
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Suspicious_image_creation_in_appdata_folder|Suspicious Image Creation In Appdata Folder]]
+
+|
+[https://attack.mitre.org/techniques/T1113/ T1113]
+|
+Screen Capture
+|
+Collection
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Suspicious_process_file_path|Suspicious Process File Path]]
+
+|
+[https://attack.mitre.org/techniques/T1543/ T1543]
+|
+Create or Modify System Process
+|
+Persistence, Privilege Escalation
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Suspicious_wav_file_in_appdata_folder|Suspicious WAV file in Appdata Folder]]
+
+|
+[https://attack.mitre.org/techniques/T1113/ T1113]
+|
+Screen Capture
+|
+Collection
+
+| TTP
+|}
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+* Exploitation
+
+
+====Reference====
+
+* https://success.trendmicro.com/solution/1123281-remcos-malware-information
+
+* https://attack.mitre.org/software/S0332/
+
+* https://malpedia.caad.fkie.fraunhofer.de/details/win.remcos#:~:text=Remcos%20(acronym%20of%20Remote%20Control,used%20to%20remotely%20control%20computers.&text=Remcos%20can%20be%20used%20for,been%20used%20in%20hacking%20campaigns.
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
 ===Revil ransomware===
 Leverage searches that allow you to detect and investigate unusual activities that might relate to the Revil ransomware, including looking for file writes associated with Revil, encrypting network shares, deleting shadow volume storage, registry key modification, deleting of security logs, and more.
 
@@ -13784,31 +12703,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [[Documentation:ESSOC:detections:Detections#Allow_network_discovery_in_firewall|Allow Network Discovery In Firewall]]
 
 |
-[https://attack.mitre.org/techniques/T1562.007/ T1562.007], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1491/ T1491], 
-[https://attack.mitre.org/techniques/T1574.002/ T1574.002], 
-[https://attack.mitre.org/techniques/T1204/ T1204], 
-[https://attack.mitre.org/techniques/T1112/ T1112], 
-[https://attack.mitre.org/techniques/T1218.003/ T1218.003]
+[https://attack.mitre.org/techniques/T1562.007/ T1562.007]
 |
-Disable or Modify Cloud Firewall, 
-Inhibit System Recovery, 
-Disable or Modify Tools, 
-Defacement, 
-DLL Side-Loading, 
-User Execution, 
-Modify Registry, 
-CMSTP
+Disable or Modify Cloud Firewall
 |
-Defense Evasion, 
-Impact, 
-Defense Evasion, 
-Impact, 
-Persistence, Privilege Escalation, Defense Evasion, 
-Execution, 
-Defense Evasion, 
 Defense Evasion
 
 | TTP
@@ -13942,34 +12840,10 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [[Documentation:ESSOC:detections:Detections#Bcdedit_failure_recovery_modification|BCDEdit Failure Recovery Modification]]
 
 |
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1485/ T1485], 
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1021.001/ T1021.001], 
-[https://attack.mitre.org/techniques/T1486/ T1486], 
-[https://attack.mitre.org/techniques/T1059.003/ T1059.003], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1489/ T1489]
+[https://attack.mitre.org/techniques/T1490/ T1490]
 |
-Inhibit System Recovery, 
-Data Destruction, 
-Domain Trust Discovery, 
-Remote Desktop Protocol, 
-Data Encrypted for Impact, 
-Windows Command Shell, 
-Scheduled Task, 
-Disable or Modify Tools, 
-Service Stop
+Inhibit System Recovery
 |
-Impact, 
-Impact, 
-Discovery, 
-Lateral Movement, 
-Impact, 
-Execution, 
-Execution, Persistence, Privilege Escalation, 
-Defense Evasion, 
 Impact
 
 | TTP
@@ -14180,96 +13054,15 @@ Leverage searches that allow you to detect and investigate unusual activities th
 |
 [https://attack.mitre.org/techniques/T1036.005/ T1036.005], 
 [https://attack.mitre.org/techniques/T1595/ T1595], 
-[https://attack.mitre.org/techniques/T1003/ T1003], 
-[https://attack.mitre.org/techniques/T1489/ T1489], 
-[https://attack.mitre.org/techniques/T1204.002/ T1204.002], 
-[https://attack.mitre.org/techniques/T1485/ T1485], 
-[https://attack.mitre.org/techniques/T1531/ T1531], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1222/ T1222], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1082/ T1082], 
-[https://attack.mitre.org/techniques/T1016/ T1016], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1087/ T1087], 
-[https://attack.mitre.org/techniques/T1036/ T1036], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1117/ T1117], 
-[https://attack.mitre.org/techniques/T1202/ T1202], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1203/ T1203], 
-[https://attack.mitre.org/techniques/T1072/ T1072], 
-[https://attack.mitre.org/techniques/T1021.001/ T1021.001], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1486/ T1486], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003], 
-[https://attack.mitre.org/techniques/T1543/ T1543], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003], 
-[https://attack.mitre.org/techniques/T1190/ T1190]
+[https://attack.mitre.org/techniques/T1003/ T1003]
 |
 Match Legitimate Name or Location, 
 Active Scanning, 
-OS Credential Dumping, 
-Service Stop, 
-Malicious File, 
-Data Destruction, 
-Account Access Removal, 
-Inhibit System Recovery, 
-File and Directory Permissions Modification, 
-SMB/Windows Admin Shares, 
-Service Execution, 
-System Information Discovery, 
-System Network Configuration Discovery, 
-Disable or Modify Tools, 
-Ingress Tool Transfer, 
-Account Discovery, 
-Masquerading, 
-Command and Scripting Interpreter, 
-Regsvr32, 
-Indirect Command Execution, 
-Scheduled Task/Job, 
-Exploitation for Client Execution, 
-Software Deployment Tools, 
-Remote Desktop Protocol, 
-Rundll32, 
-Data Encrypted for Impact, 
-Windows Service, 
-Create or Modify System Process, 
-Rename System Utilities, 
-Exploit Public-Facing Application
+OS Credential Dumping
 |
 Defense Evasion, 
 Reconnaissance, 
-Credential Access, 
-Impact, 
-Execution, 
-Impact, 
-Impact, 
-Impact, 
-Defense Evasion, 
-Lateral Movement, 
-Execution, 
-Discovery, 
-Discovery, 
-Defense Evasion, 
-Command And Control, 
-Discovery, 
-Defense Evasion, 
-Execution, 
-, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Execution, 
-Execution, Lateral Movement, 
-Lateral Movement, 
-Defense Evasion, 
-Impact, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Defense Evasion, 
-Initial Access
+Credential Access
 
 | TTP
 |-
@@ -14309,17 +13102,11 @@ Impact
 | [[Documentation:ESSOC:detections:Detections#Deleting_shadow_copies|Deleting Shadow Copies]]
 
 |
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1070/ T1070], 
-[https://attack.mitre.org/techniques/T1070.001/ T1070.001]
+[https://attack.mitre.org/techniques/T1490/ T1490]
 |
-Inhibit System Recovery, 
-Indicator Removal on Host, 
-Clear Windows Event Logs
+Inhibit System Recovery
 |
-Impact, 
-Defense Evasion, 
-Defense Evasion
+Impact
 
 | TTP
 |-
@@ -14470,68 +13257,11 @@ Leverage searches that allow you to detect and investigate unusual activities th
 | [[Documentation:ESSOC:detections:Detections#Account_discovery_with_net_app|Account Discovery With Net App]]
 
 |
-[https://attack.mitre.org/techniques/T1087.002/ T1087.002], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1204.002/ T1204.002], 
-[https://attack.mitre.org/techniques/T1548.002/ T1548.002], 
-[https://attack.mitre.org/techniques/T1112/ T1112], 
-[https://attack.mitre.org/techniques/T1560.001/ T1560.001], 
-[https://attack.mitre.org/techniques/T1218.005/ T1218.005], 
-[https://attack.mitre.org/techniques/T1482/ T1482], 
-[https://attack.mitre.org/techniques/T1566.001/ T1566.001], 
-[https://attack.mitre.org/techniques/T1547.001/ T1547.001], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1005/ T1005], 
-[https://attack.mitre.org/techniques/T1218.010/ T1218.010], 
-[https://attack.mitre.org/techniques/T1590.005/ T1590.005], 
-[https://attack.mitre.org/techniques/T1027/ T1027], 
-[https://attack.mitre.org/techniques/T1053.005/ T1053.005], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002]
+[https://attack.mitre.org/techniques/T1087.002/ T1087.002]
 |
-Domain Account, 
-Disable or Modify Tools, 
-Command and Scripting Interpreter, 
-Process Injection, 
-Malicious File, 
-Bypass User Account Control, 
-Modify Registry, 
-Archive via Utility, 
-Mshta, 
-Domain Trust Discovery, 
-Spearphishing Attachment, 
-Registry Run Keys / Startup Folder, 
-Rundll32, 
-Scheduled Task/Job, 
-Data from Local System, 
-Regsvr32, 
-IP Addresses, 
-Obfuscated Files or Information, 
-Scheduled Task, 
-SMB/Windows Admin Shares
+Domain Account
 |
-Discovery, 
-Defense Evasion, 
-Execution, 
-Defense Evasion, Privilege Escalation, 
-Execution, 
-Privilege Escalation, Defense Evasion, 
-Defense Evasion, 
-Collection, 
-Defense Evasion, 
-Discovery, 
-Initial Access, 
-Persistence, Privilege Escalation, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Collection, 
-Defense Evasion, 
-Reconnaissance, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Lateral Movement
+Discovery
 
 | TTP
 |-
@@ -14740,96 +13470,15 @@ Quickly identify systems running new or unusual processes in your environment th
 |
 [https://attack.mitre.org/techniques/T1036.005/ T1036.005], 
 [https://attack.mitre.org/techniques/T1595/ T1595], 
-[https://attack.mitre.org/techniques/T1003/ T1003], 
-[https://attack.mitre.org/techniques/T1489/ T1489], 
-[https://attack.mitre.org/techniques/T1204.002/ T1204.002], 
-[https://attack.mitre.org/techniques/T1485/ T1485], 
-[https://attack.mitre.org/techniques/T1531/ T1531], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1222/ T1222], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1082/ T1082], 
-[https://attack.mitre.org/techniques/T1016/ T1016], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1087/ T1087], 
-[https://attack.mitre.org/techniques/T1036/ T1036], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1117/ T1117], 
-[https://attack.mitre.org/techniques/T1202/ T1202], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1203/ T1203], 
-[https://attack.mitre.org/techniques/T1072/ T1072], 
-[https://attack.mitre.org/techniques/T1021.001/ T1021.001], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1486/ T1486], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003], 
-[https://attack.mitre.org/techniques/T1543/ T1543], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003], 
-[https://attack.mitre.org/techniques/T1190/ T1190]
+[https://attack.mitre.org/techniques/T1003/ T1003]
 |
 Match Legitimate Name or Location, 
 Active Scanning, 
-OS Credential Dumping, 
-Service Stop, 
-Malicious File, 
-Data Destruction, 
-Account Access Removal, 
-Inhibit System Recovery, 
-File and Directory Permissions Modification, 
-SMB/Windows Admin Shares, 
-Service Execution, 
-System Information Discovery, 
-System Network Configuration Discovery, 
-Disable or Modify Tools, 
-Ingress Tool Transfer, 
-Account Discovery, 
-Masquerading, 
-Command and Scripting Interpreter, 
-Regsvr32, 
-Indirect Command Execution, 
-Scheduled Task/Job, 
-Exploitation for Client Execution, 
-Software Deployment Tools, 
-Remote Desktop Protocol, 
-Rundll32, 
-Data Encrypted for Impact, 
-Windows Service, 
-Create or Modify System Process, 
-Rename System Utilities, 
-Exploit Public-Facing Application
+OS Credential Dumping
 |
 Defense Evasion, 
 Reconnaissance, 
-Credential Access, 
-Impact, 
-Execution, 
-Impact, 
-Impact, 
-Impact, 
-Defense Evasion, 
-Lateral Movement, 
-Execution, 
-Discovery, 
-Discovery, 
-Defense Evasion, 
-Command And Control, 
-Discovery, 
-Defense Evasion, 
-Execution, 
-, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Execution, 
-Execution, Lateral Movement, 
-Lateral Movement, 
-Defense Evasion, 
-Impact, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Defense Evasion, 
-Initial Access
+Credential Access
 
 | TTP
 |-
@@ -15068,22 +13717,10 @@ Detect and investigate suspected abuse of file extensions and Windows file assoc
 | [[Documentation:ESSOC:detections:Detections#Execution_of_file_with_multiple_extensions|Execution of File with Multiple Extensions]]
 
 |
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003], 
-[https://attack.mitre.org/techniques/T1127.001/ T1127.001], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1127/ T1127], 
-[https://attack.mitre.org/techniques/T1036/ T1036]
+[https://attack.mitre.org/techniques/T1036.003/ T1036.003]
 |
-Rename System Utilities, 
-MSBuild, 
-Rundll32, 
-Trusted Developer Utilities Proxy Execution, 
-Masquerading
+Rename System Utilities
 |
-Defense Evasion, 
-Defense Evasion, 
-Defense Evasion, 
-Defense Evasion, 
 Defense Evasion
 
 | TTP
@@ -15129,26 +13766,11 @@ Windows services are often used by attackers for persistence and the ability to 
 | [[Documentation:ESSOC:detections:Detections#First_time_seen_running_windows_service|First Time Seen Running Windows Service]]
 
 |
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1055/ T1055], 
-[https://attack.mitre.org/techniques/T1106/ T1106], 
-[https://attack.mitre.org/techniques/T1569/ T1569], 
-[https://attack.mitre.org/techniques/T1574.011/ T1574.011], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003]
+[https://attack.mitre.org/techniques/T1569.002/ T1569.002]
 |
-Service Execution, 
-Process Injection, 
-Native API, 
-System Services, 
-Services Registry Permissions Weakness, 
-Windows Service
+Service Execution
 |
-Execution, 
-Defense Evasion, Privilege Escalation, 
-Execution, 
-Execution, 
-Persistence, Privilege Escalation, Defense Evasion, 
-Persistence, Privilege Escalation
+Execution
 
 | Anomaly
 |-
@@ -15253,96 +13875,15 @@ Leverage searches that allow you to detect and investigate unusual activities th
 |
 [https://attack.mitre.org/techniques/T1036.005/ T1036.005], 
 [https://attack.mitre.org/techniques/T1595/ T1595], 
-[https://attack.mitre.org/techniques/T1003/ T1003], 
-[https://attack.mitre.org/techniques/T1489/ T1489], 
-[https://attack.mitre.org/techniques/T1204.002/ T1204.002], 
-[https://attack.mitre.org/techniques/T1485/ T1485], 
-[https://attack.mitre.org/techniques/T1531/ T1531], 
-[https://attack.mitre.org/techniques/T1490/ T1490], 
-[https://attack.mitre.org/techniques/T1222/ T1222], 
-[https://attack.mitre.org/techniques/T1021.002/ T1021.002], 
-[https://attack.mitre.org/techniques/T1569.002/ T1569.002], 
-[https://attack.mitre.org/techniques/T1082/ T1082], 
-[https://attack.mitre.org/techniques/T1016/ T1016], 
-[https://attack.mitre.org/techniques/T1562.001/ T1562.001], 
-[https://attack.mitre.org/techniques/T1105/ T1105], 
-[https://attack.mitre.org/techniques/T1087/ T1087], 
-[https://attack.mitre.org/techniques/T1036/ T1036], 
-[https://attack.mitre.org/techniques/T1059/ T1059], 
-[https://attack.mitre.org/techniques/T1117/ T1117], 
-[https://attack.mitre.org/techniques/T1202/ T1202], 
-[https://attack.mitre.org/techniques/T1053/ T1053], 
-[https://attack.mitre.org/techniques/T1203/ T1203], 
-[https://attack.mitre.org/techniques/T1072/ T1072], 
-[https://attack.mitre.org/techniques/T1021.001/ T1021.001], 
-[https://attack.mitre.org/techniques/T1218.011/ T1218.011], 
-[https://attack.mitre.org/techniques/T1486/ T1486], 
-[https://attack.mitre.org/techniques/T1543.003/ T1543.003], 
-[https://attack.mitre.org/techniques/T1543/ T1543], 
-[https://attack.mitre.org/techniques/T1036.003/ T1036.003], 
-[https://attack.mitre.org/techniques/T1190/ T1190]
+[https://attack.mitre.org/techniques/T1003/ T1003]
 |
 Match Legitimate Name or Location, 
 Active Scanning, 
-OS Credential Dumping, 
-Service Stop, 
-Malicious File, 
-Data Destruction, 
-Account Access Removal, 
-Inhibit System Recovery, 
-File and Directory Permissions Modification, 
-SMB/Windows Admin Shares, 
-Service Execution, 
-System Information Discovery, 
-System Network Configuration Discovery, 
-Disable or Modify Tools, 
-Ingress Tool Transfer, 
-Account Discovery, 
-Masquerading, 
-Command and Scripting Interpreter, 
-Regsvr32, 
-Indirect Command Execution, 
-Scheduled Task/Job, 
-Exploitation for Client Execution, 
-Software Deployment Tools, 
-Remote Desktop Protocol, 
-Rundll32, 
-Data Encrypted for Impact, 
-Windows Service, 
-Create or Modify System Process, 
-Rename System Utilities, 
-Exploit Public-Facing Application
+OS Credential Dumping
 |
 Defense Evasion, 
 Reconnaissance, 
-Credential Access, 
-Impact, 
-Execution, 
-Impact, 
-Impact, 
-Impact, 
-Defense Evasion, 
-Lateral Movement, 
-Execution, 
-Discovery, 
-Discovery, 
-Defense Evasion, 
-Command And Control, 
-Discovery, 
-Defense Evasion, 
-Execution, 
-, 
-Defense Evasion, 
-Execution, Persistence, Privilege Escalation, 
-Execution, 
-Execution, Lateral Movement, 
-Lateral Movement, 
-Defense Evasion, 
-Impact, 
-Persistence, Privilege Escalation, 
-Persistence, Privilege Escalation, 
-Defense Evasion, 
-Initial Access
+Credential Access
 
 | TTP
 |-
@@ -15807,7 +14348,7 @@ Discovery
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content
-# On Date: 2021-09-27 13:15:29.459006 UTC
+# On Date: 2021-10-14 15:40:37.356079 UTC
 # Author: Splunk Security Research
 # Contact: research@splunk.com
 #############

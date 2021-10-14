@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-05
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1574.002
@@ -37,8 +38,8 @@ This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in no
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
 
 

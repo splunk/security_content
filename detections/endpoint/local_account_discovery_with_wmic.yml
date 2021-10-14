@@ -11,7 +11,7 @@ description: This analytic looks for the execution of `wmic.exe` with command-li
   to leverage WMI to return a list of all local users. Red Teams and adversaries alike
   use net.exe to enumerate users for situational awareness and Active Directory Discovery.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_wmic` (Processes.process=*useraccount*) 
+  as lastTime from datamodel=Endpoint.Processes where `process_wmic` (Processes.process=*useraccount*)
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `local_account_discovery_with_wmic_filter`'

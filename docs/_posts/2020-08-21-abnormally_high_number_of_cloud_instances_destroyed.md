@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-08-21
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1078.004
@@ -41,8 +42,8 @@ This search finds for the number successfully destroyed cloud instances for ever
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 

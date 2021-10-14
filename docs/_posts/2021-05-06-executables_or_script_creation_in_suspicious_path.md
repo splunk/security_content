@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1036
@@ -35,8 +36,8 @@ This analytic will identify suspicious executable or scripts (known file extensi
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 
@@ -54,6 +55,7 @@ This analytic will identify suspicious executable or scripts (known file extensi
 
 #### Associated Analytic Story
 * [XMRig](/stories/xmrig)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement
