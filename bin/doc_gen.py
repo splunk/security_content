@@ -195,14 +195,6 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
             f.write(output)
         messages.append("doc_gen.py wrote _page for: {0} structure to: {1}".format(category['name'], output_path))
 
-    # write index updated metrics
-    template = j2_env.get_template('doc_index_markdown.j2')
-    output_path = path.join(OUTPUT_DIR + '/index.markdown')
-    output = template.render(detection_count=len(sorted_detections), story_count=len(sorted_stories))
-    with open(output_path, 'w', encoding="utf-8") as f:
-        f.write(output)
-    messages.append("doc_gen.py wrote site index page to: {0}".format(output_path))
-
     # write stories listing markdown
     template = j2_env.get_template('doc_story_page_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/_pages/stories.md')
@@ -376,6 +368,20 @@ def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detectio
     return sorted_playbooks, messages
 
 
+def generate_doc_index(OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, sorted_stories, sorted_playbooks, messages, VERBOSE):
+
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                             trim_blocks=False, autoescape=True)
+
+    # write index updated metrics
+    template = j2_env.get_template('doc_index_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/index.markdown')
+    output = template.render(detection_count=len(sorted_detections), story_count=len(sorted_stories), playbook_count=len(sorted_playbooks))
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote site index page to: {0}".format(output_path))
+
+    return messages
 
 if __name__ == "__main__":
 
@@ -404,6 +410,7 @@ if __name__ == "__main__":
     sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, messages, VERBOSE)
     sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, sorted_detections, messages, VERBOSE)
     sorted_playbooks, messages = generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, messages, VERBOSE)
+    messages = generate_doc_index(OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, sorted_stories, sorted_playbooks, messages, VERBOSE)
 
     # print all the messages from generation
     for m in messages:
