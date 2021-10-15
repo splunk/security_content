@@ -37,6 +37,7 @@ tags:
   mitre_attack_id:
   - T1200
   - T1498
+  - T1557
   - T1557.002
   nist:
   - ID.AM
