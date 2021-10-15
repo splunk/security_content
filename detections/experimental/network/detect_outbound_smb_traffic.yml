@@ -50,6 +50,7 @@ tags:
   - Command and Control
   mitre_attack_id:
   - T1071.002
+  - T1071
   nist:
   - DE.CM
   product:
