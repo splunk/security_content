@@ -44,6 +44,7 @@ tags:
   - Exploitation
   message: User $user$ on $dest$ spawned Windows Script Host from Winword.exe
   mitre_attack_id:
+  - T1566
   - T1566.001
   observable:
   - name: dest

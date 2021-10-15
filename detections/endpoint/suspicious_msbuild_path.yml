@@ -51,8 +51,10 @@ tags:
   - Exploitation
   message: Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$
   mitre_attack_id:
-  - T1127.001
+  - T1036
+  - T1127
   - T1036.003
+  - T1127.001
   nist:
   - PR.PT
   - DE.CM

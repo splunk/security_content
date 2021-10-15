@@ -47,6 +47,7 @@ tags:
     command $cmd_line$
   mitre_attack_id:
   - T1558.003
+  - T1558
   nist:
   - DE.CM
   observable:

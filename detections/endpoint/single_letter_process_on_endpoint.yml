@@ -40,6 +40,7 @@ tags:
   - Actions on Objectives
   message: A suspicious process $process_name$ with single letter in host $dest$
   mitre_attack_id:
+  - T1204
   - T1204.002
   nist:
   - ID.AM
