@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1078.003
@@ -37,8 +38,8 @@ This search detects user accounts that have been locked out a relatively high nu
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1078.003](https://attack.mitre.org/techniques/T1078/003/) | Local Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 

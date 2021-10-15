@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-29
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1543.003
@@ -36,8 +37,8 @@ This analytic will detect suspicious driver loaded paths. This technique is comm
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
 

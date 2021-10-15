@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-10
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1140
@@ -34,8 +35,8 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
 
 

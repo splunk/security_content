@@ -2,6 +2,7 @@
 title: "Suspicious AWS Login Activities"
 last_modified_at: 2019-05-01
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise

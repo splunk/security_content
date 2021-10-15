@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-09
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1490
@@ -35,8 +36,8 @@ The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 

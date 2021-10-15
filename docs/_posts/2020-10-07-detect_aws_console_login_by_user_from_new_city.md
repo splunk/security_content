@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-10-07
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1535
@@ -36,8 +37,8 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
 
 

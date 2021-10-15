@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-01
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1059.003
@@ -36,8 +37,8 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
 

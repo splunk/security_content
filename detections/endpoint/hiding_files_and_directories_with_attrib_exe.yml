@@ -43,6 +43,7 @@ tags:
   - Actions on Objectives
   message: Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected.
   mitre_attack_id:
+  - T1222
   - T1222.001
   nist:
   - DE.CM

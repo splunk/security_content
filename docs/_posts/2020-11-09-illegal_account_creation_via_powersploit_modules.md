@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-09
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1585
@@ -32,8 +33,8 @@ This detection identifies access to PowerSploit modules that create accounts ill
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1585](https://attack.mitre.org/techniques/T1585/) | Establish Accounts | Resource Development |
 
 

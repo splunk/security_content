@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-27
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1218.010
@@ -35,8 +36,8 @@ this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execu
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
 

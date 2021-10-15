@@ -2,6 +2,7 @@
 title: "Brand Monitoring"
 last_modified_at: 2017-12-19
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security

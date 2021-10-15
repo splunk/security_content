@@ -2,6 +2,7 @@
 title: "Spearphishing Attachments"
 last_modified_at: 2019-04-29
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -36,7 +37,7 @@ This Analytic Story focuses on detecting signs that a malicious payload has been
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Outlook exe writing a zip file](/endpoint/detect_outlook_exe_writing_a_zip_file/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Security Account Manager](/tags/#security-account-manager), [Spearphishing Link](/tags/#spearphishing-link) | TTP |
+| [Detect Outlook exe writing a zip file](/endpoint/detect_outlook_exe_writing_a_zip_file/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Excel Spawning PowerShell](/endpoint/excel_spawning_powershell/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
 | [Excel Spawning Windows Script Host](/endpoint/excel_spawning_windows_script_host/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
 | [MSHTML Module Load in Office Product](/endpoint/mshtml_module_load_in_office_product/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |

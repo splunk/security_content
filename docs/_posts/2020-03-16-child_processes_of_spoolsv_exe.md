@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-03-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1068
@@ -37,8 +38,8 @@ This search looks for child processes of spoolsv.exe. This activity is associate
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 

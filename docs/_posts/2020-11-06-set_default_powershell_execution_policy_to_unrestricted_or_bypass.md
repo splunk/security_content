@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1059.001
@@ -36,8 +37,8 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 

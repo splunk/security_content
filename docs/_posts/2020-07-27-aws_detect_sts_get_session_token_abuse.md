@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-07-27
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1550
@@ -37,8 +38,8 @@ This search provides detection of suspicious use of sts:GetSessionToken. These t
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
 

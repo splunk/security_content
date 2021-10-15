@@ -51,14 +51,15 @@ tags:
     mounted drives or other operating system elements. Operation is performed at the
     device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
   mitre_attack_id:
-  - T1007
-  - T1012
-  - T1046
-  - T1047
   - T1057
   - T1083
-  - T1518
   - T1592.002
+  - T1046
+  - T1012
+  - T1007
+  - T1047
+  - T1592
+  - T1518
   nist:
   - PR.AC
   - PR.IP

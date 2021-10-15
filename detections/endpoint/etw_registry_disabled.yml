@@ -15,9 +15,9 @@ search: '| tstats `security_content_summariesonly` count  min(_time) as firstTim
   by Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name Registry.registry_value_data | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `etw_registry_disabled_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting
-  data that records registry activity from your hosts to populate the endpoint data
-  model in the registry node. This is typically populated via endpoint detection-and-response
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records registry activity from your hosts to populate the endpoint data model
+  in the registry node. This is typically populated via endpoint detection-and-response
   product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
   used for this search is typically generated via logs that report reads and writes
   to the registry.
@@ -35,6 +35,7 @@ tags:
   mitre_attack_id:
   - T1562.006
   - T1127
+  - T1562
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

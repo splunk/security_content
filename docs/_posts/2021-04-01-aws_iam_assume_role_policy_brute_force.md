@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-04-01
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1580
@@ -38,8 +39,8 @@ The following detection identifies any malformed policy document exceptions with
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 

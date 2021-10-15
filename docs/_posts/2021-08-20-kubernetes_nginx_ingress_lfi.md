@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-08-20
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1212
@@ -35,8 +36,8 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
 
 

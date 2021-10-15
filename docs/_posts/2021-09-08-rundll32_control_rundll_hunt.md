@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-08
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1218.011
@@ -35,8 +36,8 @@ The following hunting detection identifies rundll32.exe with `control_rundll` wi
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 

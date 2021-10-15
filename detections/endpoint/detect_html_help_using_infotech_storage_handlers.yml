@@ -58,6 +58,7 @@ tags:
   message: $process_name$ has been identified using Infotech Storage Handlers to load
     a specific file within a CHM on $dest$ under user $user$.
   mitre_attack_id:
+  - T1218
   - T1218.001
   nist:
   - PR.PT
