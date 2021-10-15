@@ -22,6 +22,7 @@ tags:
   cis20:
   - CIS 16
   mitre_attack_id:
+  - T1078
   - T1078.001
   nist:
   - DE.CM
