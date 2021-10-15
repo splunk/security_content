@@ -38,6 +38,7 @@ tags:
   message: The following module $ImageLoaded$ was loaded by a non-standard application
     on endpoint $Computer$ by user $user$.
   mitre_attack_id:
+  - T1218
   - T1218.003
   observable:
   - name: user

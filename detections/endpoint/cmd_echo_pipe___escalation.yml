@@ -44,8 +44,10 @@ tags:
     on endpoint $dest$ by user $user$ potentially performing privilege escalation
     using named pipes related to Cobalt Strike and other frameworks.
   mitre_attack_id:
+  - T1059
   - T1059.003
   - T1543.003
+  - T1543
   observable:
   - name: user
     type: User
