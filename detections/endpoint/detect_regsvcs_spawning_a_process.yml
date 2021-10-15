@@ -48,6 +48,7 @@ tags:
   message: An instance of $parent_process_name$ spawning $process_name$  was identified
     on endpoint $dest$ by user $user$ typically not normal for this process.
   mitre_attack_id:
+  - T1218
   - T1218.009
   nist:
   - PR.PT

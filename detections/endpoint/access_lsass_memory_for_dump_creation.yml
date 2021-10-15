@@ -43,6 +43,7 @@ tags:
     Service (LSASS).
   mitre_attack_id:
   - T1003.001
+  - T1003
   nist:
   - DE.CM
   observable:
