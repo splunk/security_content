@@ -50,6 +50,7 @@ tags:
     on endpoint $est$ by user $user$ attempting to access a remote destination to
     download an additional payload.
   mitre_attack_id:
+  - T1218
   - T1218.005
   nist:
   - PR.PT

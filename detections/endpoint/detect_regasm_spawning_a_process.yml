@@ -50,6 +50,7 @@ tags:
     on endpoint $dest$ by user $user$ spawning a child process, typically not normal
     behavior for $parent_process_name$.
   mitre_attack_id:
+  - T1218
   - T1218.009
   nist:
   - PR.PT
