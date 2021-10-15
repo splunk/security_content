@@ -36,6 +36,7 @@ tags:
   - Reconnaissance
   message: Local user discovery enumeration on $dest$ by $user$
   mitre_attack_id:
+  - T1087
   - T1087.001
   observable:
   - name: dest

@@ -49,6 +49,7 @@ tags:
   message: A suspicious powershell script contains GetProcAddress API in $Message$
     with EventCode $EventCode$ in host $ComputerName$
   mitre_attack_id:
+  - T1059
   - T1055
   - T1059.001
   observable:
