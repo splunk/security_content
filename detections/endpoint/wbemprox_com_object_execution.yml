@@ -38,6 +38,7 @@ tags:
   - Exploitation
   message: Suspicious COM Object Execution on $Computer$
   mitre_attack_id:
+  - T1218
   - T1218.003
   observable:
   - name: Computer

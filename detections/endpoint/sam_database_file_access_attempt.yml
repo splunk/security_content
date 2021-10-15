@@ -42,6 +42,7 @@ tags:
     attempting to gain access to credentials on $dest$ by user $user$.
   mitre_attack_id:
   - T1003.002
+  - T1003
   observable:
   - name: user
     type: User

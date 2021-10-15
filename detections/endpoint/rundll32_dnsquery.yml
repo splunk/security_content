@@ -38,6 +38,7 @@ tags:
   message: rundll32 process $process_name$ having a dns query to $QueryName$ in host
     $Computer$
   mitre_attack_id:
+  - T1218
   - T1218.011
   observable:
   - name: Computer
