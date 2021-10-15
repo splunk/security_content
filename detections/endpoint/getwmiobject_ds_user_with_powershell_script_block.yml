@@ -38,6 +38,7 @@ tags:
   message: powershell process having commandline $Message$ for user enumeration
   mitre_attack_id:
   - T1087.002
+  - T1087
   observable:
   - name: ComputerName
     type: Hostname

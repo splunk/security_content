@@ -42,6 +42,7 @@ tags:
   message: Process name $process_name$ with commandline $process$ to execute jscript
     in $dest$
   mitre_attack_id:
+  - T1059
   - T1059.007
   observable:
   - name: dest

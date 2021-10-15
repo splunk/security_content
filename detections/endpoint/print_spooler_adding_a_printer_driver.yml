@@ -50,6 +50,7 @@ tags:
   message: Suspicious print driver was loaded on endpoint $ComputerName$.
   mitre_attack_id:
   - T1547.012
+  - T1547
   observable:
   - name: ComputerName
     type: Endpoint

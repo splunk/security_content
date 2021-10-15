@@ -55,6 +55,7 @@ tags:
   message: Active Directory NTDS export on $dest$
   mitre_attack_id:
   - T1003.003
+  - T1003
   nist:
   - DE.CM
   observable:
