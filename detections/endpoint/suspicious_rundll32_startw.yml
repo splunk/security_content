@@ -56,6 +56,7 @@ tags:
   - Actions on Objectives
   message: rundll32.exe running with suspicious parameters on $dest$
   mitre_attack_id:
+  - T1218
   - T1218.011
   nist:
   - PR.PT

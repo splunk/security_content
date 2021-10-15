@@ -50,6 +50,8 @@ tags:
   - Actions on Objectives
   message: Suspicious renamed rundll32.exe binary ran on $dest$ by $user$
   mitre_attack_id:
+  - T1218
+  - T1036
   - T1218.011
   - T1036.003
   nist:

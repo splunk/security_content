@@ -55,6 +55,7 @@ tags:
   message: $Processes.process_path.file_path$ process potentially loading malicious
     code
   mitre_attack_id:
+  - T1218
   - T1218.011
   nist:
   - PR.PT

@@ -48,6 +48,7 @@ tags:
   - Exploitation
   message: Suspicious msbuild.exe process executed on $dest$ by $user$
   mitre_attack_id:
+  - T1127
   - T1127.001
   nist:
   - PR.PT

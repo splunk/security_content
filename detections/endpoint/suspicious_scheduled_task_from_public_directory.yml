@@ -47,6 +47,7 @@ tags:
   message: Suspicious scheduled task registered on $dest$
   mitre_attack_id:
   - T1053.005
+  - T1053
   observable:
   - name: dest
     type: Endpoint

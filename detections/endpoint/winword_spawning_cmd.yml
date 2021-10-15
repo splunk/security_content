@@ -45,6 +45,7 @@ tags:
   message: '$parent_process_name$ on $dest$ by $user$ launched command: $process_name$
     which is very common in spearphishing attacks.'
   mitre_attack_id:
+  - T1566
   - T1566.001
   observable:
   - name: dest

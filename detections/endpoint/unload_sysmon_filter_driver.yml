@@ -43,6 +43,7 @@ tags:
   message: Possible Sysmon filter driver unloading on $dest$
   mitre_attack_id:
   - T1562.001
+  - T1562
   nist:
   - DE.CM
   observable:
