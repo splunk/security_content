@@ -49,6 +49,7 @@ tags:
   message: An instance of $process_name$ was identified on $dest$ writing an inf or
     cab file to this. This is not typical of $process_name$.
   mitre_attack_id:
+  - T1566
   - T1566.001
   observable:
   - name: dest

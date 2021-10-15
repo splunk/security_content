@@ -49,6 +49,7 @@ tags:
   - Reconnaissance
   message: System group discovery enumeration on $dest$ by $user$.
   mitre_attack_id:
+  - T1069
   - T1069.001
   observable:
   - name: dest

@@ -41,6 +41,7 @@ tags:
   message: A suspicious powershell script contains Thread Mutex in $Message$ with
     EventCode $EventCode$ in host $ComputerName$
   mitre_attack_id:
+  - T1027
   - T1027.005
   observable:
   - name: ComputerName
