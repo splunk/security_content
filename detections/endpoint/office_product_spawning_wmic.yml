@@ -50,6 +50,7 @@ tags:
   message: office parent process $parent_process_name$ will execute a suspicious child
     process $process_name$ with process id $process_id$ in host $dest$
   mitre_attack_id:
+  - T1566
   - T1566.001
   observable:
   - name: dest

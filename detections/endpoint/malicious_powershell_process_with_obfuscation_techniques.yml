@@ -47,6 +47,7 @@ tags:
   - Actions on Objectives
   message: Powershell.exe running with potential obfuscated arguments on $dest$
   mitre_attack_id:
+  - T1059
   - T1059.001
   nist:
   - PR.PT
