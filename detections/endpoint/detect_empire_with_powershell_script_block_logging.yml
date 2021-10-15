@@ -51,6 +51,7 @@ tags:
   message: The following behavior was identified and typically related to PowerShell-Empire
     on $ComputerName$ by $User$.
   mitre_attack_id:
+  - T1059
   - T1059.001
   observable:
   - name: User

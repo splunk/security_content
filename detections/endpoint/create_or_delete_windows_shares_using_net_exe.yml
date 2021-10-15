@@ -42,6 +42,7 @@ tags:
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ enumerating Windows file shares.
   mitre_attack_id:
+  - T1070
   - T1070.005
   nist:
   - PR.PT
