@@ -64,6 +64,7 @@ tags:
   message: A registry activity in $registry_path$ related to persistence in host $dest$
   mitre_attack_id:
   - T1547.001
+  - T1547
   nist:
   - PR.PT
   - DE.CM
