@@ -34,6 +34,7 @@ tags:
   - Actions on Objectives
   mitre_attack_id:
   - T1021.002
+  - T1021
   nist:
   - DE.CM
   product:

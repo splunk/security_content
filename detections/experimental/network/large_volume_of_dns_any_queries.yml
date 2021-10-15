@@ -27,6 +27,7 @@ tags:
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
+  - T1498
   - T1498.002
   nist:
   - PR.PT
