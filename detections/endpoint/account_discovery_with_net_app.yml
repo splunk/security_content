@@ -47,6 +47,7 @@ tags:
   message: Suspicious $process_name$ usage detected on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1087.002
+  - T1087
   observable:
   - name: user
     type: User
