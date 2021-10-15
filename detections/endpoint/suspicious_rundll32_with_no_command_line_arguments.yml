@@ -52,6 +52,7 @@ tags:
   message: Suspicious rundll32.exe process with no command line arguments executed
     on $dest$ by $user$
   mitre_attack_id:
+  - T1218
   - T1218.011
   nist:
   - PR.PT
