@@ -2,6 +2,7 @@
 title: "Suspicious Cloud Provisioning Activities"
 last_modified_at: 2018-08-20
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise

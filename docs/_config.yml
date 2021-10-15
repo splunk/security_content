@@ -88,6 +88,9 @@ collections:
   stories:
     output: true
     permalink: /:collection/:path/
+  playbooks:
+    output: true
+    permalink: /:collection/:path/
 
 defaults:
   # _docs
@@ -121,7 +124,17 @@ defaults:
       share: true
       related: true
       toc: true
-
+  # _playbooks
+  - scope:
+      path: "_playbooks"
+      type: playbooks
+    values:
+      layout: single
+      author_profile: false
+      comments: true
+      share: true
+      related: true
+      toc: true
 category_archive:
   type: liquid
   path: /categories/
@@ -133,6 +146,5 @@ tag_archive:
 analytics:
   provider: "google-gtag"
   google:
-    tracking_id: "G-83V3JSYPS7"
+    tracking_id: "G-294P2LYRR5"
     anonymize_ip: false # default
-

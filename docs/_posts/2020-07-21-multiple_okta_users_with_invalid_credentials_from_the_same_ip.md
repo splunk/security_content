@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1078.001
@@ -38,8 +39,8 @@ This search detects Okta login failures due to bad credentials for multiple user
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 

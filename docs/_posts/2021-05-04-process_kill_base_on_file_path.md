@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-04
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1562.001
@@ -35,8 +36,8 @@ The following analytic identifies the use of `wmic.exe` using `delete` to remove
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
 

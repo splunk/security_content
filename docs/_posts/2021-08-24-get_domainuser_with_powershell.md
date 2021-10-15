@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-24
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1087.002
@@ -35,8 +36,8 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 

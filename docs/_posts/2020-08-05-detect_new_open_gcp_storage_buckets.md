@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-08-05
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1530
@@ -36,8 +37,8 @@ This search looks for GCP PubSub events where a user has created an open/public 
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 

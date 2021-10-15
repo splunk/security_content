@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-13
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1220
@@ -35,8 +36,8 @@ This search is to detect a suspicious wmic.exe process or renamed wmic process t
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1220](https://attack.mitre.org/techniques/T1220/) | XSL Script Processing | Defense Evasion |
 
 

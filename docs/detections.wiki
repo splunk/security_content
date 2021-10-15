@@ -16389,12 +16389,12 @@ It is possible that a legitimate user is experiencing an issue causing multiple 
 ----
 
 ===Detect exchange web shell===
-The following query identifies suspicious .aspx created in 3 paths identified by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`. Upon triage, the suspicious .aspx file will likely look obvious on the surface. inspect the contents for script code inside. Identify additional log sources, IIS included, to review source and other potential exploitation.
+The following query identifies suspicious .aspx created in 3 paths identified by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM group and recently disclosed vulnerablity named ProxyShell. Paths include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`. Upon triage, the suspicious .aspx file will likely look obvious on the surface. inspect the contents for script code inside. Identify additional log sources, IIS included, to review source and other potential exploitation. It is often the case that a particular threat is only applicable to a specific subset of systems in your environment. Typically analytics to detect those threats are written without the benefit of being able to only target those systems as well. Writing analytics against all systems when those behaviors are limited to identifiable subsets of those systems is suboptimal. Consider the case ProxyShell vulnerability on Microsoft Exchange Servers. With asset information, a hunter can limit their analytics to systems that have been identified as Exchange servers. A hunter may start with the theory that the exchange server is communicating with new systems that it has not previously. If this theory is run against all publicly facing systems, the amount of noise it will generate will likely render this theory untenable. However, using the asset information to limit this analytic to just the Exchange servers will reduce the noise allowing the hunter to focus only on the systems where this behavioral change is relevant.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1505/003/ T1505.003]
-* '''Last Updated''': 2021-03-09
+* '''Last Updated''': 2021-10-05
 
 <div class="toccolours mw-collapsible mw-collapsed">
 <div class="mw-collapsible-content">
@@ -16475,7 +16475,7 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
 
 
-''version'': 2
+''version'': 3
 </div>
 </div>
 
@@ -24504,7 +24504,7 @@ This analytic will identify suspicious series of process executions.  We have ob
 
 ====Associated Analytic Story====
 
-* [[Documentation:ESSOC:stories:UseCase#meterpreter|meterpreter]]
+* [[Documentation:ESSOC:stories:UseCase#Meterpreter|Meterpreter]]
 
 
 ====How To Implement====
@@ -31555,22 +31555,27 @@ unknown
 ----
 
 ===Malicious powershell process - connect to internet with hidden window===
-This search looks for PowerShell processes started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet. This combination of command-line options is suspicious because it&#39;s overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Deprecated becaue hidden is not needed when download file with System.Net.WebClient.
+The following hunting analytic identifies PowerShell commands utilizing the WindowStyle parameter to hide the window on the compromised endpoint. This combination of command-line options is suspicious because it is overriding the default PowerShell execution policy, attempts to hide its activity from the user, and connects to the Internet. Removed in this version of the query is New-Object. The analytic identifies all variations of WindowStyle, as PowerShell allows the ability to shorten the parameter. For example w, win, windowsty and so forth. In addition, through our research it was identified that PowerShell will interpret different command switch types beyond the hyphen. We have added endash, emdash, horizontal bar, and forward slash.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1059/001/ T1059.001]
-* '''Last Updated''': 2020-11-20
+* '''Last Updated''': 2021-10-05
 
 <div class="toccolours mw-collapsible mw-collapsed">
 <div class="mw-collapsible-content">
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell` Processes.process=*-WindowStyle* Processes.process=*hidden* Processes.process=&#34;*New-Object*&#34; by Processes.user Processes.process_name Processes.original_file_name Processes.parent_process_name Processes.process Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name Processes.dest Processes.process_id 
 | `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)`
+| `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
+| where match(process,&#34;(?i)[\-
+|\/
+|–
+|—
+|―]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]&#34;) 
 | `malicious_powershell_process___connect_to_internet_with_hidden_window_filter`</search>
 
 ====Associated Analytic Story====
@@ -31583,33 +31588,21 @@ This search looks for PowerShell processes started with parameters to modify the
 
 
 ====How To Implement====
-To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+You must be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. You must also be ingesting logs with both the process name and command line from your endpoints. The command-line arguments are mapped to the &#34;process&#34; field in the Endpoint data model.
 
 ====Required field====
 
 * _time
 
-* Processes.dest
+* Processes.process
+
+* Processes.process_name
 
 * Processes.user
 
 * Processes.parent_process_name
 
-* Processes.parent_process
-
-* Processes.original_file_name
-
-* Processes.process_name
-
-* Processes.process
-
-* Processes.process_id
-
-* Processes.parent_process_path
-
-* Processes.process_path
-
-* Processes.parent_process_id
+* Processes.dest
 
 
 
@@ -31638,34 +31631,52 @@ Legitimate process can have this combination of command-line options, but it&#39
 ====Reference====
 
 
+* https://regexr.com/663rr
+
+* https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
+
+* https://ss64.com/ps/powershell.html
+
+* https://twitter.com/M_haggis/status/1440758396534214658?s=20
+
+
+
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log
 
 
-''version'': 6
+''version'': 7
 </div>
 </div>
 
 ----
 
 ===Malicious powershell process - encoded command===
-This search looks for PowerShell processes that have encoded the script within the command-line. Malware has been seen using this parameter, as it obfuscates the code and makes it relatively easy to pass a script on the command-line.
+The following analytic identifies the use of the EncodedCommand PowerShell parameter. This is typically used by Administrators to run complex scripts, but commonly used by adversaries to hide their code. \
+The analytic identifies all variations of EncodedCommand, as PowerShell allows the ability to shorten the parameter. For example enc, enco, encod and so forth. In addition, through our research it was identified that PowerShell will interpret different command switch types beyond the hyphen. We have added endash, emdash, horizontal bar, and forward slash. \
+During triage, review parallel events to determine legitimacy. Tune as needed based on admin scripts in use. \
+Alternatively, may use regex per matching here https://regexr.com/662ov.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Endpoint
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1027/ T1027]
-* '''Last Updated''': 2020-07-21
+* '''Last Updated''': 2021-10-05
 
 <div class="toccolours mw-collapsible mw-collapsed">
 <div class="mw-collapsible-content">
 
 ====Search====
 <search>
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell` (Processes.process=*-EncodedCommand* OR Processes.process=*-enc*) by Processes.user Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name Processes.dest Processes.process_id 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name Processes.dest Processes.process_id 
 | `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)`
+| `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
+| where match(process,&#34;(?i)[\-
+|\/
+|–
+|—
+|―]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\s+[^-]&#34;) 
 | `malicious_powershell_process___encoded_command_filter`</search>
 
 ====Associated Analytic Story====
@@ -31682,27 +31693,17 @@ To successfully implement this search you need to be ingesting information on pr
 
 * _time
 
-* Processes.dest
+* Processes.process_name
+
+* Processes.process
 
 * Processes.user
 
 * Processes.parent_process_name
 
-* Processes.parent_process
-
-* Processes.original_file_name
-
-* Processes.process_name
-
-* Processes.process
+* Processes.dest
 
 * Processes.process_id
-
-* Processes.parent_process_path
-
-* Processes.process_path
-
-* Processes.parent_process_id
 
 
 
@@ -31731,12 +31732,22 @@ System administrators may use this option, but it&#39;s not common.
 ====Reference====
 
 
+* https://regexr.com/662ov
+
+* https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
+
+* https://ss64.com/ps/powershell.html
+
+* https://twitter.com/M_haggis/status/1440758396534214658?s=20
+
+
+
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log
 
 
-''version'': 5
+''version'': 6
 </div>
 </div>
 
@@ -40683,6 +40694,87 @@ unknown
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Remcos client registry install entry===
+This search detects registry key license at host where Remcos RAT agent is installed.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1112/ T1112]
+* '''Last Updated''': 2021-09-24
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Registry.registry_path) as  registry_path FROM datamodel=Endpoint.Registry where (Registry.registry_key_name=*\\Software\\Remcos*) by Registry.dest  Registry.user Registry.registry_key_name Registry.process_id
+| `drop_dm_object_name(Registry)` 
+| `security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)`
+|`remcos_client_registry_install_entry_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Remcos|Remcos]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+
+====Required field====
+
+* _time
+
+* Registry.registry_path
+
+* Registry.registry_key_name
+
+* Registry.process_id
+
+* Registry.dest
+
+* Registry.user
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1112
+| Modify Registry
+| Defense Evasion
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+unknown
+
+====Reference====
+
+
+* https://attack.mitre.org/software/S0332/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log
 
 
 ''version'': 1
@@ -52378,7 +52470,7 @@ This search allows you to identify DNS requests and compute the standard deviati
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 * '''Datamodel''': Network_Resolution
 * '''ATT&CK''': [https://attack.mitre.org/techniques/T1048/003/ T1048.003]
-* '''Last Updated''': 2021-07-21
+* '''Last Updated''': 2021-10-06
 
 <div class="toccolours mw-collapsible mw-collapsed">
 <div class="mw-collapsible-content">
@@ -52387,12 +52479,16 @@ This search allows you to identify DNS requests and compute the standard deviati
 <search>
 | tstats `security_content_summariesonly` count from datamodel=Network_Resolution where NOT DNS.message_type IN(&#34;Pointer&#34;,&#34;PTR&#34;) by DNS.query 
 | `drop_dm_object_name(&#34;DNS&#34;)` 
+| eval tlds=split(query,&#34;.&#34;) 
+| eval tld=mvindex(tlds,-1) 
+| eval tld_len=len(tld) 
+| search tld_len&lt;=24 
 | eval query_length = len(query) 
 | table query query_length record_type count 
 | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50
 | where query_length&gt;(avg+stdev*2) 
 | eval z_score=(query_length-avg)/stdev 
-| `dns_query_length_with_high_standard_deviation_filter` </search>
+| `dns_query_length_with_high_standard_deviation_filter`</search>
 
 ====Associated Analytic Story====
 
@@ -52442,7 +52538,7 @@ It&#39;s possible there can be long domain names that are legitimate.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/long_dns_queries/windows-sysmon.log
 
 
-''version'': 3
+''version'': 4
 </div>
 </div>
 
@@ -55187,7 +55283,7 @@ There might be false positives associted with this detection since items like ar
 <pre>
 #############
 # Automatically generated by doc_gen.py in https://github.com/splunk/security_content''
-# On Date: 2021-09-27 18:37:38.945952 UTC''
+# On Date: 2021-10-14 15:40:37.024104 UTC''
 # Author: Splunk Security Research''
 # Contact: research@splunk.com''
 #############

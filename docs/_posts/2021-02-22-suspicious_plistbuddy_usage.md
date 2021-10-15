@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-02-22
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1543.001
@@ -45,8 +46,8 @@ Upon triage, capture the property list file being written to disk and review for
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1543.001](https://attack.mitre.org/techniques/T1543/001/) | Launch Agent | Persistence, Privilege Escalation |
 
 

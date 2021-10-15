@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-16
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1486
@@ -35,8 +36,8 @@ This analytics are designed to indentify a high frequency of process termination
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 

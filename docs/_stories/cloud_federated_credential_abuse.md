@@ -2,6 +2,7 @@
 title: "Cloud Federated Credential Abuse"
 last_modified_at: 2021-01-26
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -30,7 +31,7 @@ This story is composed of detection searches based on endpoint that addresses th
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS SAML Access by Provider User and Principal](/cloud/aws_saml_access_by_provider_user_and_principal/) | [Valid Accounts](/tags/#valid-accounts), [LSASS Memory](/tags/#lsass-memory), [Cloud Account](/tags/#cloud-account), [Modify Authentication Process](/tags/#modify-authentication-process), [Image File Execution Options Injection](/tags/#image-file-execution-options-injection) | Anomaly |
+| [AWS SAML Access by Provider User and Principal](/cloud/aws_saml_access_by_provider_user_and_principal/) | [Valid Accounts](/tags/#valid-accounts) | Anomaly |
 | [AWS SAML Update identity provider](/cloud/aws_saml_update_identity_provider/) | [Valid Accounts](/tags/#valid-accounts) | TTP |
 | [Certutil exe certificate extraction](/endpoint/certutil_exe_certificate_extraction/) |  | TTP |
 | [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory) | TTP |

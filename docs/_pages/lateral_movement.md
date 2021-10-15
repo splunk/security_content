@@ -10,4 +10,4 @@ sidebar:
 
 | Name        | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527/) | [Print Processors](/tags/#print-processors), [Rundll32](/tags/#rundll32), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Persistence](/tags/#persistence) |
+| [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |

@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2018-10-12
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - Splunk Security Analytics for AWS

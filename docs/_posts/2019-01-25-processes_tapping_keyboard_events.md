@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2019-01-25
 toc: true
+toc_label: ""
 tags:
   - TTP
   - Splunk Enterprise

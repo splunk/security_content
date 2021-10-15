@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-09
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003.002
@@ -35,8 +36,8 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-19
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1027
@@ -35,8 +36,8 @@ this search is designed to detect potential malicious wermgr.exe process that dr
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
 
 
