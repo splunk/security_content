@@ -39,6 +39,7 @@ tags:
     10 within 1m) has been detected on $dest$ with a parent process of $parent_process_name$.
   mitre_attack_id:
   - T1562.001
+  - T1562
   observable:
   - name: dest
     type: Endpoint

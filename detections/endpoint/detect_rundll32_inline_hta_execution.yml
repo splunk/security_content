@@ -52,6 +52,7 @@ tags:
   - Exploitation
   message: Suspicious rundll32.exe inline HTA execution on $dest$
   mitre_attack_id:
+  - T1218
   - T1218.005
   nist:
   - PR.PT

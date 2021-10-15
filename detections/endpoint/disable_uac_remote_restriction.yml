@@ -37,6 +37,7 @@ tags:
   - Exploitation
   mitre_attack_id:
   - T1548.002
+  - T1548
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

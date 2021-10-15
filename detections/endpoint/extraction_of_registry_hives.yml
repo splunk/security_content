@@ -44,6 +44,7 @@ tags:
     credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$
   mitre_attack_id:
   - T1003.002
+  - T1003
   observable:
   - name: user
     type: User
