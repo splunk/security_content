@@ -40,6 +40,7 @@ tags:
   - Delivery
   mitre_attack_id:
   - T1566.001
+  - T1566
   nist:
   - DE.AE
   - PR.IP
