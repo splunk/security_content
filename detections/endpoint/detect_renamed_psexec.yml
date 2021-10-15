@@ -49,6 +49,7 @@ tags:
   message: The following $process_name$ has been identified as renamed, spawning from
     $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
+  - T1569
   - T1569.002
   observable:
   - name: user

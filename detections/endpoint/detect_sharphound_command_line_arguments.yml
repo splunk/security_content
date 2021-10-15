@@ -45,10 +45,12 @@ tags:
   message: Possible SharpHound command-Line arguments identified on $dest$
   mitre_attack_id:
   - T1087.002
-  - T1087.001
-  - T1482
-  - T1069.002
   - T1069.001
+  - T1482
+  - T1087.001
+  - T1087
+  - T1069.002
+  - T1069
   observable:
   - name: dest
     type: Endpoint
