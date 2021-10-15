@@ -44,6 +44,7 @@ tags:
   - Actions on Objectives
   mitre_attack_id:
   - T1114.002
+  - T1114
   nist:
   - PR.PT
   - DE.CM
