@@ -28,7 +28,7 @@ def test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_po
     result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var)
     
 
-    #enter = input("Run some tests from [%s] on [%s] - we don't delete until you hit enter :)"%(container_name, test_file))
+    enter = input("Run some tests from [%s] on [%s] - we don't delete until you hit enter :)"%(container_name, test_file))
     # delete test data
     splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port)
 
