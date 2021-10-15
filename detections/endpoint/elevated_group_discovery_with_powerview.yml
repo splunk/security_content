@@ -43,6 +43,7 @@ tags:
   - Reconnaissance
   message: Elevated group discovery using PowerView on $dest$ by $user$
   mitre_attack_id:
+  - T1069
   - T1069.002
   observable:
   - name: dest
