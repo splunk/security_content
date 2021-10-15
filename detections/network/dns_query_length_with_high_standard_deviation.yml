@@ -43,6 +43,7 @@ tags:
     query in host  $host$
   mitre_attack_id:
   - T1048.003
+  - T1048
   nist:
   - PR.PT
   - DE.AE
