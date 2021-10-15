@@ -14,8 +14,8 @@ description: this search is to detect a suspicious registry modification to impl
   premise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*SOFTWARE\\Microsoft\\Windows
-  NT\\CurrentVersion\\Winlogon*" AND Registry.registry_key_name=AutoAdminLogon AND
-  Registry.registry_value_name=1 by Registry.registry_path Registry.registry_key_name
+  NT\\CurrentVersion\\Winlogon*" AND Registry.registry_value_name=AutoAdminLogon AND
+  Registry.registry_value_name=1 by Registry.registry_path Registry.registry_value_name
   Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `auto_admin_logon_registry_entry_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
