@@ -57,6 +57,7 @@ tags:
   message: Possible malicious WMI Subscription created on $dest$
   mitre_attack_id:
   - T1546.003
+  - T1546
   observable:
   - name: dest
     type: Endpoint
