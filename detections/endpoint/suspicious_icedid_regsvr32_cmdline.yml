@@ -40,6 +40,7 @@ tags:
   - Exploitation
   message: regsvr32 process $process_name$ with commandline $process$ in host $dest$
   mitre_attack_id:
+  - T1218
   - T1218.010
   observable:
   - name: dest

@@ -46,6 +46,7 @@ tags:
   - Exploitation
   message: mshta.exe spawned by wmiprvse.exe on $dest$
   mitre_attack_id:
+  - T1218
   - T1218.005
   nist:
   - PR.PT
