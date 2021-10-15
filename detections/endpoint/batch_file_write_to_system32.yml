@@ -50,6 +50,7 @@ tags:
   message: A file - $file_name$ was written to system32 has occurred on endpoint $dest$
     by user $user$.
   mitre_attack_id:
+  - T1204
   - T1204.002
   nist:
   - PR.PT
