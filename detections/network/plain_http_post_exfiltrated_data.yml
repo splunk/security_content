@@ -39,6 +39,7 @@ tags:
     $form_data$ in uri path $uri_path$
   mitre_attack_id:
   - T1048.003
+  - T1048
   observable:
   - name: uri_path
     type: UriPath

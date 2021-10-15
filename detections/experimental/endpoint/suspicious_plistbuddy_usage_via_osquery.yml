@@ -49,6 +49,7 @@ tags:
   - Actions on Objectives
   mitre_attack_id:
   - T1543.001
+  - T1543
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

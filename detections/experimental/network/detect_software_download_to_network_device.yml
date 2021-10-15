@@ -40,6 +40,7 @@ tags:
   - Delivery
   mitre_attack_id:
   - T1542.005
+  - T1542
   nist:
   - ID.AM
   - PR.DS

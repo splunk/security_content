@@ -37,6 +37,7 @@ tags:
   - Installation
   - Actions on Objectives
   mitre_attack_id:
+  - T1569
   - T1569.002
   nist:
   - ID.AM
