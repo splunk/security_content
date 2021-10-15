@@ -45,6 +45,7 @@ tags:
     in host $dest$
   mitre_attack_id:
   - T1053.005
+  - T1053
   nist:
   - PR.IP
   observable:

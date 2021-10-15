@@ -36,6 +36,7 @@ tags:
   - Exploitation
   message: rundll32 process $process_name$ drops a file $TargetFilename$ in host $dest$
   mitre_attack_id:
+  - T1218
   - T1218.011
   observable:
   - name: Computer
