@@ -48,6 +48,7 @@ tags:
   message: The process $process_name$ was spawned by $parent_process_name$ without
     any command-line arguments on $dest$ by $user$.
   mitre_attack_id:
+  - T1218
   - T1218.009
   nist:
   - PR.PT
