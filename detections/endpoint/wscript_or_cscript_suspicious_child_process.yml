@@ -41,6 +41,7 @@ tags:
   - T1055
   - T1543
   - T1134.004
+  - T1134
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
