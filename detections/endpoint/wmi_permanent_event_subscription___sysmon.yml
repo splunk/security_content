@@ -61,6 +61,7 @@ tags:
     $filter$. Consumer: $Consumer$.  EventCode: $EventCode$'
   mitre_attack_id:
   - T1546.003
+  - T1546
   nist:
   - PR.PT
   - PR.AT

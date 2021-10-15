@@ -43,6 +43,7 @@ tags:
   message: A process that possibly write shim database in $file_path$ in host $dest$
   mitre_attack_id:
   - T1546.011
+  - T1546
   nist:
   - DE.CM
   observable:
