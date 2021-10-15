@@ -49,6 +49,7 @@ tags:
   message: Multiple accounts have been locked out. Review $dest$ and results related
     to $user$.
   mitre_attack_id:
+  - T1078
   - T1078.002
   nist:
   - PR.IP
