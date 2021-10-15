@@ -52,6 +52,7 @@ tags:
     and iesetupapi.dll by calling the LaunchINFSection function on the command line
     was identified on endpoint $dest$ by user $user$.
   mitre_attack_id:
+  - T1218
   - T1218.011
   nist:
   - PR.PT

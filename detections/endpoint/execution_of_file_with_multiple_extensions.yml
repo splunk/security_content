@@ -42,6 +42,7 @@ tags:
   message: process $process$ have double extensions in the file name is executed on
     $dest$ by $user$
   mitre_attack_id:
+  - T1036
   - T1036.003
   nist:
   - DE.CM
