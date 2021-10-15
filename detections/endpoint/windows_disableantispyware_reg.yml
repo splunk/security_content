@@ -46,6 +46,7 @@ tags:
   message: Windows DisableAntiSpyware registry key set to 'disabled' on $dest$
   mitre_attack_id:
   - T1562.001
+  - T1562
   nist:
   - PR.PT
   - DE.CM
