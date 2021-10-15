@@ -50,6 +50,7 @@ tags:
   - Exploitation
   message: Possible Web Shell execution on $dest$
   mitre_attack_id:
+  - T1505
   - T1505.003
   observable:
   - name: dest
