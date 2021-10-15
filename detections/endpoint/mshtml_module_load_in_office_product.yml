@@ -41,6 +41,7 @@ tags:
   message: An instance of $process_name$ was identified on endpoint $dest$ loading
     mshtml.dll.
   mitre_attack_id:
+  - T1566
   - T1566.001
   observable:
   - name: dest

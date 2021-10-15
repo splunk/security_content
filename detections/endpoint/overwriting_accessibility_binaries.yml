@@ -43,6 +43,7 @@ tags:
   - Actions on Objectives
   message: A suspicious file modification or replace in $file_path$  in host $dest$
   mitre_attack_id:
+  - T1546
   - T1546.008
   nist:
   - PR.PT
