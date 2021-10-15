@@ -34,6 +34,7 @@ tags:
   kill_chain_phases:
   - Actions on Objectives
   mitre_attack_id:
+  - T1114
   - T1114.001
   product:
   - Splunk Enterprise
