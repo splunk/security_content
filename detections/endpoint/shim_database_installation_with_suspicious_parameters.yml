@@ -44,6 +44,7 @@ tags:
     $dest$
   mitre_attack_id:
   - T1546.011
+  - T1546
   nist:
   - DE.CM
   observable:

@@ -48,6 +48,7 @@ tags:
     This behavior is suspicious and related to PrintNightmare.
   mitre_attack_id:
   - T1547.012
+  - T1547
   observable:
   - name: dest
     type: Endpoint

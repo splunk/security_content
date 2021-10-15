@@ -43,6 +43,7 @@ tags:
   message: A rundll32 process $process_name$ with ordinal parameter like this process
     commandline $process$ in host $dest$
   mitre_attack_id:
+  - T1218
   - T1218.011
   nist:
   - PR.PT
