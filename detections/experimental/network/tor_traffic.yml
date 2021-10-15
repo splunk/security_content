@@ -34,6 +34,7 @@ tags:
   kill_chain_phases:
   - Command and Control
   mitre_attack_id:
+  - T1071
   - T1071.001
   nist:
   - DE.AE

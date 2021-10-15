@@ -60,6 +60,7 @@ tags:
   - Command and Control
   mitre_attack_id:
   - T1071.004
+  - T1071
   nist:
   - PR.PT
   - DE.AE

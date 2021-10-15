@@ -38,6 +38,7 @@ tags:
   - Actions on Objectives
   mitre_attack_id:
   - T1200
+  - T1020
   - T1498
   - T1020.001
   nist:
