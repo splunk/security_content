@@ -47,6 +47,7 @@ tags:
   message: New print monitor added on $dest$
   mitre_attack_id:
   - T1547.010
+  - T1547
   nist:
   - PR.PT
   - DE.CM

@@ -51,6 +51,7 @@ tags:
     process $process_name$ with process id $process_id$ and no dll commandline $process$
     in host $dest$
   mitre_attack_id:
+  - T1566
   - T1566.001
   observable:
   - name: dest
