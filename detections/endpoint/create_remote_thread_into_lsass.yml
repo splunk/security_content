@@ -41,6 +41,7 @@ tags:
     behavior is indicative of credential dumping and should be investigated.
   mitre_attack_id:
   - T1003.001
+  - T1003
   nist:
   - DE.CM
   observable:
