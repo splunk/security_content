@@ -45,6 +45,7 @@ tags:
     offline password cracking.
   mitre_attack_id:
   - T1003.003
+  - T1003
   nist:
   - DE.CM
   observable:
