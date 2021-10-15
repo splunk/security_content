@@ -47,6 +47,7 @@ tags:
     in host $dest$
   mitre_attack_id:
   - T1546.012
+  - T1546
   nist:
   - PR.PT
   - DE.CM

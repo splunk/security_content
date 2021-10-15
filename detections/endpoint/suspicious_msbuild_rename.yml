@@ -49,8 +49,10 @@ tags:
   - Exploitation
   message: Suspicious renamed msbuild.exe binary ran on $dest$ by $user$
   mitre_attack_id:
-  - T1127.001
+  - T1036
+  - T1127
   - T1036.003
+  - T1127.001
   nist:
   - PR.PT
   - DE.CM
