@@ -49,6 +49,7 @@ tags:
     on endpoint $dest$ by user $user$ executing with inline HTA, indicative of defense
     evasion.
   mitre_attack_id:
+  - T1218
   - T1218.005
   nist:
   - PR.PT
