@@ -53,6 +53,7 @@ tags:
   message: The following $process_name$ has been identified as renamed, spawning from
     $parent_process_name$.
   mitre_attack_id:
+  - T1218
   - T1218.001
   nist:
   - PR.PT
