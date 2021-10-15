@@ -43,6 +43,7 @@ tags:
     Account Control (UAC) were modified on $dest$ by $user$.
   mitre_attack_id:
   - T1548.002
+  - T1548
   nist:
   - PR.PT
   - DE.CM

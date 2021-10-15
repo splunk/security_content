@@ -49,6 +49,7 @@ tags:
   message: Windows Defender real time behavior monitoring disabled on $dest
   mitre_attack_id:
   - T1562.001
+  - T1562
   observable:
   - name: dest
     type: Endpoint

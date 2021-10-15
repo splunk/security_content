@@ -56,6 +56,7 @@ tags:
     to bypass detection and preventative controls was identified on endpoint $dest$
     by user $user$.
   mitre_attack_id:
+  - T1218
   - T1218.010
   nist:
   - DE.CM
