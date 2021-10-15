@@ -47,6 +47,7 @@ tags:
   - Exploitation
   message: Office document creating a schedule task on $dest$
   mitre_attack_id:
+  - T1566
   - T1566.001
   observable:
   - name: dest
