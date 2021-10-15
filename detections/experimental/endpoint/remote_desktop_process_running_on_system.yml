@@ -38,6 +38,7 @@ tags:
   - Actions on Objectives
   mitre_attack_id:
   - T1021.001
+  - T1021
   nist:
   - DE.AE
   - PR.AC
