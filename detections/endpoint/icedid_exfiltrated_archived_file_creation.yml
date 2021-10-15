@@ -36,6 +36,7 @@ tags:
   message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
   mitre_attack_id:
   - T1560.001
+  - T1560
   observable:
   - name: Computer
     type: Hostname
