@@ -57,6 +57,7 @@ tags:
     on endpoint $dest$ by user $user$ contacting a remote destination to potentally
     download a malicious payload.
   mitre_attack_id:
+  - T1218
   - T1218.001
   nist:
   - PR.PT

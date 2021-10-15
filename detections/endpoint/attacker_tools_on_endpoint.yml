@@ -51,8 +51,9 @@ tags:
     on host $dest$ by User $user$. This process $process_name$ is known to do- $description$
   mitre_attack_id:
   - T1036.005
-  - T1595
+  - T1036
   - T1003
+  - T1595
   nist:
   - ID.AM
   - PR.DS

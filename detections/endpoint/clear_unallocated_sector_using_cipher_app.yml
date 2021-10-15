@@ -40,6 +40,7 @@ tags:
     of a specific disk.
   mitre_attack_id:
   - T1070.004
+  - T1070
   observable:
   - name: user
     type: User
