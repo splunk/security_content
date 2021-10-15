@@ -39,6 +39,7 @@ tags:
     on endpoint $Computer$. This behavior is suspicious and related to PrintNightmare.
   mitre_attack_id:
   - T1547.012
+  - T1547
   observable:
   - name: Computer
     type: Endpoint
