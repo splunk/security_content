@@ -43,6 +43,7 @@ tags:
   - Exploitation
   message: cmd.exe launching script interpreters on $dest$
   mitre_attack_id:
+  - T1059
   - T1059.003
   nist:
   - PR.PT

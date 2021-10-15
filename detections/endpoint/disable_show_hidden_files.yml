@@ -44,6 +44,8 @@ tags:
   mitre_attack_id:
   - T1564.001
   - T1562.001
+  - T1564
+  - T1562
   observable:
   - name: dest
     type: Endpoint
