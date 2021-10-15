@@ -42,6 +42,7 @@ tags:
     behavior or not.
   mitre_attack_id:
   - T1136.001
+  - T1136
   nist:
   - PR.AC
   - DE.CM

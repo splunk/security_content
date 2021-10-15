@@ -48,6 +48,7 @@ tags:
     to credential dumping on $Computer$. Review for further details.
   mitre_attack_id:
   - T1003.001
+  - T1003
   nist:
   - DE.AE
   - DE.CM

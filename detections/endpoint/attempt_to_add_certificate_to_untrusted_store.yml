@@ -46,6 +46,7 @@ tags:
     attempting to add a certificate to the store on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1553.004
+  - T1553
   nist:
   - PR.PT
   - DE.CM
