@@ -1,0 +1,65 @@
+name: Disable Defender BlockAtFirstSeen Feature
+id: 2dd719ac-3021-11ec-97b4-acde48001122
+version: 1
+date: '2021-10-18'
+author: Teoderick Contreras
+type: TTP
+datamodel:
+- Endpoint
+description: This analytic is to detect a suspicious modification of registry to disable windows defender feature. 
+  This technique is to bypassed or evade detection from Windows Defender AV product specially the BlockAtFirstSeen feature where it 
+  block suspicious file first seen in the host.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" 
+  Registry.registry_value_name = DisableBlockAtFirstSeen Registry.registry_value_data = 0x00000001
+  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)`
+  | `disable_defender_blockatfirstseen_feature_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. 
+known_false_positives: admin or user may choose to disable windows defender product
+references:
+-  https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+tags:
+  analytic_story:
+  - IceID
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  security_domain: endpoint
+  impact: 70
+  confidence: 70
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
