@@ -144,69 +144,38 @@ def main(args):
         github_service = GithubService(branch, pr_number)
     else:
         github_service = GithubService(branch)
-    test_files = github_service.get_changed_test_files()
+    #test_files = github_service.get_all_tests_and_detections(folders=["endpoint"], previously_successful_tests=success_tests)
+    test_files = github_service.get_all_tests_and_detections(folders=["endpoint"])
+    print(len(test_files))
+    sys.exit(1)
+    #test_files2 = github_service.get_changed_test_files()
     if len(test_files) == 0:
         print("No new detections to test.")
         #aws_service.dynamo_db_nothing_to_test(REGION, uuid_test, str(int(time.time())))
         sys.exit(0)
-    #print("The files to test: %s", str(test_files))
+    
+    #print(test_files2[:5])
+    #sys.exit(0)
+
     new_test_files = []
+
+
     for f in test_files:
         if f not in success_tests:
             new_test_files.append(f)
         else:
+            #pass
             print("Already found [%s] in success file, not testing it again"%(f))
-    test_files = new_test_files
+
+    #test_files = new_test_files
     '''
-    test_files = [
-    "tests/endpoint/active_setup_registry_autostart.test.yml",
-    "tests/endpoint/change_default_file_association.test.yml",
-    "tests/endpoint/delete_shadowcopy_with_powershell.test.yml",
-    "tests/endpoint/detect_processes_used_for_system_network_configuration_discovery.test.yml",
-    "tests/endpoint/enable_rdp_in_other_port_number.test.yml",
-    "tests/endpoint/enable_wdigest_uselogoncredential_registry.test.yml",
-    "tests/endpoint/etw_registry_disabled.test.yml",
-    "tests/endpoint/eventvwr_uac_bypass.test.yml",
-    "tests/endpoint/get_notable_history.test.yml",
-    "tests/endpoint/get_parent_process_info.test.yml",
-    "tests/endpoint/get_process_info.test.yml",
-    "tests/endpoint/hide_user_account_from_sign_in_screen.test.yml",
-    "tests/endpoint/logon_script_event_trigger_execution.test.yml",
-    "tests/endpoint/mailsniper_invoke_functions.test.yml",
-    "tests/endpoint/malicious_inprocserver32_modification.test.yml",
-    "tests/endpoint/modification_of_wallpaper.test.yml",
-    "tests/endpoint/monitor_registry_keys_for_print_monitors.test.yml",
-    "tests/endpoint/net_profiler_uac_bypass.test.yml",
-    "tests/endpoint/powershell_disable_security_monitoring.test.yml",
-    "tests/endpoint/powershell_enable_smb1protocol_feature.test.yml",
-    "tests/endpoint/process_writing_dynamicwrapperx.test.yml",
-    "tests/endpoint/registry_keys_used_for_persistence.test.yml",
-    "tests/endpoint/registry_keys_used_for_privilege_escalation.test.yml",
-    "tests/endpoint/remcos_client_registry_install_entry.test.yml",
-    "tests/endpoint/revil_registry_entry.test.yml",
-    "tests/endpoint/screensaver_event_trigger_execution.test.yml",
-    "tests/endpoint/sdclt_uac_bypass.test.yml",
-    "tests/endpoint/secretdumps_offline_ntds_dumping_tool.test.yml",
-    "tests/endpoint/silentcleanup_uac_bypass.test.yml",
-    "tests/endpoint/slui_runas_elevated.test.yml", 
-    "tests/endpoint/disable_amsi_through_registry.test.yml",
-    "tests/endpoint/disable_etw_through_registry.test.yml",
-    "tests/endpoint/disable_registry_tool.test.yml",
-    "tests/endpoint/disable_security_logs_using_minint_registry.test.yml",
-    "tests/endpoint/disable_show_hidden_files.test.yml",
-    "tests/endpoint/disable_uac_remote_restriction.test.yml",
-    "tests/endpoint/disable_windows_app_hotkeys.test.yml",
-    "tests/endpoint/disable_windows_behavior_monitoring.test.yml",
-    "tests/endpoint/disable_windows_smartscreen_protection.test.yml",
-    "tests/endpoint/disabling_cmd_application.test.yml",
-    "tests/endpoint/disabling_controlpanel.test.yml",
-    "tests/endpoint/disabling_folderoptions_windows_feature.test.yml",
-    "tests/endpoint/disabling_norun_windows_app.test.yml",
-    "tests/endpoint/disabling_remote_user_account_control.test.yml",
-    "tests/endpoint/disabling_systemrestore_in_registry.test.yml",
-    "tests/endpoint/disabling_task_manager.test.yml"]
+    print('\n'.join(test_files))
+    for f in test_files:
+        with open('security_content/'+f,'r') as b:
+            data = b.read()
+            if 'baseline' in data.lower():
+                print("baseline found in [%s]"%(f))
     '''
-    print(test_files)
     
     time.sleep(10)
     
@@ -233,12 +202,18 @@ def main(args):
     "python2 -m pip install wheel",
     "python2 -m pip install semantic_version",
     "python2 -m pip install .",
-    "cp -R ../security_content/dist/escu DA-ESS-ContentUpdate"
+    "cp -R ../security_content/dist/escu DA-ESS-ContentUpdate",
     "slim package -o upload DA-ESS-ContentUpdate",
     "cp upload/DA-ESS-ContentUpdate*.tar.gz /tmp/apps/DA-ESS-ContentUpdate-latest.tar.gz"
     ]
 
-    sys.exit(1)    
+    ret = subprocess.run("; ".join(commands), shell=True, capture_output=False)
+    if ret.returncode != 0:
+        print("Error generating new ESCU Package.  Exiting...")
+        sys.exit(1)
+    print("New ESCU PAckage generated successfully")    
+
+    
 
     client = docker.client.from_env()
     splunk_password = '123456qwertyQWERTY'
@@ -429,15 +404,18 @@ def main(args):
 
         SPLUNK_COMMON_INFORMATION_MODEL = "https://splunkbase.splunk.com/app/1621/release/4.20.2/download"        
         SPLUNK_SECURITY_ESSENTIALS = "https://splunkbase.splunk.com/app/3435/release/3.3.4/download"
-        #SPLUNK_ADD_ON_FOR_SYSMON_OLD = "https://splunkbase.splunk.com/app/1914/release/10.6.2/download"
+        SPLUNK_ADD_ON_FOR_SYSMON_OLD = "https://splunkbase.splunk.com/app/1914/release/10.6.2/download"
         #SPLUNK_ADD_ON_FOR_SYSMON_NEW = "https://splunkbase.splunk.com/app/5709/release/1.0.1/download"
+        #LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_NEW  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
         #SYSMON_APP_FOR_SPLUNK = "https://splunkbase.splunk.com/app/3544/release/2.0.0/download"
         #SPLUNK_ES_CONTENT_UPDATE = "https://splunkbase.splunk.com/app/3449/release/3.29.0/download"
-        #SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS = "https://splunkbase.splunk.com/app/742/release/8.2.0/download"
-        LOCAL_GENERATED_ESCU_LATEST = os.path.join(os.getcwd(),"/tmp/apps/DA-ESS-ContentUpdate.tgz")
-        LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_NEW  = os.path.join(os.getcwd(),"/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")
+        SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS = "https://splunkbase.splunk.com/app/742/release/8.2.0/download"
+        LOCAL_GENERATED_ESCU_LATEST = "/tmp/apps/DA-ESS-ContentUpdate-latest.tar.gz"
         
-        SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, SPLUNK_SECURITY_ESSENTIALS, LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_NEW, LOCAL_GENERATED_ESCU_LATEST]
+        SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, SPLUNK_SECURITY_ESSENTIALS, SPLUNK_ADD_ON_FOR_SYSMON_OLD, LOCAL_GENERATED_ESCU_LATEST, SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS]
+        #SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, SPLUNK_SECURITY_ESSENTIALS, LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_NEW, LOCAL_GENERATED_ESCU_LATEST, SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS]
+
+
         #SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, SPLUNK_SECURITY_ESSENTIALS  ,                                                 SPLUNK_ES_CONTENT_UPDATE, SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS]
         #docker run -p8089:8089 -p 8000:8000 -e "SPLUNK_START_ARGS=--accept-license" -e "SPLUNK_PASSWORD=123456qwertyQWERTY" -e "SPLUNK_APPS_URL=https://splunkbase.splunk.com/app/3435/release/3.3.4/download,https://splunkbase.splunk.com/app/5709/release/1.0.1/download,https://splunkbase.splunk.com/app/3449/release/3.29.0/download,https://splunkbase.splunk.com/app/1621/release/4.20.2/download" -e "SPLUNKBASE_USERNAME=ericmcginnistwo" -e "SPLUNKBASE_PASSWORD=splunkSecondAccount5@" -name splunktemplate splunk/splunk:latest 
         environment = {"SPLUNK_START_ARGS": "--accept-license",
@@ -557,7 +535,7 @@ def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_pa
     #Assume that the base container has already been fully built with
     #escu etc
     #sleep for a little bit so that we don't all start at once...
-    #time.sleep(random.randrange(0,60))
+    time.sleep(random.randrange(0,60))
 
     container = client.containers.get(container_name)
     print("Starting the container [%s]"%(container_name))
@@ -578,7 +556,7 @@ def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_pa
         sys.exit(0)
     
     print("Successfully enabled DELETE for [%s]"%(container_name))
-    time.sleep(60)
+    
     index=0
     try:
         while True:

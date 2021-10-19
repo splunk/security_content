@@ -28,7 +28,7 @@ def test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_po
     result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var)
     
 
-    enter = input("Run some tests from [%s] on [%s] - we don't delete until you hit enter :)"%(container_name, test_file))
+    #enter = input("Run some tests from [%s] on [%s] - we don't delete until you hit enter :)"%(container_name, test_file))
     # delete test data
     splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port)
 
@@ -45,14 +45,12 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
     try:
         test_file_obj = load_file(os.path.join("security_content/", test_file))
     except Exception as e:
-        raise
-        #print('Error: ' + str(e))
-        #return
+        print('Error: ' + str(e))
+        return None
     
     if not test_file_obj:
         print("Not test_file_obj!")
-        raise
-        return
+        return None
     #print(test_file_obj)
 
     # write entry dynamodb
@@ -79,7 +77,7 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
         INDEX_TO_REPLAY_INTO = 'main'
         replay_attack_dataset(container_name, splunk_password, folder_name, INDEX_TO_REPLAY_INTO, attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
     print("START SLEEP AFTER REPLAY")
-    time.sleep(60)
+    time.sleep(30)
     print("DONE SLEEP AFTER REPLAY")
     result_test = {}
     test = test_file_obj['tests'][0]
@@ -129,11 +127,9 @@ def load_file(file_path):
             try:
                 file = list(yaml.safe_load_all(stream))[0]
             except yaml.YAMLError as exc:
-                print("ERROR: reading {0}".format(file_path))
-                return False
+                raise(Exception("ERROR: reading {0}:[{1}]".format(file_path, str(exc))))
     except Exception as e:
-        print("ERROR: reading {0}".format(file_path))
-        return False
+        raise(Exception("ERROR: reading {0}:[{1}]".format(file_path, str(e))))
     return file
 
 
