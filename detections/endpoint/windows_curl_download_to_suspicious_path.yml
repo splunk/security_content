@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` 
   | `windows_curl_download_to_suspicious_path_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+known_false_positives: It is possible Administrators or super users will use Curl for legitimate purposes. Filter as needed.
 references:
   - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
   - https://attack.mitre.org/techniques/T1105/
