@@ -40,7 +40,8 @@ BASE_CONTAINER_WEB_PORT=8000
 BASE_CONTAINER_MANAGEMENT_PORT=8089
 
 
-
+DETECTION_TYPES = ['endpoint', 'cloud', 'network']
+DETECTION_MODES = ['new', 'all', 'selected']
 
 def wait_for_splunk_ready(splunk_container_name=None, splunk_web_port=None, max_seconds=30):
     #The smarter version of this will try to hit one of the pages,
@@ -105,6 +106,8 @@ def main(args):
     parser.add_argument("-s", "--success_file", type=str, required=False, help="File that contains previously successful runs that we don't need to test")
     parser.add_argument("-user", "--splunkbase_username", type=str, required=True, help="Splunkbase username for downloading Splunkbase apps")
     parser.add_argument("-pw", "--splunkbase_password", type=str, required=True, help="Splunkbase password for downloading Splunkbase apps")
+    parser.add_argument("-m", "--mode", type=str, choices=DETECTION_MODES, required=False, help="Whether to test new detections, specific detections, or all detections", default="all")
+    parser.add_argument("-t", "--types", type=str, required=False, nargs='+', help="Detection types to test. Can be one of more of %s"%(str(DETECTION_TYPES)), default=DETECTION_TYPES)
 
     args = parser.parse_args()
     branch = args.branch
@@ -116,6 +119,14 @@ def main(args):
     success_file = args.success_file
     splunkbase_username = args.splunkbase_username
     splunkbase_password = args.splunkbase_password
+    
+    mode = args.mode
+    folder_names = args.types
+    for t in args.types:
+        if t not in DETECTION_TYPES:
+            print("Error - requested test of [%s] but the only valid types are %s.\tQuitting..."%(t, str(DETECTION_TYPES)))
+            sys.exit(1)
+
 
     success_tests = []
     if success_file is not None:
@@ -144,11 +155,8 @@ def main(args):
         github_service = GithubService(branch, pr_number)
     else:
         github_service = GithubService(branch)
-    #test_files = github_service.get_all_tests_and_detections(folders=["endpoint"], previously_successful_tests=success_tests)
-    test_files = github_service.get_all_tests_and_detections(folders=["endpoint"])
-    print(len(test_files))
-    sys.exit(1)
-    #test_files2 = github_service.get_changed_test_files()
+    test_files = github_service.get_all_tests_and_detections(folders=["endpoint"], previously_successful_tests=success_tests)
+    
     if len(test_files) == 0:
         print("No new detections to test.")
         #aws_service.dynamo_db_nothing_to_test(REGION, uuid_test, str(int(time.time())))
