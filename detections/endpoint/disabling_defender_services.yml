@@ -1,7 +1,7 @@
-name: Disable Defender MpEngine Registry
-id: cc391750-3024-11ec-955a-acde48001122
+name: Disabling Defender Services
+id: 911eacdc-317f-11ec-ad30-acde48001122
 version: 1
-date: '2021-10-18'
+date: '2021-10-20'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -12,13 +12,16 @@ description: This particular behavior is typically executed when an adversaries 
   task modifications will occur. During triage, review parallel processes and identify
   any further file modifications. Endpoint should be isolated.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Policies\\Microsoft\\Windows
-  Defender\\MpEngine*" Registry.registry_value_name = MpEnablePus Registry.registry_value_data
-  = 0x00000000 by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
-  Registry.registry_value_data | `drop_dm_object_name(Registry)` | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `disable_defender_mpengine_registry_filter`'
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*" 
+  AND (Registry.registry_path IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*", "*WinDefend*", "*SecurityHealthService*"))  AND 
+  Registry.registry_value_name = Start Registry.registry_value_data = 0x00000004
+  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)`
+  | `disabling_defender_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
+  logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
 known_false_positives: admin or user may choose to disable windows defender product
@@ -28,7 +31,7 @@ tags:
   analytic_story:
   - IceID
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -63,4 +66,4 @@ tags:
     type: user
     role:
     - Victim
-  automated_detection_testing: passed
+  
