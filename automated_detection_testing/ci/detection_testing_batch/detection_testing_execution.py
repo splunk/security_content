@@ -8,6 +8,8 @@ import secrets
 import docker
 import threading
 import queue
+
+from docker.client import DockerClient
 from modules.github_service import GithubService
 from modules import aws_service, testing_service
 import time
@@ -27,8 +29,8 @@ datamodel_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "Splunk_
 
 PASSWORD_LENGTH=20
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING=2
-DOCKER_HUB_CONTAINER_PATH="splunk/splunk:8.2.0"
-BASE_CONTAINER_NAME="splunk"
+DEFAULT_CONTAINER_TAG="latest"
+LOCAL_BASE_CONTAINER_NAME = "splunk_test_%d"
 
 
 
@@ -89,6 +91,104 @@ def stop_container(docker_client, container_name, force=True):
         
 
 
+def setup_image(client: DockerClient, reuse_images: bool, container_name: str) -> None:
+    if not reuse_images:
+        #Check to see if the image exists.  If it does, then remove it.  If it does not, then do nothing
+        docker_image = None
+        try:
+            docker_image = client.images.get(container_name)
+        except Exception as e:
+            #We don't need to do anything, the image did not exist on our system
+            print("Image named [%s] did not exist, so we don't need to try and remove it."%(container_name))
+        if docker_image != None:
+            #We found the image.  Let's try to delete it
+            print("Found docker image named [%s] and you have requested that we forcefully remove it"%(container_name))
+            try:
+                client.images.remove(image=container_name, force=True, noprune=False)
+                print("Docker image named [%s] forcefully removed"%(container_name))
+            except Exception as e:
+                print("Error forcefully removing [%s]"%(container_name))
+                raise(e)
+    
+    #See if the image exists.  If it doesn't, then pull it from Docker Hub
+    docker_image = None
+    try:
+        docker_image = client.images.get(container_name)
+        print("Docker image [%s] found, no need to download it."%(container_name))
+    except Exception as e:
+        #Image did not exist on the system
+        docker_image = None
+
+    if docker_image is None:
+        #We did not find the image, so pull it
+        try:
+            print("Downloading image [%s].  Please note "
+                 "that this could take a long time depending on your "
+                 "connection. It's around 2GB."%(container_name))
+            pull_start_time = timer()
+            client.images.pull(container_name)
+            pull_finish_time = timer()
+            print("Successfully pulled the docker image [%s] in %ss"%
+                  (container_name,
+                  timedelta(seconds=pull_finish_time - pull_start_time, microseconds=0) ))
+
+        except Exception as e:
+            print("There was an error trying to pull the image [%s]: [%s]"%(container_name,str(e)))
+            raise(e)
+
+def remove_existing_containers(client: DockerClient, reuse_containers: bool, container_template: str, num_containers: int, forceRemove: bool=True) -> bool:
+    if reuse_containers is True:
+        #Check to make sure that all of the requested containers exist
+        for index in range(0, num_containers):
+            container_name = container_template%(index)
+            print("Checking for the existence of container named [%s]"%(container_name))
+            try:
+                this_container = client.containers.get(container_name)
+            except Exception as e:
+                print("Failed to find a container named [%s]"%(container_name))
+                reuse_containers = False
+                break
+            try:
+                #Make sure that the container is stopped
+                print("Found [%s]. Stopping container..."%(container_name))
+                this_container.stop()
+            except Exception as e:
+                print("Failed to stop a container named [%s]"%(container_name))
+                reuse_containers = False
+                break
+        print("Found all of the containers, we will reuse them")
+        return True
+    
+    #Note that this variable can be changed by the block above, so don't
+    #convert this into an if/else
+    if reuse_containers is False:
+        for index in range(0,num_containers):
+            container_name = container_template%(index)
+            print("Trying to remove container [%s]"%(container_name))
+            try:
+                container = client.containers.get(container_name)
+            except Exception as e:
+                print("Could not find Docker Container [%s]. Container does not exist, so no need to remove it"%(container_name))
+                continue
+            try:
+                #container was found, so now we try to remove it
+                #v also removes volumes linked to the container
+                container.remove(v=True, force=forceRemove) #remove it even if it is running. remove volumes as well
+                print("Successfully removed Docker Container [%s]"%(container_name))
+            except Exception as e:
+                print("Could not remove Docker Container [%s]"%(container_name))
+                raise(Exception("CONTAINER REMOVE ERROR"))
+        return False
+
+
+
+        
+
+    
+
+    
+
+
 def main(args):
     
     start_time = timer()
@@ -100,14 +200,18 @@ def main(args):
     parser.add_argument("-pr", "--pr-number", type=int, required=False, help="Pull Request Number")
     parser.add_argument("-n", "--num_containers", required=False, type=int, default=1, help="The number of splunk docker containers to start and run for testing")
     
-    parser.add_argument("-i", "--reuse_images", required=False, type=bool, default=False, help="Should existing images be re-used, or should they be redownloaded?")
-    parser.add_argument("-c", "--reuse_containers", required=False, type=bool, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
 
+    parser.add_argument("-i", "--interactive_failure", required=False, default=False, action='store_true', help="If a test fails, should we pause before removing data so that the search can be debugged?")
+
+    parser.add_argument("-i", "--reuse_image", required=False, default=False, action='store_true', help="Should existing images be re-used, or should they be redownloaded?")
+    
+    parser.add_argument("-c", "--reuse_containers", required=False, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
     parser.add_argument("-s", "--success_file", type=str, required=False, help="File that contains previously successful runs that we don't need to test")
     parser.add_argument("-user", "--splunkbase_username", type=str, required=True, help="Splunkbase username for downloading Splunkbase apps")
     parser.add_argument("-pw", "--splunkbase_password", type=str, required=True, help="Splunkbase password for downloading Splunkbase apps")
     parser.add_argument("-m", "--mode", type=str, choices=DETECTION_MODES, required=False, help="Whether to test new detections, specific detections, or all detections", default="all")
     parser.add_argument("-t", "--types", type=str, required=False, nargs='+', help="Detection types to test. Can be one of more of %s"%(str(DETECTION_TYPES)), default=DETECTION_TYPES)
+    parser.add_argument("-ct", "--container_tag", type=str, required=False, help="The tag of the Splunk Container to use.  Tags are located at https://hub.docker.com/r/splunk/splunk/tags",default=DEFAULT_CONTAINER_TAG)
 
     args = parser.parse_args()
     branch = args.branch
@@ -115,11 +219,35 @@ def main(args):
     pr_number = args.pr_number
     num_containers = args.num_containers
     reuse_containers = args.reuse_containers
-    reuse_images = args.reuse_images
+    reuse_image = args.reuse_image
     success_file = args.success_file
     splunkbase_username = args.splunkbase_username
     splunkbase_password = args.splunkbase_password
+    full_docker_hub_container_name = "splunk/splunk:%s"%args.container_tag
     
+
+    client = docker.client.from_env()
+
+    #Remove containers that previously existed (if we are directed to do so)
+    try:
+        remove_existing_containers(client, reuse_containers, LOCAL_BASE_CONTAINER_NAME, num_containers)
+    except Exception as e:
+        print("Error tryting to remove existing containers.\n\tQuitting...")
+        sys.exit(1)
+
+    #Download and setup the image
+    try:
+        setup_image(client, reuse_image, full_docker_hub_container_name)
+    except Exception as e:
+        print("Error trying to set up the image.\n\tQuitting...")
+        sys.exit(1)
+    
+
+    sys.exit(0)
+
+
+
+
     mode = args.mode
     folder_names = args.types
     for t in args.types:
@@ -155,7 +283,16 @@ def main(args):
         github_service = GithubService(branch, pr_number)
     else:
         github_service = GithubService(branch)
-    test_files = github_service.get_all_tests_and_detections(folders=["endpoint"], previously_successful_tests=success_tests)
+    if args.mode == "new":
+        test_files = github_service.get_all_tests_and_detections(folders=args.types, previously_successful_tests=success_tests)
+    elif args.mode == "all":
+        pass
+    elif args.mode == "selected":
+        pass
+    else:
+        print("Unsupported mode [%s] chosen.  Supported modes are %s.\n\tQuitting..."%(args.mode, str(DETECTION_MODES)))
+        sys.exit(1)
+    
     
     if len(test_files) == 0:
         print("No new detections to test.")
