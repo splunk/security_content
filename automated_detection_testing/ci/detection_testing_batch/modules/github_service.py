@@ -16,9 +16,14 @@ SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
 class GithubService:
 
-    def __init__(self, security_content_branch, PR_number = None):
+    def __init__(self, security_content_branch:str, PR_number:int = None, existing_directory:bool=False):
+        
         self.security_content_branch = security_content_branch
+        if existing_directory:
+            return
+        print("Checking out security_content!")
         self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
+
         if PR_number:
             subprocess.call(["git", "-C", "security_content/", "fetch", "origin", "refs/pull/%d/head:%s"%(PR_number, security_content_branch)])
 

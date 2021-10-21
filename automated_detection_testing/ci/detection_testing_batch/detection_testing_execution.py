@@ -228,6 +228,7 @@ def main(args):
     full_docker_hub_container_name = "splunk/splunk:%s"%args.container_tag
     interactive_failure = args.interactive_failure
 
+    persist_security_content = args.persist_security_content
 
     #Read in all of the tests that we will ignore because they already passed
     success_tests = []
@@ -297,12 +298,30 @@ def main(args):
 
     
 
+    if persist_security_content is True and os.path.exists("security_content"):
+        print("******You chose --persist_security_content and the security_content directory exists. We will not check out the repo again. Please be aware, this could cause issues if you're out of date.******")
+        github_service = GithubService(branch, existing_directory=persist_security_content)
 
-
-    if pr_number:
-        github_service = GithubService(branch, pr_number)
+    elif persist_security_content is True:
+        print("Error - you chose --persist_security_content but the security_content directory does not exist!\n\tQuitting...")
+        sys.exit(1)
     else:
-        github_service = GithubService(branch)
+        if os.path.exists("security_content/"):
+            print("Deleting the security_content directory")
+            try:
+                import shutil
+                shutil.rmtree("security_content/", ignore_errors=True)
+                print("Successfully removed security_content directory")
+            except Exception as e:
+                print("Error - could not remove the security_content directory: [%s].\n\tQuitting..."%(str(e)))
+                sys.exit(1)
+        
+        if pr_number:
+            github_service = GithubService(branch, pr_number)
+        else:
+            github_service = GithubService(branch)
+    
+    
     if args.mode == "all":
         test_files = github_service.get_all_tests_and_detections(folders=folders, 
                                                                  previously_successful_tests=success_tests)
@@ -316,7 +335,6 @@ def main(args):
     else:
         print("Unsupported mode [%s] chosen.  Supported modes are %s.\n\tQuitting..."%(args.mode, str(DETECTION_MODES)))
         sys.exit(1)
-    
     
     
     new_test_files = []
