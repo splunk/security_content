@@ -224,9 +224,53 @@ def main(args):
     splunkbase_username = args.splunkbase_username
     splunkbase_password = args.splunkbase_password
     full_docker_hub_container_name = "splunk/splunk:%s"%args.container_tag
+    interactive_failure = args.interactive_failure
+
+
+    #Read in all of the tests that we will ignore because they already passed
+    success_tests = []
+    if success_file is not None:
+        try:
+            with open(success_file, "r") as successes:
+                for line in successes.readlines():
+                    file_path_new = os.path.join("tests", os.path.splitext(line)[0]) + ".test.yml"
+                    success_tests.append(file_path_new)
+        except Exception as e:
+            print("Error - error reading success_file: [%s]"%(str(e)))
+            print("\n\tQuitting...")
+            sys.exit(1)
+                
+
     
 
+    #Ensure that a valid mode was chosen 
+    mode = args.mode
+    folder_names = args.types
+    for t in args.types:
+        if t not in DETECTION_TYPES:
+            print("Error - requested test of [%s] but the only valid types are %s.\tQuitting..."%(t, str(DETECTION_TYPES)))
+            sys.exit(1)
+
+
+    #Do some initial setup and validation of the containers and images
+
+    #If a user requests to use existing containers, they must also explicitly request to reuse existing images
+    if reuse_containers and not reuse_image:
+        print("Error - requested --reuse_containers but did not explicitly request --reuse_image.\n\tQuitting")
+        sys.exit(1)
+
+    if num_containers < 1:
+        #Perhaps this should be a mock-run - do the initial steps but don't do testing on the containers?
+        print("Error, requested 0 containers.  You must run with at least 1 container.")
+        sys.exit(1)
+    elif num_containers > MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING:
+        print("You requested to run with [%d] containers which may use a very large amount of resources "
+               "as they all run in parallel.  The maximum suggested number of parallel containers is "
+               "[%d].  We will do what you asked, but be warned!"%(num_containers, MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING))
+
     client = docker.client.from_env()
+
+    #Ensure that the images and containers are set up in a proper state
 
     #Remove containers that previously existed (if we are directed to do so)
     try:
@@ -243,40 +287,13 @@ def main(args):
         sys.exit(1)
     
 
-    sys.exit(0)
+    
 
 
 
 
-    mode = args.mode
-    folder_names = args.types
-    for t in args.types:
-        if t not in DETECTION_TYPES:
-            print("Error - requested test of [%s] but the only valid types are %s.\tQuitting..."%(t, str(DETECTION_TYPES)))
-            sys.exit(1)
+    
 
-
-    success_tests = []
-    if success_file is not None:
-        with open(success_file, "r") as successes:
-            for line in successes.readlines():
-                file_path_new = os.path.join("tests", os.path.splitext(line)[0]) + ".test.yml"
-                #file_path_base = os.path.splitext(line)[0].replace('detections', 'tests') + '.test'
-                #file_path_new = file_path_base + '.yml'
-                success_tests.append(file_path_new)
-                #success_tests = [x.strip() for x in successes.readlines()]
-    else:
-        pass
-
-
-    if num_containers < 1:
-        #Perhaps this should be a mock-run - do the initial steps but don't do testing on the containers?
-        print("Error, requested 0 containers.  You must run with at least 1 container.")
-        sys.exit(1)
-    elif num_containers > MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING:
-        print("You requested to run with [%d] containers which may use a very large amount of resources "
-               "as they all run in parallel.  The maximum suggested number of parallel containers is "
-               "[%d].  We will do what you asked, but be warned!"%(num_containers, MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING))
 
 
     if pr_number:
@@ -284,24 +301,24 @@ def main(args):
     else:
         github_service = GithubService(branch)
     if args.mode == "new":
-        test_files = github_service.get_all_tests_and_detections(folders=args.types, previously_successful_tests=success_tests)
+        test_files = github_service.get_all_tests_and_detections(folders=args.types, 
+                                                                 previously_successful_tests=success_tests)
     elif args.mode == "all":
-        pass
-    elif args.mode == "selected":
-        pass
+        test_files = github_service.get_changed_test_files(folders=args.types,
+                                                           previously_successful_tests=success_tests)
+    #elif args.mode == "selected":
+    #    test_files = github_service.get_selected_test_files(folders=args.types,
+    #                                                       previously_successful_tests=success_tests)
+
     else:
         print("Unsupported mode [%s] chosen.  Supported modes are %s.\n\tQuitting..."%(args.mode, str(DETECTION_MODES)))
         sys.exit(1)
     
     
-    if len(test_files) == 0:
-        print("No new detections to test.")
-        #aws_service.dynamo_db_nothing_to_test(REGION, uuid_test, str(int(time.time())))
-        sys.exit(0)
-    
-    #print(test_files2[:5])
-    #sys.exit(0)
-
+    print("Number of detections to test: %d"%(len(test_files)))
+    time.sleep(5)
+    print(test_files)
+    sys.exit(0)
     new_test_files = []
 
 

@@ -30,20 +30,15 @@ class GithubService:
         return repo_obj
 
     
-    def get_all_tests_and_detections(self, folders=['endpoint', 'cloud', 'network'], ttps_to_test=["Anomaly","Hunting","TTP"], previously_successful_tests=[]):    
-        detections = []
-        for folder in folders:
-            detections.extend(self.get_all_files_in_folder(os.path.join("security_content/detections", folder), "*.yml"))
-            
-        
-        #Prune this down to only the subset of detections we can test
-        detections_to_test = []
-        tests=[]
- 
-        
-        for detection in detections:
-            #Don't do anything with SSA stuff
-            if os.path.basename(detection).startswith("ssa"):
+
+    def prune_detections(self, 
+                         detections_to_prune:list[str], 
+                         ttps_to_test:list[str], 
+                         previously_successful_tests:list[str],
+                         exclude_ssa:bool=True)->list[str]:
+        pruned_tests = []
+        for detection in detections_to_prune:
+            if os.path.basename(detection).startswith("ssa") and exclude_ssa:
                 continue
             with open(detection, "r") as d:
                 description = yaml.safe_load(d)
@@ -60,19 +55,31 @@ class GithubService:
                         print("Ignoring test [%s] before it has already passed previously"%(detection))
                     else:
                         #remove leading security_content/ from path
-                        tests.append(test_filepath_without_security_content)
+                        pruned_tests.append(test_filepath_without_security_content)
                 else:
                     #Don't do anything with these files
                     pass
+        return pruned_tests
 
-        return tests
+
+    def get_all_tests_and_detections(self, 
+                                     folders:list[str]=['endpoint', 'cloud', 'network'], 
+                                     ttps_to_test:list[str]=["Anomaly","Hunting","TTP"], 
+                                    previously_successful_tests:list[str]=[]) ->list[str]:    
+        detections = []
+        for folder in folders:
+            detections.extend(self.get_all_files_in_folder(os.path.join("security_content/detections", folder), "*.yml"))
+            
         
-    def get_all_files_in_folder(self, foldername, extension):
-        filesnames =  glob.glob(os.path.join(foldername, extension))
-        return filesnames
+        #Prune this down to only the subset of detections we can test
+        return self.prune_detections(detections, ttps_to_test, previously_successful_tests)
+        
+    def get_all_files_in_folder(self, foldername:str, extension:str)->list[str]:
+        filenames =  glob.glob(os.path.join(foldername, extension))
+        return filenames
 
 
-    def get_changed_test_files(self):
+    def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'], ttps_to_test=["Anomaly","Hunting","TTP"], previously_successful_tests=[]):
         branch1 = self.security_content_branch
         branch2 = 'develop'
         g = git.Git('security_content')
@@ -85,31 +92,37 @@ class GithubService:
             for file_path in changed_files:
                 # added or changed test files
                 if file_path.startswith('A') or file_path.startswith('M'):
-                    if 'tests' in file_path:
-                        if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.test.yml'):
-                            if file_path not in changed_test_files:
-                                changed_test_files.append(file_path)
+                    if 'tests' in file_path and os.path.basename(file_path).endswith('.test.yml'):
+                            changed_test_files.append(file_path)
 
                     # changed detections
-                    if 'detections' in file_path:
-                        if not os.path.basename(file_path).startswith('ssa') and os.path.basename(file_path).endswith('.yml'):
+                    if 'detections' in file_path and os.path.basename(file_path).endswith('.yml'):
                             changed_detection_files.append(file_path)
-                            #file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
-                            #file_path_new = file_path_base + '.yml'
-                            #if file_path_new not in changed_test_files:
-                            #    changed_test_files.append(file_path_new)
+                            
 
         #all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
         changed_test_files      = [name.split('\t')[1] for name in changed_test_files      if len(name.split('\t')) == 2]
         changed_detection_files = [name.split('\t')[1] for name in changed_detection_files if len(name.split('\t')) == 2]
-        
 
-        detections_to_test,_,_ = self.filter_test_types(changed_detection_files)
-        for f in detections_to_test:
-            file_path_base = os.path.splitext(f)[0].replace('detections', 'tests') + '.test'
-            file_path_new = file_path_base + '.yml'
-            if file_path_new not in changed_test_files:
-                changed_test_files.append(file_path_new)
+
+        #convert the test files to the detection file equivalent
+        converted_test_files = []
+        for test_filepath in changed_test_files:
+            detection_filename = str(pathlib.Path(*pathlib.Path(test_filepath).parts[-2:])).replace("tests", "detections",1)
+            converted_test_files.append(detection_filename)
+
+        for name in converted_test_files:
+            if name not in changed_detection_files:
+                changed_detection_files.append(name)
+
+        return self.prune_detections(changed_detection_files, ttps_to_test, previously_successful_tests)
+
+        #detections_to_test,_,_ = self.filter_test_types(changed_detection_files)
+        #for f in detections_to_test:
+        #    file_path_base = os.path.splitext(f)[0].replace('detections', 'tests') + '.test'
+        #    file_path_new = file_path_base + '.yml'
+        #    if file_path_new not in changed_test_files:
+        #        changed_test_files.append(file_path_new)
 
         
         
@@ -121,7 +134,7 @@ class GithubService:
         #print(len(changed_test_files))
         #import time
         #time.sleep(5)
-        return changed_test_files
+        
 
     def filter_test_types(self, test_files, test_types = ["Anomaly", "Hunting", "TTP"]):
         files_to_test = []
