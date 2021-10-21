@@ -12,14 +12,12 @@ description: This particular behavior is typically executed when an adversaries 
   task modifications will occur. During triage, review parallel processes and identify
   any further file modifications. Endpoint should be isolated.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*" 
-  AND (Registry.registry_path IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*", "*WinDefend*", "*SecurityHealthService*"))  AND 
-  Registry.registry_value_name = Start Registry.registry_value_data = 0x00000004
-  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data 
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)`
-  | `disabling_defender_services_filter`'
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*"
+  AND (Registry.registry_path IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*",
+  "*WinDefend*", "*SecurityHealthService*"))  AND Registry.registry_value_name = Start
+  Registry.registry_value_data = 0x00000004 by Registry.dest Registry.user Registry.registry_path
+  Registry.registry_value_name Registry.registry_value_data | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `disabling_defender_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -66,4 +64,4 @@ tags:
     type: user
     role:
     - Victim
-  
+  automated_detection_testing: passed
