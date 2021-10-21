@@ -203,16 +203,18 @@ def main(args):
 
     parser.add_argument("-i", "--interactive_failure", required=False, default=False, action='store_true', help="If a test fails, should we pause before removing data so that the search can be debugged?")
 
-    parser.add_argument("-i", "--reuse_image", required=False, default=False, action='store_true', help="Should existing images be re-used, or should they be redownloaded?")
+    parser.add_argument("-ri", "--reuse_image", required=False, default=False, action='store_true', help="Should existing images be re-used, or should they be redownloaded?")
     
-    parser.add_argument("-c", "--reuse_containers", required=False, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
+    parser.add_argument("-rc", "--reuse_containers", required=False, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
     parser.add_argument("-s", "--success_file", type=str, required=False, help="File that contains previously successful runs that we don't need to test")
     parser.add_argument("-user", "--splunkbase_username", type=str, required=True, help="Splunkbase username for downloading Splunkbase apps")
     parser.add_argument("-pw", "--splunkbase_password", type=str, required=True, help="Splunkbase password for downloading Splunkbase apps")
-    parser.add_argument("-m", "--mode", type=str, choices=DETECTION_MODES, required=False, help="Whether to test new detections, specific detections, or all detections", default="all")
-    parser.add_argument("-t", "--types", type=str, required=False, nargs='+', help="Detection types to test. Can be one of more of %s"%(str(DETECTION_TYPES)), default=DETECTION_TYPES)
+    parser.add_argument("-m", "--mode", type=str, choices=DETECTION_MODES, required=False, help="Whether to test new detections, specific detections, or all detections", default="new")
+    parser.add_argument("-t", "--types", type=str, required=False, help="Detection types to test. Can be one of more of %s"%(str(DETECTION_TYPES)), default=DETECTION_TYPES)
     parser.add_argument("-ct", "--container_tag", type=str, required=False, help="The tag of the Splunk Container to use.  Tags are located at https://hub.docker.com/r/splunk/splunk/tags",default=DEFAULT_CONTAINER_TAG)
-
+    parser.add_argument("-p", "--persist_security_content", required=False, default=False, action="store_true", help="Assumes security_content directory already exists.  Don't check it out and overwrite it again.  Saves "\
+                                                                                                                     "time and allows you to test a detection that you've updated.  Runs generate again in case you have "\
+                                                                                                                     "updated macros or anything else.  Especially useful for quick, local, iterative testing.")
     args = parser.parse_args()
     branch = args.branch
     uuid_test = args.uuid
@@ -245,14 +247,15 @@ def main(args):
 
     #Ensure that a valid mode was chosen 
     mode = args.mode
-    folder_names = args.types
-    for t in args.types:
+    folders = [a.strip() for a in args.types.split(',')]
+    for t in folders:
         if t not in DETECTION_TYPES:
             print("Error - requested test of [%s] but the only valid types are %s.\tQuitting..."%(t, str(DETECTION_TYPES)))
             sys.exit(1)
+    
+    
 
-
-    #Do some initial setup and validation of the containers and images
+    #Do some initial setup and validation of the containers and images  
 
     #If a user requests to use existing containers, they must also explicitly request to reuse existing images
     if reuse_containers and not reuse_image:
@@ -300,11 +303,11 @@ def main(args):
         github_service = GithubService(branch, pr_number)
     else:
         github_service = GithubService(branch)
-    if args.mode == "new":
-        test_files = github_service.get_all_tests_and_detections(folders=args.types, 
+    if args.mode == "all":
+        test_files = github_service.get_all_tests_and_detections(folders=folders, 
                                                                  previously_successful_tests=success_tests)
-    elif args.mode == "all":
-        test_files = github_service.get_changed_test_files(folders=args.types,
+    elif args.mode == "new":
+        test_files = github_service.get_changed_test_files(folders=folders,
                                                            previously_successful_tests=success_tests)
     #elif args.mode == "selected":
     #    test_files = github_service.get_selected_test_files(folders=args.types,
@@ -315,10 +318,7 @@ def main(args):
         sys.exit(1)
     
     
-    print("Number of detections to test: %d"%(len(test_files)))
-    time.sleep(5)
-    print(test_files)
-    sys.exit(0)
+    
     new_test_files = []
 
 

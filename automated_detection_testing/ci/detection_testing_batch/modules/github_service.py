@@ -101,8 +101,8 @@ class GithubService:
                             
 
         #all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
-        changed_test_files      = [name.split('\t')[1] for name in changed_test_files      if len(name.split('\t')) == 2]
-        changed_detection_files = [name.split('\t')[1] for name in changed_detection_files if len(name.split('\t')) == 2]
+        changed_test_files      = [os.path.join("security_content",name.split('\t')[1]) for name in changed_test_files      if len(name.split('\t')) == 2]
+        changed_detection_files = [os.path.join("security_content",name.split('\t')[1]) for name in changed_detection_files if len(name.split('\t')) == 2]
 
 
         #convert the test files to the detection file equivalent
