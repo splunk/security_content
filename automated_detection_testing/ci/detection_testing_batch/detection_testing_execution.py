@@ -17,7 +17,7 @@ import subprocess
 
 from timeit import default_timer as timer
 from datetime import timedelta
-
+import string
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -34,16 +34,30 @@ LOCAL_BASE_CONTAINER_NAME = "splunk_test_%d"
 
 
 
-#DOCKER_COMMIT_NAME = "splunk_configured"
-#RUNNER_BASE_NAME = "splunk_runner"
-
-
 BASE_CONTAINER_WEB_PORT=8000
 BASE_CONTAINER_MANAGEMENT_PORT=8089
 
 
 DETECTION_TYPES = ['endpoint', 'cloud', 'network']
 DETECTION_MODES = ['new', 'all', 'selected']
+
+
+#taken from attack_range
+def get_random_password():
+    random_source = string.ascii_letters + string.digits
+    password = random.choice(string.ascii_lowercase)
+    password += random.choice(string.ascii_uppercase)
+    password += random.choice(string.digits)
+
+    
+    for i in range(random.randrange(16,26)):
+        password += random.choice(random_source)
+
+    password_list = list(password)
+    random.SystemRandom().shuffle(password_list)
+    password = ''.join(password_list)
+    return password
+
 
 def wait_for_splunk_ready(splunk_container_name=None, splunk_web_port=None, max_seconds=30):
     #The smarter version of this will try to hit one of the pages,
@@ -200,7 +214,7 @@ def main(args):
     parser.add_argument("-pr", "--pr-number", type=int, required=False, help="Pull Request Number")
     parser.add_argument("-n", "--num_containers", required=False, type=int, default=1, help="The number of splunk docker containers to start and run for testing")
     
-
+    parser.add_argument("-cw", "--container_password", required=False, help="A password to use for the container.  If you don't choose one, a complex one will be generated for you.")
     parser.add_argument("-i", "--interactive_failure", required=False, default=False, action='store_true', help="If a test fails, should we pause before removing data so that the search can be debugged?")
 
     parser.add_argument("-ri", "--reuse_image", required=False, default=False, action='store_true', help="Should existing images be re-used, or should they be redownloaded?")
@@ -228,8 +242,16 @@ def main(args):
     full_docker_hub_container_name = "splunk/splunk:%s"%args.container_tag
     interactive_failure = args.interactive_failure
 
-    persist_security_content = args.persist_security_content
+    container_password = args.container_password
+    if container_password is None:
+        #Generate a sufficiently complex password 
+        container_password = get_random_password()
+        print("Generated the password: [%s]"%container_password)
+    else:
+        print("Since you supplied a password, we will not generate one for you.")
+    sys.exit(0)
 
+    persist_security_content = args.persist_security_content
     #Read in all of the tests that we will ignore because they already passed
     success_tests = []
     if success_file is not None:
@@ -337,62 +359,66 @@ def main(args):
         sys.exit(1)
     
     
-    new_test_files = []
-
-
-    for f in test_files:
-        if f not in success_tests:
-            new_test_files.append(f)
-        else:
-            #pass
-            print("Already found [%s] in success file, not testing it again"%(f))
-
-    #test_files = new_test_files
-    '''
-    print('\n'.join(test_files))
-    for f in test_files:
-        with open('security_content/'+f,'r') as b:
-            data = b.read()
-            if 'baseline' in data.lower():
-                print("baseline found in [%s]"%(f))
-    '''
     
-    time.sleep(10)
     
     #Go into the security content directory
     print("****GENERATE NEW CONTENT****")
     os.chdir("security_content")
-    commands = ["python3 -m venv .venv", "source .venv/bin/activate", "python3 -m pip install wheel", "python3 -m pip install -r requirements.txt", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
-    ret = subprocess.run("; ".join(commands), shell=True, capture_output=False)
+    print(os.getcwd())
+    if persist_security_content is False:
+        commands = ["python3 -m venv .venv", "source .venv/bin/activate", "python3 -m pip install wheel", "python3 -m pip install -r requirements.txt", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+    else:
+        commands = ["source .venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+    ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
     if ret.returncode != 0:
         print("Error generating new content.  Exiting...")
         sys.exit(1)
     print("New content generated successfully")    
-    os.chdir("..")
+    
 
     print("Generate new ESCU Package using new content")
-    commands = ["curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz", 
-    "rm -rf slim-latest",
-    "mkdir slim-latest", 
-    "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
-    "cd slim-latest", 
-    "virtualenv --python=/usr/bin/python2.7 --clear venv",
-    "source venv/bin/activate",
-    "python2 -m pip install --upgrade pip",
-    "python2 -m pip install wheel",
-    "python2 -m pip install semantic_version",
-    "python2 -m pip install .",
-    "cp -R ../security_content/dist/escu DA-ESS-ContentUpdate",
-    "slim package -o upload DA-ESS-ContentUpdate",
-    "cp upload/DA-ESS-ContentUpdate*.tar.gz /tmp/apps/DA-ESS-ContentUpdate-latest.tar.gz"
-    ]
+    if persist_security_content is True:
+        os.chdir("slim_packaging")
+        commands = ["cd slim-latest", 
+                    "source venv/bin/activate",
+                    "cp -R ../../dist/escu DA-ESS-ContentUpdate",
+                    "slim package -o upload DA-ESS-ContentUpdate",
+                    "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
+    
+    else:
+        os.mkdir("slim_packaging")
+        os.chdir("slim_packaging")
+        os.mkdir("apps")
+        commands = ["curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz", 
+                    "rm -rf slim-latest",
+                    "mkdir slim-latest", 
+                    "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
+                    "cd slim-latest", 
+                    "virtualenv --python=/usr/bin/python2.7 --clear venv",
+                    "source venv/bin/activate",
+                    "python2 -m pip install --upgrade pip",
+                    "python2 -m pip install wheel",
+                    "python2 -m pip install semantic_version",
+                    "python2 -m pip install .",
+                    "cp -R ../../dist/escu DA-ESS-ContentUpdate",
+                    "slim package -o upload DA-ESS-ContentUpdate",
+                    "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
+        
+    
+    
 
     ret = subprocess.run("; ".join(commands), shell=True, capture_output=False)
     if ret.returncode != 0:
-        print("Error generating new ESCU Package.  Exiting...")
+        print("Error generating new ESCU Package.\n\tQuitting..."%())
         sys.exit(1)
-    print("New ESCU PAckage generated successfully")    
-
+    os.chdir("../..")
+    print("New ESCU Package generated successfully")    
+    
+    #Enqueue all of the test files for processing
+    test_file_queue = queue.Queue()
+    for filename in test_files:
+        test_file_queue.put(filename)
+    
     
 
     client = docker.client.from_env()
@@ -426,9 +452,7 @@ def main(args):
     
 
     # print("***Files to test: %d"%(len(test_files)))
-    test_file_queue = queue.Queue()
-    for filename in test_files:
-        test_file_queue.put(filename)
+  
     # print("***Test files enqueued")
 
     
@@ -607,7 +631,7 @@ def main(args):
         ports= {"8000/tcp": web_port,
                 "8089/tcp": management_port
                }
-        mounts = [docker.types.Mount(target = '/tmp/apps/', source = '/tmp/apps', type='bind', read_only=True)]
+        mounts = [docker.types.Mount(target = '/tmp/apps/', source = 'security_content/slim_packaging/apps', type='bind', read_only=True)]
 
         print("Creating CONTAINER: [%s]"%(container_name))
         base_container = client.containers.create(DOCKER_HUB_CONTAINER_PATH, ports=ports, environment=environment, name=container_name, mounts=mounts, detach=True)
