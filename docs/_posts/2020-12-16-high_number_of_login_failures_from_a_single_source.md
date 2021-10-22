@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-12-16
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1110.001
@@ -36,8 +37,8 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
 
 

@@ -37,3 +37,10 @@ stories:
       - title: {{ category }}
         url: /stories/{{ category | lower | replace(" ", "_") }}/
     {%- endfor %}
+playbooks:
+  - title: "Type"
+    children:
+      - title: "Response"
+        url: /tags/#response/
+      - title: "Investigation"
+        url: /tags/#investigation/

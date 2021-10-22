@@ -40,6 +40,7 @@ tags:
   message: A user account created or delete shortly in host $dest$
   mitre_attack_id:
   - T1136.001
+  - T1136
   nist:
   - PR.IP
   observable:

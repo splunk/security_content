@@ -48,6 +48,7 @@ tags:
   - Exploitation
   message: Local user discovery enumeration using PowerShell on $dest$ by $user$
   mitre_attack_id:
+  - T1059
   - T1059.001
   observable:
   - name: dest

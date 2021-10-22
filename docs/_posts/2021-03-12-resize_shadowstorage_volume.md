@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-12
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1490
@@ -35,8 +36,8 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
 

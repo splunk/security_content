@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-30
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1018
@@ -35,8 +36,8 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
 

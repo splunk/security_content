@@ -44,6 +44,7 @@ tags:
   message: Suspicious driver $ImageLoaded$ on $Computer$
   mitre_attack_id:
   - T1543.003
+  - T1543
   observable:
   - name: Computer
     type: Endpoint

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-07-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1070.001
@@ -34,8 +35,8 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 

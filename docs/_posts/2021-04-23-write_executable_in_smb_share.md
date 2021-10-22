@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-23
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1021.002
@@ -35,8 +36,8 @@ This search is to detect suspicious dropping or creating an executable file in k
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
 

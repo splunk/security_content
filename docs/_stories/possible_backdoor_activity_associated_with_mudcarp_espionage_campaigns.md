@@ -2,6 +2,7 @@
 title: "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns"
 last_modified_at: 2020-01-22
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -56,7 +57,7 @@ If behavioral searches included in this story yield positive hits, iDefense reco
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Malicious PowerShell Process - Connect To Internet With Hidden Window](/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
+| [Malicious PowerShell Process - Connect To Internet With Hidden Window](/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window/) | [PowerShell](/tags/#powershell) | Hunting |
 | [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
 | [Unusually Long Command Line](/endpoint/unusually_long_command_line/) |  | Anomaly |
 | [Unusually Long Command Line - MLTK](/endpoint/unusually_long_command_line_-_mltk/) |  | Anomaly |

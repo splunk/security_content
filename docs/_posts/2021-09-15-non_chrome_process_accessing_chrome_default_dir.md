@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-15
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1555.003
@@ -35,8 +36,8 @@ This search is to detect an anomaly event of non-chrome process accessing the fi
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
 
 

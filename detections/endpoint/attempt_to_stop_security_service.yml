@@ -49,6 +49,7 @@ tags:
     attempting to disable security services on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1562.001
+  - T1562
   nist:
   - PR.PT
   - DE.CM

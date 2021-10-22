@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-31
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1003
@@ -35,8 +36,8 @@ The following analytic identifes Event Code 4768, A `Kerberos authentication tic
 
 #### ATT&CK
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 

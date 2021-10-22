@@ -2,6 +2,7 @@
 title: "Collection and Staging"
 last_modified_at: 2020-02-03
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -32,7 +33,7 @@ Use the searches to detect and monitor suspicious behavior related to these acti
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Renamed 7-Zip](/endpoint/detect_renamed_7-zip/) | [Archive via Utility](/tags/#archive-via-utility), [Local Email Collection](/tags/#local-email-collection), [Remote Email Collection](/tags/#remote-email-collection), [Masquerading](/tags/#masquerading) | Hunting |
+| [Detect Renamed 7-Zip](/endpoint/detect_renamed_7-zip/) | [Archive via Utility](/tags/#archive-via-utility) | Hunting |
 | [Detect Renamed WinRAR](/endpoint/detect_renamed_winrar/) | [Archive via Utility](/tags/#archive-via-utility) | Hunting |
 | [Email files written outside of the Outlook directory](/application/email_files_written_outside_of_the_outlook_directory/) | [Local Email Collection](/tags/#local-email-collection) | TTP |
 | [Email servers sending high volume traffic to hosts](/application/email_servers_sending_high_volume_traffic_to_hosts/) | [Remote Email Collection](/tags/#remote-email-collection) | Anomaly |

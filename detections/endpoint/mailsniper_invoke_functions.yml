@@ -38,6 +38,7 @@ tags:
   message: mailsniper.ps1 functions $Message$ executed on a $ComputerName$ by user
     $user$.
   mitre_attack_id:
+  - T1114
   - T1114.001
   observable:
   - name: dest
