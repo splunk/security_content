@@ -22,6 +22,8 @@ import string
 import shutil
 from typing import Union
 
+from tempfile import mkdtemp
+
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
 index_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "search")
@@ -528,9 +530,14 @@ def main(args):
     #read all the results out from the output queue
     strtime = str(int(time.time()))
 
+    print("Wait for the status thread to finish executing...")
+    status_thread.join()
+    print("Status thread finished executing.")
 
-    #Generate all of the output information
-    results_tracker.outputResultsFiles()
+    
+    #Remove the attack data and 
+    #generate all of the output information
+    results_tracker.finish()
     
     
 
@@ -577,6 +584,11 @@ class SynchronizedResultsTracker:
         self.successes = []
         self.errors = []
         self.container_ready_time = None
+        
+        #Just make a random folder to store attack data that we donwload
+        self.attack_data_root_folder = mkdtemp(prefix="attack_data_", dir=os.getcwd())
+        print("Attack data for this run will be stored at: [%s]"%(self.attack_data_root_folder))
+
     def getTest(self)-> Union[str,None]:
         try:
             return self.testing_queue.get(block=False)
@@ -614,7 +626,21 @@ class SynchronizedResultsTracker:
         finally:
             self.lock.release()
     
-    def summarize(self)->None:
+
+    def finish(self):
+        self.cleanup()
+        self.outputResultsFiles()
+        
+
+    def cleanup(self):
+        self.lock.acquire()
+        try:
+            print("Removing all attack data that was downloaded during this test at: [%s]"%(self.attack_data_root_folder))
+            shutil.rmtree(self.attack_data_root_folder)
+            print("Successfully removed all attack data")
+        finally:
+            self.lock.release()
+    def summarize(self)->bool:
         
         self.lock.acquire()
         
@@ -672,6 +698,11 @@ class SynchronizedResultsTracker:
             print("Error in printing execution summary: [%s]"%(str(e)))
         finally:
             self.lock.release()
+        
+        return (self.total_number_of_tests - 
+                self.testing_queue.qsize() - 
+                (len(self.successes) + len(self.failures) + len(self.errors)) > 0)
+        
         
     def addResult(self, result:dict)->None:
         try:
@@ -731,7 +762,7 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
                 removeContainer(client, container_name, forceRemove=True)
             except Exception as e:
                 print("Error stopping or removing the container: [%s]"%(str(e)))
-                
+
             return None
 
 
@@ -739,8 +770,12 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
         #There is a detection to test
         print("Container [%s]--->[%s]"%(container_name, detection_to_test))
         try:
-            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, 0, uuid_test, wait_on_failure=interactive_failure)
+            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, 0, uuid_test, testing_object.attack_data_root_folder, wait_on_failure=interactive_failure)
             testing_object.addResult(result)
+            
+            #Remove the data from the test that we just ran.  We MUST do this when running on CI because otherwise, we will download
+            #a massive amount of data over the course of a long path and will run out of space on the relatively small CI runner drive
+            shutil.rmtree(result['attack_data_directory'])
         except Exception as e:
             print("Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"%(detection_to_test, str(e)))
             testing_object.addError(detection_to_test,str(e))
@@ -749,7 +784,9 @@ def queue_status_thread(status_object:SynchronizedResultsTracker)->None:
     #This will run forever by design
     print("start status")
     while True:      
-        status_object.summarize()
+        if status_object.summarize() == False:
+            #There are no more tests to run, so we can return from this thread
+            return None
         time.sleep(10)
             
 if __name__ == "__main__":
