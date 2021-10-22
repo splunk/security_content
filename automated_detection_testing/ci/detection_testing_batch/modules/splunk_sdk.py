@@ -131,16 +131,16 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     test_results['error'] = False #The search may have FAILED, but there was no error in the search
 
     if int(job['resultCount']) != 1:
-        print("Test failed for detection: " + detection_name)
+        #print("Test failed for detection: " + detection_name)
         test_results['success'] = False
         return test_results
     else:
-        print("Test successful for detection: " + detection_name)
+        #print("Test successful for detection: " + detection_name)
         test_results['success'] = True
         return test_results
 
 
-def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:bool, search_string:str)->bool:
+def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:bool, search_string:str, detection_filename:str)->bool:
     
     try:
         service = client.connect(
@@ -155,9 +155,10 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
 
     #splunk_search = 'search index=test* | delete'
     if wait_on_delete:
-        print    ("************Allowing time to debug search************")
-        print(search_string)
-        _ = input("****************Press ENTER to DELETE****************")
+        print("\n\n\n****SEARCH FAILURE: Allowing time to debug search****")
+        print("FILENAME : [%s]"%(detection_filename))
+        print("SEARCH   :\n%s"%(search_string))
+        _ = input("****************Press ENTER to DELETE****************\n\n\n")
     splunk_search = 'search index=main | delete'
     kwargs = {"exec_mode": "blocking",
               "dispatch.earliest_time": "-1d",

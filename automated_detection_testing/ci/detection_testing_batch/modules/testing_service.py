@@ -30,7 +30,8 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
         wait_on_delete = True
     else:
         wait_on_delete = False
-    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string)
+    
+    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, test_file)
    
 
     return result_test    
@@ -61,7 +62,7 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
         target_file = os.path.join(folder_name, attack_data['file_name'])
         with open(target_file, 'wb') as target:
             target.write(r.content)
-        print(target_file)
+        #print(target_file)
 
         # Update timestamps before replay
         if 'update_timestamp' in attack_data:
@@ -71,9 +72,9 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
         INDEX_TO_REPLAY_INTO = 'test' + str(test_index)
         INDEX_TO_REPLAY_INTO = 'main'
         replay_attack_dataset(container_name, splunk_password, folder_name, INDEX_TO_REPLAY_INTO, attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
-    print("START SLEEP AFTER REPLAY")
+    
     time.sleep(30)
-    print("DONE SLEEP AFTER REPLAY")
+    
     result_test = {}
     test = test_file_obj['tests'][0]
     
@@ -111,7 +112,7 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
 
 def load_file(file_path):
     try:
-        print("Opening file path [%s]"%(file_path))
+        #print("Opening file path [%s]"%(file_path))
         
         with open(file_path, 'r', encoding="utf-8") as stream:
             try:

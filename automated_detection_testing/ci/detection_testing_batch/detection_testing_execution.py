@@ -247,6 +247,10 @@ def main(args):
     interactive_failure = args.interactive_failure
     show_password = args.show_password
     splunk_password = args.container_password
+    
+    if splunk_password is None and reuse_containers is True:
+        print("Error - if you are going to reuse a container you MUST provide the password to it!")
+        sys.exit(1)
     if splunk_password is None:
         #Generate a sufficiently complex password 
         splunk_password = get_random_password()
@@ -475,7 +479,8 @@ def main(args):
         ports= {"8000/tcp": web_port,
                 "8089/tcp": management_port
                }
-        mounts = [docker.types.Mount(target = '/tmp/apps/', source = 'security_content/slim_packaging/apps', type='bind', read_only=True)]
+        source_path = os.path.join(os.getcwd(), "security_content", "slim_packaging","apps")
+        mounts = [docker.types.Mount(target = '/tmp/apps/', source = source_path, type='bind', read_only=True)]
 
         print("Creating CONTAINER: [%s]"%(container_name))
         base_container = client.containers.create(full_docker_hub_container_name, ports=ports, environment=environment, name=container_name, mounts=mounts, detach=True)
@@ -490,7 +495,8 @@ def main(args):
                                    "127.0.0.1", 
                                    splunk_password, 
                                    management_port, 
-                                   uuid_test, 
+                                   uuid_test,
+                                   interactive_failure 
                                    ))
 
         splunk_container_manager_threads.append(t)
@@ -521,26 +527,12 @@ def main(args):
     print("All testing threads have completed execution")
     #read all the results out from the output queue
     strtime = str(int(time.time()))
-    #write success and failure
-    success_output = open("success_%s"%(strtime), "w") 
-    failure_output = open("failure_%s"%(strtime), "w")
-    try:
-        while True:
 
-            o = results_queue.get(block=False)
-            o_result = o['detection_result']
-            if o_result['error'] is False:
-                success_output.write(o_result['detection_file']+'\n')
-            else:
-                failure_output.write(o_result['detection_file']+'\n')
 
-            print(o_result)
-    except queue.Empty:
-        print("That's all the output!")
+    #Generate all of the output information
+    results_tracker.outputResultsFiles()
     
-
-    success_output.close()
-    failure_output.close()
+    
 
     #now we are done!
     stop_time = timer()
@@ -564,7 +556,7 @@ def copy_file_to_container(localFilePath, remoteFilePath, containerName, sleepTi
                 apiclient.put_archive(container=containerName, path=remoteFilePath, data=fileData)
                 successful_copy=True
         except Exception as e:
-            print("Failed copy of [%s] file to CONTAINER:[%s]...we will try again"%(localFilePath, containerName))
+            #print("Failed copy of [%s] file to CONTAINER:[%s]...we will try again"%(localFilePath, containerName))
             time.sleep(10)
             successful_copy=False
     print("Successfully copied [%s] to [%s] on [%s]"%(localFilePath, remoteFilePath, containerName))
@@ -584,12 +576,14 @@ class SynchronizedResultsTracker:
         self.failures = []
         self.successes = []
         self.errors = []
+        self.container_ready_time = None
     def getTest(self)-> Union[str,None]:
         try:
             return self.testing_queue.get(block=False)
         except Exception as e:
             print("Testing queue empty!")
             return None
+        
     def addSuccess(self, result:dict)->None:
         print("Test PASSED for detection: [%s --> %s"%(result['detection_result']['detection_name'], result['detection_result']['detection_file']))
         self.lock.acquire()
@@ -607,10 +601,10 @@ class SynchronizedResultsTracker:
         finally:
             self.lock.release()
 
-    def addError(self, result:dict)->None:
+    def addError(self, detection:str, errorText:str)->None:
         self.lock.acquire()
         try:
-            self.errors.append(result)
+            self.errors.append((detection, errorText))
         finally:
             self.lock.release()
     def outputResultsFiles(self)->None:
@@ -623,34 +617,49 @@ class SynchronizedResultsTracker:
     def summarize(self)->None:
         
         self.lock.acquire()
+        
         try:
             current_time = timer()
-            numberOfCompletedTests = len(self.successes) + len(self.failures) + len(self.errors)
-            remaining_tests = self.testing_queue.qsize()         
-            testsCurrentlyRunning = self.total_number_of_tests - remaining_tests
-            total_execution_time_seconds = current_time - self.start_time
-            
-            
-            if numberOfCompletedTests == 0:
-                estimated_seconds_to_finish_all_tests = "UNKNOWN"
-                estimated_completion_time_seconds = "UNKNOWN"
+            if self.testing_queue.qsize() == self.total_number_of_tests:
+                #Testing has not started yet. We are setting up containers
+                print("***********PROGRESS UPDATE***********\n"\
+                      "\tWaiting for container setup: %s"%(timedelta(seconds=current_time - self.start_time)))
             else:
-                average_time_per_test = total_execution_time_seconds / numberOfCompletedTests
-                estimated_seconds_to_finish_all_tests = average_time_per_test * remaining_tests
-                estimated_completion_time_seconds = timedelta(seconds=estimated_seconds_to_finish_all_tests)
+                if self.container_ready_time is None:
+                    #This is the first status update since container setup has completed.  Get the current time.
+                    #This makes our remaining time estimates better since that estimate should not involve
+                    #the container setup time  
+                    self.container_ready_time = current_time
+
+                numberOfCompletedTests = len(self.successes) + len(self.failures) + len(self.errors)
+                remaining_tests = self.testing_queue.qsize()         
+                testsCurrentlyRunning = self.total_number_of_tests - remaining_tests - numberOfCompletedTests
+                total_execution_time_seconds = current_time - self.start_time
+
+                test_execution_time_seconds = current_time - self.container_ready_time
                 
-            
+                
+                if numberOfCompletedTests == 0 or test_execution_time_seconds == 0:
+                    estimated_seconds_to_finish_all_tests = "UNKNOWN"
+                    estimated_completion_time_seconds = "UNKNOWN"
+                else:
+                    average_time_per_test = test_execution_time_seconds / numberOfCompletedTests
+                    #divide testsCurrentlyRunning by 2.0 because, on average, each running test will be 50% completed
+                    estimated_seconds_to_finish_all_tests = average_time_per_test * (remaining_tests + testsCurrentlyRunning/2.0)
+                    estimated_completion_time_seconds = timedelta(seconds=estimated_seconds_to_finish_all_tests)
+                    
+                
 
             
-                print("***Progress Update:\n"\
-                "\tElapsed Time             : %s\n"\
-                "\tEstimated Remaining Time : %s\n"\
-                "\tTests to run             : %d\n"\
-                "\tTests currently running  : %d\n"\
-                "\tTests completed          : %d\n"\
+                print("***********PROGRESS UPDATE***********\n"\
+                "\tElapsed Time               : %s\n"\
+                "\tEstimated Remaining Time   : %s\n"\
+                "\tTests to run               : %d\n"\
+                "\tTests currently running    : %d\n"\
+                "\tTests completed            : %d\n"\
                 "\t\tSuccess : %d\n"\
                 "\t\tFailure : %d\n"\
-                "\t\tError   : %d"%(timedelta(total_execution_time_seconds), 
+                "\t\tError   : %d"%(timedelta(seconds=total_execution_time_seconds), 
                                     estimated_completion_time_seconds, 
                                     remaining_tests, 
                                     testsCurrentlyRunning,
@@ -663,6 +672,7 @@ class SynchronizedResultsTracker:
             print("Error in printing execution summary: [%s]"%(str(e)))
         finally:
             self.lock.release()
+        
     def addResult(self, result:dict)->None:
         try:
             if result['detection_result']['success'] is False:
@@ -672,11 +682,11 @@ class SynchronizedResultsTracker:
                 self.addSuccess(result)
         except Exception as e:
             #Neither a success or a failure, so add the object to the failures queue
-            self.addError(result)
+            self.addError("Unspecified Error", str(result))
         
 
 
-def splunk_container_manager(testing_object:SynchronizedResultsTracker, container_name, splunk_ip, splunk_password, splunk_port, uuid_test):
+def splunk_container_manager(testing_object:SynchronizedResultsTracker, container_name, splunk_ip, splunk_password, splunk_port, uuid_test, interactive_failure:bool=False):
     print("Starting the container [%s] after a sleep"%(container_name))
     #Is this going to be safe to use in different threads
     client = docker.client.from_env()
@@ -685,7 +695,7 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     #Assume that the base container has already been fully built with
     #escu etc
     #sleep for a little bit so that we don't all start at once...
-    time.sleep(random.randrange(0,60))
+    
 
     container = client.containers.get(container_name)
     print("Starting the container [%s]"%(container_name))
@@ -693,10 +703,10 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     
 
     container.start()
-    print("Start copying files to container")
+    print("Start copying files to container: [%s]"%(container_name))
     copy_file_to_container(index_file_local_path, index_file_container_path, container_name)
     copy_file_to_container(datamodel_file_local_path, datamodel_file_container_path, container_name)
-    print("Finished copying files to container!")
+    print("Finished copying files to container: [%s]"%(container_name))
 
 
     wait_for_splunk_ready(max_seconds=120)
@@ -723,12 +733,18 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
         #There is a detection to test
         print("Container [%s]--->[%s]"%(container_name, detection_to_test))
         try:
-            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, 0, uuid_test)
+            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, 0, uuid_test, wait_on_failure=interactive_failure)
             testing_object.addResult(result)
         except Exception as e:
             print("Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"%(detection_to_test, str(e)))
+            testing_object.addError(detection_to_test,str(e))
 
-
+def queue_status_thread(status_object:SynchronizedResultsTracker)->None:
+    #This will run forever by design
+    print("start status")
+    while True:      
+        status_object.summarize()
+        time.sleep(10)
             
 if __name__ == "__main__":
     main(sys.argv[1:])
@@ -736,7 +752,4 @@ if __name__ == "__main__":
 
 
 
-def queue_status_thread(status_object:SynchronizedResultsTracker)->None:
-    while True:      
-        status_object.summarize()
-        time.sleep(10)
+
