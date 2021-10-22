@@ -1,9 +1,9 @@
 name: Spoolsv Spawning Rundll32
 id: 15d905f6-da6b-11eb-ab82-acde48001122
-version: 1
+version: 2
 date: '2021-07-01'
 author: Mauricio Velazco, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies a suspicious child process, `rundll32.exe`,
@@ -14,13 +14,15 @@ description: The following analytic identifies a suspicious child process, `rund
   additional file modification events.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe
-  Processes.process_name=rundll32.exe by Processes.dest Processes.user Processes.parent_process
+  `process_rundll32` by Processes.dest Processes.user Processes.parent_process Processes.original_file_name
   Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `spoolsv_spawning_rundll32_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: Limited false positives have been identified. There are limited
   instances where `rundll32.exe` may be spawned by a legitimate print driver.
 references:
@@ -46,6 +48,7 @@ tags:
     This behavior is suspicious and related to PrintNightmare.
   mitre_attack_id:
   - T1547.012
+  - T1547
   observable:
   - name: dest
     type: Endpoint
@@ -68,10 +71,14 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
+  - Processes.parent_process_name
   - Processes.parent_process
+  - Processes.original_file_name
   - Processes.process_name
   - Processes.process
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
   - Processes.parent_process_id
   risk_score: 72
   security_domain: endpoint

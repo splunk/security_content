@@ -3,7 +3,7 @@ id: eff7919a-8330-11eb-83f8-acde48001122
 version: 1
 date: '2021-03-12'
 author: Teoderick Contreras
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: The following analytics identifies a big number of instance of ransomware
@@ -28,13 +28,30 @@ tags:
   analytic_story:
   - Clop Ransomware
   - DarkSide Ransomware
+  - BlackMatter Ransomware
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - source:endpoint
+  - stage: Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  impact: 90
   kill_chain_phases:
   - Obfuscation
+  message: A high frequency file creation of $file_name$ in different file path in
+    host $Computer$
   mitre_attack_id:
   - T1486
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,4 +64,5 @@ tags:
   - Computer
   - Image
   - user
+  risk_score: 81
   security_domain: endpoint

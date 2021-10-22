@@ -3,7 +3,7 @@ id: 42b4b438-beed-11eb-ba1d-acde48001122
 version: 1
 date: '2021-05-27'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: SharpHound is used as a reconnaissance collector, ingestor, for BloodHound.
@@ -43,16 +43,33 @@ tags:
   - Discovery Techniques
   - Ransomware
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Reconnaissance
+  message: Potential SharpHound file modifications identified on $dest$
   mitre_attack_id:
   - T1087.002
-  - T1087.001
-  - T1482
-  - T1069.002
   - T1069.001
+  - T1482
+  - T1087.001
+  - T1087
+  - T1069.002
+  - T1069
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -64,4 +81,5 @@ tags:
   - file_name
   - process_id
   - file_create_time
+  risk_score: 24
   security_domain: endpoint

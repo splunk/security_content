@@ -3,7 +3,7 @@ id: 57fe880a-9be3-11eb-9bf3-acde48001122
 version: 1
 date: '2021-04-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following detection identifies Microsoft Excel spawning Windows Script
@@ -35,12 +35,37 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$, indicating potential suspicious macro execution.
   mitre_attack_id:
   - T1003.002
+  - T1003
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -53,4 +78,5 @@ tags:
   - dest
   - user
   - parent_process_id
+  risk_score: 80
   security_domain: endpoint

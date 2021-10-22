@@ -3,7 +3,7 @@ id: 60023bb6-5500-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-12'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies child processes spawning from  "mshta.exe".
@@ -47,6 +47,7 @@ tags:
   - Exploitation
   message: suspicious mshta child process detected on host $dest$ by user $user$.
   mitre_attack_id:
+  - T1218
   - T1218.005
   nist:
   - PR.PT

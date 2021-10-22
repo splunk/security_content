@@ -3,7 +3,7 @@ id: 1400624a-d42d-484d-8843-e6753e6e3645
 version: 1
 date: '2020-09-18'
 author: Rod Soto, Jose Hernandez, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search looks for Event Code 4742 (Computer Change) or EventCode
   4624 (An account was successfully logged on) with an anonymous account.
@@ -26,13 +26,34 @@ tags:
   cis20:
   - CIS 6
   - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Lateral Movement
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: The following $EventCode$ occurred on $dest$ by $user$ with Logon Type
+    3, which may be indicative of the an account or group being changed by an anonymous
+    account.
   mitre_attack_id:
   - T1210
   nist:
   - DE.AE
   - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: EventCode
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -44,4 +65,5 @@ tags:
   - LogonType
   - TargetDomainName
   - user
+  risk_score: 49
   security_domain: endpoint

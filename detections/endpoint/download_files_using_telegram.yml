@@ -3,7 +3,7 @@ id: 58194e28-ae5e-11eb-8912-acde48001122
 version: 1
 date: '2021-05-06'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic will identify a suspicious download by the Telegram
@@ -28,12 +28,28 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Exploitation
+  message: Suspicious files were downloaded with the Telegram application on $dest$
+    by $user$.
   mitre_attack_id:
   - T1105
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,4 +62,5 @@ tags:
   - process_id
   - TargetFilename
   - Hash
+  risk_score: 49
   security_domain: endpoint

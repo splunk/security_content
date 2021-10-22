@@ -1,136 +1,121 @@
-# Splunk Security Content Detections
-![security_content](static/logo.png)
-=====
-All the detections shipped to different Splunk products. Below is a breakdown by kind.
-
-## Cloud
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'cloud' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-## Endpoint
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'endpoint' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-## Network
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'network' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-## Application
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'application' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-## Web
-<details>
-  <summary>details</summary>
-
-{% for detection in detections %}
-{% if detection.kind == 'web' %}
-- [{{ detection.name }}](#{{ detection.name|lower|replace(" ", "-") }})
-{% endif %}
-{% endfor %}
-</details>
-
-
-
-{% for detection in detections %}
-### {{ detection.name }}
-{{ detection.description }}
-
-- **Product**: {{ detection.tags.product|join(', ') }}
-- **Datamodel**: {{ detection.datamodel|join(', ') }}
-- **ATT&CK**: {% for attack in detection.tags.mitre_attack_id -%}
-{%- if attack -%}
-{% set sub_technique = attack.split('.') %}
-{%- if sub_technique | length > 1 -%}
-[{{ attack}}](https://attack.mitre.org/techniques/{{sub_technique[0] }}/{{sub_technique[1]}}/)
-{%- else -%}
-[{{ attack}}](https://attack.mitre.org/techniques/{{ attack }}/)
-{%- endif -%}
+---
+title: "{{detection.name}}"
+excerpt: "{% for attack in detection.mitre_attacks -%}
+{%- if attack.technique_id -%}
+{{ attack.technique }}
 {%- endif -%}
 {% if not loop.last -%}, {% endif -%}
-{% endfor %}
-- **Last Updated**: {{ detection.date }}
+{% endfor %}"
+categories:
+  - {{detection.kind|capitalize}}
+last_modified_at: {{detection.date}}
+toc: true
+toc_label: ""
+tags:
+  - {{ detection.type }}
+{%- for attack in detection.mitre_attacks %}
+  - {{ attack.technique_id }}
+  - {{ attack.technique }}
+  {%- for attack_tactic in attack.tactic %}
+  - {{ attack_tactic }}
+  {%- endfor -%}
+{%- endfor -%}
+{%- for product in detection.tags.product %}
+  - {{ product }}
+{%- endfor -%}
+{%- for datamodel in detection.datamodel %}
+  - {{ datamodel }}
+{%- endfor -%}
+{%- for phase in detection.tags.kill_chain_phases %}
+  - {{ phase }}
+{%- endfor %}
+---
 
-<details>
-  <summary>details</summary>
+{% if detection.experimental is sameas true -%}
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate or build datasets for it, use at your own risk!
+{% endif %}
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+{{ detection.description }}
+
+- **Type**: {{ detection.type }}
+- **Product**: {{ detection.tags.product|join(', ') }}
+- **Datamodel**: {% for datamodel in detection.datamodel %}[{{ datamodel }}](https://docs.splunk.com/Documentation/CIM/latest/User/{{ datamodel|replace("_", "")}}){% if not loop.last %}, {% endif %}{%-endfor %}
+- **Last Updated**: {{ detection.date }}
+- **Author**: {{detection.author}}
+- **ID**: {{ detection.id }}
+
+{% if detection.mitre_attacks %}
+#### ATT&CK
+
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
+{% for attack in detection.mitre_attacks -%}
+{% if attack.technique_id -%}
+{%- set sub_technique = attack.technique_id.split('.') -%}{%- if sub_technique | length > 1 -%}
+| [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{sub_technique[0]}}/{{sub_technique[1]}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
+{%- else -%}
+| [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{attack.technique_id}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
+{% endif -%}
+{%- endif -%}
+{%- endfor %}
+{% endif %}
 
 #### Search
+
 ```
-{{ detection.search|replace("|", "\n|") }}
+{{ detection.search|replace("|", "\n|")|safe }}
 ```
+
 #### Associated Analytic Story
-{% for story in detection.tags.analytic_story %}
-* {{ story }}
+{% for story in detection.tags.analytic_story -%}
+* [{{ story }}](/stories/{{story|lower|replace(" ", "_")}})
 {% endfor %}
 
 #### How To Implement
 {{ detection.how_to_implement}}
 
 #### Required field
-{% for field in detection.tags.required_fields %}
+{% for field in detection.tags.required_fields -%}
 * {{ field }}
 {% endfor %}
 
-{% if detection.mitre_attacks %}
-#### ATT&CK
-
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
-{%- for attack in detection.mitre_attacks %}
-| {{ attack.technique_id }} | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
-{%- endfor %}
-{% endif %}
-
 #### Kill Chain Phase
-{% for phase in detection.tags.kill_chain_phases %}
+{% for phase in detection.tags.kill_chain_phases -%}
 * {{ phase }}
 {% endfor %}
 
 #### Known False Positives
 {{ detection.known_false_positives}}
 
+
+{% if detection.tags.observable %}
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| {{(detection.tags.impact * detection.tags.confidence)/100}} | {{ detection.tags.impact }} | {{ detection.tags.confidence }} | {{detection.tags.message}} |
+
+{% endif %}
+
 #### Reference
 {% if detection.references %}
-{% for reference in detection.references %}
-* {{ reference }}
+{% for reference in detection.references -%}
+* [{{ reference }}]({{ reference }})
 {% endfor %}
 {% endif %}
 
 #### Test Dataset
-{% for dataset in detection.tags.dataset %}
-* {{ dataset }}
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+{% for dataset in detection.tags.dataset -%}
+* [{{dataset}}]({{ dataset }})
 {% endfor %}
 
-_version_: {{detection.version}}
-</details>
 
----
-{% endfor %}
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/{% if detection.experimental is sameas true -%}experimental/{%- endif -%}{{detection.kind}}/{{ detection.name | lower | replace (" ", "_") }}.yml) \| *version*: **{{detection.version}}**

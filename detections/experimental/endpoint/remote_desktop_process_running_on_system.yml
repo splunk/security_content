@@ -3,7 +3,7 @@ id: f5939373-8054-40ad-8c64-cec478a22a4a
 version: 5
 date: '2020-07-21'
 author: David Dorsey, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Endpoint
 description: This search looks for the remote desktop process mstsc.exe running on
@@ -38,6 +38,7 @@ tags:
   - Actions on Objectives
   mitre_attack_id:
   - T1021.001
+  - T1021
   nist:
   - DE.AE
   - PR.AC

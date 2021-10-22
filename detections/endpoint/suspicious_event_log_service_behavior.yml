@@ -3,7 +3,7 @@ id: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
 version: 1
 date: '2021-06-17'
 author: Mauricio Velazco, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic utilizes Windows Event ID 1100 to identify when
   Windows event log service is shutdown. Note that this is a voluminous analytic that
@@ -35,11 +35,18 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 6
+  confidence: 30
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log
+  impact: 30
   kill_chain_phases:
   - Actions on Objectives
+  message: The Windows Event Log Service shutdown on $ComputerName$
   mitre_attack_id:
+  - T1070
   - T1070.001
   nist:
   - DE.DP
@@ -47,6 +54,11 @@ tags:
   - PR.AC
   - PR.AT
   - DE.AE
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -55,4 +67,5 @@ tags:
   - _time
   - EventCode
   - dest
+  risk_score: 9
   security_domain: endpoint

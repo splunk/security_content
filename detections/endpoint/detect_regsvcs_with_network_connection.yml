@@ -3,7 +3,7 @@ id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
 version: 1
 date: '2021-02-16'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies Regsvcs.exe with a network connection
   to a public IP address, exluding private IP space. This particular technique has
@@ -37,15 +37,36 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.009/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: An instance of $process_name$ contacting a remote destination was identified
+    on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$.
   mitre_attack_id:
+  - T1218
   - T1218.009
   nist:
   - PR.PT
   - DE.CM
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -59,4 +80,5 @@ tags:
   - User
   - src_ip
   - dest_host
+  risk_score: 80
   security_domain: Endpoint

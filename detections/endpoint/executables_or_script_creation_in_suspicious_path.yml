@@ -3,7 +3,7 @@ id: a7e3f0f0-ae42-11eb-b245-acde48001122
 version: 1
 date: '2021-05-06'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic will identify suspicious executable or scripts (known file
@@ -34,13 +34,35 @@ references:
 tags:
   analytic_story:
   - XMRig
+  - Remcos
   automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: Suspicious executable or scripts with file name $file_name$, $file_path$
+    and process_id $process_id$ executed in suspicious file path in Windows by $user$
   mitre_attack_id:
   - T1036
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_id
+    type: Process
+    role:
+    - Attacker
+  - name: file_name
+    type: File Name
+    role:
+    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -52,4 +74,5 @@ tags:
   - Filesystem.process_id
   - Filesystem.file_name
   - Filesystem.user
+  risk_score: 56
   security_domain: endpoint

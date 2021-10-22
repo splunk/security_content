@@ -1,0 +1,10 @@
+name: Delete A Net User Unit Test
+tests:
+  - name: Delete A Net User
+    file: endpoint/ssa___delete_a_net_user.yml
+    pass_condition: '@count_gt(0)'
+    description: Test for usage of net.exe or net1.exe to delete net user
+    attack_data:
+      - file_name: net_user_del.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log
+        source: WinEventLog:Security

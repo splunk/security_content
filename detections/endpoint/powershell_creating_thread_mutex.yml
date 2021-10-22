@@ -3,7 +3,7 @@ id: 637557ec-ca08-11eb-bd0a-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104 that is using the `mutex` function. This function is commonly
@@ -29,12 +29,29 @@ tags:
   analytic_story:
   - Malicious PowerShell
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: A suspicious powershell script contains Thread Mutex in $Message$ with
+    EventCode $EventCode$ in host $ComputerName$
   mitre_attack_id:
+  - T1027
   - T1027.005
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -45,4 +62,5 @@ tags:
   - Message
   - ComputerName
   - User
+  risk_score: 40
   security_domain: endpoint

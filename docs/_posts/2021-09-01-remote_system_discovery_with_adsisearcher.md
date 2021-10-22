@@ -1,0 +1,101 @@
+---
+title: "Remote System Discovery with Adsisearcher"
+excerpt: "Remote System Discovery"
+categories:
+  - Endpoint
+last_modified_at: 2021-09-01
+toc: true
+toc_label: ""
+tags:
+  - TTP
+  - T1018
+  - Remote System Discovery
+  - Discovery
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  - Endpoint
+  - Reconnaissance
+---
+
+
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+The following analytic utilizes PowerShell Script Block Logging (EventCode=4104) to identify the `[Adsisearcher]` type accelerator being used to query Active Directory for domain computers. Red Teams and adversaries may leverage `[Adsisearcher]` to enumerate domain computers for situational awareness and Active Directory Discovery.
+
+- **Type**: TTP
+- **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Last Updated**: 2021-09-01
+- **Author**: Mauricio Velazco, Splunk
+- **ID**: 70803451-0047-4e12-9d63-77fa7eb8649c
+
+
+#### ATT&CK
+
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- | -------------- |
+| [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
+
+
+
+#### Search
+
+```
+`powershell` EventCode=4104 (Message = "*[adsisearcher]*" AND Message = "*objectclass=computer*" AND Message = "*findAll()*") 
+| stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
+| `security_content_ctime(firstTime)` 
+| `remote_system_discovery_with_adsisearcher_filter`
+```
+
+#### Associated Analytic Story
+* [Active Directory Discovery](/stories/active_directory_discovery)
+
+
+#### How To Implement
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+
+#### Required field
+* _time
+* EventCode
+* Message
+* ComputerName
+* User
+
+
+#### Kill Chain Phase
+* Reconnaissance
+
+
+#### Known False Positives
+Administrators or power users may use Adsisearcher for troubleshooting.
+
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 15.0 | 30 | 50 | Remote system discovery enumeration on $dest$ by $user$ |
+
+
+
+#### Reference
+
+* [https://attack.mitre.org/techniques/T1018/](https://attack.mitre.org/techniques/T1018/)
+* [https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/](https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/)
+
+
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log)
+
+
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/remote_system_discovery_with_adsisearcher.yml) \| *version*: **1**

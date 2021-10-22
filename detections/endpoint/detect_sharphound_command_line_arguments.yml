@@ -3,7 +3,7 @@ id: a0bdd2f6-c2ff-11eb-b918-acde48001122
 version: 1
 date: '2021-06-01'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies common command-line arguments used
@@ -33,16 +33,29 @@ tags:
   - Discovery Techniques
   - Ransomware
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Reconnaissance
+  message: Possible SharpHound command-Line arguments identified on $dest$
   mitre_attack_id:
   - T1087.002
-  - T1087.001
-  - T1482
-  - T1069.002
   - T1069.001
+  - T1482
+  - T1087.001
+  - T1087
+  - T1069.002
+  - T1069
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -56,4 +69,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
+  risk_score: 24
   security_domain: endpoint

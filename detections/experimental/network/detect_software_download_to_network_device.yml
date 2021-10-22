@@ -3,7 +3,7 @@ id: cc590c66-f65f-48f2-986a-4797244762f8
 version: 1
 date: '2020-10-28'
 author: Mikael Bjerkeland, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Traffic
 description: Adversaries may abuse netbooting to load an unauthorized network device
@@ -40,6 +40,7 @@ tags:
   - Delivery
   mitre_attack_id:
   - T1542.005
+  - T1542
   nist:
   - ID.AM
   - PR.DS

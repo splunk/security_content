@@ -3,7 +3,7 @@ id: 80f9d53e-9ca1-11eb-b0d6-acde48001122
 version: 1
 date: '2021-04-13'
 author: Mauricio Velazco, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
 description: 'The following analytic identifies a source host failing to authenticate
@@ -49,12 +49,25 @@ tags:
   analytic_story:
   - Active Directory Password Spraying
   automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray/windows-security.log
+  impact: 70
   kill_chain_phases:
   - Exploitation
+  message: Potential password spraying attack on $ComputerName$
   mitre_attack_id:
   - T1110.003
+  - T1110
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -67,4 +80,5 @@ tags:
   - Account_Name
   - ComputerName
   - Source_Network_Address
+  risk_score: 49
   security_domain: endpoint

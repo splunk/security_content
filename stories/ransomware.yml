@@ -3,7 +3,6 @@ id: cf309d0d-d4aa-4fbb-963d-1e79febd3756
 version: 1
 date: '2020-02-04'
 author: David Dorsey, Splunk
-type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to ransomware--spikes in SMB traffic, suspicious wevtutil usage,
   the presence of common ransomware extensions, and system processes run from unexpected

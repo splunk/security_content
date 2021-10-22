@@ -3,7 +3,7 @@ id: 3070f8e0-c528-11eb-b2a0-acde48001122
 version: 1
 date: '2021-06-04'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search detects a suspicioous termination of known services killed
@@ -26,13 +26,29 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - BlackMatter Ransomware
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: Known services $Message$ terminated by a potential ransomware on $dest$
   mitre_attack_id:
   - T1490
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Message
+    type: Other
+    role:
+    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -43,4 +59,5 @@ tags:
   - Message
   - dest
   - Type
+  risk_score: 72
   security_domain: endpoint

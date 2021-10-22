@@ -41,7 +41,7 @@ def main(args):
     parser.add_argument("-s3b", "--s3_bucket", required=False, default="attack-range-automated-testing",
                         help="S3 bucket to store the test data")
 
-
+    
     args = parser.parse_args()
     test_file_name = args.test_file_name
     attack_range_repo = args.attack_range_repo
@@ -106,7 +106,7 @@ def main(args):
       file.write(filedata)
 
     module = __import__('attack_range')
-    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security_content/tests/' + test_file_name]
+    module.sys.argv = ['attack_range', '--config', 'attack_range/attack_range.conf', 'test', '--test_file', 'security_content/tests/' + test_file_name, '--test_build_destroy']
 
     execution_error = False
 
@@ -148,7 +148,7 @@ def main(args):
                     detection_obj['tags']['dataset'] = datasets
 
                 with open(file_path, 'w') as f:
-                    yaml.dump(detection_obj, f, sort_keys=False)
+                    yaml.dump(detection_obj, f, sort_keys=False, allow_unicode=True)
 
                 changed_file_path = 'detections/' + test['detection_result']['detection_file']
                 security_content_repo_obj.index.add([changed_file_path])
@@ -156,7 +156,7 @@ def main(args):
                 counter = counter + 1
 
 
-        j2_env = Environment(loader=FileSystemLoader('templates'),trim_blocks=True)
+        j2_env = Environment(loader=FileSystemLoader('templates'),trim_blocks=True) # nosemgrep
         template = j2_env.get_template('PR_template.j2')
         body = template.render(results=results)
 
@@ -177,7 +177,7 @@ def main(args):
 
 
 def load_file(file_path):
-    with open(file_path, 'r') as stream:
+    with open(file_path, 'r', encoding="utf-8") as stream:
         try:
             file = list(yaml.safe_load_all(stream))[0]
         except yaml.YAMLError as exc:

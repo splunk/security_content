@@ -3,7 +3,7 @@ id: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 version: 3
 date: '2020-12-08'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for shim database files being written to default directories.
   The sdbinst.exe application is used to install shim database files (.sdb). According
@@ -30,14 +30,31 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 80
+  context:
+  - source:endpoint
+  - stage: Privilege Escalation
+  - Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: A process that possibly write shim database in $file_path$ in host $dest$
   mitre_attack_id:
   - T1546.011
+  - T1546
   nist:
   - DE.CM
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: file_path
+    type: file path
+    role:
+    - Others
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,4 +65,5 @@ tags:
   - Filesystem.file_path
   - Filesystem.file_name
   - Filesystem.dest
+  risk_score: 56
   security_domain: endpoint

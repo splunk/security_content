@@ -2,7 +2,7 @@ name: System Process Running from Unexpected Location - SSA Unit Test
 tests:
   - name: System Process Running from Unexpected Location
     file: endpoint/ssa___system_process_running_unexpected_location.yml
-    pass_condition: '@count_eq(0)'
+    pass_condition: '@count_eq(1)'
     description: Test System Process Running from an unexpected location 
     attack_data:
       - file_name: windows-security.log

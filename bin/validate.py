@@ -73,18 +73,15 @@ def validate_objects(REPO_PATH, objects, verbose):
     for lookup in objects['lookups']:
         errors = errors + validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
-    objects_array = objects['stories'] + objects['detections'] + objects['baselines'] + objects['response_tasks'] + objects['responses']
+    objects_array = objects['stories'] + objects['detections'] 
     for object in objects_array:
         validation_errors, uuids = validate_standard_fields(object, uuids)
         errors = errors + validation_errors
 
     for object in objects['detections']:
-        if object['type'] == 'batch':
+        if not 'Splunk Behavioral Analytics' in object['tags']['product']:
             errors = errors + validate_detection_search(object, objects['macros'])
             errors = errors + validate_fields(object)
-
-    for object in objects['baselines']:
-        errors = errors + validate_baseline_search(object, objects['macros'])
 
     for object in objects['tests']:
         errors = errors + validate_tests(REPO_PATH, object)
@@ -94,6 +91,9 @@ def validate_objects(REPO_PATH, objects, verbose):
 
 def validate_fields(object):
     errors = []
+
+    if object['type'] not in ['TTP', 'Anomaly', 'Hunting', 'Baseline', 'Investigation', 'Correlation']:
+        errors.append('ERROR: invalid type [TTP, Anomaly, Hunting, Baseline, Investigation, Correlation] for object: %s' % object['name'])
 
     if 'tags' in object:
 
@@ -122,8 +122,9 @@ def validate_standard_fields(object, uuids):
     else:
         uuids.append(object['id'])
 
-    if (object['type']) == 'batch' and len(object['name']) > 75:
-        errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
+    if 'products' in object['tags']: 
+        if (not 'Splunk Behavioral Analytics' in object['tags']['products']) and len(object['name']) > 75:
+            errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
 
     # if object['name'].endswith(" "):
     #     errors.append(
@@ -176,45 +177,24 @@ def validate_standard_fields(object, uuids):
         if 'impact' in object['tags'] and 'confidence' in object['tags']:
             calculated_risk_score = int(((object['tags']['impact'])*(object['tags']['confidence']))/100)
             if calculated_risk_score != object['tags']['risk_score']:
-                errors.append("ERROR: risk_score not calulated correctly and it should be set as: %s" % calculated_risk_score)
-
+                errors.append("ERROR: risk_score not calulated correctly and it should be set to %s for " % calculated_risk_score + object['name'])
     return errors, uuids
 
 
 def validate_detection_search(object, macros):
     errors = []
 
-    if not '_filter' in object['search']:
-        errors.append("ERROR: Missing filter for detection: " + object['name'])
+    if not (object['type'] == "Baseline" or object['type'] == "Investigation"):
+        if not '_filter' in object['search']:
+            errors.append("ERROR: Missing filter for detection: " + object['name'])
+    elif object['type'] == "Baseline":
+        if not 'deployments' in object['tags']:
+            errors.append("ERROR: Baseline need a corresponsing deployments: " + object['name'])
 
     filter_macro = re.search("([a-z0-9_]*_filter)", object['search'])
 
     if filter_macro and filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter') and "input_filter" not in filter_macro.group(1):
         errors.append("ERROR: filter for detection: " + object['name'] + " needs to use the name of the detection in lowercase and the special characters needs to be converted into _ .")
-
-    if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
-        if not 'index=_internal' in object['search']:
-            errors.append("ERROR: Use source macro instead of eventtype, sourcetype, source or index in detection: " + object['name'])
-
-    macros_found = re.findall('\`([^\s]+)`',object['search'])
-    macros_filtered = []
-    for macro in macros_found:
-        if not '_filter' in macro and not 'security_content_ctime' in macro and not 'drop_dm_object_name' in macro and not 'cim_' in macro and not 'get_' in macro:
-            macros_filtered.append(macro)
-
-    for macro in macros_filtered:
-        found_macro = False
-        for macro_obj in macros:
-            if macro_obj['name'] == macro:
-                found_macro = True
-
-        if not found_macro:
-            errors.append("ERROR: macro definition for " + macro + " can't be found for detection " + object['name'])
-
-    return errors
-
-def validate_baseline_search(object, macros):
-    errors = []
 
     if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
         if not 'index=_internal' in object['search']:
@@ -264,7 +244,7 @@ def validate_tests(REPO_PATH, object):
 
 def main(REPO_PATH, verbose):
 
-    validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments', 'tests']
+    validation_objects = ['macros','lookups','stories','detections','deployments', 'tests']
 
     objects = {}
     schema_error = False
@@ -292,8 +272,7 @@ def main(REPO_PATH, verbose):
 if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
-        Validates security manifest for correctness, adhering to spec and other common items.
-        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
+        Validates security manifest for correctness, adhering to spec and other common items.""")
     parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
     parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
     # parse them

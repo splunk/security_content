@@ -3,7 +3,7 @@ id: accb0712-c381-11eb-8e5b-acde48001122
 version: 1
 date: '2021-06-02'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies suspicious modification of registry to deface
@@ -27,13 +27,25 @@ tags:
   analytic_story:
   - Ransomware
   - Revil Ransomware
+  - BlackMatter Ransomware
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Exploitation
+  message: Wallpaper modification on $dest$
   mitre_attack_id:
   - T1491
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,4 +60,5 @@ tags:
   - process_guid
   - process_id
   - user_id
+  risk_score: 54
   security_domain: endpoint

@@ -3,7 +3,7 @@ id: f880acd4-a8f1-11eb-a53b-acde48001122
 version: 1
 date: '2021-04-29'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic will detect suspicious driver loaded paths. This technique
@@ -16,7 +16,7 @@ description: This analytic will detect suspicious driver loaded paths. This tech
   of default, and in default) for further review.
 search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
   "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*")) |  stats  min(_time) as
-  firstTime max(_time) as lastTime count by  Computer ImageLoaded Hashes IMPHASH Signature
+  firstTime max(_time) as lastTime count by Computer ImageLoaded Hashes IMPHASH Signature
   Signed | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `suspicious_driver_loaded_path_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -31,12 +31,29 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Exploitation
+  message: Suspicious driver $ImageLoaded$ on $Computer$
   mitre_attack_id:
   - T1543.003
+  - T1543
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
+  - name: ImageLoaded
+    type: File Name
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,4 +66,5 @@ tags:
   - IMPHASH
   - Signature
   - Signed
+  risk_score: 63
   security_domain: endpoint

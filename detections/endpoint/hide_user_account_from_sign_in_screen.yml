@@ -3,7 +3,7 @@ id: 834ba832-ad89-11eb-937d-acde48001122
 version: 1
 date: '2021-05-05'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies a suspicious registry modification to hide a
@@ -31,12 +31,34 @@ tags:
   analytic_story:
   - XMRig
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: Suspicious registry modification ($registry_value_name$) which is used
+    go hide a user account on the Windows Login screen detected on $dest$ executed
+    by $user$
   mitre_attack_id:
   - T1562.001
+  - T1562
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: registry_value_name
+    type: Other
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,4 +69,5 @@ tags:
   - Registry.registry_path
   - Registry.registry_value_name
   - Registry.dest Registry.user
+  risk_score: 72
   security_domain: endpoint

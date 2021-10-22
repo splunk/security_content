@@ -3,7 +3,7 @@ id: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
 version: 1
 date: '2020-10-28'
 author: Mikael Bjerkeland, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: By enabling Port Security on a Cisco switch you can restrict input to
   an interface by limiting and identifying MAC addresses of the workstations that
@@ -47,6 +47,7 @@ tags:
   mitre_attack_id:
   - T1200
   - T1498
+  - T1557
   - T1557.002
   nist:
   - ID.AM

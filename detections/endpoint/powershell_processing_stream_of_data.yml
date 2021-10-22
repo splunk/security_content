@@ -3,7 +3,7 @@ id: 0d718b52-c9f1-11eb-bc61-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104 that is processing compressed stream data. This is typically
@@ -29,12 +29,30 @@ tags:
   analytic_story:
   - Malicious PowerShell
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - source:endpoint
+  - stage: Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: A suspicious powershell script contains stream command in $Message$ commonly
+    for processing compressed or to decompressed binary file with EventCode $EventCode$
+    in host $ComputerName$
   mitre_attack_id:
+  - T1059
   - T1059.001
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,4 +64,5 @@ tags:
   - ComputerName
   - User
   - Score
+  risk_score: 40
   security_domain: endpoint

@@ -3,7 +3,7 @@ id: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
 version: 3
 date: '2020-11-18'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for processes launched from files that have double
@@ -30,16 +30,38 @@ tags:
   cis20:
   - CIS 3
   - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
+  message: process $process$ have double extensions in the file name is executed on
+    $dest$ by $user$
   mitre_attack_id:
+  - T1036
   - T1036.003
   nist:
   - DE.CM
   - PR.PT
   - PR.IP
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -50,4 +72,5 @@ tags:
   - Processes.dest
   - Processes.user
   - Processes.parent_process
+  risk_score: 56
   security_domain: endpoint

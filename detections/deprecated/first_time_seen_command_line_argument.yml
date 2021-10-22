@@ -3,7 +3,7 @@ id: 9be56c82-b1cc-4318-87eb-q138afaaqa39
 version: 5
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Endpoint
 description: This search looks for command-line arguments that use a `/c` parameter

@@ -3,7 +3,7 @@ id: ad12w478-84a8-4641-a3w1-e32372q4bd53
 version: 1
 date: '2018-11-27'
 author: Bhavin Patel, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search detects users creating spikes in API activity related to
   deletion of S3 buckets in your AWS environment. It will also update the cache file

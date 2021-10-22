@@ -3,7 +3,7 @@ id: 018c1972-ca07-11eb-9473-acde48001122
 version: 1
 date: '2021-06-10'
 author: Teoderick Contreras, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: The following analytic identifies suspicious PowerShell via EventCode
   4104, where WMI is performing an event query looking for running processes or running
@@ -31,12 +31,28 @@ tags:
   analytic_story:
   - Malicious PowerShell
   automated_detection_testing: passed
+  confidence: 80
+  context:
+  - source:endpoint
+  - stage: Reconnaissance
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
+  impact: 75
   kill_chain_phases:
   - Reconnaissance
+  message: A suspicious powershell script contains host recon command in $Message$
+    with EventCode $EventCode$ in host $ComputerName$
   mitre_attack_id:
   - T1592
+  observable:
+  - name: ComputerName
+    type: Hostname
+    role:
+    - Victim
+  - name: User
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,4 +63,5 @@ tags:
   - Message
   - ComputerName
   - User
+  risk_score: 60
   security_domain: endpoint

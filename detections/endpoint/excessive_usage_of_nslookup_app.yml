@@ -3,10 +3,10 @@ id: 0a69fdaa-a2b8-11eb-b16d-acde48001122
 version: 1
 date: '2021-04-21'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
-type: batch
+type: Anomaly
 datamodel:
 - Endpoint
-description: this search is to detect potential DNS exfiltration using nslookup application.
+description: This search is to detect potential DNS exfiltration using nslookup application.
   This technique are seen in couple of malware and APT group to exfiltrated collected
   data in a infected machine or infected network. This detection is looking for unique
   use of nslookup where it tries to use specific record type (TXT, A, AAAA) that are
@@ -34,22 +34,33 @@ tags:
   - Command and Control
   - Data Exfiltration
   automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Scope:Local
+  - Stage:Exfiltration
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/windows-sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: Excessive usage of nslookup.exe has been detected on $Computer$. This detection
+    is triggered as as it violates the dynamic threshold
   mitre_attack_id:
   - T1048
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
+  - Computer
+  - process_name
+  - EventCode
+  risk_score: 28
   security_domain: endpoint

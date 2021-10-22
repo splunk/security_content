@@ -3,8 +3,9 @@ id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
 version: 4
 date: '2020-07-22'
 author: David Dorsey, Splunk
-type: batch
-datamodel: []
+type: TTP
+datamodel:
+- Endpoint
 description: This search looks for reg.exe being launched from a command prompt not
   started by the user. When a user launches cmd.exe, the parent process is usually
   explorer.exe. This search filters out those instances.
@@ -37,14 +38,31 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  - Stage:Initial Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/atomic_red_team/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: Suspicious $Processes.process_path.file_path$ process running with an uncommon
+    parent process $Processes.parent_process_name$
   mitre_attack_id:
   - T1112
   nist:
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_path.file_path
+    type: File Name
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -58,4 +76,5 @@ tags:
   - Processes.dest
   - Processes.process_id
   - Processes.parent_process_id
+  risk_score: 35
   security_domain: endpoint
