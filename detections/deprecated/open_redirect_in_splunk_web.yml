@@ -35,3 +35,5 @@ tags:
   required_fields:
   - _time
   security_domain: network
+  cve:
+  - CVE-2016-4859

@@ -54,3 +54,5 @@ tags:
   - Processes.parent_process
   - Processes.user
   security_domain: endpoint
+  cve:
+  - CVE-2018-8440
