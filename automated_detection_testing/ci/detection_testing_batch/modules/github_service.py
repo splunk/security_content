@@ -67,10 +67,18 @@ class GithubService:
         return pruned_tests
 
 
+    def get_selected_test_files(self,
+                                detection_file_list:list[str], 
+                                ttps_to_test:list[str]=["Anomaly","Hunting","TTP"], 
+                                previously_successful_tests:list[str]=[]) ->list[str]:    
+        
+        return self.prune_detections(detection_file_list, ttps_to_test, previously_successful_tests)
+
+
     def get_all_tests_and_detections(self, 
                                      folders:list[str]=['endpoint', 'cloud', 'network'], 
                                      ttps_to_test:list[str]=["Anomaly","Hunting","TTP"], 
-                                    previously_successful_tests:list[str]=[]) ->list[str]:    
+                                     previously_successful_tests:list[str]=[]) ->list[str]:    
         detections = []
         for folder in folders:
             detections.extend(self.get_all_files_in_folder(os.path.join("security_content/detections", folder), "*.yml"))

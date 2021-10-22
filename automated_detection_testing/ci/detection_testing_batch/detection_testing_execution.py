@@ -70,40 +70,8 @@ def wait_for_splunk_ready(splunk_container_name=None, splunk_web_port=None, max_
     time.sleep(max_seconds)
 
 
-def remove_container(docker_client, container_name, force=True):
-    try:
-        container = docker_client.containers.get(container_name)
-    except Exception as e:
-        print("Could not find Docker Container [%s]. Container does not exist"%(container_name))
-        return True
-    try:
-        container.remove(v=True, force=force) #remove it even if it is running. remove volumes as well
-        print("Successfully removed Docker Container [%s]"%(container_name))
-    except Exception as e:
-        print("Could not remove Docker Container [%s]"%(container_name))
-        raise(Exception("CONTAINER REMOVE ERROR"))
 
 
-def stop_container(docker_client, container_name, force=True):
-    try:
-        container = docker_client.containers.get(container_name)
-    except:
-        print("Container with name [%s] does not exist"%(container_name))
-        return True
-    
-    try:
-        print("Checking to see if [%s] is running..."%(container_name), end='')
-        if container.status == 'exited':
-            print("NO")
-            return True
-        else:
-            print("YES (container.status is [%s])"%(container.status))
-            print("Stopping [%s]"%(container_name))
-            container.stop(force=force)
-            return True
-    except Exception as e:
-        print("Error trying to stop the container [%s]"%(container_name))
-        raise(Exception("CONTAINER STOP ERROR"))
 
         
 
@@ -177,25 +145,32 @@ def remove_existing_containers(client: DockerClient, reuse_containers: bool, con
         return True
     
     #Note that this variable can be changed by the block above, so don't
-    #convert this into an if/else
+    #convert this into an if/else. Note that this IF is for verbosity:
+
     if reuse_containers is False:
         for index in range(0,num_containers):
             container_name = container_template%(index)
-            print("Trying to remove container [%s]"%(container_name))
-            try:
-                container = client.containers.get(container_name)
-            except Exception as e:
-                print("Could not find Docker Container [%s]. Container does not exist, so no need to remove it"%(container_name))
-                continue
-            try:
-                #container was found, so now we try to remove it
-                #v also removes volumes linked to the container
-                container.remove(v=True, force=forceRemove) #remove it even if it is running. remove volumes as well
-                print("Successfully removed Docker Container [%s]"%(container_name))
-            except Exception as e:
-                print("Could not remove Docker Container [%s]"%(container_name))
-                raise(Exception("CONTAINER REMOVE ERROR"))
+            removeContainer(client, container_name, forceRemove)
         return False
+    else:
+        raise(Exception("Error removing existing containers"))
+
+def removeContainer(client: DockerClient, container_name:str, forceRemove:bool=True)->bool:
+    print("Trying to remove container [%s]"%(container_name))
+    try:
+        container = client.containers.get(container_name)
+    except Exception as e:
+        print("Could not find Docker Container [%s]. Container does not exist, so no need to remove it"%(container_name))
+        return True
+    try:
+        #container was found, so now we try to remove it
+        #v also removes volumes linked to the container
+        container.remove(v=True, force=forceRemove) #remove it even if it is running. remove volumes as well
+        print("Successfully removed Docker Container [%s]"%(container_name))
+        return True
+    except Exception as e:
+        print("Could not remove Docker Container [%s]"%(container_name))
+        raise(Exception("CONTAINER REMOVE ERROR"))
 
 
 
@@ -223,11 +198,16 @@ def main(args):
 
     parser.add_argument("-ri", "--reuse_image", required=False, default=False, action='store_true', help="Should existing images be re-used, or should they be redownloaded?")
     
-    parser.add_argument("-rc", "--reuse_containers", required=False, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
+    #Allowing us to reuse containers is more trouble than it's worth (we may have rebuilt an app or, more likely, ESCU) and it is a pain to re-upload that
+    #instead of having the container restart and download/install itself.
+    #parser.add_argument("-rc", "--reuse_containers", required=False, default=False,  help="Should existing containers be re-used, or should they be rebuilt?")
+
     parser.add_argument("-s", "--success_file", type=str, required=False, help="File that contains previously successful runs that we don't need to test")
-    parser.add_argument("-user", "--splunkbase_username", type=str, required=True, help="Splunkbase username for downloading Splunkbase apps")
-    parser.add_argument("-pw", "--splunkbase_password", type=str, required=True, help="Splunkbase password for downloading Splunkbase apps")
+    parser.add_argument("-user", "--splunkbase_username", type=str, required=False, help="Splunkbase username for downloading Splunkbase apps")
+    parser.add_argument("-pw", "--splunkbase_password", type=str, required=False, help="Splunkbase password for downloading Splunkbase apps")
     parser.add_argument("-m", "--mode", type=str, choices=DETECTION_MODES, required=False, help="Whether to test new detections, specific detections, or all detections", default="new")
+    parser.add_argument("-tf","--test_files", type=str, required=False, help="The names of files that you want to test, separated by commas.")
+
     parser.add_argument("-t", "--types", type=str, required=False, help="Detection types to test. Can be one of more of %s"%(str(DETECTION_TYPES)), default=DETECTION_TYPES)
     parser.add_argument("-ct", "--container_tag", type=str, required=False, help="The tag of the Splunk Container to use.  Tags are located at https://hub.docker.com/r/splunk/splunk/tags",default=DEFAULT_CONTAINER_TAG)
     parser.add_argument("-p", "--persist_security_content", required=False, default=False, action="store_true", help="Assumes security_content directory already exists.  Don't check it out and overwrite it again.  Saves "\
@@ -238,7 +218,7 @@ def main(args):
     uuid_test = args.uuid
     pr_number = args.pr_number
     num_containers = args.num_containers
-    reuse_containers = args.reuse_containers
+    #reuse_containers = args.reuse_containers
     reuse_image = args.reuse_image
     success_file = args.success_file
     splunkbase_username = args.splunkbase_username
@@ -248,9 +228,17 @@ def main(args):
     show_password = args.show_password
     splunk_password = args.container_password
     
+    
+    
+        
+    
+        
+    
+    '''
     if splunk_password is None and reuse_containers is True:
         print("Error - if you are going to reuse a container you MUST provide the password to it!")
         sys.exit(1)
+    '''
     if splunk_password is None:
         #Generate a sufficiently complex password 
         splunk_password = get_random_password()
@@ -279,21 +267,28 @@ def main(args):
 
     #Ensure that a valid mode was chosen 
     mode = args.mode
+    if mode == "selected" and args.test_files == None:
+        print("Error - mode [%s] but did not provide any files to test.\nQuitting..."%(mode))
+    
+
     folders = [a.strip() for a in args.types.split(',')]
     for t in folders:
         if t not in DETECTION_TYPES:
             print("Error - requested test of [%s] but the only valid types are %s.\tQuitting..."%(t, str(DETECTION_TYPES)))
             sys.exit(1)
     
+
+
     
 
     #Do some initial setup and validation of the containers and images  
 
     #If a user requests to use existing containers, they must also explicitly request to reuse existing images
+    '''
     if reuse_containers and not reuse_image:
         print("Error - requested --reuse_containers but did not explicitly request --reuse_image.\n\tQuitting")
         sys.exit(1)
-
+    '''
     if num_containers < 1:
         #Perhaps this should be a mock-run - do the initial steps but don't do testing on the containers?
         print("Error, requested 0 containers.  You must run with at least 1 container.")
@@ -309,7 +304,7 @@ def main(args):
 
     #Remove containers that previously existed (if we are directed to do so)
     try:
-        remove_existing_containers(client, reuse_containers, LOCAL_BASE_CONTAINER_NAME, num_containers)
+        remove_existing_containers(client, False, LOCAL_BASE_CONTAINER_NAME, num_containers)
     except Exception as e:
         print("Error tryting to remove existing containers.\n\tQuitting...")
         sys.exit(1)
@@ -351,21 +346,26 @@ def main(args):
         else:
             github_service = GithubService(branch)
     
-    
-    if args.mode == "all":
-        test_files = github_service.get_all_tests_and_detections(folders=folders, 
-                                                                 previously_successful_tests=success_tests)
-    elif args.mode == "new":
-        test_files = github_service.get_changed_test_files(folders=folders,
-                                                           previously_successful_tests=success_tests)
-    #elif args.mode == "selected":
-    #    test_files = github_service.get_selected_test_files(folders=args.types,
-    #                                                       previously_successful_tests=success_tests)
+    try:
+        if mode == "all":
+            test_files = github_service.get_all_tests_and_detections(folders=folders, 
+                                                                    previously_successful_tests=success_tests)
+        elif mode == "new":
+            test_files = github_service.get_changed_test_files(folders=folders,
+                                                            previously_successful_tests=success_tests)
+        elif mode == "selected":
+            if set(folders) != set(DETECTION_TYPES):
+                print("You specified mode [%s] but also types: [%s]. We will ignore type restrictions and test all specified files"%(mode,str(folders)))
+            files_to_test = [name.strip() for name in args.test_files.split(',')]
+            test_files = github_service.get_selected_test_files(files_to_test,
+                                                            previously_successful_tests=success_tests)
 
-    else:
-        print("Unsupported mode [%s] chosen.  Supported modes are %s.\n\tQuitting..."%(args.mode, str(DETECTION_MODES)))
+        else:
+            print("Unsupported mode [%s] chosen.  Supported modes are %s.\n\tQuitting..."%(args.mode, str(DETECTION_MODES)))
+            sys.exit(1)
+    except Exception as e:
+        print("Error - Failed to read in detection files: [%s].\nQuitting..."%(str(e)))    
         sys.exit(1)
-    
     
     
     
@@ -723,9 +723,15 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
         #Try to get something from the queue
         detection_to_test = testing_object.getTest()
         if detection_to_test is None:
-            print("Container [%s] has finished running detections, time to stop the container."%(container_name))
-            container.stop()
-            print("Container [%s] successfully stopped"%(container_name))
+            try:
+                print("Container [%s] has finished running detections, time to stop the container."%(container_name))
+                container.stop()
+                print("Container [%s] successfully stopped"%(container_name))
+                #remove the container
+                removeContainer(client, container_name, forceRemove=True)
+            except Exception as e:
+                print("Error stopping or removing the container: [%s]"%(str(e)))
+                
             return None
 
 
