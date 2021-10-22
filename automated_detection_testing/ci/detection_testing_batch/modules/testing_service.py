@@ -9,39 +9,34 @@ import requests
 from modules.DataManipulation import DataManipulation
 from modules import splunk_sdk
 
-
-def prepare_detection_testing(splunk_ip, splunk_password):
-    try:
-        pass
-        #import security_content.bin.generate as module
-        #module = __import__('security_content.bin.generate')
-        #results = module.main(REPO_PATH = 'security_content' , OUTPUT_PATH = 'security_content/dist/escu', PRODUCT = 'ESCU', VERBOSE = 'False' )
-    except Exception as e:
-        print('Error: ' + str(e))
-
-    update_ESCU_app(splunk_ip, splunk_password)
+from typing import Union
 
 
-def test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, test_file, test_index, uuid_test):
+
+def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, test_file:str, test_index:int, uuid_test:str, wait_on_failure:bool=False)->dict:
 
     uuid_var = str(uuid.uuid4())
     result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var)
-    
+    if result_test is None:
+        #We failed so early in the process that we could not produce any meaningful result
+        raise(Exception("Test execution Error"))    
 
     #enter = input("Run some tests from [%s] on [%s] - we don't delete until you hit enter :)"%(container_name, test_file))
     # delete test data
-    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port)
-
+    search_string = result_test['detection_result']['search_string']
     
-    if result_test['detection_result']['error']:
-        print('Test failed for detection: ' + result_test['detection_result']['detection_name'] + ' ' + result_test['detection_result']['detection_file'])
+    #search failed if there was an error or the detection failed to produce the expected result
+    if wait_on_failure and (result_test['detection_result']['error'] or not result_test['detection_result']['success']):
+        wait_on_delete = True
     else:
-        print('Test passed for detection: ' + result_test['detection_result']['detection_name'] + ' ' + result_test['detection_result']['detection_file'])
+        wait_on_delete = False
+    splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string)
+   
 
     return result_test    
 
 
-def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var):
+def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var)->Union[dict,None]:
     try:
         test_file_obj = load_file(os.path.join("security_content/", test_file))
     except Exception as e:
@@ -102,19 +97,14 @@ def test_detection(splunk_ip, splunk_port, container_name, splunk_password, test
     print("Making test_detection_search request to: [%s:%d]"%(splunk_ip, splunk_port))
     
     result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
-    
+    if result_detection['error']:
+        print("There was an error running the search: %s"%(result_detection['search_string']))
+
 
 
     result_detection['detection_name'] = test['name']
     result_detection['detection_file'] = test['file']
     result_test['detection_result'] = result_detection
-
-    if result_detection['error']:
-        print("failed")
-        #aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'failed')
-    else:
-        print("passed")
-        #aws_service.update_detection_results_in_dynamo_db('eu-central-1', uuid_var, 'passed')
 
     return result_test
 

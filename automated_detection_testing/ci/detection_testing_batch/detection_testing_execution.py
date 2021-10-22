@@ -20,6 +20,7 @@ from datetime import timedelta
 from datetime import datetime
 import string
 import shutil
+from typing import Union
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -567,69 +568,6 @@ def copy_file_to_container(localFilePath, remoteFilePath, containerName, sleepTi
             time.sleep(10)
             successful_copy=False
     print("Successfully copied [%s] to [%s] on [%s]"%(localFilePath, remoteFilePath, containerName))
-            
-
-def splunk_container_manager(testing_queue, container_name, splunk_ip, splunk_password, splunk_port, uuid_test, results_queue, success_names_queue, failure_names_queue):
-    print("Starting the container [%s] after a sleep"%(container_name))
-    #Is this going to be safe to use in different threads
-    client = docker.client.from_env()
-    
-    #start up the container from the base container
-    #Assume that the base container has already been fully built with
-    #escu etc
-    #sleep for a little bit so that we don't all start at once...
-    time.sleep(random.randrange(0,60))
-
-    container = client.containers.get(container_name)
-    print("Starting the container [%s]"%(container_name))
-
-    
-
-    container.start()
-    print("Start copying files to container")
-    copy_file_to_container(index_file_local_path, index_file_container_path, container_name)
-    copy_file_to_container(datamodel_file_local_path, datamodel_file_container_path, container_name)
-    print("Finished copying files to container!")
-
-
-    wait_for_splunk_ready(max_seconds=120)
-    from modules.splunk_sdk import enable_delete_for_admin
-    if not enable_delete_for_admin(splunk_ip, splunk_port, splunk_password):
-        print("COULD NOT ENABLE DELETE FOR [%s].... quitting"%(container_name))
-        sys.exit(0)
-    
-    print("Successfully enabled DELETE for [%s]"%(container_name))
-    
-    index=0
-    try:
-        while True:
-            #Try to get something from the queue
-            detection_to_test = testing_queue.get(block=False)
-            
-            #There is a detection to test
-            print("Container [%s]--->[%s]"%(container_name, detection_to_test))
-            try:
-                result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, index%1, uuid_test)
-                if result['detection_result']['error']:
-                    failure_names_queue.put(result['detection_result']['detection_name'])
-                else:
-                    success_names_queue.put(result['detection_result']['detection_name'])
-                results_queue.put(result)
-            except Exception as e:
-                print("Caught some exception in test detection: [%s]"%(str(e)))
-                #just log the error itself for now so that we can continue
-                result_test = str(e)
-
-            index=(index+1)%10
-    except queue.Empty:
-        print("Queue was empty, [%s] finished testing detections!"%(container_name))
-    
-    print("Shutting down the container [%s]"%(container_name))
-    container.stop()
-    print("Finished shutting down the container [%s]"%(container_name))
-
-if __name__ == "__main__":
-    main(sys.argv[1:])
 
 
 class SynchronizedResultsTracker:
@@ -646,7 +584,14 @@ class SynchronizedResultsTracker:
         self.failures = []
         self.successes = []
         self.errors = []
+    def getTest(self)-> Union[str,None]:
+        try:
+            return self.testing_queue.get(block=False)
+        except Exception as e:
+            print("Testing queue empty!")
+            return None
     def addSuccess(self, result:dict)->None:
+        print("Test PASSED for detection: [%s --> %s"%(result['detection_result']['detection_name'], result['detection_result']['detection_file']))
         self.lock.acquire()
         try:
             self.successes.append(result)
@@ -655,6 +600,7 @@ class SynchronizedResultsTracker:
         
 
     def addFailure(self, result:dict)->None:
+        print("Test FAILED for detection: [%s --> %s"%(result['detection_result']['detection_name'], result['detection_result']['detection_file']))
         self.lock.acquire()
         try:
             self.failures.append(result)
@@ -717,6 +663,78 @@ class SynchronizedResultsTracker:
             print("Error in printing execution summary: [%s]"%(str(e)))
         finally:
             self.lock.release()
+    def addResult(self, result:dict)->None:
+        try:
+            if result['detection_result']['success'] is False:
+                #This is actually a failure of the detection, not an error. Naming is confusiong
+                self.addFailure(result)
+            elif result['detection_result']['success'] is True:
+                self.addSuccess(result)
+        except Exception as e:
+            #Neither a success or a failure, so add the object to the failures queue
+            self.addError(result)
+        
+
+
+def splunk_container_manager(testing_object:SynchronizedResultsTracker, container_name, splunk_ip, splunk_password, splunk_port, uuid_test):
+    print("Starting the container [%s] after a sleep"%(container_name))
+    #Is this going to be safe to use in different threads
+    client = docker.client.from_env()
+    
+    #start up the container from the base container
+    #Assume that the base container has already been fully built with
+    #escu etc
+    #sleep for a little bit so that we don't all start at once...
+    time.sleep(random.randrange(0,60))
+
+    container = client.containers.get(container_name)
+    print("Starting the container [%s]"%(container_name))
+
+    
+
+    container.start()
+    print("Start copying files to container")
+    copy_file_to_container(index_file_local_path, index_file_container_path, container_name)
+    copy_file_to_container(datamodel_file_local_path, datamodel_file_container_path, container_name)
+    print("Finished copying files to container!")
+
+
+    wait_for_splunk_ready(max_seconds=120)
+    from modules.splunk_sdk import enable_delete_for_admin
+    if not enable_delete_for_admin(splunk_ip, splunk_port, splunk_password):
+        print("COULD NOT ENABLE DELETE FOR [%s].... quitting"%(container_name))
+        sys.exit(0)
+    
+    print("Successfully enabled DELETE for [%s]"%(container_name))
+    
+    
+    
+    while True:
+        #Try to get something from the queue
+        detection_to_test = testing_object.getTest()
+        if detection_to_test is None:
+            print("Container [%s] has finished running detections, time to stop the container."%(container_name))
+            container.stop()
+            print("Container [%s] successfully stopped"%(container_name))
+            return None
+
+
+        
+        #There is a detection to test
+        print("Container [%s]--->[%s]"%(container_name, detection_to_test))
+        try:
+            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, 0, uuid_test)
+            testing_object.addResult(result)
+        except Exception as e:
+            print("Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"%(detection_to_test, str(e)))
+
+
+            
+if __name__ == "__main__":
+    main(sys.argv[1:])
+
+
+
 
 def queue_status_thread(status_object:SynchronizedResultsTracker)->None:
     while True:      
