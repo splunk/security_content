@@ -4,7 +4,7 @@ version: 1
 date: "2021-10-22"
 author: Kelby Shelton, Splunk
 type: Investigation
-description: 	This playbook collects the available Indicator data types within the event as well as available investigative playbooks. It will launch any playbooks that meet the filtered criteria.
+description: This playbook collects the available Indicator data types within the event as well as available investigative playbooks. It will launch any playbooks that meet the filtered criteria.
 playbook: risk_notable_enrich
 how_to_implement:
 references:
