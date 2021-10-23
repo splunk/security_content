@@ -1,6 +1,6 @@
 ---
 title: "Large Volume of DNS ANY Queries"
-excerpt: "Reflection Amplification"
+excerpt: "Network Denial of Service, Reflection Amplification"
 categories:
   - Network
 last_modified_at: 2017-09-20
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Anomaly
+  - T1498
+  - Network Denial of Service
+  - Impact
   - T1498.002
   - Reflection Amplification
   - Impact
@@ -40,6 +43,7 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
 
 

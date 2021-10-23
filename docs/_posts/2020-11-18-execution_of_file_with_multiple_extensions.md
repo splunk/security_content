@@ -1,6 +1,6 @@
 ---
 title: "Execution of File with Multiple Extensions"
-excerpt: "Rename System Utilities"
+excerpt: "Masquerading, Rename System Utilities"
 categories:
   - Endpoint
 last_modified_at: 2020-11-18
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1036
+  - Masquerading
+  - Defense Evasion
   - T1036.003
   - Rename System Utilities
   - Defense Evasion
@@ -38,6 +41,7 @@ This search looks for processes launched from files that have double extensions 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 

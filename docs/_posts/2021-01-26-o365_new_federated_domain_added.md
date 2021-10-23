@@ -1,6 +1,6 @@
 ---
 title: "O365 New Federated Domain Added"
-excerpt: "Cloud Account"
+excerpt: "Cloud Account, Create Account"
 categories:
   - Cloud
 last_modified_at: 2021-01-26
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1136.003
   - Cloud Account
+  - Persistence
+  - T1136
+  - Create Account
   - Persistence
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -38,7 +41,8 @@ This search detects the addition of a new Federated domain.
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
+| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
 
 
 #### Search

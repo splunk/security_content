@@ -1,6 +1,6 @@
 ---
 title: "Detect Dump LSASS Memory using comsvcs"
-excerpt: "NTDS"
+excerpt: "NTDS, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2020-09-15
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1003.003
   - NTDS
+  - Credential Access
+  - T1003
+  - OS Credential Dumping
   - Credential Access
   - Splunk Behavioral Analytics
   - Actions on Objectives
@@ -35,7 +38,8 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
+| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search

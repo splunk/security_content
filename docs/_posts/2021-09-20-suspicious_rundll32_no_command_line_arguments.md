@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Rundll32 no Command Line Arguments"
-excerpt: "Rundll32"
+excerpt: "Signed Binary Proxy Execution, Rundll32"
 categories:
   - Endpoint
 last_modified_at: 2021-09-20
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.011
   - Rundll32
   - Defense Evasion
@@ -38,6 +41,7 @@ The following analytic identifies rundll32.exe with no command line arguments. I
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 

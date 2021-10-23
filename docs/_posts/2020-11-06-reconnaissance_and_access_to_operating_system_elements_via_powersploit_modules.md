@@ -1,6 +1,6 @@
 ---
 title: "Reconnaissance and Access to Operating System Elements via PowerSploit modules"
-excerpt: "System Service Discovery, Query Registry, Network Service Scanning, Windows Management Instrumentation, Process Discovery, File and Directory Discovery, Software Discovery, Software"
+excerpt: "Process Discovery, File and Directory Discovery, Software, Network Service Scanning, Query Registry, System Service Discovery, Windows Management Instrumentation, Gather Victim Host Information, Software Discovery"
 categories:
   - Endpoint
 last_modified_at: 2020-11-06
@@ -8,30 +8,33 @@ toc: true
 toc_label: ""
 tags:
   - TTP
-  - T1007
-  - System Service Discovery
-  - Discovery
-  - T1012
-  - Query Registry
-  - Discovery
-  - T1046
-  - Network Service Scanning
-  - Discovery
-  - T1047
-  - Windows Management Instrumentation
-  - Execution
   - T1057
   - Process Discovery
   - Discovery
   - T1083
   - File and Directory Discovery
   - Discovery
-  - T1518
-  - Software Discovery
-  - Discovery
   - T1592.002
   - Software
   - Reconnaissance
+  - T1046
+  - Network Service Scanning
+  - Discovery
+  - T1012
+  - Query Registry
+  - Discovery
+  - T1007
+  - System Service Discovery
+  - Discovery
+  - T1047
+  - Windows Management Instrumentation
+  - Execution
+  - T1592
+  - Gather Victim Host Information
+  - Reconnaissance
+  - T1518
+  - Software Discovery
+  - Discovery
   - Splunk Behavioral Analytics
   - Actions on Objectives
 ---
@@ -56,14 +59,15 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
-| [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery |
-| [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
-| [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 | [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
 | [T1083](https://attack.mitre.org/techniques/T1083/) | File and Directory Discovery | Discovery |
+| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance || [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
+| [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery |
+| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
+| [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
 | [T1518](https://attack.mitre.org/techniques/T1518/) | Software Discovery | Discovery |
-| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
+
 
 
 #### Search

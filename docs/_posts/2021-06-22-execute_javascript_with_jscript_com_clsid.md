@@ -1,6 +1,6 @@
 ---
 title: "Execute Javascript With Jscript COM CLSID"
-excerpt: "Visual Basic"
+excerpt: "Command and Scripting Interpreter, Visual Basic"
 categories:
   - Endpoint
 last_modified_at: 2021-06-22
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.005
   - Visual Basic
   - Execution
@@ -38,6 +41,7 @@ This analytic will identify suspicious process of cscript.exe where it tries to 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.005](https://attack.mitre.org/techniques/T1059/005/) | Visual Basic | Execution |
 
 

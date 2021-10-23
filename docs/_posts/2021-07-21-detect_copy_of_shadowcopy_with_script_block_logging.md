@@ -1,6 +1,6 @@
 ---
 title: "Detect Copy of ShadowCopy with Script Block Logging"
-excerpt: "Security Account Manager"
+excerpt: "Security Account Manager, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-07-21
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1003.002
   - Security Account Manager
+  - Credential Access
+  - T1003
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -39,7 +42,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
+| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search

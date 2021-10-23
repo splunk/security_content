@@ -1,6 +1,6 @@
 ---
 title: "O365 Suspicious Admin Email Forwarding"
-excerpt: "Email Forwarding Rule"
+excerpt: "Email Forwarding Rule, Email Collection"
 categories:
   - Cloud
 last_modified_at: 2020-12-16
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1114.003
   - Email Forwarding Rule
+  - Collection
+  - T1114
+  - Email Collection
   - Collection
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -38,7 +41,8 @@ This search detects when an admin configured a forwarding rule for multiple mail
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection |
+| [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection || [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
 
 
 #### Search

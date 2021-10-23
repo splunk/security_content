@@ -1,6 +1,6 @@
 ---
 title: "Account Discovery With Net App"
-excerpt: "Domain Account"
+excerpt: "Domain Account, Account Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1087.002
   - Domain Account
+  - Discovery
+  - T1087
+  - Account Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ this search is to detect a potential account discovery series of command used by
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
 
 
 #### Search

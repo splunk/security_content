@@ -1,6 +1,6 @@
 ---
 title: "Short Lived Windows Accounts"
-excerpt: "Local Account"
+excerpt: "Local Account, Create Account"
 categories:
   - Endpoint
 last_modified_at: 2020-07-06
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1136.001
   - Local Account
+  - Persistence
+  - T1136
+  - Create Account
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,7 +40,8 @@ This search detects accounts that were created and deleted in a short time perio
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
 
 
 #### Search

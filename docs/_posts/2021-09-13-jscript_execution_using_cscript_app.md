@@ -1,6 +1,6 @@
 ---
 title: "Jscript Execution Using Cscript App"
-excerpt: "JavaScript"
+excerpt: "Command and Scripting Interpreter, JavaScript"
 categories:
   - Endpoint
 last_modified_at: 2021-09-13
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.007
   - JavaScript
   - Execution
@@ -38,6 +41,7 @@ This search is to detect a execution of jscript using cscript process. Commonly 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 

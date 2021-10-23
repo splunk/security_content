@@ -1,6 +1,6 @@
 ---
 title: "Powershell Fileless Script Contains Base64 Encoded Content"
-excerpt: "Obfuscated Files or Information, PowerShell"
+excerpt: "Command and Scripting Interpreter, Obfuscated Files or Information, PowerShell"
 categories:
   - Endpoint
 last_modified_at: 2021-06-08
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1027
   - Obfuscated Files or Information
   - Defense Evasion
@@ -44,6 +47,7 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 

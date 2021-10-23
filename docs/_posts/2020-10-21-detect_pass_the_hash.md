@@ -1,6 +1,6 @@
 ---
 title: "Detect Pass the Hash"
-excerpt: "Pass the Hash"
+excerpt: "Use Alternate Authentication Material, Pass the Hash"
 categories:
   - Endpoint
 last_modified_at: 2020-10-21
@@ -8,6 +8,10 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1550
+  - Use Alternate Authentication Material
+  - Defense Evasion
+  - Lateral Movement
   - T1550.002
   - Pass the Hash
   - Defense Evasion
@@ -36,6 +40,7 @@ This search looks for specific authentication events from the Windows Security E
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
 
 

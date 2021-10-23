@@ -10,4 +10,4 @@ sidebar:
 
 | Name        | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
-| [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527/) | [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
+| [PrintNightmare CVE-2021-34527](/stories/printnightmare_cve-2021-34527/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |

@@ -1,6 +1,6 @@
 ---
 title: "Control Loading from World Writable Directory"
-excerpt: "Control Panel"
+excerpt: "Signed Binary Proxy Execution, Control Panel"
 categories:
   - Endpoint
 last_modified_at: 2021-09-08
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.002
   - Control Panel
   - Defense Evasion
@@ -38,6 +41,7 @@ The following detection identifies control.exe loading either a .cpl or .inf fro
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.002](https://attack.mitre.org/techniques/T1218/002/) | Control Panel | Defense Evasion |
 
 

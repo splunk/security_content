@@ -1,6 +1,6 @@
 ---
 title: "Detect Renamed PSExec"
-excerpt: "Service Execution"
+excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1569
+  - System Services
+  - Execution
   - T1569.002
   - Service Execution
   - Execution
@@ -40,6 +43,7 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 

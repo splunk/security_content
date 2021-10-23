@@ -1,6 +1,6 @@
 ---
 title: "Detect HTML Help Spawn Child Process"
-excerpt: "Compiled HTML File"
+excerpt: "Signed Binary Proxy Execution, Compiled HTML File"
 categories:
   - Endpoint
 last_modified_at: 2021-02-11
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.001
   - Compiled HTML File
   - Defense Evasion
@@ -38,6 +41,7 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
 
 

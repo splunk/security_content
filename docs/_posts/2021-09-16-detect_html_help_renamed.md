@@ -1,6 +1,6 @@
 ---
 title: "Detect HTML Help Renamed"
-excerpt: "Compiled HTML File"
+excerpt: "Signed Binary Proxy Execution, Compiled HTML File"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.001
   - Compiled HTML File
   - Defense Evasion
@@ -38,6 +41,7 @@ The following analytic identifies a renamed instance of hh.exe (HTML Help) execu
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
 
 

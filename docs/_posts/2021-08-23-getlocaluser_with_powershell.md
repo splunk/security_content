@@ -1,6 +1,6 @@
 ---
 title: "GetLocalUser with PowerShell"
-excerpt: "Local Account"
+excerpt: "Account Discovery, Local Account"
 categories:
   - Endpoint
 last_modified_at: 2021-08-23
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1087
+  - Account Discovery
+  - Discovery
   - T1087.001
   - Local Account
   - Discovery
@@ -38,6 +41,7 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
 

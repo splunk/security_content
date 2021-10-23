@@ -1,6 +1,6 @@
 ---
 title: "Malicious PowerShell Process - Connect To Internet With Hidden Window"
-excerpt: "PowerShell"
+excerpt: "PowerShell, Command and Scripting Interpreter"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
@@ -10,6 +10,9 @@ tags:
   - Hunting
   - T1059.001
   - PowerShell
+  - Execution
+  - T1059
+  - Command and Scripting Interpreter
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -39,7 +42,8 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution || [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 
 
 #### Search

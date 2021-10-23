@@ -1,6 +1,6 @@
 ---
 title: "Eventvwr UAC Bypass"
-excerpt: "Bypass User Account Control"
+excerpt: "Bypass User Account Control, Abuse Elevation Control Mechanism"
 categories:
   - Endpoint
 last_modified_at: 2021-03-01
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1548.002
   - Bypass User Account Control
+  - Privilege Escalation
+  - Defense Evasion
+  - T1548
+  - Abuse Elevation Control Mechanism
   - Privilege Escalation
   - Defense Evasion
   - Splunk Enterprise
@@ -40,7 +44,8 @@ The following search identifies Eventvwr bypass by identifying the registry modi
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion || [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+
 
 
 #### Search

@@ -1,6 +1,6 @@
 ---
 title: "WevtUtil Usage To Clear Logs"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2021-06-15
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1070
+  - Indicator Removal on Host
+  - Defense Evasion
   - T1070.001
   - Clear Windows Event Logs
   - Defense Evasion
@@ -36,6 +39,7 @@ The wevtutil.exe application is the windows event log utility. This searches for
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 

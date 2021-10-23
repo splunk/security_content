@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Email Attachment Extensions"
-excerpt: "Spearphishing Attachment"
+excerpt: "Spearphishing Attachment, Phishing"
 categories:
   - Application
 last_modified_at: 2020-07-22
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1566.001
   - Spearphishing Attachment
+  - Initial Access
+  - T1566
+  - Phishing
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -40,7 +43,8 @@ This search looks for emails that have attachments with suspicious file extensio
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access || [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
 
 
 #### Search

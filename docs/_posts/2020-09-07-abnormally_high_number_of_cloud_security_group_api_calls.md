@@ -1,6 +1,6 @@
 ---
 title: "Abnormally High Number Of Cloud Security Group API Calls"
-excerpt: "Cloud Accounts"
+excerpt: "Cloud Accounts, Valid Accounts"
 categories:
   - Cloud
 last_modified_at: 2020-09-07
@@ -10,6 +10,12 @@ tags:
   - Anomaly
   - T1078.004
   - Cloud Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - T1078
+  - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
@@ -42,7 +48,8 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search

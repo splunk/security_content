@@ -1,6 +1,6 @@
 ---
 title: "AWS Network Access Control List Created with All Open Ports"
-excerpt: "Disable or Modify Cloud Firewall"
+excerpt: "Disable or Modify Cloud Firewall, Impair Defenses"
 categories:
   - Cloud
 last_modified_at: 2021-01-11
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1562.007
   - Disable or Modify Cloud Firewall
+  - Defense Evasion
+  - T1562
+  - Impair Defenses
   - Defense Evasion
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -38,7 +41,8 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
+| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
 
 
 #### Search

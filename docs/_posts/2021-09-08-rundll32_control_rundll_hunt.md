@@ -1,6 +1,6 @@
 ---
 title: "Rundll32 Control RunDLL Hunt"
-excerpt: "Rundll32"
+excerpt: "Signed Binary Proxy Execution, Rundll32"
 categories:
   - Endpoint
 last_modified_at: 2021-09-08
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.011
   - Rundll32
   - Defense Evasion
@@ -38,6 +41,7 @@ The following hunting detection identifies rundll32.exe with `control_rundll` wi
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 

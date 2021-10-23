@@ -1,6 +1,6 @@
 ---
 title: "Office Product Spawning MSHTA"
-excerpt: "Spearphishing Attachment"
+excerpt: "Phishing, Spearphishing Attachment"
 categories:
   - Endpoint
 last_modified_at: 2021-04-26
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1566
+  - Phishing
+  - Initial Access
   - T1566.001
   - Spearphishing Attachment
   - Initial Access
@@ -38,6 +41,7 @@ The following detection identifies the latest behavior utilized by different mal
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 

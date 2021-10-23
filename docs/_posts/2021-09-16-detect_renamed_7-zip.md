@@ -1,6 +1,6 @@
 ---
 title: "Detect Renamed 7-Zip"
-excerpt: "Archive via Utility"
+excerpt: "Archive via Utility, Archive Collected Data"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -10,6 +10,9 @@ tags:
   - Hunting
   - T1560.001
   - Archive via Utility
+  - Collection
+  - T1560
+  - Archive Collected Data
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ The following analytic identifies renamed 7-Zip usage using Sysmon. At this stag
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection || [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
 
 
 #### Search

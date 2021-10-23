@@ -1,6 +1,6 @@
 ---
 title: "Suspicious IcedID Regsvr32 Cmdline"
-excerpt: "Regsvr32"
+excerpt: "Signed Binary Proxy Execution, Regsvr32"
 categories:
   - Endpoint
 last_modified_at: 2021-07-27
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.010
   - Regsvr32
   - Defense Evasion
@@ -38,6 +41,7 @@ this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execu
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
 

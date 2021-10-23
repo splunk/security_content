@@ -1,6 +1,6 @@
 ---
 title: "Powershell Execute COM Object"
-excerpt: "Component Object Model Hijacking"
+excerpt: "Component Object Model Hijacking, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-08-10
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1546.015
   - Component Object Model Hijacking
+  - Privilege Escalation
+  - Persistence
+  - T1546
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
@@ -39,7 +43,8 @@ This search is to detect a COM CLSID execution through powershell. This techniqu
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Privilege Escalation, Persistence |
+| [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
 
 
 #### Search

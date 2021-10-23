@@ -1,6 +1,6 @@
 ---
 title: "7zip CommandLine To SMB Share Path"
-excerpt: "Archive via Utility"
+excerpt: "Archive via Utility, Archive Collected Data"
 categories:
   - Endpoint
 last_modified_at: 2021-08-17
@@ -10,6 +10,9 @@ tags:
   - Hunting
   - T1560.001
   - Archive via Utility
+  - Collection
+  - T1560
+  - Archive Collected Data
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ This search is to detect a suspicious 7z process with commandline pointing to SM
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection || [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
 
 
 #### Search

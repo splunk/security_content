@@ -1,6 +1,6 @@
 ---
 title: "Set Default PowerShell Execution Policy To Unrestricted or Bypass"
-excerpt: "PowerShell"
+excerpt: "Command and Scripting Interpreter, PowerShell"
 categories:
   - Endpoint
 last_modified_at: 2020-11-06
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.001
   - PowerShell
   - Execution
@@ -39,6 +42,7 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Plain HTTP POST Exfiltrated Data"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol"
+excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
 categories:
   - Network
 last_modified_at: 2021-04-22
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1048.003
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration
+  - T1048
+  - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
+| [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration || [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
+
 
 
 #### Search

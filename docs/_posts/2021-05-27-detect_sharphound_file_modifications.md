@@ -1,6 +1,6 @@
 ---
 title: "Detect SharpHound File Modifications"
-excerpt: "Domain Account, Local Account, Domain Trust Discovery, Domain Groups, Local Groups"
+excerpt: "Domain Account, Local Groups, Domain Trust Discovery, Local Account, Account Discovery, Domain Groups, Permission Groups Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-05-27
@@ -11,17 +11,23 @@ tags:
   - T1087.002
   - Domain Account
   - Discovery
-  - T1087.001
-  - Local Account
+  - T1069.001
+  - Local Groups
   - Discovery
   - T1482
   - Domain Trust Discovery
   - Discovery
+  - T1087.001
+  - Local Account
+  - Discovery
+  - T1087
+  - Account Discovery
+  - Discovery
   - T1069.002
   - Domain Groups
   - Discovery
-  - T1069.001
-  - Local Groups
+  - T1069
+  - Permission Groups Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -50,8 +56,10 @@ SharpHound is used as a reconnaissance collector, ingestor, for BloodHound. Shar
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+| [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
 
 
 #### Search

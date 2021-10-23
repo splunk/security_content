@@ -1,6 +1,6 @@
 ---
 title: "DNS Query Length Outliers - MLTK"
-excerpt: "DNS"
+excerpt: "DNS, Application Layer Protocol"
 categories:
   - Network
 last_modified_at: 2020-01-22
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1071.004
   - DNS
+  - Command And Control
+  - T1071
+  - Application Layer Protocol
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -40,7 +43,8 @@ This search allows you to identify DNS requests that are unusually large for the
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
+| [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control || [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+
 
 
 #### Search

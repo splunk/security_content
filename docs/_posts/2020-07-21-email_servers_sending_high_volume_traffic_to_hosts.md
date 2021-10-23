@@ -1,6 +1,6 @@
 ---
 title: "Email servers sending high volume traffic to hosts"
-excerpt: "Remote Email Collection"
+excerpt: "Email Collection, Remote Email Collection"
 categories:
   - Application
 last_modified_at: 2020-07-21
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Anomaly
+  - T1114
+  - Email Collection
+  - Collection
   - T1114.002
   - Remote Email Collection
   - Collection
@@ -40,6 +43,7 @@ This search looks for an increase of data transfers from your email server to yo
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 | [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
 
 

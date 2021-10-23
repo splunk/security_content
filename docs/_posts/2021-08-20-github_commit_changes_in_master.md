@@ -56,7 +56,7 @@ This search is to detect a pushed or commit to master or main branch. This is to
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](/stories/devsecops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

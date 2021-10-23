@@ -1,6 +1,6 @@
 ---
 title: "PowerShell 4104 Hunting"
-excerpt: "PowerShell"
+excerpt: "Command and Scripting Interpreter, PowerShell"
 categories:
   - Endpoint
 last_modified_at: 2021-08-18
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.001
   - PowerShell
   - Execution
@@ -37,6 +40,7 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 

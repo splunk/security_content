@@ -1,6 +1,6 @@
 ---
 title: "Attacker Tools On Endpoint"
-excerpt: "Match Legitimate Name or Location, Active Scanning, OS Credential Dumping"
+excerpt: "Match Legitimate Name or Location, Masquerading, OS Credential Dumping, Active Scanning"
 categories:
   - Endpoint
 last_modified_at: 2021-06-21
@@ -11,12 +11,15 @@ tags:
   - T1036.005
   - Match Legitimate Name or Location
   - Defense Evasion
-  - T1595
-  - Active Scanning
-  - Reconnaissance
+  - T1036
+  - Masquerading
+  - Defense Evasion
   - T1003
   - OS Credential Dumping
   - Credential Access
+  - T1595
+  - Active Scanning
+  - Reconnaissance
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -46,8 +49,9 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion || [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+| [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion || [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+| [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Detect Port Security Violation"
-excerpt: "Hardware Additions, Network Denial of Service, ARP Cache Poisoning"
+excerpt: "Hardware Additions, Network Denial of Service, Man-in-the-Middle, ARP Cache Poisoning"
 categories:
   - Network
 last_modified_at: 2020-10-28
@@ -14,6 +14,10 @@ tags:
   - T1498
   - Network Denial of Service
   - Impact
+  - T1557
+  - Man-in-the-Middle
+  - Credential Access
+  - Collection
   - T1557.002
   - ARP Cache Poisoning
   - Credential Access
@@ -51,6 +55,7 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 | ----------- | ----------- | -------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+| [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Credential Access, Collection |
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
 
 

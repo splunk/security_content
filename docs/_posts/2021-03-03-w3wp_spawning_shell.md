@@ -1,6 +1,6 @@
 ---
 title: "W3WP Spawning Shell"
-excerpt: "Web Shell"
+excerpt: "Server Software Component, Web Shell"
 categories:
   - Endpoint
 last_modified_at: 2021-03-03
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1505
+  - Server Software Component
+  - Persistence
   - T1505.003
   - Web Shell
   - Persistence
@@ -38,6 +41,7 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
 

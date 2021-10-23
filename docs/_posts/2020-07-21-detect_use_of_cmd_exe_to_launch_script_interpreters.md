@@ -1,6 +1,6 @@
 ---
 title: "Detect Use of cmd exe to Launch Script Interpreters"
-excerpt: "Windows Command Shell"
+excerpt: "Command and Scripting Interpreter, Windows Command Shell"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.003
   - Windows Command Shell
   - Execution
@@ -38,6 +41,7 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
 

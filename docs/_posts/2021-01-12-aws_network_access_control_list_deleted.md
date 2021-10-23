@@ -1,6 +1,6 @@
 ---
 title: "AWS Network Access Control List Deleted"
-excerpt: "Disable or Modify Cloud Firewall"
+excerpt: "Disable or Modify Cloud Firewall, Impair Defenses"
 categories:
   - Cloud
 last_modified_at: 2021-01-12
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1562.007
   - Disable or Modify Cloud Firewall
+  - Defense Evasion
+  - T1562
+  - Impair Defenses
   - Defense Evasion
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -38,7 +41,8 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
+| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
 
 
 #### Search

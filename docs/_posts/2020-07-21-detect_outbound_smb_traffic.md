@@ -1,6 +1,6 @@
 ---
 title: "Detect Outbound SMB Traffic"
-excerpt: "File Transfer Protocols"
+excerpt: "File Transfer Protocols, Application Layer Protocol"
 categories:
   - Network
 last_modified_at: 2020-07-21
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1071.002
   - File Transfer Protocols
+  - Command And Control
+  - T1071
+  - Application Layer Protocol
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -41,7 +44,8 @@ This search looks for outbound SMB connections made by hosts within your network
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1071.002](https://attack.mitre.org/techniques/T1071/002/) | File Transfer Protocols | Command And Control |
+| [T1071.002](https://attack.mitre.org/techniques/T1071/002/) | File Transfer Protocols | Command And Control || [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+
 
 
 #### Search

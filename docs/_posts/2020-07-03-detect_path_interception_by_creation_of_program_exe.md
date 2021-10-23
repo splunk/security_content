@@ -1,6 +1,6 @@
 ---
 title: "Detect Path Interception By Creation Of program exe"
-excerpt: "Path Interception by Unquoted Path"
+excerpt: "Path Interception by Unquoted Path, Hijack Execution Flow"
 categories:
   - Endpoint
 last_modified_at: 2020-07-03
@@ -10,6 +10,11 @@ tags:
   - TTP
   - T1574.009
   - Path Interception by Unquoted Path
+  - Persistence
+  - Privilege Escalation
+  - Defense Evasion
+  - T1574
+  - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
   - Defense Evasion
@@ -40,7 +45,8 @@ The detection Detect Path Interception By Creation Of program exe is detecting t
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1574.009](https://attack.mitre.org/techniques/T1574/009/) | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion |
+| [T1574.009](https://attack.mitre.org/techniques/T1574/009/) | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion || [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
+
 
 
 #### Search

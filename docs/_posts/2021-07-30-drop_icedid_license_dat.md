@@ -1,6 +1,6 @@
 ---
 title: "Drop IcedID License dat"
-excerpt: "Malicious File"
+excerpt: "User Execution, Malicious File"
 categories:
   - Endpoint
 last_modified_at: 2021-07-30
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1204
+  - User Execution
+  - Execution
   - T1204.002
   - Malicious File
   - Execution
@@ -38,6 +41,7 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 

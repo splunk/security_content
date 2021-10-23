@@ -1,6 +1,6 @@
 ---
 title: "WinEvent Scheduled Task Created to Spawn Shell"
-excerpt: "Scheduled Task"
+excerpt: "Scheduled Task, Scheduled Task/Job"
 categories:
   - Endpoint
 last_modified_at: 2021-04-12
@@ -10,6 +10,11 @@ tags:
   - TTP
   - T1053.005
   - Scheduled Task
+  - Execution
+  - Persistence
+  - Privilege Escalation
+  - T1053
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -43,7 +48,8 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
 
 
 #### Search

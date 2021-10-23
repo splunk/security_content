@@ -1,6 +1,6 @@
 ---
 title: "Detect WMI Event Subscription Persistence"
-excerpt: "Windows Management Instrumentation Event Subscription"
+excerpt: "Windows Management Instrumentation Event Subscription, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-06-16
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1546.003
   - Windows Management Instrumentation Event Subscription
+  - Privilege Escalation
+  - Persistence
+  - T1546
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
@@ -43,7 +47,8 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
+| [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
 
 
 #### Search

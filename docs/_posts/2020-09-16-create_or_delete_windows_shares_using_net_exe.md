@@ -1,6 +1,6 @@
 ---
 title: "Create or delete windows shares using net exe"
-excerpt: "Network Share Connection Removal"
+excerpt: "Indicator Removal on Host, Network Share Connection Removal"
 categories:
   - Endpoint
 last_modified_at: 2020-09-16
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1070
+  - Indicator Removal on Host
+  - Defense Evasion
   - T1070.005
   - Network Share Connection Removal
   - Defense Evasion
@@ -38,6 +41,7 @@ This search looks for the creation or deletion of hidden shares using net.exe.
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 | [T1070.005](https://attack.mitre.org/techniques/T1070/005/) | Network Share Connection Removal | Defense Evasion |
 
 

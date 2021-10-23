@@ -1,6 +1,6 @@
 ---
 title: "Shim Database File Creation"
-excerpt: "Application Shimming"
+excerpt: "Application Shimming, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-12-08
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1546.011
   - Application Shimming
+  - Privilege Escalation
+  - Persistence
+  - T1546
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
@@ -38,7 +42,8 @@ This search looks for shim database files being written to default directories. 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
+| [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
 
 
 #### Search

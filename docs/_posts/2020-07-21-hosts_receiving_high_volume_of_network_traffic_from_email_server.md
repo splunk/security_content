@@ -1,6 +1,6 @@
 ---
 title: "Hosts receiving high volume of network traffic from email server"
-excerpt: "Remote Email Collection"
+excerpt: "Remote Email Collection, Email Collection"
 categories:
   - Network
 last_modified_at: 2020-07-21
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1114.002
   - Remote Email Collection
+  - Collection
+  - T1114
+  - Email Collection
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -40,7 +43,8 @@ This search looks for an increase of data transfers from your email server to yo
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
+| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection || [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
 
 
 #### Search

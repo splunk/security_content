@@ -1,6 +1,6 @@
 ---
 title: "Multiple Users Failing To Authenticate From Host Using Kerberos"
-excerpt: "Password Spraying"
+excerpt: "Password Spraying, Brute Force"
 categories:
   - Endpoint
 last_modified_at: 2021-04-08
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1110.003
   - Password Spraying
+  - Credential Access
+  - T1110
+  - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -41,7 +44,8 @@ The analytics returned fields allow analysts to investigate the event further by
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
+| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access || [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+
 
 
 #### Search

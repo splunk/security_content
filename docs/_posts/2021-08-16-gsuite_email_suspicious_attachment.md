@@ -1,6 +1,6 @@
 ---
 title: "GSuite Email Suspicious Attachment"
-excerpt: "Spearphishing Attachment"
+excerpt: "Spearphishing Attachment, Phishing"
 categories:
   - Cloud
 last_modified_at: 2021-08-16
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1566.001
   - Spearphishing Attachment
+  - Initial Access
+  - T1566
+  - Phishing
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access || [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
 
 
 #### Search
@@ -54,7 +58,7 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](/stories/devsecops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

@@ -1,6 +1,6 @@
 ---
 title: "Suspicious PlistBuddy Usage"
-excerpt: "Launch Agent"
+excerpt: "Launch Agent, Create or Modify System Process"
 categories:
   - Endpoint
 last_modified_at: 2021-02-22
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1543.001
   - Launch Agent
+  - Persistence
+  - Privilege Escalation
+  - T1543
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -48,7 +52,8 @@ Upon triage, capture the property list file being written to disk and review for
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1543.001](https://attack.mitre.org/techniques/T1543/001/) | Launch Agent | Persistence, Privilege Escalation |
+| [T1543.001](https://attack.mitre.org/techniques/T1543/001/) | Launch Agent | Persistence, Privilege Escalation || [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
 
 
 #### Search

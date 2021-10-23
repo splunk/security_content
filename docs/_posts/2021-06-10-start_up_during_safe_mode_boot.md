@@ -1,6 +1,6 @@
 ---
 title: "Start Up During Safe Mode Boot"
-excerpt: "Registry Run Keys / Startup Folder"
+excerpt: "Registry Run Keys / Startup Folder, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-06-10
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1547.001
   - Registry Run Keys / Startup Folder
+  - Persistence
+  - Privilege Escalation
+  - T1547
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -39,7 +43,8 @@ This search is to detect a modification or registry add to the safeboot registry
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
+| [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
 
 
 #### Search

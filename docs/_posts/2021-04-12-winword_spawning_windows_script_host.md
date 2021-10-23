@@ -1,6 +1,6 @@
 ---
 title: "Winword Spawning Windows Script Host"
-excerpt: "Spearphishing Attachment"
+excerpt: "Phishing, Spearphishing Attachment"
 categories:
   - Endpoint
 last_modified_at: 2021-04-12
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1566
+  - Phishing
+  - Initial Access
   - T1566.001
   - Spearphishing Attachment
   - Initial Access
@@ -38,6 +41,7 @@ The following detection identifies Microsoft Winword.exe spawning Windows Script
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 

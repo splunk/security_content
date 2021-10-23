@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Rundll32 Rename"
-excerpt: "Rundll32, Rename System Utilities"
+excerpt: "Signed Binary Proxy Execution, Masquerading, Rundll32, Rename System Utilities"
 categories:
   - Endpoint
 last_modified_at: 2021-02-04
@@ -8,6 +8,12 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
+  - T1036
+  - Masquerading
+  - Defense Evasion
   - T1218.011
   - Rundll32
   - Defense Evasion
@@ -41,6 +47,8 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion || [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 

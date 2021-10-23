@@ -1,6 +1,6 @@
 ---
 title: "Windows Event Log Cleared"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2020-07-06
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1070
+  - Indicator Removal on Host
+  - Defense Evasion
   - T1070.001
   - Clear Windows Event Logs
   - Defense Evasion
@@ -37,6 +40,7 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 

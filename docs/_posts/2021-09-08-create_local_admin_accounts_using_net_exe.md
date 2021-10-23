@@ -1,6 +1,6 @@
 ---
 title: "Create local admin accounts using net exe"
-excerpt: "Local Account"
+excerpt: "Local Account, Create Account"
 categories:
   - Endpoint
 last_modified_at: 2021-09-08
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1136.001
   - Local Account
+  - Persistence
+  - T1136
+  - Create Account
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ This search looks for the creation of local administrator accounts using net.exe
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
 
 
 #### Search

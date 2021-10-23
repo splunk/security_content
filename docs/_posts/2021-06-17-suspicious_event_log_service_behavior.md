@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Event Log Service Behavior"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2021-06-17
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1070
+  - Indicator Removal on Host
+  - Defense Evasion
   - T1070.001
   - Clear Windows Event Logs
   - Defense Evasion
@@ -37,6 +40,7 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 

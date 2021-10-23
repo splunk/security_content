@@ -1,6 +1,6 @@
 ---
 title: "Attempt To Add Certificate To Untrusted Store"
-excerpt: "Install Root Certificate"
+excerpt: "Install Root Certificate, Subvert Trust Controls"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1553.004
   - Install Root Certificate
+  - Defense Evasion
+  - T1553
+  - Subvert Trust Controls
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -39,7 +42,8 @@ Attempt To Add Certificate To Untrusted Store
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1553.004](https://attack.mitre.org/techniques/T1553/004/) | Install Root Certificate | Defense Evasion |
+| [T1553.004](https://attack.mitre.org/techniques/T1553/004/) | Install Root Certificate | Defense Evasion || [T1553](https://attack.mitre.org/techniques/T1553/) | Subvert Trust Controls | Defense Evasion |
+
 
 
 #### Search

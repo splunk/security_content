@@ -1,6 +1,6 @@
 ---
 title: "Remote Desktop Network Bruteforce"
-excerpt: "Remote Desktop Protocol"
+excerpt: "Remote Desktop Protocol, Remote Services"
 categories:
   - Network
 last_modified_at: 2020-07-21
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1021.001
   - Remote Desktop Protocol
+  - Lateral Movement
+  - T1021
+  - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -41,7 +44,8 @@ This search looks for RDP application network traffic and filters any source/des
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
+| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement || [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
 
 
 #### Search

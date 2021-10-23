@@ -1,6 +1,6 @@
 ---
 title: "Msmpeng Application DLL Side Loading"
-excerpt: "DLL Side-Loading"
+excerpt: "DLL Side-Loading, Hijack Execution Flow"
 categories:
   - Endpoint
 last_modified_at: 2021-07-05
@@ -10,6 +10,11 @@ tags:
   - TTP
   - T1574.002
   - DLL Side-Loading
+  - Persistence
+  - Privilege Escalation
+  - Defense Evasion
+  - T1574
+  - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
   - Defense Evasion
@@ -40,7 +45,8 @@ This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in no
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
+| [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion || [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
+
 
 
 #### Search

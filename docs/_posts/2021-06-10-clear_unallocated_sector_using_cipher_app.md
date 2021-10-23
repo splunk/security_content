@@ -1,6 +1,6 @@
 ---
 title: "Clear Unallocated Sector Using Cipher App"
-excerpt: "File Deletion"
+excerpt: "File Deletion, Indicator Removal on Host"
 categories:
   - Endpoint
 last_modified_at: 2021-06-10
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1070.004
   - File Deletion
+  - Defense Evasion
+  - T1070
+  - Indicator Removal on Host
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ this search is to detect execution of `cipher.exe` to clear the unallocated sect
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
+| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion || [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
 
 
 #### Search

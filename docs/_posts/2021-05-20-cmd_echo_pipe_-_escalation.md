@@ -1,6 +1,6 @@
 ---
 title: "CMD Echo Pipe - Escalation"
-excerpt: "Windows Command Shell, Windows Service"
+excerpt: "Command and Scripting Interpreter, Windows Command Shell, Windows Service, Create or Modify System Process"
 categories:
   - Endpoint
 last_modified_at: 2021-05-20
@@ -8,11 +8,18 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.003
   - Windows Command Shell
   - Execution
   - T1543.003
   - Windows Service
+  - Persistence
+  - Privilege Escalation
+  - T1543
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -43,7 +50,9 @@ This analytic identifies a common behavior by Cobalt Strike and other frameworks
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution || [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution || [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation || [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
 
 
 #### Search

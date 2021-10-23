@@ -1,6 +1,6 @@
 ---
 title: "Reg exe Manipulating Windows Services Registry Keys"
-excerpt: "Services Registry Permissions Weakness"
+excerpt: "Services Registry Permissions Weakness, Hijack Execution Flow"
 categories:
   - Endpoint
 last_modified_at: 2020-11-26
@@ -10,6 +10,11 @@ tags:
   - TTP
   - T1574.011
   - Services Registry Permissions Weakness
+  - Persistence
+  - Privilege Escalation
+  - Defense Evasion
+  - T1574
+  - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
   - Defense Evasion
@@ -40,7 +45,8 @@ The search looks for reg.exe modifying registry keys that define Windows service
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
+| [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion || [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
+
 
 
 #### Search

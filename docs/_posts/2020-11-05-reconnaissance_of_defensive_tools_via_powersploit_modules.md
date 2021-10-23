@@ -1,6 +1,6 @@
 ---
 title: "Reconnaissance of Defensive Tools via PowerSploit modules"
-excerpt: "Vulnerability Scanning, Software"
+excerpt: "Software, Vulnerability Scanning, Gather Victim Host Information, Active Scanning"
 categories:
   - Endpoint
 last_modified_at: 2020-11-05
@@ -8,11 +8,17 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1592.002
+  - Software
+  - Reconnaissance
   - T1595.002
   - Vulnerability Scanning
   - Reconnaissance
-  - T1592.002
-  - Software
+  - T1592
+  - Gather Victim Host Information
+  - Reconnaissance
+  - T1595
+  - Active Scanning
   - Reconnaissance
   - Splunk Behavioral Analytics
   - Actions on Objectives
@@ -38,7 +44,9 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1595.002](https://attack.mitre.org/techniques/T1595/002/) | Vulnerability Scanning | Reconnaissance || [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
+| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance || [T1595.002](https://attack.mitre.org/techniques/T1595/002/) | Vulnerability Scanning | Reconnaissance || [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+| [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+
 
 
 #### Search

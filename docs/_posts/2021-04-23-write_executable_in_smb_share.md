@@ -1,6 +1,6 @@
 ---
 title: "Write Executable in SMB Share"
-excerpt: "SMB/Windows Admin Shares"
+excerpt: "Remote Services, SMB/Windows Admin Shares"
 categories:
   - Endpoint
 last_modified_at: 2021-04-23
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1021
+  - Remote Services
+  - Lateral Movement
   - T1021.002
   - SMB/Windows Admin Shares
   - Lateral Movement
@@ -38,6 +41,7 @@ This search is to detect suspicious dropping or creating an executable file in k
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
 

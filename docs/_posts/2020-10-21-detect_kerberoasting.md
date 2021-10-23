@@ -1,6 +1,6 @@
 ---
 title: "Detect Kerberoasting"
-excerpt: "Kerberoasting"
+excerpt: "Kerberoasting, Steal or Forge Kerberos Tickets"
 categories:
   - Endpoint
 last_modified_at: 2020-10-21
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1558.003
   - Kerberoasting
+  - Credential Access
+  - T1558
+  - Steal or Forge Kerberos Tickets
   - Credential Access
   - Splunk Behavioral Analytics
   - Actions on Objectives
@@ -35,7 +38,8 @@ This search detects a potential kerberoasting attack via service principal name 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
+| [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access || [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
+
 
 
 #### Search

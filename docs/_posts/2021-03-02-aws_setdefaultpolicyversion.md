@@ -1,6 +1,6 @@
 ---
 title: "AWS SetDefaultPolicyVersion"
-excerpt: "Cloud Accounts"
+excerpt: "Cloud Accounts, Valid Accounts"
 categories:
   - Cloud
 last_modified_at: 2021-03-02
@@ -10,6 +10,12 @@ tags:
   - TTP
   - T1078.004
   - Cloud Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - T1078
+  - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
@@ -41,7 +47,8 @@ This search looks for AWS CloudTrail events where a user has set a default polic
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search

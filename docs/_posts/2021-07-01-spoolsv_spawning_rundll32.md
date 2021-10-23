@@ -1,6 +1,6 @@
 ---
 title: "Spoolsv Spawning Rundll32"
-excerpt: "Print Processors"
+excerpt: "Print Processors, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-07-01
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1547.012
   - Print Processors
+  - Persistence
+  - Privilege Escalation
+  - T1547
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -39,7 +43,8 @@ The following analytic identifies a suspicious child process, `rundll32.exe`, wi
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
+| [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
 
 
 #### Search

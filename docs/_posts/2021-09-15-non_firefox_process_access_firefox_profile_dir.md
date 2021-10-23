@@ -1,6 +1,6 @@
 ---
 title: "Non Firefox Process Access Firefox Profile Dir"
-excerpt: "Credentials from Web Browsers"
+excerpt: "Credentials from Password Stores, Credentials from Web Browsers"
 categories:
   - Endpoint
 last_modified_at: 2021-09-15
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Anomaly
+  - T1555
+  - Credentials from Password Stores
+  - Credential Access
   - T1555.003
   - Credentials from Web Browsers
   - Credential Access
@@ -38,6 +41,7 @@ This search is to detect an anomaly event of non-firefox process accessing the f
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
 | [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
 
 

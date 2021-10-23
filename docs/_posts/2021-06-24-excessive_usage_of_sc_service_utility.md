@@ -1,6 +1,6 @@
 ---
 title: "Excessive Usage Of SC Service Utility"
-excerpt: "Service Execution"
+excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-06-24
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Anomaly
+  - T1569
+  - System Services
+  - Execution
   - T1569.002
   - Service Execution
   - Execution
@@ -38,6 +41,7 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 

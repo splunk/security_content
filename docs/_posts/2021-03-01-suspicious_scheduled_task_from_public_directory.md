@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Scheduled Task from Public Directory"
-excerpt: "Scheduled Task"
+excerpt: "Scheduled Task, Scheduled Task/Job"
 categories:
   - Endpoint
 last_modified_at: 2021-03-01
@@ -10,6 +10,11 @@ tags:
   - Anomaly
   - T1053.005
   - Scheduled Task
+  - Execution
+  - Persistence
+  - Privilege Escalation
+  - T1053
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -41,7 +46,8 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
 
 
 #### Search

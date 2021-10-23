@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Driver Loaded Path"
-excerpt: "Windows Service"
+excerpt: "Windows Service, Create or Modify System Process"
 categories:
   - Endpoint
 last_modified_at: 2021-04-29
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1543.003
   - Windows Service
+  - Persistence
+  - Privilege Escalation
+  - T1543
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -39,7 +43,8 @@ This analytic will detect suspicious driver loaded paths. This technique is comm
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+| [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation || [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
 
 
 #### Search

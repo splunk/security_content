@@ -54,7 +54,7 @@ This search is to detect a pushed or commit to develop branch. This is to avoid 
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](/stories/devsecops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement

@@ -1,6 +1,6 @@
 ---
 title: "Print Spooler Failed to Load a Plug-in"
-excerpt: "Print Processors"
+excerpt: "Print Processors, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-07-01
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1547.012
   - Print Processors
+  - Persistence
+  - Privilege Escalation
+  - T1547
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -42,7 +46,8 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
+| [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
 
 
 #### Search

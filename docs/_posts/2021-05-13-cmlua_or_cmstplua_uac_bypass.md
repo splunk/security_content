@@ -1,6 +1,6 @@
 ---
 title: "CMLUA Or CMSTPLUA UAC Bypass"
-excerpt: "CMSTP"
+excerpt: "Signed Binary Proxy Execution, CMSTP"
 categories:
   - Endpoint
 last_modified_at: 2021-05-13
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.003
   - CMSTP
   - Defense Evasion
@@ -38,6 +41,7 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
 
