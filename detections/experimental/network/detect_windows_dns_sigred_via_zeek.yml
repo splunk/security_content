@@ -44,3 +44,5 @@ tags:
   - All_Traffic.bytes_in
   - All_Traffic.flow_id
   security_domain: endpoint
+  cve:
+  - CVE-2020-1350
