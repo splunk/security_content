@@ -20,7 +20,7 @@ from datetime import timedelta
 from datetime import datetime
 import string
 import shutil
-from typing import Union
+from typing import OrderedDict, Union
 
 from tempfile import mkdtemp
 import csv
@@ -215,6 +215,8 @@ def main(args):
     parser.add_argument("-p", "--persist_security_content", required=False, default=False, action="store_true", help="Assumes security_content directory already exists.  Don't check it out and overwrite it again.  Saves "\
                                                                                                                      "time and allows you to test a detection that you've updated.  Runs generate again in case you have "\
                                                                                                                      "updated macros or anything else.  Especially useful for quick, local, iterative testing.")
+    start_datetime = datetime.now()
+    
     args = parser.parse_args()
     branch = args.branch
     uuid_test = args.uuid
@@ -424,15 +426,10 @@ def main(args):
     os.chdir("../..")
     print("New ESCU Package generated successfully")    
     
-    #Enqueue all of the test files for processing
-    test_file_queue = queue.Queue()
-    for filename in test_files:
-        test_file_queue.put(filename)
     
     
 
-    
-    
+
     
     
     #Create threads to manage all of the containers that we will start up
@@ -441,7 +438,7 @@ def main(args):
 
     
     
-    results_tracker = SynchronizedResultsTracker(test_files)
+    results_tracker = SynchronizedResultsTracker(test_files[:3])
     
     for container_index in range(num_containers):
         container_name = LOCAL_BASE_CONTAINER_NAME%container_index
@@ -482,6 +479,7 @@ def main(args):
                 "8089/tcp": management_port
                }
         source_path = os.path.join(os.getcwd(), "security_content", "slim_packaging","apps")
+        
         mounts = [docker.types.Mount(target = '/tmp/apps/', source = source_path, type='bind', read_only=True)]
 
         print("Creating CONTAINER: [%s]"%(container_name))
@@ -537,7 +535,12 @@ def main(args):
     
     #Remove the attack data and 
     #generate all of the output information
-    results_tracker.finish()
+    baseline = OrderedDict()
+    baseline['SPLUNK_VERSION'] = full_docker_hub_container_name
+    baseline['SPLUNK_APPS'] = ','.join(SPLUNK_APPS)
+    baseline['TEST_START_TIME'] = str(start_datetime)
+
+    results_tracker.finish(baseline)
     
     
 
@@ -619,20 +622,25 @@ class SynchronizedResultsTracker:
             self.errors.append(detection)
         finally:
             self.lock.release()
-    def outputResultsFile(self, column_names:list[str], output_filename:str, data:list[dict])->bool:
+    def outputResultsFile(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
         success = True
-        print("Generating %s"%(output_filename))
-        print(data)
+        print("Generating %s..."%(output_filename), end='')
         self.lock.acquire()
+        
         try:                        
             with open(output_filename, 'w') as csvfile:
-                csv_writer = csv.DictWriter(csvfile, fieldnames=column_names)
+                header_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+                for key in baseline:
+                    header_writer.writerow([key, baseline[key]])
+                header_writer.writerow(['',''])
+                csv_writer = csv.DictWriter(csvfile, fieldnames=field_names)
                 csv_writer.writeheader()
-                for row in self.successes:
+                for row in data:
                     csv_writer.writerow(row)
+            print("Done with [%d] detections"%(len(data)))
 
         except Exception as e:
-            print("Failure writing to CSV file for [%s]"%str(e))
+            print("Failure writing to CSV file for [%s]:"%(output_filename, str(e)))
             success = False
 
         finally:
@@ -640,15 +648,16 @@ class SynchronizedResultsTracker:
 
         return success
 
-    def outputResultsFiles(self)->bool:
-        res = self.outputResultsFile(['detection_name', 'detection_file', 'detection_result','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount'],"success.csv", self.successes)
-        res |= self.outputResultsFile(['detection_name', 'detection_file', 'detection_result','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount'], "failures.csv", self.failures)
-        res |= self.outputResultsFile(['detection_file', 'detection_error'], "errors.csv", self.errors)
+    def outputResultsFiles(self, baseline:OrderedDict, fields:list[str]=['detection_name', 'detection_file','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount', 'detection_error'])->bool:
+        res = self.outputResultsFile(fields,"success.csv", self.successes, baseline)
+        res |= self.outputResultsFile(fields, "failures.csv", self.failures, baseline)
+        res |= self.outputResultsFile(fields, "errors.csv", self.errors, baseline)
+        res |= self.outputResultsFile(fields, "combined.csv", self.successes + self.failures + self.errors, baseline)
         return res
 
-    def finish(self):
+    def finish(self, baseline:OrderedDict):
         self.cleanup()
-        self.outputResultsFiles()
+        self.outputResultsFiles(baseline)
         
 
     def cleanup(self):
@@ -718,8 +727,8 @@ class SynchronizedResultsTracker:
         finally:
             self.lock.release()
         
+        #Return true while there are tests remaining
         return (self.total_number_of_tests - 
-                self.testing_queue.qsize() - 
                 (len(self.successes) + len(self.failures) + len(self.errors)) > 0)
         
         
@@ -748,10 +757,11 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     
 
     container = client.containers.get(container_name)
+    
     print("Starting the container [%s]"%(container_name))
 
     
-
+    
     container.start()
     print("Start copying files to container: [%s]"%(container_name))
     copy_file_to_container(index_file_local_path, index_file_container_path, container_name)

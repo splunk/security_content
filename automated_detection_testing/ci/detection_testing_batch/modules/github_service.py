@@ -53,8 +53,8 @@ class GithubService:
                 
                 test_filepath = os.path.splitext(detection)[0].replace('detections', 'tests') + '.test.yml'
                 test_filepath_without_security_content = str(pathlib.Path(*pathlib.Path(test_filepath).parts[1:]))
-                if 'type' in description and description['type'] in ttps_to_test:
-                    
+                #If no TTPS are provided, then we will get everything
+                if 'type' in description and (description['type'] in ttps_to_test or len(ttps_to_test) == 0):
                     #print(description['type'])
                     if not os.path.exists(test_filepath):
                         print("Detection [%s] references [%s], but it does not exist"%(detection, test_filepath))
@@ -70,7 +70,10 @@ class GithubService:
                             except:
                                 mitre_id = 'NONE'
                             try:
-                                csvlines.append({'name':description['name'], 'description':description['description'], 'search':description['search'], 'mitre_attack_id':mitre_id, 'security_domain':description['tags']['security_domain'],'Relevant':'', 'Comments':''})
+
+                                csvlines.append({'name':description['name'], 'filename':detection, 'description':description['description'], 
+                                                 'search':description['search'], 'mitre_attack_id':mitre_id, 'security_domain':description['tags']['security_domain'],
+                                                 'Relevant':'', 'Comments':'', "Runnable on SSA?": str(os.path.basename(detection).startswith("ssa"))})
                             except Exception as e:
                                 print("Error outputting summary for [%s]: [%s]"%(detection, str(e))) 
                 else:
@@ -78,14 +81,14 @@ class GithubService:
                     pass
         
         if summary_file is not None:
-            with open('detectionWork.csv', 'w') as csvfile:
-                fieldnames = ['name', 'description', 'search', 'mitre_attack_id', 'security_domain', 'Relevant', 'Comments']
+            print("writing")
+            with open(summary_file, 'w') as csvfile:
+                fieldnames = ['name', 'filename', 'description', 'search', 'mitre_attack_id', 'security_domain', 'Runnable on SSA?', 'Relevant', 'Comments']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
                 writer.writeheader()
                 for r in csvlines:
                     writer.writerow(r)
             
-        
         
         return pruned_tests
 
