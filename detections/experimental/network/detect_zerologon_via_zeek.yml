@@ -42,3 +42,5 @@ tags:
   - _time
   - operation
   security_domain: network
+  cve:
+  - CVE-2020-1472

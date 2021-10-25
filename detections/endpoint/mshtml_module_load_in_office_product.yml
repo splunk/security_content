@@ -69,3 +69,5 @@ tags:
   - dest
   risk_score: 80
   security_domain: endpoint
+  cve:
+  - CVE-2021-40444
