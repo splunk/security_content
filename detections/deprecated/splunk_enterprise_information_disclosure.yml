@@ -42,3 +42,6 @@ tags:
   required_fields:
   - _time
   security_domain: network
+  cve:
+  - CVE-2018-11409
+ 
