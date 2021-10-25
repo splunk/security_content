@@ -7,6 +7,7 @@ import subprocess
 from git.objects import base
 import yaml
 import pathlib
+import csv
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
@@ -40,8 +41,10 @@ class GithubService:
                          detections_to_prune:list[str], 
                          ttps_to_test:list[str], 
                          previously_successful_tests:list[str],
-                         exclude_ssa:bool=True)->list[str]:
+                         exclude_ssa:bool=True,
+                         summary_file:str=None)->list[str]:
         pruned_tests = []
+        csvlines = []
         for detection in detections_to_prune:
             if os.path.basename(detection).startswith("ssa") and exclude_ssa:
                 continue
@@ -61,9 +64,29 @@ class GithubService:
                     else:
                         #remove leading security_content/ from path
                         pruned_tests.append(test_filepath_without_security_content)
+                        if summary_file is not None:
+                            try:
+                                mitre_id = str(description['tags']['mitre_attack_id'])
+                            except:
+                                mitre_id = 'NONE'
+                            try:
+                                csvlines.append({'name':description['name'], 'description':description['description'], 'search':description['search'], 'mitre_attack_id':mitre_id, 'security_domain':description['tags']['security_domain'],'Relevant':'', 'Comments':''})
+                            except Exception as e:
+                                print("Error outputting summary for [%s]: [%s]"%(detection, str(e))) 
                 else:
                     #Don't do anything with these files
                     pass
+        
+        if summary_file is not None:
+            with open('detectionWork.csv', 'w') as csvfile:
+                fieldnames = ['name', 'description', 'search', 'mitre_attack_id', 'security_domain', 'Relevant', 'Comments']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames, quoting=csv.QUOTE_ALL)
+                writer.writeheader()
+                for r in csvlines:
+                    writer.writerow(r)
+            
+        
+        
         return pruned_tests
 
 

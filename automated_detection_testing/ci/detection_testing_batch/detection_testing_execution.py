@@ -23,7 +23,7 @@ import shutil
 from typing import Union
 
 from tempfile import mkdtemp
-
+import csv
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
 index_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "search")
@@ -597,7 +597,7 @@ class SynchronizedResultsTracker:
             return None
         
     def addSuccess(self, result:dict)->None:
-        print("Test PASSED for detection: [%s --> %s"%(result['detection_result']['detection_name'], result['detection_result']['detection_file']))
+        print("Test PASSED for detection: [%s --> %s"%(result['detection_name'], result['detection_file']))
         self.lock.acquire()
         try:
             self.successes.append(result)
@@ -606,26 +606,45 @@ class SynchronizedResultsTracker:
         
 
     def addFailure(self, result:dict)->None:
-        print("Test FAILED for detection: [%s --> %s"%(result['detection_result']['detection_name'], result['detection_result']['detection_file']))
+        print("Test FAILED for detection: [%s --> %s"%(result['detection_name'], result['detection_file']))
         self.lock.acquire()
         try:
             self.failures.append(result)
         finally:
             self.lock.release()
 
-    def addError(self, detection:str, errorText:str)->None:
+    def addError(self, detection:dict)->None:
         self.lock.acquire()
         try:
-            self.errors.append((detection, errorText))
+            self.errors.append(detection)
         finally:
             self.lock.release()
-    def outputResultsFiles(self)->None:
+    def outputResultsFile(self, column_names:list[str], output_filename:str, data:list[dict])->bool:
+        success = True
+        print("Generating %s"%(output_filename))
+        print(data)
         self.lock.acquire()
-        try:
-            pass
+        try:                        
+            with open(output_filename, 'w') as csvfile:
+                csv_writer = csv.DictWriter(csvfile, fieldnames=column_names)
+                csv_writer.writeheader()
+                for row in self.successes:
+                    csv_writer.writerow(row)
+
+        except Exception as e:
+            print("Failure writing to CSV file for [%s]"%str(e))
+            success = False
+
         finally:
             self.lock.release()
-    
+
+        return success
+
+    def outputResultsFiles(self)->bool:
+        res = self.outputResultsFile(['detection_name', 'detection_file', 'detection_result','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount'],"success.csv", self.successes)
+        res |= self.outputResultsFile(['detection_name', 'detection_file', 'detection_result','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount'], "failures.csv", self.failures)
+        res |= self.outputResultsFile(['detection_file', 'detection_error'], "errors.csv", self.errors)
+        return res
 
     def finish(self):
         self.cleanup()
@@ -708,12 +727,12 @@ class SynchronizedResultsTracker:
         try:
             if result['detection_result']['success'] is False:
                 #This is actually a failure of the detection, not an error. Naming is confusiong
-                self.addFailure(result)
+                self.addFailure(result['detection_result'])
             elif result['detection_result']['success'] is True:
-                self.addSuccess(result)
+                self.addSuccess(result['detection_result'])
         except Exception as e:
             #Neither a success or a failure, so add the object to the failures queue
-            self.addError("Unspecified Error", str(result))
+            self.addError({'detection_file':"Unknown File", "detection_error":str(result)})
         
 
 
@@ -778,7 +797,7 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
             shutil.rmtree(result['attack_data_directory'])
         except Exception as e:
             print("Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"%(detection_to_test, str(e)))
-            testing_object.addError(detection_to_test,str(e))
+            testing_object.addError({"detection_file":detection_to_test,"detection_error":str(e)})
 
 def queue_status_thread(status_object:SynchronizedResultsTracker)->None:
     #This will run forever by design
