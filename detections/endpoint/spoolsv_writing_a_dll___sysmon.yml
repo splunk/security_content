@@ -73,3 +73,5 @@ tags:
   - TargetFilename
   risk_score: 72
   security_domain: endpoint
+  cve:
+  - CVE-2021-34527

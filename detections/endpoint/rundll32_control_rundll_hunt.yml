@@ -87,3 +87,5 @@ tags:
   - Processes.parent_process_id
   risk_score: 15
   security_domain: endpoint
+  cve:
+  - CVE-2021-40444
