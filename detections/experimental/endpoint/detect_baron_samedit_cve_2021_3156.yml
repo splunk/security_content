@@ -35,3 +35,5 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
+  cve:
+  - CVE-2021-3156
