@@ -458,7 +458,7 @@ def main(args):
     
 
 
-    results_tracker = SynchronizedResultsTracker(test_files, num_containers=num_containers)
+    results_tracker = SynchronizedResultsTracker(test_files, num_containers)
     
     local_volume_path = os.path.join(os.getcwd(), "security_content", "slim_packaging","apps")
 
@@ -603,7 +603,7 @@ def copy_file_to_container(localFilePath, remoteFilePath, containerName, sleepTi
 
 
 class SynchronizedResultsTracker:
-    def __init__(self, num_containers:int, tests:list[str]):
+    def __init__(self, tests:list[str], num_containers:int):
         #Create the queue and enque all of the tests
         self.testing_queue = queue.Queue()
         for test in tests:
@@ -800,11 +800,11 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     print("Finished copying files to container: [%s]"%(container_name))
 
 
-    wait_for_splunk_ready(max_seconds=120)
+    #wait_for_splunk_ready(max_seconds=120)
     from modules.splunk_sdk import enable_delete_for_admin
-    if not enable_delete_for_admin(splunk_ip, splunk_port, splunk_password):
-        print("COULD NOT ENABLE DELETE FOR [%s].... quitting"%(container_name))
-        sys.exit(0)
+    print("Enabling DELETE for [%s]"%(container_name))
+    while not enable_delete_for_admin(splunk_ip, splunk_port, splunk_password):
+        time.sleep(10)
     
     print("Successfully enabled DELETE for [%s]"%(container_name))
     
