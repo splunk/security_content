@@ -803,15 +803,18 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     #wait_for_splunk_ready(max_seconds=120)
     from modules.splunk_sdk import enable_delete_for_admin
     print("Enabling DELETE for [%s]"%(container_name))
-    while not enable_delete_for_admin(splunk_ip, splunk_port, splunk_password):
-        time.sleep(10)
+    try:
+        while not enable_delete_for_admin(splunk_ip, splunk_port, splunk_password):
+            time.sleep(10)
+    except Exception as e:
+        print("Failure enabling DELETE for container [%s]: [%s].\n\tQuitting..."%(container_name, str(e)))
     
     print("Successfully enabled DELETE for [%s]"%(container_name))
     
     #Wait for all of the threads to join here
     print("Container [%s] setup complete and waiting for other containers to be ready..."%(container_name))
     testing_object.start_barrier.wait()
-    
+    wait_for_splunk_ready(max_seconds=60)
     while True:
         #Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1,30))
