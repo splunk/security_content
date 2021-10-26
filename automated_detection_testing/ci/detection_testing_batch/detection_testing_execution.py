@@ -397,7 +397,7 @@ def main(args):
     if persist_security_content is True:
         os.chdir("slim_packaging")
         commands = ["cd slim-latest", 
-                    ". ./.venv/bin/activate",
+                    "source venv/bin/activate",
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
@@ -424,11 +424,12 @@ def main(args):
                     "mkdir slim-latest", 
                     "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
                     "cd slim-latest", 
-                    "python3 -m venv .venv", 
-                    ". ./.venv/bin/activate", 
-                    "python3 -m pip install wheel", 
-                    "python3 -m pip install semantic_version",
-                    "python3 -m pip install .",  
+                    "virtualenv --python=/usr/bin/python2.7 --clear .venv",
+                    "source venv/bin/activate",
+                    "python3 -m pip install --upgrade pip",
+                    "python2 -m pip install wheel",
+                    "python2 -m pip install semantic_version",
+                    "python2 -m pip install .",
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
@@ -436,7 +437,7 @@ def main(args):
     
     
 
-    ret = subprocess.run("; ".join(commands), shell=True, capture_output=False)
+    ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
     if ret.returncode != 0:
         print("Error generating new ESCU Package.\n\tQuitting..."%())
         sys.exit(1)
