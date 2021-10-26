@@ -385,7 +385,7 @@ def main(args):
                     "python3 -m pip install -r requirements.txt", 
                     "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
     else:
-        commands = ["source .venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+        commands = ["s. ./.venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
     ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
     if ret.returncode != 0:
         print("Error generating new content.  Exiting...")
@@ -397,7 +397,7 @@ def main(args):
     if persist_security_content is True:
         os.chdir("slim_packaging")
         commands = ["cd slim-latest", 
-                    "source venv/bin/activate",
+                    ". ./.venv/bin/activate",
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
@@ -425,7 +425,7 @@ def main(args):
                     "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
                     "cd slim-latest", 
                     "virtualenv --python=/usr/bin/python2.7 --clear .venv",
-                    "source venv/bin/activate",
+                    ". ./.venv/bin/activate",
                     "python3 -m pip install --upgrade pip",
                     "python2 -m pip install wheel",
                     "python2 -m pip install semantic_version",
@@ -458,7 +458,7 @@ def main(args):
     
 
 
-    results_tracker = SynchronizedResultsTracker(test_files)
+    results_tracker = SynchronizedResultsTracker(test_files, num_containers=num_containers)
     
     local_volume_path = os.path.join(os.getcwd(), "security_content", "slim_packaging","apps")
 
