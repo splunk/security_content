@@ -78,6 +78,7 @@ There might be false positives associted with this detection since items like ar
 
 
 
+
 #### Reference
 
 * [https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html](https://www.splunk.com/en_us/blog/security/detecting-supernova-malware-solarwinds-continued.html)

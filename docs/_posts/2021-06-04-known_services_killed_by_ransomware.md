@@ -76,12 +76,13 @@ To successfully implement this search, you need to be ingesting logs with the 70
 Admin activities or installing related updates may do a sudden stop to list of services we monitor.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Known services $Message$ terminated by a potential ransomware on $dest$ |
+
+
 
 
 

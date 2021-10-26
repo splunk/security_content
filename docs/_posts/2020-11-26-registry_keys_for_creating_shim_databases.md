@@ -1,6 +1,6 @@
 ---
 title: "Registry Keys for Creating SHIM Databases"
-excerpt: "Application Shimming"
+excerpt: "Application Shimming, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-11-26
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1546.011
   - Application Shimming
+  - Privilege Escalation
+  - Persistence
+  - T1546
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
@@ -38,7 +42,8 @@ This search looks for registry activity associated with application compatibilit
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
+| [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
 
 
 #### Search
@@ -76,12 +81,13 @@ To successfully implement this search, you must populate the Change_Analysis dat
 There are many legitimate applications that leverage shim databases for compatibility purposes for legacy applications
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A registry activity in $registry_path$ related to shim modication in host $dest$ |
+
+
 
 
 

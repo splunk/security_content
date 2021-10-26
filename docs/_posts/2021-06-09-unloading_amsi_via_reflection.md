@@ -77,12 +77,13 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Potential for some third party applications to disable AMSI upon invocation. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Possible AMSI Unloading via Reflection using PowerShell on $ComputerName$ |
+
+
 
 
 

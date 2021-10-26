@@ -78,12 +78,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Administrators may modify the boot configuration.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 100 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting disable the ability to recover the endpoint. |
+
+
 
 
 

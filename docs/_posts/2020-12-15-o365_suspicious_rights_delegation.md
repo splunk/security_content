@@ -1,6 +1,6 @@
 ---
 title: "O365 Suspicious Rights Delegation"
-excerpt: "Remote Email Collection"
+excerpt: "Remote Email Collection, Email Collection"
 categories:
   - Cloud
 last_modified_at: 2020-12-15
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1114.002
   - Remote Email Collection
+  - Collection
+  - T1114
+  - Email Collection
   - Collection
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -38,7 +41,8 @@ This search detects the assignment of rights to accesss content from another mai
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
+| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection || [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
 
 
 #### Search
@@ -75,12 +79,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 Service Accounts
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$ that allow access to sensitive |
+
+
 
 
 

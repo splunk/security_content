@@ -76,12 +76,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 100.0 | 100 | 100 | file $file_name$ created in $file_path$ of $dest$ |
+
+
 
 
 

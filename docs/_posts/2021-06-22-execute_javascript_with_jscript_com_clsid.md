@@ -1,6 +1,6 @@
 ---
 title: "Execute Javascript With Jscript COM CLSID"
-excerpt: "Visual Basic"
+excerpt: "Command and Scripting Interpreter, Visual Basic"
 categories:
   - Endpoint
 last_modified_at: 2021-06-22
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.005
   - Visual Basic
   - Execution
@@ -38,6 +41,7 @@ This analytic will identify suspicious process of cscript.exe where it tries to 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.005](https://attack.mitre.org/techniques/T1059/005/) | Visual Basic | Execution |
 
 
@@ -78,12 +82,13 @@ To successfully implement this search you need to be ingesting information on pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | Suspicious process of cscript.exe with a parent process $parent_process_name$ where it tries to execute javascript using jscript.encode CLSID (COM OBJ), detected on $dest$ by $user$ |
+
+
 
 
 

@@ -97,12 +97,13 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.5 | 30 | 85 | DSInternals tool kit is assessing password strength at the device $dest_device_id$. Account attempting this operation is $dest_user_id$ via command $cmd_line$ |
+
+
 
 
 

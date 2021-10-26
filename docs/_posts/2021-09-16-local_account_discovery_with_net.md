@@ -1,6 +1,6 @@
 ---
 title: "Local Account Discovery with Net"
-excerpt: "Local Account"
+excerpt: "Account Discovery, Local Account"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1087
+  - Account Discovery
+  - Discovery
   - T1087.001
   - Local Account
   - Discovery
@@ -38,6 +41,7 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
 
@@ -71,12 +75,13 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local user discovery enumeration on $dest$ by $user$ |
+
+
 
 
 

@@ -99,12 +99,13 @@ Collect endpoint data such as sysmon or 4688 events.
 None
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A system process $process_name$ with commandline $cmd_line$ spawn in non-default folder path in host $dest_device_id$ |
+
+
 
 
 

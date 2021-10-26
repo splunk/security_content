@@ -85,12 +85,13 @@ Detailed documentation on how to create a new field within Incident Review may b
 It is possible for a legitimate file with these extensions to be created. If this is a true ransomware attack, there will be a large number of files created with these extensions.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware file extension and should be reviewed immediately. |
+
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Schtasks scheduling job on remote system"
-excerpt: "Scheduled Task"
+excerpt: "Scheduled Task, Scheduled Task/Job"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
@@ -10,6 +10,11 @@ tags:
   - TTP
   - T1053.005
   - Scheduled Task
+  - Execution
+  - Persistence
+  - Privilege Escalation
+  - T1053
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -40,7 +45,8 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
 
 
 #### Search
@@ -79,12 +85,13 @@ You must be ingesting data that records process activity from your hosts to popu
 Administrators may create jobs on remote systems, but this activity is usually limited to a small set of hosts or users. It is important to validate and investigate as appropriate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A schedule task process $process_name$ with remote job commandline $process$ in host $dest$ |
+
+
 
 
 

@@ -68,12 +68,13 @@ You must be ingesting data that records file-system activity from your hosts to 
 Because these extensions are not typically used in normal operations, you should investigate all results.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 100 | 90 | File writes $file_name$ with extensions consistent with a SamSam ransomware attack seen on $dest$ |
+
+
 
 
 

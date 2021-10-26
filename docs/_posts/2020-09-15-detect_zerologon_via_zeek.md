@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2020-1472
   - Exploitation
 ---
 
@@ -73,6 +74,13 @@ You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data should also be ge
 unknown
 
 
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
+| ----------- | ----------- | -------------- | -------------- |
+| [CVE-2020-1472](https://nvd.nist.gov/vuln/detail/CVE-2020-1472) | An elevation of privilege vulnerability exists when an attacker establishes a vulnerable Netlogon secure channel connection to a domain controller, using the Netlogon Remote Protocol (MS-NRPC), aka &#39;Netlogon Elevation of Privilege Vulnerability&#39;. | 9.3 | secure@microsoft.com |
 
 
 #### Reference

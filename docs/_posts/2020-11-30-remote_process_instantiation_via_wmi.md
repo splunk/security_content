@@ -84,12 +84,13 @@ To successfully implement this search you need to be ingesting information on pr
 The wmic.exe utility is a benign Windows application. It may be used legitimately by Administrators with these parameters for remote system administration, but it&#39;s relatively uncommon.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | A wmic.exe process $process$ contain process spawn commandline $process$ in host $dest$ |
+
+
 
 
 

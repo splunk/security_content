@@ -1,6 +1,6 @@
 ---
 title: "MS Scripting Process Loading WMI Module"
-excerpt: "JavaScript"
+excerpt: "Command and Scripting Interpreter, JavaScript"
 categories:
   - Endpoint
 last_modified_at: 2021-09-13
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Anomaly
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.007
   - JavaScript
   - Execution
@@ -38,6 +41,7 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 
@@ -77,12 +81,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 automation scripting language may used by network operator to do ldap query.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | $process_name$ loading wmi modules $ImageLoaded$ in $dest$ |
+
+
 
 
 

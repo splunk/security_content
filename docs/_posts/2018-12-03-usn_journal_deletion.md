@@ -80,12 +80,13 @@ You must be ingesting data that records process activity from your hosts to popu
 None identified
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 50 | 90 | Possible USN journal deletion on $dest$ |
+
+
 
 
 

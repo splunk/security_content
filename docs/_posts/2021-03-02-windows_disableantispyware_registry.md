@@ -1,6 +1,6 @@
 ---
 title: "Windows DisableAntiSpyware Registry"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-03-02
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - T1562
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
 
 
 #### Search
@@ -77,12 +81,13 @@ To successfully implement this search you need to be ingesting information on pr
 It is unusual to turn this feature off a Windows system since it is a default security control, although it is not rare for some policies to disable it. Although no false positives have been identified, use the provided filter macro to tune the search.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Windows DisableAntiSpyware registry key set to &#39;disabled&#39; on $dest$ |
+
+
 
 
 

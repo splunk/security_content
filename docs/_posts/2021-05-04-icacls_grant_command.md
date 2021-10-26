@@ -79,12 +79,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Unknown. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Process name $process_name$ with grant argument executed by $user$ to change security permission of a specific file or directory on host $dest$ |
+
+
 
 
 

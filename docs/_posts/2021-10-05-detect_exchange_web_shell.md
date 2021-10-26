@@ -1,6 +1,6 @@
 ---
 title: "Detect Exchange Web Shell"
-excerpt: "Web Shell"
+excerpt: "Server Software Component, Web Shell"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1505
+  - Server Software Component
+  - Persistence
   - T1505.003
   - Web Shell
   - Persistence
@@ -38,6 +41,7 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
 
@@ -81,12 +85,13 @@ To successfully implement this search you need to be ingesting information on pr
 The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A file - $file_name$ was written to disk that is related to IIS exploitation previously performed by HAFNIUM. Review further file modifications on endpoint $dest$ by user $user$. |
+
+
 
 
 

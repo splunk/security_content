@@ -80,12 +80,13 @@ To successfully implement this search, you need to be ingesting logs with the Ta
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The Telegram application has been identified enumerating local groups on $ComputerName$ by $user$. |
+
+
 
 
 

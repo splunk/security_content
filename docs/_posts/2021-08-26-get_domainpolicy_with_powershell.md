@@ -80,12 +80,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | an instance of process $process_name$ with commandline $process$ in $dest$ |
+
+
 
 
 

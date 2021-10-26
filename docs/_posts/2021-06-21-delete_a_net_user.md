@@ -79,6 +79,7 @@ System administrators or scripts may delete user accounts via this technique. Fi
 
 
 
+
 #### Reference
 
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)

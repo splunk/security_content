@@ -1,6 +1,6 @@
 ---
 title: "Malicious Powershell Executed As A Service"
-excerpt: "Service Execution"
+excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-04-07
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1569
+  - System Services
+  - Execution
   - T1569.002
   - Service Execution
   - Execution
@@ -38,6 +41,7 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 
@@ -86,12 +90,13 @@ To successfully implement this search, you need to be ingesting Windows System l
 Creating a hidden powershell service is rare and could key off of those instances.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $Service_File_Name$ by $user$ on $dest$ |
+
+
 
 
 

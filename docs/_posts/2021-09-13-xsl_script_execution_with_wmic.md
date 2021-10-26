@@ -79,12 +79,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Process name $process_name$ with commandline $process$ to execute jscript in $dest$ |
+
+
 
 
 

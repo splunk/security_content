@@ -1,6 +1,6 @@
 ---
 title: "Suspicious MSBuild Rename"
-excerpt: "MSBuild, Rename System Utilities"
+excerpt: "Masquerading, Trusted Developer Utilities Proxy Execution, Rename System Utilities, MSBuild"
 categories:
   - Endpoint
 last_modified_at: 2021-01-12
@@ -8,11 +8,17 @@ toc: true
 toc_label: ""
 tags:
   - TTP
-  - T1127.001
-  - MSBuild
+  - T1036
+  - Masquerading
+  - Defense Evasion
+  - T1127
+  - Trusted Developer Utilities Proxy Execution
   - Defense Evasion
   - T1036.003
   - Rename System Utilities
+  - Defense Evasion
+  - T1127.001
+  - MSBuild
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -41,7 +47,9 @@ The following analytic identifies renamed instances of msbuild.exe executing. Ms
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion || [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion || [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
 
 
 #### Search
@@ -87,12 +95,13 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may use a moved copy of msbuild, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious renamed msbuild.exe binary ran on $dest$ by $user$ |
+
+
 
 
 

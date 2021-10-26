@@ -1,6 +1,6 @@
 ---
 title: "Creation of Shadow Copy with wmic and powershell"
-excerpt: "NTDS"
+excerpt: "NTDS, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1003.003
   - NTDS
+  - Credential Access
+  - T1003
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ This search detects the use of wmic and Powershell to create a shadow copy.
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
+| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -82,12 +86,13 @@ To successfully implement this search you need to be ingesting information on pr
 Legtimate administrator usage of wmic to create a shadow copy.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to create a shadow copy to perform offline password cracking. |
+
+
 
 
 

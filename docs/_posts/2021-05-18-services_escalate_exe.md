@@ -82,12 +82,13 @@ To successfully implement this search, you will need to ensure that DNS data is 
 False positives should be limited as `services.exe` should never spawn a process from `ADMIN$`. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A service process $parent_process_name$ with process path $process_path$ in host $dest$ |
+
+
 
 
 

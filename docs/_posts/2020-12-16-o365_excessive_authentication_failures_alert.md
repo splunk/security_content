@@ -78,12 +78,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 The threshold for alert is above 10 attempts and this should reduce the number of false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $user$ has caused excessive number of authentication failures from $src_ip$ using UserAgent $UserAgent$. |
+
+
 
 
 

@@ -70,12 +70,13 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 None
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$ |
+
+
 
 
 

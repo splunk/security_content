@@ -1,6 +1,6 @@
 ---
 title: "Process Creating LNK file in Suspicious Location"
-excerpt: "Spearphishing Link"
+excerpt: "Phishing, Spearphishing Link"
 categories:
   - Endpoint
 last_modified_at: 2021-08-26
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1566
+  - Phishing
+  - Initial Access
   - T1566.002
   - Spearphishing Link
   - Initial Access
@@ -39,6 +42,7 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 | [T1566.002](https://attack.mitre.org/techniques/T1566/002/) | Spearphishing Link | Initial Access |
 
 
@@ -87,12 +91,13 @@ You must be ingesting data that records filesystem and process activity from you
 This detection should yield little or no false positive results. It is uncommon for LNK files to be executed from temporary or user directories.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A process $process_name$ that launching .lnk file in $file_path$ in host $dest$ |
+
+
 
 
 

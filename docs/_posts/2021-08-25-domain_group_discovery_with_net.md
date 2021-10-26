@@ -1,6 +1,6 @@
 ---
 title: "Domain Group Discovery With Net"
-excerpt: "Domain Groups"
+excerpt: "Permission Groups Discovery, Domain Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-08-25
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1069
+  - Permission Groups Discovery
+  - Discovery
   - T1069.002
   - Domain Groups
   - Discovery
@@ -38,6 +41,7 @@ This analytic looks for the execution of `net.exe` with command-line arguments u
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
 
@@ -81,12 +85,13 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Domain group discovery enumeration on $dest$ by $user$ |
+
+
 
 
 

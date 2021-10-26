@@ -82,12 +82,13 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may use nltest for troubleshooting purposes, otherwise, rarely used.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Domain trust discovery execution on $dest$ |
+
+
 
 
 

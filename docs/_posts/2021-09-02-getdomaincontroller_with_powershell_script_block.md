@@ -74,12 +74,13 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Remote system discovery with PowerView on $dest$ by $user$ |
+
+
 
 
 

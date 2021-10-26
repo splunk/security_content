@@ -1,6 +1,6 @@
 ---
 title: "Allow Inbound Traffic In Firewall Rule"
-excerpt: "Remote Desktop Protocol"
+excerpt: "Remote Desktop Protocol, Remote Services"
 categories:
   - Endpoint
 last_modified_at: 2021-05-19
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1021.001
   - Remote Desktop Protocol
+  - Lateral Movement
+  - T1021
+  - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ The following analytic identifies suspicious PowerShell command to allow inbound
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
+| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement || [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
 
 
 #### Search
@@ -74,12 +78,13 @@ To successfully implement this search, you need to be ingesting logs with the po
 administrator may allow inbound traffic in certain network or machine.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 3.0 | 10 | 30 | Suspicious firewall modification detected on endpoint $ComputerName$ by user $user$. |
+
+
 
 
 

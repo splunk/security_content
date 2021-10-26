@@ -85,12 +85,13 @@ You must be ingesting your cloud infrastructure logs from your cloud provider.  
 .
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | User $user$ of type AssumedRole attempting to execute new API calls $command$ that have not been seen before |
+
+
 
 
 

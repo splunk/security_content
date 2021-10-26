@@ -83,12 +83,13 @@ To successfully implement this search you need to be ingesting information on pr
 Operators can execute third party tools using these parameters.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 100.0 | 100 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting using arguments to execute its main code or feature of its code related to Clop ransomware. |
+
+
 
 
 

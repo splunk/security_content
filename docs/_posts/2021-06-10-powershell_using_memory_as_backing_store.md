@@ -74,12 +74,13 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 powershell may used this function to store out object into memory.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $Message$ as new object backstore with EventCode $EventCode$ in host $ComputerName$ |
+
+
 
 
 

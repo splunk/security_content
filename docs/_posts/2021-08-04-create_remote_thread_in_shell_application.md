@@ -79,12 +79,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | process $SourceImage$ create a remote thread to shell app process $TargetImage$ in host $Computer$ |
+
+
 
 
 

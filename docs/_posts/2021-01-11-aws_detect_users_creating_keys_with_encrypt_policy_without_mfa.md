@@ -82,12 +82,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | AWS account is potentially compromised and user $userIdentity.principalId$ is trying to compromise other accounts. |
+
+
 
 
 

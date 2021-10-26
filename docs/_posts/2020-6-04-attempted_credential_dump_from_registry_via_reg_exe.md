@@ -75,12 +75,13 @@ You must be ingesting windows endpoint data that tracks process activity, includ
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Malicious actor is dumping stored credentials from the registry sections SAM, Security, or System. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
+
 
 
 

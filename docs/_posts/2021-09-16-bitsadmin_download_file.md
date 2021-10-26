@@ -90,12 +90,13 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives, however it may be required to filter based on parent process name or network connection.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file. |
+
+
 
 
 

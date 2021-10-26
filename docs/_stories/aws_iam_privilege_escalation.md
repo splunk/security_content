@@ -31,15 +31,15 @@ However, if these IAM policies are misconfigured and have specific combinations 
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS Create Policy Version to allow all resources](/cloud/aws_create_policy_version_to_allow_all_resources/) | [Cloud Accounts](/tags/#cloud-accounts) | TTP |
-| [AWS CreateAccessKey](/cloud/aws_createaccesskey/) | [Cloud Account](/tags/#cloud-account) | Hunting |
-| [AWS CreateLoginProfile](/cloud/aws_createloginprofile/) | [Cloud Account](/tags/#cloud-account) | TTP |
+| [AWS Create Policy Version to allow all resources](/cloud/aws_create_policy_version_to_allow_all_resources/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts) | TTP |
+| [AWS CreateAccessKey](/cloud/aws_createaccesskey/) | [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account) | Hunting |
+| [AWS CreateLoginProfile](/cloud/aws_createloginprofile/) | [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account) | TTP |
 | [AWS IAM Assume Role Policy Brute Force](/cloud/aws_iam_assume_role_policy_brute_force/) | [Cloud Infrastructure Discovery](/tags/#cloud-infrastructure-discovery), [Brute Force](/tags/#brute-force) | TTP |
 | [AWS IAM Delete Policy](/cloud/aws_iam_delete_policy/) | [Account Manipulation](/tags/#account-manipulation) | Hunting |
 | [AWS IAM Failure Group Deletion](/cloud/aws_iam_failure_group_deletion/) | [Account Manipulation](/tags/#account-manipulation) | Anomaly |
-| [AWS IAM Successful Group Deletion](/cloud/aws_iam_successful_group_deletion/) | [Cloud Groups](/tags/#cloud-groups), [Account Manipulation](/tags/#account-manipulation) | Hunting |
-| [AWS SetDefaultPolicyVersion](/cloud/aws_setdefaultpolicyversion/) | [Cloud Accounts](/tags/#cloud-accounts) | TTP |
-| [AWS UpdateLoginProfile](/cloud/aws_updateloginprofile/) | [Cloud Account](/tags/#cloud-account) | TTP |
+| [AWS IAM Successful Group Deletion](/cloud/aws_iam_successful_group_deletion/) | [Cloud Groups](/tags/#cloud-groups), [Account Manipulation](/tags/#account-manipulation), [Permission Groups Discovery](/tags/#permission-groups-discovery) | Hunting |
+| [AWS SetDefaultPolicyVersion](/cloud/aws_setdefaultpolicyversion/) | [Cloud Accounts](/tags/#cloud-accounts), [Valid Accounts](/tags/#valid-accounts) | TTP |
+| [AWS UpdateLoginProfile](/cloud/aws_updateloginprofile/) | [Cloud Account](/tags/#cloud-account), [Create Account](/tags/#create-account) | TTP |
 
 #### Reference
 

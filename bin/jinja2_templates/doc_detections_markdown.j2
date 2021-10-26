@@ -23,6 +23,9 @@ tags:
 {%- for product in detection.tags.product %}
   - {{ product }}
 {%- endfor -%}
+{%- for cve in detection.cve %}
+  - {{ cve.id }}
+{%- endfor -%}
 {%- for datamodel in detection.datamodel %}
   - {{ datamodel }}
 {%- endfor -%}
@@ -92,7 +95,6 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 #### Known False Positives
 {{ detection.known_false_positives}}
 
-
 {% if detection.tags.observable %}
 #### RBA
 
@@ -100,6 +102,16 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 | ----------- | ----------- |--------------|--------------|
 | {{(detection.tags.impact * detection.tags.confidence)/100}} | {{ detection.tags.impact }} | {{ detection.tags.confidence }} | {{detection.tags.message}} |
 
+{% endif %}
+
+{% if detection.cve %}
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
+| ----------- | ----------- | -------------- | -------------- |
+{% for cve in detection.cve -%}
+| [{{ cve.id }}](https://nvd.nist.gov/vuln/detail/{{cve.id}}) | {{ cve.summary }} | {{ cve.cvss }} | {{ cve.assigner }} |
+{%- endfor %}
 {% endif %}
 
 #### Reference

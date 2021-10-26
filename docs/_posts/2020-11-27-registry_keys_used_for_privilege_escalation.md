@@ -1,6 +1,6 @@
 ---
 title: "Registry Keys Used For Privilege Escalation"
-excerpt: "Image File Execution Options Injection"
+excerpt: "Image File Execution Options Injection, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-11-27
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1546.012
   - Image File Execution Options Injection
+  - Privilege Escalation
+  - Persistence
+  - T1546
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
@@ -38,7 +42,8 @@ This search looks for modifications to registry keys that can be used to elevate
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1546.012](https://attack.mitre.org/techniques/T1546/012/) | Image File Execution Options Injection | Privilege Escalation, Persistence |
+| [T1546.012](https://attack.mitre.org/techniques/T1546/012/) | Image File Execution Options Injection | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
 
 
 #### Search
@@ -77,12 +82,13 @@ To successfully implement this search, you must be ingesting data that records r
 There are many legitimate applications that must execute upon system startup and will use these registry keys to accomplish that task.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A registry activity in $registry_path$ related to privilege escalation in host $dest$ |
+
+
 
 
 

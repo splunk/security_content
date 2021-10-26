@@ -78,12 +78,13 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 PST export can be done for legitimate purposes but due to the sensitive nature of its content it must be monitored.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $Source$ has exported a PST file from the search using this operation- $Operation$ with a severity of $Severity$ |
+
+
 
 
 

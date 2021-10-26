@@ -82,12 +82,13 @@ To successfully implement this search, you need to be ingesting logs with the ta
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A schedule task process commandline arguments $Arguments$ with http string on it in host $dest$ |
+
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Access LSASS Memory for Dump Creation"
-excerpt: "LSASS Memory"
+excerpt: "LSASS Memory, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2019-12-06
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1003.001
   - LSASS Memory
+  - Credential Access
+  - T1003
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,7 +40,8 @@ Detect memory dumping of the LSASS process.
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
+| [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -77,12 +81,13 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 Administrators can create memory dumps for debugging purposes, but memory dumps of the LSASS process would be unusual.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | process $SourceImage$ injected into $TargetImage$ and was attempted dump LSASS on $dest$. Adversaries tend to do this when trying to accesss credential material stored in the process memory of the Local Security Authority Subsystem Service (LSASS). |
+
+
 
 
 

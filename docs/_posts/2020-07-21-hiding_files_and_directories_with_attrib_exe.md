@@ -1,6 +1,6 @@
 ---
 title: "Hiding Files And Directories With Attrib exe"
-excerpt: "Windows File and Directory Permissions Modification"
+excerpt: "File and Directory Permissions Modification, Windows File and Directory Permissions Modification"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1222
+  - File and Directory Permissions Modification
+  - Defense Evasion
   - T1222.001
   - Windows File and Directory Permissions Modification
   - Defense Evasion
@@ -38,6 +41,7 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 | [T1222.001](https://attack.mitre.org/techniques/T1222/001/) | Windows File and Directory Permissions Modification | Defense Evasion |
 
 
@@ -77,12 +81,13 @@ You must be ingesting data that records process activity from your hosts to popu
 Some applications and users may legitimately use attrib.exe to interact with the files. 
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected. |
+
+
 
 
 

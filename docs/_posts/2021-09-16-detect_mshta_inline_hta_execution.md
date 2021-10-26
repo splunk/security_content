@@ -1,6 +1,6 @@
 ---
 title: "Detect mshta inline hta execution"
-excerpt: "Mshta"
+excerpt: "Signed Binary Proxy Execution, Mshta"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.005
   - Mshta
   - Defense Evasion
@@ -38,6 +41,7 @@ The following analytic identifies &#34;mshta.exe&#34; execution with inline prot
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
 
@@ -82,12 +86,13 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing with inline HTA, indicative of defense evasion. |
+
+
 
 
 

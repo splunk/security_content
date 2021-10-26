@@ -80,12 +80,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 other tools or script may used this to change code page to UTF-* or others
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | parent process $parent_process_name$ spawning chcp process $process_name$ with parent command line $parent_process$ |
+
+
 
 
 

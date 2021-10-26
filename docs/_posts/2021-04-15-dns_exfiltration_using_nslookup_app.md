@@ -86,12 +86,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 admin nslookup usage
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ performing activity related to DNS exfiltration. |
+
+
 
 
 

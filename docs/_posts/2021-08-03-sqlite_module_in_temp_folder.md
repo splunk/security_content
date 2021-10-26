@@ -76,12 +76,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | process $SourceImage$ create a file $TargetImage$ in host $Computer$ |
+
+
 
 
 

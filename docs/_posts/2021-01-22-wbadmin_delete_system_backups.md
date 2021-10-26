@@ -78,12 +78,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Administrators may modify the boot configuration.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | System backups deletion on $dest$ |
+
+
 
 
 

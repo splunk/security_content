@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-26857
   - Endpoint
   - Exploitation
 ---
@@ -79,13 +80,20 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Unknown. Tune out child processes as needed to limit volume of false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Possible CVE-2021-26857 exploitation on $dest$ |
 
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
+| ----------- | ----------- | -------------- | -------------- |
+| [CVE-2021-26857](https://nvd.nist.gov/vuln/detail/CVE-2021-26857) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-26412, CVE-2021-26854, CVE-2021-26855, CVE-2021-26858, CVE-2021-27065, CVE-2021-27078. | 6.8 | cve@mitre.org |
 
 
 #### Reference

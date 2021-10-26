@@ -74,12 +74,13 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 network administrator may used this command for checking purposes
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 30 | 100 | Suspicious powerShell script execution by $user$ on $ComputerName$ via EventCode 4104, where WMI is performing an event query looking for running processes or running services |
+
+
 
 
 

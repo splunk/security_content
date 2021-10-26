@@ -81,12 +81,13 @@ To successfully implement this search, you need to be ingesting logs with the Im
 3rd party tool may used to changed the wallpaper of the machine
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | Wallpaper modification on $dest$ |
+
+
 
 
 

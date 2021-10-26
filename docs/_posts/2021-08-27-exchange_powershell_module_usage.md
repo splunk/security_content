@@ -1,6 +1,6 @@
 ---
 title: "Exchange PowerShell Module Usage"
-excerpt: "PowerShell"
+excerpt: "Command and Scripting Interpreter, PowerShell"
 categories:
   - Endpoint
 last_modified_at: 2021-08-27
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.001
   - PowerShell
   - Execution
@@ -43,6 +46,7 @@ Module - New-managementroleassignment can assign a management role to a manageme
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 
@@ -82,12 +86,13 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local user discovery enumeration using PowerShell on $dest$ by $user$ |
+
+
 
 
 

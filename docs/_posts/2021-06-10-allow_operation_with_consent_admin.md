@@ -77,12 +77,13 @@ To successfully implement this search, you must be ingesting data that records r
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | Suspicious registry modification was performed on endpoint $dest$ by user $user$. This behavior is indicative of privilege escalation. |
+
+
 
 
 

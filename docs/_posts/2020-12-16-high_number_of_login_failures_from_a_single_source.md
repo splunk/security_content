@@ -1,6 +1,6 @@
 ---
 title: "High Number of Login Failures from a single source"
-excerpt: "Password Guessing"
+excerpt: "Password Guessing, Brute Force"
 categories:
   - Cloud
 last_modified_at: 2020-12-16
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1110.001
   - Password Guessing
+  - Credential Access
+  - T1110
+  - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -39,7 +42,8 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
+| [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access || [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+
 
 
 #### Search
@@ -78,6 +82,7 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 
 #### Known False Positives
 unknown
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Cloud Instance Modified By Previously Unseen User"
-excerpt: "Cloud Accounts"
+excerpt: "Cloud Accounts, Valid Accounts"
 categories:
   - Cloud
 last_modified_at: 2020-07-29
@@ -10,6 +10,12 @@ tags:
   - Anomaly
   - T1078.004
   - Cloud Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - T1078
+  - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
@@ -41,7 +47,8 @@ This search looks for cloud instances being modified by users who have not previ
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search
@@ -84,12 +91,13 @@ This search has a dependency on other searches to create and update a baseline o
 It&#39;s possible that a new user will start to modify EC2 instances when they haven&#39;t before for any number of reasons. Verify with the user that is modifying instances that this is the intended behavior.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is modifying an instance $dest$ for the first time. |
+
+
 
 
 

@@ -82,12 +82,13 @@ You must index CircleCI logs.
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | disable security step $mandatory_step$ in job $job_name$ from user $user$ |
+
+
 
 
 

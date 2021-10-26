@@ -1,6 +1,6 @@
 ---
 title: "Nishang PowershellTCPOneLine"
-excerpt: "PowerShell"
+excerpt: "Command and Scripting Interpreter, PowerShell"
 categories:
   - Endpoint
 last_modified_at: 2021-03-03
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.001
   - PowerShell
   - Execution
@@ -38,6 +41,7 @@ This query detects the Nishang Invoke-PowerShellTCPOneLine utility that spawns a
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 
@@ -82,12 +86,13 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives may be present. Filter as needed based on initial analysis.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Possible Nishang Invoke-PowerShellTCPOneLine behavior on $dest$ |
+
+
 
 
 

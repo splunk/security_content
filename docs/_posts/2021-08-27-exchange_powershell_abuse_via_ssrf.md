@@ -81,12 +81,13 @@ The following analytic requires on-premise Exchange to be logging to Splunk usin
 Limited false positives, however, tune as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Activity related to ProxyShell has been identified on $dest$. Review events and take action accordingly. |
+
+
 
 
 

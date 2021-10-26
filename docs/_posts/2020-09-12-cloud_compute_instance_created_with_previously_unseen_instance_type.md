@@ -72,12 +72,13 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 It is possible that an admin will create a new system using a new instance type that has never been used before. Verify with the creator that they intended to create the system with the new instance type.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | User $user$ is creating an instance $dest$ with an instance type $instance_type$ that has not been previously seen. |
+
+
 
 
 

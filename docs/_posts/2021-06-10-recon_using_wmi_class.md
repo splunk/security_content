@@ -74,12 +74,13 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 network administrator may used this command for checking purposes
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 60.0 | 75 | 80 | A suspicious powershell script contains host recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+
+
 
 
 

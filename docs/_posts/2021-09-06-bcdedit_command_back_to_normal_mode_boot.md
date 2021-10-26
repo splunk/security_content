@@ -78,12 +78,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | bcdedit process with commandline $process$ to bring back to normal boot configuration the $dest$ |
+
+
 
 
 

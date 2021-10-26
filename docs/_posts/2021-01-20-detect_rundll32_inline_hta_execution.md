@@ -1,6 +1,6 @@
 ---
 title: "Detect Rundll32 Inline HTA Execution"
-excerpt: "Mshta"
+excerpt: "Signed Binary Proxy Execution, Mshta"
 categories:
   - Endpoint
 last_modified_at: 2021-01-20
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.005
   - Mshta
   - Defense Evasion
@@ -38,6 +41,7 @@ The following analytic identifies &#34;rundll32.exe&#34; execution with inline p
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
 
@@ -83,12 +87,13 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Suspicious rundll32.exe inline HTA execution on $dest$ |
+
+
 
 
 

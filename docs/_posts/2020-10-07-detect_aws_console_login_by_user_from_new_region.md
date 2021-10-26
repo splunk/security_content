@@ -87,12 +87,13 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | User $user$ is logging into the AWS console from Region $Region$ for the first time |
+
+
 
 
 

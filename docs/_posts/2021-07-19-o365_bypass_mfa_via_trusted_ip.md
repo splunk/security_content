@@ -1,6 +1,6 @@
 ---
 title: "O365 Bypass MFA via Trusted IP"
-excerpt: "Disable or Modify Cloud Firewall"
+excerpt: "Disable or Modify Cloud Firewall, Impair Defenses"
 categories:
   - Cloud
 last_modified_at: 2021-07-19
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1562.007
   - Disable or Modify Cloud Firewall
+  - Defense Evasion
+  - T1562
+  - Impair Defenses
   - Defense Evasion
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
@@ -38,7 +41,8 @@ This search detects newly added IP addresses/CIDR blocks to the list of MFA Trus
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
+| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
 
 
 #### Search
@@ -84,12 +88,13 @@ You must install Splunk Microsoft Office 365 add-on. This search works with o365
 Unless it is a special case, it is uncommon to continually update Trusted IPs to MFA configuration.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a list of trusted IPs to bypass MFA |
+
+
 
 
 

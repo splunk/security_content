@@ -1,6 +1,6 @@
 ---
 title: "Potential Pass the Token or Hash Observed at the Destination Device"
-excerpt: "Pass the Hash"
+excerpt: "Use Alternate Authentication Material, Pass the Hash"
 categories:
   - Endpoint
 last_modified_at: 2021-09-01
@@ -8,6 +8,10 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1550
+  - Use Alternate Authentication Material
+  - Defense Evasion
+  - Lateral Movement
   - T1550.002
   - Pass the Hash
   - Defense Evasion
@@ -36,6 +40,7 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
 
 
@@ -83,12 +88,13 @@ You must be ingesting Windows Security logs from endpoint devices, i.e., destina
 Environments in which NTLM is used extremely rarely and for benign purposes (such as a rare use of SMB shares).
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Potential lateral movement and credential stealing via Pass the Token or Pass the Hash techniques. Operation is performed via credentials of the account $dest_user_id$ and observed by the destination device $dest_device_id$ |
+
+
 
 
 

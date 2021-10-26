@@ -84,12 +84,13 @@ To successfully implement this search, you need to be ingesting logs with the ta
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A schedule task process commandline rundll32 arguments $Arguments$ in host $dest$ |
+
+
 
 
 

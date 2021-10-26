@@ -1,6 +1,6 @@
 ---
 title: "Okta Failed SSO Attempts"
-excerpt: "Default Accounts"
+excerpt: "Valid Accounts, Default Accounts"
 categories:
   - Application
 last_modified_at: 2020-07-21
@@ -8,6 +8,12 @@ toc: true
 toc_label: ""
 tags:
   - Anomaly
+  - T1078
+  - Valid Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
   - T1078.001
   - Default Accounts
   - Defense Evasion
@@ -41,6 +47,7 @@ Detect failed Okta SSO events
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
@@ -75,6 +82,7 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 #### Known False Positives
 There may be a faulty config preventing legitmate users from accessing apps they should have access to.
+
 
 
 

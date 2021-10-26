@@ -78,12 +78,13 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 It is possible certain system management frameworks utilize this command to gather trust information.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-DomainTrust was identified on endpoint $ComputerName$ by user $user$. |
+
+
 
 
 

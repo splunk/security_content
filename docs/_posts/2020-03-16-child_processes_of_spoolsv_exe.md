@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2018-8440
   - Endpoint
   - Exploitation
 ---
@@ -81,6 +82,13 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Some legitimate printer-related processes may show up as children of spoolsv.exe. You should confirm that any activity as legitimate and may be added as exclusions in the search.
 
 
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
+| ----------- | ----------- | -------------- | -------------- |
+| [CVE-2018-8440](https://nvd.nist.gov/vuln/detail/CVE-2018-8440) | An elevation of privilege vulnerability exists when Windows improperly handles calls to Advanced Local Procedure Call (ALPC), aka &#34;Windows ALPC Elevation of Privilege Vulnerability.&#34; This affects Windows 7, Windows Server 2012 R2, Windows RT 8.1, Windows Server 2008, Windows Server 2012, Windows 8.1, Windows Server 2016, Windows Server 2008 R2, Windows 10, Windows 10 Servers. | 7.2 | cve@mitre.org |
 
 
 #### Reference

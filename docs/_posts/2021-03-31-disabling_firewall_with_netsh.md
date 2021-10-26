@@ -1,6 +1,6 @@
 ---
 title: "Disabling Firewall with Netsh"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-03-31
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - T1562
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ This search is to identifies suspicious firewall disabling using netsh applicati
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
 
 
 #### Search
@@ -82,12 +86,13 @@ To successfully implement this search you need to be ingesting information on pr
 admin may disable firewall during testing or fixing network problem.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | The Windows Firewall was disabled on $dest$ by $user$. |
+
+
 
 
 

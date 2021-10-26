@@ -1,6 +1,6 @@
 ---
 title: "WinEvent Scheduled Task Created to Spawn Shell"
-excerpt: "Scheduled Task"
+excerpt: "Scheduled Task, Scheduled Task/Job"
 categories:
   - Endpoint
 last_modified_at: 2021-04-12
@@ -10,6 +10,11 @@ tags:
   - TTP
   - T1053.005
   - Scheduled Task
+  - Execution
+  - Persistence
+  - Privilege Escalation
+  - T1053
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -43,7 +48,8 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or via Task
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
 
 
 #### Search
@@ -83,12 +89,13 @@ To successfully implement this search, you need to be ingesting Windows Security
 False positives are possible if legitimate applications are allowed to register tasks that call a shell to be spawned. Filter as needed based on command-line or processes that are used legitimately.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A windows scheduled task was created (task name=$Task_Name$) on $dest$ by the following command: $Command$ |
+
+
 
 
 

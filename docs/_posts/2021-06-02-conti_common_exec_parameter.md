@@ -83,12 +83,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 3rd party tool may have commandline parameter that can trigger this detection.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing specific Conti Ransomware related parameters. |
+
+
 
 
 

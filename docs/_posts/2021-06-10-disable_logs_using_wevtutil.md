@@ -1,6 +1,6 @@
 ---
 title: "Disable Logs Using WevtUtil"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2021-06-10
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1070
+  - Indicator Removal on Host
+  - Defense Evasion
   - T1070.001
   - Clear Windows Event Logs
   - Defense Evasion
@@ -38,6 +41,7 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 
@@ -79,12 +83,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 network operator may disable audit event logs for debugging purposes.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | WevtUtil.exe used to disable Event Logging on $dest |
+
+
 
 
 

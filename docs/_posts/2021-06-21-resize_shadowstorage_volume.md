@@ -79,6 +79,7 @@ network admin can resize the shadowstorage for valid purposes.
 
 
 
+
 #### Reference
 
 * [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)

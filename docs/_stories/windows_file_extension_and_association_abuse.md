@@ -34,7 +34,7 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
+| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
 
 #### Reference
 

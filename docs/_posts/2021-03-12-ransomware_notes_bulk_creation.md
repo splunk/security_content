@@ -81,12 +81,13 @@ You must be ingesting data that records the filesystem activity from your hosts 
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A high frequency file creation of $file_name$ in different file path in host $Computer$ |
+
+
 
 
 

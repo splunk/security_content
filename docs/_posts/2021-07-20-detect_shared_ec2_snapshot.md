@@ -81,12 +81,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 It is possible that an AWS admin has legitimately shared a snapshot with others for  a specific purpose.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | AWS EC2 snapshot from account $aws_account_id$ is shared with $requested_account_id$ by user $user_arn$ from $src_ip$ |
+
+
 
 
 

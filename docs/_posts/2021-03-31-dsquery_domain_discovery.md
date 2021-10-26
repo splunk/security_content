@@ -85,12 +85,13 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives. If there is a true false positive, filter based on command-line or parent process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified performing domain discovery on endpoint $dest$ by user $user$. |
+
+
 
 
 

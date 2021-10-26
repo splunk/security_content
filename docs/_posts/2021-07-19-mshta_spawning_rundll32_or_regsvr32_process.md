@@ -1,6 +1,6 @@
 ---
 title: "Mshta spawning Rundll32 OR Regsvr32 Process"
-excerpt: "Mshta"
+excerpt: "Signed Binary Proxy Execution, Mshta"
 categories:
   - Endpoint
 last_modified_at: 2021-07-19
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.005
   - Mshta
   - Defense Evasion
@@ -38,6 +41,7 @@ This search is to detect a suspicious mshta.exe process that spawn rundll32 or r
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
 
@@ -83,12 +87,13 @@ To successfully implement this search you need to be ingesting information on pr
 limitted. this anomaly behavior is not commonly seen in clean host.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | a mshta parent process $parent_process_name$ spawn child process $process_name$ in host $dest$ |
+
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "AWS ECR Container Scanning Findings Low Informational Unknown"
-excerpt: "Malicious Image"
+excerpt: "Malicious Image, User Execution"
 categories:
   - Cloud
 last_modified_at: 2021-08-17
@@ -10,6 +10,9 @@ tags:
   - Hunting
   - T1204.003
   - Malicious Image
+  - Execution
+  - T1204
+  - User Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -38,7 +41,8 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
+| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution || [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
 
 
 #### Search
@@ -86,12 +90,13 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 7.0 | 10 | 70 | Vulnerabilities with severity high found in repository $repositoryName$ |
+
+
 
 
 

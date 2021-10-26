@@ -1,6 +1,6 @@
 ---
 title: "Detect Copy of ShadowCopy with Script Block Logging"
-excerpt: "Security Account Manager"
+excerpt: "Security Account Manager, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-07-21
@@ -11,9 +11,13 @@ tags:
   - T1003.002
   - Security Account Manager
   - Credential Access
+  - T1003
+  - OS Credential Dumping
+  - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-36934
   - Exploitation
 ---
 
@@ -39,7 +43,8 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
+| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -76,13 +81,20 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Limited false positives as the scope is limited to SAM, SYSTEM and SECURITY hives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | PowerShell was identified running a script to capture the SAM hive on endpoint $ComputerName$ by user $user$. |
 
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
+| ----------- | ----------- | -------------- | -------------- |
+| [CVE-2021-36934](https://nvd.nist.gov/vuln/detail/CVE-2021-36934) | Windows Elevation of Privilege Vulnerability | 4.6 | secure@microsoft.com |
 
 
 #### Reference

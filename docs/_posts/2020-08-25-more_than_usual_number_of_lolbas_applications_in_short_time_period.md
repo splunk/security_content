@@ -83,12 +83,13 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | A system process $process_name$ with commandline $cmd_line$ spawn iin short period of time in host $dest_device_id$ |
+
+
 
 
 

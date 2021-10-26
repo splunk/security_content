@@ -1,6 +1,6 @@
 ---
 title: "Detect Software Download To Network Device"
-excerpt: "TFTP Boot"
+excerpt: "TFTP Boot, Pre-OS Boot"
 categories:
   - Network
 last_modified_at: 2020-10-28
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1542.005
   - TFTP Boot
+  - Defense Evasion
+  - Persistence
+  - T1542
+  - Pre-OS Boot
   - Defense Evasion
   - Persistence
   - Splunk Enterprise
@@ -41,7 +45,8 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1542.005](https://attack.mitre.org/techniques/T1542/005/) | TFTP Boot | Defense Evasion, Persistence |
+| [T1542.005](https://attack.mitre.org/techniques/T1542/005/) | TFTP Boot | Defense Evasion, Persistence || [T1542](https://attack.mitre.org/techniques/T1542/) | Pre-OS Boot | Defense Evasion, Persistence |
+
 
 
 #### Search
@@ -78,6 +83,7 @@ This search looks for Network Traffic events to TFTP, FTP or SSH/SCP ports from 
 
 #### Known False Positives
 This search will also report any legitimate attempts of software downloads to network devices as well as outbound SSH sessions from network devices.
+
 
 
 

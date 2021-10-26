@@ -79,12 +79,13 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators debugging servers
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Potential system information discovery behavior on $dest$ by $User$ |
+
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Abnormally High Number Of Cloud Instances Launched"
-excerpt: "Cloud Accounts"
+excerpt: "Cloud Accounts, Valid Accounts"
 categories:
   - Cloud
 last_modified_at: 2020-08-21
@@ -10,6 +10,12 @@ tags:
   - Anomaly
   - T1078.004
   - Cloud Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - T1078
+  - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
@@ -44,7 +50,8 @@ This search finds for the number successfully created cloud instances for every 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 #### Search
@@ -91,6 +98,7 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 #### Known False Positives
 Many service accounts configured within an AWS infrastructure are known to exhibit this behavior. Please adjust the threshold values and filter out service accounts from the output. Always verify if this search alerted on a human user.
+
 
 
 

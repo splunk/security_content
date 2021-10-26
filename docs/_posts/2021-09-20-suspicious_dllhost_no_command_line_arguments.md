@@ -85,12 +85,13 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives may be present in small environments. Tuning may be required based on parent process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Suspicious dllhost.exe process with no command line arguments executed on $dest$ by $user$ |
+
+
 
 
 

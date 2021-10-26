@@ -1,6 +1,6 @@
 ---
 title: "UAC Bypass With Colorui COM Object"
-excerpt: "CMSTP"
+excerpt: "Signed Binary Proxy Execution, CMSTP"
 categories:
   - Endpoint
 last_modified_at: 2021-08-13
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.003
   - CMSTP
   - Defense Evasion
@@ -38,6 +41,7 @@ This search is to detect a possible uac bypass using the colorui.dll COM Object.
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
 
@@ -77,12 +81,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 not so common. but 3rd part app may load this dll.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $Computer$ by user $user$. |
+
+
 
 
 

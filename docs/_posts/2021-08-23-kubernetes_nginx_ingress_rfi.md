@@ -78,12 +78,13 @@ You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Remote File Inclusion Attack detected on $host$ |
+
+
 
 
 

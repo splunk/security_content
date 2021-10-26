@@ -75,12 +75,13 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | User $user_arn$ has had mulitple failures while attempting to delete groups from $src$ |
+
+
 
 
 

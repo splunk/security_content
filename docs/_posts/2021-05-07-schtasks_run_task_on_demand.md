@@ -80,12 +80,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Administrators may use to debug Schedule Task entries. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | A &#34;on demand&#34; execution of schedule task process $process_name$  using commandline $process$ in host $dest$ |
+
+
 
 
 

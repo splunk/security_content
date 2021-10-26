@@ -80,12 +80,13 @@ To successfully implement this search, you need to be ingesting logs with the pr
 takeown.exe is a normal windows application that may used by network operator.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious of execution of $process_name$ with process id $process_id$ and commandline $process$ to modify permission of directory or files in host $dest$ |
+
+
 
 
 

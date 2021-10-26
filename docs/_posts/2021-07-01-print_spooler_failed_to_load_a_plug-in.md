@@ -1,6 +1,6 @@
 ---
 title: "Print Spooler Failed to Load a Plug-in"
-excerpt: "Print Processors"
+excerpt: "Print Processors, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-07-01
@@ -12,9 +12,15 @@ tags:
   - Print Processors
   - Persistence
   - Privilege Escalation
+  - T1547
+  - Boot or Logon Autostart Execution
+  - Persistence
+  - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-34527
+  - CVE-2021-1675
   - Endpoint
   - Exploitation
 ---
@@ -42,7 +48,8 @@ During triage, isolate the endpoint and review for source of exploitation. Captu
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
+| [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
 
 
 #### Search
@@ -78,13 +85,20 @@ You will need to ensure PrintService Admin and Operational logs are being logged
 False positives are unknown and filtering may be required.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$. |
 
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
+| ----------- | ----------- | -------------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 | secure@microsoft.com || [CVE-2021-1675](https://nvd.nist.gov/vuln/detail/CVE-2021-1675) | Windows Print Spooler Elevation of Privilege Vulnerability | 9.3 | secure@microsoft.com |
 
 
 #### Reference

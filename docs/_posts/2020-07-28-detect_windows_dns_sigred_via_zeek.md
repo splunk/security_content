@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2020-1350
   - Network_Resolution
   - Exploitation
 ---
@@ -82,6 +83,13 @@ You must be ingesting Zeek DNS and Zeek Conn data into Splunk. Zeek data should 
 unknown
 
 
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
+| ----------- | ----------- | -------------- | -------------- |
+| [CVE-2020-1350](https://nvd.nist.gov/vuln/detail/CVE-2020-1350) | A remote code execution vulnerability exists in Windows Domain Name System servers when they fail to properly handle requests, aka &#39;Windows DNS Server Remote Code Execution Vulnerability&#39;. | 10.0 | secure@microsoft.com |
 
 
 #### Reference

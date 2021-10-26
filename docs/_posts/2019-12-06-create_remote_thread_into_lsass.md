@@ -1,6 +1,6 @@
 ---
 title: "Create Remote Thread into LSASS"
-excerpt: "LSASS Memory"
+excerpt: "LSASS Memory, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2019-12-06
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1003.001
   - LSASS Memory
+  - Credential Access
+  - T1003
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,7 +40,8 @@ Detect remote thread creation into LSASS consistent with credential dumping.
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
-| [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
+| [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 
 
 #### Search
@@ -77,12 +81,13 @@ This search needs Sysmon Logs with a Sysmon configuration, which includes EventC
 Other tools can access LSASS for legitimate reasons and generate an event. In these cases, tweaking the search may help eliminate noise.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A process has created a remote thread into $TargetImage$ on $dest$. This behavior is indicative of credential dumping and should be investigated. |
+
+
 
 
 

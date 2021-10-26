@@ -84,6 +84,7 @@ administrators rarely use adfind, usually not used for legitimate reasons
 
 
 
+
 #### Reference
 
 * [https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/](https://www.volexity.com/blog/2020/12/14/dark-halo-leverages-solarwinds-compromise-to-breach-organizations/)

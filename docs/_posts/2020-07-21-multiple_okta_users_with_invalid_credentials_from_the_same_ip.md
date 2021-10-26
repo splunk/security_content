@@ -1,6 +1,6 @@
 ---
 title: "Multiple Okta Users With Invalid Credentials From The Same IP"
-excerpt: "Default Accounts"
+excerpt: "Valid Accounts, Default Accounts"
 categories:
   - Application
 last_modified_at: 2020-07-21
@@ -8,6 +8,12 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1078
+  - Valid Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
   - T1078.001
   - Default Accounts
   - Defense Evasion
@@ -41,6 +47,7 @@ This search detects Okta login failures due to bad credentials for multiple user
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- | -------------- |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 | [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
@@ -79,6 +86,7 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 #### Known False Positives
 A single public IP address servicing multiple legitmate users may trigger this search. In addition, the threshold of 5 distinct users may be too low for your needs. You may modify the included filter macro `multiple_okta_users_with_invalid_credentials_from_the_same_ip_filter` to raise the threshold or except specific IP adresses from triggering this search.
+
 
 
 

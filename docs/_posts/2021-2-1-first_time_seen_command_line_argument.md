@@ -88,12 +88,13 @@ You must be populating the endpoint data model for SSA and specifically the proc
 Legitimate programs can also use command-line arguments to execute. Please verify the command-line arguments to check what command/program is being executed. We recommend customizing the `first_time_seen_cmd_line_filter` macro to exclude legitimate parent_process_name
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | A cmd process $process_name$ with commandline $cmd_line$ try to execute command has not previously seen in host $dest_device_id$ |
+
+
 
 
 

@@ -79,6 +79,7 @@ network operator may use this approach to quickly disable an account but not a c
 
 
 
+
 #### Reference
 
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)
