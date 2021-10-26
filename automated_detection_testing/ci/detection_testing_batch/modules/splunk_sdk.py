@@ -90,10 +90,12 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
               "dispatch.latest_time": "now"}
 
     splunk_search = search + ' ' + pass_condition
+    test_results = dict()
     
+    test_results['search_string'] = splunk_search
     
 
-    test_results = dict()
+    
     try:
         service = client.connect(
             host=splunk_host,
@@ -126,7 +128,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     test_results['detection_name'] = detection_name
     test_results['detection_file'] = detection_file
     test_results['scanCount'] = job['scanCount']
-    test_results['search_string'] = splunk_search
+    
     
     test_results['error'] = False #The search may have FAILED, but there was no error in the search
 

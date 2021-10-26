@@ -24,6 +24,7 @@ from typing import OrderedDict, Union
 
 from tempfile import mkdtemp
 import csv
+from urllib.request import urlretrieve 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
 index_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "search")
@@ -378,7 +379,11 @@ def main(args):
     os.chdir("security_content")
     print(os.getcwd())
     if persist_security_content is False:
-        commands = ["python3 -m venv .venv", "source .venv/bin/activate", "python3 -m pip install wheel", "python3 -m pip install -r requirements.txt", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+        commands = ["python3 -m venv .venv", 
+                    ". ./.venv/bin/activate", 
+                    "python3 -m pip install wheel", 
+                    "python3 -m pip install -r requirements.txt", 
+                    "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
     else:
         commands = ["source .venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
     ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
@@ -392,7 +397,7 @@ def main(args):
     if persist_security_content is True:
         os.chdir("slim_packaging")
         commands = ["cd slim-latest", 
-                    "source venv/bin/activate",
+                    ". ./.venv/bin/activate",
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
@@ -401,17 +406,28 @@ def main(args):
         os.mkdir("slim_packaging")
         os.chdir("slim_packaging")
         os.mkdir("apps")
-        commands = ["curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz", 
-                    "rm -rf slim-latest",
+        
+        try:
+            SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
+            print("Downloading the Splunk Packaging Toolkit from %s..."%(SPLUNK_PACKAGING_TOOLKIT_URL), end='')
+            urlretrieve(SPLUNK_PACKAGING_TOOLKIT_URL, 'splunk-packaging-toolkit-latest.tar.gz')
+            print("success")
+
+
+        except Exception as e:
+            print("FAILED")
+            print("Error downloading the Splunk Packaging Toolkit: [%s]"%(str(e)))
+            sys.exit(1)
+        
+        
+        commands = ["rm -rf slim-latest",
                     "mkdir slim-latest", 
                     "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
                     "cd slim-latest", 
-                    "virtualenv --python=/usr/bin/python2.7 --clear venv",
-                    "source venv/bin/activate",
-                    "python2 -m pip install --upgrade pip",
-                    "python2 -m pip install wheel",
-                    "python2 -m pip install semantic_version",
-                    "python2 -m pip install .",
+                    "python3 -m venv .venv", 
+                    ". ./.venv/bin/activate", 
+                    "python3 -m pip install wheel", 
+                    "python3 -m pip install -r requirements.txt", 
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
@@ -438,35 +454,46 @@ def main(args):
 
     
     
-    results_tracker = SynchronizedResultsTracker(test_files[:3])
+
+
+    results_tracker = SynchronizedResultsTracker(test_files)
     
+    local_volume_path = os.path.join(os.getcwd(), "security_content", "slim_packaging","apps")
+
+    SPLUNK_COMMON_INFORMATION_MODEL = "https://splunkbase.splunk.com/app/1621/release/4.20.2/download"        
+    SPLUNK_SECURITY_ESSENTIALS = "https://splunkbase.splunk.com/app/3435/release/3.3.4/download"
+    #SPLUNK_ADD_ON_FOR_SYSMON_OLD = "https://splunkbase.splunk.com/app/1914/release/10.6.2/download"
+    #SPLUNK_ADD_ON_FOR_SYSMON_NEW = "https://splunkbase.splunk.com/app/5709/release/1.0.1/download"
+    #SYSMON_APP_FOR_SPLUNK = "https://splunkbase.splunk.com/app/3544/release/2.0.0/download"
+    #SPLUNK_ES_CONTENT_UPDATE = "https://splunkbase.splunk.com/app/3449/release/3.29.0/download"
+
+    #Just a hack until we get the new version of system deployed and available from splunkbase
+    LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_PATH  = os.path.expanduser("~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")    
+    shutil.copyfile(LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
+    SPLUNK_ADD_ON_FOR_SYSMON_VOLUME_PATH  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
+    
+
+
+    
+    SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS = "https://splunkbase.splunk.com/app/742/release/8.2.0/download"
+    CONTAINER_VOLUME_PATH = '/tmp/apps/'
+    CONTAINER_GENERATED_ESCU_LATEST = os.path.join(CONTAINER_VOLUME_PATH, "DA-ESS-ContentUpdate-latest.tar.gz")
+    
+    SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, 
+                    SPLUNK_SECURITY_ESSENTIALS, 
+                    SPLUNK_ADD_ON_FOR_SYSMON_VOLUME_PATH, 
+                    CONTAINER_GENERATED_ESCU_LATEST, 
+                    SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS]
+
+
+
     for container_index in range(num_containers):
         container_name = LOCAL_BASE_CONTAINER_NAME%container_index
         
         web_port = BASE_CONTAINER_WEB_PORT  + container_index
         management_port = BASE_CONTAINER_MANAGEMENT_PORT + container_index
 
-        SPLUNK_COMMON_INFORMATION_MODEL = "https://splunkbase.splunk.com/app/1621/release/4.20.2/download"        
-        SPLUNK_SECURITY_ESSENTIALS = "https://splunkbase.splunk.com/app/3435/release/3.3.4/download"
-        #SPLUNK_ADD_ON_FOR_SYSMON_OLD = "https://splunkbase.splunk.com/app/1914/release/10.6.2/download"
-        #SPLUNK_ADD_ON_FOR_SYSMON_NEW = "https://splunkbase.splunk.com/app/5709/release/1.0.1/download"
         
-        #Just a hack until we get the new version of system deployed and available from splunkbase
-        LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_PATH  = os.path.expanduser("~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")    
-        LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_VOLUME_PATH  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
-        shutil.copyfile(LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_PATH, "security_content/slim_packaging/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")
-
-
-        #SYSMON_APP_FOR_SPLUNK = "https://splunkbase.splunk.com/app/3544/release/2.0.0/download"
-        #SPLUNK_ES_CONTENT_UPDATE = "https://splunkbase.splunk.com/app/3449/release/3.29.0/download"
-        SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS = "https://splunkbase.splunk.com/app/742/release/8.2.0/download"
-        LOCAL_GENERATED_ESCU_LATEST = "/tmp/apps/DA-ESS-ContentUpdate-latest.tar.gz"
-        
-        SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, 
-                       SPLUNK_SECURITY_ESSENTIALS, 
-                       LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_VOLUME_PATH, 
-                       LOCAL_GENERATED_ESCU_LATEST, 
-                       SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS]
         
 
         environment = {"SPLUNK_START_ARGS": "--accept-license",
@@ -478,9 +505,10 @@ def main(args):
         ports= {"8000/tcp": web_port,
                 "8089/tcp": management_port
                }
-        source_path = os.path.join(os.getcwd(), "security_content", "slim_packaging","apps")
         
-        mounts = [docker.types.Mount(target = '/tmp/apps/', source = source_path, type='bind', read_only=True)]
+        
+        
+        mounts = [docker.types.Mount(target = CONTAINER_VOLUME_PATH, source = local_volume_path, type='bind', read_only=True)]
 
         print("Creating CONTAINER: [%s]"%(container_name))
         base_container = client.containers.create(full_docker_hub_container_name, ports=ports, environment=environment, name=container_name, mounts=mounts, detach=True)
@@ -517,7 +545,7 @@ def main(args):
         #app install once, but it looks like the container is unlikely to support that.
         #We don't really want to fundamentally change this container, either, and will 
         #keep it as close to production as possible
-        time.sleep(60)
+        time.sleep(5)
     
     #Wait for all of the testing threads to complete
     for t in splunk_container_manager_threads:
@@ -573,7 +601,7 @@ def copy_file_to_container(localFilePath, remoteFilePath, containerName, sleepTi
 
 
 class SynchronizedResultsTracker:
-    def __init__(self, tests:list[str]):
+    def __init__(self, num_containers:int, tests:list[str]):
         #Create the queue and enque all of the tests
         self.testing_queue = queue.Queue()
         for test in tests:
@@ -591,6 +619,7 @@ class SynchronizedResultsTracker:
         #Just make a random folder to store attack data that we donwload
         self.attack_data_root_folder = mkdtemp(prefix="attack_data_", dir=os.getcwd())
         print("Attack data for this run will be stored at: [%s]"%(self.attack_data_root_folder))
+        self.start_barrier = threading.Barrier(num_containers)
 
     def getTest(self)-> Union[str,None]:
         try:
@@ -777,9 +806,13 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     
     print("Successfully enabled DELETE for [%s]"%(container_name))
     
-    
+    #Wait for all of the threads to join here
+    print("Container [%s] setup complete and waiting for other containers to be ready..."%(container_name))
+    testing_object.start_barrier.wait()
     
     while True:
+        #Sleep for a small random time so that containers drift apart and don't synchronize their testing
+        time.sleep(random.randint(1,30))
         #Try to get something from the queue
         detection_to_test = testing_object.getTest()
         if detection_to_test is None:
