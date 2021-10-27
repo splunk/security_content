@@ -34,16 +34,11 @@ This analytic identifies Get-DomainTrust from PowerView in order to gather domai
 - **ID**: 4fa7f846-054a-11ec-a836-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-
-
-
-
 
 #### Search
 

@@ -36,16 +36,11 @@ This search provides detection of suspicious use of sts:GetSessionToken. These t
 - **ID**: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
-
-
-
-
 
 #### Search
 

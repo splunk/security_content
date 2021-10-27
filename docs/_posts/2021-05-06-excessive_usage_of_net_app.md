@@ -34,16 +34,11 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 - **ID**: 45e52536-ae42-11eb-b5c6-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
-
-
-
-
 
 #### Search
 

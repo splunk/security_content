@@ -34,16 +34,11 @@ This search is to detect file creation in remcos folder in appdata which is the 
 - **ID**: 25ae862a-1ac3-11ec-94a1-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
-
-
-
-
 
 #### Search
 

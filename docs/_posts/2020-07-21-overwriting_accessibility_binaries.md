@@ -39,19 +39,12 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 - **ID**: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
-
-
 | [T1546.008](https://attack.mitre.org/techniques/T1546/008/) | Accessibility Features | Privilege Escalation, Persistence |
-
-
-
-
 
 #### Search
 
