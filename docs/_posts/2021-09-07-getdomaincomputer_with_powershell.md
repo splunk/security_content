@@ -37,8 +37,11 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
+
+
 
 
 
@@ -82,12 +85,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use PowerView for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Remote system discovery enumeration on $dest$ by $user$ |
+
 
 
 

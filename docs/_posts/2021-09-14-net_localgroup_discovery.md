@@ -1,6 +1,6 @@
 ---
 title: "Net Localgroup Discovery"
-excerpt: "Local Groups"
+excerpt: "Permission Groups Discovery, Local Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-09-14
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1069
+  - Permission Groups Discovery
+  - Discovery
   - T1069.001
   - Local Groups
   - Discovery
@@ -37,8 +40,15 @@ The following hunting analytic will identify the use of localgroup discovery usi
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
+
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+
+
+
 
 
 #### Search
@@ -82,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives may be present. Tune as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local group discovery on $dest$ by $user$. |
+
 
 
 
