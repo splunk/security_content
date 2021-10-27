@@ -1,6 +1,6 @@
 ---
 title: "Auto Admin Logon Registry Entry"
-excerpt: "Credentials in Registry"
+excerpt: "Credentials in Registry, Unsecured Credentials"
 categories:
   - Endpoint
 last_modified_at: 2021-09-06
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1552.002
   - Credentials in Registry
+  - Credential Access
+  - T1552
+  - Unsecured Credentials
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,8 +40,15 @@ this search is to detect a suspicious registry modification to implement auto ad
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1552.002](https://attack.mitre.org/techniques/T1552/002/) | Credentials in Registry | Credential Access |
+
+
+
+| [T1552](https://attack.mitre.org/techniques/T1552/) | Unsecured Credentials | Credential Access |
+
+
+
 
 
 #### Search
@@ -75,12 +85,12 @@ To successfully implement this search you need to be ingesting information on pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | modified registry key $registry_key_name$ with registry value $registry_value_name$ to prepare autoadminlogon |
+
 
 
 

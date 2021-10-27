@@ -39,8 +39,11 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+
 
 
 
@@ -79,12 +82,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 UPDATE_KNOWN_FALSE_POSITIVES
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-ForestTrust was identified on endpoint $ComputerName$ by user $User$. |
+
 
 
 

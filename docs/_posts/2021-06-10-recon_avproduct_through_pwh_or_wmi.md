@@ -36,8 +36,11 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
+
 
 
 
@@ -75,12 +78,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 network administrator may used this command for checking purposes
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious powershell script contains AV recon command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 
