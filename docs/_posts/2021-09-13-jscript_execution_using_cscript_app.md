@@ -37,19 +37,12 @@ This search is to detect a execution of jscript using cscript process. Commonly 
 - **ID**: 002f1e24-146e-11ec-a470-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
-
-
-
-
 
 #### Search
 

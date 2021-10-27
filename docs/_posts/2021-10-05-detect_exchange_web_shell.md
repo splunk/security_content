@@ -37,19 +37,12 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 - **ID**: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
-
-
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
-
-
-
-
 
 #### Search
 

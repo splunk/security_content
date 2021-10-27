@@ -32,8 +32,6 @@ Attackers often use spaces as a means to obfuscate an attachment&#39;s file exte
 - **Author**: David Dorsey, Splunk
 - **ID**: 56e877a6-1455-4479-ada6-0550dc1e22f8
 
-
-
 #### Search
 
 ```

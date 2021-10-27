@@ -40,19 +40,12 @@ This search looks for outbound SMB connections made by hosts within your network
 - **ID**: 7f5fb3e1-4209-414-90db-0ec21b936378
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1071.002](https://attack.mitre.org/techniques/T1071/002/) | File Transfer Protocols | Command And Control |
-
-
-
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
-
-
-
-
 
 #### Search
 

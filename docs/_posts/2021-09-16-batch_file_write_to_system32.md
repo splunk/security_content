@@ -37,19 +37,12 @@ The search looks for a batch file (.bat) written to the Windows system directory
 - **ID**: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
-
-
-
-
 
 #### Search
 
