@@ -37,19 +37,12 @@ This search correlations detections by user and risk_score
 - **ID**: 610e12dc-b6fa-4541-825e-4a0b3b6f6773
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
-
-
-
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
-
-
 
 #### Search
 

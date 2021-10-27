@@ -34,16 +34,11 @@ The search looks for files created with names matching those typically used in r
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d6bd71
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
-
-
-
-
 
 #### Search
 

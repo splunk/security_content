@@ -37,19 +37,12 @@ The following analytic identifies rundll32.exe using dllregisterserver on the co
 - **ID**: 8c00a385-9b86-4ac0-8932-c9ec3713b159
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
-
-
-
-
 
 #### Search
 

@@ -34,16 +34,11 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 - **ID**: fc5531ae-62fd-4de6-9c36-b4afdae8ca95
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
-
-
-
-
 
 #### Search
 

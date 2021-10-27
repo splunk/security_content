@@ -34,8 +34,6 @@ By populating the organization&#39;s assets within the assets_by_str.csv, we wil
 - **Author**: Bhavin Patel, Splunk
 - **ID**: dcfd6b40-42f9-469d-a433-2e53f7489ff4
 
-
-
 #### Search
 
 ```

@@ -35,16 +35,11 @@ This detection is to identify the common service name created by the CLOP ransom
 - **ID**: 07e08a12-870c-11eb-b5f9-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 

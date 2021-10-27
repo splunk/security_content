@@ -34,16 +34,11 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 - **ID**: 39c61d09-8b30-4154-922b-2d0a694ecc22
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
-
-
 
 #### Search
 

@@ -37,19 +37,12 @@ This search is to detect a suspicious file creation namely passff.tar and cookie
 - **ID**: 0db4da70-f14b-11eb-8043-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
-
-
-
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
-
-
-
-
 
 #### Search
 

@@ -37,19 +37,12 @@ This analytic looks for the execution of `dsquery.exe` with command-line argumen
 - **ID**: b1a8ce04-04c2-11ec-bea7-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
-
-
-
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
-
-
-
-
 
 #### Search
 

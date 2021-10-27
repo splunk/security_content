@@ -35,16 +35,11 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 - **ID**: f52d2db8-31f9-4aa7-a176-25779effe55c
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
-
-
 
 #### Search
 

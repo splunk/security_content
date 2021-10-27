@@ -37,19 +37,12 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 - **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
-
-
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
-
-
-
-
 
 #### Search
 

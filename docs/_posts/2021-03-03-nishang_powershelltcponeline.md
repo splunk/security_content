@@ -37,19 +37,12 @@ This query detects the Nishang Invoke-PowerShellTCPOneLine utility that spawns a
 - **ID**: 1a382c6c-7c2e-11eb-ac69-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
-
-
-
-
 
 #### Search
 

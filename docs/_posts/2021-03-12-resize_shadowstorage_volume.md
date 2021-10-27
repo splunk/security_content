@@ -34,16 +34,11 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 - **ID**: bc760ca6-8336-11eb-bcbb-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
-
-
 
 #### Search
 

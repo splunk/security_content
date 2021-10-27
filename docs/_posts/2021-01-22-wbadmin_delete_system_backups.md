@@ -34,16 +34,11 @@ This search looks for flags passed to wbadmin.exe (Windows Backup Administrator 
 - **ID**: cd5aed7e-5cea-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
-
-
 
 #### Search
 

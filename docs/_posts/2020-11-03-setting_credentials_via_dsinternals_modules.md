@@ -40,24 +40,13 @@ This detection identifies illegal setting of credentials via DSInternals modules
 - **ID**: d5ef590f-9bde-49eb-9c63-2f5b62a65b9c
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
-
-
-
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
-
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-
-
-
-
 
 #### Search
 

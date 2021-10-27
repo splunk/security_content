@@ -35,16 +35,11 @@ The following analytic identifies DLLHost.exe with no command line arguments wit
 - **ID**: f1c07594-a141-11eb-8407-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
-
-
 
 #### Search
 

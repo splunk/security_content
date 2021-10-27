@@ -34,16 +34,11 @@ The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe` o
 - **ID**: 0bdf6092-af17-11eb-939a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
-
-
 
 #### Search
 
