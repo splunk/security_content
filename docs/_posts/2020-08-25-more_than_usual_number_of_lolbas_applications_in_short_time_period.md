@@ -39,9 +39,15 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
+
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+
 
 
 
@@ -83,12 +89,12 @@ Some administrative tasks may involve multiple use of LOLBAS applications in a s
 
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | A system process $process_name$ with commandline $cmd_line$ spawn iin short period of time in host $dest_device_id$ |
+
 
 
 

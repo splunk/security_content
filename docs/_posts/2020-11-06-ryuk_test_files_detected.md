@@ -36,8 +36,11 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
+
 
 
 
@@ -74,12 +77,12 @@ You must be ingesting data that records the filesystem activity from your hosts 
 If there are files with this keywoord as file names it might trigger false possitives, please make use of our filters to tune out potential FPs.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A creation of ryuk test file $file_path$ in host $dest$ |
+
 
 
 

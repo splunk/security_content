@@ -38,8 +38,11 @@ This search looks for the creation of WMI temporary event subscriptions.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+
 
 
 
@@ -76,6 +79,7 @@ To successfully implement this search, you must be ingesting the Windows WMI act
 
 #### Known False Positives
 Some software may create WMI temporary event subscriptions for various purposes. The included search contains an exception for two of these that occur by default on Windows 10 systems. You may need to modify the search to create exceptions for other legitimate events.
+
 
 
 

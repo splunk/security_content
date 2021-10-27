@@ -67,7 +67,7 @@ def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
-                         trim_blocks=True) 
+                         trim_blocks=True)
     template = j2_env.get_template('transforms.j2')
     output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
@@ -230,7 +230,7 @@ def get_deployments(object, deployments):
     for deployment in deployments:
 
         for tag in object['tags'].keys():
-            
+
             if tag in deployment['tags'].keys():
                 if type(object['tags'][tag]) is str:
                     tag_array = [object['tags'][tag]]
@@ -325,7 +325,7 @@ def add_annotations(detection):
     # changes to this data structure separate from the mappings generation
     # @todo expose the JSON data structure for newer risk type
 
-    annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story', 'observable', 'context', 'impact', 'confidence']
+    annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story', 'observable', 'context', 'impact', 'confidence', 'cve']
     savedsearch_annotations = {}
     for key in annotation_keys:
         if key == 'mitre_attack':
@@ -364,7 +364,7 @@ def add_rba(detection):
 
             # determine if is a user type, create risk
             if entity['type'].lower() in risk_object_user_types:
-                
+
                 for r in entity['role']:
                     if 'attacker' == r.lower() or 'victim' ==r.lower():
 
@@ -376,10 +376,10 @@ def add_rba(detection):
 
             # determine if is a system type, create risk
             elif entity['type'].lower() in risk_object_system_types:
-                
+
                 for r in entity['role']:
                     if 'attacker' == r.lower() or 'victim' ==r.lower():
-                        
+
                         risk_object['risk_object_type'] = 'system'
                         risk_object['risk_object_field'] = entity['name']
                         risk_object['risk_score'] = detection['tags']['risk_score']
@@ -393,12 +393,12 @@ def add_rba(detection):
                 continue
 
     detection['risk'] = risk_objects
-    
+
     return detection
 
 def add_playbook(detection, playbooks):
     preface = " The following Splunk SOAR playbook can be used to respond to this detection: "
-    
+
     for playbook in playbooks:
         if detection['name'] in playbook['tags']['detections']:
             detection['how_to_implement'] = detection['how_to_implement'] + preface + playbook['name']
@@ -456,7 +456,7 @@ def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
                     if key in detection['tags']:
                         mappings[key] = detection['tags'][key]
             detection['mappings'] = mappings
-            
+
             detection = add_annotations(detection)
             detection = add_rba(detection)
             detection = add_playbook(detection, playbooks)
@@ -698,7 +698,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     parser.add_argument("--product", required=True, default="ESCU", help="package type")
 
-    
+
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path

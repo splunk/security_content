@@ -38,8 +38,11 @@ This search looks at GCP Storage bucket-access logs and detects new or previousl
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
+
+
 
 
 
@@ -89,6 +92,7 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 
 #### Known False Positives
 GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow it), as long as it can make a successful connection. This will be a false postive, since the search is looking for a new IP within the past two hours.
+
 
 
 

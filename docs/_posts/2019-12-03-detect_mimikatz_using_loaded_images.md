@@ -1,6 +1,6 @@
 ---
 title: "Detect Mimikatz Using Loaded Images"
-excerpt: "LSASS Memory"
+excerpt: "LSASS Memory, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2019-12-03
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1003.001
   - LSASS Memory
+  - Credential Access
+  - T1003
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -36,8 +39,15 @@ This search looks for reading loaded Images unique to credential dumping with Mi
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
+
+
+
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+
+
 
 
 #### Search
@@ -79,12 +89,12 @@ This search needs Sysmon Logs and a sysmon configuration, which includes EventCo
 Other tools can import the same DLLs. These tools should be part of a whitelist. False positives may be present with any process that authenticates or uses credentials, PowerShell included. Filter based on parent process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | A process, $Image$, has loaded $ImageLoaded$ that are typically related to credential dumping on $Computer$. Review for further details. |
+
 
 
 
