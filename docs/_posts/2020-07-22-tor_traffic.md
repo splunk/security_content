@@ -1,6 +1,6 @@
 ---
 title: "TOR Traffic"
-excerpt: "Web Protocols"
+excerpt: "Application Layer Protocol, Web Protocols"
 categories:
   - Network
 last_modified_at: 2020-07-22
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1071
+  - Application Layer Protocol
+  - Command And Control
   - T1071.001
   - Web Protocols
   - Command And Control
@@ -39,8 +42,15 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
+| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+
+
 | [T1071.001](https://attack.mitre.org/techniques/T1071/001/) | Web Protocols | Command And Control |
+
+
+
 
 
 #### Search
@@ -79,6 +89,7 @@ In order to properly run this search, Splunk needs to ingest data from firewalls
 
 #### Known False Positives
 None at this time
+
 
 
 

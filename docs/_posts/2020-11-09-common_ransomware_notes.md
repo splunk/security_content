@@ -37,8 +37,11 @@ The search looks for files created with names matching those typically used in r
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+
+
 
 
 
@@ -80,12 +83,12 @@ You must be ingesting data that records file-system activity from your hosts to 
 It&#39;s possible that a legitimate file could be created with the same name used by ransomware note files.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware note file and should be reviewed immediately. |
+
 
 
 

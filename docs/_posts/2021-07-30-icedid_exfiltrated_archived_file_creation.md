@@ -1,6 +1,6 @@
 ---
 title: "IcedID Exfiltrated Archived File Creation"
-excerpt: "Archive via Utility"
+excerpt: "Archive via Utility, Archive Collected Data"
 categories:
   - Endpoint
 last_modified_at: 2021-07-30
@@ -10,6 +10,9 @@ tags:
   - Hunting
   - T1560.001
   - Archive via Utility
+  - Collection
+  - T1560
+  - Archive Collected Data
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,8 +40,15 @@ This search is to detect a suspicious file creation namely passff.tar and cookie
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+
+
+
+| [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
+
+
 
 
 #### Search
@@ -75,12 +85,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | process $SourceImage$ create a file $TargetImage$ in host $Computer$ |
+
 
 
 

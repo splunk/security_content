@@ -1,6 +1,6 @@
 ---
 title: "SecretDumps Offline NTDS Dumping Tool"
-excerpt: "NTDS"
+excerpt: "NTDS, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-05-26
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1003.003
   - NTDS
+  - Credential Access
+  - T1003
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,8 +40,15 @@ This analytic detects a potential usage of secretsdump.py tool for dumping crede
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
+
+
+
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+
+
 
 
 #### Search
@@ -79,12 +89,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | A secretdump process $process_name$ with secretdump commandline $process$ to dump credentials in host $dest$ |
+
 
 
 

@@ -37,8 +37,11 @@ This search is to detect a suspicious bcdedit.exe execution to ignore all failur
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
+
 
 
 
@@ -80,12 +83,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Administrators may modify the boot configuration ignore failure during testing and debugging.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious process $process_name$ with process id $process_id$ contains commandline $process$ to ignore all bcdedit execution failure in host $dest$ |
+
 
 
 
