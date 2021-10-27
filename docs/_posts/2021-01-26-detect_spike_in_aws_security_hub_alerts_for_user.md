@@ -30,8 +30,6 @@ This search looks for a spike in number of of AWS security Hub alerts for an AWS
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
 
-
-
 #### Search
 
 ```

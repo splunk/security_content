@@ -39,19 +39,12 @@ This search identifies DNS query failures by counting the number of DNS response
 - **ID**: 104658f4-afdc-499e-9719-17243f9826f1
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
-
-
-
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
-
-
-
-
 
 #### Search
 

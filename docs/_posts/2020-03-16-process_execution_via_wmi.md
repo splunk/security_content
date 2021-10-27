@@ -34,16 +34,11 @@ The following analytic identifies `WmiPrvSE.exe` spawning a process. This typica
 - **ID**: 24869767-8579-485d-9a4f-d9ddfd8f0cac
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
-
-
 
 #### Search
 

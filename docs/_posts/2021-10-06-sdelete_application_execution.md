@@ -40,23 +40,13 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 - **ID**: 31702fc0-2682-11ec-85c3-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
-
-
 | [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
-
-
-
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
-
-
 
 #### Search
 

@@ -34,16 +34,11 @@ This analytic identifies wmic.exe being launched with parameters to spawn a proc
 - **ID**: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
-
-
 
 #### Search
 

@@ -39,19 +39,12 @@ This search allows you to identify DNS requests that are unusually large for the
 - **ID**: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
-
-
-
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
-
-
-
-
 
 #### Search
 

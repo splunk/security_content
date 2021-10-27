@@ -39,19 +39,12 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 - **ID**: 683e6196-b8e8-11eb-9a79-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
-
-
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
-
-
-
-
 
 #### Search
 

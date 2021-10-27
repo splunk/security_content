@@ -40,28 +40,14 @@ This detection identifies use of Mimikatz modules for discovery and access to ne
 - **ID**: c97b6eb9-1d8b-4017-bbbb-2af7fc17bc3f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
-
-
-
 | [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
 | [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
-
-
-| [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
-
-
-| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
-
-
-
-
 
 #### Search
 

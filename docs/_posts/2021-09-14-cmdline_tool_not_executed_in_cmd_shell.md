@@ -37,19 +37,12 @@ This search is to detect a suspicious parent process execution of commandline to
 - **ID**: 6c3f7dd8-153c-11ec-ac2d-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
-
-
-
-
 
 #### Search
 

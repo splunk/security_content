@@ -34,16 +34,11 @@ The following analytic will identify a suspicious download by the Telegram appli
 - **ID**: 58194e28-ae5e-11eb-8912-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
-
-
-
-
 
 #### Search
 
