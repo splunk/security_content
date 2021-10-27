@@ -37,24 +37,13 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 - **ID**: 0243d37c-57c1-4182-bfd1-39b212255fc8
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
-
-
-
 | [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
-
-
-
 | [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
-
-
-
-
 
 #### Search
 

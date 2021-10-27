@@ -34,16 +34,11 @@ This analytic looks for the execution of `nltest.exe` with command-line argument
 - **ID**: 41243735-89a7-4c83-bcdd-570aa78f00a1
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
-
-
 
 #### Search
 

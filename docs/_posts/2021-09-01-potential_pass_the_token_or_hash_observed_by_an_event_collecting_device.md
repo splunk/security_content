@@ -36,19 +36,12 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 - **ID**: 1058ba3e-a698-49bc-a1e5-7cedece4ea87
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
-
-
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
-
-
-
-
 
 #### Search
 

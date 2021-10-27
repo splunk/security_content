@@ -34,16 +34,11 @@ This detection identifies failure attempts to delete groups. We want to identify
 - **ID**: 723b861a-92eb-11eb-93b8-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-
-
-
-
 
 #### Search
 

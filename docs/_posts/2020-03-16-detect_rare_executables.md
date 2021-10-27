@@ -34,8 +34,6 @@ This search will return a table of rare processes, the names of the systems runn
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
 
-
-
 #### Search
 
 ```

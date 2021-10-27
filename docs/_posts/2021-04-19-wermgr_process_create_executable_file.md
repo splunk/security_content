@@ -34,16 +34,11 @@ this search is designed to detect potential malicious wermgr.exe process that dr
 - **ID**: ab3bcce0-a105-11eb-973c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
-
-
-
-
 
 #### Search
 

@@ -34,16 +34,11 @@ This analytic is to detect a suspicious registry modification to disable securit
 - **ID**: 39ebdc68-25b9-11ec-aec7-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
-
-
-
-
 
 #### Search
 

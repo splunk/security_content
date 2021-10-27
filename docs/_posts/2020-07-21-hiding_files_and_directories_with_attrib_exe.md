@@ -37,19 +37,12 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 - **ID**: c77162d3-f93c-45cc-80c8-22f6b5264g9f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
 | [T1222.001](https://attack.mitre.org/techniques/T1222/001/) | Windows File and Directory Permissions Modification | Defense Evasion |
-
-
-
-
 
 #### Search
 

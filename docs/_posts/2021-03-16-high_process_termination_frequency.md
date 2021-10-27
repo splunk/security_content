@@ -34,16 +34,11 @@ This analytics are designed to indentify a high frequency of process termination
 - **ID**: 17cd75b2-8666-11eb-9ab4-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
-
-
 
 #### Search
 
