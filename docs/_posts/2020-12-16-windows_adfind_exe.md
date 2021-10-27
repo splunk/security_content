@@ -39,8 +39,11 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
+
+
 
 
 
@@ -80,6 +83,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 administrators rarely use adfind, usually not used for legitimate reasons
+
 
 
 

@@ -38,8 +38,11 @@ This search looks for GCP PubSub events where a user has created an open/public 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
+
+
 
 
 
@@ -85,6 +88,7 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 
 #### Known False Positives
 While this search has no known false positives, it is possible that a GCP admin has legitimately created a public bucket for a specific purpose. That said, GCP strongly advises against granting full control to the &#34;allUsers&#34; group.
+
 
 
 
