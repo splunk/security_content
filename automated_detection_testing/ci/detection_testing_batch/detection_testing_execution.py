@@ -520,6 +520,10 @@ def main(args):
     APPS_DICT['SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX'] = {"app_number":833, 'app_version':"8.3.1", 'location':'splunkbase'}
     APPS_DICT['GENERATED_SPLUNK_ES_CONTENT_UPDATE'] = {"app_number":3449, 'app_version':"Generated at %s"%(datetime.now()), 'location':GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH}
     APPS_DICT['BETA_SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":3449, 'app_version':"Generated at %s"%(datetime.now()), 'location':BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH}
+    
+    #CIM is last here for a reason!  Because we copy a file to a directory that does not exist until CIM
+    #has been installed, we use it to prevent the testing from beginning until the copy has succeeded.  
+    #KEEP THIS APP LAST!
     APPS_DICT['SPLUNK_COMMON_INFORMATION_MODEL'] = {"app_number":1621, 'app_version':"4.20.2", 'location':'splunkbase'}
     
     
@@ -843,6 +847,9 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     container.start()
     print("Start copying files to container: [%s]"%(container_name))
     copy_file_to_container(index_file_local_path, index_file_container_path, container_name)
+    #The below copy will fail until the CIM app is installed.  This app MUST be installed last!
+    #If we install it earlier, we will get ahead of ourselves and start doing tests before the container
+    #is truly ready for testing and all apps have been installed
     copy_file_to_container(datamodel_file_local_path, datamodel_file_container_path, container_name)
     print("Finished copying files to container: [%s]"%(container_name))
 
