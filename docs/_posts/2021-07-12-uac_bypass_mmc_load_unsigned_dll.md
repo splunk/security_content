@@ -42,8 +42,14 @@ This search is to detect a suspicious loaded unsigned dll by MMC.exe application
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion || [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+
+
 
 
 
@@ -84,12 +90,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown. all of the dll loaded by mmc.exe is microsoft signed dll.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious unsigned $ImageLoaded$ loaded by $Image$ on endpoint $Computer$ with EventCode $EventCode$ |
+
 
 
 

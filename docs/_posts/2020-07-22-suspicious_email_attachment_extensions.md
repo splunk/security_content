@@ -42,8 +42,14 @@ This search looks for emails that have attachments with suspicious file extensio
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access || [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 
 
 
@@ -82,6 +88,7 @@ If Splunk Phantom is also configured in your environment, a Playbook called &#34
 
 #### Known False Positives
 None identified
+
 
 
 

@@ -40,9 +40,15 @@ This query detects the Nishang Invoke-PowerShellTCPOneLine utility that spawns a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+
+
 
 
 #### Search
@@ -86,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives may be present. Filter as needed based on initial analysis.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Possible Nishang Invoke-PowerShellTCPOneLine behavior on $dest$ |
+
 
 
 

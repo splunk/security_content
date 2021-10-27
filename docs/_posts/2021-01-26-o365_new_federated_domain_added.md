@@ -40,8 +40,14 @@ This search detects the addition of a new Federated domain.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
+
+
+
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+
 
 
 
@@ -83,12 +89,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 The creation of a new Federated domain is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a similar or different cloud provider.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $UserId$ has added a new federated domaain $Parameters.Value$ for $OrganizationName$ |
+
 
 
 

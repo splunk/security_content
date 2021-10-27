@@ -37,8 +37,11 @@ Certutil.exe may download a file from a remote destination using `-urlcache`. Th
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
+
+
 
 
 
@@ -84,12 +87,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives in most environments, however tune as needed based on parent-child relationship or network connection.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to download a file. |
+
 
 
 

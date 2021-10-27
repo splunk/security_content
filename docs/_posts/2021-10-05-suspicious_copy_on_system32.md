@@ -40,8 +40,14 @@ This analytic is to detect a suspicious copy of file from systemroot folder of t
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion || [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+
+
+
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+
 
 
 
@@ -86,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 every user may do this event but very un-ussual.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | execution of copy exe to copy file from $process$ in $dest$ |
+
 
 
 

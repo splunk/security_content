@@ -37,8 +37,11 @@ This analytic identifies suspicious modification in registry entry to keep some 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+
 
 
 
@@ -78,12 +81,12 @@ to successfully implement this search, you need to be ingesting logs with the Im
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 60.0 | 60 | 100 | A registry entry $registry_path$ with registry value $registry_value_name$ and $registry_value_name$ related to revil ransomware in host $dest$ |
+
 
 
 

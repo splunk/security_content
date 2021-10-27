@@ -42,9 +42,15 @@ This search looks for the first and last time a Windows service is seen running 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+
+
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+
+
 
 
 #### Search
@@ -82,6 +88,7 @@ While this search does not require you to adhere to Splunk CIM, you must be inge
 
 #### Known False Positives
 A previously unseen service is not necessarily malicious. Verify that the service is legitimate and that was installed by a legitimate process.
+
 
 
 

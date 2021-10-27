@@ -41,8 +41,14 @@ The following analtyic identifies renamed instances of `WinRAR.exe`. In most cas
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection || [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+| ----------- | ----------- |--------------- |
+| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+
+
+
+| [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
+
 
 
 
@@ -88,12 +94,12 @@ To successfully implement this search you need to be ingesting information on pr
 Unknown. It is possible third party applications use renamed instances of WinRAR.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. |
+
 
 
 

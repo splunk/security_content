@@ -46,8 +46,14 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+| ----------- | ----------- |--------------- |
+| [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
+
+
+
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
+
 
 
 
@@ -87,12 +93,12 @@ To successfully implement this search, you must be collecting Sysmon data using 
 Although unlikely, administrators may use event subscriptions for legitimate purposes.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 30 | 100 | User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter: $filter$. Consumer: $Consumer$.  EventCode: $EventCode$ |
+
 
 
 

@@ -43,9 +43,18 @@ This analytic is to detect a registry modification to disable ETW feature of win
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1562.006](https://attack.mitre.org/techniques/T1562/006/) | Indicator Blocking | Defense Evasion || [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1562.006](https://attack.mitre.org/techniques/T1562/006/) | Indicator Blocking | Defense Evasion |
+
+
+
+| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+
+
+
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -85,12 +94,12 @@ To successfully implement this search, you must be ingesting data that records r
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
+
 
 
 

@@ -42,8 +42,14 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement || [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+| ----------- | ----------- |--------------- |
+| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
+
+
+
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+
 
 
 
@@ -90,6 +96,7 @@ Detailed documentation on how to create a new field within Incident Review is fo
 
 #### Known False Positives
 If you are seeing more results than desired, you may consider reducing the value of the threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data. Please update the `smb_traffic_spike_mltk_filter` macro to filter out false positive results
+
 
 
 

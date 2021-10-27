@@ -40,8 +40,14 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+| ----------- | ----------- |--------------- |
+| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
+
+
+
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+
 
 
 
@@ -87,12 +93,12 @@ To successfully implement this search you need to be ingesting information on pr
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to export the registry keys. |
+
 
 
 

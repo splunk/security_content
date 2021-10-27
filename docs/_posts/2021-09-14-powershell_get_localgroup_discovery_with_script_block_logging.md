@@ -42,9 +42,15 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
+
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+
+
+
 
 
 #### Search
@@ -80,12 +86,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 False positives may be present. Tune as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local group discovery on $dest$ by $user$. |
+
 
 
 

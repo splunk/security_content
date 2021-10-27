@@ -40,9 +40,15 @@ This search is to detect a suspicious parent process execution of commandline to
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+
+
+
 
 
 #### Search
@@ -82,12 +88,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 network operator or admin may create this type of tool to gather host information
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | parent process name $parent_process_name$ with child process $process_name$ to execute commandline tool in $dest$ |
+
 
 
 

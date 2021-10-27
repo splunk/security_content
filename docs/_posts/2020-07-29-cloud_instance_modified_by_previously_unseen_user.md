@@ -46,8 +46,14 @@ This search looks for cloud instances being modified by users who have not previ
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
+
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
 
 
 
@@ -91,12 +97,12 @@ This search has a dependency on other searches to create and update a baseline o
 It&#39;s possible that a new user will start to modify EC2 instances when they haven&#39;t before for any number of reasons. Verify with the user that is modifying instances that this is the intended behavior.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is modifying an instance $dest$ for the first time. |
+
 
 
 

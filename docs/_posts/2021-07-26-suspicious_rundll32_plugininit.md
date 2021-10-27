@@ -40,9 +40,15 @@ This search is to detect a suspicious rundll32.exe process with plugininit param
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -86,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 third party application may used this dll export name to execute function.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | rundll32 process $process_name$ with commandline $process$ in host $dest$ |
+
 
 
 

@@ -42,8 +42,14 @@ This analytic is to detect a suspicious modification of registry to disable UAC 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion || [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
+
+
+
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+
+
 
 
 
@@ -84,12 +90,12 @@ To successfully implement this search, you must be ingesting data that records r
 admin may set this policy for non-critical machine.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
+
 
 
 

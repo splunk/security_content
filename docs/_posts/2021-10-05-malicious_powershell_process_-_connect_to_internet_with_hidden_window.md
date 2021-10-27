@@ -41,8 +41,14 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution || [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+| ----------- | ----------- |--------------- |
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+
+
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 
 
 
@@ -89,12 +95,12 @@ You must be ingesting data that records process activity from your hosts to popu
 Legitimate process can have this combination of command-line options, but it&#39;s not common.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | PowerShell processes $process$ started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet on host $dest$ executed by user $user$. |
+
 
 
 

@@ -40,8 +40,14 @@ This search is to detect a suspicious commandline designed to delete files or di
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion || [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
+
+
+
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 
 
 
@@ -84,6 +90,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 network operator may use this batch command to delete recursively a directory or files within directory
+
 
 
 

@@ -40,8 +40,14 @@ This search is to detect suspicious google drive or google docs files shared out
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1567.002](https://attack.mitre.org/techniques/T1567/002/) | Exfiltration to Cloud Storage | Exfiltration || [T1567](https://attack.mitre.org/techniques/T1567/) | Exfiltration Over Web Service | Exfiltration |
+| ----------- | ----------- |--------------- |
+| [T1567.002](https://attack.mitre.org/techniques/T1567/002/) | Exfiltration to Cloud Storage | Exfiltration |
+
+
+
+| [T1567](https://attack.mitre.org/techniques/T1567/) | Exfiltration Over Web Service | Exfiltration |
+
+
 
 
 
@@ -87,12 +93,12 @@ To successfully implement this search, you need to be ingesting logs related to 
 network admin or normal user may share files to customer and external team.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
+
 
 
 

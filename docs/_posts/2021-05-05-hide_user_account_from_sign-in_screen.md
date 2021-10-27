@@ -40,8 +40,14 @@ This analytic identifies a suspicious registry modification to hide a user accou
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+
+
+
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -79,12 +85,12 @@ To successfully implement this search, you must be ingesting data that records r
 Unknown. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Suspicious registry modification ($registry_value_name$) which is used go hide a user account on the Windows Login screen detected on $dest$ executed by $user$ |
+
 
 
 

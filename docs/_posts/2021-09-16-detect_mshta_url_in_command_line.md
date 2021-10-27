@@ -40,9 +40,15 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -86,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 It is possible legitimate applications may perform this behavior and will need to be filtered.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $est$ by user $user$ attempting to access a remote destination to download an additional payload. |
+
 
 
 

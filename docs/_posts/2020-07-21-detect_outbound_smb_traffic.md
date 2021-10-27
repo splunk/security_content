@@ -43,8 +43,14 @@ This search looks for outbound SMB connections made by hosts within your network
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1071.002](https://attack.mitre.org/techniques/T1071/002/) | File Transfer Protocols | Command And Control || [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+| ----------- | ----------- |--------------- |
+| [T1071.002](https://attack.mitre.org/techniques/T1071/002/) | File Transfer Protocols | Command And Control |
+
+
+
+| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+
+
 
 
 
@@ -86,6 +92,7 @@ In order to run this search effectively, we highly recommend that you leverage t
 
 #### Known False Positives
 It is likely that the outbound Server Message Block (SMB) traffic is legitimate, if the company&#39;s internal networks are not well-defined in the Assets and Identity Framework. Categorize the internal CIDR blocks as `internal` in the lookup file to avoid creating notable events for traffic destined to those CIDR blocks. Any other network connection that is going out to the Internet should be investigated and blocked. Best practices suggest preventing external communications of all SMB versions and related protocols at the network boundary.
+
 
 
 

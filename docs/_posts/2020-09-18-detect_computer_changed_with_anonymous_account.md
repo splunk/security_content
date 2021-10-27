@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2020-1472
   - Actions on Objectives
 ---
 
@@ -36,8 +37,11 @@ This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An ac
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1210](https://attack.mitre.org/techniques/T1210/) | Exploitation of Remote Services | Lateral Movement |
+
+
 
 
 
@@ -73,12 +77,19 @@ This search requires audit computer account management to be enabled on the syst
 None thus far found
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The following $EventCode$ occurred on $dest$ by $user$ with Logon Type 3, which may be indicative of the an account or group being changed by an anonymous account. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2020-1472](https://nvd.nist.gov/vuln/detail/CVE-2020-1472) | An elevation of privilege vulnerability exists when an attacker establishes a vulnerable Netlogon secure channel connection to a domain controller, using the Netlogon Remote Protocol (MS-NRPC), aka &#39;Netlogon Elevation of Privilege Vulnerability&#39;. | 9.3 |
 
 
 

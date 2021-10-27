@@ -39,9 +39,15 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+
+
 
 
 #### Search
@@ -78,12 +84,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 powershell may used this function to process compressed data.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains stream command in $Message$ commonly for processing compressed or to decompressed binary file with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 

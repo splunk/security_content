@@ -45,9 +45,15 @@ This search identifies endpoints that have caused a relatively high number of ac
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
+
 
 
 #### Search
@@ -89,12 +95,12 @@ If Splunk&gt;Phantom is also configured in your environment, a Playbook called &
 It&#39;s possible that a widely used system, such as a kiosk, could cause a large number of account lockouts.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | Multiple accounts have been locked out. Review $dest$ and results related to $user$. |
+
 
 
 

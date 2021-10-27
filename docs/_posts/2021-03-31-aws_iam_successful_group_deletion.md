@@ -43,9 +43,18 @@ The following query uses IAM events to track the success of a group being delete
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1069.003](https://attack.mitre.org/techniques/T1069/003/) | Cloud Groups | Discovery || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1069.003](https://attack.mitre.org/techniques/T1069/003/) | Cloud Groups | Discovery |
+
+
+
+| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
+
+
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
+
 
 
 
@@ -82,12 +91,12 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | User $user_arn$ has sucessfully deleted mulitple groups $group_deleted$ from $src$ |
+
 
 
 

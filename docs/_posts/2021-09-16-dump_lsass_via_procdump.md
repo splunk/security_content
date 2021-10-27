@@ -41,8 +41,14 @@ During triage, confirm this is procdump.exe executing. If it is the first time a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+| ----------- | ----------- |--------------- |
+| [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
+
+
+
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+
 
 
 
@@ -84,12 +90,12 @@ To successfully implement this search you need to be ingesting information on pr
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified attempting to dump lsass.exe on endpoint $dest$ by user $user$. |
+
 
 
 

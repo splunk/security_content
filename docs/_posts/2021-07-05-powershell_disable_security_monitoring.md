@@ -40,8 +40,14 @@ This search is to identifies a modification in registry to disable the windows d
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+
+
+
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -85,6 +91,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 Limited false positives. However, tune based on scripts that may perform this action.
+
 
 
 

@@ -42,8 +42,14 @@ This search detects the process execution and arguments required to silently cre
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+| ----------- | ----------- |--------------- |
+| [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
+
+
+
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
+
 
 
 
@@ -81,12 +87,12 @@ You must be ingesting data that records process activity from your hosts to popu
 None identified
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A process $process_name$ that possible create a shim db silently in host $dest$ |
+
 
 
 

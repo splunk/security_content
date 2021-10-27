@@ -40,9 +40,15 @@ DynamicWrapperX is an ActiveX component that can be used in a script to call Win
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1559.001](https://attack.mitre.org/techniques/T1559/001/) | Component Object Model | Execution |
+
+
+
 
 
 #### Search
@@ -86,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited, however it is possible to filter by Processes.process_name and specific processes (ex. wscript.exe). Filter as needed. This may need modification based on EDR telemetry and how it brings in registry data. For example, removal of (Default).
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on endpoint $dest$ downloading the DynamicWrapperX dll. |
+
 
 
 

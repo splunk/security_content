@@ -40,9 +40,15 @@ The following detection identifies Microsoft Word spawning PowerShell. Typically
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
 
 
 #### Search
@@ -86,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited, but if any are present, filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | $parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in spearphishing attacks |
+
 
 
 

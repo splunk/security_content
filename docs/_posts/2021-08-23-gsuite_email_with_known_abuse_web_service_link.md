@@ -40,8 +40,14 @@ This analytics is to detect a gmail containing a link that are known to be abuse
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access || [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 
 
 
@@ -77,6 +83,7 @@ To successfully implement this search, you need to be ingesting logs related to 
 
 #### Known False Positives
 normal email contains this link that are known application within the organization or network can be catched by this detection.
+
 
 
 

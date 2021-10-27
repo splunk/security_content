@@ -44,8 +44,14 @@ This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in no
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion || [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
+
+
+
+| [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
+
+
 
 
 
@@ -83,6 +89,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 quite minimal false positive expected.
+
 
 
 

@@ -42,8 +42,14 @@ This analytic is to detect a suspiciouos modification of time provider registry 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1547.003](https://attack.mitre.org/techniques/T1547/003/) | Time Providers | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------- |
+| [T1547.003](https://attack.mitre.org/techniques/T1547/003/) | Time Providers | Persistence, Privilege Escalation |
+
+
+
+| [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+
 
 
 
@@ -83,12 +89,12 @@ To successfully implement this search, you must be ingesting data that records r
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
+
 
 
 

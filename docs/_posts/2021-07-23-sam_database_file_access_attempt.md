@@ -17,6 +17,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-36934
   - Endpoint
   - Exploitation
 ---
@@ -40,8 +41,14 @@ The following analytic identifies access to SAM, SYSTEM or SECURITY databases&#3
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+| ----------- | ----------- |--------------- |
+| [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
+
+
+
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+
 
 
 
@@ -76,12 +83,19 @@ To successfully implement this search, you must ingest Windows Security Event lo
 Natively, `dllhost.exe` will access the files. Every environment will have additional native processes that do as well. Filter by process_name. As an aside, one can remove process_name entirely and add `Object_Name=*ShadowCopy*`.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following process $process_name$ accessed the object $Object_Name$ attempting to gain access to credentials on $dest$ by user $user$. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-36934](https://nvd.nist.gov/vuln/detail/CVE-2021-36934) | Windows Elevation of Privilege Vulnerability | 4.6 |
 
 
 

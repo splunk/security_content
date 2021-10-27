@@ -46,8 +46,14 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+| ----------- | ----------- |--------------- |
+| [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
+
+
+
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
+
 
 
 
@@ -83,12 +89,12 @@ To successfully implement this search, you need to be ingesting logs with that p
 It is possible some applications will create a consumer and may be required to be filtered. For tuning, add any additional LOLBin&#39;s for further depth of coverage.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Possible malicious WMI Subscription created on $dest$ |
+
 
 
 

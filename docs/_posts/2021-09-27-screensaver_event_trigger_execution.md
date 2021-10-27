@@ -42,9 +42,15 @@ This analytic is developed to detect possible event trigger execution through sc
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
+
 | [T1546.002](https://attack.mitre.org/techniques/T1546/002/) | Screensaver | Privilege Escalation, Persistence |
+
+
+
 
 
 #### Search
@@ -83,12 +89,12 @@ To successfully implement this search, you must be ingesting data that records r
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
+
 
 
 

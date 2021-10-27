@@ -17,6 +17,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-34527
   - Endpoint
   - Exploitation
 ---
@@ -40,9 +41,15 @@ The following analytic identifies rundll32.exe with no command line arguments an
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -94,12 +101,19 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may use a moved copy of rundll32, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A rundll32 process $process_name$ with no commandline argument like this process commandline $process$ in host $dest$ |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
 
 
 

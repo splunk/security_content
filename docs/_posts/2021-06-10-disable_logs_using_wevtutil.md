@@ -40,9 +40,15 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -83,12 +89,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 network operator may disable audit event logs for debugging purposes.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | WevtUtil.exe used to disable Event Logging on $dest |
+
 
 
 

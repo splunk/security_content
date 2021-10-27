@@ -44,8 +44,14 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation || [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------- |
+| [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
+
+
+
+| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
+
 
 
 
@@ -85,12 +91,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may create jobs on systems forcing reboots to perform updates, maintenance, etc.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A schedule task process $process_name$ with force reboot commandline $process$ in host $dest$ |
+
 
 
 

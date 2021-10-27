@@ -40,9 +40,15 @@ This analytic is to detect a loading of dll using regsvr32 application with sile
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -86,12 +92,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Other third part application may used this parameter but not so common in base windows environment.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | regsvr32 process with $process$ commandline in $dest$ |
+
 
 
 

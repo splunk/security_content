@@ -40,8 +40,14 @@ This search is to detect a suspicious 7z process with commandline pointing to SM
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection || [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+| ----------- | ----------- |--------------- |
+| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+
+
+
+| [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
+
 
 
 
@@ -83,12 +89,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | archive process $process_name$ with suspicious cmdline $process$ in host $dest$ |
+
 
 
 

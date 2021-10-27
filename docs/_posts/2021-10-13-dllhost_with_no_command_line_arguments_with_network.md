@@ -38,8 +38,11 @@ The following analytic identifies DLLHost.exe with no command line arguments wit
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+
 
 
 
@@ -85,12 +88,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate third party applications may use a moved copy of dllhost, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The process $process_name$ was spawned by $parent_image$ without any command-line arguments on $dest$ by $user$. |
+
 
 
 

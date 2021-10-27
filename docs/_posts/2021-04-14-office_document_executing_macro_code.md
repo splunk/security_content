@@ -40,9 +40,15 @@ this detection was designed to identifies suspicious office documents that using
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
 
 
 #### Search
@@ -84,12 +90,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Normal Office Document macro use for automation
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Office document executing a macro on $dest$ |
+
 
 
 

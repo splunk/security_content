@@ -40,8 +40,14 @@ This search correlations detections by repository and risk_score
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution || [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+| ----------- | ----------- |--------------- |
+| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
+
+
+
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+
 
 
 
@@ -75,12 +81,12 @@ For Dev Sec Ops POC
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Correlation triggered for user $user$ |
+
 
 
 

@@ -40,9 +40,15 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+
+
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+
+
 
 
 #### Search
@@ -80,6 +86,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 excessive execution of sc.exe is quite suspicious since it can modify or execute app in high privilege permission.
+
 
 
 

@@ -45,9 +45,15 @@ Module - New-managementroleassignment can assign a management role to a manageme
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+
+
 
 
 #### Search
@@ -86,12 +92,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local user discovery enumeration using PowerShell on $dest$ by $user$ |
+
 
 
 

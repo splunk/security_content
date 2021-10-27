@@ -42,8 +42,14 @@ The search looks for modifications to registry keys that can be used to launch a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------- |
+| [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
+
+
+
+| [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+
 
 
 
@@ -89,12 +95,12 @@ To successfully implement this search, you must be ingesting data that records r
 There are many legitimate applications that must execute on system startup and will use these registry keys to accomplish that task.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A registry activity in $registry_path$ related to persistence in host $dest$ |
+
 
 
 

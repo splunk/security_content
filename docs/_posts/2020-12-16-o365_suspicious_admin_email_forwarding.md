@@ -40,8 +40,14 @@ This search detects when an admin configured a forwarding rule for multiple mail
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection || [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+| ----------- | ----------- |--------------- |
+| [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection |
+
+
+
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+
 
 
 
@@ -81,12 +87,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $user$ has configured a forwarding rule for multiple mailboxes to the same destination $ForwardingAddress$ |
+
 
 
 

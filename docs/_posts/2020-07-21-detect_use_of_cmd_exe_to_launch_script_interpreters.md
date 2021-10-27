@@ -40,9 +40,15 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
+
+
+
 
 
 #### Search
@@ -82,12 +88,12 @@ To successfully implement this search, you must be ingesting data that records p
 Some legitimate applications may exhibit this behavior.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | cmd.exe launching script interpreters on $dest$ |
+
 
 
 

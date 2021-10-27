@@ -41,8 +41,14 @@ This search looks for shim database files being written to default directories. 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+| ----------- | ----------- |--------------- |
+| [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
+
+
+
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
+
 
 
 
@@ -80,12 +86,12 @@ You must be ingesting data that records the filesystem activity from your hosts 
 Because legitimate shim files are created and used all the time, this event, in itself, is not suspicious. However, if there are other correlating events, it may warrant further investigation.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A process that possibly write shim database in $file_path$ in host $dest$ |
+
 
 
 

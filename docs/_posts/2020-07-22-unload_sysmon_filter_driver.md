@@ -40,8 +40,14 @@ Attackers often disable security tools to avoid detection. This search looks for
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+
+
+
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -82,12 +88,12 @@ You must be ingesting data that records process activity from your hosts to popu
 
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 50 | 90 | Possible Sysmon filter driver unloading on $dest$ |
+
 
 
 

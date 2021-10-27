@@ -40,8 +40,14 @@ The following analytic identifies a process modifying the registry with a known 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion || [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+
+
+
+| [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+
 
 
 
@@ -87,12 +93,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited, filter as needed. In our test case, Remcos used regsvr32.exe to modify the registry. It may be required, dependent upon the EDR tool producing registry events, to remove (Default) from the command-line.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The $process_name$ was identified on endpoint $dest$ modifying the registry with a known malicious clsid under InProcServer32. |
+
 
 
 

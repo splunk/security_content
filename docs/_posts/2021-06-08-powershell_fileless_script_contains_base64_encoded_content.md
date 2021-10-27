@@ -46,10 +46,19 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
+
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
+
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+
+
 
 
 #### Search
@@ -87,12 +96,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 False positives should be limited. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious powershell script contains base64 command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 

@@ -40,9 +40,15 @@ This analytic is to detect a suspicious registry modification to enable plain te
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+
+
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+
 
 
 
@@ -81,12 +87,12 @@ To successfully implement this search, you must be ingesting data that records r
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | wdigest registry $registry_path$ was modified in $dest$ |
+
 
 
 

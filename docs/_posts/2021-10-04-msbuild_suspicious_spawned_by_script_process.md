@@ -40,8 +40,14 @@ This analytic is to detect a suspicious child process of MSBuild spawned by Wind
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion || [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
+
+
+
+| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+
+
 
 
 
@@ -81,12 +87,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited as developers do not spawn MSBuild via a WSH.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Msbuild.exe process spawned by $parent_process_name$ on $dest$ executed by $user$ |
+
 
 
 

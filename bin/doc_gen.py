@@ -9,8 +9,18 @@ from jinja2 import Environment, FileSystemLoader
 import datetime
 from stix2 import FileSystemSource
 from stix2 import Filter
+from pycvesearch import CVESearch
 
+CVESSEARCH_API_URL = 'https://cve.circl.lu'
 
+def get_cve_enrichment_new(cve_id):
+    cve = CVESearch(CVESSEARCH_API_URL)
+    result = cve.id(cve_id)
+    cve_enriched = dict()
+    cve_enriched['id'] = cve_id
+    cve_enriched['cvss'] = result['cvss']
+    cve_enriched['summary'] = result['summary']
+    return cve_enriched
 
 def get_all_techniques(projects_path):
     path_cti = path.join(projects_path,'cti/enterprise-attack')
@@ -255,6 +265,14 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                 mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
                 mitre_attacks.append(mitre_attack)
             detection_yaml['mitre_attacks'] = mitre_attacks
+
+        # enrich the cve object
+        cves = []
+        if 'cve' in detection_yaml['tags']:
+            for cve_id in detection_yaml['tags']['cve']:
+                cve = get_cve_enrichment_new(cve_id)
+                cves.append(cve)
+            detection_yaml['cve'] = cves
 
         # grab the kind
         detection_yaml['kind'] = manifest_file.split('/')[-2]

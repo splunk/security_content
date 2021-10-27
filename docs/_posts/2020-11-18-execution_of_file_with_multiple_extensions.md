@@ -40,9 +40,15 @@ This search looks for processes launched from files that have double extensions 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -80,12 +86,12 @@ To successfully implement this search, you must be ingesting data that records p
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | process $process$ have double extensions in the file name is executed on $dest$ by $user$ |
+
 
 
 

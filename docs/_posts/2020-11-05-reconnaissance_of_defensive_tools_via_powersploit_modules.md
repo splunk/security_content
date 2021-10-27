@@ -43,9 +43,21 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance || [T1595.002](https://attack.mitre.org/techniques/T1595/002/) | Vulnerability Scanning | Reconnaissance || [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+| ----------- | ----------- |--------------- |
+| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
+
+
+| [T1595.002](https://attack.mitre.org/techniques/T1595/002/) | Vulnerability Scanning | Reconnaissance |
+
+
+
+| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
+
+
 | [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+
+
 
 
 
@@ -84,12 +96,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 40 | 100 | PowerSploit malware is looking for presence of anti virus software. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

@@ -35,8 +35,11 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
+
 
 
 
@@ -75,6 +78,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 network admin can resize the shadowstorage for valid purposes.
+
 
 
 

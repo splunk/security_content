@@ -42,8 +42,14 @@ This analytic is to detect a suspicious modification of the active setup registr
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1547.014](https://attack.mitre.org/techniques/T1547/014/) | Active Setup | Persistence, Privilege Escalation || [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------- |
+| [T1547.014](https://attack.mitre.org/techniques/T1547/014/) | Active Setup | Persistence, Privilege Escalation |
+
+
+
+| [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
+
 
 
 
@@ -83,12 +89,12 @@ To successfully implement this search, you must be ingesting data that records r
 Active setup installer may add or modify this registry.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | modified/added/deleted registry entry $Registry.registry_path$ in $dest$ |
+
 
 
 

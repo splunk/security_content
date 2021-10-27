@@ -41,9 +41,15 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+
+
 
 
 #### Search
@@ -78,12 +84,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 It is possible there will be false positives, filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A suspicious powershell script contains domain enumeration command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 

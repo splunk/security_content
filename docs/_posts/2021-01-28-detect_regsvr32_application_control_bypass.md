@@ -41,9 +41,15 @@ Upon investigating, look for network connections to remote destinations (interna
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -88,12 +94,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives related to third party software registering .DLL&#39;s.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ in an attempt to bypass detection and preventative controls was identified on endpoint $dest$ by user $user$. |
+
 
 
 

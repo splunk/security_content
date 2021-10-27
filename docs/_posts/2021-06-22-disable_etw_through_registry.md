@@ -40,8 +40,14 @@ this search is to identify modification in registry to disable ETW windows featu
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+
+
+
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -78,6 +84,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 network operator may disable this feature of windows but not so common.
+
 
 
 

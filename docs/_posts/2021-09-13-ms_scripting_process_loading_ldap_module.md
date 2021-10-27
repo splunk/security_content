@@ -40,9 +40,15 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+
+
+
 
 
 #### Search
@@ -81,12 +87,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 automation scripting language may used by network operator to do ldap query.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | $process_name$ loading ldap modules $ImageLoaded$ in $dest$ |
+
 
 
 

@@ -38,8 +38,11 @@ The following analytic identifies winhlp32.exe, found natively in `c:\windows\`,
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+
 
 
 
@@ -84,12 +87,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited as winhlp32.exe is typically not used with the latest flavors of Windows OS. However, filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$, and is not typical activity for this process. |
+
 
 
 

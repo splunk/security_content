@@ -40,8 +40,14 @@ this search is to detect a potential account discovery series of command used by
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
+
+
+
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+
 
 
 
@@ -88,12 +94,12 @@ To successfully implement this search you need to be ingesting information on pr
 admin or power user may used this series of command.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | Suspicious $process_name$ usage detected on endpoint $dest$ by user $user$. |
+
 
 
 

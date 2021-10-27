@@ -42,8 +42,14 @@ This search is to detect a COM CLSID execution through powershell. This techniqu
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Privilege Escalation, Persistence || [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+| ----------- | ----------- |--------------- |
+| [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Privilege Escalation, Persistence |
+
+
+
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
+
 
 
 
@@ -77,12 +83,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 network operrator may use this command.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | A suspicious powershell script contains COM CLSID command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 

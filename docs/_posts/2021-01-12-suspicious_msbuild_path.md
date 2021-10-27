@@ -46,10 +46,22 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+
+
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
-| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion || [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
+
+
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+
+
+| [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -95,12 +107,12 @@ To successfully implement this search you need to be ingesting information on pr
 Some legitimate applications may use a moved copy of msbuild.exe, triggering a false positive. Baselining of MSBuild.exe usage is recommended to better understand it&#39;s path usage. Visual Studio runs an instance out of a path that will need to be filtered on.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$ |
+
 
 
 

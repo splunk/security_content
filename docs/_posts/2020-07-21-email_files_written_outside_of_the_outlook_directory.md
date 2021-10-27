@@ -42,9 +42,15 @@ The search looks at the change-analysis data model and detects email files creat
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+
 | [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
+
+
+
 
 
 #### Search
@@ -80,6 +86,7 @@ To successfully implement this search, you must be ingesting data that records t
 
 #### Known False Positives
 Administrators and users sometimes prefer backing up their email data by moving the email files into a different folder. These attempts will be detected by the search.
+
 
 
 

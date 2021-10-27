@@ -55,10 +55,31 @@ The following analytic identifies SharpHound binary usage by using the original 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-| [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
-| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
+
+
+| [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+
+
+
+| [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+
+| [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
+
+
+
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
+
+
+
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
+
 
 
 
@@ -104,12 +125,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited as this is specific to a file attribute not used by anything else. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Potential SharpHound binary identified on $dest$ |
+
 
 
 

@@ -39,9 +39,15 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -77,12 +83,12 @@ To successfully implement this search, you need to be ingesting Windows event lo
 It is possible that these logs may be legitimately cleared by Administrators. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Windows event logs cleared on $dest$ via EventCode $EventCode$ |
+
 
 
 

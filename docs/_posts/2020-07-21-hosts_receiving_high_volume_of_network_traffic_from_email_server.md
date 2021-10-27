@@ -42,8 +42,14 @@ This search looks for an increase of data transfers from your email server to yo
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection || [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+| ----------- | ----------- |--------------- |
+| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
+
+
+
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+
 
 
 
@@ -82,6 +88,7 @@ This search requires you to be ingesting your network traffic and populating the
 
 #### Known False Positives
 The false-positive rate will vary based on how you set the deviation_threshold and data_samples values. Our recommendation is to adjust these values based on your network traffic to and from your email servers.
+
 
 
 

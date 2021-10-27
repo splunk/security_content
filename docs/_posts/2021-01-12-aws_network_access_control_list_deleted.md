@@ -40,8 +40,14 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
+
+
+
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -81,12 +87,12 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 It&#39;s possible that a user has legitimately deleted a network ACL.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | User $user_arn$ from $src$ has sucessfully deleted network ACLs entry (eventName= $eventName$), such that the instance is accessible from anywhere |
+
 
 
 

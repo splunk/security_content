@@ -46,9 +46,15 @@ Detect Okta user lockout events
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
 | [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
+
 
 
 #### Search
@@ -80,6 +86,7 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 #### Known False Positives
 None. Account lockouts should be followed up on to determine if the actual user was the one who caused the lockout, or if it was an unauthorized actor.
+
 
 
 

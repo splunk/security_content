@@ -37,8 +37,11 @@ This search is to detect a modification of file or directory permission using ta
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
+
 
 
 
@@ -80,12 +83,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 takeown.exe is a normal windows application that may used by network operator.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious of execution of $process_name$ with process id $process_id$ and commandline $process$ to modify permission of directory or files in host $dest$ |
+
 
 
 

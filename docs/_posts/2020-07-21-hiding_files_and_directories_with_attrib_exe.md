@@ -40,9 +40,15 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
+
 | [T1222.001](https://attack.mitre.org/techniques/T1222/001/) | Windows File and Directory Permissions Modification | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -81,12 +87,12 @@ You must be ingesting data that records process activity from your hosts to popu
 Some applications and users may legitimately use attrib.exe to interact with the files. 
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Attrib.exe with +h flag to hide files on $dest$ executed by $user$ is detected. |
+
 
 
 

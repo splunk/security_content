@@ -43,8 +43,14 @@ This search looks for RDP application network traffic and filters any source/des
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement || [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+| ----------- | ----------- |--------------- |
+| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
+
+
+
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+
 
 
 
@@ -83,6 +89,7 @@ You must ensure that your network traffic data is populating the Network_Traffic
 
 #### Known False Positives
 RDP gateways may have unusually high amounts of traffic from all other hosts&#39; RDP applications in the network.
+
 
 
 

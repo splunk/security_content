@@ -42,8 +42,14 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement || [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+| ----------- | ----------- |--------------- |
+| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
+
+
+
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+
 
 
 
@@ -80,6 +86,7 @@ To successfully implement this search, you must be ingesting data that records p
 
 #### Known False Positives
 Remote Desktop may be used legitimately by users on the network.
+
 
 
 

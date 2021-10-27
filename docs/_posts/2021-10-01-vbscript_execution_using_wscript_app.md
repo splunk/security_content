@@ -40,8 +40,14 @@ This analytic is to detect a suspicious wscript commandline to execute vbscript.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1059.005](https://attack.mitre.org/techniques/T1059/005/) | Visual Basic | Execution || [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+| ----------- | ----------- |--------------- |
+| [T1059.005](https://attack.mitre.org/techniques/T1059/005/) | Visual Basic | Execution |
+
+
+
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 
 
 
@@ -87,12 +93,12 @@ To successfully implement this search you need to be ingesting information on pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Process name $process_name$ with commandline $process$ to execute vbsscript |
+
 
 
 

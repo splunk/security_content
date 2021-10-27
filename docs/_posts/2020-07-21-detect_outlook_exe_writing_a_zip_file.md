@@ -42,9 +42,15 @@ This search looks for execution of process `outlook.exe` where the process is wr
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
 
 
 #### Search
@@ -93,6 +99,7 @@ You must be ingesting data that records filesystem and process activity from you
 
 #### Known False Positives
 It is not uncommon for outlook to write legitimate zip files to the disk.
+
 
 
 

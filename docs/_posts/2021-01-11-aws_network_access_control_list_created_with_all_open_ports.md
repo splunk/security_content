@@ -40,8 +40,14 @@ The search looks for AWS CloudTrail events to detect if any network ACLs were cr
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion || [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
+
+
+
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -88,12 +94,12 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 It&#39;s possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | User $user_arn$ has created network ACLs with all the ports open to a specified CIDR $requestParameters.cidrBlock$ |
+
 
 
 

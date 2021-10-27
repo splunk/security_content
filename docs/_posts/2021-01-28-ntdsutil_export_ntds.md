@@ -42,8 +42,14 @@ This technique uses &#34;Install from Media&#34; (IFM), which will extract a cop
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access || [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+| ----------- | ----------- |--------------- |
+| [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
+
+
+
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
+
 
 
 
@@ -85,12 +91,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Highly possible Server Administrators will troubleshoot with ntdsutil.exe, generating false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 50.0 | 100 | 50 | Active Directory NTDS export on $dest$ |
+
 
 
 

@@ -48,10 +48,23 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion || [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion |
+
+
+
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+
+
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 | [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+
+
+
+| [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
+
+
 
 
 
@@ -95,12 +108,12 @@ To successfully implement this search, you must be ingesting data that records p
 Some administrator activity can be potentially triggered, please add those users to the filter macro.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An attacker tool $process_name$,listed in attacker_tools.csv is executed on host $dest$ by User $user$. This process $process_name$ is known to do- $description$ |
+
 
 
 

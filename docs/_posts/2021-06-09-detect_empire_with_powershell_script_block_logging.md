@@ -41,9 +41,15 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+
+
 
 
 #### Search
@@ -80,12 +86,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 False positives may only pertain to it not being related to Empire, but another framework. Filter as needed if any applications use the same pattern.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | The following behavior was identified and typically related to PowerShell-Empire on $ComputerName$ by $User$. |
+
 
 
 

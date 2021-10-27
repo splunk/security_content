@@ -43,11 +43,24 @@ This detection identifies access to PowerSploit modules that discover and access
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+
+
 | [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
 | [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
+
+
+| [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
+
+
+| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
+
+
+
 
 
 #### Search
@@ -85,12 +98,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | PowerSploit malware is searching for and accessing network shares. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

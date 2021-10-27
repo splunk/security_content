@@ -40,8 +40,14 @@ This search is to detect a gsuite email contains suspicious subject having known
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access || [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 
 
 
@@ -77,6 +83,7 @@ To successfully implement this search, you need to be ingesting logs related to 
 
 #### Known False Positives
 normal user or normal transaction may contain the subject and file type attachment that this detection try to search.
+
 
 
 

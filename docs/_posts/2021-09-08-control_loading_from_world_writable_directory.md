@@ -17,6 +17,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-40444
   - Endpoint
   - Exploitation
 ---
@@ -40,9 +41,15 @@ The following detection identifies control.exe loading either a .cpl or .inf fro
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.002](https://attack.mitre.org/techniques/T1218/002/) | Control Panel | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -85,12 +92,19 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives will be present as control.exe does not natively load from writable paths as defined. One may add .cpl or .inf to the command-line if there is any false positives. Tune as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a suspicious file from disk. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
 
 
 
