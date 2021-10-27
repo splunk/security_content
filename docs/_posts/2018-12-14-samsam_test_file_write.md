@@ -34,16 +34,11 @@ The search looks for a file named &#34;test.txt&#34; written to the windows syst
 - **ID**: 493a879d-519d-428f-8f57-a06a0fdc107e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
-
-
 
 #### Search
 

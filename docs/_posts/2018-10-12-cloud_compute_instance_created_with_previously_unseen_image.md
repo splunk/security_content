@@ -30,8 +30,6 @@ This search looks for cloud compute instances being created with previously unse
 - **Author**: David Dorsey, Splunk
 - **ID**: bc24922d-987c-4645-b288-f8c73ec194c4
 
-
-
 #### Search
 
 ```

@@ -34,16 +34,11 @@ This search detects when an excessive number of authentication failures occur th
 - **ID**: d441364c-349c-453b-b55f-12eccab67cf9
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
-
-
-
-
 
 #### Search
 

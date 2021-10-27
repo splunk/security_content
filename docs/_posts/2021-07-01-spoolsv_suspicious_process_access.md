@@ -35,16 +35,11 @@ This analytic identifies a suspicious behavior related to PrintNightmare, or CVE
 - **ID**: 799b606e-da81-11eb-93f8-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
-
-
-
-
 
 #### Search
 

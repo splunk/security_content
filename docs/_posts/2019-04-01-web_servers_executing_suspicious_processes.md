@@ -36,16 +36,11 @@ This search looks for suspicious processes on all systems labeled as web servers
 - **ID**: ec3b7601-689a-4463-94e0-c9f45638efb9
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
-
-
-
-
 
 #### Search
 

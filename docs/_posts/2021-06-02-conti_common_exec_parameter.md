@@ -34,16 +34,11 @@ This search detects the suspicious commandline argument of revil ransomware to e
 - **ID**: 624919bc-c382-11eb-adcc-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
-
-
 
 #### Search
 

@@ -40,19 +40,12 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 - **ID**: 0f03423c-7c6a-11eb-bc47-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
-
-
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
-
-
-
-
 
 #### Search
 

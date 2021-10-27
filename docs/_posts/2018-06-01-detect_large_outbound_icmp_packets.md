@@ -36,16 +36,11 @@ This search looks for outbound ICMP packets with a packet size larger than 1,000
 - **ID**: e9c102de-4d43-42a7-b1c8-8062ea297419
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1095](https://attack.mitre.org/techniques/T1095/) | Non-Application Layer Protocol | Command And Control |
-
-
-
-
 
 #### Search
 

@@ -31,16 +31,11 @@ This detection identifies access to PowerSploit modules that delete event logs.
 - **ID**: 4ddb3b0d-f95f-4ae2-b4e8-663296453a7b
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
-
-
 
 #### Search
 

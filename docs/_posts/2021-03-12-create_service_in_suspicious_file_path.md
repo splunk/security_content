@@ -37,19 +37,12 @@ This detection is to identify a creation of &#34;user mode service&#34; where th
 - **ID**: 429141be-8311-11eb-adb6-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
-
-
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
-
-
-
-
 
 #### Search
 

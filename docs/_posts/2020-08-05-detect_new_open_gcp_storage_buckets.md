@@ -35,16 +35,11 @@ This search looks for GCP PubSub events where a user has created an open/public 
 - **ID**: f6ea3466-d6bb-11ea-87d0-0242ac130003
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
-
-
 
 #### Search
 

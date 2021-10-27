@@ -35,16 +35,11 @@ This search looks for the creation of WMI permanent event subscriptions.
 - **ID**: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
-
-
 
 #### Search
 

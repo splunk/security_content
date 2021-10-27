@@ -34,16 +34,11 @@ This analytic looks for the execution of `query.exe` with command-line arguments
 - **ID**: ad03bfcf-8a91-4bc2-a500-112993deba87
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
-
-
-
-
 
 #### Search
 

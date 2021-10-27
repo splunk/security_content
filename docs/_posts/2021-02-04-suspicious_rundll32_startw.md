@@ -37,19 +37,12 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 - **ID**: 9319dda5-73f2-4d43-a85a-67ce961bddb7
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
-
-
-
-
 
 #### Search
 

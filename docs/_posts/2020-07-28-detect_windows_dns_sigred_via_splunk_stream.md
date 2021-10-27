@@ -36,16 +36,11 @@ This search detects SIGRed via Splunk Stream.
 - **ID**: babd8d10-d073-11ea-87d0-0242ac130003
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
-
-
-
-
 
 #### Search
 
