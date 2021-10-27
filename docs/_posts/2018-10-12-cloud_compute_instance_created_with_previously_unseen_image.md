@@ -81,7 +81,6 @@ After a new image is created, the first systems created with that image will cau
 
 
 
-
 #### Reference
 
 

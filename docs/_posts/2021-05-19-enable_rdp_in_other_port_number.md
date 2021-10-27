@@ -37,8 +37,11 @@ This search is to detect a modification to registry to enable rdp to a machine w
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+
 
 
 
@@ -81,7 +84,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | RDP was moved to a non-standard port on $dest$ by $user$. |
-
 
 
 

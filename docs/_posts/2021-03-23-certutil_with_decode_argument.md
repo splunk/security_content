@@ -37,8 +37,11 @@ CertUtil.exe may be used to `encode` and `decode` a file, including PE and scrip
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
+
+
 
 
 
@@ -88,7 +91,6 @@ Typically seen used to `encode` files, but it is possible to see legitimate use 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to decode a file. |
-
 
 
 

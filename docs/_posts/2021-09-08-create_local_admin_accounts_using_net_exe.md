@@ -40,8 +40,14 @@ This search looks for the creation of local administrator accounts using net.exe
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+
+
+
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+
 
 
 
@@ -91,7 +97,6 @@ Administrators often leverage net.exe to create admin accounts.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to add a user to the local Administrators group. |
-
 
 
 

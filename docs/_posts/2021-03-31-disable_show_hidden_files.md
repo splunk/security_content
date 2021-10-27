@@ -46,9 +46,21 @@ The following analytic is to identify a modification in the Windows registry to 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1564.001](https://attack.mitre.org/techniques/T1564/001/) | Hidden Files and Directories | Defense Evasion || [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion || [T1564](https://attack.mitre.org/techniques/T1564/) | Hide Artifacts | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1564.001](https://attack.mitre.org/techniques/T1564/001/) | Hidden Files and Directories | Defense Evasion |
+
+
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+
+
+
+| [T1564](https://attack.mitre.org/techniques/T1564/) | Hide Artifacts | Defense Evasion |
+
+
+
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -92,7 +104,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 40 | 100 | Disabled &#39;Show Hidden Files&#39; on $dest$ |
-
 
 
 

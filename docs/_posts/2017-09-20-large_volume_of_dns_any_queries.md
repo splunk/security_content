@@ -42,9 +42,15 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+
+
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
+
+
+
 
 
 #### Search

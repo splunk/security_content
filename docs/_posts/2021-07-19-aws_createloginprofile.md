@@ -40,8 +40,14 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
+
+
+
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+
 
 
 
@@ -88,7 +94,6 @@ While this search has no known false positives, it is possible that an AWS admin
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | User $user_arn$ is attempting to create a login profile for $requestParameters.userName$ and did a console login from this IP $src_ip$ |
-
 
 
 

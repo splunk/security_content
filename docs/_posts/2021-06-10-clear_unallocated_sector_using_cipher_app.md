@@ -40,8 +40,14 @@ this search is to detect execution of `cipher.exe` to clear the unallocated sect
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion || [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
+
+
+
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 
 
 
@@ -91,7 +97,6 @@ administrator may execute this app to manage disk
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 100 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to clear the unallocated sectors of a specific disk. |
-
 
 
 

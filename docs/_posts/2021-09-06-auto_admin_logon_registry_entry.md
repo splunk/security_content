@@ -40,8 +40,14 @@ this search is to detect a suspicious registry modification to implement auto ad
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1552.002](https://attack.mitre.org/techniques/T1552/002/) | Credentials in Registry | Credential Access || [T1552](https://attack.mitre.org/techniques/T1552/) | Unsecured Credentials | Credential Access |
+| ----------- | ----------- |--------------- |
+| [T1552.002](https://attack.mitre.org/techniques/T1552/002/) | Credentials in Registry | Credential Access |
+
+
+
+| [T1552](https://attack.mitre.org/techniques/T1552/) | Unsecured Credentials | Credential Access |
+
+
 
 
 
@@ -84,7 +90,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | modified registry key $registry_key_name$ with registry value $registry_value_name$ to prepare autoadminlogon |
-
 
 
 

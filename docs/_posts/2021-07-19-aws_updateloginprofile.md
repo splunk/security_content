@@ -40,8 +40,14 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
+
+
+
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+
 
 
 
@@ -84,7 +90,6 @@ While this search has no known false positives, it is possible that an AWS admin
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for updating the existing login profile, potentially giving user $user_arn$ more access privilleges |
-
 
 
 

@@ -40,9 +40,15 @@ This detection is to identify a creation of &#34;user mode service&#34; where th
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+
+
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+
+
 
 
 #### Search
@@ -84,7 +90,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A service $Service_File_Name$ was created from a non-standard path using $Service_Name$, potentially leading to a privilege escalation. |
-
 
 
 

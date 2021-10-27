@@ -40,9 +40,15 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -92,7 +98,6 @@ Limited false positives with the query restricted to specified paths. Add more w
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious $Processes.process_path.file_path$ process potentially loading malicious code |
-
 
 
 

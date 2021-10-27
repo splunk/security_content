@@ -40,8 +40,14 @@ This search is to detect a suspicious attachment file extension in Gsuite email 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access || [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 
 
 
@@ -89,7 +95,6 @@ network admin and normal user may send this file attachment as part of their day
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | suspicious email from $source.address$ to $destination{}.address$ |
-
 
 
 

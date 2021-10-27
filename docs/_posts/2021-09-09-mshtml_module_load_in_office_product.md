@@ -41,9 +41,15 @@ The following detection identifies the module load of mshtml.dll into an Office 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
 
 
 #### Search
@@ -90,12 +96,12 @@ Limited false positives will be present, however, tune as necessary.
 
 
 
-
 #### CVE
 
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
-| ----------- | ----------- | -------------- | -------------- |
-| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 | secure@microsoft.com |
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
+
 
 
 #### Reference

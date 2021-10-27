@@ -40,8 +40,14 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution || [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+| ----------- | ----------- |--------------- |
+| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
+
+
+
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+
 
 
 
@@ -95,7 +101,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 7.0 | 10 | 70 | Vulnerabilities with severity high found in repository $repositoryName$ |
-
 
 
 

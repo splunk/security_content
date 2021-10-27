@@ -40,8 +40,14 @@ This search correlations detections by user and risk_score
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution || [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+| ----------- | ----------- |--------------- |
+| [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
+
+
+
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+
 
 
 
@@ -80,7 +86,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Correlation triggered for user $user$ |
-
 
 
 

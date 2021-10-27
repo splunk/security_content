@@ -40,8 +40,14 @@ The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllh
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection || [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+| ----------- | ----------- |--------------- |
+| [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+
+
+
+| [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
+
+
 
 
 
@@ -90,7 +96,6 @@ False positives should be limited as this behavior is not normal for `rundll32.e
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading of 7zip. |
-
 
 
 

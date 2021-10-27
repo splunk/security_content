@@ -37,8 +37,11 @@ This search detects when a user has performed an Ediscovery search or exported a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+
 
 
 
@@ -83,7 +86,6 @@ PST export can be done for legitimate purposes but due to the sensitive nature o
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $Source$ has exported a PST file from the search using this operation- $Operation$ with a severity of $Severity$ |
-
 
 
 

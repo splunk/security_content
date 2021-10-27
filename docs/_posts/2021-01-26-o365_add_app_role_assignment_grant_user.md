@@ -40,8 +40,14 @@ This search detects the creation of a new Federation setting by alerting about a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
+
+
+
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+
 
 
 
@@ -87,7 +93,6 @@ The creation of a new Federation is not necessarily malicious, however this even
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | User $Actor.ID$ has created a new federation setting on $dest$ from IP Address $ActorIpAddress$ |
-
 
 
 

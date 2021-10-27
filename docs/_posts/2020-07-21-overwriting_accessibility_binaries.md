@@ -42,9 +42,15 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
+
+
 | [T1546.008](https://attack.mitre.org/techniques/T1546/008/) | Accessibility Features | Privilege Escalation, Persistence |
+
+
+
 
 
 #### Search
@@ -86,7 +92,6 @@ Microsoft may provide updates to these binaries. Verify that these changes do no
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | A suspicious file modification or replace in $file_path$  in host $dest$ |
-
 
 
 

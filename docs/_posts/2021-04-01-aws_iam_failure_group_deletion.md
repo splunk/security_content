@@ -37,8 +37,11 @@ This detection identifies failure attempts to delete groups. We want to identify
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
+
 
 
 
@@ -80,7 +83,6 @@ This detection will require tuning to provide high fidelity detection capabiltie
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | User $user_arn$ has had mulitple failures while attempting to delete groups from $src$ |
-
 
 
 

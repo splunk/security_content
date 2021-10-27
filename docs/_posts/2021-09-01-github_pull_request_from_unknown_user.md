@@ -40,8 +40,14 @@ This search looks for Pull Request from unknown user.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1195.001](https://attack.mitre.org/techniques/T1195/001/) | Compromise Software Dependencies and Development Tools | Initial Access || [T1195](https://attack.mitre.org/techniques/T1195/) | Supply Chain Compromise | Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1195.001](https://attack.mitre.org/techniques/T1195/001/) | Compromise Software Dependencies and Development Tools | Initial Access |
+
+
+
+| [T1195](https://attack.mitre.org/techniques/T1195/) | Supply Chain Compromise | Initial Access |
+
+
 
 
 
@@ -93,7 +99,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | Vulnerabilities found in packages used by GitHub repository $repository$ |
-
 
 
 

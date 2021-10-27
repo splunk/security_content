@@ -37,8 +37,11 @@ This search looks for scripts launched via WMI.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+
 
 
 
@@ -80,7 +83,6 @@ Although unlikely, administrators may use wmi to launch scripts for legitimate p
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | A wmic.exe process $process_name$ taht execute script in host $dest$ |
-
 
 
 

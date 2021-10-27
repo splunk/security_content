@@ -40,9 +40,15 @@ DynamicWrapperX is an ActiveX component that can be used in a script to call Win
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1559.001](https://attack.mitre.org/techniques/T1559/001/) | Component Object Model | Execution |
+
+
+
 
 
 #### Search
@@ -91,7 +97,6 @@ False positives should be limited, however it is possible to filter by Processes
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on endpoint $dest$ downloading the DynamicWrapperX dll. |
-
 
 
 

@@ -37,8 +37,11 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+
+
 
 
 
@@ -87,7 +90,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | Kubernetes Scanner image pulled on host $host$ |
-
 
 
 

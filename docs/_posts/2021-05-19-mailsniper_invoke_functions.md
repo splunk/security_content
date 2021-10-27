@@ -40,9 +40,15 @@ This search is to detect known mailsniper.ps1 functions executed in a machine. T
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+
 | [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
+
+
+
 
 
 #### Search
@@ -83,7 +89,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | mailsniper.ps1 functions $Message$ executed on a $ComputerName$ by user $user$. |
-
 
 
 

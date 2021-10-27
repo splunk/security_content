@@ -37,8 +37,11 @@ This analytic looks for the execution of `powershell.exe` executing the Get-ADDe
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
+
+
 
 
 
@@ -85,7 +88,6 @@ Administrators or power users may use this command for troubleshooting.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | an instance of process $process_name$ with commandline $process$ in $dest$ |
-
 
 
 

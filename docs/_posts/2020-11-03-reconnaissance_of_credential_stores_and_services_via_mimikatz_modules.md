@@ -58,13 +58,37 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-| [T1590.001](https://attack.mitre.org/techniques/T1590/001/) | Domain Properties | Reconnaissance || [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-| [T1589.001](https://attack.mitre.org/techniques/T1589/001/) | Credentials | Reconnaissance || [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
+
+
+| [T1590.001](https://attack.mitre.org/techniques/T1590/001/) | Domain Properties | Reconnaissance |
+
+
+
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
+| [T1589.001](https://attack.mitre.org/techniques/T1589/001/) | Credentials | Reconnaissance |
+
+
+
+| [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
+
+
+
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
+
+
+
 | [T1589](https://attack.mitre.org/techniques/T1589/) | Gather Victim Identity Information | Reconnaissance |
+
+
 | [T1590.003](https://attack.mitre.org/techniques/T1590/003/) | Network Trust Dependencies | Reconnaissance |
+
+
+
 
 
 #### Search
@@ -107,7 +131,6 @@ None identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Mimikatz malware is searching for and accessing credential stores. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
-
 
 
 

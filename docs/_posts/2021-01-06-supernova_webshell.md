@@ -39,8 +39,11 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
+
+
+
 
 
 #### Search

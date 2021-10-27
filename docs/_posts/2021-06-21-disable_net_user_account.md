@@ -35,8 +35,11 @@ This analytic will identify a suspicious command-line that disables a user accou
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
+
 
 
 

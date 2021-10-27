@@ -37,8 +37,11 @@ The search looks for file modifications with extensions commonly used by Ransomw
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+
+
 
 
 
@@ -90,7 +93,6 @@ It is possible for a legitimate file with these extensions to be created. If thi
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware file extension and should be reviewed immediately. |
-
 
 
 

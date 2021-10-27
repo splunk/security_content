@@ -37,8 +37,11 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
+
+
 
 
 
@@ -80,7 +83,6 @@ Administrators or power users may use this command for troubleshooting.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | powershell process having commandline $Message$ to query domain policy. |
-
 
 
 

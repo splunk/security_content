@@ -43,8 +43,14 @@ The analytics returned fields allow analysts to investigate the event further by
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access || [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+| ----------- | ----------- |--------------- |
+| [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
+
+
+
+| [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
+
+
 
 
 
@@ -89,7 +95,6 @@ A host failing to authenticate with multiple valid domain users is not a common 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Potential NTLM based password spraying attack from $Source_Workstation$ |
-
 
 
 

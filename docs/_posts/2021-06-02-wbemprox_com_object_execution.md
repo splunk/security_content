@@ -40,9 +40,15 @@ this search is designed to detect potential malicious process loading COM object
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -89,7 +95,6 @@ legitimate process that are not in the exception list may trigger this event.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious COM Object Execution on $Computer$ |
-
 
 
 

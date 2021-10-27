@@ -34,8 +34,11 @@ This detection identifies access to PowerSploit modules that delete event logs.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 
 
 
@@ -79,7 +82,6 @@ None identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 50.0 | 50 | 100 | Mimikatz malware is deleting event logs to cover tracks of malicious activity. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
-
 
 
 

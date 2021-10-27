@@ -37,8 +37,11 @@ This analytic identifies suspicious modification of ACL permission to a files or
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
+
 
 
 
@@ -83,7 +86,6 @@ administrators may use this command. Filter as needed.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 32.0 | 40 | 80 | Suspicious ACL permission modification on $dest$ |
-
 
 
 

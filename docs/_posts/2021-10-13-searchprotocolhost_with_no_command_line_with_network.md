@@ -38,8 +38,11 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+
 
 
 
@@ -89,7 +92,6 @@ Limited false positives may be present in small environments. Tuning may be requ
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A searchprotocolhost.exe process $process_name$ with no commandline in host $dest$ |
-
 
 
 

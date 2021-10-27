@@ -40,9 +40,15 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+
+
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -91,7 +97,6 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Suspicious msbuild.exe process executed on $dest$ by $user$ |
-
 
 
 

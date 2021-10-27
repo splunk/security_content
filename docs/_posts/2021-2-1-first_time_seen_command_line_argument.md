@@ -40,10 +40,19 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
+
 | [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  |
+
+
+
 | [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
+
+
 
 
 
@@ -93,7 +102,6 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | A cmd process $process_name$ with commandline $cmd_line$ try to execute command has not previously seen in host $dest_device_id$ |
-
 
 
 

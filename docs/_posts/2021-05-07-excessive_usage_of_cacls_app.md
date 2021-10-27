@@ -37,8 +37,11 @@ The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe` o
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
+
 
 
 
@@ -84,7 +87,6 @@ Administrators or administrative scripts may use this application. Filter as nee
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An excessive amount of $process_name$ was executed on $dest$ attempting to modify permissions. |
-
 
 
 

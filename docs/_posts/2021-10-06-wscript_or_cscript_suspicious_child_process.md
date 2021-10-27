@@ -50,10 +50,22 @@ This analytic is to detect a suspicious spawned process by wscript or cscript pr
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+
+
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
-| [T1134.004](https://attack.mitre.org/techniques/T1134/004/) | Parent PID Spoofing | Defense Evasion, Privilege Escalation || [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
+
+
+| [T1134.004](https://attack.mitre.org/techniques/T1134/004/) | Parent PID Spoofing | Defense Evasion, Privilege Escalation |
+
+
+
+| [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
+
+
 
 
 
@@ -105,7 +117,6 @@ user may create vbs or js script that use several tool as part of its execution.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | wscript or cscript parent process spawned $process_name$ in $dest$ |
-
 
 
 

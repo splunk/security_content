@@ -37,8 +37,11 @@ The search looks for a file named &#34;test.txt&#34; written to the windows syst
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
+
 
 
 
@@ -81,7 +84,6 @@ No false positives have been identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 60 | 20 | A samsam ransomware test file creation in $file_path$ in host $dest$ |
-
 
 
 

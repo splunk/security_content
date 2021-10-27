@@ -35,8 +35,11 @@ This analytic identifies a potential adversary that changes the security permiss
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
+
+
 
 
 
@@ -81,7 +84,6 @@ network administrator may use this windows utility but this is not a common prac
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | A cacls process $process_name$ with commandline $cmd_line$ try to deny a permission of a file or directory in host $dest_device_id$ |
-
 
 
 

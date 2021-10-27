@@ -36,8 +36,11 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
+
 
 
 
@@ -80,7 +83,6 @@ SAM is a critical windows service, stopping it would cause major issues on an en
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | The Windows Security Account Manager (SAM) was stopped via cli by $user$ on $dest$ by this command: $processs$ |
-
 
 
 

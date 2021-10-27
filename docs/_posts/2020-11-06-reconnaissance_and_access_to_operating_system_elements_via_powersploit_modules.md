@@ -58,15 +58,42 @@ This detection identifies access to PowerSploit modules that discover and access
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
+
+
+
 | [T1083](https://attack.mitre.org/techniques/T1083/) | File and Directory Discovery | Discovery |
-| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance || [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
+
+
+| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
+
+
+
+| [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
+
+
+
 | [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery |
+
+
+
 | [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
+
+
+
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+
+
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
+
+
 | [T1518](https://attack.mitre.org/techniques/T1518/) | Software Discovery | Discovery |
+
+
 
 
 
@@ -110,7 +137,6 @@ None identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | PowerSploit malware is searching for and tapping into ongoing processes, mounted drives or other operating system elements. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
-
 
 
 

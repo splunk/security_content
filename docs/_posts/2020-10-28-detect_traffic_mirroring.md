@@ -48,11 +48,23 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
+
+
+
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
+
+
+
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+
+
 | [T1020.001](https://attack.mitre.org/techniques/T1020/001/) | Traffic Duplication | Exfiltration |
+
+
+
 
 
 #### Search

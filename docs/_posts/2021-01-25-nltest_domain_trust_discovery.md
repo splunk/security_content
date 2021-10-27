@@ -37,8 +37,11 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+
 
 
 
@@ -87,7 +90,6 @@ Administrators may use nltest for troubleshooting purposes, otherwise, rarely us
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Domain trust discovery execution on $dest$ |
-
 
 
 

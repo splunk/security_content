@@ -38,9 +38,15 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -85,7 +91,6 @@ network operator may disable audit event logs for debugging purposes.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A wevtutil process $process_name$ with commandline $cmd_line$ to disable event logs in host $dest_device_id$ |
-
 
 
 

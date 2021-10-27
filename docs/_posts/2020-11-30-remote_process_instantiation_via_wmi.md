@@ -37,8 +37,11 @@ This analytic identifies wmic.exe being launched with parameters to spawn a proc
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+
 
 
 
@@ -89,7 +92,6 @@ The wmic.exe utility is a benign Windows application. It may be used legitimatel
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | A wmic.exe process $process$ contain process spawn commandline $process$ in host $dest$ |
-
 
 
 

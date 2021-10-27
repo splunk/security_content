@@ -40,8 +40,14 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.012](https://attack.mitre.org/techniques/T1218/012/) | Verclsid | Defense Evasion || [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218.012](https://attack.mitre.org/techniques/T1218/012/) | Verclsid | Defense Evasion |
+
+
+
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 
 
 
@@ -91,7 +97,6 @@ windows can used this application for its normal COM object validation.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | process $process_name$ to execute possible clsid commandline $process$ in $dest$ |
-
 
 
 

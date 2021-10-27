@@ -40,8 +40,14 @@ This analytic detects a potential suspicious modification of firewall rule regis
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement || [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+| ----------- | ----------- |--------------- |
+| [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
+
+
+
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+
 
 
 
@@ -92,7 +98,6 @@ network admin may add/remove/modify public inbound firewall rule that may cause 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 3.0 | 10 | 30 | Suspicious firewall modifications were detected via the registry on endpoint $dest$ by user $user$. |
-
 
 
 

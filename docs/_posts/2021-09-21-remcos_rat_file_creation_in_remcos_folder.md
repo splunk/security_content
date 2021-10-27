@@ -37,8 +37,11 @@ This search is to detect file creation in remcos folder in appdata which is the 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
+
+
 
 
 
@@ -81,7 +84,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 100.0 | 100 | 100 | file $file_name$ created in $file_path$ of $dest$ |
-
 
 
 

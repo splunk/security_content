@@ -40,9 +40,15 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
+
+
+
 
 
 #### Search
@@ -80,7 +86,6 @@ Administrators or power users may use this command for troubleshooting.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local user discovery enumeration on $dest$ by $user$ |
-
 
 
 

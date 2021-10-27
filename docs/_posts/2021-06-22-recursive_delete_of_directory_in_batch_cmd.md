@@ -40,8 +40,14 @@ This search is to detect a suspicious commandline designed to delete files or di
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion || [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
+
+
+
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 
 
 

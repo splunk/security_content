@@ -40,9 +40,15 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+
+
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+
+
 
 
 #### Search
@@ -95,7 +101,6 @@ Creating a hidden powershell service is rare and could key off of those instance
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $Service_File_Name$ by $user$ on $dest$ |
-
 
 
 

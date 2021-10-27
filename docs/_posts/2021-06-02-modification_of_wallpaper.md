@@ -37,8 +37,11 @@ This analytic identifies suspicious modification of registry to deface or change
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1491](https://attack.mitre.org/techniques/T1491/) | Defacement | Impact |
+
+
 
 
 
@@ -86,7 +89,6 @@ To successfully implement this search, you need to be ingesting logs with the Im
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | Wallpaper modification on $dest$ |
-
 
 
 

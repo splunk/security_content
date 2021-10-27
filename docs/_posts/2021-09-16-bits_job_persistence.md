@@ -38,8 +38,11 @@ The following query identifies Microsoft Background Intelligent Transfer Service
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1197](https://attack.mitre.org/techniques/T1197/) | BITS Jobs | Defense Evasion, Persistence |
+
+
 
 
 
@@ -89,7 +92,6 @@ Limited false positives will be present. Typically, applications will use `BitsA
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to persist using BITS. |
-
 
 
 

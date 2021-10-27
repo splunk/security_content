@@ -39,8 +39,14 @@ This search detects accounts that were created and deleted in a short time perio
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+
+
+
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+
 
 
 
@@ -84,7 +90,6 @@ It is possible that an administrator created and deleted an account in a short t
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A user account created or delete shortly in host $dest$ |
-
 
 
 

@@ -40,9 +40,15 @@ The search looks for a batch file (.bat) written to the Windows system directory
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+
+
+
 
 
 #### Search
@@ -91,7 +97,6 @@ It is possible for this search to generate a notable event for a batch file writ
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A file - $file_name$ was written to system32 has occurred on endpoint $dest$ by user $user$. |
-
 
 
 

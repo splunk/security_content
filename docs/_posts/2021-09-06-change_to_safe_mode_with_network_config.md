@@ -37,8 +37,11 @@ This search is to detect a suspicious bcdedit commandline to configure the host 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
+
 
 
 
@@ -83,7 +86,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | bcdedit process with commandline $process$ to force safemode boot the $dest$ |
-
 
 
 

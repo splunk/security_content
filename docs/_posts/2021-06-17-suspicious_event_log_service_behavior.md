@@ -39,9 +39,15 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -82,7 +88,6 @@ It is possible the Event Logging service gets shut down due to system errors or 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | The Windows Event Log Service shutdown on $ComputerName$ |
-
 
 
 

@@ -40,9 +40,15 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
+
+
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
+
+
+
 
 
 #### Search
@@ -90,7 +96,6 @@ The query is structured in a way that `action` (read, create) is not defined. Re
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A file - $file_name$ was written to disk that is related to IIS exploitation previously performed by HAFNIUM. Review further file modifications on endpoint $dest$ by user $user$. |
-
 
 
 

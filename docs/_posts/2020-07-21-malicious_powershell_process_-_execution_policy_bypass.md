@@ -41,9 +41,15 @@ This search looks for PowerShell processes started with parameters used to bypas
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+
+
+
 
 
 #### Search
@@ -94,7 +100,6 @@ There may be legitimate reasons to bypass the PowerShell execution policy. The P
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | PowerShell local execution policy bypass attempt on $dest$ |
-
 
 
 

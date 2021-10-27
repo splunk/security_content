@@ -37,8 +37,11 @@ This search detects a suspicioous termination of known services killed by ransom
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
+
 
 
 
@@ -81,7 +84,6 @@ Admin activities or installing related updates may do a sudden stop to list of s
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Known services $Message$ terminated by a potential ransomware on $dest$ |
-
 
 
 

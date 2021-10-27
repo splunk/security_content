@@ -42,9 +42,15 @@ During triage, review the parallel processes - what process moved the native Win
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -93,7 +99,6 @@ This detection may require tuning based on third party applications utilizing na
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | System process running from unexpected location on $dest$ |
-
 
 
 

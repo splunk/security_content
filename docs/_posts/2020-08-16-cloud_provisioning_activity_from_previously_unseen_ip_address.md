@@ -40,8 +40,11 @@ This search looks for cloud provisioning activities from previously unseen IP ad
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
 
 
 
@@ -91,7 +94,6 @@ This is a strictly behavioral search, so we define &#34;false positive&#34; slig
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is starting or creating an instance $object_id$ for the first time from IP address $src$ |
-
 
 
 

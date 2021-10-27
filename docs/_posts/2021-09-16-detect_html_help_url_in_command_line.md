@@ -40,9 +40,15 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -91,7 +97,6 @@ Although unlikely, some legitimate applications may retrieve a CHM remotely, fil
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | An instance of $parent_proces_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ contacting a remote destination to potentally download a malicious payload. |
-
 
 
 

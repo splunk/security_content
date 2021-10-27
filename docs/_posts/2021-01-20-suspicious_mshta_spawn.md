@@ -40,9 +40,15 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -91,7 +97,6 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | mshta.exe spawned by wmiprvse.exe on $dest$ |
-
 
 
 

@@ -40,9 +40,15 @@ this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execu
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -91,7 +97,6 @@ minimal. but network operator can use this application to load dll.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | regsvr32 process $process_name$ with commandline $process$ in host $dest$ |
-
 
 
 

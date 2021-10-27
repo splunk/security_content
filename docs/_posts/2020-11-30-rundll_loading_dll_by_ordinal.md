@@ -40,9 +40,15 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -91,7 +97,6 @@ While not common, loading a DLL under %AppData% and calling a function by ordina
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A rundll32 process $process_name$ with ordinal parameter like this process commandline $process$ in host $dest$ |
-
 
 
 

@@ -42,9 +42,15 @@ This search looks for an increase of data transfers from your email server to yo
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+
 | [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
+
+
+
 
 
 #### Search

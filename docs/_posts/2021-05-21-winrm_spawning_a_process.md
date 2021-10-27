@@ -42,8 +42,11 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+
 
 
 
@@ -90,9 +93,10 @@ Unknown. Add new processes or filter as needed. It is possible system management
 
 #### CVE
 
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
-| ----------- | ----------- | -------------- | -------------- |
-| [CVE-2021-31166](https://nvd.nist.gov/vuln/detail/CVE-2021-31166) | HTTP Protocol Stack Remote Code Execution Vulnerability | 7.5 | secure@microsoft.com |
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-31166](https://nvd.nist.gov/vuln/detail/CVE-2021-31166) | HTTP Protocol Stack Remote Code Execution Vulnerability | 7.5 |
+
 
 
 #### Reference

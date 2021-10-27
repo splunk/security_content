@@ -52,13 +52,31 @@ This detection identifies use of DSInternals modules that verify password streng
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
+
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
+
+
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+
+
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
+
+
+
 | [T1552](https://attack.mitre.org/techniques/T1552/) | Unsecured Credentials | Credential Access |
+
+
+
 | [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
+
+
 
 
 
@@ -102,7 +120,6 @@ None identified.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.5 | 30 | 85 | DSInternals tool kit is assessing password strength at the device $dest_device_id$. Account attempting this operation is $dest_user_id$ via command $cmd_line$ |
-
 
 
 

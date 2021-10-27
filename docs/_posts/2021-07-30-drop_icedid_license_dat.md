@@ -40,9 +40,15 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+
+
+
 
 
 #### Search
@@ -79,7 +85,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | process $SourceImage$ create a file $TargetImage$ in host $Computer$ |
-
 
 
 

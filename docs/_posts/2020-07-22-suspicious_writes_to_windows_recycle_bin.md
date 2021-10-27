@@ -35,8 +35,11 @@ This search detects writes to the recycle bin by a process other than explorer.e
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
+
 
 
 
@@ -85,7 +88,6 @@ Because the Recycle Bin is a hidden folder in modern versions of Windows, it wou
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | Suspicious writes to windows Recycle Bin process $Processes.process_name$ |
-
 
 
 

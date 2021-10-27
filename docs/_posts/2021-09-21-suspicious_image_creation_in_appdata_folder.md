@@ -37,8 +37,11 @@ This search is to detect a suspicious creation of image in appdata folder made b
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
+
+
 
 
 
@@ -86,7 +89,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | process $process_name$ creating image file $file_path$ in $dest$ |
-
 
 
 

@@ -42,9 +42,15 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
+
+
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+
+
+
 
 
 #### Search
@@ -99,7 +105,6 @@ Limited false positives should be present. It is possible some third party appli
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. |
-
 
 
 

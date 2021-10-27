@@ -37,8 +37,11 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
+
+
 
 
 
@@ -83,7 +86,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Local File Inclusion Attack detected on $host$ |
-
 
 
 

@@ -37,8 +37,11 @@ This search is to detect a pushed or commit to master or main branch. This is to
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
+
+
 
 
 
@@ -79,7 +82,6 @@ admin can do changes directly to master branch
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | suspicious commit by $commit.commit.author.email$ to main branch |
-
 
 
 

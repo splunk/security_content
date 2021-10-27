@@ -37,8 +37,11 @@ This analytic is to detect a suspicious rundll32 commandline to clear shim cache
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
+
 
 
 
@@ -88,7 +91,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | rundll32 process execute $process$ to clear shim cache in $dest$ |
-
 
 
 

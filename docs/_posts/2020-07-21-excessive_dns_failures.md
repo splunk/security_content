@@ -42,8 +42,14 @@ This search identifies DNS query failures by counting the number of DNS response
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control || [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+| ----------- | ----------- |--------------- |
+| [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
+
+
+
+| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
+
+
 
 
 

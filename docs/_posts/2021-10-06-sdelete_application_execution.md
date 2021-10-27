@@ -43,9 +43,18 @@ This analytic is to detect the execution of sdelete.exe application sysinternal 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
-| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion || [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
+| [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
+
+
+
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
+
+
 
 
 
@@ -95,7 +104,6 @@ user may execute and use this application
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | sdelete process $process_name$ executed in $dest$ |
-
 
 
 

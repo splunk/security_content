@@ -38,8 +38,11 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1189](https://attack.mitre.org/techniques/T1189/) | Drive-by Compromise | Initial Access |
+
+
 
 
 
@@ -93,7 +96,6 @@ Some users and applications may leverage Dynamic DNS to reach out to some domain
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A dns query $query$ from your infra connecting to suspicious domain in host  $host$ |
-
 
 
 

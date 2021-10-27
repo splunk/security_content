@@ -37,8 +37,11 @@ Detect system information discovery techniques used by attackers to understand c
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
+
+
 
 
 
@@ -84,7 +87,6 @@ Administrators debugging servers
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Potential system information discovery behavior on $dest$ by $User$ |
-
 
 
 

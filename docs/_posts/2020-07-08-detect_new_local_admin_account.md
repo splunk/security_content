@@ -40,8 +40,14 @@ This search looks for newly created accounts that have been elevated to local ad
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence || [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+
+
+
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+
 
 
 
@@ -88,7 +94,6 @@ The activity may be legitimate. For this reason, it&#39;s best to verify the acc
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not. |
-
 
 
 

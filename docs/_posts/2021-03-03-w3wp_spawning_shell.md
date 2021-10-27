@@ -43,9 +43,15 @@ This query identifies a shell, PowerShell.exe or Cmd.exe, spawning from W3WP.exe
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
+
+
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
+
+
+
 
 
 #### Search
@@ -98,12 +104,14 @@ Baseline your environment before production. It is possible build systems using 
 
 
 
-
 #### CVE
 
-| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) | Assigner |
-| ----------- | ----------- | -------------- | -------------- |
-| [CVE-2021-34473](https://nvd.nist.gov/vuln/detail/CVE-2021-34473) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-31196, CVE-2021-31206. | 10.0 | secure@microsoft.com || [CVE-2021-34523](https://nvd.nist.gov/vuln/detail/CVE-2021-34523) | Microsoft Exchange Server Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-33768, CVE-2021-34470. | 7.5 | secure@microsoft.com || [CVE-2021-31207](https://nvd.nist.gov/vuln/detail/CVE-2021-31207) | Microsoft Exchange Server Security Feature Bypass Vulnerability | 6.5 | secure@microsoft.com |
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34473](https://nvd.nist.gov/vuln/detail/CVE-2021-34473) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-31196, CVE-2021-31206. | 10.0 |
+| [CVE-2021-34523](https://nvd.nist.gov/vuln/detail/CVE-2021-34523) | Microsoft Exchange Server Elevation of Privilege Vulnerability This CVE ID is unique from CVE-2021-33768, CVE-2021-34470. | 7.5 |
+| [CVE-2021-31207](https://nvd.nist.gov/vuln/detail/CVE-2021-31207) | Microsoft Exchange Server Security Feature Bypass Vulnerability | 6.5 |
+
 
 
 #### Reference

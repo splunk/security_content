@@ -40,9 +40,15 @@ The following analytic identifies child processes spawning from  &#34;mshta.exe&
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -86,7 +92,6 @@ Although unlikely, some legitimate applications may exhibit this behavior, trigg
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | suspicious mshta child process detected on host $dest$ by user $user$. |
-
 
 
 

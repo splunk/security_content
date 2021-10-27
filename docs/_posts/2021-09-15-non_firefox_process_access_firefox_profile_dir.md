@@ -40,9 +40,15 @@ This search is to detect an anomaly event of non-firefox process accessing the f
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
+
+
 | [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
+
+
+
 
 
 #### Search
@@ -88,7 +94,6 @@ other browser not listed related to firefox may catch by this rule.
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | a non firefox browser process $process_name$ accessing $Object_Name$ |
-
 
 
 

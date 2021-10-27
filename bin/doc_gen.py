@@ -20,7 +20,6 @@ def get_cve_enrichment_new(cve_id):
     cve_enriched['id'] = cve_id
     cve_enriched['cvss'] = result['cvss']
     cve_enriched['summary'] = result['summary']
-    cve_enriched['assigner'] = result['assigner']
     return cve_enriched
 
 def get_all_techniques(projects_path):

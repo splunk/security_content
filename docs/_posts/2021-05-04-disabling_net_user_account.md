@@ -37,8 +37,11 @@ This analytic will identify a suspicious command-line that disables a user accou
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
+
+
 
 
 
@@ -88,7 +91,6 @@ unknown
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified disabling a user account on endpoint $dest$ by user $user$. |
-
 
 
 

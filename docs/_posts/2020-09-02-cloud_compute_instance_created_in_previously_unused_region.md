@@ -38,8 +38,11 @@ This search looks at cloud-infrastructure events where an instance is created in
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
+
+
 
 
 
@@ -87,7 +90,6 @@ It&#39;s possible that a user has unknowingly started an instance in a new regio
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is creating an instance $dest$ in a new region for the first time |
-
 
 
 

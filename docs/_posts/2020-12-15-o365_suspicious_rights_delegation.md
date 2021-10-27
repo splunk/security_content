@@ -40,8 +40,14 @@ This search detects the assignment of rights to accesss content from another mai
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection || [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+| ----------- | ----------- |--------------- |
+| [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
+
+
+
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
+
+
 
 
 
@@ -84,7 +90,6 @@ Service Accounts
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$ that allow access to sensitive |
-
 
 
 

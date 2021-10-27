@@ -39,9 +39,15 @@ This search looks for specific authentication events from the Windows Security E
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
+
+
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
+
+
+
 
 
 #### Search
@@ -89,7 +95,6 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 16.0 | 80 | 20 | Potential use of the pass the hash/token attacks that spoof authentication. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
-
 
 
 
