@@ -31,8 +31,6 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 - **Author**: Rico Valdez, Splunk
 - **ID**: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
 
-
-
 #### Search
 
 ```

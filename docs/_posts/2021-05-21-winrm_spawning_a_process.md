@@ -39,16 +39,11 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 - **ID**: a081836a-ba4d-11eb-8593-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
-
-
-
-
 
 #### Search
 

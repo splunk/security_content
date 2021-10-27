@@ -37,19 +37,12 @@ This search looks for process names that consist only of a single letter.
 - **ID**: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
-
-
-
-
 
 #### Search
 

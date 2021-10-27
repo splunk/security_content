@@ -34,16 +34,11 @@ This search is to detect a pushed or commit to master or main branch. This is to
 - **ID**: c9d2bfe2-019f-11ec-a8eb-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
-
-
-
-
 
 #### Search
 

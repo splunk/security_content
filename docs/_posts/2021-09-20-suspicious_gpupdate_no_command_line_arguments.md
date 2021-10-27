@@ -35,16 +35,11 @@ The following analytic identifies gpupdate.exe with no command line arguments. I
 - **ID**: f308490a-473a-40ef-ae64-dd7a6eba284a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
-
-
 
 #### Search
 

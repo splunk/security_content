@@ -38,19 +38,12 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 - **ID**: ee18ed37-0802-4268-9435-b3b91aaa18db
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
-
-
-
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
-
-
 
 #### Search
 

@@ -38,19 +38,12 @@ This search looks for PowerShell processes started with parameters used to bypas
 - **ID**: 9be56c82-b1cc-4318-87eb-d138afaaca39
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
-
-
-
-
 
 #### Search
 

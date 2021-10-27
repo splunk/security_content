@@ -39,19 +39,12 @@ This search looks for execution of process `outlook.exe` where the process is wr
 - **ID**: a51bfe1a-94f0-4822-b1e4-16ae10145893
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
-
-
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
-
-
-
-
 
 #### Search
 

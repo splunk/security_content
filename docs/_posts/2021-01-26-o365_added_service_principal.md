@@ -37,19 +37,12 @@ This search detects the creation of a new Federation setting by alerting about a
 - **ID**: 1668812a-6047-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
-
-
-
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
-
-
-
-
 
 #### Search
 

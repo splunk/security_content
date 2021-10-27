@@ -53,20 +53,21 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 - **ID**: {{ detection.id }}
 
 {% if detection.mitre_attacks %}
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 {% for attack in detection.mitre_attacks -%}
 {% if attack.technique_id -%}
-{%- set sub_technique = attack.technique_id.split('.') -%}{%- if sub_technique | length > 1 -%}
+{% set sub_technique = attack.technique_id.split('.') -%}
+{% if sub_technique | length > 1 -%}
 | [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{sub_technique[0]}}/{{sub_technique[1]}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
-{% else %}
+{% else -%}
 | [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{attack.technique_id}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
-{% endif %}
-{% endif %}
+{% endif -%}
+{% endif -%}
 {% endfor %}
-{% endif %}
+{% endif -%}
 
 #### Search
 
@@ -127,5 +128,6 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 {% for dataset in detection.tags.dataset -%}
 * [{{dataset}}]({{ dataset }})
 {% endfor %}
+
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/{% if detection.experimental is sameas true -%}experimental/{%- endif -%}{{detection.kind}}/{{ detection.name | lower | replace (" ", "_") }}.yml) \| *version*: **{{detection.version}}**

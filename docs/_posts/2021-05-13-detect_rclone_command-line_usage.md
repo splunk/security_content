@@ -34,16 +34,11 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 - **ID**: 32e0baea-b3f1-11eb-a2ce-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
-
-
-
-
 
 #### Search
 

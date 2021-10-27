@@ -36,19 +36,12 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 - **ID**: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
-
-
-
-
 
 #### Search
 

@@ -39,19 +39,12 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 - **ID**: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
-
-
-
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 

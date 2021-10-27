@@ -34,16 +34,11 @@ This analytic looks for the execution of `whoami.exe` without any arguments. Thi
 - **ID**: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
-
-
-
-
 
 #### Search
 

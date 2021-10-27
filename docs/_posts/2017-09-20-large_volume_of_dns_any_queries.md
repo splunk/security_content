@@ -39,19 +39,12 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 - **ID**: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
-
-
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
-
-
-
-
 
 #### Search
 

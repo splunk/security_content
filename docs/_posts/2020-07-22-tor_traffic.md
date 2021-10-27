@@ -39,19 +39,12 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 - **ID**: ea688274-9c06-4473-b951-e4cb7a5d7a45
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
-
-
 | [T1071.001](https://attack.mitre.org/techniques/T1071/001/) | Web Protocols | Command And Control |
-
-
-
-
 
 #### Search
 

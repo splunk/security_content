@@ -37,19 +37,12 @@ This search detects when multiple user configured a forwarding rule to the same 
 - **ID**: f8dfe015-dbb3-4569-ba75-b13787e06aa4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection |
-
-
-
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
-
-
-
-
 
 #### Search
 
