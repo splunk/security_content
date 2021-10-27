@@ -34,16 +34,11 @@ This detection is to identify a suspicious process that tries to delete the proc
 - **ID**: f7eda4bc-871c-11eb-b110-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
-
-
 
 #### Search
 

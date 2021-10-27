@@ -41,19 +41,12 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 - **ID**: cc590c66-f65f-48f2-986a-4797244762f8
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1542.005](https://attack.mitre.org/techniques/T1542/005/) | TFTP Boot | Defense Evasion, Persistence |
-
-
-
 | [T1542](https://attack.mitre.org/techniques/T1542/) | Pre-OS Boot | Defense Evasion, Persistence |
-
-
-
-
 
 #### Search
 

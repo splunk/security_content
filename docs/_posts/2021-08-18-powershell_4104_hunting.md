@@ -36,19 +36,12 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 - **ID**: d6f2b006-0041-11ec-8885-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
-
-
-
-
 
 #### Search
 

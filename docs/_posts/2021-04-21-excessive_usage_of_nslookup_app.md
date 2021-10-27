@@ -34,16 +34,11 @@ This search is to detect potential DNS exfiltration using nslookup application. 
 - **ID**: 0a69fdaa-a2b8-11eb-b16d-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
-
-
-
-
 
 #### Search
 

@@ -37,19 +37,12 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 - **ID**: dcfd6b40-42f9-469d-a433-2e53f7486664
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
-
-
-
-
 
 #### Search
 

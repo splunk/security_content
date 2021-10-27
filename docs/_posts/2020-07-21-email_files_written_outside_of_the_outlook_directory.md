@@ -39,19 +39,12 @@ The search looks at the change-analysis data model and detects email files creat
 - **ID**: ee18ed37-0802-4268-9435-b3b91aaa18xx
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
-
-
 | [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
-
-
-
-
 
 #### Search
 

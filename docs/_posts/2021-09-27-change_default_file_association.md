@@ -39,19 +39,12 @@ This analytic is developed to detect suspicious registry modification to change 
 - **ID**: 462d17d8-1f71-11ec-ad07-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546.001](https://attack.mitre.org/techniques/T1546/001/) | Change Default File Association | Privilege Escalation, Persistence |
-
-
-
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
-
-
-
-
 
 #### Search
 

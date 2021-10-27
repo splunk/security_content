@@ -37,19 +37,12 @@ This analytic is to detect a possible abuse of verclsid to execute malicious fil
 - **ID**: 61e9a56a-20fa-11ec-8ba3-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1218.012](https://attack.mitre.org/techniques/T1218/012/) | Verclsid | Defense Evasion |
-
-
-
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
-
-
 
 #### Search
 

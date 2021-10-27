@@ -38,16 +38,11 @@ This search provides detection of an user attaching itself to a different role t
 - **ID**: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
-
-
 
 #### Search
 

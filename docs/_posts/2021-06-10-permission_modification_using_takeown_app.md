@@ -34,16 +34,11 @@ This search is to detect a modification of file or directory permission using ta
 - **ID**: fa7ca5c6-c9d8-11eb-bce9-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
-
-
 
 #### Search
 

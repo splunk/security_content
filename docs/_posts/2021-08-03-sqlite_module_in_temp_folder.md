@@ -34,16 +34,11 @@ This search is to detect a suspicious file creation of sqlite3.dll in %temp% fol
 - **ID**: 0f216a38-f45f-11eb-b09c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1005](https://attack.mitre.org/techniques/T1005/) | Data from Local System | Collection |
-
-
-
-
 
 #### Search
 

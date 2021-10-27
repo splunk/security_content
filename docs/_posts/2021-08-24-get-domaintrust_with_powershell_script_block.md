@@ -35,16 +35,11 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: 89275e7e-0548-11ec-bf75-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-
-
-
-
 
 #### Search
 

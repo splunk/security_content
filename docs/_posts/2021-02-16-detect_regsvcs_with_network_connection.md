@@ -36,19 +36,12 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 - **ID**: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
-
-
-
-
 
 #### Search
 
