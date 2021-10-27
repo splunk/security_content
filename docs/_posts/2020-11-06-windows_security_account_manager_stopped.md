@@ -36,8 +36,11 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
+
 
 
 
@@ -75,12 +78,12 @@ You must be ingesting data that records the process-system activity from your ho
 SAM is a critical windows service, stopping it would cause major issues on an endpoint this makes false positive rare. AlthoughNo false positives have been identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | The Windows Security Account Manager (SAM) was stopped via cli by $user$ on $dest$ by this command: $processs$ |
+
 
 
 

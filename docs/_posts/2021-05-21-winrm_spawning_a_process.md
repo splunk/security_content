@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-31166
   - Endpoint
   - Exploitation
   - Privilege Escalation
@@ -41,8 +42,11 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+
 
 
 
@@ -84,6 +88,14 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown. Add new processes or filter as needed. It is possible system management software may spawn processes from `wsmprovhost.exe`.
 
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-31166](https://nvd.nist.gov/vuln/detail/CVE-2021-31166) | HTTP Protocol Stack Remote Code Execution Vulnerability | 7.5 |
 
 
 

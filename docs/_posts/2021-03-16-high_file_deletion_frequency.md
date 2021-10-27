@@ -37,8 +37,11 @@ This search looks for high frequency of file deletion relative to process name a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
+
+
 
 
 
@@ -78,12 +81,12 @@ To successfully implement this search, you need to be ingesting logs with the de
 user may delete bunch of pictures or files in a folder.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | High frequency file deletion activity detected on host $Computer$ |
+
 
 
 

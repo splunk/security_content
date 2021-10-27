@@ -37,8 +37,11 @@ The following analytic identifies microsoft.workflow.compiler.exe usage. microso
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
+
+
 
 
 
@@ -83,12 +86,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, limited instances have been identified coming from native Microsoft utilities similar to SCCM.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious microsoft.workflow.compiler.exe process ran on $dest$ by $user$ |
+
 
 
 
