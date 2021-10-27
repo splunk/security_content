@@ -34,16 +34,11 @@ This analytic identifies suspicious modification in registry entry to keep some 
 - **ID**: e3d3f57a-c381-11eb-9e35-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
-
-
-
-
 
 #### Search
 

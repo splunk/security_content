@@ -34,16 +34,11 @@ This search is to detect a suspicious bcdedit.exe execution to ignore all failur
 - **ID**: 7742aa92-c9d9-11eb-bbfc-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
-
-
 
 #### Search
 

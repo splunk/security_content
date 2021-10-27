@@ -35,16 +35,11 @@ This search looks at S3 bucket-access logs and detects new or previously unseen 
 - **ID**: 2a9b80d3-6340-4345-b5ad-291bq3d0daq4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
-
-
 
 #### Search
 

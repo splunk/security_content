@@ -38,19 +38,12 @@ This search looks for shim database files being written to default directories. 
 - **ID**: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
-
-
-
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
-
-
-
-
 
 #### Search
 

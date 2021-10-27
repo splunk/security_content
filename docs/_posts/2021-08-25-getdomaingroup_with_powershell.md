@@ -37,19 +37,12 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 - **ID**: 93c94be3-bead-4a60-860f-77ca3fe59903
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
-
-
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
-
-
-
-
 
 #### Search
 

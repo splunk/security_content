@@ -34,16 +34,11 @@ This analytic will identify suspicious series of process executions.  We have ob
 - **ID**: 23587b6a-c479-11eb-b671-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
-
-
 
 #### Search
 

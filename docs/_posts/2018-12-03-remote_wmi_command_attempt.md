@@ -34,16 +34,11 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 - **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
-
-
 
 #### Search
 

@@ -47,27 +47,14 @@ This analytic is to detect a suspicious spawned process by wscript or cscript pr
 - **ID**: 1f35e1da-267b-11ec-90a9-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
-
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
-
-
 | [T1134.004](https://attack.mitre.org/techniques/T1134/004/) | Parent PID Spoofing | Defense Evasion, Privilege Escalation |
-
-
-
 | [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-
-
-
-
 
 #### Search
 

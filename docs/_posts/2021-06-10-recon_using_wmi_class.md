@@ -33,16 +33,11 @@ The following analytic identifies suspicious PowerShell via EventCode 4104, wher
 - **ID**: 018c1972-ca07-11eb-9473-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
-
-
-
-
 
 #### Search
 

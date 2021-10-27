@@ -37,19 +37,12 @@ The following analytic identifies regsvcs.exe with no command line arguments. Th
 - **ID**: 6b74d578-a02e-4e94-a0d1-39440d0bf254
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
-
-
-
-
 
 #### Search
 
