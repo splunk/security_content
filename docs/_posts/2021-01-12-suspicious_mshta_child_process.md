@@ -1,6 +1,6 @@
 ---
 title: "Suspicious mshta child process"
-excerpt: "Mshta"
+excerpt: "Signed Binary Proxy Execution, Mshta"
 categories:
   - Endpoint
 last_modified_at: 2021-01-12
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.005
   - Mshta
   - Defense Evasion
@@ -37,8 +40,15 @@ The following analytic identifies child processes spawning from  &#34;mshta.exe&
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -77,12 +87,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | suspicious mshta child process detected on host $dest$ by user $user$. |
+
 
 
 

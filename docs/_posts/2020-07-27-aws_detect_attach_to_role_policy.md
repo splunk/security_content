@@ -41,8 +41,11 @@ This search provides detection of an user attaching itself to a different role t
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
 
 
 
@@ -73,6 +76,7 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 
 #### Known False Positives
 Attach to policy can create a lot of noise. This search can be adjusted to provide specific values to identify cases of abuse (i.e status=failure). The search can provide context for common users attaching themselves to higher privilege policies or even newly created policies.
+
 
 
 

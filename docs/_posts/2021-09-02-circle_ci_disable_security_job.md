@@ -37,8 +37,11 @@ This search looks for disable security job in CircleCI pipeline.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
+
+
 
 
 
@@ -78,12 +81,12 @@ You must index CircleCI logs.
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | disable security job $mandatory_job$ in workflow $workflow_name$ from user $user$ |
+
 
 
 

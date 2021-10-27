@@ -41,8 +41,11 @@ This search looks for specific command-line arguments that may indicate the exec
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
+
+
 
 
 
@@ -79,6 +82,7 @@ You must be ingesting endpoint data that tracks process activity, including pare
 
 #### Known False Positives
 While legitimate, these NirSoft tools are prone to abuse. You should verfiy that the tool was used for a legitimate purpose.
+
 
 
 
