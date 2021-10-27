@@ -24,7 +24,10 @@ from typing import OrderedDict, Union
 
 from tempfile import mkdtemp
 import csv
-from urllib.request import urlretrieve 
+
+from requests import get
+
+
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
 index_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "search")
@@ -65,13 +68,30 @@ def get_random_password()->str:
     return password
 
 
-def wait_for_splunk_ready(splunk_container_name=None, splunk_web_port=None, max_seconds=30):
+def wait_for_splunk_ready(container_name:str, splunk_web_port:int, splunk_ip:str="127.0.0.1", max_seconds:int=300)->bool:
     #The smarter version of this will try to hit one of the pages,
     #probably the login page, and when that is available it means that
     #splunk is fully started and ready to go.  Until then, we just
     #use a simple sleep
-    time.sleep(max_seconds)
-
+    splunk_ready_url =  "http://%s:%d"%(splunk_ip, splunk_web_port)
+    print(splunk_ready_url)
+    start = timer()
+    while True:
+        try:
+            #Splunk container will not have proper ssl certificate
+            response = get(splunk_ready_url,timeout=5, verify=False)
+            response.raise_for_status()
+            print("\n\n\n*****CONTAINER GET WORKED OKAY******")
+            return True
+        except Exception as e:
+            elapsed = timer() - start
+            print(str(e))
+            if elapsed > max_seconds:
+                raise(Exception("Container [%s] took longer than maximum start time of [%d].\n\tQuitting..."%(container_name, max_seconds)))
+        print("Wait progress [%d of %d]"%(elapsed, max_seconds))
+        print(timer() - start)
+        time.sleep(5)
+    
 
 
 
@@ -217,7 +237,8 @@ def main(args):
                                                                                                                      "time and allows you to test a detection that you've updated.  Runs generate again in case you have "\
                                                                                                                      "updated macros or anything else.  Especially useful for quick, local, iterative testing.")
     start_datetime = datetime.now()
-    
+    import requests.packages.urllib3
+    requests.packages.urllib3.disable_warnings()
     args = parser.parse_args()
     branch = args.branch
     uuid_test = args.uuid
@@ -409,8 +430,13 @@ def main(args):
         
         try:
             SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
+            SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
             print("Downloading the Splunk Packaging Toolkit from %s..."%(SPLUNK_PACKAGING_TOOLKIT_URL), end='')
-            urlretrieve(SPLUNK_PACKAGING_TOOLKIT_URL, 'splunk-packaging-toolkit-latest.tar.gz')
+            response = get(SPLUNK_PACKAGING_TOOLKIT_URL)
+            response.raise_for_status()
+            with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
+                slim_file.write(response.content)
+            
             print("success")
 
 
@@ -462,31 +488,51 @@ def main(args):
     
     local_volume_path = os.path.join(os.getcwd(), "security_content", "slim_packaging","apps")
 
-    SPLUNK_COMMON_INFORMATION_MODEL = "https://splunkbase.splunk.com/app/1621/release/4.20.2/download"        
-    SPLUNK_SECURITY_ESSENTIALS = "https://splunkbase.splunk.com/app/3435/release/3.3.4/download"
+          
+    
     #SPLUNK_ADD_ON_FOR_SYSMON_OLD = "https://splunkbase.splunk.com/app/1914/release/10.6.2/download"
     #SPLUNK_ADD_ON_FOR_SYSMON_NEW = "https://splunkbase.splunk.com/app/5709/release/1.0.1/download"
     #SYSMON_APP_FOR_SPLUNK = "https://splunkbase.splunk.com/app/3544/release/2.0.0/download"
     #SPLUNK_ES_CONTENT_UPDATE = "https://splunkbase.splunk.com/app/3449/release/3.29.0/download"
 
     #Just a hack until we get the new version of system deployed and available from splunkbase
-    LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_PATH  = os.path.expanduser("~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")    
-    shutil.copyfile(LOCAL_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
-    SPLUNK_ADD_ON_FOR_SYSMON_VOLUME_PATH  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
-    
-
-
-    
-    SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS = "https://splunkbase.splunk.com/app/742/release/8.2.0/download"
     CONTAINER_VOLUME_PATH = '/tmp/apps/'
-    CONTAINER_GENERATED_ESCU_LATEST = os.path.join(CONTAINER_VOLUME_PATH, "DA-ESS-ContentUpdate-latest.tar.gz")
+    BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH  = os.path.expanduser("~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")    
+    shutil.copyfile(BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
     
-    SPLUNK_APPS = [SPLUNK_COMMON_INFORMATION_MODEL, 
-                    SPLUNK_SECURITY_ESSENTIALS, 
-                    SPLUNK_ADD_ON_FOR_SYSMON_VOLUME_PATH, 
-                    CONTAINER_GENERATED_ESCU_LATEST, 
-                    SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS]
+    BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
+    GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH = os.path.join(CONTAINER_VOLUME_PATH, "DA-ESS-ContentUpdate-latest.tar.gz")
 
+    SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
+    APPS_DICT = OrderedDict()
+    APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS'] = {"app_number":742, 'app_version':"8.2.0", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_SECURITY_ESSENTIALS'] = {"app_number":3435, 'app_version':"3.3.4", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES'] = {"app_number":1876, 'app_version':"5.2.0", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365'] = {"app_number":4055, 'app_version':"2.2.0", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE'] = {"app_number":3719, 'app_version':"1.3.2", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_ANALYTIC_STORY_EXECUTION_APP'] = {"app_number":4971, 'app_version': "2.0.3", 'location':'splunkbase'}
+    APPS_DICT['PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT'] = {"app_number":2882, 'app_version':"2.0.2", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_MACHINE_LEARNING_TOOLKIT'] = {"app_number":2890, 'app_version':"5.2.2", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_APP_FOR_STREAM'] = {"app_number":1809, 'app_version':"8.0.1", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA'] = {"app_number":5234, 'app_version':"8.0.1", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS'] = {"app_number":5238, 'app_version':"8.0.1", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO'] = {"app_number":1617, 'app_version':"4.0.0", 'location':'splunkbase'}
+    APPS_DICT['SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX'] = {"app_number":833, 'app_version':"8.3.1", 'location':'splunkbase'}
+    APPS_DICT['GENERATED_SPLUNK_ES_CONTENT_UPDATE'] = {"app_number":3449, 'app_version':"Generated at %s"%(datetime.now()), 'location':GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH}
+    APPS_DICT['BETA_SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":3449, 'app_version':"Generated at %s"%(datetime.now()), 'location':BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH}
+    APPS_DICT['SPLUNK_COMMON_INFORMATION_MODEL'] = {"app_number":1621, 'app_version':"4.20.2", 'location':'splunkbase'}
+    
+    
+
+    SPLUNK_APPS = []
+    for key, value in APPS_DICT.items():
+        if value['location'] == 'splunkbase':
+            #The app is on Splunkbase
+            SPLUNK_APPS.append(SPLUNKBASE_URL%(value['app_number'],value['app_version']))
+        else:
+            #The app is a file we generated locally
+            SPLUNK_APPS.append(value['location'])
+    
 
 
     for container_index in range(num_containers):
@@ -523,7 +569,8 @@ def main(args):
                              args=(results_tracker, 
                                    container_name, 
                                    "127.0.0.1", 
-                                   splunk_password, 
+                                   splunk_password,
+                                   web_port, 
                                    management_port, 
                                    uuid_test,
                                    interactive_failure 
@@ -776,7 +823,7 @@ class SynchronizedResultsTracker:
         
 
 
-def splunk_container_manager(testing_object:SynchronizedResultsTracker, container_name, splunk_ip, splunk_password, splunk_port, uuid_test, interactive_failure:bool=False):
+def splunk_container_manager(testing_object:SynchronizedResultsTracker, container_name, splunk_ip, splunk_password, splunk_web_port, splunk_management_port, uuid_test, interactive_failure:bool=False):
     print("Starting the container [%s] after a sleep"%(container_name))
     #Is this going to be safe to use in different threads
     client = docker.client.from_env()
@@ -800,11 +847,11 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     print("Finished copying files to container: [%s]"%(container_name))
 
 
-    #wait_for_splunk_ready(max_seconds=120)
+    
     from modules.splunk_sdk import enable_delete_for_admin
     print("Enabling DELETE for [%s]"%(container_name))
     try:
-        while not enable_delete_for_admin(splunk_ip, splunk_port, splunk_password):
+        while not enable_delete_for_admin(splunk_ip, splunk_management_port, splunk_password):
             time.sleep(10)
     except Exception as e:
         print("Failure enabling DELETE for container [%s]: [%s].\n\tQuitting..."%(container_name, str(e)))
@@ -814,7 +861,8 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     #Wait for all of the threads to join here
     print("Container [%s] setup complete and waiting for other containers to be ready..."%(container_name))
     testing_object.start_barrier.wait()
-    wait_for_splunk_ready(max_seconds=60)
+    wait_for_splunk_ready(container_name, splunk_web_port,splunk_ip, max_seconds=300)
+
     while True:
         #Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1,30))
@@ -837,7 +885,7 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
         #There is a detection to test
         print("Container [%s]--->[%s]"%(container_name, detection_to_test))
         try:
-            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_port, detection_to_test, 0, uuid_test, testing_object.attack_data_root_folder, wait_on_failure=interactive_failure)
+            result = testing_service.test_detection_wrapper(container_name, splunk_ip, splunk_password, splunk_management_port, detection_to_test, 0, uuid_test, testing_object.attack_data_root_folder, wait_on_failure=interactive_failure)
             testing_object.addResult(result)
             
             #Remove the data from the test that we just ran.  We MUST do this when running on CI because otherwise, we will download
