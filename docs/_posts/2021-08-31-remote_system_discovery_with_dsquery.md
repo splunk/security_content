@@ -34,16 +34,11 @@ This analytic looks for the execution of `dsquery.exe` with command-line argumen
 - **ID**: 9fb562f4-42f8-4139-8e11-a82edf7ed718
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
-
-
 
 #### Search
 

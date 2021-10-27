@@ -37,19 +37,12 @@ This search detects when an admin configured a forwarding rule for multiple mail
 - **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection |
-
-
-
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
-
-
-
-
 
 #### Search
 

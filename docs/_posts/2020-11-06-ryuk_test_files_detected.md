@@ -33,16 +33,11 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 - **ID**: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
-
-
 
 #### Search
 

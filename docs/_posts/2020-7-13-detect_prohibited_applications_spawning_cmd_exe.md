@@ -31,16 +31,11 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 - **ID**: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
-
-
 
 #### Search
 

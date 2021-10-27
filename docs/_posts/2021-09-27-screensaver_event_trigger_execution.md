@@ -39,19 +39,12 @@ This analytic is developed to detect possible event trigger execution through sc
 - **ID**: 58cea3ec-1f6d-11ec-8560-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
-
-
 | [T1546.002](https://attack.mitre.org/techniques/T1546/002/) | Screensaver | Privilege Escalation, Persistence |
-
-
-
-
 
 #### Search
 

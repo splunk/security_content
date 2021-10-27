@@ -40,26 +40,14 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 - **ID**: 24b4e659-63a2-4e7b-89ac-87dd659c7110
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
-
-
 | [T1595.002](https://attack.mitre.org/techniques/T1595/002/) | Vulnerability Scanning | Reconnaissance |
-
-
-
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
-
-
-
 | [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
-
-
-
-
 
 #### Search
 

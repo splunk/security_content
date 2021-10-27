@@ -37,19 +37,12 @@ This analytic looks for the execution of `net.exe` with command-line arguments u
 - **ID**: f2f14ac7-fa81-471a-80d5-7eb65c3c7349
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
-
-
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
-
-
-
-
 
 #### Search
 

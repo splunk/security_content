@@ -34,16 +34,11 @@ This analytic looks for the execution of `powershell.exe` executing the Get ADUs
 - **ID**: 8b5ef342-065a-11ec-b0fc-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
-
-
-
-
 
 #### Search
 
