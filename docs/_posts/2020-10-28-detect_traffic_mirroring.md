@@ -45,27 +45,14 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 - **ID**: 42b3b753-5925-49c5-9742-36fa40a73990
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
-
-
-
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
-
-
-
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
-
-
 | [T1020.001](https://attack.mitre.org/techniques/T1020/001/) | Traffic Duplication | Exfiltration |
-
-
-
-
 
 #### Search
 

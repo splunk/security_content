@@ -36,16 +36,11 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 - **ID**: 2f0604c6-6030-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
-
-
 
 #### Search
 

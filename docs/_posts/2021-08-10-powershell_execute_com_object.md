@@ -39,19 +39,12 @@ This search is to detect a COM CLSID execution through powershell. This techniqu
 - **ID**: 65711630-f9bf-11eb-8d72-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546.015](https://attack.mitre.org/techniques/T1546/015/) | Component Object Model Hijacking | Privilege Escalation, Persistence |
-
-
-
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
-
-
-
-
 
 #### Search
 

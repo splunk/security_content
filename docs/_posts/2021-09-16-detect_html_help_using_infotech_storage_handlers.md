@@ -37,19 +37,12 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 - **ID**: 0b2eefa5-5508-450d-b970-3dd2fb761aec
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
 | [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
-
-
-
-
 
 #### Search
 

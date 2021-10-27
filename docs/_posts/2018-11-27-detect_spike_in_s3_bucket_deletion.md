@@ -35,16 +35,11 @@ This search detects users creating spikes in API activity related to deletion of
 - **ID**: ad12w478-84a8-4641-a3w1-e32372q4bd53
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
-
-
 
 #### Search
 

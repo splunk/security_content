@@ -37,19 +37,12 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 - **ID**: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
-
-
-
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
-
-
 
 #### Search
 

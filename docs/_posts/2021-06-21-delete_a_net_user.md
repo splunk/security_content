@@ -32,16 +32,11 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 - **ID**: 8776d79c-d26e-11eb-9a56-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
-
-
 
 #### Search
 

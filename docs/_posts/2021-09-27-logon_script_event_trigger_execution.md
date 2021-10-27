@@ -39,19 +39,12 @@ This search is to detect a suspicious modification of registry entry to persist 
 - **ID**: 4c38c264-1f74-11ec-b5fa-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1037](https://attack.mitre.org/techniques/T1037/) | Boot or Logon Initialization Scripts | Persistence, Privilege Escalation |
-
-
 | [T1037.001](https://attack.mitre.org/techniques/T1037/001/) | Logon Script (Windows) | Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 

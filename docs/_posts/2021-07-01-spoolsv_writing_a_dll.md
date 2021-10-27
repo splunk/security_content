@@ -40,19 +40,12 @@ The following analytic identifies a `.dll` being written by `spoolsv.exe`. This 
 - **ID**: d5bf5cf2-da71-11eb-92c2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
-
-
-
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 

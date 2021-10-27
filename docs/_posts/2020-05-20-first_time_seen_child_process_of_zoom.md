@@ -34,16 +34,11 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 - **ID**: e91bd102-d630-4e76-ab73-7e3ba22c5961
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
-
-
-
-
 
 #### Search
 

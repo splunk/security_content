@@ -34,16 +34,11 @@ This analytic will identify a suspicious command-line that disables a user accou
 - **ID**: c0325326-acd6-11eb-98c2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
-
-
-
-
 
 #### Search
 

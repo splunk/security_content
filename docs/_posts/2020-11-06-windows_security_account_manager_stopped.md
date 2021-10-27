@@ -33,16 +33,11 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 - **ID**: 69c12d59-d951-431e-ab77-ec426b8d65e6
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
-
-
 
 #### Search
 

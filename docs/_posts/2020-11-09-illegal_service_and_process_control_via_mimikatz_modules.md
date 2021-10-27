@@ -38,24 +38,13 @@ This detection identifies use of Mimikatz modules for illegal control over servi
 - **ID**: aaf3adf1-73e1-4477-b4ee-3771898964f1
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
-
 | [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution |
-
-
-
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
-
-
-
-
 
 #### Search
 

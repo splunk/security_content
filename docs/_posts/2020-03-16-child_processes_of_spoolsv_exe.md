@@ -37,16 +37,11 @@ This search looks for child processes of spoolsv.exe. This activity is associate
 - **ID**: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
-
-
-
-
 
 #### Search
 

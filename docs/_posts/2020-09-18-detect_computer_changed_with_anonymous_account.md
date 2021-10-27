@@ -34,16 +34,11 @@ This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An ac
 - **ID**: 1400624a-d42d-484d-8843-e6753e6e3645
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1210](https://attack.mitre.org/techniques/T1210/) | Exploitation of Remote Services | Lateral Movement |
-
-
-
-
 
 #### Search
 

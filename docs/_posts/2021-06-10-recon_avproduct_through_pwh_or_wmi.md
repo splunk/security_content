@@ -33,16 +33,11 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: 28077620-c9f6-11eb-8785-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
-
-
-
-
 
 #### Search
 

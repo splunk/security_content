@@ -34,16 +34,11 @@ This analytic will identify suspicious executable or scripts (known file extensi
 - **ID**: a7e3f0f0-ae42-11eb-b245-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
-
-
-
-
 
 #### Search
 
