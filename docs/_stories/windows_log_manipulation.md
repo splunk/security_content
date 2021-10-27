@@ -33,12 +33,12 @@ The Analytic Story gives users two different ways to detect manipulation of Wind
 | ----------- | ----------- |--------------|
 | [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Illegal Deletion of Logs via Mimikatz modules](/endpoint/illegal_deletion_of_logs_via_mimikatz_modules/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
-| [Suspicious Event Log Service Behavior](/endpoint/suspicious_event_log_service_behavior/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
-| [Suspicious wevtutil Usage](/endpoint/suspicious_wevtutil_usage/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Suspicious Event Log Service Behavior](/endpoint/suspicious_event_log_service_behavior/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Suspicious wevtutil Usage](/endpoint/suspicious_wevtutil_usage/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
 | [USN Journal Deletion](/endpoint/usn_journal_deletion/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
-| [WevtUtil Usage To Clear Logs](/endpoint/wevtutil_usage_to_clear_logs/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
-| [Wevtutil Usage To Disable Logs](/endpoint/wevtutil_usage_to_disable_logs/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
-| [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [WevtUtil Usage To Clear Logs](/endpoint/wevtutil_usage_to_clear_logs/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Wevtutil Usage To Disable Logs](/endpoint/wevtutil_usage_to_disable_logs/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
 
 #### Reference
 

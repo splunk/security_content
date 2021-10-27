@@ -1,6 +1,6 @@
 ---
 title: "Detect AzureHound Command-Line Arguments"
-excerpt: "Domain Account, Local Account, Domain Trust Discovery, Domain Groups, Local Groups"
+excerpt: "Domain Account, Local Groups, Domain Trust Discovery, Local Account, Account Discovery, Domain Groups, Permission Groups Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-06-01
@@ -11,17 +11,23 @@ tags:
   - T1087.002
   - Domain Account
   - Discovery
-  - T1087.001
-  - Local Account
+  - T1069.001
+  - Local Groups
   - Discovery
   - T1482
   - Domain Trust Discovery
   - Discovery
+  - T1087.001
+  - Local Account
+  - Discovery
+  - T1087
+  - Account Discovery
+  - Discovery
   - T1069.002
   - Domain Groups
   - Discovery
-  - T1069.001
-  - Local Groups
+  - T1069
+  - Permission Groups Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,9 +55,32 @@ The following analytic identifies the common command-line argument used by Azure
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
+
+
+| [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+
+
+
+| [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+
+| [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
+
+
+
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
+
+
+
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
+
+
 
 
 #### Search
@@ -95,12 +124,12 @@ To successfully implement this search you need to be ingesting information on pr
 Unknown.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ using AzureHound to enumerate AzureAD. |
+
 
 
 

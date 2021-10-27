@@ -37,8 +37,11 @@ This analytics are designed to indentify a high frequency of process termination
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
+
+
 
 
 
@@ -77,12 +80,12 @@ To successfully implement this search, you need to be ingesting logs with the Im
 admin or user tool that can terminate multiple process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | High frequency process termination (more than 15 processes within 3s) detected on host $Computer$ |
+
 
 
 

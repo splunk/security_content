@@ -1,6 +1,6 @@
 ---
 title: "Disable ETW Through Registry"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-06-22
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - T1562
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,8 +40,15 @@ this search is to identify modification in registry to disable ETW windows featu
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+
+
+
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -74,6 +84,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 network operator may disable this feature of windows but not so common.
+
 
 
 

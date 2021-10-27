@@ -1,6 +1,6 @@
 ---
 title: "AWS ECR Container Upload Outside Business Hours"
-excerpt: "Malicious Image"
+excerpt: "Malicious Image, User Execution"
 categories:
   - Cloud
 last_modified_at: 2021-08-19
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1204.003
   - Malicious Image
+  - Execution
+  - T1204
+  - User Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,8 +40,15 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
+
+
+
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+
+
 
 
 #### Search
@@ -82,12 +92,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 When your development is spreaded in different time zones, applying this rule can be difficult.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Container uploaded outside business hours from $user$ |
+
 
 
 

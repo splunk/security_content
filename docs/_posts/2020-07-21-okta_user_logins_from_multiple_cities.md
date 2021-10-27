@@ -1,6 +1,6 @@
 ---
 title: "Okta User Logins From Multiple Cities"
-excerpt: "Default Accounts"
+excerpt: "Valid Accounts, Default Accounts"
 categories:
   - Application
 last_modified_at: 2020-07-21
@@ -8,6 +8,12 @@ toc: true
 toc_label: ""
 tags:
   - Anomaly
+  - T1078
+  - Valid Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
   - T1078.001
   - Default Accounts
   - Defense Evasion
@@ -40,8 +46,15 @@ This search detects logins from the same user from different cities in a 24 hour
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
 | [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
+
 
 
 #### Search
@@ -75,6 +88,7 @@ This search is specific to Okta and requires Okta logs are being ingested in you
 
 #### Known False Positives
 Users in your enviornment may legitmately be travelling and loggin in from different locations. This search is useful for those users that should *not* be travelling for some reason, such as the COVID-19 pandemic. The search also relies on the geographical information being populated in the Okta logs. It is also possible that a connection from another region may be attributed to a login from a remote VPN endpoint.
+
 
 
 

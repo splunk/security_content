@@ -1,6 +1,6 @@
 ---
 title: "Get DomainUser with PowerShell Script Block"
-excerpt: "Domain Account"
+excerpt: "Domain Account, Account Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-08-24
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1087.002
   - Domain Account
+  - Discovery
+  - T1087
+  - Account Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,8 +40,15 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
+
+
+
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+
+
 
 
 #### Search
@@ -74,12 +84,12 @@ The following Hunting analytic requires PowerShell operational logs to be import
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | powershell process having commandline $Message$ for user enumeration |
+
 
 
 
