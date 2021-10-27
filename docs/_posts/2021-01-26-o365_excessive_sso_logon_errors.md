@@ -39,8 +39,11 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
+
+
 
 
 
@@ -80,12 +83,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 Logon errors may not be malicious in nature however it may indicate attempts to reuse a token or password obtained via credential access attack.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $UserId$ has caused excessive number of SSO logon errors from $ActorIpAddress$ using UserAgent $UserAgent$. |
+
 
 
 

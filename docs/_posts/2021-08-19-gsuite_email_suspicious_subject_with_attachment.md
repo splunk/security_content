@@ -1,6 +1,6 @@
 ---
 title: "Gsuite Email Suspicious Subject With Attachment"
-excerpt: "Spearphishing Attachment"
+excerpt: "Spearphishing Attachment, Phishing"
 categories:
   - Cloud
 last_modified_at: 2021-08-19
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1566.001
   - Spearphishing Attachment
+  - Initial Access
+  - T1566
+  - Phishing
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,8 +40,15 @@ This search is to detect a gsuite email contains suspicious subject having known
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+
+
+
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
+
 
 
 #### Search
@@ -57,7 +67,7 @@ This search is to detect a gsuite email contains suspicious subject having known
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](/stories/devsecops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement
@@ -73,6 +83,7 @@ To successfully implement this search, you need to be ingesting logs related to 
 
 #### Known False Positives
 normal user or normal transaction may contain the subject and file type attachment that this detection try to search.
+
 
 
 

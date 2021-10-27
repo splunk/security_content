@@ -37,8 +37,11 @@ This searches show information on uploaded containers including source user, ima
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
+
+
 
 
 
@@ -67,6 +70,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Known False Positives
 Uploading container is a normal behavior from developers or users with access to container registry.
+
 
 
 

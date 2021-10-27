@@ -1,6 +1,6 @@
 ---
 title: "Suspicious Rundll32 PluginInit"
-excerpt: "Rundll32"
+excerpt: "Signed Binary Proxy Execution, Rundll32"
 categories:
   - Endpoint
 last_modified_at: 2021-07-26
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.011
   - Rundll32
   - Defense Evasion
@@ -37,8 +40,15 @@ This search is to detect a suspicious rundll32.exe process with plugininit param
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -82,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 third party application may used this dll export name to execute function.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | rundll32 process $process_name$ with commandline $process$ in host $dest$ |
+
 
 
 

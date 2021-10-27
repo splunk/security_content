@@ -1,6 +1,6 @@
 ---
 title: "Detect Kerberoasting"
-excerpt: "Kerberoasting"
+excerpt: "Kerberoasting, Steal or Forge Kerberos Tickets"
 categories:
   - Endpoint
 last_modified_at: 2020-10-21
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1558.003
   - Kerberoasting
+  - Credential Access
+  - T1558
+  - Steal or Forge Kerberos Tickets
   - Credential Access
   - Splunk Behavioral Analytics
   - Actions on Objectives
@@ -34,8 +37,15 @@ This search detects a potential kerberoasting attack via service principal name 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
+
+
+
+| [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
+
+
+
 
 
 #### Search
@@ -76,12 +86,12 @@ The test data is converted from Windows Security Event logs generated from Attac
 Older systems that support kerberos RC4 by default NetApp may generate false positives
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 14.0 | 70 | 20 | Kerberoasting malware is potentially applying stolen credentials. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 
