@@ -41,8 +41,11 @@ Alternatively, may use regex per matching here https://regexr.com/662ov.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
+
+
 
 
 
@@ -89,12 +92,12 @@ To successfully implement this search you need to be ingesting information on pr
 System administrators may use this option, but it&#39;s not common.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Powershell.exe running potentially malicious encodede commands on $dest$ |
+
 
 
 

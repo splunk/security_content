@@ -35,8 +35,11 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
+
 
 
 
@@ -75,6 +78,7 @@ o successfully implement this search, you need to be ingesting logs with the pro
 
 #### Known False Positives
 System administrators or scripts may delete user accounts via this technique. Filter as needed.
+
 
 
 

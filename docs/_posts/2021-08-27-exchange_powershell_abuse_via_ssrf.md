@@ -42,8 +42,11 @@ Review the source attempting to perform this activity against your environment. 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
+
+
 
 
 
@@ -81,12 +84,12 @@ The following analytic requires on-premise Exchange to be logging to Splunk usin
 Limited false positives, however, tune as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Activity related to ProxyShell has been identified on $dest$. Review events and take action accordingly. |
+
 
 
 

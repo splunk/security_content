@@ -40,8 +40,11 @@ This search looks for network traffic defined by port and transport layer protoc
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
+
+
 
 
 
@@ -82,6 +85,7 @@ In order to properly run this search, Splunk needs to ingest data from firewalls
 
 #### Known False Positives
 None identified
+
 
 
 

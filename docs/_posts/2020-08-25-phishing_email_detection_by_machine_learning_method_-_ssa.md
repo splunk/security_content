@@ -36,8 +36,11 @@ Malicious mails can conduct phishing that induces readers to open attachment, cl
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
 
 
 
@@ -73,6 +76,7 @@ Events are fed to DSP contains at least email&#39;s sender, subject and its mess
 
 #### Known False Positives
 Because of imbalance of anomaly data in training, the model will less likely report false positive. Instead, the model is more prone to false negative. Current best recall score is ~85%
+
 
 
 
