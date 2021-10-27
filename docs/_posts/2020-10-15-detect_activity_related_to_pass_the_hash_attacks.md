@@ -1,6 +1,6 @@
 ---
 title: "Detect Activity Related to Pass the Hash Attacks"
-excerpt: "Pass the Hash"
+excerpt: "Use Alternate Authentication Material, Pass the Hash"
 categories:
   - Endpoint
 last_modified_at: 2020-10-15
@@ -8,6 +8,10 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1550
+  - Use Alternate Authentication Material
+  - Defense Evasion
+  - Lateral Movement
   - T1550.002
   - Pass the Hash
   - Defense Evasion
@@ -37,8 +41,15 @@ This search looks for specific authentication events from the Windows Security E
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
+| [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
+
+
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
+
+
+
 
 
 #### Search
@@ -77,12 +88,12 @@ To successfully implement this search, you must ingest your Windows Security Eve
 Legitimate logon activity by authorized NTLM systems may be detected by this search. Please investigate as appropriate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The following $EventCode$ occurred on $dest$ by $user$ with Logon Type 3, which may be indicative of the pass the hash technique. |
+
 
 
 

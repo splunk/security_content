@@ -37,8 +37,11 @@ This search looks for flags passed to wbadmin.exe (Windows Backup Administrator 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
+
+
 
 
 
@@ -78,12 +81,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Administrators may modify the boot configuration.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | System backups deletion on $dest$ |
+
 
 
 

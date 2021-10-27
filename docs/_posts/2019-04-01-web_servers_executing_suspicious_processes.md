@@ -39,8 +39,11 @@ This search looks for suspicious processes on all systems labeled as web servers
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
+
+
 
 
 
@@ -77,6 +80,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 #### Known False Positives
 Some of these processes may be used legitimately on web servers during maintenance or other administrative tasks.
+
 
 
 

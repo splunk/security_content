@@ -1,6 +1,6 @@
 ---
 title: "Sc exe Manipulating Windows Services"
-excerpt: "Windows Service"
+excerpt: "Windows Service, Create or Modify System Process"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1543.003
   - Windows Service
+  - Persistence
+  - Privilege Escalation
+  - T1543
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -38,8 +42,15 @@ This search looks for arguments to sc.exe indicating the creation or modificatio
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+
+
+
+| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
+
+
 
 
 #### Search
@@ -82,12 +93,12 @@ To successfully implement this search you need to be ingesting information on pr
 Using sc.exe to manipulate Windows services is uncommon. However, there may be legitimate instances of this behavior. It is important to validate and investigate as appropriate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$ |
+
 
 
 
