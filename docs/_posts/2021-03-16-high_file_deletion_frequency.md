@@ -34,16 +34,11 @@ This search looks for high frequency of file deletion relative to process name a
 - **ID**: 45b125c4-866f-11eb-a95a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
-
-
-
-
 
 #### Search
 

@@ -39,19 +39,12 @@ This search looks for an increase of data transfers from your email server to yo
 - **ID**: 7f5fb3e1-4209-4914-90db-0ec21b556378
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
-
-
 | [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
-
-
-
-
 
 #### Search
 

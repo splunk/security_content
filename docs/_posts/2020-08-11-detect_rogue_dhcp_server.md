@@ -44,24 +44,13 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization&#39;
 - **ID**: 6e1ada88-7a0d-4ac1-92c6-03d354686079
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
-
-
-
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
-
-
-
 | [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Credential Access, Collection |
-
-
-
-
 
 #### Search
 

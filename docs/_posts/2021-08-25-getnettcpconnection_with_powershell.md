@@ -34,16 +34,11 @@ This analytic looks for the execution of `powershell.exe` with command-line util
 - **ID**: e02af35c-1de5-4afe-b4be-f45aba57272b
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
-
-
-
-
 
 #### Search
 

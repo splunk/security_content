@@ -37,19 +37,12 @@ This analytic looks for the execution of `wmic.exe` with command-line arguments 
 - **ID**: 4902d7aa-0134-11ec-9d65-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
-
-
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
-
-
-
-
 
 #### Search
 
