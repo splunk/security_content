@@ -34,16 +34,11 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command li
 - **ID**: 09336538-065a-11ec-8665-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
-
-
-
-
 
 #### Search
 

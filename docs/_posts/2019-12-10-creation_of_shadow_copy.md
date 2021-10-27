@@ -37,19 +37,12 @@ Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 - **ID**: eb120f5f-b879-4a63-97c1-93352b5df844
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
-
-
-
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
-
-
 
 #### Search
 

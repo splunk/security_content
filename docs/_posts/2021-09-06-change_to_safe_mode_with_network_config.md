@@ -34,16 +34,11 @@ This search is to detect a suspicious bcdedit commandline to configure the host 
 - **ID**: 81f1dce0-0f18-11ec-a5d7-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
-
-
 
 #### Search
 

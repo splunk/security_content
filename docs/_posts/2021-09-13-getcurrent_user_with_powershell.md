@@ -34,16 +34,11 @@ This analytic looks for the execution of `powerhsell.exe` with command-line argu
 - **ID**: 7eb9c3d5-c98c-4088-acc5-8240bad15379
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
-
-
-
-
 
 #### Search
 

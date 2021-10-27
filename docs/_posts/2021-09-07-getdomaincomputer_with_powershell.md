@@ -34,16 +34,11 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 - **ID**: ed550c19-712e-43f6-bd19-6f58f61b3a5e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
-
-
 
 #### Search
 

@@ -31,8 +31,6 @@ This search looks for Windows endpoints that have not generated an event indicat
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
 
-
-
 #### Search
 
 ```

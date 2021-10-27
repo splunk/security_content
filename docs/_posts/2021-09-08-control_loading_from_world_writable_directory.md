@@ -38,19 +38,12 @@ The following detection identifies control.exe loading either a .cpl or .inf fro
 - **ID**: 10423ac4-10c9-11ec-8dc4-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
 | [T1218.002](https://attack.mitre.org/techniques/T1218/002/) | Control Panel | Defense Evasion |
-
-
-
-
 
 #### Search
 

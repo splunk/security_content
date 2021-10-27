@@ -37,20 +37,12 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 - **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
-
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-
-
-
-
 
 #### Search
 

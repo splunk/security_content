@@ -31,16 +31,11 @@ This detection identifies use of Mimikatz modules for discovery of computers and
 - **ID**: 48664505-7d22-44ee-87d2-4c8a5bdc3d14
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
-
-
-
-
 
 #### Search
 

@@ -39,19 +39,12 @@ This search looks for the first and last time a Windows service is seen running 
 - **ID**: 823136f2-d755-4b6d-ae04-372b486a5808
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
-
-
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
-
-
-
-
 
 #### Search
 
