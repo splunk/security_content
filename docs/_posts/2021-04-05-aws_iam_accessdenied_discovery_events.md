@@ -34,16 +34,11 @@ The following detection identifies excessive AccessDenied events within an hour 
 - **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
-
-
-
-
 
 #### Search
 

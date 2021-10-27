@@ -31,8 +31,6 @@ This search looks for unusually long strings in the Content-Type http header tha
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
 
-
-
 #### Search
 
 ```

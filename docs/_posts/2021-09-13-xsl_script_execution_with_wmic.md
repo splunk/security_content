@@ -34,16 +34,11 @@ This search is to detect a suspicious wmic.exe process or renamed wmic process t
 - **ID**: 004e32e2-146d-11ec-a83f-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1220](https://attack.mitre.org/techniques/T1220/) | XSL Script Processing | Defense Evasion |
-
-
-
-
 
 #### Search
 

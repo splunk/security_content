@@ -34,16 +34,11 @@ This analytic will identify suspicious series of command-line to disable several
 - **ID**: 8fa2a0f0-acd9-11eb-8994-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
-
-
 
 #### Search
 

@@ -34,16 +34,11 @@ This analytic is to detect a suspicious creation of .wav file in appdata folder.
 - **ID**: 5be109e6-1ac5-11ec-b421-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
-
-
-
-
 
 #### Search
 

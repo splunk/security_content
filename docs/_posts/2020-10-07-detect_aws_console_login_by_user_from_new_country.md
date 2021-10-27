@@ -35,16 +35,11 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 - **ID**: 67bd3def-c41c-4bf6-837b-ae196b4257c6
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
-
-
-
-
 
 #### Search
 

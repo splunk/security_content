@@ -34,16 +34,11 @@ This search is to detect a suspicious creation of image in appdata folder made b
 - **ID**: f6f904c4-1ac0-11ec-806b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
-
-
-
-
 
 #### Search
 

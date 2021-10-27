@@ -37,19 +37,12 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 - **ID**: 0b0c40dc-14a6-11ec-b267-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
-
-
-
-
 
 #### Search
 

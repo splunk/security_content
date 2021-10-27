@@ -39,19 +39,12 @@ This analytic is to detect a suspiciouos modification of time provider registry 
 - **ID**: 5ba382c4-2105-11ec-8d8f-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1547.003](https://attack.mitre.org/techniques/T1547/003/) | Time Providers | Persistence, Privilege Escalation |
-
-
-
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 

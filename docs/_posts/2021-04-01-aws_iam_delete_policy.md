@@ -34,16 +34,11 @@ The following detection identifes when a policy is deleted on AWS. This does not
 - **ID**: ec3a9362-92fe-11eb-99d0-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-
-
-
-
 
 #### Search
 

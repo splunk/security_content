@@ -34,16 +34,11 @@ The following analytics identifies a big number of instance of ransomware notes 
 - **ID**: eff7919a-8330-11eb-83f8-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
-
-
 
 #### Search
 

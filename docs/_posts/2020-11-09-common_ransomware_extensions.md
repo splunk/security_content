@@ -34,16 +34,11 @@ The search looks for file modifications with extensions commonly used by Ransomw
 - **ID**: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
-
-
-
-
 
 #### Search
 
