@@ -34,16 +34,11 @@ Detect system information discovery techniques used by attackers to understand c
 - **ID**: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
-
-
-
-
 
 #### Search
 

@@ -38,16 +38,11 @@ This search looks for specific command-line arguments that may indicate the exec
 - **ID**: 1297fb80-f42a-4q4a-9c8b-78c061417cf6
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
-
-
-
-
 
 #### Search
 

@@ -34,16 +34,11 @@ This analytic looks for the execution of `netstat.exe` with command-line argumen
 - **ID**: 2cf5cc25-f39a-436d-a790-4857e5995ede
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
-
-
-
-
 
 #### Search
 

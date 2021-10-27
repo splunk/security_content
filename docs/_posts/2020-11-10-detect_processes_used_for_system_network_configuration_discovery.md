@@ -36,16 +36,11 @@ This search looks for fast execution of processes used for system network config
 - **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
-
-
-
-
 
 #### Search
 

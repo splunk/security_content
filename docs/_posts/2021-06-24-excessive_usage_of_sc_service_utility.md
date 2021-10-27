@@ -37,19 +37,12 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 - **ID**: cb6b339e-d4c6-11eb-a026-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
-
-
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
-
-
-
-
 
 #### Search
 

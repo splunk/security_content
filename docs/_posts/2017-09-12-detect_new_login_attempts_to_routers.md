@@ -32,8 +32,6 @@ The search queries the authentication logs for assets that are categorized as ro
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 104658f4-afdc-499e-9719-17243rr826f1
 
-
-
 #### Search
 
 ```
