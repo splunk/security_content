@@ -1,6 +1,6 @@
 ---
 title: "Detect New Local Admin account"
-excerpt: "Local Account"
+excerpt: "Local Account, Create Account"
 categories:
   - Endpoint
 last_modified_at: 2020-07-08
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1136.001
   - Local Account
+  - Persistence
+  - T1136
+  - Create Account
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,8 +40,15 @@ This search looks for newly created accounts that have been elevated to local ad
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
+
+
+
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
+
+
+
 
 
 #### Search
@@ -79,12 +89,12 @@ You must be ingesting Windows event logs using the Splunk Windows TA and collect
 The activity may be legitimate. For this reason, it&#39;s best to verify the account with an administrator and ask whether there was a valid service request for the account creation. If your local administrator group name is not &#34;Administrators&#34;, this search may generate an excessive number of false positives
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not. |
+
 
 
 

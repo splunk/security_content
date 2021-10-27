@@ -37,8 +37,11 @@ This analytic identifies Get-DomainTrust from PowerView in order to gather domai
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+
 
 
 
@@ -83,12 +86,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives as this requires an active Administrator or adversary to bring in, import, and execute.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-DomainTrust was identified on endpoint $dest$ by user $user$. |
+
 
 
 

@@ -30,8 +30,8 @@ AWS CloudTrail is an AWS service that helps you enable governance, compliance, a
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [AWS Network Access Control List Created with All Open Ports](/cloud/aws_network_access_control_list_created_with_all_open_ports/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall) | TTP |
-| [AWS Network Access Control List Deleted](/cloud/aws_network_access_control_list_deleted/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall) | Anomaly |
+| [AWS Network Access Control List Created with All Open Ports](/cloud/aws_network_access_control_list_created_with_all_open_ports/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Impair Defenses](/tags/#impair-defenses) | TTP |
+| [AWS Network Access Control List Deleted](/cloud/aws_network_access_control_list_deleted/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Impair Defenses](/tags/#impair-defenses) | Anomaly |
 | [Detect Spike in blocked Outbound Traffic from your AWS](/cloud/detect_spike_in_blocked_outbound_traffic_from_your_aws/) |  | Anomaly |
 
 #### Reference

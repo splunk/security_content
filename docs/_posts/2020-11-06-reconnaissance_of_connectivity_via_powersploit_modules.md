@@ -1,6 +1,6 @@
 ---
 title: "Reconnaissance of Connectivity via PowerSploit modules"
-excerpt: "SMB/Windows Admin Shares, Network Share Discovery, Data from Network Shared Drive"
+excerpt: "Remote Services, Data from Network Shared Drive, Network Share Discovery, SMB/Windows Admin Shares"
 categories:
   - Endpoint
 last_modified_at: 2020-11-06
@@ -8,15 +8,18 @@ toc: true
 toc_label: ""
 tags:
   - TTP
-  - T1021.002
-  - SMB/Windows Admin Shares
+  - T1021
+  - Remote Services
   - Lateral Movement
-  - T1135
-  - Network Share Discovery
-  - Discovery
   - T1039
   - Data from Network Shared Drive
   - Collection
+  - T1135
+  - Network Share Discovery
+  - Discovery
+  - T1021.002
+  - SMB/Windows Admin Shares
+  - Lateral Movement
   - Splunk Behavioral Analytics
   - Actions on Objectives
 ---
@@ -40,9 +43,22 @@ This detection identifies access to PowerSploit modules for reconnaissance of co
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement || [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
+| ----------- | ----------- |--------------- |
+
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
+
+
 | [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
+
+
+
+| [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
+
+
+| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
+
+
 
 
 
@@ -81,12 +97,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | PowerSploit malware is performing port scans or searching for various connectivity details such as DNS data, proxies, or ongoing RDP connections. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

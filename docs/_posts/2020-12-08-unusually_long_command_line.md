@@ -73,12 +73,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Some legitimate applications start with long command lines.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Unusually long command line $Processes.process_name$ on $dest$ |
+
 
 
 

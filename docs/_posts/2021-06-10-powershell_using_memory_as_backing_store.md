@@ -36,8 +36,11 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
+
+
 
 
 
@@ -74,12 +77,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 powershell may used this function to store out object into memory.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $Message$ as new object backstore with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 

@@ -37,8 +37,11 @@ This analytic identifies excessive usage of `net.exe` or `net1.exe` within a buc
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
+
+
 
 
 
@@ -85,12 +88,12 @@ To successfully implement this search you need to be ingesting information on pr
 unknown. Filter as needed. Modify the time span as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | Excessive usage of net1.exe or net.exe within 1m, with command line $process$ has been detected on $dest$ by $user$ |
+
 
 
 

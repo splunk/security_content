@@ -38,8 +38,11 @@ This search looks for the creation of WMI permanent event subscriptions.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+
 
 
 
@@ -78,6 +81,7 @@ To successfully implement this search, you must be ingesting the Windows WMI act
 
 #### Known False Positives
 Although unlikely, administrators may use event subscriptions for legitimate purposes.
+
 
 
 

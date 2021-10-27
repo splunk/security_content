@@ -1,6 +1,6 @@
 ---
 title: "Detect Regsvcs with Network Connection"
-excerpt: "Regsvcs/Regasm"
+excerpt: "Signed Binary Proxy Execution, Regsvcs/Regasm"
 categories:
   - Endpoint
 last_modified_at: 2021-02-16
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.009
   - Regsvcs/Regasm
   - Defense Evasion
@@ -36,8 +39,15 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -77,12 +87,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Although unlikely, limited instances of regsvcs.exe may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ contacting a remote destination was identified on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$. |
+
 
 
 

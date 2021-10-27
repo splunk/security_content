@@ -38,8 +38,11 @@ This search provides information of unauthenticated requests via user agent, and
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+
+
 
 
 
@@ -81,6 +84,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
+
 
 
 
