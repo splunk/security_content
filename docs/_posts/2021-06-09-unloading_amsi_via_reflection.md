@@ -38,8 +38,11 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
+
+
 
 
 
@@ -77,12 +80,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Potential for some third party applications to disable AMSI upon invocation. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Possible AMSI Unloading via Reflection using PowerShell on $ComputerName$ |
+
 
 
 

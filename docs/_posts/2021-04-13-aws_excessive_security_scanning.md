@@ -37,8 +37,11 @@ This search looks for AWS CloudTrail events and analyse the amount of eventNames
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
+
+
 
 
 
@@ -77,12 +80,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 While this search has no known false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | user $user$ has excessive number of api calls $dc_events$ from these IP addresses $src$, violating the threshold of 50,  using the following commands $command$. |
+
 
 
 

@@ -38,8 +38,11 @@ this search is designed to detect suspicious powershell process that tries to in
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
+
 
 
 
@@ -82,12 +85,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A suspicious powershell process $process_name$ that tries to create a remote thread on target process $TargetImage$ with eventcode $EventCode$ in host $Computer$ |
+
 
 
 

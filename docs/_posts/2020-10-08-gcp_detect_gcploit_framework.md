@@ -41,8 +41,11 @@ This search provides detection of GCPloit exploitation framework. This framework
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+
 
 
 
@@ -79,6 +82,7 @@ You must install splunk GCP add-on. This search works with gcp:pubsub:message lo
 
 #### Known False Positives
 Payload.request.function.timeout value can possibly be match with other functions or requests however the source user and target request account may indicate an attempt to move laterally accross acounts or projects
+
 
 
 

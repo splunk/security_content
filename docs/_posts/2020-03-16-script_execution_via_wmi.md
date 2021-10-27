@@ -37,8 +37,11 @@ This search looks for scripts launched via WMI.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+
+
 
 
 
@@ -75,12 +78,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Although unlikely, administrators may use wmi to launch scripts for legitimate purposes. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | A wmic.exe process $process_name$ taht execute script in host $dest$ |
+
 
 
 

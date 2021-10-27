@@ -1,6 +1,6 @@
 ---
 title: "Detect Regasm with no Command Line Arguments"
-excerpt: "Regsvcs/Regasm"
+excerpt: "Signed Binary Proxy Execution, Regsvcs/Regasm"
 categories:
   - Endpoint
 last_modified_at: 2021-09-20
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.009
   - Regsvcs/Regasm
   - Defense Evasion
@@ -37,8 +40,15 @@ The following analytic identifies regasm.exe with no command line arguments. Thi
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
+
+
+
 
 
 #### Search
@@ -83,12 +93,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, limited instances of regasm.exe or may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The process $process_name$ was spawned by $parent_process_name$ without any command-line arguments on $dest$ by $user$. |
+
 
 
 

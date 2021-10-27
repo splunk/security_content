@@ -38,8 +38,11 @@ The following analytic will detect a suspicious process running in a file path w
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
+
 
 
 
@@ -81,12 +84,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicioues process $Processes.process_path.file_path$ running from suspicious location |
+
 
 
 

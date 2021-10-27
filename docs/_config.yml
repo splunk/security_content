@@ -104,7 +104,7 @@ defaults:
       read_time: false
       comments: true
       share: true
-      related: true
+      related: false
       toc: true
   # _pages
   - scope:
@@ -122,7 +122,7 @@ defaults:
       author_profile: false
       comments: true
       share: true
-      related: true
+      related: false
       toc: true
   # _playbooks
   - scope:

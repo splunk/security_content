@@ -35,8 +35,11 @@ This analytic will identify a suspicious command-line that disables a user accou
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
+
+
 
 
 
@@ -75,6 +78,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 network operator may use this approach to quickly disable an account but not a common practice.
+
 
 
 
