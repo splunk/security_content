@@ -41,6 +41,8 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
+  cve:
+  - CVE-2021-40444
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_cabinf.log
   impact: 80
@@ -74,5 +76,3 @@ tags:
   - file_path
   risk_score: 80
   security_domain: endpoint
-  cve:
-  - CVE-2021-40444

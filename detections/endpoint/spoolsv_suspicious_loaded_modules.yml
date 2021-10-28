@@ -30,6 +30,8 @@ tags:
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
   - Scope:Local
+  cve:
+  - CVE-2021-34527
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
   impact: 80
@@ -66,5 +68,3 @@ tags:
   - ImageLoaded
   risk_score: 72
   security_domain: endpoint
-  cve:
-  - CVE-2021-34527
