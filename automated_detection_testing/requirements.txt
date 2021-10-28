@@ -76,7 +76,7 @@ urllib3<1.26.8
 virtualenv==20.9.0
 wcwidth==0.2.5
 wget==3.2
-wrapt==1.12.1
+wrapt==1.13.1
 xmltodict==0.12.0
 zipp==3.4.1
 
