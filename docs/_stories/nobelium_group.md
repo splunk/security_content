@@ -2,6 +2,7 @@
 title: "NOBELIUM Group"
 last_modified_at: 2020-12-14
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -31,18 +32,18 @@ This Analytic Story supports you to detect Tactics, Techniques and Procedures (T
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | [Archive via Utility](/tags/#archive-via-utility), [Windows Command Shell](/tags/#windows-command-shell), [Windows Service](/tags/#windows-service), [Process Injection](/tags/#process-injection), [File Transfer Protocols](/tags/#file-transfer-protocols), [Regsvr32](/tags/#regsvr32), [Mshta](/tags/#mshta), [Service Execution](/tags/#service-execution), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information), [Rundll32](/tags/#rundll32), [Scheduled Task](/tags/#scheduled-task), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Web Shell](/tags/#web-shell), [MSBuild](/tags/#msbuild), [Rename System Utilities](/tags/#rename-system-utilities), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Web Protocols](/tags/#web-protocols), [Remote System Discovery](/tags/#remote-system-discovery) | Anomaly |
-| [Detect Outbound SMB Traffic](/network/detect_outbound_smb_traffic/) | [File Transfer Protocols](/tags/#file-transfer-protocols) | TTP |
-| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
-| [Detect Rundll32 Inline HTA Execution](/endpoint/detect_rundll32_inline_hta_execution/) | [Mshta](/tags/#mshta) | TTP |
-| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [Service Execution](/tags/#service-execution), [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services), [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness), [Windows Service](/tags/#windows-service) | Anomaly |
+| [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Anomaly |
+| [Detect Outbound SMB Traffic](/network/detect_outbound_smb_traffic/) | [File Transfer Protocols](/tags/#file-transfer-protocols), [Application Layer Protocol](/tags/#application-layer-protocol) | TTP |
+| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell) | Hunting |
+| [Detect Rundll32 Inline HTA Execution](/endpoint/detect_rundll32_inline_hta_execution/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
+| [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | Anomaly |
 | [Malicious PowerShell Process - Encoded Command](/endpoint/malicious_powershell_process_-_encoded_command/) | [Obfuscated Files or Information](/tags/#obfuscated-files-or-information) | Hunting |
-| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service) | TTP |
-| [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | [Scheduled Task](/tags/#scheduled-task) | TTP |
-| [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | [Scheduled Task](/tags/#scheduled-task) | TTP |
+| [Sc exe Manipulating Windows Services](/endpoint/sc_exe_manipulating_windows_services/) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
+| [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
+| [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
 | [Sunburst Correlation DLL and Network Event](/endpoint/sunburst_correlation_dll_and_network_event/) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution) | TTP |
 | [Supernova Webshell](/web/supernova_webshell/) | [Web Shell](/tags/#web-shell) | TTP |
-| [TOR Traffic](/network/tor_traffic/) | [Web Protocols](/tags/#web-protocols) | TTP |
+| [TOR Traffic](/network/tor_traffic/) | [Application Layer Protocol](/tags/#application-layer-protocol), [Web Protocols](/tags/#web-protocols) | TTP |
 | [Windows AdFind Exe](/endpoint/windows_adfind_exe/) | [Remote System Discovery](/tags/#remote-system-discovery) | TTP |
 
 #### Reference

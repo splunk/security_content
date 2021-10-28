@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-10-07
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1535
@@ -34,13 +35,11 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 - **ID**: 67bd3def-c41c-4bf6-837b-ae196b4257c6
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
-
-
 
 #### Search
 
@@ -86,12 +85,12 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is logging into the AWS console from Country $Country$ for the first time |
+
 
 
 

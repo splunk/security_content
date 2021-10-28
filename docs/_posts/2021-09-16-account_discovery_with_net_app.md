@@ -1,14 +1,18 @@
 ---
 title: "Account Discovery With Net App"
-excerpt: "Domain Account"
+excerpt: "Domain Account, Account Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1087.002
   - Domain Account
+  - Discovery
+  - T1087
+  - Account Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -33,12 +37,12 @@ this search is to detect a potential account discovery series of command used by
 - **ID**: 339805ce-ac30-11eb-b87d-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
-
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
 #### Search
 
@@ -83,12 +87,12 @@ To successfully implement this search you need to be ingesting information on pr
 admin or power user may used this series of command.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | Suspicious $process_name$ usage detected on endpoint $dest$ by user $user$. |
+
 
 
 

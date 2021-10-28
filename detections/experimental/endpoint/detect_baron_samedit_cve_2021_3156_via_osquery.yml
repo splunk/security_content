@@ -36,3 +36,5 @@ tags:
   - _time
   - columns.cmdline
   security_domain: endpoint
+  cve:
+  - CVE-2021-3156

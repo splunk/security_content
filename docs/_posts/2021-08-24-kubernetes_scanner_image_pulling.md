@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2021-08-24
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1526
@@ -33,13 +34,11 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 - **ID**: 4890cd6b-0112-4974-a272-c5c153aee551
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
-
-
 
 #### Search
 
@@ -81,12 +80,12 @@ You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | Kubernetes Scanner image pulled on host $host$ |
+
 
 
 

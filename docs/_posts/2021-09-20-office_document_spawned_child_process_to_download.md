@@ -1,12 +1,16 @@
 ---
 title: "Office Document Spawned Child Process To Download"
-excerpt: "Spearphishing Attachment"
+excerpt: "Phishing, Spearphishing Attachment"
 categories:
   - Endpoint
 last_modified_at: 2021-09-20
 toc: true
+toc_label: ""
 tags:
   - TTP
+  - T1566
+  - Phishing
+  - Initial Access
   - T1566.001
   - Spearphishing Attachment
   - Initial Access
@@ -33,12 +37,12 @@ This search is to detect potential malicious office document executing lolbin ch
 - **ID**: 6fed27d2-9ec7-11eb-8fe4-aa665a019aa3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
-
 
 #### Search
 
@@ -81,12 +85,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Default browser not in the filter list.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Office document spawning suspicious child process on $dest$ |
+
 
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-06
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1105
@@ -33,13 +34,11 @@ The following analytic will identify a suspicious download by the Telegram appli
 - **ID**: 58194e28-ae5e-11eb-8912-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
-
-
 
 #### Search
 
@@ -76,12 +75,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 normal download of file in telegram app. (if it was a common app in network)
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Suspicious files were downloaded with the Telegram application on $dest$ by $user$. |
+
 
 
 

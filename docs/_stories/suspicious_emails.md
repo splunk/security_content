@@ -2,6 +2,7 @@
 title: "Suspicious Emails"
 last_modified_at: 2020-01-27
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -35,7 +36,7 @@ Once a phishing message has been detected, the next steps are to answer the foll
 | ----------- | ----------- |--------------|
 | [Email Attachments With Lots Of Spaces](/application/email_attachments_with_lots_of_spaces/) |  | Anomaly |
 | [Monitor Email For Brand Abuse](/application/monitor_email_for_brand_abuse/) |  | TTP |
-| [Suspicious Email Attachment Extensions](/application/suspicious_email_attachment_extensions/) | [Spearphishing Attachment](/tags/#spearphishing-attachment) | Anomaly |
+| [Suspicious Email Attachment Extensions](/application/suspicious_email_attachment_extensions/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing) | Anomaly |
 
 #### Reference
 

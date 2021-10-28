@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-08-10
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1530
@@ -34,13 +35,11 @@ This search looks at GCP Storage bucket-access logs and detects new or previousl
 - **ID**: ccc3246a-daa1-11ea-87d0-0242ac130022
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
 
 #### Search
 
@@ -88,6 +87,7 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 
 #### Known False Positives
 GCP Storage buckets can be accessed from any IP (if the ACLs are open to allow it), as long as it can make a successful connection. This will be a false postive, since the search is looking for a new IP within the past two hours.
+
 
 
 

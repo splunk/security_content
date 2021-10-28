@@ -9,6 +9,18 @@ from jinja2 import Environment, FileSystemLoader
 import datetime
 from stix2 import FileSystemSource
 from stix2 import Filter
+from pycvesearch import CVESearch
+
+CVESSEARCH_API_URL = 'https://cve.circl.lu'
+
+def get_cve_enrichment_new(cve_id):
+    cve = CVESearch(CVESSEARCH_API_URL)
+    result = cve.id(cve_id)
+    cve_enriched = dict()
+    cve_enriched['id'] = cve_id
+    cve_enriched['cvss'] = result['cvss']
+    cve_enriched['summary'] = result['summary']
+    return cve_enriched
 
 def get_all_techniques(projects_path):
     path_cti = path.join(projects_path,'cti/enterprise-attack')
@@ -109,11 +121,6 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
                         sto_to_kill_chain_phases[story] = set(detection['tags']['kill_chain_phases'])
 
                 if 'mitre_attacks' in detection:
-                    if story in sto_to_mitre_attacks.keys():
-                        for mitre_attack in detection['mitre_attacks']:
-                            if mitre_attack not in sto_to_mitre_attacks[story]:
-                                sto_to_mitre_attacks[story].append(mitre_attack)
-                    else:
                         sto_to_mitre_attacks[story] = detection['mitre_attacks']
 
     # add the enrich objects to the story
@@ -198,14 +205,6 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
             f.write(output)
         messages.append("doc_gen.py wrote _page for: {0} structure to: {1}".format(category['name'], output_path))
 
-    # write index updated metrics
-    template = j2_env.get_template('doc_index_markdown.j2')
-    output_path = path.join(OUTPUT_DIR + '/index.markdown')
-    output = template.render(detection_count=len(sorted_detections), story_count=len(sorted_stories))
-    with open(output_path, 'w', encoding="utf-8") as f:
-        f.write(output)
-    messages.append("doc_gen.py wrote site index page to: {0}".format(output_path))
-
     # write stories listing markdown
     template = j2_env.get_template('doc_story_page_markdown.j2')
     output_path = path.join(OUTPUT_DIR + '/_pages/stories.md')
@@ -266,6 +265,14 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                 mitre_attack = get_mitre_enrichment_new(attack, mitre_technique_id)
                 mitre_attacks.append(mitre_attack)
             detection_yaml['mitre_attacks'] = mitre_attacks
+
+        # enrich the cve object
+        cves = []
+        if 'cve' in detection_yaml['tags']:
+            for cve_id in detection_yaml['tags']['cve']:
+                cve = get_cve_enrichment_new(cve_id)
+                cves.append(cve)
+            detection_yaml['cve'] = cves
 
         # grab the kind
         detection_yaml['kind'] = manifest_file.split('/')[-2]
@@ -329,6 +336,71 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
     messages.append("doc_gen.py wrote {0} detections documentation in mediawiki to: {1}".format(len(detections),output_path))
 
     return sorted_detections, messages
+
+def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, messages, VERBOSE):
+    manifest_files = []
+    for root, dirs, files in walk(REPO_PATH + '/playbooks/'):
+        for file in files:
+            if file.endswith(".yml"):
+                manifest_files.append((path.join(root, file)))
+
+    playbooks = []
+    for manifest_file in manifest_files:
+        detection_yaml = dict()
+        if VERBOSE:
+            print("processing manifest {0}".format(manifest_file))
+
+        with open(manifest_file, 'r') as stream:
+            try:
+                object = list(yaml.safe_load_all(stream))[0]
+            except yaml.YAMLError as exc:
+                print(exc)
+                print("Error reading {0}".format(manifest_file))
+                sys.exit(1)
+
+        playbooks.append(object)
+
+    sorted_playbooks = sorted(playbooks, key=lambda i: i['name'])
+
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                             trim_blocks=False, autoescape=True)
+
+    # write markdown
+    template = j2_env.get_template('doc_playbooks_markdown.j2')
+    for playbook in sorted_playbooks:
+        file_name = playbook['name'].lower().replace(" ","_") + '.md'
+        output_path = path.join(OUTPUT_DIR + '/_playbooks/' + file_name)
+        output = template.render(playbook=playbook, detections=sorted_detections, time=datetime.datetime.now())
+        with open(output_path, 'w', encoding="utf-8") as f:
+            f.write(output)
+    messages.append("doc_gen.py wrote {0} playbook documentation in markdown to: {1}".format(len(sorted_playbooks),OUTPUT_DIR + '/_playbooks/'))
+
+    # write markdown detection page
+    template = j2_env.get_template('doc_playbooks_page_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/_pages/playbooks.md')
+    output = template.render(playbooks=sorted_playbooks, detections=sorted_detections, time=datetime.datetime.now())
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote playbooks.md page to: {0}".format(output_path))
+
+    return sorted_playbooks, messages
+
+
+def generate_doc_index(OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, sorted_stories, sorted_playbooks, messages, VERBOSE):
+
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                             trim_blocks=False, autoescape=True)
+
+    # write index updated metrics
+    template = j2_env.get_template('doc_index_markdown.j2')
+    output_path = path.join(OUTPUT_DIR + '/index.markdown')
+    output = template.render(detection_count=len(sorted_detections), story_count=len(sorted_stories), playbook_count=len(sorted_playbooks))
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    messages.append("doc_gen.py wrote site index page to: {0}".format(output_path))
+
+    return messages
+
 if __name__ == "__main__":
 
     # grab arguments
@@ -355,6 +427,8 @@ if __name__ == "__main__":
     messages = []
     sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, messages, VERBOSE)
     sorted_stories, messages = generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, sorted_detections, messages, VERBOSE)
+    sorted_playbooks, messages = generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, messages, VERBOSE)
+    messages = generate_doc_index(OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, sorted_stories, sorted_playbooks, messages, VERBOSE)
 
     # print all the messages from generation
     for m in messages:

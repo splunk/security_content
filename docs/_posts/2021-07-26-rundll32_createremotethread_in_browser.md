@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-07-26
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1055
@@ -34,13 +35,11 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 - **ID**: f8a22586-ee2d-11eb-a193-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
 
 #### Search
 
@@ -78,12 +77,12 @@ To successfully implement this search, you need to be ingesting logs with the So
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | rundl32 process $SourceImage$ create a remote thread to browser process $TargetImage$ in host $Computer$ |
+
 
 
 

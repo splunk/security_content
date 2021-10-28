@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1489
@@ -31,13 +32,11 @@ This analytic will identify a suspicious command-line that disables a user accou
 - **ID**: ba858b08-d26c-11eb-af9b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -74,6 +73,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 network operator may use this approach to quickly disable an account but not a common practice.
+
 
 
 

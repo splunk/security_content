@@ -2,6 +2,7 @@
 title: "DNS Amplification Attacks"
 last_modified_at: 2016-09-13
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -30,7 +31,7 @@ The search in this story can help you to detect if attackers are abusing your co
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Large Volume of DNS ANY Queries](/network/large_volume_of_dns_any_queries/) | [Reflection Amplification](/tags/#reflection-amplification) | Anomaly |
+| [Large Volume of DNS ANY Queries](/network/large_volume_of_dns_any_queries/) | [Network Denial of Service](/tags/#network-denial-of-service), [Reflection Amplification](/tags/#reflection-amplification) | Anomaly |
 
 #### Reference
 

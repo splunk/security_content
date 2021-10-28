@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-21
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1048
@@ -33,13 +34,11 @@ This search is to detect potential DNS exfiltration using nslookup application. 
 - **ID**: 0a69fdaa-a2b8-11eb-b16d-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
-
-
 
 #### Search
 
@@ -81,12 +80,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | Excessive usage of nslookup.exe has been detected on $Computer$. This detection is triggered as as it violates the dynamic threshold |
+
 
 
 

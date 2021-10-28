@@ -42,10 +42,12 @@ tags:
     on endpoint $dest$ by user $user$ using AzureHound to enumerate AzureAD.
   mitre_attack_id:
   - T1087.002
-  - T1087.001
-  - T1482
-  - T1069.002
   - T1069.001
+  - T1482
+  - T1087.001
+  - T1087
+  - T1069.002
+  - T1069
   observable:
   - name: user
     type: User

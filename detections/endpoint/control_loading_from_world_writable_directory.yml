@@ -47,6 +47,7 @@ tags:
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ attempting to load a suspicious file from disk.
   mitre_attack_id:
+  - T1218
   - T1218.002
   observable:
   - name: user
@@ -83,3 +84,5 @@ tags:
   - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
+  cve:
+  - CVE-2021-40444

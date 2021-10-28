@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-09-02
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1482
@@ -33,13 +34,11 @@ This analytic identifies Get-ForestTrust from PowerSploit in order to gather dom
 - **ID**: 584f4884-0bf1-11ec-a5ec-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives as this requires an active Administrator or adversary to bring in, import, and execute.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-ForestTrust was identified on endpoint $dest$ by user $user$. |
+
 
 
 

@@ -2,6 +2,7 @@
 title: "Suspicious MSHTA Activity"
 last_modified_at: 2021-01-20
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -41,15 +42,15 @@ The objective of this step is to confirm the executed script code is benign or m
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect MSHTA Url in Command Line](/endpoint/detect_mshta_url_in_command_line/) | [Mshta](/tags/#mshta), [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
-| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
+| [Detect MSHTA Url in Command Line](/endpoint/detect_mshta_url_in_command_line/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
+| [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell) | Hunting |
 | [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | TTP |
-| [Detect Rundll32 Inline HTA Execution](/endpoint/detect_rundll32_inline_hta_execution/) | [Mshta](/tags/#mshta) | TTP |
-| [Detect mshta inline hta execution](/endpoint/detect_mshta_inline_hta_execution/) | [Mshta](/tags/#mshta) | TTP |
-| [Detect mshta renamed](/endpoint/detect_mshta_renamed/) | [Mshta](/tags/#mshta) | Hunting |
-| [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder) | TTP |
-| [Suspicious mshta child process](/endpoint/suspicious_mshta_child_process/) | [Mshta](/tags/#mshta) | TTP |
-| [Suspicious mshta spawn](/endpoint/suspicious_mshta_spawn/) | [Mshta](/tags/#mshta) | TTP |
+| [Detect Rundll32 Inline HTA Execution](/endpoint/detect_rundll32_inline_hta_execution/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
+| [Detect mshta inline hta execution](/endpoint/detect_mshta_inline_hta_execution/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
+| [Detect mshta renamed](/endpoint/detect_mshta_renamed/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | Hunting |
+| [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
+| [Suspicious mshta child process](/endpoint/suspicious_mshta_child_process/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
+| [Suspicious mshta spawn](/endpoint/suspicious_mshta_spawn/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
 
 #### Reference
 

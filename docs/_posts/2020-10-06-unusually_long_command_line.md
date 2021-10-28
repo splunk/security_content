@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-10-06
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - Splunk Behavioral Analytics
@@ -25,8 +26,6 @@ Command lines that are extremely long may be indicative of malicious activity on
 - **Last Updated**: 2020-10-06
 - **Author**: Ignacio Bermudez Corrales, Splunk
 - **ID**: 58f43aba-1775-445e-b19c-be2b87d83ae3
-
-
 
 #### Search
 
@@ -70,12 +69,12 @@ You must be ingesting sysmon endpoint data that monitors command lines.
 This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 30 | 40 | A  process $process_name$ with a long commandline $cmd_line$ executed in host $dest_device_id$ |
+
 
 
 

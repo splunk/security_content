@@ -56,6 +56,7 @@ tags:
     $dest$ executed by user $user$.
   mitre_attack_id:
   - T1059.001
+  - T1059
   nist:
   - PR.PT
   - DE.CM

@@ -1,14 +1,18 @@
 ---
 title: "Protocol or Port Mismatch"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol"
+excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
 categories:
   - Network
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1048.003
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration
+  - T1048
+  - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -35,12 +39,12 @@ This search looks for network traffic on common ports where a higher layer proto
 - **ID**: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-
+| [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
 #### Search
 
@@ -75,6 +79,7 @@ Running this search properly requires a technology that can inspect network traf
 
 #### Known False Positives
 None identified
+
 
 
 

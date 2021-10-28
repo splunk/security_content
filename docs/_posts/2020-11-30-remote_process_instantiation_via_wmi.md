@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-11-30
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1047
@@ -33,13 +34,11 @@ This analytic identifies wmic.exe being launched with parameters to spawn a proc
 - **ID**: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
 
 #### Search
 
@@ -83,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 The wmic.exe utility is a benign Windows application. It may be used legitimately by Administrators with these parameters for remote system administration, but it&#39;s relatively uncommon.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | A wmic.exe process $process$ contain process spawn commandline $process$ in host $dest$ |
+
 
 
 

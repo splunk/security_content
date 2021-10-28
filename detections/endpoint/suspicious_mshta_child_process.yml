@@ -47,6 +47,7 @@ tags:
   - Exploitation
   message: suspicious mshta child process detected on host $dest$ by user $user$.
   mitre_attack_id:
+  - T1218
   - T1218.005
   nist:
   - PR.PT

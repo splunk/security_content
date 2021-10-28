@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-05-04
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1531
@@ -33,13 +34,11 @@ This analytic will identify a suspicious command-line that disables a user accou
 - **ID**: c0325326-acd6-11eb-98c2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
-
-
 
 #### Search
 
@@ -82,12 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified disabling a user account on endpoint $dest$ by user $user$. |
+
 
 
 

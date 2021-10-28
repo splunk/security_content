@@ -1,12 +1,16 @@
 ---
 title: "Wermgr Process Connecting To IP Check Web Services"
-excerpt: "IP Addresses"
+excerpt: "Gather Victim Network Information, IP Addresses"
 categories:
   - Endpoint
 last_modified_at: 2021-04-19
 toc: true
+toc_label: ""
 tags:
   - TTP
+  - T1590
+  - Gather Victim Network Information
+  - Reconnaissance
   - T1590.005
   - IP Addresses
   - Reconnaissance
@@ -33,12 +37,12 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 - **ID**: ed313326-a0f9-11eb-a89c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
 | [T1590.005](https://attack.mitre.org/techniques/T1590/005/) | IP Addresses | Reconnaissance |
-
 
 #### Search
 
@@ -77,12 +81,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Wermgr.exe process connecting IP location web services on $ComputerName$ |
+
 
 
 

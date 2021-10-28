@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2017-09-19
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - Splunk Enterprise
@@ -30,8 +31,6 @@ Attackers often use spaces as a means to obfuscate an attachment&#39;s file exte
 - **Last Updated**: 2017-09-19
 - **Author**: David Dorsey, Splunk
 - **ID**: 56e877a6-1455-4479-ada6-0550dc1e22f8
-
-
 
 #### Search
 
@@ -72,6 +71,7 @@ If Splunk Phantom is also configured in your environment, a playbook called &#34
 
 #### Known False Positives
 None at this time
+
 
 
 

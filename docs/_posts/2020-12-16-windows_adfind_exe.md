@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-12-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1018
@@ -35,13 +36,11 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 - **ID**: bd3b0187-189b-46c0-be45-f52da2bae67f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
 
 #### Search
 
@@ -79,6 +78,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 administrators rarely use adfind, usually not used for legitimate reasons
+
 
 
 

@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1489
@@ -31,13 +32,11 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 - **ID**: dbc30554-d27e-11eb-9e5e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -74,6 +73,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 network admin can resize the shadowstorage for valid purposes.
+
 
 
 

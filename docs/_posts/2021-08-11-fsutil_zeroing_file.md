@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-08-11
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1070
@@ -33,13 +34,11 @@ This search is to detect a suspicious fsutil process to zeroing a target file. T
 - **ID**: 4e5e024e-fabb-11eb-8b8f-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
 
 #### Search
 
@@ -77,12 +76,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | Possible file data deletion on $dest$ using $process$ |
+
 
 
 

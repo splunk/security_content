@@ -2,6 +2,7 @@
 title: "Windows File Extension and Association Abuse"
 last_modified_at: 2018-01-26
 toc: true
+toc_label: ""
 tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -33,7 +34,7 @@ Run the searches in this story to detect and investigate suspicious behavior tha
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild), [Rundll32](/tags/#rundll32), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Masquerading](/tags/#masquerading) | TTP |
+| [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
 
 #### Reference
 

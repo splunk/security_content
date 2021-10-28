@@ -49,6 +49,7 @@ tags:
     $ComputerName$ by user $user$.
   mitre_attack_id:
   - T1003.002
+  - T1003
   observable:
   - name: user
     type: User
@@ -71,3 +72,5 @@ tags:
   - EventCode
   risk_score: 80
   security_domain: endpoint
+  cve:
+  - CVE-2021-36934

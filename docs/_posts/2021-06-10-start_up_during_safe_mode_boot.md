@@ -1,14 +1,19 @@
 ---
 title: "Start Up During Safe Mode Boot"
-excerpt: "Registry Run Keys / Startup Folder"
+excerpt: "Registry Run Keys / Startup Folder, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-06-10
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1547.001
   - Registry Run Keys / Startup Folder
+  - Persistence
+  - Privilege Escalation
+  - T1547
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -34,12 +39,12 @@ This search is to detect a modification or registry add to the safeboot registry
 - **ID**: c6149154-c9d8-11eb-9da7-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
-
+| [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
 
 #### Search
 
@@ -75,12 +80,12 @@ To successfully implement this search, you must be ingesting data that records r
 updated windows application needed in safe boot may used this registry
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | Safeboot registry $registry_path$ was added or modified with a new value $registry_value_name$ on $dest$ |
+
 
 
 

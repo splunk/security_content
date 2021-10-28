@@ -5,6 +5,7 @@ categories:
   - Web
 last_modified_at: 2020-07-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1190
@@ -35,13 +36,11 @@ This search looks for long URLs that have several SQL commands visible within th
 - **ID**: e0aad4cf-0790-423b-8328-7564d0d938f9
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
-
-
 
 #### Search
 
@@ -78,6 +77,7 @@ To successfully implement this search, you need to be monitoring network communi
 
 #### Known False Positives
 It&#39;s possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
+
 
 
 

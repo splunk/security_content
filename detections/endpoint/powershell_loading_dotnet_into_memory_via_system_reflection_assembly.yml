@@ -50,6 +50,7 @@ tags:
   message: A suspicious powershell script contains reflective class assembly  command
     in $Message$ to load .net code in memory with EventCode $EventCode$ in host $ComputerName$
   mitre_attack_id:
+  - T1059
   - T1059.001
   observable:
   - name: ComputerName

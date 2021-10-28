@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-04-19
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1027
@@ -33,13 +34,11 @@ this search is designed to detect potential malicious wermgr.exe process that dr
 - **ID**: ab3bcce0-a105-11eb-973c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
-
-
 
 #### Search
 
@@ -76,12 +75,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Wermgr.exe writing executable files on $dest$ |
+
 
 
 

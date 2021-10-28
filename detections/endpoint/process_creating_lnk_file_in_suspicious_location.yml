@@ -51,6 +51,7 @@ tags:
   message: A process $process_name$ that launching .lnk file in $file_path$ in host
     $dest$
   mitre_attack_id:
+  - T1566
   - T1566.002
   nist:
   - ID.AM

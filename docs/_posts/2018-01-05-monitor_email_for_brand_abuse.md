@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2018-01-05
 toc: true
+toc_label: ""
 tags:
   - TTP
   - Splunk Enterprise
@@ -30,8 +31,6 @@ This search looks for emails claiming to be sent from a domain similar to one th
 - **Last Updated**: 2018-01-05
 - **Author**: David Dorsey, Splunk
 - **ID**: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
-
-
 
 #### Search
 
@@ -70,6 +69,7 @@ You need to ingest email header data. Specifically the sender&#39;s address (src
 
 #### Known False Positives
 None at this time
+
 
 
 

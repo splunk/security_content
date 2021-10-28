@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-02
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1204
@@ -33,13 +34,11 @@ This search detects the suspicious commandline argument of revil ransomware to e
 - **ID**: 624919bc-c382-11eb-adcc-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
 
 #### Search
 
@@ -82,12 +81,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 3rd party tool may have commandline parameter that can trigger this detection.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ executing specific Conti Ransomware related parameters. |
+
 
 
 

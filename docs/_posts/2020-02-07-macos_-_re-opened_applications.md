@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2020-02-07
 toc: true
+toc_label: ""
 tags:
   - TTP
   - Splunk Enterprise
@@ -31,8 +32,6 @@ This search looks for processes referencing the plist files that determine which
 - **Last Updated**: 2020-02-07
 - **Author**: Jamie Windley, Splunk
 - **ID**: 40bb64f9-f619-4e3d-8732-328d40377c4b
-
-
 
 #### Search
 
@@ -68,6 +67,7 @@ In order to properly run this search, Splunk needs to ingest process data from y
 
 #### Known False Positives
 At this stage, there are no known false positives. During testing, no process events refering the com.apple.loginwindow.plist files were observed during normal operation of re-opening applications on reboot. Therefore, it can be asumed that any occurences of this in the process events would be worth investigating. In the event that the legitimate modification by the system of these files is in fact logged to the process log, then the process_name of that process can be added to an allow list.
+
 
 
 

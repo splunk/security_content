@@ -5,6 +5,7 @@ categories:
   - Network
 last_modified_at: 2020-10-21
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1041
@@ -34,13 +35,11 @@ This search looks for commands that the SNICat tool uses in the TLS SNI field.
 - **ID**: 82d06410-134c-11eb-adc1-0242ac120002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1041](https://attack.mitre.org/techniques/T1041/) | Exfiltration Over C2 Channel | Exfiltration |
-
-
 
 #### Search
 
@@ -83,6 +82,7 @@ You must be ingesting Zeek SSL data into Splunk. Zeek data should also be gettin
 
 #### Known False Positives
 Unknown
+
 
 
 

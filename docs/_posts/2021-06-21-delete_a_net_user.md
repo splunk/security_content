@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-06-21
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1489
@@ -31,13 +32,11 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 - **ID**: 8776d79c-d26e-11eb-9a56-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -74,6 +73,7 @@ o successfully implement this search, you need to be ingesting logs with the pro
 
 #### Known False Positives
 System administrators or scripts may delete user accounts via this technique. Filter as needed.
+
 
 
 

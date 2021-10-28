@@ -38,6 +38,7 @@ tags:
   message: The following $EventCode$ occurred on $dest$ by $user$ with Logon Type
     3, which may be indicative of the pass the hash technique.
   mitre_attack_id:
+  - T1550
   - T1550.002
   nist:
   - PR.PT

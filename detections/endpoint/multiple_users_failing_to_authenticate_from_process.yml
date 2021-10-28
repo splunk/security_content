@@ -63,6 +63,7 @@ tags:
   message: Potential password spraying attack from $ComputerName$
   mitre_attack_id:
   - T1110.003
+  - T1110
   observable:
   - name: ComputerName
     type: Endpoint

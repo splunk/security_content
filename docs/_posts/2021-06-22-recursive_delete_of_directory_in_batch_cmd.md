@@ -1,14 +1,18 @@
 ---
 title: "Recursive Delete of Directory In Batch CMD"
-excerpt: "File Deletion"
+excerpt: "File Deletion, Indicator Removal on Host"
 categories:
   - Endpoint
 last_modified_at: 2021-06-22
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1070.004
   - File Deletion
+  - Defense Evasion
+  - T1070
+  - Indicator Removal on Host
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -33,12 +37,12 @@ This search is to detect a suspicious commandline designed to delete files or di
 - **ID**: ba570b3a-d356-11eb-8358-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
-
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 #### Search
 
@@ -79,6 +83,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 network operator may use this batch command to delete recursively a directory or files within directory
+
 
 
 

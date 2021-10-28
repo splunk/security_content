@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2017-09-12
 toc: true
+toc_label: ""
 tags:
   - TTP
   - Splunk Enterprise
@@ -30,8 +31,6 @@ The search queries the authentication logs for assets that are categorized as ro
 - **Last Updated**: 2017-09-12
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 104658f4-afdc-499e-9719-17243rr826f1
-
-
 
 #### Search
 
@@ -66,6 +65,7 @@ To successfully implement this search, you must ensure the network router device
 
 #### Known False Positives
 Legitimate router connections may appear as new connections
+
 
 
 

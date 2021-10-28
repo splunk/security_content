@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2018-05-07
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - Splunk Enterprise
@@ -30,8 +31,6 @@ This search will detect spike in blocked outbound network connections originatin
 - **Last Updated**: 2018-05-07
 - **Author**: Bhavin Patel, Splunk
 - **ID**: ada0f278-84a8-46w1-a3f1-w32372d4bd53
-
-
 
 #### Search
 
@@ -78,6 +77,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Known False Positives
 The false-positive rate may vary based on the values of`dataPointThreshold` and `deviationThreshold`. Additionally, false positives may result when AWS administrators roll out policies enforcing network blocks, causing sudden increases in the number of blocked outbound connections.
+
 
 
 

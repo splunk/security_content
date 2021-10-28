@@ -5,6 +5,7 @@ categories:
   - Application
 last_modified_at: 2019-04-01
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1082
@@ -35,13 +36,11 @@ This search looks for suspicious processes on all systems labeled as web servers
 - **ID**: ec3b7601-689a-4463-94e0-c9f45638efb9
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
-
-
 
 #### Search
 
@@ -76,6 +75,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 #### Known False Positives
 Some of these processes may be used legitimately on web servers during maintenance or other administrative tasks.
+
 
 
 

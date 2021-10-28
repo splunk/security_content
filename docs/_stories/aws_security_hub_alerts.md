@@ -2,6 +2,7 @@
 title: "AWS Security Hub Alerts"
 last_modified_at: 2020-08-04
 toc: true
+toc_label: ""
 tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise

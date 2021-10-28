@@ -1,14 +1,18 @@
 ---
 title: "Kerberoasting spn request with RC4 encryption"
-excerpt: "Kerberoasting"
+excerpt: "Kerberoasting, Steal or Forge Kerberos Tickets"
 categories:
   - Endpoint
 last_modified_at: 2020-10-16
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1558.003
   - Kerberoasting
+  - Credential Access
+  - T1558
+  - Steal or Forge Kerberos Tickets
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -32,12 +36,12 @@ This search detects a potential kerberoasting attack via service principal name 
 - **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
-
+| [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
 
 #### Search
 
@@ -74,12 +78,12 @@ You must be ingesting endpoint data that tracks process activity, and include th
 Older systems that support kerberos RC4 by default NetApp may generate false positives
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Potential kerberoasting attack via service principal name requests detected on $dest$ |
+
 
 
 

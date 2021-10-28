@@ -65,6 +65,7 @@ tags:
     Pass the Hash techniques. Operation is performed via credentials of the account
     $dest_user_id$ and observed by the logging device $origin_device_id$
   mitre_attack_id:
+  - T1550
   - T1550.002
   nist:
   - PR.PT

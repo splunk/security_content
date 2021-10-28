@@ -42,6 +42,7 @@ tags:
   - Reconnaissance
   message: Domain group discovery enumeration on $dest$ by $user$
   mitre_attack_id:
+  - T1069
   - T1069.002
   observable:
   - name: dest

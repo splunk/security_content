@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2021-03-17
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1543
@@ -34,13 +35,11 @@ This detection is to identify the common service name created by the CLOP ransom
 - **ID**: 07e08a12-870c-11eb-b5f9-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
-
-
 
 #### Search
 
@@ -77,12 +76,12 @@ To successfully implement this search, you need to be ingesting logs with the Se
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 100.0 | 100 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ executing known Clop Ransomware service names. |
+
 
 
 

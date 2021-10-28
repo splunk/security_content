@@ -1,12 +1,16 @@
 ---
 title: "Suspicious MSBuild Spawn"
-excerpt: "MSBuild"
+excerpt: "Trusted Developer Utilities Proxy Execution, MSBuild"
 categories:
   - Endpoint
 last_modified_at: 2021-01-12
 toc: true
+toc_label: ""
 tags:
   - TTP
+  - T1127
+  - Trusted Developer Utilities Proxy Execution
+  - Defense Evasion
   - T1127.001
   - MSBuild
   - Defense Evasion
@@ -33,12 +37,12 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 - **ID**: a115fba6-5514-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
-
 
 #### Search
 
@@ -81,12 +85,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Suspicious msbuild.exe process executed on $dest$ by $user$ |
+
 
 
 

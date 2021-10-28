@@ -1,14 +1,21 @@
 ---
 title: "Abnormally High Number Of Cloud Infrastructure API Calls"
-excerpt: "Cloud Accounts"
+excerpt: "Cloud Accounts, Valid Accounts"
 categories:
   - Cloud
 last_modified_at: 2020-09-07
 toc: true
+toc_label: ""
 tags:
   - Anomaly
   - T1078.004
   - Cloud Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - T1078
+  - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
@@ -37,12 +44,12 @@ This search will detect a spike in the number of API calls made to your cloud in
 - **ID**: 0840ddf1-8c89-46ff-b730-c8d6722478c0
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
 
@@ -88,12 +95,12 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | user $user$ has made $api_calls$ api calls, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$. |
+
 
 
 

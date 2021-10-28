@@ -5,6 +5,7 @@ categories:
   - Endpoint
 last_modified_at: 2018-12-03
 toc: true
+toc_label: ""
 tags:
   - TTP
   - T1047
@@ -33,13 +34,11 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 - **ID**: 272df6de-61f1-4784-877c-1fbc3e2d0838
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
 
 #### Search
 
@@ -78,12 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may use this legitimately to gather info from remote systems. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | A wmic.exe process $process$ contain node commandline $process$ in host $dest$ |
+
 
 
 

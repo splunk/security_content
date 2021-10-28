@@ -5,6 +5,7 @@ categories:
   - Cloud
 last_modified_at: 2020-07-27
 toc: true
+toc_label: ""
 tags:
   - Hunting
   - T1078
@@ -37,13 +38,11 @@ This search provides detection of an user attaching itself to a different role t
 - **ID**: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic       |
-| ----------- | ----------- |--------------|
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
 
 #### Search
 
@@ -72,6 +71,7 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 
 #### Known False Positives
 Attach to policy can create a lot of noise. This search can be adjusted to provide specific values to identify cases of abuse (i.e status=failure). The search can provide context for common users attaching themselves to higher privilege policies or even newly created policies.
+
 
 
 
