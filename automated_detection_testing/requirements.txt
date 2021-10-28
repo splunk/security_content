@@ -57,7 +57,7 @@ PyJWT==2.1.0
 PyNaCl==1.4.0
 pyparsing==2.4.7
 pyperclip==1.8.2
-pytest==6.2.4
+pytest==6.2.5
 python-daemon==2.3.0
 python-dateutil==2.8.1
 python-terraform==0.10.1
