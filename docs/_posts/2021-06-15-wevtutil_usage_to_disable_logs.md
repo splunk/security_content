@@ -102,4 +102,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wevtutil_usage_to_disable_logs.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wevtutil_usage_to_disable_logs.yml) \| *version*: **2**

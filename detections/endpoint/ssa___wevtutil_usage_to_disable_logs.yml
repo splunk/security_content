@@ -33,6 +33,9 @@ tags:
   analytic_story:
   - Windows Log Manipulation
   - Ransomware
+  cis20:
+  - CIS 8
+  - CIS 13
   confidence: 90
   context:
   - source:endpoint
@@ -47,13 +50,9 @@ tags:
   mitre_attack_id:
   - T1070
   - T1070.001
-  cis20: 
-  - CIS 8
-  - CIS 13
   nist:
   - PR.DS
   - PR.IP
-  risk_severity: high
   observable:
   - name: dest_device_id
     type: Hostname
@@ -74,4 +73,5 @@ tags:
   - dest_user_id
   - process
   risk_score: 63
+  risk_severity: high
   security_domain: endpoint

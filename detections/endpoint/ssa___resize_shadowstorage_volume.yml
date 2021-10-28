@@ -37,19 +37,18 @@ tags:
   analytic_story:
   - Clop Ransomware
   - Ransomware
+  cis20:
+  - CIS 10
+  - CIS 13
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1489
-  cis20: 
-  - CIS 10
-  - CIS 13
   nist:
   - PR.DS
   - PR.IP
-  risk_severity: high
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -60,4 +59,5 @@ tags:
   - process_path
   - dest_user_id
   - process
+  risk_severity: high
   security_domain: endpoint
