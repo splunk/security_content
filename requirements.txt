@@ -61,7 +61,7 @@ simplejson==3.17.5
 six==1.16.0
 sly==0.4
 smmap==4.0.0
-stix2==3.0.0
+stix2==3.0.1
 stix2-patterns==1.3.2
 taxii2-client==2.3.0
 termcolor==1.1.0
