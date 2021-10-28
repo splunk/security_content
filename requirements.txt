@@ -19,7 +19,7 @@ filelock==3.0.12
 fire==0.4.0
 gitdb==4.0.7
 html5lib==1.1
-humanfriendly==9.2
+humanfriendly==10.0
 identify==2.2.13
 idna==3.2
 importlib-metadata==4.8.1
