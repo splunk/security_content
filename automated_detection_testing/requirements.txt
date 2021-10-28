@@ -16,7 +16,7 @@ bcrypt==3.2.0
 boto3==1.18.38
 botocore==1.22.5
 certifi==2021.5.30
-cffi==1.14.5
+cffi==1.15.0
 cfgv==3.3.0
 chardet==4.0.0
 colorama==0.4.4
