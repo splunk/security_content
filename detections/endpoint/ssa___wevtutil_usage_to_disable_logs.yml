@@ -1,6 +1,6 @@
 name: Wevtutil Usage To Disable Logs
 id: a4bdc944-cdd9-11eb-ac97-acde48001122
-version: 1
+version: 2
 date: '2021-06-15'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -47,6 +47,13 @@ tags:
   mitre_attack_id:
   - T1070
   - T1070.001
+  cis20: 
+  - CIS 8
+  - CIS 13
+  nist:
+  - PR.DS
+  - PR.IP
+  risk_severity: high
   observable:
   - name: dest_device_id
     type: Hostname

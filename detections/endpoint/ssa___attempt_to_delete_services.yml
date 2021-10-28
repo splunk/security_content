@@ -1,6 +1,6 @@
 name: Attempt To delete Services
 id: a0c8c292-d01a-11eb-aa18-acde48001122
-version: 1
+version: 2
 date: '2021-06-18'
 author: Teoderick Contreras, splunk
 type: TTP
@@ -39,6 +39,13 @@ tags:
   - Exploitation
   mitre_attack_id:
   - T1489
+  cis20: 
+  - CIS 8
+  - CIS 13
+  nist:
+  - PR.DS
+  - PR.IP
+  risk_severity: high
   product:
   - Splunk Behavioral Analytics
   required_fields:
