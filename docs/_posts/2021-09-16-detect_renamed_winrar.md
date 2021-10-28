@@ -38,19 +38,12 @@ The following analtyic identifies renamed instances of `WinRAR.exe`. In most cas
 - **ID**: 1b7bfb2c-b8e6-11eb-99ac-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
-
-
-
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
-
-
-
-
 
 #### Search
 

@@ -38,19 +38,12 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 - **ID**: 538d0152-7aaa-11eb-beaa-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
-
-
-
-
 
 #### Search
 

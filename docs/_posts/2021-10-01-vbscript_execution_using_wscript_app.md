@@ -37,19 +37,12 @@ This analytic is to detect a suspicious wscript commandline to execute vbscript.
 - **ID**: 35159940-228f-11ec-8a49-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059.005](https://attack.mitre.org/techniques/T1059/005/) | Visual Basic | Execution |
-
-
-
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
-
-
 
 #### Search
 

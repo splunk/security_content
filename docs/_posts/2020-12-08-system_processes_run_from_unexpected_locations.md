@@ -39,19 +39,12 @@ During triage, review the parallel processes - what process moved the native Win
 - **ID**: a34aae96-ccf8-4aef-952c-3ea21444444d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
-
-
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
-
-
-
-
 
 #### Search
 

@@ -34,16 +34,11 @@ This search is to detect a suspicious whoami execution to check if the cmd or sh
 - **ID**: a9079b18-1633-11ec-859c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
-
-
-
-
 
 #### Search
 

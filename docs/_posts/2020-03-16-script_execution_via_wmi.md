@@ -34,16 +34,11 @@ This search looks for scripts launched via WMI.
 - **ID**: aa73f80d-d728-4077-b226-81ea0c8be589
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
-
-
 
 #### Search
 

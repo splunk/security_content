@@ -31,8 +31,6 @@ The search looks for a sharp increase in the number of files written to a partic
 - **Author**: David Dorsey, Splunk
 - **ID**: fdb0f805-74e4-4539-8c00-618927333aae
 
-
-
 #### Search
 
 ```

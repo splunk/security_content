@@ -34,16 +34,11 @@ This search detects when a user has performed an Ediscovery search or exported a
 - **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
-
-
-
-
 
 #### Search
 

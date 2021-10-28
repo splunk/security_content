@@ -37,19 +37,12 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 - **ID**: 5d0d4830-0133-11ec-bae3-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
-
-
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
-
-
-
-
 
 #### Search
 

@@ -32,16 +32,11 @@ This analytic identifies potential adversaries that modify the security permissi
 - **ID**: c6da561a-cd29-11eb-ae65-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
-
-
 
 #### Search
 

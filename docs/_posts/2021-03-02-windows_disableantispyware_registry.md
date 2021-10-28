@@ -37,19 +37,12 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 - **ID**: 23150a40-9301-4195-b802-5bb4f43067fb
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
-
-
-
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
-
-
-
-
 
 #### Search
 

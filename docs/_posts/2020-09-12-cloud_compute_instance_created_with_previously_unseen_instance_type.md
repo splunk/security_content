@@ -30,8 +30,6 @@ Find EC2 instances being created with previously unseen instance types.
 - **Author**: David Dorsey, Splunk
 - **ID**: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
 
-
-
 #### Search
 
 ```

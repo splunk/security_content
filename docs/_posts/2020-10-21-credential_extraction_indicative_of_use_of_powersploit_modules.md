@@ -31,16 +31,11 @@ Credential extraction is often an illegal recovery of credential material from s
 - **ID**: 5f1186a4-e681-446e-851c-dc9574ad28eb
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
-
-
 
 #### Search
 

@@ -37,19 +37,12 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 - **ID**: b7a045fc-f14a-11eb-8e79-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
-
-
-
-
 
 #### Search
 

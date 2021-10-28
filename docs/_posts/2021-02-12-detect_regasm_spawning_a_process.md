@@ -37,19 +37,12 @@ The following analytic identifies regasm.exe spawning a process. This particular
 - **ID**: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
-
-
-
-
 
 #### Search
 

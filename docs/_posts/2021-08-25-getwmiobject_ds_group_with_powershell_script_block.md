@@ -37,19 +37,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 67740bd3-1506-469c-b91d-effc322cc6e5
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
-
-
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
-
-
-
-
 
 #### Search
 

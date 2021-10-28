@@ -38,16 +38,11 @@ During triage, review parallel security events to identify further suspicious ac
 - **ID**: 95b8061a-0a67-11ec-85ec-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
-
-
-
-
 
 #### Search
 

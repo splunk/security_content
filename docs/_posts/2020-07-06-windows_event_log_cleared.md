@@ -36,19 +36,12 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 - **ID**: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
-
-
-
-
 
 #### Search
 

@@ -41,19 +41,12 @@ The search looks for reg.exe modifying registry keys that define Windows service
 - **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
-
-
-
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
-
-
-
-
 
 #### Search
 

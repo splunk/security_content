@@ -38,16 +38,11 @@ Alternatively, may use regex per matching here https://regexr.com/662ov.
 - **ID**: c4db14d9-7909-48b4-a054-aa14d89dbb19
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
-
-
-
-
 
 #### Search
 

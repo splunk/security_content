@@ -35,16 +35,11 @@ The following analytic will detect a suspicious process running in a file path w
 - **ID**: 9be25988-ad82-11eb-a14f-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 

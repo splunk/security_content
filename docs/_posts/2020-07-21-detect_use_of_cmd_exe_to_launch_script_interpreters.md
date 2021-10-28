@@ -37,19 +37,12 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 - **ID**: b89919ed-fe5f-492c-b139-95dbb162039e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
-
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
-
-
-
-
 
 #### Search
 
