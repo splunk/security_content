@@ -38,13 +38,11 @@ This search provides detection of suspicious use of sts:AssumeRole. These tokens
 - **ID**: 8e565314-b6a2-46d8-9f05-1a34a176a662
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
 
 #### Search
 
@@ -82,6 +80,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 #### Known False Positives
 Sts:AssumeRole can be very noisy as it is a standard mechanism to provide cross account and cross resources access. This search can be adjusted to provide specific values to identify cases of abuse.
+
 
 
 

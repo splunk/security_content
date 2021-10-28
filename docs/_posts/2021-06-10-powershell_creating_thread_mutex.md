@@ -1,6 +1,6 @@
 ---
 title: "Powershell Creating Thread Mutex"
-excerpt: "Indicator Removal from Tools"
+excerpt: "Obfuscated Files or Information, Indicator Removal from Tools"
 categories:
   - Endpoint
 last_modified_at: 2021-06-10
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1027
+  - Obfuscated Files or Information
+  - Defense Evasion
   - T1027.005
   - Indicator Removal from Tools
   - Defense Evasion
@@ -33,12 +36,12 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: 637557ec-ca08-11eb-bd0a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
 | [T1027.005](https://attack.mitre.org/techniques/T1027/005/) | Indicator Removal from Tools | Defense Evasion |
-
 
 #### Search
 
@@ -73,12 +76,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 powershell developer may used this function in their script for instance checking too.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains Thread Mutex in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 

@@ -34,13 +34,11 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 - **ID**: 0f83244b-425b-4528-83db-7a88c5f66e48
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
-
-
 
 #### Search
 
@@ -78,12 +76,12 @@ You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Local File Inclusion Attack detected on $host$ |
+
 
 
 

@@ -34,13 +34,11 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 - **ID**: 868ee0e4-52ab-484a-833a-6d85b7c028d0
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +80,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use PowerView for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 24.0 | 30 | 80 | Remote system discovery using PowerView on $dest$ by $user$ |
+
 
 
 

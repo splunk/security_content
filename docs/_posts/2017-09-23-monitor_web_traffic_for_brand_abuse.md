@@ -32,8 +32,6 @@ This search looks for Web requests to faux domains similar to the one that you w
 - **Author**: David Dorsey, Splunk
 - **ID**: 134da869-e264-4a8f-8d7e-fcd0ec88f301
 
-
-
 #### Search
 
 ```
@@ -64,6 +62,7 @@ You need to ingest data from your web traffic. This can be accomplished by index
 
 #### Known False Positives
 None at this time
+
 
 
 

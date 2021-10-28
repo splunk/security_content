@@ -29,8 +29,6 @@ This search looks for a spike in number of of AWS security Hub alerts for an EC2
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
 
-
-
 #### Search
 
 ```
@@ -70,12 +68,12 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 None
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$ |
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Suspicious IcedID Regsvr32 Cmdline"
-excerpt: "Regsvr32"
+excerpt: "Signed Binary Proxy Execution, Regsvr32"
 categories:
   - Endpoint
 last_modified_at: 2021-07-27
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1218
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - T1218.010
   - Regsvr32
   - Defense Evasion
@@ -34,12 +37,12 @@ this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execu
 - **ID**: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
-
 
 #### Search
 
@@ -82,12 +85,12 @@ To successfully implement this search you need to be ingesting information on pr
 minimal. but network operator can use this application to load dll.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | regsvr32 process $process_name$ with commandline $process$ in host $dest$ |
+
 
 
 

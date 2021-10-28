@@ -32,13 +32,11 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 - **ID**: a0c8c292-d01a-11eb-aa18-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -75,6 +73,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 unknown
+
 
 
 

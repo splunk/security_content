@@ -1,6 +1,6 @@
 ---
 title: "Monitor Registry Keys for Print Monitors"
-excerpt: "Port Monitors"
+excerpt: "Port Monitors, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-11-23
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1547.010
   - Port Monitors
+  - Persistence
+  - Privilege Escalation
+  - T1547
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
@@ -34,12 +38,12 @@ This search looks for registry activity associated with modifications to the reg
 - **ID**: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1547.010](https://attack.mitre.org/techniques/T1547/010/) | Port Monitors | Persistence, Privilege Escalation |
-
+| [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
 
 #### Search
 
@@ -76,12 +80,12 @@ To successfully implement this search, you must be ingesting data that records r
 You will encounter noise from legitimate print-monitor registry entries.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | New print monitor added on $dest$ |
+
 
 
 

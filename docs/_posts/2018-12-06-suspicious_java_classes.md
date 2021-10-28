@@ -31,8 +31,6 @@ This search looks for suspicious Java classes that are often used to exploit rem
 - **Author**: Jose Hernandez, Splunk
 - **ID**: if1fea6da-3c86-4c1d-b255-fc3b2781a491
 
-
-
 #### Search
 
 ```
@@ -71,6 +69,7 @@ In order to properly run this search, Splunk needs to ingest data from your web-
 
 #### Known False Positives
 There are no known false positives.
+
 
 
 

@@ -36,13 +36,11 @@ The following analytic identifies the use of a SQLite3 querying the MacOS prefer
 - **ID**: e1997b2e-655f-4561-82fd-aeba8e1c1a86
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1074](https://attack.mitre.org/techniques/T1074/) | Data Staged | Collection |
-
-
 
 #### Search
 
@@ -79,6 +77,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 Unknown.
+
 
 
 

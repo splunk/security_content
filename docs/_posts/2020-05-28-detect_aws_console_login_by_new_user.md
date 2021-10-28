@@ -31,8 +31,6 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 - **Author**: Rico Valdez, Splunk
 - **ID**: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
 
-
-
 #### Search
 
 ```
@@ -69,12 +67,12 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | User $user$ is logging into the AWS console for the first time |
+
 
 
 

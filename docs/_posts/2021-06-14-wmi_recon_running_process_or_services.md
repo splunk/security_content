@@ -33,13 +33,11 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: b5cd5526-cce7-11eb-b3bd-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
-
-
 
 #### Search
 
@@ -74,12 +72,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 network administrator may used this command for checking purposes
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 30 | 100 | Suspicious powerShell script execution by $user$ on $ComputerName$ via EventCode 4104, where WMI is performing an event query looking for running processes or running services |
+
 
 
 

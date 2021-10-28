@@ -31,8 +31,6 @@ This search looks for AssumeRole events where an IAM role in a different account
 - **Author**: Rico Valdez, Splunk
 - **ID**: 21193641-cb96-4a2c-a707-d9b9a7f7792b
 
-
-
 #### Search
 
 ```
@@ -74,12 +72,12 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 Using multiple AWS accounts and roles is perfectly valid behavior. It&#39;s suspicious when an account requests privileges of an account it hasn&#39;t before. You should validate with the account owner that this is a legitimate request.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | AWS account $requestingAccountId$ is trying to access resource from some other account $requestedAccountId$, for the first time. |
+
 
 
 

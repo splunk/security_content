@@ -1,6 +1,6 @@
 ---
 title: "Ryuk Wake on LAN Command"
-excerpt: "Windows Command Shell"
+excerpt: "Command and Scripting Interpreter, Windows Command Shell"
 categories:
   - Endpoint
 last_modified_at: 2021-03-01
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.003
   - Windows Command Shell
   - Execution
@@ -35,12 +38,12 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 - **ID**: 538d0152-7aaa-11eb-beaa-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
-
 
 #### Search
 
@@ -81,12 +84,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited to no known false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A process $process_name$ with wake on LAN commandline $process$ in host $dest$ |
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "GetWmiObject DS User with PowerShell Script Block"
-excerpt: "Domain Account"
+excerpt: "Domain Account, Account Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-08-24
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1087.002
   - Domain Account
+  - Discovery
+  - T1087
+  - Account Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -34,12 +37,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: fabd364e-04f3-11ec-b34b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
-
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
 #### Search
 
@@ -74,12 +77,12 @@ he following Hunting analytic requires PowerShell operational logs to be importe
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | powershell process having commandline $Message$ for user enumeration |
+
 
 
 

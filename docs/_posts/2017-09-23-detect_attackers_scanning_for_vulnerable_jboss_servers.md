@@ -36,13 +36,11 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 - **ID**: 104658f4-afdc-499e-9719-17243f982681
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
-
-
 
 #### Search
 
@@ -77,6 +75,7 @@ You must be ingesting data from the web server or network traffic that contains 
 
 #### Known False Positives
 It&#39;s possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
+
 
 
 

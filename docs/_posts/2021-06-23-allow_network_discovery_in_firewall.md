@@ -1,6 +1,6 @@
 ---
 title: "Allow Network Discovery In Firewall"
-excerpt: "Disable or Modify Cloud Firewall"
+excerpt: "Disable or Modify Cloud Firewall, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-06-23
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1562.007
   - Disable or Modify Cloud Firewall
+  - Defense Evasion
+  - T1562
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -34,12 +37,12 @@ This search is to detect a suspicious modification to the firewall to allow netw
 - **ID**: ccd6a38c-d40b-11eb-85a5-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
-
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
 #### Search
 
@@ -81,6 +84,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 network admin may modify this firewall feature that may cause this rule to be triggered.
+
 
 
 

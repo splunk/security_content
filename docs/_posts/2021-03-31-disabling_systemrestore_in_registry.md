@@ -1,6 +1,6 @@
 ---
 title: "Disabling SystemRestore In Registry"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-03-31
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - T1562
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -34,12 +37,12 @@ The following search identifies the modification of registry related in disablin
 - **ID**: f4f837e2-91fb-11eb-8bf6-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
-
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
 #### Search
 
@@ -76,12 +79,12 @@ To successfully implement this search you need to be ingesting information on pr
 in some cases admin can disable systemrestore on a machine.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The Windows registry was modified to disable system restore on $dest$ by $user$. |
+
 
 
 

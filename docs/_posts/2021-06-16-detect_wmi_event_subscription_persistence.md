@@ -1,6 +1,6 @@
 ---
 title: "Detect WMI Event Subscription Persistence"
-excerpt: "Windows Management Instrumentation Event Subscription"
+excerpt: "Windows Management Instrumentation Event Subscription, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-06-16
@@ -10,6 +10,10 @@ tags:
   - TTP
   - T1546.003
   - Windows Management Instrumentation Event Subscription
+  - Privilege Escalation
+  - Persistence
+  - T1546
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
@@ -39,12 +43,12 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 - **ID**: 01d9a0c2-cece-11eb-ab46-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
-
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
 
 #### Search
 
@@ -78,12 +82,12 @@ To successfully implement this search, you need to be ingesting logs with that p
 It is possible some applications will create a consumer and may be required to be filtered. For tuning, add any additional LOLBin&#39;s for further depth of coverage.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Possible malicious WMI Subscription created on $dest$ |
+
 
 
 

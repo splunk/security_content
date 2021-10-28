@@ -34,13 +34,11 @@ This analytic identifies suspicious commandline parameter that are commonly used
 - **ID**: 85facebe-c382-11eb-9c3e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
 
 #### Search
 
@@ -81,12 +79,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 third party tool may have same command line parameters as revil ransomware.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | A process $process_name$ with commandline $process$ related to revil ransomware in host $dest$ |
+
 
 
 

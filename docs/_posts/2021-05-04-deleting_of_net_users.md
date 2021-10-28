@@ -34,13 +34,11 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 - **ID**: 1c8c6f66-acce-11eb-aafb-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
-
-
 
 #### Search
 
@@ -83,12 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 System administrators or scripts may delete user accounts via this technique. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to delete accounts. |
+
 
 
 

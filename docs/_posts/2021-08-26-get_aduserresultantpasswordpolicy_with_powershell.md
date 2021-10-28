@@ -34,13 +34,11 @@ This analytic looks for the execution of `powershell.exe` executing the Get ADUs
 - **ID**: 8b5ef342-065a-11ec-b0fc-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
-
-
 
 #### Search
 
@@ -80,12 +78,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | an instance of process $process_name$ with commandline $process$ in $dest$ |
+
 
 
 

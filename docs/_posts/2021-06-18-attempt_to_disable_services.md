@@ -32,13 +32,11 @@ This analytic will identify suspicious series of command-line to disable several
 - **ID**: afb31de4-d023-11eb-98d5-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -76,6 +74,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 unknown
+
 
 
 

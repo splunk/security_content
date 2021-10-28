@@ -1,6 +1,6 @@
 ---
 title: "Wevtutil Usage To Disable Logs"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2021-06-15
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1070
+  - Indicator Removal on Host
+  - Defense Evasion
   - T1070.001
   - Clear Windows Event Logs
   - Defense Evasion
@@ -32,12 +35,12 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 - **ID**: a4bdc944-cdd9-11eb-ac97-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
-
 
 #### Search
 
@@ -76,12 +79,12 @@ You must be ingesting data that records process activity from your hosts to popu
 network operator may disable audit event logs for debugging purposes.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A wevtutil process $process_name$ with commandline $cmd_line$ to disable event logs in host $dest_device_id$ |
+
 
 
 

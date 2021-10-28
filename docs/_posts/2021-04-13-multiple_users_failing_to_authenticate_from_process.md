@@ -1,6 +1,6 @@
 ---
 title: "Multiple Users Failing To Authenticate From Process"
-excerpt: "Password Spraying"
+excerpt: "Password Spraying, Brute Force"
 categories:
   - Endpoint
 last_modified_at: 2021-04-13
@@ -10,6 +10,9 @@ tags:
   - Anomaly
   - T1110.003
   - Password Spraying
+  - Credential Access
+  - T1110
+  - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -37,12 +40,12 @@ The analytics returned fields allow analysts to investigate the event further by
 - **ID**: 9015385a-9c84-11eb-bef2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
-
+| [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 #### Search
 
@@ -84,12 +87,12 @@ To successfully implement this search, you need to be ingesting Windows Event Lo
 A process failing to authenticate with multiple users is not a common behavior for legitimate user sessions. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Potential password spraying attack from $ComputerName$ |
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Correlation by Repository and Risk"
-excerpt: "Malicious Image"
+excerpt: "Malicious Image, User Execution"
 categories:
   - Cloud
 last_modified_at: 2021-09-06
@@ -10,6 +10,9 @@ tags:
   - Correlation
   - T1204.003
   - Malicious Image
+  - Execution
+  - T1204
+  - User Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -34,12 +37,12 @@ This search correlations detections by repository and risk_score
 - **ID**: 8da9fdd9-6a1b-4ae0-8a34-8c25e6be9687
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
-
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
 #### Search
 
@@ -71,12 +74,12 @@ For Dev Sec Ops POC
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Correlation triggered for user $user$ |
+
 
 
 

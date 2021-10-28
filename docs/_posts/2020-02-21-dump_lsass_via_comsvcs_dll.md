@@ -1,6 +1,6 @@
 ---
 title: "Dump LSASS via comsvcs DLL"
-excerpt: "LSASS Memory"
+excerpt: "LSASS Memory, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2020-02-21
@@ -10,6 +10,9 @@ tags:
   - TTP
   - T1003.001
   - LSASS Memory
+  - Credential Access
+  - T1003
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -34,12 +37,12 @@ Detect the usage of comsvcs.dll for dumping the lsass process.
 - **ID**: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
-
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -84,12 +87,12 @@ To successfully implement this search you need to be ingesting information on pr
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified accessing credentials using comsvcs.dll on endpoint $dest$ by user $user$. |
+
 
 
 

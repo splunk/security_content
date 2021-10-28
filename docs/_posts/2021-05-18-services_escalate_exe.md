@@ -36,13 +36,11 @@ The following analytic identifies the use of `svc-exe` with Cobalt Strike. The b
 - **ID**: c448488c-b7ec-11eb-8253-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
-
-
 
 #### Search
 
@@ -82,12 +80,12 @@ To successfully implement this search, you will need to ensure that DNS data is 
 False positives should be limited as `services.exe` should never spawn a process from `ADMIN$`. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A service process $parent_process_name$ with process path $process_path$ in host $dest$ |
+
 
 
 

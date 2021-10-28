@@ -33,13 +33,11 @@ This search provides detection of users with KMS keys performing encryption spec
 - **ID**: 884a5f59-eec7-4f4a-948b-dbde18225fdc
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
 
 #### Search
 
@@ -77,12 +75,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 bucket with S3 encryption
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | User $user$ with KMS keys is performing encryption, against S3 buckets on these files $dest_file$ |
+
 
 
 

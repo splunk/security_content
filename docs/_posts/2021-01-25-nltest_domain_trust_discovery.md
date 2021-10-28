@@ -34,13 +34,11 @@ This search looks for the execution of `nltest.exe` with command-line arguments 
 - **ID**: c3e05466-5f22-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +80,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may use nltest for troubleshooting purposes, otherwise, rarely used.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Domain trust discovery execution on $dest$ |
+
 
 
 

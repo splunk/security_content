@@ -1,6 +1,6 @@
 ---
 title: "PowerShell Domain Enumeration"
-excerpt: "PowerShell"
+excerpt: "Command and Scripting Interpreter, PowerShell"
 categories:
   - Endpoint
 last_modified_at: 2021-06-10
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.001
   - PowerShell
   - Execution
@@ -35,12 +38,12 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: e1866ce2-ca22-11eb-8e44-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
-
 
 #### Search
 
@@ -74,12 +77,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 It is possible there will be false positives, filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 60 | 70 | A suspicious powershell script contains domain enumeration command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 

@@ -1,6 +1,6 @@
 ---
 title: "Jscript Execution Using Cscript App"
-excerpt: "JavaScript"
+excerpt: "Command and Scripting Interpreter, JavaScript"
 categories:
   - Endpoint
 last_modified_at: 2021-09-13
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.007
   - JavaScript
   - Execution
@@ -34,12 +37,12 @@ This search is to detect a execution of jscript using cscript process. Commonly 
 - **ID**: 002f1e24-146e-11ec-a470-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
-
 
 #### Search
 
@@ -78,12 +81,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Process name $process_name$ with commandline $process$ to execute jscript in $dest$ |
+
 
 
 

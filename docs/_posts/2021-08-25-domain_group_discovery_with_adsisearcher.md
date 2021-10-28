@@ -1,6 +1,6 @@
 ---
 title: "Domain Group Discovery with Adsisearcher"
-excerpt: "Domain Groups"
+excerpt: "Permission Groups Discovery, Domain Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-08-25
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1069
+  - Permission Groups Discovery
+  - Discovery
   - T1069.002
   - Domain Groups
   - Discovery
@@ -34,12 +37,12 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 089c862f-5f83-49b5-b1c8-7e4ff66560c7
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
-
 
 #### Search
 
@@ -73,12 +76,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Administrators or power users may use Adsisearcher for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | Domain group discovery enumeration using PowerShell on $dest$ by $user$ |
+
 
 
 

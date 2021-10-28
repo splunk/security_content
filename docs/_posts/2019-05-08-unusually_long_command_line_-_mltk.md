@@ -31,8 +31,6 @@ Command lines that are extremely long may be indicative of malicious activity on
 - **Author**: Rico Valdez, Splunk
 - **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
 
-
-
 #### Search
 
 ```
@@ -74,6 +72,7 @@ You must be ingesting endpoint data that monitors command lines and populates th
 
 #### Known False Positives
 Some legitimate applications use long command lines for installs or updates. You should review identified command lines for legitimacy. You may modify the first part of the search to omit legitimate command lines from consideration. If you are seeing more results than desired, you may consider changing the value of threshold in the search to a smaller value. You should also periodically re-run the support search to re-build the ML model on the latest data. You may get unexpected results if the user identified in the results is not present in the data used to build the associated model.
+
 
 
 

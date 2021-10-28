@@ -31,8 +31,6 @@ This search looks for unusually long strings in the Content-Type http header tha
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
 
-
-
 #### Search
 
 ```
@@ -65,6 +63,7 @@ This particular search leverages data extracted from Stream:HTTP. You must confi
 
 #### Known False Positives
 Very few legitimate Content-Type fields will have a length greater than 100 characters.
+
 
 
 

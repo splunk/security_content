@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2020-1350
   - Exploitation
 ---
 
@@ -35,13 +36,11 @@ This search detects SIGRed via Splunk Stream.
 - **ID**: babd8d10-d073-11ea-87d0-0242ac130003
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
-
-
 
 #### Search
 
@@ -76,6 +75,14 @@ You must be ingesting Splunk Stream DNS and Splunk Stream TCP. We are detecting 
 #### Known False Positives
 unknown
 
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2020-1350](https://nvd.nist.gov/vuln/detail/CVE-2020-1350) | A remote code execution vulnerability exists in Windows Domain Name System servers when they fail to properly handle requests, aka &#39;Windows DNS Server Remote Code Execution Vulnerability&#39;. | 10.0 |
 
 
 

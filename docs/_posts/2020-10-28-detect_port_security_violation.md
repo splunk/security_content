@@ -1,6 +1,6 @@
 ---
 title: "Detect Port Security Violation"
-excerpt: "Hardware Additions, Network Denial of Service, ARP Cache Poisoning"
+excerpt: "Hardware Additions, Network Denial of Service, Man-in-the-Middle, ARP Cache Poisoning"
 categories:
   - Network
 last_modified_at: 2020-10-28
@@ -14,6 +14,10 @@ tags:
   - T1498
   - Network Denial of Service
   - Impact
+  - T1557
+  - Man-in-the-Middle
+  - Credential Access
+  - Collection
   - T1557.002
   - ARP Cache Poisoning
   - Credential Access
@@ -45,14 +49,14 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 - **ID**: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+| [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Credential Access, Collection |
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
-
 
 #### Search
 
@@ -95,6 +99,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 
 #### Known False Positives
 This search might be prone to high false positives if you have malfunctioning devices connected to your ethernet ports or if end users periodically connect physical devices to the network.
+
 
 
 

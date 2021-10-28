@@ -35,13 +35,11 @@ This analytic identifies the suspicious Remote Thread execution of rundll32.exe 
 - **ID**: 2dbeee3a-f067-11eb-96c0-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
 
 #### Search
 
@@ -79,12 +77,12 @@ To successfully implement this search, you need to be ingesting logs with the So
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | rundl32 process $SourceImage$ create a remote thread to process $TargetImage$ in host $Computer$ |
+
 
 
 

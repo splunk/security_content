@@ -38,13 +38,11 @@ This search provides detection of role creation by IAM users. Role creation is a
 - **ID**: 5f04081e-ddee-4353-afe4-504f288de9ad
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
 
 #### Search
 
@@ -88,6 +86,7 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 
 #### Known False Positives
 CreateRole is not very common in common users. This search can be adjusted to provide specific values to identify cases of abuse. In general AWS provides plenty of trust policies that fit most use cases.
+
 
 
 

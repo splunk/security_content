@@ -32,8 +32,6 @@ The search queries the authentication logs for assets that are categorized as ro
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 104658f4-afdc-499e-9719-17243rr826f1
 
-
-
 #### Search
 
 ```
@@ -67,6 +65,7 @@ To successfully implement this search, you must ensure the network router device
 
 #### Known False Positives
 Legitimate router connections may appear as new connections
+
 
 
 

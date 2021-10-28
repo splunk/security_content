@@ -1,6 +1,6 @@
 ---
 title: "Detect Prohibited Applications Spawning cmd exe"
-excerpt: "Windows Command Shell"
+excerpt: "Command and Scripting Interpreter, Windows Command Shell"
 categories:
   - Endpoint
 last_modified_at: 2020-11-10
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - Hunting
+  - T1059
+  - Command and Scripting Interpreter
+  - Execution
   - T1059.003
   - Windows Command Shell
   - Execution
@@ -34,12 +37,12 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 - **ID**: dcfd6b40-42f9-469d-a433-2e53f7486664
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
-
 
 #### Search
 
@@ -86,12 +89,12 @@ You must be ingesting data that records process activity from your hosts and pop
 There are circumstances where an application may legitimately execute and interact with the Windows command-line interface. Investigate and modify the lookup file, as appropriate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ running prohibited applications. |
+
 
 
 

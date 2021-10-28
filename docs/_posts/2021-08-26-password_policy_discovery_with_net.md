@@ -34,13 +34,11 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command li
 - **ID**: 09336538-065a-11ec-8665-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
-
-
 
 #### Search
 
@@ -80,12 +78,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | an instance of process $process_name$ with commandline $process$ in $dest$ |
+
 
 
 

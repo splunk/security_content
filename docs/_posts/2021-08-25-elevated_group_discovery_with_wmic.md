@@ -1,6 +1,6 @@
 ---
 title: "Elevated Group Discovery With Wmic"
-excerpt: "Domain Groups"
+excerpt: "Permission Groups Discovery, Domain Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-08-25
@@ -8,6 +8,9 @@ toc: true
 toc_label: ""
 tags:
   - TTP
+  - T1069
+  - Permission Groups Discovery
+  - Discovery
   - T1069.002
   - Domain Groups
   - Discovery
@@ -34,12 +37,12 @@ This analytic looks for the execution of `wmic.exe` with command-line arguments 
 - **ID**: 3f6bbf22-093e-4cb4-9641-83f47b8444b6
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
-
 
 #### Search
 
@@ -81,12 +84,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 21.0 | 30 | 70 | Elevated domain group discovery enumeration on $dest$ by $user$ |
+
 
 
 
