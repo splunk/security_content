@@ -13,13 +13,13 @@ colorama==0.4.4
 coloredlogs==15.0.1
 configparser==5.0.2
 contextlib2==21.6.0
-distlib==0.3.2
+distlib==0.3.3
 distro==1.6.0
 filelock==3.0.12
 fire==0.4.0
 gitdb==4.0.7
 html5lib==1.1
-humanfriendly==9.2
+humanfriendly==10.0
 identify==2.2.13
 idna==3.2
 importlib-metadata==4.8.1
