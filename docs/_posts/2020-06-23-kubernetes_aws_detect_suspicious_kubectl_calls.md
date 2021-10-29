@@ -7,11 +7,9 @@ last_modified_at: 2020-06-23
 toc: true
 toc_label: ""
 tags:
-  - Hunting
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Lateral Movement
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -74,7 +72,6 @@ Kubectl calls are not malicious by nature. However source IP, verb and Object ca
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

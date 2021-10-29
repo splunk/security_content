@@ -7,15 +7,12 @@ last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1114
   - Email Collection
   - Collection
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objective
 ---
 
 
@@ -34,10 +31,10 @@ This search detects when a user has performed an Ediscovery search or exported a
 - **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
 #### Search
@@ -96,7 +93,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_pst_export_alert.yml) \| *version*: **1**

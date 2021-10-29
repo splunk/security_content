@@ -7,24 +7,18 @@ last_modified_at: 2021-05-20
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1203
   - Exploitation for Client Execution
   - Execution
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1053
   - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
-  - T1072
   - Software Deployment Tools
   - Execution
   - Lateral Movement
   - Splunk Behavioral Analytics
-  - Exploitation
 ---
 
 
@@ -43,10 +37,10 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 - **ID**: cf090c78-bcc6-11eb-8529-0242ac130003
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
@@ -104,7 +98,6 @@ Some custom tools used by admins could be used rarely to launch remotely applica
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

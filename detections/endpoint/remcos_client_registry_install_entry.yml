@@ -23,12 +23,24 @@ references:
 tags:
   analytic_story:
   - Remcos
+  automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: A registry entry $registry_path$ with registry keyname $registry_key_name$
+    related to Remcos RAT in host $dest$
   mitre_attack_id:
   - T1112
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -40,17 +52,5 @@ tags:
   - Registry.process_id
   - Registry.dest
   - Registry.user
-  security_domain: endpoint
-  impact: 90
-  confidence: 100
   risk_score: 90
-  context:
-  - Source:Endpoint
-  message: A registry entry $registry_path$ with registry keyname $registry_key_name$
-    related to Remcos RAT in host $dest$
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

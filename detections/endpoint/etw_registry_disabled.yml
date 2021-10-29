@@ -28,14 +28,30 @@ tags:
   analytic_story:
   - Windows Persistence Techniques
   - Windows Privilege Escalation
+  automated_detection_testing: passed
+  confidence: 100
+  context:
+  - source:endpoint
+  - stage:Privilege Escalation Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/etw_disable/sysmon.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
+  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
   mitre_attack_id:
   - T1562.006
   - T1127
   - T1562
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,21 +64,5 @@ tags:
   - Registry.registry_key_name
   - Registry.registry_value_name
   - Registry.registry_value_data
-  security_domain: endpoint
-  impact: 90
-  confidence: 100
   risk_score: 90
-  context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
-  message: modified/added/deleted registry entry $Registry.registry_path$ in $dest$
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: user
-    type: user
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

@@ -7,15 +7,12 @@ last_modified_at: 2021-09-02
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1554
   - Compromise Client Software Binary
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Actions on Objectives
 ---
 
 
@@ -34,10 +31,10 @@ This search looks for disable security job in CircleCI pipeline.
 - **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
 
 #### Search
@@ -93,7 +90,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/circle_ci_disable_security_job.yml) \| *version*: **1**
