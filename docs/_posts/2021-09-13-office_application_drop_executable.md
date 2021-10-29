@@ -43,10 +43,6 @@ This search is to detect a suspicious MS office application that drop or create 
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

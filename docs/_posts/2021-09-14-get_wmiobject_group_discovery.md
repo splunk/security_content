@@ -43,10 +43,6 @@ The following hunting analytic identifies the use of `Get-WMIObject Win32_Group`
 
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
-
-
-
-
 #### Search
 
 ```

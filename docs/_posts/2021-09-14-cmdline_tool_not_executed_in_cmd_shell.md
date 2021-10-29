@@ -43,10 +43,6 @@ This search is to detect a suspicious parent process execution of commandline to
 
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
-
-
-
-
 #### Search
 
 ```

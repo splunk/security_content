@@ -37,10 +37,6 @@ This detection is to identify a suspicious process that tries to delete the proc
 | ----------- | ----------- |--------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

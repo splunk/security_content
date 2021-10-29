@@ -43,10 +43,6 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

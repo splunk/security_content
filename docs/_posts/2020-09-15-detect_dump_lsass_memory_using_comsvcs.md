@@ -30,19 +30,12 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 - **ID**: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
-
-
-
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
-
-
 
 #### Search
 

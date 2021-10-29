@@ -43,10 +43,6 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
-
-
-
-
 #### Search
 
 ```

@@ -42,10 +42,6 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -43,10 +43,6 @@ The search looks for a batch file (.bat) written to the Windows system directory
 
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
-
-
-
-
 #### Search
 
 ```

@@ -42,9 +42,6 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
-
-
-
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 
 
@@ -54,10 +51,6 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 
 
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
-
-
-
-
 
 #### Search
 

@@ -37,10 +37,6 @@ The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service
 | ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
-
-
-
-
 #### Search
 
 ```

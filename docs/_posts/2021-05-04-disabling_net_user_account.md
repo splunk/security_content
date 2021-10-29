@@ -37,10 +37,6 @@ This analytic will identify a suspicious command-line that disables a user accou
 | ----------- | ----------- |--------------- |
 | [T1531](https://attack.mitre.org/techniques/T1531/) | Account Access Removal | Impact |
 
-
-
-
-
 #### Search
 
 ```

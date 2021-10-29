@@ -36,10 +36,6 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 | ----------- | ----------- |--------------- |
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -33,19 +33,12 @@ Enforcing network-access controls is one of the defensive mechanisms used by clo
 - **ID**: ada0f478-84a8-4641-a3f1-d82362d6fd75
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
-
-
-
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
-
-
-
-
 
 #### Search
 

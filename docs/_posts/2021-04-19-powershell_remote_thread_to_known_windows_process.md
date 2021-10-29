@@ -38,10 +38,6 @@ this search is designed to detect suspicious powershell process that tries to in
 | ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
-
-
-
-
 #### Search
 
 ```

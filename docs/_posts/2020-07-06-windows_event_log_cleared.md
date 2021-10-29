@@ -42,10 +42,6 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

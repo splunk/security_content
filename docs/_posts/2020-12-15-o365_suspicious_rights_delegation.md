@@ -33,19 +33,12 @@ This search detects the assignment of rights to accesss content from another mai
 - **ID**: b25d2973-303e-47c8-bacd-52b61604c6a7
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1114.002](https://attack.mitre.org/techniques/T1114/002/) | Remote Email Collection | Collection |
-
-
-
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
-
-
-
-
 
 #### Search
 

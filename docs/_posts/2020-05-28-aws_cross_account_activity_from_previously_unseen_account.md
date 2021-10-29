@@ -29,8 +29,6 @@ This search looks for AssumeRole events where an IAM role in a different account
 - **Author**: Rico Valdez, Splunk
 - **ID**: 21193641-cb96-4a2c-a707-d9b9a7f7792b
 
-
-
 #### Search
 
 ```

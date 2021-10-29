@@ -38,10 +38,6 @@ This search looks at S3 bucket-access logs and detects new or previously unseen 
 | ----------- | ----------- |--------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
-
-
-
-
 #### Search
 
 ```

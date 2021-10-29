@@ -37,10 +37,6 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 | ----------- | ----------- |--------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
-
-
-
-
 #### Search
 
 ```

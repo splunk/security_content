@@ -38,10 +38,6 @@ The following analytic identifies the use of `svc-exe` with Cobalt Strike. The b
 | ----------- | ----------- |--------------- |
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

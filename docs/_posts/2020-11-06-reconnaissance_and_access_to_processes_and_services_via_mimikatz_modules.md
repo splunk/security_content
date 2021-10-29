@@ -37,18 +37,8 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
-
-
-
 | [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
-
-
-
 | [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
-
-
-
-
 
 #### Search
 

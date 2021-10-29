@@ -29,8 +29,6 @@ This search will detect spike in blocked outbound network connections originatin
 - **Author**: Bhavin Patel, Splunk
 - **ID**: ada0f278-84a8-46w1-a3f1-w32372d4bd53
 
-
-
 #### Search
 
 ```

@@ -37,10 +37,6 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 | ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

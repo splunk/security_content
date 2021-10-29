@@ -43,10 +43,6 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
-
-
-
-
 #### Search
 
 ```

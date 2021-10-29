@@ -37,10 +37,6 @@ This search is to detect a modification to registry to enable rdp to a machine w
 | ----------- | ----------- |--------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
-
-
-
-
 #### Search
 
 ```

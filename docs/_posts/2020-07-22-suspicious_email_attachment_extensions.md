@@ -35,19 +35,12 @@ This search looks for emails that have attachments with suspicious file extensio
 - **ID**: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
-
-
-
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
-
-
-
-
 
 #### Search
 

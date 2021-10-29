@@ -38,10 +38,6 @@ The following analytic identifies winhlp32.exe, found natively in `c:\windows\`,
 | ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
-
-
-
-
 #### Search
 
 ```

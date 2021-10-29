@@ -41,10 +41,6 @@ The wevtutil.exe application is the windows event log utility. This searches for
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

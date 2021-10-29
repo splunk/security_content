@@ -37,10 +37,6 @@ This analytic looks for the execution of `whoami.exe` without any arguments. Thi
 | ----------- | ----------- |--------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

@@ -45,10 +45,6 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 
 | [T1071.001](https://attack.mitre.org/techniques/T1071/001/) | Web Protocols | Command And Control |
 
-
-
-
-
 #### Search
 
 ```

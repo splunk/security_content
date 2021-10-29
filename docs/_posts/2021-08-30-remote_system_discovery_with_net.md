@@ -37,10 +37,6 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 | ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

@@ -44,10 +44,6 @@ This search looks for execution of process `outlook.exe` where the process is wr
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

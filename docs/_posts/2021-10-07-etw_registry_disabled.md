@@ -35,23 +35,13 @@ This analytic is to detect a registry modification to disable ETW feature of win
 - **ID**: 8ed523ac-276b-11ec-ac39-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1562.006](https://attack.mitre.org/techniques/T1562/006/) | Indicator Blocking | Defense Evasion |
-
-
-
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
-
-
-
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
-
-
-
-
 
 #### Search
 

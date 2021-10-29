@@ -37,10 +37,6 @@ This analytic is to detect a suspicious creation of .wav file in appdata folder.
 | ----------- | ----------- |--------------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
 
-
-
-
-
 #### Search
 
 ```

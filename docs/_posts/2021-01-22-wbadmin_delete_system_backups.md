@@ -37,10 +37,6 @@ This search looks for flags passed to wbadmin.exe (Windows Backup Administrator 
 | ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
-
-
-
-
 #### Search
 
 ```

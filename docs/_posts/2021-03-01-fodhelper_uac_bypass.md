@@ -50,14 +50,7 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 
 
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
-
-
-
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
-
-
-
-
 
 #### Search
 

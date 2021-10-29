@@ -43,10 +43,6 @@ This analytic looks for the execution of `wmic.exe` with command-line arguments 
 
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
-
-
-
-
 #### Search
 
 ```

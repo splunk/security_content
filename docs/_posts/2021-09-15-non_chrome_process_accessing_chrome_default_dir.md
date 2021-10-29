@@ -43,10 +43,6 @@ This search is to detect an anomaly event of non-chrome process accessing the fi
 
 | [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
 
-
-
-
-
 #### Search
 
 ```

@@ -45,10 +45,6 @@ This search is to detect a suspicious modification of registry entry to persist 
 
 | [T1037.001](https://attack.mitre.org/techniques/T1037/001/) | Logon Script (Windows) | Persistence, Privilege Escalation |
 
-
-
-
-
 #### Search
 
 ```

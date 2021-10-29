@@ -41,10 +41,6 @@ This search provides detection of GCPloit exploitation framework. This framework
 | ----------- | ----------- |--------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
-
-
-
-
 #### Search
 
 ```

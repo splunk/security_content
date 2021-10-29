@@ -37,10 +37,6 @@ This analytic identifies suspicious modification of registry to deface or change
 | ----------- | ----------- |--------------- |
 | [T1491](https://attack.mitre.org/techniques/T1491/) | Defacement | Impact |
 
-
-
-
-
 #### Search
 
 ```

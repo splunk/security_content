@@ -41,10 +41,6 @@ This search provides detection of an user attaching itself to a different role t
 | ----------- | ----------- |--------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
-
-
-
-
 #### Search
 
 ```

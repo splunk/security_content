@@ -39,10 +39,6 @@ This search looks for suspicious processes on all systems labeled as web servers
 | ----------- | ----------- |--------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

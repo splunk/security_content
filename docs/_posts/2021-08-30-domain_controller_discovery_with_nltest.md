@@ -37,10 +37,6 @@ This analytic looks for the execution of `nltest.exe` with command-line argument
 | ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

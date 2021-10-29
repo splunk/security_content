@@ -42,10 +42,6 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
-
-
-
-
 #### Search
 
 ```

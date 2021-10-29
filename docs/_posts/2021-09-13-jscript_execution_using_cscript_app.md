@@ -43,10 +43,6 @@ This search is to detect a execution of jscript using cscript process. Commonly 
 
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
-
-
-
-
 #### Search
 
 ```

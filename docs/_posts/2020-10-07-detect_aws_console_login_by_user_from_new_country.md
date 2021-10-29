@@ -38,10 +38,6 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 | ----------- | ----------- |--------------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

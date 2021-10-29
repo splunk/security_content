@@ -43,10 +43,6 @@ This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk ransomware.
 
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
-
-
-
-
 #### Search
 
 ```

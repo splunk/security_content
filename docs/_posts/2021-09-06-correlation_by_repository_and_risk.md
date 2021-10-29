@@ -33,19 +33,12 @@ This search correlations detections by repository and risk_score
 - **ID**: 8da9fdd9-6a1b-4ae0-8a34-8c25e6be9687
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
-
-
-
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
-
-
 
 #### Search
 

@@ -43,10 +43,6 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 
 | [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

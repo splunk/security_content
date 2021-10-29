@@ -43,10 +43,6 @@ This search looks for processes launched from files that have double extensions 
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -42,10 +42,6 @@ The following analytic identifies regasm.exe with a network connection to a publ
 
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

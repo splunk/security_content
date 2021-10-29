@@ -38,10 +38,6 @@ The following analytic identifies DLLHost.exe with no command line arguments wit
 | ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
-
-
-
-
 #### Search
 
 ```

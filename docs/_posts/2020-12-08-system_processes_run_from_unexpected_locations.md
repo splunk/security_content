@@ -45,10 +45,6 @@ During triage, review the parallel processes - what process moved the native Win
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

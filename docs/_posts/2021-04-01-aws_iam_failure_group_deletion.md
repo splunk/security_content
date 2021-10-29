@@ -37,10 +37,6 @@ This detection identifies failure attempts to delete groups. We want to identify
 | ----------- | ----------- |--------------- |
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 
-
-
-
-
 #### Search
 
 ```

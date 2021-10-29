@@ -43,10 +43,6 @@ This search is to detect known mailsniper.ps1 functions executed in a machine. T
 
 | [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
 
-
-
-
-
 #### Search
 
 ```

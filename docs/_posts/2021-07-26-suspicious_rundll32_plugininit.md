@@ -43,10 +43,6 @@ This search is to detect a suspicious rundll32.exe process with plugininit param
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -37,10 +37,6 @@ The following analytics identifies a big number of instance of ransomware notes 
 | ----------- | ----------- |--------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
-
-
-
-
 #### Search
 
 ```

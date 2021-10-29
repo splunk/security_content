@@ -43,10 +43,6 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
-
-
-
-
 #### Search
 
 ```

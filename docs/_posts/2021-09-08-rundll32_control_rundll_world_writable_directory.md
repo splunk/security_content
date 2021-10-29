@@ -44,10 +44,6 @@ The following detection identifies rundll32.exe with `control_rundll` within the
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

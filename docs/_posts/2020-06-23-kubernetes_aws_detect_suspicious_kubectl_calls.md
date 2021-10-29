@@ -29,8 +29,6 @@ This search provides information on anonymous Kubectl calls with IP, verb namesp
 - **Author**: Rod Soto, Splunk
 - **ID**: 042a3d32-8318-4763-9679-09db2644a8f2
 
-
-
 #### Search
 
 ```

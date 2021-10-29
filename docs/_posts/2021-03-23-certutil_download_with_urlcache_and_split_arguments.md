@@ -37,10 +37,6 @@ Certutil.exe may download a file from a remote destination using `-urlcache`. Th
 | ----------- | ----------- |--------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
-
-
-
-
 #### Search
 
 ```

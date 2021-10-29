@@ -33,19 +33,12 @@ This search detects accounts that were created and deleted in a short time perio
 - **ID**: b25f6f62-0782-43c1-b403-083231ffd97d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
-
-
-
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
-
-
-
-
 
 #### Search
 

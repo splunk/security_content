@@ -50,10 +50,6 @@ Detect Okta user lockout events
 
 | [T1078.001](https://attack.mitre.org/techniques/T1078/001/) | Default Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
-
-
-
-
 #### Search
 
 ```

@@ -43,10 +43,6 @@ The following analytic identifies a renamed instance of hh.exe (HTML Help) execu
 
 | [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

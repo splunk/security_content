@@ -39,22 +39,12 @@ This detection identifies access to PowerSploit modules that discover and access
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
-
-
-
 | [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
-
-
-
 | [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
 
 
 
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
-
-
-
-
 
 #### Search
 

@@ -45,10 +45,6 @@ Microsoft Windows contains accessibility features that can be launched with a ke
 
 | [T1546.008](https://attack.mitre.org/techniques/T1546/008/) | Accessibility Features | Privilege Escalation, Persistence |
 
-
-
-
-
 #### Search
 
 ```

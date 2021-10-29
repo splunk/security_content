@@ -37,10 +37,6 @@ This search is to detect a pushed or commit to master or main branch. This is to
 | ----------- | ----------- |--------------- |
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

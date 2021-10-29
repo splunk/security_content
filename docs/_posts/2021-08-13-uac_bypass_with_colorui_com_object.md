@@ -43,10 +43,6 @@ This search is to detect a possible uac bypass using the colorui.dll COM Object.
 
 | [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -45,10 +45,6 @@ The search looks at the change-analysis data model and detects email files creat
 
 | [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
 
-
-
-
-
 #### Search
 
 ```

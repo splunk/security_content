@@ -43,10 +43,6 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

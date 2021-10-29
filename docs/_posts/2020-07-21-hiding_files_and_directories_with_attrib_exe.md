@@ -43,10 +43,6 @@ Attackers leverage an existing Windows binary, attrib.exe, to mark specific as h
 
 | [T1222.001](https://attack.mitre.org/techniques/T1222/001/) | Windows File and Directory Permissions Modification | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

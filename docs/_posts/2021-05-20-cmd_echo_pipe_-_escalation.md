@@ -52,14 +52,7 @@ This analytic identifies a common behavior by Cobalt Strike and other frameworks
 
 
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
-
-
-
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 

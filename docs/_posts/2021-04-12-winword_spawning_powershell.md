@@ -43,10 +43,6 @@ The following detection identifies Microsoft Word spawning PowerShell. Typically
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

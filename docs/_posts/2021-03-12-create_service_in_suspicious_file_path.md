@@ -43,10 +43,6 @@ This detection is to identify a creation of &#34;user mode service&#34; where th
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
-
-
-
-
 #### Search
 
 ```

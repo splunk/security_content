@@ -43,10 +43,6 @@ This search is to detect suspicious dropping or creating an executable file in k
 
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
-
-
-
-
 #### Search
 
 ```

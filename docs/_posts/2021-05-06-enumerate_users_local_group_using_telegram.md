@@ -37,10 +37,6 @@ This analytic will detect a suspicious Telegram process enumerating all network 
 | ----------- | ----------- |--------------- |
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

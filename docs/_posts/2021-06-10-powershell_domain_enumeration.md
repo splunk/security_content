@@ -44,10 +44,6 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
-
-
-
-
 #### Search
 
 ```

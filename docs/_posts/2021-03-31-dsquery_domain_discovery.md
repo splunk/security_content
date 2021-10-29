@@ -42,10 +42,6 @@ In addition to trust discovery, review parallel processes for additional behavio
 | ----------- | ----------- |--------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

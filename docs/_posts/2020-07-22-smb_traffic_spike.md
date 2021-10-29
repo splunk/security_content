@@ -35,19 +35,12 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 - **ID**: 7f5fb3e1-4209-4914-90db-0ec21b936378
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
-
-
-
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
-
-
-
-
 
 #### Search
 

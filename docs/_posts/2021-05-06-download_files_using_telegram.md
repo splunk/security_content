@@ -37,10 +37,6 @@ The following analytic will identify a suspicious download by the Telegram appli
 | ----------- | ----------- |--------------- |
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
-
-
-
-
 #### Search
 
 ```

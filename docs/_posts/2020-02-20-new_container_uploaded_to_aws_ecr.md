@@ -38,10 +38,6 @@ This searches show information on uploaded containers including source user, ima
 | ----------- | ----------- |--------------- |
 | [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
 
-
-
-
-
 #### Search
 
 ```

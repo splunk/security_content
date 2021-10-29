@@ -37,10 +37,6 @@ The search looks for files created with names matching those typically used in r
 | ----------- | ----------- |--------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
-
-
-
-
 #### Search
 
 ```

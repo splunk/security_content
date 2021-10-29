@@ -38,10 +38,6 @@ This search looks for the creation of WMI temporary event subscriptions.
 | ----------- | ----------- |--------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
-
-
-
-
 #### Search
 
 ```

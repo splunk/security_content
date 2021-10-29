@@ -43,10 +43,6 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
-
-
-
-
 #### Search
 
 ```

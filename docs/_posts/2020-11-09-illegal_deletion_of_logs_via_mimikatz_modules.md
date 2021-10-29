@@ -34,10 +34,6 @@ This detection identifies access to PowerSploit modules that delete event logs.
 | ----------- | ----------- |--------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

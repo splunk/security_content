@@ -37,10 +37,6 @@ This search is to detect a suspicious wmic.exe process or renamed wmic process t
 | ----------- | ----------- |--------------- |
 | [T1220](https://attack.mitre.org/techniques/T1220/) | XSL Script Processing | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -43,10 +43,6 @@ The following analytic identifies the use of PowerShell downloading a file using
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
-
-
-
-
 #### Search
 
 ```

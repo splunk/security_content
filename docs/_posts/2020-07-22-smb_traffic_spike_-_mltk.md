@@ -35,19 +35,12 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 - **ID**: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
-
-
-
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
-
-
-
-
 
 #### Search
 

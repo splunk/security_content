@@ -33,19 +33,12 @@ The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllh
 - **ID**: 9364ee8e-a39a-11eb-8f1d-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
-
-
-
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
-
-
-
-
 
 #### Search
 

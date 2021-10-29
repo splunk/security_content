@@ -37,10 +37,6 @@ This analytics are designed to indentify a high frequency of process termination
 | ----------- | ----------- |--------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
-
-
-
-
 #### Search
 
 ```

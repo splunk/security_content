@@ -39,10 +39,6 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 | ----------- | ----------- |--------------- |
 | [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
 
-
-
-
-
 #### Search
 
 ```

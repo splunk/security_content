@@ -33,19 +33,12 @@ This search looks for Pull Request from unknown user.
 - **ID**: 9d7b9100-8878-4404-914e-ca5e551a641e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1195.001](https://attack.mitre.org/techniques/T1195/001/) | Compromise Software Dependencies and Development Tools | Initial Access |
-
-
-
 | [T1195](https://attack.mitre.org/techniques/T1195/) | Supply Chain Compromise | Initial Access |
-
-
-
-
 
 #### Search
 

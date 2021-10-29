@@ -38,18 +38,8 @@ This detection identifies use of DSInternals modules for illegal management of A
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-
-
-
 | [T1207](https://attack.mitre.org/techniques/T1207/) | Rogue Domain Controller | Defense Evasion |
-
-
-
 | [T1484](https://attack.mitre.org/techniques/T1484/) | Domain Policy Modification | Defense Evasion, Privilege Escalation |
-
-
-
-
 
 #### Search
 

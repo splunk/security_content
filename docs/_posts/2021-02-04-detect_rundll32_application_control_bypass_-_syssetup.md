@@ -43,10 +43,6 @@ The following analytic identifies rundll32.exe loading syssetup.dll by calling t
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

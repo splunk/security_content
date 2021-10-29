@@ -33,19 +33,12 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 - **ID**: 2a9b80d3-6340-4345-11ad-212bf3d0d111
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
-
-
-
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
-
-
-
-
 
 #### Search
 

@@ -43,10 +43,6 @@ The following hunting analytic will identify the use of localgroup discovery usi
 
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
-
-
-
-
 #### Search
 
 ```

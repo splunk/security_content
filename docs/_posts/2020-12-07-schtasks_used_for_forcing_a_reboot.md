@@ -37,19 +37,12 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 - **ID**: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
-
-
-
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 

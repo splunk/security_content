@@ -43,10 +43,6 @@ DynamicWrapperX is an ActiveX component that can be used in a script to call Win
 
 | [T1559.001](https://attack.mitre.org/techniques/T1559/001/) | Component Object Model | Execution |
 
-
-
-
-
 #### Search
 
 ```

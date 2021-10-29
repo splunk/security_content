@@ -38,10 +38,6 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 | ----------- | ----------- |--------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
-
-
-
-
 #### Search
 
 ```

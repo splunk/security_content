@@ -33,19 +33,12 @@ The wevtutil.exe application is the windows event log utility. This searches for
 - **ID**: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
-
-
-
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
-
-
 
 #### Search
 

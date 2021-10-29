@@ -37,10 +37,6 @@ This analytic is to detect a suspicious rundll32 commandline to clear shim cache
 | ----------- | ----------- |--------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -33,19 +33,12 @@ This search detects the addition of a new Federated domain.
 - **ID**: e155876a-6048-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
-
-
-
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
-
-
-
-
 
 #### Search
 

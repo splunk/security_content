@@ -30,8 +30,6 @@ This search looks for emails claiming to be sent from a domain similar to one th
 - **Author**: David Dorsey, Splunk
 - **ID**: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
 
-
-
 #### Search
 
 ```

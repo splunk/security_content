@@ -37,10 +37,6 @@ This search is to detect potential DNS exfiltration using nslookup application. 
 | ----------- | ----------- |--------------- |
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
-
-
-
-
 #### Search
 
 ```

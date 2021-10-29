@@ -43,10 +43,6 @@ this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execu
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

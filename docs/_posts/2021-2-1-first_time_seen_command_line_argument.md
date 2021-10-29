@@ -36,18 +36,8 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
-
 | [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  |
-
-
-
 | [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
-
-
-
-
 
 #### Search
 

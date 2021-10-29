@@ -33,19 +33,12 @@ This search is to detect a gsuite email contains suspicious subject having known
 - **ID**: 8ef3971e-00f2-11ec-b54f-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
-
-
-
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
-
-
-
-
 
 #### Search
 

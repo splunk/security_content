@@ -37,10 +37,6 @@ This analytic looks for the execution of `powershell.exe` executing the `Get-Dom
 | ----------- | ----------- |--------------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

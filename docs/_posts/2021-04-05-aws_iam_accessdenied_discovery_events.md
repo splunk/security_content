@@ -37,10 +37,6 @@ The following detection identifies excessive AccessDenied events within an hour 
 | ----------- | ----------- |--------------- |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

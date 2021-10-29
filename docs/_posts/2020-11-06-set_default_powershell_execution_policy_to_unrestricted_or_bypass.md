@@ -43,10 +43,6 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
-
-
-
-
 #### Search
 
 ```

@@ -43,10 +43,6 @@ This search is to detect execution of wevtutil.exe to disable logs. This techniq
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

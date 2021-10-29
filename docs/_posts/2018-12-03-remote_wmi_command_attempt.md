@@ -37,10 +37,6 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 | ----------- | ----------- |--------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
-
-
-
-
 #### Search
 
 ```

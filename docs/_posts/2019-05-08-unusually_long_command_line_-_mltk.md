@@ -29,8 +29,6 @@ Command lines that are extremely long may be indicative of malicious activity on
 - **Author**: Rico Valdez, Splunk
 - **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
 
-
-
 #### Search
 
 ```

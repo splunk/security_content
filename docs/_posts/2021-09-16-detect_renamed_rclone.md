@@ -36,10 +36,6 @@ The following analytic identifies the usage of `rclone.exe`, renamed, being used
 | ----------- | ----------- |--------------- |
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
 
-
-
-
-
 #### Search
 
 ```

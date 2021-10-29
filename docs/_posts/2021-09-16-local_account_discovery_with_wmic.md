@@ -43,10 +43,6 @@ This analytic looks for the execution of `wmic.exe` with command-line arguments 
 
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
-
-
-
-
 #### Search
 
 ```

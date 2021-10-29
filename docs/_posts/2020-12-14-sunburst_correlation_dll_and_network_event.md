@@ -38,10 +38,6 @@ The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost
 | ----------- | ----------- |--------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
 
-
-
-
-
 #### Search
 
 ```

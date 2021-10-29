@@ -37,10 +37,6 @@ The following analytic identifies microsoft.workflow.compiler.exe usage. microso
 | ----------- | ----------- |--------------- |
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

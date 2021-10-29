@@ -35,23 +35,13 @@ The following query uses IAM events to track the success of a group being delete
 - **ID**: e776d06c-9267-11eb-819b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1069.003](https://attack.mitre.org/techniques/T1069/003/) | Cloud Groups | Discovery |
-
-
-
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-
-
-
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
-
-
-
-
 
 #### Search
 

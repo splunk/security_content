@@ -37,10 +37,6 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 | ----------- | ----------- |--------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

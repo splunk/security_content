@@ -37,10 +37,6 @@ This analytic identifies Get-ForestTrust from PowerSploit in order to gather dom
 | ----------- | ----------- |--------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

@@ -1,6 +1,6 @@
 ---
 title: "Detect Port Security Violation"
-excerpt: "Hardware Additions, Network Denial of Service, Man-in-the-Middle, ARP Cache Poisoning"
+excerpt: "Hardware Additions, Network Denial of Service, Adversary-in-the-Middle, ARP Cache Poisoning"
 categories:
   - Network
 last_modified_at: 2020-10-28
@@ -45,9 +45,6 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
-
-
-
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
 
@@ -57,10 +54,6 @@ By enabling Port Security on a Cisco switch you can restrict input to an interfa
 
 
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
-
-
-
-
 
 #### Search
 

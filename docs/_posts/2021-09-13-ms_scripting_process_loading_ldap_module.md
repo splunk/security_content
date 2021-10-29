@@ -43,10 +43,6 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
-
-
-
-
 #### Search
 
 ```

@@ -30,8 +30,6 @@ The following analytic identifies cleartext protocols at risk of leaking sensiti
 - **Author**: Rico Valdez, Splunk
 - **ID**: 6923cd64-17a0-453c-b945-81ac2d8c6db9
 
-
-
 #### Search
 
 ```

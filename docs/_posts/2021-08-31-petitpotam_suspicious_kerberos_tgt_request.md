@@ -37,10 +37,6 @@ The following analytic identifes Event Code 4768, A `Kerberos authentication tic
 | ----------- | ----------- |--------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
-
-
-
-
 #### Search
 
 ```

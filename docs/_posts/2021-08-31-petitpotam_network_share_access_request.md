@@ -40,10 +40,6 @@ During triage, review parallel security events to identify further suspicious ac
 | ----------- | ----------- |--------------- |
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
 
-
-
-
-
 #### Search
 
 ```

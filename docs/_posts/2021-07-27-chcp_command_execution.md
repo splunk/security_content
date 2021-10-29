@@ -37,10 +37,6 @@ This search is to detect execution of chcp.exe application. this utility is used
 | ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
-
-
-
-
 #### Search
 
 ```

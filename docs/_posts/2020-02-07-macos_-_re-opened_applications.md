@@ -30,8 +30,6 @@ This search looks for processes referencing the plist files that determine which
 - **Author**: Jamie Windley, Splunk
 - **ID**: 40bb64f9-f619-4e3d-8732-328d40377c4b
 
-
-
 #### Search
 
 ```

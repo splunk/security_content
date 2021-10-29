@@ -1095,6 +1095,28 @@ Discovery
 
 | TTP
 |-
+| [[Documentation:ESSOC:detections:Detections#Serviceprincipalnames_discovery_with_powershell|ServicePrincipalNames Discovery with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1558.003/ T1558.003]
+|
+Kerberoasting
+|
+Credential Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Serviceprincipalnames_discovery_with_setspn|ServicePrincipalNames Discovery with SetSPN]]
+
+|
+[https://attack.mitre.org/techniques/T1558.003/ T1558.003]
+|
+Kerberoasting
+|
+Credential Access
+
+| TTP
+|-
 | [[Documentation:ESSOC:detections:Detections#System_user_discovery_with_query|System User Discovery With Query]]
 
 |
@@ -1157,6 +1179,8 @@ Discovery
 ====Kill Chain Phase====
 
 * Exploitation
+
+* Lateral Movement
 
 * Reconnaissance
 
@@ -3830,6 +3854,28 @@ Execution, Persistence, Privilege Escalation,
 Execution, Persistence, Privilege Escalation
 
 | TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Serviceprincipalnames_discovery_with_powershell|ServicePrincipalNames Discovery with PowerShell]]
+
+|
+[https://attack.mitre.org/techniques/T1558.003/ T1558.003]
+|
+Kerberoasting
+|
+Credential Access
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Serviceprincipalnames_discovery_with_setspn|ServicePrincipalNames Discovery with SetSPN]]
+
+|
+[https://attack.mitre.org/techniques/T1558.003/ T1558.003]
+|
+Kerberoasting
+|
+Credential Access
+
+| TTP
 |}
 
 ====Kill Chain Phase====
@@ -5576,6 +5622,17 @@ Leveraging the Windows command-line interface (CLI) is one of the most common at
 | [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 |
+[https://attack.mitre.org/techniques/T1059/ T1059]
+|
+Command and Scripting Interpreter
+|
+Execution
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
+
+|
 [https://attack.mitre.org/techniques/T1059/ T1059], 
 [https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
@@ -5586,17 +5643,6 @@ Execution,
 Execution
 
 | Hunting
-|-
-| [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
-
-|
-[https://attack.mitre.org/techniques/T1059/ T1059]
-|
-Command and Scripting Interpreter
-|
-Execution
-
-| TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_use_of_cmd_exe_to_launch_script_interpreters|Detect Use of cmd exe to Launch Script Interpreters]]
 
@@ -5982,6 +6028,17 @@ Defense Evasion
 | [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 |
+[https://attack.mitre.org/techniques/T1059/ T1059]
+|
+Command and Scripting Interpreter
+|
+Execution
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
+
+|
 [https://attack.mitre.org/techniques/T1059/ T1059], 
 [https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
@@ -5992,17 +6049,6 @@ Execution,
 Execution
 
 | Hunting
-|-
-| [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
-
-|
-[https://attack.mitre.org/techniques/T1059/ T1059]
-|
-Command and Scripting Interpreter
-|
-Execution
-
-| TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#Detect_rundll32_inline_hta_execution|Detect Rundll32 Inline HTA Execution]]
 
@@ -6911,6 +6957,17 @@ Attackers are using Zoom as an vector to increase privileges on a sytems. This s
 | [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
 
 |
+[https://attack.mitre.org/techniques/T1059/ T1059]
+|
+Command and Scripting Interpreter
+|
+Execution
+
+| TTP
+|-
+| [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
+
+|
 [https://attack.mitre.org/techniques/T1059/ T1059], 
 [https://attack.mitre.org/techniques/T1059.003/ T1059.003]
 |
@@ -6921,17 +6978,6 @@ Execution,
 Execution
 
 | Hunting
-|-
-| [[Documentation:ESSOC:detections:Detections#Detect_prohibited_applications_spawning_cmd_exe|Detect Prohibited Applications Spawning cmd exe]]
-
-|
-[https://attack.mitre.org/techniques/T1059/ T1059]
-|
-Command and Scripting Interpreter
-|
-Execution
-
-| TTP
 |-
 | [[Documentation:ESSOC:detections:Detections#First_time_seen_child_process_of_zoom|First Time Seen Child Process of Zoom]]
 
@@ -9086,7 +9132,7 @@ Validate the security configuration of network infrastructure and verify that on
 |
 Hardware Additions, 
 Network Denial of Service, 
-Man-in-the-Middle, 
+Adversary-in-the-Middle, 
 ARP Cache Poisoning
 |
 Initial Access, 
@@ -9106,7 +9152,7 @@ Credential Access, Collection
 |
 Hardware Additions, 
 Network Denial of Service, 
-Man-in-the-Middle, 
+Adversary-in-the-Middle, 
 ARP Cache Poisoning
 |
 Initial Access, 
@@ -9134,7 +9180,7 @@ Credential Access, Collection
 |
 Hardware Additions, 
 Network Denial of Service, 
-Man-in-the-Middle, 
+Adversary-in-the-Middle, 
 ARP Cache Poisoning
 |
 Initial Access, 
@@ -9153,7 +9199,7 @@ Credential Access, Collection
 |
 Hardware Additions, 
 Network Denial of Service, 
-Man-in-the-Middle
+Adversary-in-the-Middle
 |
 Initial Access, 
 Impact, 

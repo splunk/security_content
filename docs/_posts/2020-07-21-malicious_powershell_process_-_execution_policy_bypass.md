@@ -43,10 +43,6 @@ This search looks for PowerShell processes started with parameters used to bypas
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
-
-
-
-
 #### Search
 
 ```

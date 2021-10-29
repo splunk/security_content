@@ -28,8 +28,6 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 - **Author**: Rod Soto, Splunk
 - **ID**: 337a46be-600f-11eb-ae93-0242ac130002
 
-
-
 #### Search
 
 ```

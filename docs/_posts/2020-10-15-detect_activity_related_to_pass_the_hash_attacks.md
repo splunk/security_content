@@ -44,10 +44,6 @@ This search looks for specific authentication events from the Windows Security E
 
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
 
-
-
-
-
 #### Search
 
 ```

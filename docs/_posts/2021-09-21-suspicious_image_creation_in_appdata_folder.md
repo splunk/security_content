@@ -37,10 +37,6 @@ This search is to detect a suspicious creation of image in appdata folder made b
 | ----------- | ----------- |--------------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
 
-
-
-
-
 #### Search
 
 ```

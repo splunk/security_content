@@ -44,10 +44,6 @@ The following detection identifies control.exe loading either a .cpl or .inf fro
 
 | [T1218.002](https://attack.mitre.org/techniques/T1218/002/) | Control Panel | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -37,10 +37,6 @@ This search is to detect file creation in remcos folder in appdata which is the 
 | ----------- | ----------- |--------------- |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
 
-
-
-
-
 #### Search
 
 ```

@@ -43,10 +43,6 @@ This analytic will identify suspicious process of cscript.exe where it tries to 
 
 | [T1059.005](https://attack.mitre.org/techniques/T1059/005/) | Visual Basic | Execution |
 
-
-
-
-
 #### Search
 
 ```

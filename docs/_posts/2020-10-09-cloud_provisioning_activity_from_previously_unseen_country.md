@@ -41,10 +41,6 @@ This search looks for cloud provisioning activities from previously unseen count
 | ----------- | ----------- |--------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
-
-
-
-
 #### Search
 
 ```

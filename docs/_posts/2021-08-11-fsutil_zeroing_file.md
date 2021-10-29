@@ -37,10 +37,6 @@ This search is to detect a suspicious fsutil process to zeroing a target file. T
 | ----------- | ----------- |--------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

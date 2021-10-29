@@ -33,19 +33,12 @@ The following analytic identifies renamed 7-Zip usage using Sysmon. At this stag
 - **ID**: 4057291a-b8cf-11eb-95fe-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
-
-
-
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
-
-
-
-
 
 #### Search
 

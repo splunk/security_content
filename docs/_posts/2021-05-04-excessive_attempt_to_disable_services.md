@@ -37,10 +37,6 @@ This analytic will identify suspicious series of command-line to disable several
 | ----------- | ----------- |--------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
-
-
-
-
 #### Search
 
 ```

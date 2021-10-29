@@ -43,10 +43,6 @@ This search looks for a process launching an `*.lnk` file under `C:\User*` or `*
 
 | [T1566.002](https://attack.mitre.org/techniques/T1566/002/) | Spearphishing Link | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

@@ -40,10 +40,6 @@ Alternatively, may use regex per matching here https://regexr.com/662ov.
 | ----------- | ----------- |--------------- |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

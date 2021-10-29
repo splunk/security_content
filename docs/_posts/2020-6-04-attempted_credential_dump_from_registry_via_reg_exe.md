@@ -34,10 +34,6 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 | ----------- | ----------- |--------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
-
-
-
-
 #### Search
 
 ```

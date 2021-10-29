@@ -43,10 +43,6 @@ This search looks for PowerShell processes launched with arguments that have cha
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
-
-
-
-
 #### Search
 
 ```

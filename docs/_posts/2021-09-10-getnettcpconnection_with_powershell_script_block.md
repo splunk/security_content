@@ -37,10 +37,6 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 | ----------- | ----------- |--------------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

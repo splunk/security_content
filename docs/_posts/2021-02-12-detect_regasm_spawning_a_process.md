@@ -43,10 +43,6 @@ The following analytic identifies regasm.exe spawning a process. This particular
 
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -34,19 +34,12 @@ This search looks for modifications to registry keys that can be used to elevate
 - **ID**: c9f4b923-f8af-4155-b697-1354f5bcbc5e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546.012](https://attack.mitre.org/techniques/T1546/012/) | Image File Execution Options Injection | Privilege Escalation, Persistence |
-
-
-
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
-
-
-
-
 
 #### Search
 

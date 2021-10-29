@@ -44,10 +44,6 @@ This search looks for the first and last time a Windows service is seen running 
 
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
-
-
-
-
 #### Search
 
 ```

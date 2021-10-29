@@ -44,10 +44,6 @@ Upon investigating, look for network connections to remote destinations (interna
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

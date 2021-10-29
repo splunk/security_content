@@ -37,10 +37,6 @@ This analytic will identify suspicious series of process executions.  We have ob
 | ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
-
-
-
-
 #### Search
 
 ```

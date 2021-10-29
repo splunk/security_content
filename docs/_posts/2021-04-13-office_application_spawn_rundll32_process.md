@@ -43,10 +43,6 @@ this detection was designed to identifies suspicious spawned process of known MS
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

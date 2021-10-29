@@ -43,10 +43,6 @@ The following analytic identifies regsvcs.exe spawning a process. This particula
 
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -44,10 +44,6 @@ The following analytic identifies behavior related to CVE-2021-40444. Whereas th
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

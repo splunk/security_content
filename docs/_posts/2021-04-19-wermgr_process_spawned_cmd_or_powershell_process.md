@@ -37,10 +37,6 @@ This search is designed to detect suspicious cmd and powershell process spawned 
 | ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
-
-
-
-
 #### Search
 
 ```

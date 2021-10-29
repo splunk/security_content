@@ -49,10 +49,6 @@ This search detects user accounts that have been locked out a relatively high nu
 
 | [T1078.003](https://attack.mitre.org/techniques/T1078/003/) | Local Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
-
-
-
-
 #### Search
 
 ```

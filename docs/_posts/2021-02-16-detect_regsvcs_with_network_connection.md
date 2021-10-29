@@ -42,10 +42,6 @@ The following analytic identifies Regsvcs.exe with a network connection to a pub
 
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

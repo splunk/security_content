@@ -38,14 +38,7 @@ This analytic is to detect a suspicious registry modification to enable plain te
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
-
-
-
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
-
-
 
 #### Search
 

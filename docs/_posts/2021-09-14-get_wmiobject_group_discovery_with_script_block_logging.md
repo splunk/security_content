@@ -44,10 +44,6 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
-
-
-
-
 #### Search
 
 ```

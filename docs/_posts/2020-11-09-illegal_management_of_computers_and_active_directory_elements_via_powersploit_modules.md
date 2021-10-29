@@ -38,18 +38,8 @@ This detection identifies access to PowerSploit modules that enable illegal mana
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-
-
-
 | [T1207](https://attack.mitre.org/techniques/T1207/) | Rogue Domain Controller | Defense Evasion |
-
-
-
 | [T1484](https://attack.mitre.org/techniques/T1484/) | Domain Policy Modification | Defense Evasion, Privilege Escalation |
-
-
-
-
 
 #### Search
 

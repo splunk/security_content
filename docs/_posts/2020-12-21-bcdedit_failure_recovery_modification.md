@@ -37,10 +37,6 @@ This search looks for flags passed to bcdedit.exe modifications to the built-in 
 | ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
-
-
-
-
 #### Search
 
 ```

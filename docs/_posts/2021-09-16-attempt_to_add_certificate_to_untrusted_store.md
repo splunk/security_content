@@ -33,19 +33,12 @@ Attempt To Add Certificate To Untrusted Store
 - **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1553.004](https://attack.mitre.org/techniques/T1553/004/) | Install Root Certificate | Defense Evasion |
-
-
-
 | [T1553](https://attack.mitre.org/techniques/T1553/) | Subvert Trust Controls | Defense Evasion |
-
-
-
-
 
 #### Search
 

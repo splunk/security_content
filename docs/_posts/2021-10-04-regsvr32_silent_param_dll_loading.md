@@ -43,10 +43,6 @@ This analytic is to detect a loading of dll using regsvr32 application with sile
 
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

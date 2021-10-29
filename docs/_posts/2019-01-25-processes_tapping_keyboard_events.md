@@ -29,8 +29,6 @@ This search looks for processes in an MacOS system that is tapping keyboard even
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 2a371608-331d-4034-ae2c-21dda8f1d0ec
 
-
-
 #### Search
 
 ```

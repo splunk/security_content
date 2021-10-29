@@ -28,8 +28,6 @@ The search looks for file writes with extensions consistent with a SamSam ransom
 - **Author**: Rico Valdez, Splunk
 - **ID**: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
 
-
-
 #### Search
 
 ```

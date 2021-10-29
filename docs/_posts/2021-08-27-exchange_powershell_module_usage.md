@@ -47,10 +47,6 @@ Module - New-managementroleassignment can assign a management role to a manageme
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
-
-
-
-
 #### Search
 
 ```

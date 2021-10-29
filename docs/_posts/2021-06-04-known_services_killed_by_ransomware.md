@@ -37,10 +37,6 @@ This search detects a suspicioous termination of known services killed by ransom
 | ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
-
-
-
-
 #### Search
 
 ```

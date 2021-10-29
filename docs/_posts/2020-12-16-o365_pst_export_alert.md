@@ -37,10 +37,6 @@ This search detects when a user has performed an Ediscovery search or exported a
 | ----------- | ----------- |--------------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
-
-
-
-
 #### Search
 
 ```

@@ -42,9 +42,6 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
-
-
-
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 
@@ -54,10 +51,6 @@ The following analytic identifies renamed instances of rundll32.exe executing. r
 
 
 | [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
-
-
-
-
 
 #### Search
 

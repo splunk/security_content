@@ -43,10 +43,6 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 
 | [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

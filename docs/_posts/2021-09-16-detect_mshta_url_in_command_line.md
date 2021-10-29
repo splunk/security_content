@@ -43,10 +43,6 @@ This analytic identifies when Microsoft HTML Application Host (mshta.exe) utilit
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

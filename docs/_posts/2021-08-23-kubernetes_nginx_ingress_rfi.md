@@ -37,10 +37,6 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect r
 | ----------- | ----------- |--------------- |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
 
-
-
-
-
 #### Search
 
 ```

@@ -43,10 +43,6 @@ The following analytic identifies regasm.exe with no command line arguments. Thi
 
 | [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

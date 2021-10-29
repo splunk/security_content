@@ -37,10 +37,6 @@ This analytic is to detect a suspicious registry modification to disable securit
 | ----------- | ----------- |--------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

@@ -33,19 +33,12 @@ This search looks for AWS CloudTrail events from AWS Elastic Container Service (
 - **ID**: cbc95e44-7c22-443f-88fd-0424478f5589
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1204.003](https://attack.mitre.org/techniques/T1204/003/) | Malicious Image | Execution |
-
-
-
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
-
-
 
 #### Search
 

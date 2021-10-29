@@ -39,10 +39,6 @@ This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vul
 | ----------- | ----------- |--------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

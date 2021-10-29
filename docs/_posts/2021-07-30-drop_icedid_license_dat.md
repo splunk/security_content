@@ -43,10 +43,6 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
-
-
-
-
 #### Search
 
 ```

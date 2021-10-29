@@ -37,10 +37,6 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 | ----------- | ----------- |--------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

@@ -37,10 +37,6 @@ This analytic looks for the execution of `net.exe` with command-line arguments u
 | ----------- | ----------- |--------------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

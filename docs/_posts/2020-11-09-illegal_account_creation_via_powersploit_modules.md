@@ -34,10 +34,6 @@ This detection identifies access to PowerSploit modules that create accounts ill
 | ----------- | ----------- |--------------- |
 | [T1585](https://attack.mitre.org/techniques/T1585/) | Establish Accounts | Resource Development |
 
-
-
-
-
 #### Search
 
 ```

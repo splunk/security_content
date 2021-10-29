@@ -45,10 +45,6 @@ This analytic is developed to detect possible event trigger execution through sc
 
 | [T1546.002](https://attack.mitre.org/techniques/T1546/002/) | Screensaver | Privilege Escalation, Persistence |
 
-
-
-
-
 #### Search
 
 ```

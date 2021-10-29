@@ -33,19 +33,12 @@ this search is to detect a suspicious registry modification to implement auto ad
 - **ID**: 1379d2b8-0f18-11ec-8ca3-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1552.002](https://attack.mitre.org/techniques/T1552/002/) | Credentials in Registry | Credential Access |
-
-
-
 | [T1552](https://attack.mitre.org/techniques/T1552/) | Unsecured Credentials | Credential Access |
-
-
-
-
 
 #### Search
 

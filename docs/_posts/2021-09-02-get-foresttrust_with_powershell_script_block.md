@@ -39,10 +39,6 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 | ----------- | ----------- |--------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

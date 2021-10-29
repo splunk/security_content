@@ -43,10 +43,6 @@ This search looks for the execution of the cscript.exe or wscript.exe processes,
 
 | [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
 
-
-
-
-
 #### Search
 
 ```

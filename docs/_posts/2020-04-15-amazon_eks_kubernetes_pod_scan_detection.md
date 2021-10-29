@@ -38,10 +38,6 @@ This search provides detection information on unauthenticated requests against K
 | ----------- | ----------- |--------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

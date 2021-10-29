@@ -32,19 +32,12 @@ This search detects a potential kerberoasting attack via service principal name 
 - **ID**: 5cc67381-44fa-4111-8a37-7a230943f027
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
-
-
-
 | [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
-
-
-
-
 
 #### Search
 

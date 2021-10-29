@@ -43,10 +43,6 @@ The following analytic identifies &#34;rundll32.exe&#34; execution with inline p
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

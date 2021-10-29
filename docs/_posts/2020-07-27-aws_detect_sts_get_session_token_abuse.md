@@ -39,10 +39,6 @@ This search provides detection of suspicious use of sts:GetSessionToken. These t
 | ----------- | ----------- |--------------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
-
-
-
-
 #### Search
 
 ```

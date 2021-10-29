@@ -33,19 +33,12 @@ This search is to detect a suspicious 7z process with commandline pointing to SM
 - **ID**: 01d29b48-ff6f-11eb-b81e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
-
-
-
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
-
-
-
-
 
 #### Search
 

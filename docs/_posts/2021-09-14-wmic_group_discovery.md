@@ -45,10 +45,6 @@ During triage, review parallel processes and identify any further suspicious beh
 
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
-
-
-
-
 #### Search
 
 ```

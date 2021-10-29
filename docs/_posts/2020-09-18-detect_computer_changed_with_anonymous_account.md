@@ -37,10 +37,6 @@ This search looks for Event Code 4742 (Computer Change) or EventCode 4624 (An ac
 | ----------- | ----------- |--------------- |
 | [T1210](https://attack.mitre.org/techniques/T1210/) | Exploitation of Remote Services | Lateral Movement |
 
-
-
-
-
 #### Search
 
 ```

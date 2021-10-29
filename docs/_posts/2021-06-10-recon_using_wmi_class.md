@@ -36,10 +36,6 @@ The following analytic identifies suspicious PowerShell via EventCode 4104, wher
 | ----------- | ----------- |--------------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
 
-
-
-
-
 #### Search
 
 ```

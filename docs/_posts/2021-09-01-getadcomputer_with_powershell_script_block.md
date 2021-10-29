@@ -37,10 +37,6 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 | ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

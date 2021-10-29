@@ -34,10 +34,6 @@ This detection identifies use of Mimikatz modules for discovery of computers and
 | ----------- | ----------- |--------------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
 
-
-
-
-
 #### Search
 
 ```

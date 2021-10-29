@@ -33,19 +33,12 @@ This search is to detect a shared file in google drive with suspicious file name
 - **ID**: 07eed200-03f5-11ec-98fb-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
-
-
-
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
-
-
-
-
 
 #### Search
 

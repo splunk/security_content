@@ -39,10 +39,6 @@ This search looks for network traffic defined by port and transport layer protoc
 | ----------- | ----------- |--------------- |
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
-
-
-
-
 #### Search
 
 ```

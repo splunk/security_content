@@ -39,10 +39,6 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 | ----------- | ----------- |--------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

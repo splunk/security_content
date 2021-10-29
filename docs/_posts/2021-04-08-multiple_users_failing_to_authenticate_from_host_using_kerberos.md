@@ -36,19 +36,12 @@ The analytics returned fields allow analysts to investigate the event further by
 - **ID**: 3a91a212-98a9-11eb-b86a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
-
-
-
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
-
-
-
-
 
 #### Search
 

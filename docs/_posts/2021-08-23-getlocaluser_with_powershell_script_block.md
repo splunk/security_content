@@ -43,10 +43,6 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
-
-
-
-
 #### Search
 
 ```

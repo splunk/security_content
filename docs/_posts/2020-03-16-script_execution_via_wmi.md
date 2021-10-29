@@ -37,10 +37,6 @@ This search looks for scripts launched via WMI.
 | ----------- | ----------- |--------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
-
-
-
-
 #### Search
 
 ```

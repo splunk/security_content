@@ -10575,7 +10575,7 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -10763,7 +10763,7 @@ unknown
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -15442,7 +15442,7 @@ System administrators or scripts may delete user accounts via this technique. Fi
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -15797,7 +15797,7 @@ network administrator may use this windows utility but this is not a common prac
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -18178,6 +18178,91 @@ unknown
 ----
 
 ===Detect prohibited applications spawning cmd exe===
+This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
+
+* '''Product''': Splunk Behavioral Analytics
+* '''Datamodel''': 
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059/ T1059]
+* '''Last Updated''': 2020-7-13
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| from read_ssa_enriched_events()
+
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
+| eval process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), parent_process=lower(ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null)), dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null)
+
+| where process_name=&#34;cmd.exe&#34; 
+| rex field=parent_process &#34;(?&lt;field0&gt;[^\\\\]+)$&#34; 
+| where field0=&#34;winword.exe&#34; OR field0=&#34;excel.exe&#34; OR field0=&#34;outlook.exe&#34; OR field0=&#34;powerpnt.exe&#34; OR field0=&#34;visio.exe&#34; OR field0=&#34;mspub.exe&#34; OR field0=&#34;acrobat.exe&#34; OR field0=&#34;acrord32.exe&#34; OR field0=&#34;chrome.exe&#34; OR field0=&#34;iexplore.exe&#34; OR field0=&#34;opera.exe&#34; OR field0=&#34;firefox.exe&#34; OR field0=&#34;java.exe&#34; OR field0=&#34;powershell.exe&#34;
+
+| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map([&#34;event_id&#34;, event_id,  &#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process]) 
+| into write_ssa_detected_events();</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Suspicious_Command-Line_Executions|Suspicious Command-Line Executions]]
+
+* [[Documentation:ESSOC:stories:UseCase#Suspicious_MSHTA_Activity|Suspicious MSHTA Activity]]
+
+* [[Documentation:ESSOC:stories:UseCase#Suspicious_Zoom_Child_Processes|Suspicious Zoom Child Processes]]
+
+* [[Documentation:ESSOC:stories:UseCase#Sunburst_Malware|Sunburst Malware]]
+
+
+====How To Implement====
+You must be ingesting sysmon logs. This search has been modified to process raw sysmon data from attack_range&#39;s nxlogs on DSP.
+
+====Required field====
+
+* process_name
+
+* parent_process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1059
+| Command and Scripting Interpreter
+| Execution
+|}
+
+
+====Kill Chain Phase====
+
+* Exploitation
+
+
+====Known False Positives====
+There are circumstances where an application may legitimately execute and interact with the Windows command-line interface. Investigate and modify the lookup file, as appropriate.
+
+====Reference====
+
+
+====Test Dataset====
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Detect prohibited applications spawning cmd exe===
 This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -18272,91 +18357,6 @@ There are circumstances where an application may legitimately execute and intera
 
 
 ''version'': 6
-</div>
-</div>
-
-----
-
-===Detect prohibited applications spawning cmd exe===
-This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
-
-* '''Product''': Splunk Behavioral Analytics
-* '''Datamodel''': 
-* '''ATT&CK''': [https://attack.mitre.org/techniques/T1059/ T1059]
-* '''Last Updated''': 2020-7-13
-
-<div class="toccolours mw-collapsible mw-collapsed">
-<div class="mw-collapsible-content">
-
-====Search====
-<search>
-| from read_ssa_enriched_events()
-
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
-| eval process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), parent_process=lower(ucast(map_get(input_event, &#34;parent_process_name&#34;), &#34;string&#34;, null)), dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null)
-
-| where process_name=&#34;cmd.exe&#34; 
-| rex field=parent_process &#34;(?&lt;field0&gt;[^\\\\]+)$&#34; 
-| where field0=&#34;winword.exe&#34; OR field0=&#34;excel.exe&#34; OR field0=&#34;outlook.exe&#34; OR field0=&#34;powerpnt.exe&#34; OR field0=&#34;visio.exe&#34; OR field0=&#34;mspub.exe&#34; OR field0=&#34;acrobat.exe&#34; OR field0=&#34;acrord32.exe&#34; OR field0=&#34;chrome.exe&#34; OR field0=&#34;iexplore.exe&#34; OR field0=&#34;opera.exe&#34; OR field0=&#34;firefox.exe&#34; OR field0=&#34;java.exe&#34; OR field0=&#34;powershell.exe&#34;
-
-| eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id, dest_user_id), body=create_map([&#34;event_id&#34;, event_id,  &#34;process_name&#34;, process_name, &#34;parent_process_name&#34;, parent_process]) 
-| into write_ssa_detected_events();</search>
-
-====Associated Analytic Story====
-
-* [[Documentation:ESSOC:stories:UseCase#Suspicious_Command-Line_Executions|Suspicious Command-Line Executions]]
-
-* [[Documentation:ESSOC:stories:UseCase#Suspicious_MSHTA_Activity|Suspicious MSHTA Activity]]
-
-* [[Documentation:ESSOC:stories:UseCase#Suspicious_Zoom_Child_Processes|Suspicious Zoom Child Processes]]
-
-* [[Documentation:ESSOC:stories:UseCase#Sunburst_Malware|Sunburst Malware]]
-
-
-====How To Implement====
-You must be ingesting sysmon logs. This search has been modified to process raw sysmon data from attack_range&#39;s nxlogs on DSP.
-
-====Required field====
-
-* process_name
-
-* parent_process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-
-
-====ATT&CK====
-{|
-! style="text-align:left;"| ID
-! Technique
-! Tactic
-|-
-| T1059
-| Command and Scripting Interpreter
-| Execution
-|}
-
-
-====Kill Chain Phase====
-
-* Exploitation
-
-
-====Known False Positives====
-There are circumstances where an application may legitimately execute and interact with the Windows command-line interface. Investigate and modify the lookup file, as appropriate.
-
-====Reference====
-
-
-====Test Dataset====
-
-
-''version'': 1
 </div>
 </div>
 
@@ -21392,7 +21392,7 @@ network operator may use this approach to quickly disable an account but not a c
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -30594,7 +30594,7 @@ network administrator may use this windows utility but this is not a common prac
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -43709,7 +43709,7 @@ network admin can resize the shadowstorage for valid purposes.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -46480,6 +46480,248 @@ unknown
 ====Test Dataset====
 
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-sysmon.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Serviceprincipalnames discovery with powershell===
+The following analytic identifies `powershell.exe` usage, using Script Block Logging EventCode 4104, related to querying the domain for Service Principle Names. typically, this is a precursor activity related to kerberoasting or the silver ticket attack. \
+What is a ServicePrincipleName? \
+A service principal name (SPN) is a unique identifier of a service instance. SPNs are used by Kerberos authentication to associate a service instance with a service logon account. This allows a client application to request that the service authenticate an account even if the client does not have the account name.\
+The following analytic identifies the use of KerberosRequestorSecurityToken class within the script block. Using .NET System.IdentityModel.Tokens.KerberosRequestorSecurityToken class in PowerShell is the equivelant of using setspn.exe. \
+During triage, review parallel processes for further suspicious activity.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1558/003/ T1558.003]
+* '''Last Updated''': 2021-10-14
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>`powershell` EventCode=4104 Message=&#34;*KerberosRequestorSecurityToken*&#34; 
+| stats count min(_time) as firstTime max(_time) as lastTime by Message OpCode ComputerName User EventCode 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| `serviceprincipalnames_discovery_with_powershell_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Active_Directory_Discovery|Active Directory Discovery]]
+
+* [[Documentation:ESSOC:stories:UseCase#Lateral_Movement|Lateral Movement]]
+
+
+====How To Implement====
+To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1558.003
+| Kerberoasting
+| Credential Access
+|}
+
+
+====Kill Chain Phase====
+
+* Lateral Movement
+
+
+====Known False Positives====
+False positives should be limited, however filter as needed.
+
+====Reference====
+
+
+* https://docs.microsoft.com/en-us/windows/win32/ad/service-principal-names
+
+* https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel.tokens.kerberosrequestorsecuritytoken?view=netframework-4.8
+
+* https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+
+* https://strontic.github.io/xcyclopedia/library/setspn.exe-5C184D581524245DAD7A0A02B51FD2C2.html
+
+* https://attack.mitre.org/techniques/T1558/003/
+
+* https://social.technet.microsoft.com/wiki/contents/articles/717.service-principal-names-spn-setspn-syntax.aspx
+
+* https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/
+
+* https://blog.zsec.uk/paving-2-da-wholeset/
+
+* https://msitpros.com/?p=3113
+
+* https://adsecurity.org/?p=3466
+
+* https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+
+* https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63
+
+* https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
+
+* https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-powershell_kerberos.log
+
+
+''version'': 1
+</div>
+</div>
+
+----
+
+===Serviceprincipalnames discovery with setspn===
+The following analytic identifies `setspn.exe` usage related to querying the domain for Service Principle Names. typically, this is a precursor activity related to kerberoasting or the silver ticket attack. \
+What is a ServicePrincipleName? \
+A service principal name (SPN) is a unique identifier of a service instance. SPNs are used by Kerberos authentication to associate a service instance with a service logon account. This allows a client application to request that the service authenticate an account even if the client does not have the account name.\
+Example usage includes the following \
+1. setspn -T offense -Q */* 1. setspn -T attackrange.local -F -Q MSSQLSvc/* 1. setspn -Q */* &gt; allspns.txt 1. setspn -q \
+Values \
+1. -F = perform queries at the forest, rather than domain level 1. -T = perform query on the specified domain or forest (when -F is also used) 1. -Q = query for existence of SPN \
+During triage, review parallel processes for further suspicious activity.
+
+* '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+* '''Datamodel''': Endpoint
+* '''ATT&CK''': [https://attack.mitre.org/techniques/T1558/003/ T1558.003]
+* '''Last Updated''': 2021-10-14
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search>
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_setspn` (Processes.process=&#34;*-t*&#34; AND Processes.process=&#34;*-f*&#34;) OR (Processes.process=&#34;*-q*&#34; AND Processes.process=&#34;**/**&#34;) OR (Processes.process=&#34;*-q*&#34;) OR (Processes.process=&#34;*-s*&#34;) by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `serviceprincipalnames_discovery_with_setspn_filter`</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Active_Directory_Discovery|Active Directory Discovery]]
+
+* [[Documentation:ESSOC:stories:UseCase#Lateral_Movement|Lateral Movement]]
+
+
+====How To Implement====
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+
+====Required field====
+
+* _time
+
+* Processes.dest
+
+* Processes.user
+
+* Processes.parent_process_name
+
+* Processes.parent_process
+
+* Processes.original_file_name
+
+* Processes.process_name
+
+* Processes.process
+
+* Processes.process_id
+
+* Processes.parent_process_path
+
+* Processes.process_path
+
+* Processes.parent_process_id
+
+
+
+====ATT&CK====
+{|
+! style="text-align:left;"| ID
+! Technique
+! Tactic
+|-
+| T1558.003
+| Kerberoasting
+| Credential Access
+|}
+
+
+====Kill Chain Phase====
+
+* Lateral Movement
+
+
+====Known False Positives====
+False positives may be caused by Administrators resetting SPNs or querying for SPNs. Filter as needed.
+
+====Reference====
+
+
+* https://docs.microsoft.com/en-us/windows/win32/ad/service-principal-names
+
+* https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting
+
+* https://strontic.github.io/xcyclopedia/library/setspn.exe-5C184D581524245DAD7A0A02B51FD2C2.html
+
+* https://attack.mitre.org/techniques/T1558/003/
+
+* https://social.technet.microsoft.com/wiki/contents/articles/717.service-principal-names-spn-setspn-syntax.aspx
+
+* https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/
+
+* https://blog.zsec.uk/paving-2-da-wholeset/
+
+* https://msitpros.com/?p=3113
+
+* https://adsecurity.org/?p=3466
+
+
+
+====Test Dataset====
+
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/atomic_red_team/windows-sysmon_setspn.log
 
 
 ''version'': 1
@@ -52451,76 +52693,6 @@ Potential for some third party applications to disable AMSI upon invocation. Fil
 ----
 
 ===Unusually long command line===
-Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
-
-* '''Product''': Splunk Behavioral Analytics
-* '''Datamodel''': 
-* '''ATT&CK''': 
-* '''Last Updated''': 2020-10-06
-
-<div class="toccolours mw-collapsible mw-collapsed">
-<div class="mw-collapsible-content">
-
-====Search====
-<search> 
-| from read_ssa_enriched_events() 
-| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
-| eval cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
-| where cmd_line!=null and dest_user_id!=null 
-| eval cmd_line_norm=replace(cast(cmd_line, &#34;string&#34;), /\s(--?\w+)
-|(\/\w+)/, &#34; ARG&#34;), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, &#34;PATH&#34;), cmd_line_norm=replace(cmd_line_norm, /\d+/, &#34;N&#34;), input=parse_double(len(coalesce(cmd_line_norm, &#34;&#34;))) 
-| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
-| adaptive_threshold algorithm=&#34;quantile&#34; entity=&#34;process_name&#34; window=60480000 
-| where label AND quantile&gt;0.99 
-| first_time_event input_columns=[&#34;dest_device_id&#34;, &#34;cmd_line&#34;] 
-| where first_time_dest_device_id_cmd_line 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name]) 
-| into write_ssa_detected_events();</search>
-
-====Associated Analytic Story====
-
-* [[Documentation:ESSOC:stories:UseCase#Unusual_Processes|Unusual Processes]]
-
-
-====How To Implement====
-You must be ingesting sysmon endpoint data that monitors command lines.
-
-====Required field====
-
-* process_name
-
-* _time
-
-* dest_device_id
-
-* dest_user_id
-
-* process
-
-
-
-
-====Kill Chain Phase====
-
-* Actions on Objectives
-
-
-====Known False Positives====
-This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
-
-====Reference====
-
-
-====Test Dataset====
-
-
-''version'': 1
-</div>
-</div>
-
-----
-
-===Unusually long command line===
 Command lines that are extremely long may be indicative of malicious activity on your hosts.
 
 * '''Product''': Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -52590,6 +52762,76 @@ Some legitimate applications start with long command lines.
 
 
 ''version'': 5
+</div>
+</div>
+
+----
+
+===Unusually long command line===
+Command lines that are extremely long may be indicative of malicious activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin to help identify command lines with lengths that are unusual for a given user. This detection is inspired on Unusually Long Command Line authored by Rico Valdez.
+
+* '''Product''': Splunk Behavioral Analytics
+* '''Datamodel''': 
+* '''ATT&CK''': 
+* '''Last Updated''': 2020-10-06
+
+<div class="toccolours mw-collapsible mw-collapsed">
+<div class="mw-collapsible-content">
+
+====Search====
+<search> 
+| from read_ssa_enriched_events() 
+| eval timestamp=parse_long(ucast(map_get(input_event, &#34;_time&#34;), &#34;string&#34;, null)) 
+| eval cmd_line=ucast(map_get(input_event, &#34;process&#34;), &#34;string&#34;, null), dest_user_id=ucast(map_get(input_event, &#34;dest_user_id&#34;), &#34;string&#34;, null), dest_device_id=ucast(map_get(input_event, &#34;dest_device_id&#34;), &#34;string&#34;, null), process_name=ucast(map_get(input_event, &#34;process_name&#34;), &#34;string&#34;, null), event_id=ucast(map_get(input_event, &#34;event_id&#34;), &#34;string&#34;, null) 
+| where cmd_line!=null and dest_user_id!=null 
+| eval cmd_line_norm=replace(cast(cmd_line, &#34;string&#34;), /\s(--?\w+)
+|(\/\w+)/, &#34; ARG&#34;), cmd_line_norm=replace(cmd_line_norm, /\w:\\[^\s]+/, &#34;PATH&#34;), cmd_line_norm=replace(cmd_line_norm, /\d+/, &#34;N&#34;), input=parse_double(len(coalesce(cmd_line_norm, &#34;&#34;))) 
+| select timestamp, process_name, dest_device_id, dest_user_id, cmd_line, input 
+| adaptive_threshold algorithm=&#34;quantile&#34; entity=&#34;process_name&#34; window=60480000 
+| where label AND quantile&gt;0.99 
+| first_time_event input_columns=[&#34;dest_device_id&#34;, &#34;cmd_line&#34;] 
+| where first_time_dest_device_id_cmd_line 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map([&#34;event_id&#34;, event_id, &#34;cmd_line&#34;, cmd_line, &#34;process_name&#34;, process_name]) 
+| into write_ssa_detected_events();</search>
+
+====Associated Analytic Story====
+
+* [[Documentation:ESSOC:stories:UseCase#Unusual_Processes|Unusual Processes]]
+
+
+====How To Implement====
+You must be ingesting sysmon endpoint data that monitors command lines.
+
+====Required field====
+
+* process_name
+
+* _time
+
+* dest_device_id
+
+* dest_user_id
+
+* process
+
+
+
+
+====Kill Chain Phase====
+
+* Actions on Objectives
+
+
+====Known False Positives====
+This detection may flag suspiciously long command lines when there is not sufficient evidence (samples) for a given process that this detection is tracking; or when there is high variability in the length of the command line for the tracked process. Also, some legitimate applications may use long command lines. Such is the case of Ansible, that encodes Powershell scripts using long base64. Attackers may use this technique to obfuscate their payloads.
+
+====Reference====
+
+
+====Test Dataset====
+
+
+''version'': 1
 </div>
 </div>
 
@@ -54105,7 +54347,7 @@ The wevtutil.exe application is a legitimate Windows event log utility. Administ
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -54194,7 +54436,7 @@ network operator may disable audit event logs for debugging purposes.
 * https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/disable_evt.log
 
 
-''version'': 1
+''version'': 2
 </div>
 </div>
 
@@ -55936,7 +56178,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | Impact
 |-
 | T1557
-| Man-in-the-Middle
+| Adversary-in-the-Middle
 | Credential Access, Collection
 |-
 | T1557.002
@@ -56039,7 +56281,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | Impact
 |-
 | T1557
-| Man-in-the-Middle
+| Adversary-in-the-Middle
 | Credential Access, Collection
 |-
 | T1557.002
@@ -56327,7 +56569,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | Impact
 |-
 | T1557
-| Man-in-the-Middle
+| Adversary-in-the-Middle
 | Credential Access, Collection
 |-
 | T1557.002
@@ -56419,7 +56661,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 | Impact
 |-
 | T1557
-| Man-in-the-Middle
+| Adversary-in-the-Middle
 | Credential Access, Collection
 |}
 

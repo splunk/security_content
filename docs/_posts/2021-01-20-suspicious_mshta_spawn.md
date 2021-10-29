@@ -43,10 +43,6 @@ The following analytic identifies wmiprvse.exe spawning mshta.exe. This behavior
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

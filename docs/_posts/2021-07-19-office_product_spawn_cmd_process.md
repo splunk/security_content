@@ -43,10 +43,6 @@ this search is to detect a suspicious office product process that spawn cmd chil
 
 | [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
-
-
-
-
 #### Search
 
 ```

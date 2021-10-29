@@ -38,14 +38,7 @@ The following detection identifies any malformed policy document exceptions with
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
-
-
-
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
-
-
-
-
 
 #### Search
 

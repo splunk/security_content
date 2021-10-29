@@ -44,10 +44,6 @@ The following detection identifies the module load of mshtml.dll into an Office 
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
-
-
-
-
 #### Search
 
 ```

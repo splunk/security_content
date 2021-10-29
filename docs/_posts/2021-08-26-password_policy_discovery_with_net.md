@@ -37,10 +37,6 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command li
 | ----------- | ----------- |--------------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
 
-
-
-
-
 #### Search
 
 ```

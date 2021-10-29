@@ -43,10 +43,6 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
-
-
-
-
 #### Search
 
 ```

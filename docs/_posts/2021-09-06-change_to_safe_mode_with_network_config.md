@@ -37,10 +37,6 @@ This search is to detect a suspicious bcdedit commandline to configure the host 
 | ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
 
-
-
-
-
 #### Search
 
 ```
