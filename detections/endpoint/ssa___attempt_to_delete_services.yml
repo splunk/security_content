@@ -1,6 +1,6 @@
 name: Attempt To delete Services
 id: a0c8c292-d01a-11eb-aa18-acde48001122
-version: 1
+version: 2
 date: '2021-06-18'
 author: Teoderick Contreras, splunk
 type: TTP
@@ -33,12 +33,18 @@ tags:
   analytic_story:
   - XMRig
   - Ransomware
+  cis20:
+  - CIS 8
+  - CIS 13
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1489
+  nist:
+  - PR.DS
+  - PR.IP
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -49,4 +55,5 @@ tags:
   - process_path
   - dest_user_id
   - process
+  risk_severity: high
   security_domain: endpoint

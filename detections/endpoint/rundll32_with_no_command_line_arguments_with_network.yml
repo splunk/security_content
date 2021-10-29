@@ -46,6 +46,8 @@ tags:
   context:
   - source:endpoint
   - stage: Defense Evasion
+  cve:
+  - CVE-2021-34527
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
   impact: 70
@@ -84,5 +86,3 @@ tags:
   - Processes.parent_process_id
   risk_score: 70
   security_domain: endpoint
-  cve:
-  - CVE-2021-34527

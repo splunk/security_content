@@ -7,18 +7,14 @@ last_modified_at: 2021-10-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1505
   - Server Software Component
   - Persistence
-  - T1505.003
   - Web Shell
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,11 +33,14 @@ The following query identifies suspicious .aspx created in 3 paths identified by
 - **ID**: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1505](https://attack.mitre.org/techniques/T1505/) | Server Software Component | Persistence |
+
+
+
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
 
 #### Search
@@ -107,7 +106,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_exchange_web_shell.yml) \| *version*: **3**
