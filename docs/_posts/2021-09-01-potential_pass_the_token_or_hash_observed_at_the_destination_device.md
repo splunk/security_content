@@ -13,7 +13,8 @@ tags:
   - Pass the Hash
   - Defense Evasion
   - Lateral Movement
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

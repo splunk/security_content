@@ -9,7 +9,8 @@ toc_label: ""
 tags:
   - Gather Victim Host Information
   - Reconnaissance
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

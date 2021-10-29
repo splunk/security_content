@@ -39,7 +39,8 @@ tags:
   - Persistence
   - Steal or Forge Kerberos Tickets
   - Credential Access
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

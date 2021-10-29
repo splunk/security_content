@@ -12,7 +12,8 @@ tags:
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud---
+  - Splunk Cloud
+---
 
 
 

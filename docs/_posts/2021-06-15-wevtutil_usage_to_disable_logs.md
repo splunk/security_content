@@ -12,7 +12,8 @@ tags:
   - Clear Windows Event Logs
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Endpoint---
+  - Endpoint
+---
 
 
 

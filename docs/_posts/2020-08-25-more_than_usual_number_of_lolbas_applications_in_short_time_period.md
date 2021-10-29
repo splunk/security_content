@@ -13,7 +13,8 @@ tags:
   - Execution
   - Persistence
   - Privilege Escalation
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

@@ -18,7 +18,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint---
+  - Endpoint
+---
 
 
 

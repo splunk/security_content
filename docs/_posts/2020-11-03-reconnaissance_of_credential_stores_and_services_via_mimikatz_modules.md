@@ -26,7 +26,8 @@ tags:
   - Reconnaissance
   - Network Trust Dependencies
   - Reconnaissance
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

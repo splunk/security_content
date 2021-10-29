@@ -9,7 +9,8 @@ toc_label: ""
 tags:
   - Indicator Removal on Host
   - Defense Evasion
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

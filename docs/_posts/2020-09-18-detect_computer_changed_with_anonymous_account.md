@@ -12,7 +12,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - CVE-2020-1472---
+  - CVE-2020-1472
+---
 
 
 

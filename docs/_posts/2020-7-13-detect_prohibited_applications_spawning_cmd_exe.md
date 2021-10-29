@@ -9,7 +9,8 @@ toc_label: ""
 tags:
   - Command and Scripting Interpreter
   - Execution
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

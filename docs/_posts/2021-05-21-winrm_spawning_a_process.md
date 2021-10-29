@@ -13,7 +13,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - CVE-2021-31166
-  - Endpoint---
+  - Endpoint
+---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!

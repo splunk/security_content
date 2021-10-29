@@ -14,7 +14,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - CVE-2021-36934---
+  - CVE-2021-36934
+---
 
 
 

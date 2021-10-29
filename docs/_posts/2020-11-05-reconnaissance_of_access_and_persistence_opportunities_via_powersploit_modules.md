@@ -28,7 +28,8 @@ tags:
   - Persistence
   - Privilege Escalation
   - Defense Evasion
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

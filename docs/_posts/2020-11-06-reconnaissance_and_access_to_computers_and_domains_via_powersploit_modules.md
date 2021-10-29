@@ -13,7 +13,8 @@ tags:
   - Reconnaissance
   - Account Discovery
   - Discovery
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

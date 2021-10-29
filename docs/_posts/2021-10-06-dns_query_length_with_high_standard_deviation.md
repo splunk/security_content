@@ -14,7 +14,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Network_Resolution---
+  - Network_Resolution
+---
 
 
 

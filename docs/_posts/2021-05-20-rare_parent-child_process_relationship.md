@@ -18,7 +18,8 @@ tags:
   - Software Deployment Tools
   - Execution
   - Lateral Movement
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

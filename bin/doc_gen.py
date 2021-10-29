@@ -3,7 +3,7 @@ import yaml
 import argparse
 import sys
 import re
-from os import path, walk
+from os import path, walk, remove
 import json
 from jinja2 import Environment, FileSystemLoader
 import datetime
@@ -172,7 +172,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
                     if t not in tactics:
                         tactics.append(t)
 
-    template = j2_env.get_template('doc_navigation_markdown.j2')
+    template = j2_env.get_template('doc_navigation.j2')
     output_path = path.join(OUTPUT_DIR + '/_data/navigation.yml')
     output = template.render(tactics=sorted(tactics), datamodels=sorted(datamodels), categories=sorted(category_names))
     with open(output_path, 'w', encoding="utf-8") as f:
@@ -181,7 +181,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
 
     # write navigation _pages
     # for datamodels
-    template = j2_env.get_template('doc_navigation_pages_markdown.j2')
+    template = j2_env.get_template('doc_navigation_pages.j2')
     for datamodel in sorted(datamodels):
         output_path = path.join(OUTPUT_DIR + '/_pages/' + datamodel.lower().replace(" ", "_") + ".md")
         output = template.render(tag=datamodel)
@@ -197,7 +197,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
         messages.append("doc_gen.py wrote _page for: {1} structure to: {0}".format(output_path, tactic))
 
     # for story categories
-    template = j2_env.get_template('doc_navigation_story_pages_markdown.j2')
+    template = j2_env.get_template('doc_navigation_story_pages.j2')
     for category in categories:
         output_path = path.join(OUTPUT_DIR + '/_pages/' + category['name'].lower().replace(" ", "_") + ".md")
         output = template.render(category=category)
@@ -206,7 +206,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
         messages.append("doc_gen.py wrote _page for: {0} structure to: {1}".format(category['name'], output_path))
 
     # write stories listing markdown
-    template = j2_env.get_template('doc_story_page_markdown.j2')
+    template = j2_env.get_template('doc_story_page.j2')
     output_path = path.join(OUTPUT_DIR + '/_pages/stories.md')
     output = template.render(stories=sorted_stories)
     with open(output_path, 'w', encoding="utf-8") as f:
@@ -214,7 +214,7 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
     messages.append("doc_gen.py wrote _pages for story to: {0}".format(output_path))
 
     # write stories markdown
-    template = j2_env.get_template('doc_stories_markdown.j2')
+    template = j2_env.get_template('doc_stories.j2')
     for story in sorted_stories:
         file_name = story['name'].lower().replace(" ","_") + '.md'
         output_path = path.join(OUTPUT_DIR + '/_stories/' + file_name)
@@ -285,7 +285,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
                              trim_blocks=False, autoescape=True)
 
     # write markdown
-    template = j2_env.get_template('doc_detections_markdown.j2')
+    template = j2_env.get_template('doc_detections.j2')
     for detection in sorted_detections:
         file_name = detection['date'] + "-" + detection['name'].lower().replace(" ","_") + '.md'
         output_path = path.join(OUTPUT_DIR + '/_posts/' + file_name)
@@ -295,7 +295,7 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
     messages.append("doc_gen.py wrote {0} detections documentation in markdown to: {1}".format(len(sorted_detections),OUTPUT_DIR + '/_posts/'))
 
     # write markdown detection page
-    template = j2_env.get_template('doc_detection_page_markdown.j2')
+    template = j2_env.get_template('doc_detection_page.j2')
     output_path = path.join(OUTPUT_DIR + '/_pages/detections.md')
     output = template.render(detections=sorted_detections, time=datetime.datetime.now())
     with open(output_path, 'w', encoding="utf-8") as f:
@@ -333,7 +333,7 @@ def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detectio
                              trim_blocks=False, autoescape=True)
 
     # write markdown
-    template = j2_env.get_template('doc_playbooks_markdown.j2')
+    template = j2_env.get_template('doc_playbooks.j2')
     for playbook in sorted_playbooks:
         file_name = playbook['name'].lower().replace(" ","_") + '.md'
         output_path = path.join(OUTPUT_DIR + '/_playbooks/' + file_name)
@@ -343,7 +343,7 @@ def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detectio
     messages.append("doc_gen.py wrote {0} playbook documentation in markdown to: {1}".format(len(sorted_playbooks),OUTPUT_DIR + '/_playbooks/'))
 
     # write markdown detection page
-    template = j2_env.get_template('doc_playbooks_page_markdown.j2')
+    template = j2_env.get_template('doc_playbooks_page.j2')
     output_path = path.join(OUTPUT_DIR + '/_pages/playbooks.md')
     output = template.render(playbooks=sorted_playbooks, detections=sorted_detections, time=datetime.datetime.now())
     with open(output_path, 'w', encoding="utf-8") as f:
@@ -359,7 +359,7 @@ def generate_doc_index(OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, sorted_stor
                              trim_blocks=False, autoescape=True)
 
     # write index updated metrics
-    template = j2_env.get_template('doc_index_markdown.j2')
+    template = j2_env.get_template('doc_index.j2')
     output_path = path.join(OUTPUT_DIR + '/index.markdown')
     output = template.render(detection_count=len(sorted_detections), story_count=len(sorted_stories), playbook_count=len(sorted_playbooks))
     with open(output_path, 'w', encoding="utf-8") as f:
@@ -391,14 +391,15 @@ if __name__ == "__main__":
     techniques = get_all_techniques(REPO_PATH)
 
     if VERBOSE:
-        print("wiping the {0}/_posts folder".format(OUTPUT_DIR))
+        print("wiping the {0}/_posts/* folder".format(OUTPUT_DIR))
+
     try:
-        for root, dirs, files in walk(REPO_PATH + '/_posts'):
+        for root, dirs, files in walk(OUTPUT_DIR + '/_posts/'):
             for file in files:
-                if file.endswith(".md") and root == './_posts':
-                    os.remove(f)
+                if file.endswith(".md"):
+                    remove(OUTPUT_DIR + '/_posts/' + file)
     except OSError as e:
-        print("error: %s : %s" % (f, e.strerror))
+        print("error: %s : %s" % (file, e.strerror))
         sys.exit(1)
 
     messages = []

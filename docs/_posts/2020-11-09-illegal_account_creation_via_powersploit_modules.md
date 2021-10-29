@@ -9,7 +9,8 @@ toc_label: ""
 tags:
   - Establish Accounts
   - Resource Development
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

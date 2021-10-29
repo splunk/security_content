@@ -12,7 +12,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics---
+  - Dev Sec Ops Analytics
+---
 
 
 

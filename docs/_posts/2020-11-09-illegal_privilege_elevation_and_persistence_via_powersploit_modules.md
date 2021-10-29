@@ -17,7 +17,8 @@ tags:
   - Abuse Elevation Control Mechanism
   - Privilege Escalation
   - Defense Evasion
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

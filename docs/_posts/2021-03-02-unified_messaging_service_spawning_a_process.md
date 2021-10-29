@@ -13,7 +13,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - CVE-2021-26857
-  - Endpoint---
+  - Endpoint
+---
 
 
 

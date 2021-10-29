@@ -13,7 +13,8 @@ tags:
   - Discovery
   - Process Discovery
   - Discovery
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

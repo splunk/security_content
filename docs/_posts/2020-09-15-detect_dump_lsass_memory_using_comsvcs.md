@@ -11,7 +11,8 @@ tags:
   - Credential Access
   - OS Credential Dumping
   - Credential Access
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

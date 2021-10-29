@@ -14,7 +14,8 @@ tags:
   - Domain Policy Modification
   - Defense Evasion
   - Privilege Escalation
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

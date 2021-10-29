@@ -13,7 +13,8 @@ tags:
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud---
+  - Splunk Cloud
+---
 
 
 

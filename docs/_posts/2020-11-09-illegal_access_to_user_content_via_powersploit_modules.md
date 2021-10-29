@@ -15,7 +15,8 @@ tags:
   - Collection
   - Remote Service Session Hijacking
   - Lateral Movement
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

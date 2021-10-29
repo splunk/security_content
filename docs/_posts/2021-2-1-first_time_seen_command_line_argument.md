@@ -12,7 +12,8 @@ tags:
   - Regsvr32
   - Indirect Command Execution
   - Defense Evasion
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

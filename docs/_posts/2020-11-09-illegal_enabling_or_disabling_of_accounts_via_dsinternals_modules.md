@@ -14,7 +14,8 @@ tags:
   - Initial Access
   - Account Manipulation
   - Persistence
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

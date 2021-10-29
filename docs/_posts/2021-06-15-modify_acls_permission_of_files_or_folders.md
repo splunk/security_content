@@ -10,7 +10,8 @@ tags:
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Endpoint---
+  - Endpoint
+---
 
 
 

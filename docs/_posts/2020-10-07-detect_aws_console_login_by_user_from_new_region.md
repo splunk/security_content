@@ -13,7 +13,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Authentication---
+  - Authentication
+---
 
 
 

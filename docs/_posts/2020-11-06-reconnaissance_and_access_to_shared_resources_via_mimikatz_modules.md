@@ -15,7 +15,8 @@ tags:
   - Discovery
   - SMB/Windows Admin Shares
   - Lateral Movement
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 

@@ -16,7 +16,8 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Splunk Security Analytics for AWS---
+  - Splunk Security Analytics for AWS
+---
 
 
 

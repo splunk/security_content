@@ -11,7 +11,8 @@ tags:
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud---
+  - Splunk Cloud
+---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!

@@ -22,7 +22,8 @@ tags:
   - Credential Access
   - Credentials from Password Stores
   - Credential Access
-  - Splunk Behavioral Analytics---
+  - Splunk Behavioral Analytics
+---
 
 
 
