@@ -9,18 +9,13 @@ import argparse
 
 import requests
 
+from constant import RetryConstant, JfrogArtifactoryConstant
+
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s [%(levelname)s] %(message)s",
-    handlers=[
-        logging.FileHandler("publish_build_to_pre_qa.log")
-    ],
+    handlers=[logging.FileHandler("publish_build_to_pre_qa.log")],
 )
-
-
-class RetryConstant:
-    RETRY_COUNT = 3
-    RETRY_INTERVAL = 15
 
 
 class PublishArtifactory:
@@ -28,11 +23,11 @@ class PublishArtifactory:
         # Tag version
         self.release_id = release_id
         # Jfrog artifactory endpoint
-        self.endpoint = os.environ.get("JFROG_ENDPOINT")
+        self.endpoint = JfrogArtifactoryConstant.JFROG_ENDPOINT
         # Jfrog artifactory repository
-        self.repository = os.environ.get("JFROG_REPOSITORY")
+        self.repository = JfrogArtifactoryConstant.JFROG_REPOSITORY
         # Pre-QA dir name
-        self.pre_qa_repository_dir_name = os.environ.get("JFROG_DIR")
+        self.pre_qa_repository_dir_name = JfrogArtifactoryConstant.PRE_QA_DIR
         # Pre-QA artifactory repository endpoint
         self.pre_qa_endpoint = f"{self.endpoint}/artifactory/{self.repository}"
         # Pre-QA artifactory API endpoint
@@ -51,7 +46,7 @@ class PublishArtifactory:
 
     def __fetch_and_download_artifactory_from_git(self):
         """
-        This method will download build from github
+        Download build from github tags assets
         :return: Downloaded build list
         """
         token = b64encode(
@@ -88,14 +83,16 @@ class PublishArtifactory:
         logging.debug(f"Artifactory list - {artifactory_list}")
 
         # Download artifactory from github using CURL
-        for key, value in artifactory_list.items():
-            download_url = f"curl -vLJO -H 'Authorization: Basic {token}' -H 'Accept: application/octet-stream' {value}"
+        for assets_name, assets_url in artifactory_list.items():
+            download_url = f"curl -vLJO -H 'Authorization: Basic {token}' -H 'Accept: application/octet-stream' {assets_url}"
             status, output = subprocess.getstatusoutput(download_url)
             logging.debug(
                 f"Download URL - {download_url}, status - {status}, output-{output}"
             )
             if status == 0:
-                logging.debug(f"{key} build successfully downloaded from github")
+                logging.debug(
+                    f"{assets_name} build successfully downloaded from github"
+                )
             else:
                 error_message = (
                     f"Error occur while downloading build from github, Reason: {output}"
@@ -107,7 +104,7 @@ class PublishArtifactory:
 
     def __delete_exiting_artifactory_from_pre_qa(self, artifactory):
         """
-        This method will delete the existing build from JFROG artifactory latest and builds dir
+        Delete the existing build from JFROG artifactory latest dir and builds dir of given product
         :param artifactory: Artifactory name
         :return: None
         """
@@ -152,11 +149,11 @@ class PublishArtifactory:
         )
 
         if response.status_code == 200:
-            delete_artifact_count = len(
-                json.loads(response.content).get("children")
-            ) - (self.max_artifacts_in_build_dir - 1)
+            artifactory_list = json.loads(response.content).get("children")
+            delete_artifact_count = len(artifactory_list) - (
+                self.max_artifacts_in_build_dir - 1
+            )
             if delete_artifact_count > 0:
-                artifactory_list = json.loads(response.content).get("children")
                 temp_artifactory_dict = {}
 
                 for obj in artifactory_list:
@@ -206,16 +203,18 @@ class PublishArtifactory:
 
     def __publish_single_artifactory_to_pre_qa(self, artifactory, endpoint):
         """
-        This method will deploy locally downloaded build to jfrog artifactory server.
+        Deploy build to jfrog artifactory server
         :param artifactory: Local downloaded  artifactory path
         :param endpoint: Jfrog artifactory path where we deploy the artifactory
         :return: None
         """
         retries = 0
         while retries < RetryConstant.RETRY_COUNT:
-            deploy_url = f"curl -u '{os.environ.get('JFROG_ARTIFACTORY_USERNAME')}:" \
-                         f"{b64decode(os.environ.get('JFROG_ARTIFACTORY_PASSWORD')).decode()}' -H 'Connection: " \
-                         f"keep-alive' --compressed -v --keepalive-time 2000 -X PUT {endpoint} -T {artifactory}"
+            deploy_url = (
+                f"curl -u '{os.environ.get('JFROG_ARTIFACTORY_USERNAME')}:"
+                f"{b64decode(os.environ.get('JFROG_ARTIFACTORY_PASSWORD')).decode()}' -H 'Connection: "
+                f"keep-alive' --compressed -v --keepalive-time 2000 -X PUT {endpoint} -T {artifactory}"
+            )
 
             status, output = subprocess.getstatusoutput(deploy_url)
             logging.debug(
@@ -240,8 +239,7 @@ class PublishArtifactory:
 
     def __publish_artifactory_to_pre_qa(self, artifactory_list):
         """
-        This method will deploy the artifactory jfrog artifactory server and delete the existing build from latest
-        and builds dir
+        Deploy build to jfrog artifactory server and delete the existing builds
         :param artifactory_list: The list of locally downloaded artifactory
         :return: None
         """
@@ -260,15 +258,19 @@ class PublishArtifactory:
                 )
 
                 # Push build to Pre-qa builds
-                builds_endpoint = f"{self.pre_qa_endpoint}/{self.pre_qa_repository_dir_name}/" \
-                                  f"{current_artifactory_dir_name}/builds/{artifactory}"
+                builds_endpoint = (
+                    f"{self.pre_qa_endpoint}/{self.pre_qa_repository_dir_name}/"
+                    f"{current_artifactory_dir_name}/builds/{artifactory}"
+                )
                 self.__publish_single_artifactory_to_pre_qa(
                     artifactory, builds_endpoint
                 )
 
                 # Push build to Pre-qa latest
-                latest_endpoint = f"{self.pre_qa_endpoint}/{self.pre_qa_repository_dir_name}/" \
-                                  f"{current_artifactory_dir_name}/latest/{artifactory}"
+                latest_endpoint = (
+                    f"{self.pre_qa_endpoint}/{self.pre_qa_repository_dir_name}/"
+                    f"{current_artifactory_dir_name}/latest/{artifactory}"
+                )
                 self.__publish_single_artifactory_to_pre_qa(
                     artifactory, latest_endpoint
                 )
@@ -279,17 +281,17 @@ class PublishArtifactory:
     @staticmethod
     def __remove_downloaded_file(artifactory_list):
         """
-        This method will delete locally downloaded artifactory
+        Delete Github downloaded build
         :param artifactory_list: List of artifactory
         :return: None
         """
         for file in artifactory_list:
             os.remove(file)
-            logging.info(f"{file} successfully remove file from local")
+            logging.info(f"{file} successfully delete github downloaded build")
 
     def main(self):
         """
-        This is wrapper method of above listed method
+        Wrapper method of above listed method
         :return: None
         """
         artifactory_list = self.__fetch_and_download_artifactory_from_git()
@@ -298,18 +300,32 @@ class PublishArtifactory:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Tag version")
+    parser = argparse.ArgumentParser(description="Github version Tag")
     parser.add_argument(
-        "--version", dest="version", type=str, help="Tag version number", required=True
+        "--version",
+        dest="version",
+        type=str,
+        help="Security content repo new releases tag version number",
+        required=True,
     )
     parser.add_argument(
-        "--builds", dest="builds", nargs="+", type=str, help="List of builds", required=True
+        "--builds",
+        dest="builds",
+        nargs="+",
+        type=str,
+        help="List of builds, need to fetch from Security content "
+        "github assets and deploy to Pre-QA Dir of artifactory",
+        required=True,
     )
     args = parser.parse_args()
     # Validate tag version
-    if args.version and bool(re.search("v\d+(\.\d+){2,}", args.version)) and args.builds:
-        PublishArtifactory(
-            args.version, args.builds
-        ).main()
+    if (
+        args.version
+        and bool(re.search("v\d+(\.\d+){2,}", args.version))
+        and args.builds
+    ):
+        PublishArtifactory(args.version, args.builds).main()
     else:
-        raise Exception("Tagged version is not correct")
+        raise Exception(
+            f"Github release tagged version is not correct, Tag version: {args.version}"
+        )
