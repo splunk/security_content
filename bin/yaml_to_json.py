@@ -272,5 +272,14 @@ class Yaml2Json():
 
 
 if __name__ == "__main__":
-    y = Yaml2Json('macros')
-    print(y.list_objects('macros'))
+    json_types = []
+    yml_types = ['detections', 'baselines', 'lookups', 'macros', 'response_tasks', 'responses', 'stories', 'deployments']
+    output_dir = os.path.splitext(__file__)[0]
+    os.mkdir(output_dir)
+    for yt in yml_types:
+        processor = Yaml2Json(yt)
+        with open(os.path.join(output_dir, yt + '.json'), 'w') as json_out:
+            json.dump(processor.list_objects(yt), json_out)
+
+    #y = Yaml2Json('macros')
+    #print(y.list_objects('macros'))
