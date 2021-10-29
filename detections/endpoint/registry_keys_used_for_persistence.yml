@@ -11,14 +11,13 @@ description: The search looks for modifications to registry keys that can be use
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\currentversion\\run*
-  OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* 
-  OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify*
-  OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet*
-  OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run* OR Registry.registry_path=*\\currentversion\\runservices*
-  OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\* OR (Registry.registry_path="*Microsoft\\Windows
-  NT\\CurrentVersion\\Image File Execution Options*" AND Registry.registry_key_name=Debugger)
-  OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa" AND Registry.registry_key_name="Security
-  Packages") OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa\\OSConfig"
+  OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell*
+  OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit*
+  OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run*
+  OR Registry.registry_path=*\\currentversion\\runservices* OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\*
+  OR (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution
+  Options*" AND Registry.registry_key_name=Debugger) OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa"
+  AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa\\OSConfig"
   AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\Microsoft\\Windows
   NT\\CurrentVersion\\SilentProcessExit\\*") OR (Registry.registry_path="*currentVersion\\Windows"
   AND Registry.registry_key_name="Load") OR (Registry.registry_path="*\\CurrentVersion"

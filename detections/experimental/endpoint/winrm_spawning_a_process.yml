@@ -30,6 +30,8 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
+  cve:
+  - CVE-2021-31166
   dataset: []
   kill_chain_phases:
   - Exploitation
@@ -51,5 +53,3 @@ tags:
   - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
-  cve:
-  - CVE-2021-31166

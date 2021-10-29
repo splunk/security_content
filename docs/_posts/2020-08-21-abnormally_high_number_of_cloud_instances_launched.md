@@ -7,14 +7,11 @@ last_modified_at: 2020-08-21
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1078.004
   - Cloud Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
   - Initial Access
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
@@ -25,7 +22,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Change
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -108,7 +104,6 @@ Many service accounts configured within an AWS infrastructure are known to exhib
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

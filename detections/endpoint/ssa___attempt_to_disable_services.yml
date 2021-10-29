@@ -1,6 +1,6 @@
 name: Attempt To Disable Services
 id: afb31de4-d023-11eb-98d5-acde48001122
-version: 1
+version: 2
 date: '2021-06-18'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -35,12 +35,18 @@ tags:
   analytic_story:
   - XMRig
   - Ransomware
+  cis20:
+  - CIS 9
+  - CIS 8
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1489
+  nist:
+  - PR.DS
+  - PR.IP
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -51,4 +57,5 @@ tags:
   - process_path
   - dest_user_id
   - process
+  risk_severity: medium
   security_domain: endpoint

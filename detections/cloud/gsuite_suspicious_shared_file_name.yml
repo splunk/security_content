@@ -24,7 +24,9 @@ search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_tit
   | `gsuite_suspicious_shared_file_name_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite having the file attachment metadata like file type, file
-  extension, source email, destination email, num of attachment and etc. In order for the search to work for your environment, please edit the query to use your company specific email domain instead of `internal_test_email.com`.
+  extension, source email, destination email, num of attachment and etc. In order
+  for the search to work for your environment, please edit the query to use your company
+  specific email domain instead of `internal_test_email.com`.
 known_false_positives: normal user or normal transaction may contain the subject and
   file type attachment that this detection try to search
 references:

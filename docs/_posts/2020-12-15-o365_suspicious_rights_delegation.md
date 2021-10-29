@@ -7,18 +7,14 @@ last_modified_at: 2020-12-15
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1114.002
   - Remote Email Collection
   - Collection
-  - T1114
   - Email Collection
   - Collection
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -95,7 +91,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_suspicious_rights_delegation.yml) \| *version*: **1**

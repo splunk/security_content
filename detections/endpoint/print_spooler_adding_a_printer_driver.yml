@@ -42,6 +42,9 @@ tags:
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
   - Scope:Incoming
+  cve:
+  - CVE-2021-34527
+  - CVE-2021-1675
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
   impact: 80
@@ -68,6 +71,3 @@ tags:
   - Message
   risk_score: 72
   security_domain: endpoint
-  cve:
-  - CVE-2021-34527
-  - CVE-2021-1675
