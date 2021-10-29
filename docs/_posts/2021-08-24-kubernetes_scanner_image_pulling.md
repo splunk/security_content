@@ -7,15 +7,12 @@ last_modified_at: 2021-08-24
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1526
   - Cloud Service Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Actions on Objectives
 ---
 
 
@@ -34,10 +31,10 @@ This search uses the Kubernetes logs from Splunk Connect from Kubernetes to dete
 - **ID**: 4890cd6b-0112-4974-a272-c5c153aee551
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 #### Search
@@ -100,7 +97,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/kubernetes_kube_hunter/kubernetes_kube_hunter.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/kubernetes_scanner_image_pulling.yml) \| *version*: **1**

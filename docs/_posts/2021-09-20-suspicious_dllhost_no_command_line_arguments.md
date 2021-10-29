@@ -7,8 +7,6 @@ last_modified_at: 2021-09-20
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
@@ -16,7 +14,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,10 +32,10 @@ The following analytic identifies DLLHost.exe with no command line arguments. It
 - **ID**: ff61e98c-0337-4593-a78f-72a676c56f26
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 
 #### Search
@@ -104,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_dllhost_no_command_line_arguments.yml) \| *version*: **2**

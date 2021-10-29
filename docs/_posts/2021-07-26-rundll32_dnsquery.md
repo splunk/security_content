@@ -7,18 +7,14 @@ last_modified_at: 2021-07-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218
   - Signed Binary Proxy Execution
   - Defense Evasion
-  - T1218.011
   - Rundll32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,11 +33,14 @@ This search is to detect a suspicious rundll32.exe process having a http connect
 - **ID**: f1483f5e-ee29-11eb-9d23-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
+
+
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 #### Search
@@ -99,7 +98,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll32_dnsquery.yml) \| *version*: **1**

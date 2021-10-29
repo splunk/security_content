@@ -7,15 +7,12 @@ last_modified_at: 2021-09-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1018
   - Remote System Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,10 +31,10 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 29b99201-723c-4118-847a-db2b3d3fb8ea
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
 
 #### Search
@@ -93,7 +90,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/getwmiobject_ds_computer_with_powershell_script_block.yml) \| *version*: **1**

@@ -7,12 +7,9 @@ last_modified_at: 2020-6-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -31,10 +28,10 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 - **ID**: 14038953-e5f2-4daf-acff-5452062baf03
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
@@ -91,7 +88,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

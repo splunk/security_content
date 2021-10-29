@@ -7,12 +7,9 @@ last_modified_at: 2021-09-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1547.001
   - Registry Run Keys / Startup Folder
   - Persistence
   - Privilege Escalation
-  - T1547
   - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
@@ -20,7 +17,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -105,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.001/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/registry_keys_used_for_persistence.yml) \| *version*: **6**

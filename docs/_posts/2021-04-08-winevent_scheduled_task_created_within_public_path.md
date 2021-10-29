@@ -7,13 +7,10 @@ last_modified_at: 2021-04-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1053.005
   - Scheduled Task
   - Execution
   - Persistence
   - Privilege Escalation
-  - T1053
   - Scheduled Task/Job
   - Execution
   - Persistence
@@ -21,7 +18,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Privilege Escalation
 ---
 
 
@@ -113,7 +109,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/windows-security.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/winevent_scheduled_task_created_within_public_path.yml) \| *version*: **1**

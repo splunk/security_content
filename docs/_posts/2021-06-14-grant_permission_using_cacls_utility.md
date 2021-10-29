@@ -7,13 +7,10 @@ last_modified_at: 2021-06-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1222
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -32,10 +29,10 @@ This analytic identifies potential adversaries that modify the security permissi
 - **ID**: c6da561a-cd29-11eb-ae65-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
 
 #### Search
@@ -96,5 +93,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log)
 
 
-
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/grant_permission_using_cacls_utility.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/grant_permission_using_cacls_utility.yml) \| *version*: **1**
