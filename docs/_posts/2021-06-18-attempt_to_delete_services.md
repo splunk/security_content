@@ -7,13 +7,10 @@ last_modified_at: 2021-06-18
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1489
   - Service Stop
   - Impact
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -32,10 +29,10 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 - **ID**: a0c8c292-d01a-11eb-aa18-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
 
 #### Search
@@ -89,7 +86,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_delete_services.yml) \| *version*: **1**

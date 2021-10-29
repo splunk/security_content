@@ -7,18 +7,14 @@ last_modified_at: 2021-10-05
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1559.001
   - Component Object Model
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,11 +33,14 @@ DynamicWrapperX is an ActiveX component that can be used in a script to call Win
 - **ID**: b0a078e4-2601-11ec-9aec-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
+
 | [T1559.001](https://attack.mitre.org/techniques/T1559/001/) | Component Object Model | Execution |
 
 #### Search
@@ -109,7 +108,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/process_writing_dynamicwrapperx.yml) \| *version*: **1**

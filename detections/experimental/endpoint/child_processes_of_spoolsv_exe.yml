@@ -32,6 +32,8 @@ tags:
   cis20:
   - CIS 5
   - CIS 8
+  cve:
+  - CVE-2018-8440
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -54,5 +56,3 @@ tags:
   - Processes.parent_process
   - Processes.user
   security_domain: endpoint
-  cve:
-  - CVE-2018-8440

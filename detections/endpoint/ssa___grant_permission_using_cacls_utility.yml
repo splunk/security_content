@@ -1,6 +1,6 @@
 name: Grant Permission Using Cacls Utility
 id: c6da561a-cd29-11eb-ae65-acde48001122
-version: 1
+version: 2
 date: '2021-06-14'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -33,6 +33,9 @@ references:
 tags:
   analytic_story:
   - XMRig
+  cis20:
+  - CIS 14
+  - CIS 16
   confidence: 70
   context:
   - source:endpoint
@@ -46,6 +49,9 @@ tags:
     user a permission to a file or directory in host $dest_device_id$
   mitre_attack_id:
   - T1222
+  nist:
+  - PR.AC
+  - PR.IP
   observable:
   - name: dest_device_id
     type: Hostname
@@ -66,4 +72,5 @@ tags:
   - dest_user_id
   - process
   risk_score: 35
+  risk_severity: medium
   security_domain: endpoint

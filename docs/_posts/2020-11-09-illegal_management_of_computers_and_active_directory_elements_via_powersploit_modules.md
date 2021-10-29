@@ -7,19 +7,14 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1098
   - Account Manipulation
   - Persistence
-  - T1207
   - Rogue Domain Controller
   - Defense Evasion
-  - T1484
   - Domain Policy Modification
   - Defense Evasion
   - Privilege Escalation
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -38,10 +33,10 @@ This detection identifies access to PowerSploit modules that enable illegal mana
 - **ID**: 75760c11-7d48-4968-b828-013b299e8f6d
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 | [T1207](https://attack.mitre.org/techniques/T1207/) | Rogue Domain Controller | Defense Evasion |
 | [T1484](https://attack.mitre.org/techniques/T1484/) | Domain Policy Modification | Defense Evasion, Privilege Escalation |
@@ -102,7 +97,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/logAllPowerSploitModulesWithOldNames.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/logAllPowerSploitModulesWithOldNames.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_management_of_computers_and_active_directory_elements_via_powersploit_modules.yml) \| *version*: **1**
