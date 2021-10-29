@@ -27,6 +27,8 @@ tags:
   cis20:
   - CIS 8
   - CIS 11
+  cve:
+  - CVE-2020-5902
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -40,5 +42,3 @@ tags:
   required_fields:
   - _time
   security_domain: network
-  cve:
-  - CVE-2020-5902

@@ -7,17 +7,13 @@ last_modified_at: 2021-06-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1059.001
   - PowerShell
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
 ---
 
 
@@ -38,11 +34,14 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: bc1dc6b8-c954-11eb-bade-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
+
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 #### Search
@@ -103,7 +102,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_empire_with_powershell_script_block_logging.yml) \| *version*: **1**

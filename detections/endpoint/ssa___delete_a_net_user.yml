@@ -1,6 +1,6 @@
 name: Delete A Net User
 id: 8776d79c-d26e-11eb-9a56-acde48001122
-version: 1
+version: 2
 date: '2021-06-21'
 author: Teoderick Contreras, Splunk
 type: Anomaly
@@ -36,12 +36,18 @@ tags:
   analytic_story:
   - XMRig
   - Ransomware
+  cis20:
+  - CIS 4
+  - CIS 16
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
   - T1489
+  nist:
+  - PR.AC
+  - PR.IP
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -52,4 +58,5 @@ tags:
   - process_path
   - dest_user_id
   - process
+  risk_severity: high
   security_domain: endpoint

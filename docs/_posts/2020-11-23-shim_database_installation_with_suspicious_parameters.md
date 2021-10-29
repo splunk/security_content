@@ -7,12 +7,9 @@ last_modified_at: 2020-11-23
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1546.011
   - Application Shimming
   - Privilege Escalation
   - Persistence
-  - T1546
   - Event Triggered Execution
   - Privilege Escalation
   - Persistence
@@ -20,7 +17,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -97,7 +93,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/shim_database_installation_with_suspicious_parameters.yml) \| *version*: **4**

@@ -7,15 +7,12 @@ last_modified_at: 2021-01-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1505.003
   - Web Shell
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Web
-  - Exfiltration
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -88,7 +85,6 @@ There might be false positives associted with this detection since items like ar
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 
