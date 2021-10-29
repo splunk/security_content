@@ -7,18 +7,14 @@ last_modified_at: 2021-09-01
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1195.001
   - Compromise Software Dependencies and Development Tools
   - Initial Access
-  - T1195
   - Supply Chain Compromise
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Actions on Objectives
 ---
 
 
@@ -107,7 +103,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_pull_request/github_pull_request.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/github_pull_request_from_unknown_user.yml) \| *version*: **1**
