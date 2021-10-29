@@ -7,18 +7,14 @@ last_modified_at: 2021-09-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1566
   - Phishing
   - Initial Access
-  - T1566.001
   - Spearphishing Attachment
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,11 +33,14 @@ This search is to detect a suspicious MS office application that drop or create 
 - **ID**: 73ce70c4-146d-11ec-9184-acde48001122
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
+
+
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 #### Search
@@ -104,7 +103,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/office_application_drop_executable.yml) \| *version*: **1**

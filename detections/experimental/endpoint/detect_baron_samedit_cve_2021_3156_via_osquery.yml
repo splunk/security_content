@@ -22,6 +22,8 @@ tags:
   - CIS 8
   - CIS 12
   - CIS 16
+  cve:
+  - CVE-2021-3156
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -36,5 +38,3 @@ tags:
   - _time
   - columns.cmdline
   security_domain: endpoint
-  cve:
-  - CVE-2021-3156
