@@ -23,7 +23,7 @@ search: '| from read_ssa_enriched_events()
   OR ParentBaseFileName="visio.exe" OR ParentBaseFileName="mspub.exe" OR ParentBaseFileName="acrobat.exe" OR ParentBaseFileName="acrord32.exe"
   OR ParentBaseFileName="iexplore.exe" OR ParentBaseFileName="opera.exe" OR ParentBaseFileName="firefox.exe"
   OR ParentBaseFileName="java.exe" OR ParentBaseFileName="powershell.exe"
-  OR (ParentBaseFileName="chrome.exe" AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND NOT LIKE(cmd_line, "%chrome-extension*")))
+  OR (ParentBaseFileName="chrome.exe" AND (cmd_line IS NULL OR (cmd_line IS NOT NULL AND NOT LIKE(cmd_line, "%chrome-extension%")))
   | eval start_time=timestamp, end_time=timestamp, entities=mvappend(dest_device_id,
   dest_user_id), body=create_map(["event_id", event_id,  "process_name", process_name,
   "parent_process_name", parent_process]) | into write_ssa_detected_events();'
