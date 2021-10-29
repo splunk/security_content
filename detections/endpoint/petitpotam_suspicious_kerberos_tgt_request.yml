@@ -33,6 +33,8 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Credential Access
+  cve:
+  - CVE-2021-36942
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log
   impact: 80
@@ -61,5 +63,3 @@ tags:
   - Message
   risk_score: 56
   security_domain: endpoint
-  cve:
-  - CVE-2021-36942

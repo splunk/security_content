@@ -7,14 +7,11 @@ last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1486
   - Data Encrypted for Impact
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Delivery
 ---
 
 
@@ -33,10 +30,10 @@ The search looks for files that contain the key word *Ryuk* under any folder in 
 - **ID**: 57d44d70-28d9-4ed1-acf5-1c80ae2bbce3
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 #### Search
@@ -89,7 +86,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/ryuk_test_files_detected.yml) \| *version*: **1**

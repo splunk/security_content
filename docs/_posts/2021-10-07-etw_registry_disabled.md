@@ -7,21 +7,16 @@ last_modified_at: 2021-10-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1562.006
   - Indicator Blocking
   - Defense Evasion
-  - T1127
   - Trusted Developer Utilities Proxy Execution
   - Defense Evasion
-  - T1562
   - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -104,7 +99,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/etw_disable/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/etw_disable/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/etw_registry_disabled.yml) \| *version*: **1**

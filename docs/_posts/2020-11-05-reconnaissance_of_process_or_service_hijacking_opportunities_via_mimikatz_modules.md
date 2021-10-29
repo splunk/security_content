@@ -7,22 +7,17 @@ last_modified_at: 2020-11-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1543
   - Create or Modify System Process
   - Persistence
   - Privilege Escalation
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
-  - T1574
   - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -41,10 +36,10 @@ This detection identifies use of Mimikatz modules for discovery of process or se
 - **ID**: fc5c1cbd-7494-4314-aad2-458d6fd4fada
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
@@ -103,7 +98,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 
