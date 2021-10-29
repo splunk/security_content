@@ -7,16 +7,12 @@ last_modified_at: 2018-12-03
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1047
   - Windows Management Instrumentation
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Actions on Objectives
----
+  - Endpoint---
 
 
 
@@ -38,7 +34,6 @@ The following analytic identifies usage of `wmic.exe` spawning a local or remote
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
 
 
@@ -102,7 +97,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/remote_wmi_command_attempt.yml) \| *version*: **4**

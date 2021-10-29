@@ -7,16 +7,12 @@ last_modified_at: 2021-08-20
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1199
   - Trusted Relationship
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
-  - Exploitation
----
+  - Dev Sec Ops Analytics---
 
 
 
@@ -38,7 +34,6 @@ This search is to detect a pushed or commit to master or main branch. This is to
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
 
 
@@ -97,7 +92,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/github_commit_changes_in_master.yml) \| *version*: **1**

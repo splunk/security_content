@@ -7,16 +7,12 @@ last_modified_at: 2021-08-20
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1212
   - Exploitation for Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
-  - Actions on Objectives
----
+  - Dev Sec Ops Analytics---
 
 
 
@@ -38,7 +34,6 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
 
 
@@ -102,7 +97,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kubernetes_nginx_lfi_attack/kubernetes_nginx_lfi_attack.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1212/kubernetes_nginx_lfi_attack/kubernetes_nginx_lfi_attack.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/kubernetes_nginx_ingress_lfi.yml) \| *version*: **1**

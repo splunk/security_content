@@ -7,19 +7,14 @@ last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1071.004
   - DNS
   - Command And Control
-  - T1071
   - Application Layer Protocol
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Network_Resolution
-  - Command and Control
----
+  - Network_Resolution---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -101,7 +96,6 @@ It is possible legitimate traffic can trigger this rule. Please investigate as a
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

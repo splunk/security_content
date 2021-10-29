@@ -7,16 +7,12 @@ last_modified_at: 2021-04-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1526
   - Cloud Service Discovery
   - Discovery
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
-  - Actions on Objectives
----
+  - Splunk Cloud---
 
 
 
@@ -38,7 +34,6 @@ This search looks for AWS CloudTrail events and analyse the amount of eventNames
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 
@@ -100,7 +95,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/aws_security_scanner/aws_security_scanner.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/aws_security_scanner/aws_security_scanner.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_excessive_security_scanning.yml) \| *version*: **1**

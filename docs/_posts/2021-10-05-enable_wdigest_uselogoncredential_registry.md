@@ -7,19 +7,14 @@ last_modified_at: 2021-10-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1112
   - Modify Registry
   - Defense Evasion
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -41,7 +36,6 @@ This analytic is to detect a suspicious registry modification to enable plain te
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
 
 
@@ -107,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/wdigest_enable/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/wdigest_enable/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/enable_wdigest_uselogoncredential_registry.yml) \| *version*: **1**

@@ -7,25 +7,17 @@ last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1199
   - Trusted Relationship
   - Initial Access
-  - T1482
   - Domain Trust Discovery
   - Discovery
-  - T1590
   - Gather Victim Network Information
   - Reconnaissance
-  - T1591
   - Gather Victim Org Information
   - Reconnaissance
-  - T1595
   - Active Scanning
   - Reconnaissance
-  - Splunk Behavioral Analytics
-  - Actions on Objectives
----
+  - Splunk Behavioral Analytics---
 
 
 
@@ -47,7 +39,6 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
 
 
@@ -123,7 +114,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

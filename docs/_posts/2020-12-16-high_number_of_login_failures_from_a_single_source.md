@@ -7,18 +7,13 @@ last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1110.001
   - Password Guessing
   - Credential Access
-  - T1110
   - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
-  - Actions on Objectives
----
+  - Splunk Cloud---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -99,7 +94,6 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

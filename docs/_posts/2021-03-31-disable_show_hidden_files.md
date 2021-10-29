@@ -7,25 +7,18 @@ last_modified_at: 2021-03-31
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1564.001
   - Hidden Files and Directories
   - Defense Evasion
-  - T1562.001
   - Disable or Modify Tools
   - Defense Evasion
-  - T1564
   - Hide Artifacts
   - Defense Evasion
-  - T1562
   - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -48,6 +41,7 @@ The following analytic is to identify a modification in the Windows registry to 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1564.001](https://attack.mitre.org/techniques/T1564/001/) | Hidden Files and Directories | Defense Evasion |
+
 
 
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
@@ -121,7 +115,6 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log)
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log)
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/disable_show_hidden_files.yml) \| *version*: **1**

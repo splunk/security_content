@@ -7,8 +7,6 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
@@ -17,8 +15,7 @@ tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
----
+  - Splunk Cloud---
 
 
 
@@ -40,7 +37,6 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
@@ -105,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_saml_update_identity_provider.yml) \| *version*: **1**

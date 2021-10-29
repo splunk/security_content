@@ -7,20 +7,15 @@ last_modified_at: 2021-09-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1566
   - Phishing
   - Initial Access
-  - T1566.001
   - Spearphishing Attachment
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - CVE-2021-40444
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -42,8 +37,8 @@ The following analytic identifies behavior related to CVE-2021-40444. Whereas th
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
+
 
 
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
@@ -123,7 +118,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_cabinf.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_cabinf.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/office_product_writing_cab_or_inf.yml) \| *version*: **1**

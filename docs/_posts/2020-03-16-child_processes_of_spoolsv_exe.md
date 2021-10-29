@@ -7,17 +7,13 @@ last_modified_at: 2020-03-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1068
   - Exploitation for Privilege Escalation
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - CVE-2018-8440
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -41,7 +37,6 @@ This search looks for child processes of spoolsv.exe. This activity is associate
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 
@@ -101,7 +96,6 @@ Some legitimate printer-related processes may show up as children of spoolsv.exe
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,14 +7,11 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
   - Initial Access
-  - T1078.002
   - Domain Accounts
   - Defense Evasion
   - Persistence
@@ -23,8 +20,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Change
----
+  - Change---
 
 
 
@@ -46,8 +42,8 @@ This search identifies endpoints that have caused a relatively high number of ac
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 
 
 | [T1078.002](https://attack.mitre.org/techniques/T1078/002/) | Domain Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
@@ -113,7 +109,6 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log)
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_excessive_account_lockouts_from_endpoint.yml) \| *version*: **5**

@@ -7,22 +7,16 @@ last_modified_at: 2020-11-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1068
   - Exploitation for Privilege Escalation
   - Privilege Escalation
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
   - Initial Access
-  - T1098
   - Account Manipulation
   - Persistence
-  - Splunk Behavioral Analytics
-  - Actions on Objectives
----
+  - Splunk Behavioral Analytics---
 
 
 
@@ -44,7 +38,6 @@ This detection identifies use of PowerSploit modules for assessment of privilege
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 
@@ -112,7 +105,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

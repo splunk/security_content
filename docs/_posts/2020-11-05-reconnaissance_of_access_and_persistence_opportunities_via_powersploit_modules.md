@@ -7,37 +7,28 @@ last_modified_at: 2020-11-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1053
   - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
-  - T1068
   - Exploitation for Privilege Escalation
   - Privilege Escalation
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
   - Initial Access
-  - T1543
   - Create or Modify System Process
   - Persistence
   - Privilege Escalation
-  - T1547
   - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
-  - T1574
   - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
   - Defense Evasion
-  - Splunk Behavioral Analytics
-  - Actions on Objectives
----
+  - Splunk Behavioral Analytics---
 
 
 
@@ -59,7 +50,6 @@ This detection identifies use of PowerSploit modules that discover opportunities
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 
@@ -139,7 +129,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

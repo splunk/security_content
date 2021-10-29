@@ -7,19 +7,14 @@ last_modified_at: 2021-04-15
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1110.003
   - Password Spraying
   - Credential Access
-  - T1110
   - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -112,7 +107,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_ntlm/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_invalid_users_ntlm/windows-security.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/multiple_invalid_users_failing_to_authenticate_from_host_using_ntlm.yml) \| *version*: **1**

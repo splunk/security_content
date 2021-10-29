@@ -7,13 +7,10 @@ last_modified_at: 2021-03-01
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1053.005
   - Scheduled Task
   - Execution
   - Persistence
   - Privilege Escalation
-  - T1053
   - Scheduled Task/Job
   - Execution
   - Persistence
@@ -21,10 +18,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
-  - Privilege Escalation
----
+  - Endpoint---
 
 
 
@@ -117,7 +111,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtasks/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtasks/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_scheduled_task_from_public_directory.yml) \| *version*: **1**

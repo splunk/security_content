@@ -7,27 +7,18 @@ last_modified_at: 2021-06-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1036.005
   - Match Legitimate Name or Location
   - Defense Evasion
-  - T1036
   - Masquerading
   - Defense Evasion
-  - T1003
   - OS Credential Dumping
   - Credential Access
-  - T1595
   - Active Scanning
   - Reconnaissance
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Installation
-  - Command and Control
-  - Actions on Objectives
----
+  - Endpoint---
 
 
 
@@ -124,7 +115,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attacker_tools_on_endpoint.yml) \| *version*: **1**

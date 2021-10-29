@@ -7,16 +7,12 @@ last_modified_at: 2021-09-15
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1033
   - System Owner/User Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -38,7 +34,6 @@ This search is to detect a suspicious whoami execution to check if the cmd or sh
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
 
 
@@ -99,7 +94,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/check_elevated_cmd_using_whoami.yml) \| *version*: **1**

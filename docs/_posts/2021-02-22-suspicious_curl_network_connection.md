@@ -7,16 +7,12 @@ last_modified_at: 2021-02-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1105
   - Ingress Tool Transfer
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Actions on Objectives
----
+  - Endpoint---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -40,7 +36,6 @@ The following analytic identifies the use of a curl contacting suspicious remote
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Command And Control |
 
 
@@ -98,7 +93,6 @@ Unknown. Filter as needed.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

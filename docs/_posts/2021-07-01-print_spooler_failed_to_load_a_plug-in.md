@@ -7,12 +7,9 @@ last_modified_at: 2021-07-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1547.012
   - Print Processors
   - Persistence
   - Privilege Escalation
-  - T1547
   - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
@@ -21,9 +18,7 @@ tags:
   - Splunk Cloud
   - CVE-2021-34527
   - CVE-2021-1675
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -119,7 +114,6 @@ False positives are unknown and filtering may be required.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

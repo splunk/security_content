@@ -7,19 +7,14 @@ last_modified_at: 2021-08-19
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1204.003
   - Malicious Image
   - Execution
-  - T1204
   - User Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
-  - Actions on Objectives
----
+  - Dev Sec Ops Analytics---
 
 
 
@@ -110,7 +105,6 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

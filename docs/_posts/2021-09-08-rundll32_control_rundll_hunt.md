@@ -7,20 +7,15 @@ last_modified_at: 2021-09-08
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1218
   - Signed Binary Proxy Execution
   - Defense Evasion
-  - T1218.011
   - Rundll32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - CVE-2021-40444
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -42,8 +37,8 @@ The following hunting detection identifies rundll32.exe with `control_rundll` wi
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
+
 
 
 | [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
@@ -124,7 +119,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/rundll32_control_rundll_hunt.yml) \| *version*: **1**

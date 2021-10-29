@@ -7,16 +7,12 @@ last_modified_at: 2021-08-03
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1005
   - Data from Local System
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -38,7 +34,6 @@ This search is to detect a suspicious file creation of sqlite3.dll in %temp% fol
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1005](https://attack.mitre.org/techniques/T1005/) | Data from Local System | Collection |
 
 
@@ -99,7 +94,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/sqlite_module_in_temp_folder.yml) \| *version*: **1**

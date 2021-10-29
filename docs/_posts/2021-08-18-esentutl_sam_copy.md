@@ -7,20 +7,14 @@ last_modified_at: 2021-08-18
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1003.002
   - Security Account Manager
   - Credential Access
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Privilege Escalation
-  - Lateral Movement
----
+  - Endpoint---
 
 
 
@@ -113,7 +107,6 @@ False positives should be limited. Filter as needed.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

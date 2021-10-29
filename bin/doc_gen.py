@@ -223,14 +223,6 @@ def generate_doc_stories(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, sorted_de
             f.write(output)
     messages.append("doc_gen.py wrote {0} story documentation in markdown to: {1}".format(len(sorted_stories),OUTPUT_DIR + '/_stories/'))
 
-    # write wikimarkup
-    template = j2_env.get_template('doc_stories_wiki.j2')
-    output_path = path.join(OUTPUT_DIR + '/stories.wiki')
-    output = template.render(categories=categories, time=datetime.datetime.now())
-    with open(output_path, 'w', encoding="utf-8") as f:
-        f.write(output)
-    messages.append("doc_gen.py wrote {0} stories documentation in mediawiki to: {1}".format(len(stories),output_path))
-
     return sorted_stories, messages
 
 
@@ -310,31 +302,6 @@ def generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, attack, messag
         f.write(output)
     messages.append("doc_gen.py wrote detections.md page to: {0}".format(output_path))
 
-    #sort detections by kind into categories
-    kinds = []
-    kind_names = set()
-    for detection in sorted_detections:
-        kind_names.add(detection['kind'])
-
-    for kind_name in sorted(kind_names):
-        new_kind = {}
-        new_kind['name'] = kind_name
-        new_kind['detections'] = []
-        kinds.append(new_kind)
-
-    for detection in sorted_detections:
-        for kind in kinds:
-            if kind['name'] == detection['kind']:
-                kind['detections'].append(detection)
-
-    # write wikimarkup
-    template = j2_env.get_template('doc_detections_wiki.j2')
-    output_path = path.join(OUTPUT_DIR + '/detections.wiki')
-    output = template.render(kinds=kinds, time=datetime.datetime.now())
-    with open(output_path, 'w', encoding="utf-8") as f:
-        f.write(output)
-    messages.append("doc_gen.py wrote {0} detections documentation in mediawiki to: {1}".format(len(detections),output_path))
-
     return sorted_detections, messages
 
 def generate_doc_playbooks(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, sorted_detections, messages, VERBOSE):
@@ -405,7 +372,7 @@ if __name__ == "__main__":
 
     # grab arguments
     parser = argparse.ArgumentParser(description="Generates documentation from Splunk Security Content", epilog="""
-    This tool converts all Splunk Security Content detections, stories, workbooks and spec files into documentation. It builds both wiki markup (Splunk Docs) an markdown documentation.""")
+    This generates documention in the form of jekyll site research.splunk.com from Splunk Security Content yamls. """)
     parser.add_argument("-p", "--path", required=True, help="path to security_content repo")
     parser.add_argument("-o", "--output", required=True, help="path to the output directory for the docs")
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
@@ -417,12 +384,22 @@ if __name__ == "__main__":
     OUTPUT_DIR = args.output
     VERBOSE = args.verbose
 
-
     TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
 
     if VERBOSE:
         print("getting mitre enrichment data from cti")
     techniques = get_all_techniques(REPO_PATH)
+
+    if VERBOSE:
+        print("wiping the {0}/_posts folder".format(OUTPUT_DIR))
+    try:
+        for root, dirs, files in walk(REPO_PATH + '/_posts'):
+            for file in files:
+                if file.endswith(".md") and root == './_posts':
+                    os.remove(f)
+    except OSError as e:
+        print("error: %s : %s" % (f, e.strerror))
+        sys.exit(1)
 
     messages = []
     sorted_detections, messages = generate_doc_detections(REPO_PATH, OUTPUT_DIR, TEMPLATE_PATH, techniques, messages, VERBOSE)

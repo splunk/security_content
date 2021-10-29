@@ -7,19 +7,14 @@ last_modified_at: 2020-07-22
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1021.002
   - SMB/Windows Admin Shares
   - Lateral Movement
-  - T1021
   - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Network_Traffic
-  - Actions on Objectives
----
+  - Network_Traffic---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -101,7 +96,6 @@ A file server may experience high-demand loads that could cause this analytic to
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

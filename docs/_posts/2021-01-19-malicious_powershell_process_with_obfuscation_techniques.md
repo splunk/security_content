@@ -7,20 +7,14 @@ last_modified_at: 2021-01-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1059.001
   - PowerShell
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Command and Control
-  - Actions on Objectives
----
+  - Endpoint---
 
 
 
@@ -42,8 +36,8 @@ This search looks for PowerShell processes launched with arguments that have cha
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
@@ -113,7 +107,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/obfuscated_powershell/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/obfuscated_powershell/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_with_obfuscation_techniques.yml) \| *version*: **5**

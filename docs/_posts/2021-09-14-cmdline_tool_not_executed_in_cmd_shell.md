@@ -7,19 +7,14 @@ last_modified_at: 2021-09-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1059.007
   - JavaScript
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -41,8 +36,8 @@ This search is to detect a suspicious parent process execution of commandline to
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 
 
 | [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
@@ -109,7 +104,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/jssloader/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/cmdline_tool_not_executed_in_cmd_shell.yml) \| *version*: **1**

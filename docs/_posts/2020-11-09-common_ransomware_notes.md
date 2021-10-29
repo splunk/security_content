@@ -7,16 +7,12 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1485
   - Data Destruction
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Actions on Objectives
----
+  - Endpoint---
 
 
 
@@ -38,7 +34,6 @@ The search looks for files created with names matching those typically used in r
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
 
 
@@ -100,7 +95,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/common_ransomware_notes.yml) \| *version*: **4**

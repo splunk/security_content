@@ -7,15 +7,11 @@ last_modified_at: 2018-06-28
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1530
   - Data from Cloud Storage Object
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
-  - Actions on Objectives
----
+  - Splunk Cloud---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -39,7 +35,6 @@ This search looks at S3 bucket-access logs and detects new or previously unseen 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 
@@ -96,7 +91,6 @@ S3 buckets can be accessed from any IP, as long as it can make a successful conn
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,17 +7,13 @@ last_modified_at: 2020-10-07
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1535
   - Unused/Unsupported Cloud Regions
   - Defense Evasion
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Authentication
-  - Actions on Objectives
----
+  - Authentication---
 
 
 
@@ -39,7 +35,6 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
 
 
@@ -107,7 +102,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_aws_console_login_by_user_from_new_region.yml) \| *version*: **1**

@@ -61,8 +61,8 @@ sidebar:
 | [Attempt To Disable Services](/endpoint/attempt_to_disable_services/) | [Service Stop](/tags/#service-stop) | TTP |
 | [Attempt To Stop Security Service](/endpoint/attempt_to_stop_security_service/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Attempt To delete Services](/endpoint/attempt_to_delete_services/) | [Service Stop](/tags/#service-stop) | TTP |
-| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Auto Admin Logon Registry Entry](/endpoint/auto_admin_logon_registry_entry/) | [Credentials in Registry](/tags/#credentials-in-registry), [Unsecured Credentials](/tags/#unsecured-credentials) | TTP |
 | [BCDEdit Failure Recovery Modification](/endpoint/bcdedit_failure_recovery_modification/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [BITS Job Persistence](/endpoint/bits_job_persistence/) | [BITS Jobs](/tags/#bits-jobs) | TTP |

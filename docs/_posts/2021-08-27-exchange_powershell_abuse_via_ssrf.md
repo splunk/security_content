@@ -7,15 +7,11 @@ last_modified_at: 2021-08-27
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1190
   - Exploit Public-Facing Application
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
-  - Exploitation
----
+  - Splunk Cloud---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -43,7 +39,6 @@ Review the source attempting to perform this activity against your environment. 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
 
 
@@ -106,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/exchange-events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/exchange-events.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/exchange_powershell_abuse_via_ssrf.yml) \| *version*: **1**

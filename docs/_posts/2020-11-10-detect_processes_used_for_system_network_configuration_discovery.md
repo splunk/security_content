@@ -7,18 +7,12 @@ last_modified_at: 2020-11-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1016
   - System Network Configuration Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Installation
-  - Command and Control
-  - Actions on Objectives
----
+  - Endpoint---
 
 
 
@@ -40,7 +34,6 @@ This search looks for fast execution of processes used for system network config
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
 
 
@@ -111,7 +104,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/discovery_commands/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_processes_used_for_system_network_configuration_discovery.yml) \| *version*: **2**

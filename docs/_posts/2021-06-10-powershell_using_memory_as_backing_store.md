@@ -7,15 +7,11 @@ last_modified_at: 2021-06-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1140
   - Deobfuscate/Decode Files or Information
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
-  - Exploitation
----
+  - Splunk Cloud---
 
 
 
@@ -37,7 +33,6 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
 
 
@@ -101,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_using_memory_as_backing_store.yml) \| *version*: **1**

@@ -7,20 +7,14 @@ last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1059.001
   - PowerShell
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Installation
-  - Actions on Objectives
----
+  - Endpoint---
 
 
 
@@ -42,8 +36,8 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 
 
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
@@ -106,7 +100,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass.yml) \| *version*: **6**

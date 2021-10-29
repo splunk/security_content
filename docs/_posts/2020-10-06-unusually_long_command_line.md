@@ -7,10 +7,7 @@ last_modified_at: 2020-10-06
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - Splunk Behavioral Analytics
-  - Actions on Objectives
----
+  - Splunk Behavioral Analytics---
 
 
 
@@ -86,7 +83,6 @@ This detection may flag suspiciously long command lines when there is not suffic
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

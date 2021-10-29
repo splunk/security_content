@@ -7,16 +7,12 @@ last_modified_at: 2020-05-20
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1068
   - Exploitation for Privilege Escalation
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Actions on Objectives
----
+  - Endpoint---
 
 
 
@@ -38,7 +34,6 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
 
 
@@ -101,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/first_time_seen_child_process_of_zoom.yml) \| *version*: **1**

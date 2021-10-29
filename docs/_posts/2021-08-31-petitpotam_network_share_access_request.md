@@ -7,17 +7,12 @@ last_modified_at: 2021-08-31
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1187
   - Forced Authentication
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - CVE-2021-36942
-  - Exploitation
-  - Lateral Movement
----
+  - CVE-2021-36942---
 
 
 
@@ -42,7 +37,6 @@ During triage, review parallel security events to identify further suspicious ac
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
 
 
@@ -114,7 +108,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/petitpotam_network_share_access_request.yml) \| *version*: **1**

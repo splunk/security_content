@@ -7,19 +7,14 @@ last_modified_at: 2021-10-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1127.001
   - MSBuild
   - Defense Evasion
-  - T1127
   - Trusted Developer Utilities Proxy Execution
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -107,7 +102,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/regsvr32_silent/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/regsvr32_silent/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/msbuild_suspicious_spawned_by_script_process.yml) \| *version*: **1**

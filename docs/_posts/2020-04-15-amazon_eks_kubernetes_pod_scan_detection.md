@@ -7,15 +7,11 @@ last_modified_at: 2020-04-15
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1526
   - Cloud Service Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
-  - Reconnaissance
----
+  - Splunk Cloud---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -39,7 +35,6 @@ This search provides detection information on unauthenticated requests against K
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
 
 
@@ -96,7 +91,6 @@ Not all unauthenticated requests are malicious, but frequency, UA and source IPs
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,17 +7,12 @@ last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1048
   - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Network_Traffic
-  - Delivery
-  - Command and Control
----
+  - Network_Traffic---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -41,7 +36,6 @@ This search looks for network traffic defined by port and transport layer protoc
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
 
@@ -96,7 +90,6 @@ None identified
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

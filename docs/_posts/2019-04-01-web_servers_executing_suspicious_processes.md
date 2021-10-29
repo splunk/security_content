@@ -7,16 +7,12 @@ last_modified_at: 2019-04-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1082
   - System Information Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Actions on Objectives
----
+  - Endpoint---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
 We have not been able to test, simulate or build datasets for it, use at your own risk!
@@ -40,7 +36,6 @@ This search looks for suspicious processes on all systems labeled as web servers
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 
@@ -91,7 +86,6 @@ Some of these processes may be used legitimately on web servers during maintenan
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

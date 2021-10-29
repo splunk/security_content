@@ -7,15 +7,12 @@ last_modified_at: 2021-01-11
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1486
   - Data Encrypted for Impact
   - Impact
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
----
+  - Splunk Cloud---
 
 
 
@@ -37,7 +34,6 @@ This search provides detection of users with KMS keys performing encryption spec
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
 
 
@@ -102,7 +98,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_detect_users_with_kms_keys_performing_encryption_s3.yml) \| *version*: **1**

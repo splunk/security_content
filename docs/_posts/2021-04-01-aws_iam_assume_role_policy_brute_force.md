@@ -7,19 +7,14 @@ last_modified_at: 2021-04-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1580
   - Cloud Infrastructure Discovery
   - Discovery
-  - T1110
   - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Splunk Security Analytics for AWS
-  - Reconnaissance
----
+  - Splunk Security Analytics for AWS---
 
 
 
@@ -41,7 +36,6 @@ The following detection identifies any malformed policy document exceptions with
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
 
 
@@ -108,7 +102,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_assume_role_policy_brute_force/aws_iam_assume_role_policy_brute_force.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_assume_role_policy_brute_force/aws_iam_assume_role_policy_brute_force.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_iam_assume_role_policy_brute_force.yml) \| *version*: **1**

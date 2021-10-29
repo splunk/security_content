@@ -7,21 +7,16 @@ last_modified_at: 2021-07-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1548.002
   - Bypass User Account Control
   - Privilege Escalation
   - Defense Evasion
-  - T1548
   - Abuse Elevation Control Mechanism
   - Privilege Escalation
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -109,7 +104,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/sdclt_uac_bypass.yml) \| *version*: **1**

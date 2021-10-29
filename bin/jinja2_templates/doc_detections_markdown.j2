@@ -12,9 +12,7 @@ last_modified_at: {{detection.date}}
 toc: true
 toc_label: ""
 tags:
-  - {{ detection.type }}
 {%- for attack in detection.mitre_attacks %}
-  - {{ attack.technique_id }}
   - {{ attack.technique }}
   {%- for attack_tactic in attack.tactic %}
   - {{ attack_tactic }}
@@ -29,9 +27,6 @@ tags:
 {%- for datamodel in detection.datamodel %}
   - {{ datamodel }}
 {%- endfor -%}
-{%- for phase in detection.tags.kill_chain_phases %}
-  - {{ phase }}
-{%- endfor %}
 ---
 
 {% if detection.experimental is sameas true -%}
@@ -57,11 +52,11 @@ We have not been able to test, simulate or build datasets for it, use at your ow
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-{% for attack in detection.mitre_attacks -%}
+{%- for attack in detection.mitre_attacks %}
 {% if attack.technique_id -%}
-{%- set sub_technique = attack.technique_id.split('.') -%}{%- if sub_technique | length > 1 -%}
+{% set sub_technique = attack.technique_id.split('.') %}{% if sub_technique | length > 1 -%}
 | [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{sub_technique[0]}}/{{sub_technique[1]}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
-{% else %}
+{% else -%}
 | [{{ attack.technique_id }}](https://attack.mitre.org/techniques/{{attack.technique_id}}/) | {{ attack.technique }} | {{ attack.tactic|join(', ') }} |
 {% endif %}
 {% endif %}

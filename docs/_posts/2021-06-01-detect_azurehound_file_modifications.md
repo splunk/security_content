@@ -7,34 +7,24 @@ last_modified_at: 2021-06-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1087.002
   - Domain Account
   - Discovery
-  - T1069.001
   - Local Groups
   - Discovery
-  - T1482
   - Domain Trust Discovery
   - Discovery
-  - T1087.001
   - Local Account
   - Discovery
-  - T1087
   - Account Discovery
   - Discovery
-  - T1069.002
   - Domain Groups
   - Discovery
-  - T1069
   - Permission Groups Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Reconnaissance
----
+  - Endpoint---
 
 
 
@@ -59,6 +49,7 @@ The following analytic is similar to SharpHound file modifications, but this ins
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
 
+
 | [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
 
@@ -66,11 +57,13 @@ The following analytic is similar to SharpHound file modifications, but this ins
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 
 
+
 | [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
 
 
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
 
 
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
@@ -139,7 +132,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_azurehound_file_modifications.yml) \| *version*: **1**

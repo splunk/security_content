@@ -7,19 +7,14 @@ last_modified_at: 2021-07-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.002
   - Security Account Manager
   - Credential Access
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - CVE-2021-36934
-  - Exploitation
----
+  - CVE-2021-36934---
 
 
 
@@ -116,7 +111,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/serioussam/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/serioussam/windows-powershell.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_copy_of_shadowcopy_with_script_block_logging.yml) \| *version*: **1**

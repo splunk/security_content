@@ -7,19 +7,14 @@ last_modified_at: 2021-08-19
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1566.001
   - Spearphishing Attachment
   - Initial Access
-  - T1566
   - Phishing
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Dev Sec Ops Analytics
-  - Exploitation
----
+  - Dev Sec Ops Analytics---
 
 
 
@@ -100,7 +95,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_susp_subj/gsuite_susp_subj_attach.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/gsuite_email_suspicious_subject_with_attachment.yml) \| *version*: **1**

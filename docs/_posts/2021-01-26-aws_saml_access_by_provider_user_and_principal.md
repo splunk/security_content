@@ -7,8 +7,6 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
@@ -17,8 +15,7 @@ tags:
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
-  - Splunk Cloud
----
+  - Splunk Cloud---
 
 
 
@@ -40,7 +37,6 @@ This search provides specific SAML access from specific Service Provider, user a
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 
@@ -106,7 +102,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_saml_access_by_provider_user_and_principal.yml) \| *version*: **1**

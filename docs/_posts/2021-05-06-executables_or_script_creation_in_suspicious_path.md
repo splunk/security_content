@@ -7,16 +7,12 @@ last_modified_at: 2021-05-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1036
   - Masquerading
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Endpoint
-  - Exploitation
----
+  - Endpoint---
 
 
 
@@ -38,7 +34,6 @@ This analytic will identify suspicious executable or scripts (known file extensi
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
 
@@ -101,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/executables_or_script_creation_in_suspicious_path.yml) \| *version*: **1**
