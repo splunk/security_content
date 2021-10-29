@@ -7,15 +7,12 @@ last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1110
   - Brute Force
   - Credential Access
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Not Applicable
 ---
 
 
@@ -34,10 +31,10 @@ This search detects when an excessive number of authentication failures occur th
 - **ID**: d441364c-349c-453b-b55f-12eccab67cf9
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 #### Search
@@ -96,7 +93,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_excessive_authentication_failures_alert.yml) \| *version*: **1**

@@ -7,18 +7,14 @@ last_modified_at: 2021-08-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1567.002
   - Exfiltration to Cloud Storage
   - Exfiltration
-  - T1567
   - Exfiltration Over Web Service
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Exfiltration
 ---
 
 
@@ -106,7 +102,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/gsuite_drive_share_in_external_email.yml) \| *version*: **1**
