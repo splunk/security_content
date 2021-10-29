@@ -42,6 +42,8 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
+  cve:
+  - CVE-2021-40444
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.002/atomic_red_team/windows-sysmon.log
   impact: 30
@@ -87,5 +89,3 @@ tags:
   - Processes.parent_process_id
   risk_score: 15
   security_domain: endpoint
-  cve:
-  - CVE-2021-40444

@@ -19,46 +19,32 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `sdelete_application_execution_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: user may execute and use this application
 references:
 - https://app.any.run/tasks/956f50be-2c13-465a-ac00-6224c14c5f89/
 tags:
   analytic_story:
   - Masquerading - Rename System Utilities
+  automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/sysmon.log
+  impact: 70
   kill_chain_phases:
   - Exploitation
+  message: sdelete process $process_name$ executed in $dest$
   mitre_attack_id:
   - T1485
   - T1070.004
   - T1070
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name #parent process name
-  - Processes.parent_process #parent cmdline
-  - Processes.original_file_name
-  - Processes.process_name #process name
-  - Processes.process #process cmdline
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 70
-  confidence: 70
-  risk_score: 49
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  message: sdelete process $process_name$ executed in $dest$
   observable:
   - name: dest
     type: Endpoint
@@ -68,4 +54,22 @@ tags:
     type: User
     role:
     - Victim
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 49
+  security_domain: endpoint

@@ -43,6 +43,10 @@ tags:
   - Source:Endpoint
   - Stage:Initial Access
   - Stage:Execution
+  cve:
+  - CVE-2021-34473
+  - CVE-2021-34523
+  - CVE-2021-31207
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon.log
   impact: 70
@@ -76,7 +80,3 @@ tags:
   - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint
-  cve:
-  - CVE-2021-34473
-  - CVE-2021-34523
-  - CVE-2021-31207

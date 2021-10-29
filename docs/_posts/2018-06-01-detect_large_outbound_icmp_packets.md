@@ -7,15 +7,12 @@ last_modified_at: 2018-06-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1095
   - Non-Application Layer Protocol
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,10 +33,10 @@ This search looks for outbound ICMP packets with a packet size larger than 1,000
 - **ID**: e9c102de-4d43-42a7-b1c8-8062ea297419
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1095](https://attack.mitre.org/techniques/T1095/) | Non-Application Layer Protocol | Command And Control |
 
 #### Search
@@ -89,7 +86,6 @@ ICMP packets are used in a variety of ways to help troubleshoot networking issue
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

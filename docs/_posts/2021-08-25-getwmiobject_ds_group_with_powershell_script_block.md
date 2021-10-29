@@ -7,18 +7,14 @@ last_modified_at: 2021-08-25
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1069
   - Permission Groups Discovery
   - Discovery
-  - T1069.002
   - Domain Groups
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -37,11 +33,14 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 67740bd3-1506-469c-b91d-effc322cc6e5
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
+
+
+
 | [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
 #### Search
@@ -97,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/getwmiobject_ds_group_with_powershell_script_block.yml) \| *version*: **1**
