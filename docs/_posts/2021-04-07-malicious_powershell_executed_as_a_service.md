@@ -1,21 +1,20 @@
 ---
 title: "Malicious Powershell Executed As A Service"
-excerpt: "Service Execution"
+excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-04-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1569.002
+  - System Services
+  - Execution
   - Service Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Privilege Escalation
 ---
 
 
@@ -37,9 +36,12 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+| ----------- | ----------- |--------------- |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
+
+
+| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 #### Search
 
@@ -86,12 +88,12 @@ To successfully implement this search, you need to be ingesting Windows System l
 Creating a hidden powershell service is rare and could key off of those instances.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $Service_File_Name$ by $user$ on $dest$ |
+
 
 
 
@@ -108,7 +110,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-system.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_executed_as_a_service.yml) \| *version*: **1**

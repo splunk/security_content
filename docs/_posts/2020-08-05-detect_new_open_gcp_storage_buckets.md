@@ -7,14 +7,11 @@ last_modified_at: 2020-08-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1530
   - Data from Cloud Storage Object
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -38,10 +35,8 @@ This search looks for GCP PubSub events where a user has created an open/public 
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
 
 #### Search
 
@@ -89,13 +84,13 @@ While this search has no known false positives, it is possible that a GCP admin 
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

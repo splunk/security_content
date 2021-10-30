@@ -1,21 +1,20 @@
 ---
 title: "UAC Bypass With Colorui COM Object"
-excerpt: "CMSTP"
+excerpt: "Signed Binary Proxy Execution, CMSTP"
 categories:
   - Endpoint
 last_modified_at: 2021-08-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.003
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - CMSTP
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,9 +36,12 @@ This search is to detect a possible uac bypass using the colorui.dll COM Object.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+
+
+| [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
 #### Search
 
@@ -77,12 +79,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 not so common. but 3rd part app may load this dll.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $Computer$ by user $user$. |
+
 
 
 
@@ -97,7 +99,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/uac_colorui/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/uac_colorui/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/uac_bypass_with_colorui_com_object.yml) \| *version*: **1**

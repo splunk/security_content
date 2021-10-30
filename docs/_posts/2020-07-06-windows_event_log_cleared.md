@@ -1,20 +1,19 @@
 ---
 title: "Windows Event Log Cleared"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2020-07-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1070.001
+  - Indicator Removal on Host
+  - Defense Evasion
   - Clear Windows Event Logs
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -36,9 +35,12 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
+
+
+| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 #### Search
 
@@ -73,12 +75,12 @@ To successfully implement this search, you need to be ingesting Windows event lo
 It is possible that these logs may be legitimately cleared by Administrators. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Windows event logs cleared on $dest$ via EventCode $EventCode$ |
+
 
 
 
@@ -97,7 +99,6 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log)
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-system.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_event_log_cleared.yml) \| *version*: **6**

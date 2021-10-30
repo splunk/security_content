@@ -7,8 +7,6 @@ last_modified_at: 2020-07-27
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
@@ -17,7 +15,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Lateral Movement
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -41,10 +38,8 @@ This search provides detection of suspicious use of sts:AssumeRole. These tokens
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
 
 #### Search
 
@@ -86,13 +81,13 @@ Sts:AssumeRole can be very noisy as it is a standard mechanism to provide cross 
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

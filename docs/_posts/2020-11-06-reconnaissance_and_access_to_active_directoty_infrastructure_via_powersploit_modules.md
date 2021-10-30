@@ -7,24 +7,17 @@ last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1199
   - Trusted Relationship
   - Initial Access
-  - T1482
   - Domain Trust Discovery
   - Discovery
-  - T1590
   - Gather Victim Network Information
   - Reconnaissance
-  - T1591
   - Gather Victim Org Information
   - Reconnaissance
-  - T1595
   - Active Scanning
   - Reconnaissance
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -46,14 +39,12 @@ This detection identifies access to PowerSploit modules for reconnaissance and a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
 | [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
 | [T1591](https://attack.mitre.org/techniques/T1591/) | Gather Victim Org Information | Reconnaissance |
 | [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
-
-
 
 #### Search
 
@@ -90,12 +81,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | PowerSploit malware is seaching for or accessing Active Directory objects such as domain sites, domain trusts, AD forests, etc. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 
@@ -108,7 +99,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

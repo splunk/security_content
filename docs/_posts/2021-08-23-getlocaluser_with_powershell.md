@@ -1,21 +1,20 @@
 ---
 title: "GetLocalUser with PowerShell"
-excerpt: "Local Account"
+excerpt: "Account Discovery, Local Account"
 categories:
   - Endpoint
 last_modified_at: 2021-08-23
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1087.001
+  - Account Discovery
+  - Discovery
   - Local Account
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -37,9 +36,12 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
+
+
+| [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
 
 #### Search
 
@@ -71,12 +73,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local user discovery enumeration using PowerShell on $dest$ by $user$ |
+
 
 
 
@@ -91,7 +93,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/getlocaluser_with_powershell.yml) \| *version*: **1**

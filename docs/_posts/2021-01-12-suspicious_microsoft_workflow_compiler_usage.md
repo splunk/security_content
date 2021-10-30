@@ -7,15 +7,12 @@ last_modified_at: 2021-01-12
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1127
   - Trusted Developer Utilities Proxy Execution
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,10 +34,8 @@ The following analytic identifies microsoft.workflow.compiler.exe usage. microso
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
-
-
 
 #### Search
 
@@ -83,12 +78,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, limited instances have been identified coming from native Microsoft utilities similar to SCCM.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious microsoft.workflow.compiler.exe process ran on $dest$ by $user$ |
+
 
 
 
@@ -104,7 +99,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_microsoft_workflow_compiler_usage.yml) \| *version*: **2**

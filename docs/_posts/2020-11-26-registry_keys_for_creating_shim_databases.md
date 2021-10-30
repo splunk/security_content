@@ -1,21 +1,21 @@
 ---
 title: "Registry Keys for Creating SHIM Databases"
-excerpt: "Application Shimming"
+excerpt: "Application Shimming, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-11-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1546.011
   - Application Shimming
+  - Privilege Escalation
+  - Persistence
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +34,12 @@ This search looks for registry activity associated with application compatibilit
 - **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
-
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
 
 #### Search
 
@@ -76,12 +76,12 @@ To successfully implement this search, you must populate the Change_Analysis dat
 There are many legitimate applications that leverage shim databases for compatibility purposes for legacy applications
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A registry activity in $registry_path$ related to shim modication in host $dest$ |
+
 
 
 
@@ -93,7 +93,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.011/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/registry_keys_for_creating_shim_databases.yml) \| *version*: **3**

@@ -1,21 +1,20 @@
 ---
 title: "Multiple Users Attempting To Authenticate Using Explicit Credentials"
-excerpt: "Password Spraying"
+excerpt: "Password Spraying, Brute Force"
 categories:
   - Endpoint
 last_modified_at: 2021-04-13
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1110.003
   - Password Spraying
+  - Credential Access
+  - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,12 +36,12 @@ The analytics returned fields allow analysts to investigate the event further by
 - **ID**: e61918fa-9ca4-11eb-836c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
-
+| [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 #### Search
 
@@ -83,12 +82,12 @@ To successfully implement this search, you need to be ingesting Windows Event Lo
 A source user failing attempting to authenticate multiple users on a host is not a common behavior for regular systems. Some applications, however, may exhibit this behavior in which case sets of users hosts can be added to an allow list. Possible false positive scenarios include systems where several users connect to like Mail servers, identity providers, remote desktop services, Citrix, etc.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Potential password spraying attack from $ComputerName$ |
+
 
 
 
@@ -105,7 +104,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_explicit_credential_spray/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_explicit_credential_spray/windows-security.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/multiple_users_attempting_to_authenticate_using_explicit_credentials.yml) \| *version*: **1**

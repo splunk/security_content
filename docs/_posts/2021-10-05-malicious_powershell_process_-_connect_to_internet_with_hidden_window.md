@@ -1,22 +1,20 @@
 ---
 title: "Malicious PowerShell Process - Connect To Internet With Hidden Window"
-excerpt: "PowerShell"
+excerpt: "PowerShell, Command and Scripting Interpreter"
 categories:
   - Endpoint
 last_modified_at: 2021-10-05
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1059.001
   - PowerShell
+  - Execution
+  - Command and Scripting Interpreter
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Command and Control
-  - Actions on Objectives
 ---
 
 
@@ -35,12 +33,12 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 - **ID**: ee18ed37-0802-4268-9435-b3b91aaa18db
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
-
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 #### Search
 
@@ -85,12 +83,12 @@ You must be ingesting data that records process activity from your hosts to popu
 Legitimate process can have this combination of command-line options, but it&#39;s not common.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | PowerShell processes $process$ started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet on host $dest$ executed by user $user$. |
+
 
 
 
@@ -108,7 +106,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window.yml) \| *version*: **7**

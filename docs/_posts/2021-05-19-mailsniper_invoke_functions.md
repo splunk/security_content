@@ -1,21 +1,20 @@
 ---
 title: "Mailsniper Invoke functions"
-excerpt: "Local Email Collection"
+excerpt: "Email Collection, Local Email Collection"
 categories:
   - Endpoint
 last_modified_at: 2021-05-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1114.001
+  - Email Collection
+  - Collection
   - Local Email Collection
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,9 +36,12 @@ This search is to detect known mailsniper.ps1 functions executed in a machine. T
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
+| ----------- | ----------- |--------------- |
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
+
+
+| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
 
 #### Search
 
@@ -74,12 +76,12 @@ To successfully implement this search, you need to be ingesting logs with the po
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | mailsniper.ps1 functions $Message$ executed on a $ComputerName$ by user $user$. |
+
 
 
 
@@ -94,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/mailsniper_invoke_functions.yml) \| *version*: **1**

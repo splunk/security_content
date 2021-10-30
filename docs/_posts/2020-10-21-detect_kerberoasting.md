@@ -1,18 +1,17 @@
 ---
 title: "Detect Kerberoasting"
-excerpt: "Kerberoasting"
+excerpt: "Kerberoasting, Steal or Forge Kerberos Tickets"
 categories:
   - Endpoint
 last_modified_at: 2020-10-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1558.003
   - Kerberoasting
   - Credential Access
+  - Steal or Forge Kerberos Tickets
+  - Credential Access
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -31,12 +30,12 @@ This search detects a potential kerberoasting attack via service principal name 
 - **ID**: dabdd6d7-3e10-42be-8711-4e124f7a3850
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
-
+| [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
 
 #### Search
 
@@ -76,12 +75,12 @@ The test data is converted from Windows Security Event logs generated from Attac
 Older systems that support kerberos RC4 by default NetApp may generate false positives
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 14.0 | 70 | 20 | Kerberoasting malware is potentially applying stolen credentials. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 
@@ -94,7 +93,6 @@ Older systems that support kerberos RC4 by default NetApp may generate false pos
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,16 +7,12 @@ last_modified_at: 2021-10-05
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1027
   - Obfuscated Files or Information
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Command and Control
-  - Actions on Objectives
 ---
 
 
@@ -41,10 +37,8 @@ Alternatively, may use regex per matching here https://regexr.com/662ov.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
-
-
 
 #### Search
 
@@ -89,12 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 System administrators may use this option, but it&#39;s not common.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Powershell.exe running potentially malicious encodede commands on $dest$ |
+
 
 
 
@@ -112,7 +106,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_-_encoded_command.yml) \| *version*: **6**

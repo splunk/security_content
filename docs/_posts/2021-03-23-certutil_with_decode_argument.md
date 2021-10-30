@@ -7,15 +7,12 @@ last_modified_at: 2021-03-23
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1140
   - Deobfuscate/Decode Files or Information
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,10 +34,8 @@ CertUtil.exe may be used to `encode` and `decode` a file, including PE and scrip
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
-
-
 
 #### Search
 
@@ -83,12 +78,12 @@ To successfully implement this search you need to be ingesting information on pr
 Typically seen used to `encode` files, but it is possible to see legitimate use of `decode`. Filter based on parent-child relationship, file paths, endpoint or user.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to decode a file. |
+
 
 
 
@@ -106,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1140/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1140/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/certutil_with_decode_argument.yml) \| *version*: **2**

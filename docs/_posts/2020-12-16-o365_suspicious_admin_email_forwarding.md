@@ -1,21 +1,20 @@
 ---
 title: "O365 Suspicious Admin Email Forwarding"
-excerpt: "Email Forwarding Rule"
+excerpt: "Email Forwarding Rule, Email Collection"
 categories:
   - Cloud
 last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1114.003
   - Email Forwarding Rule
+  - Collection
+  - Email Collection
   - Collection
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,12 @@ This search detects when an admin configured a forwarding rule for multiple mail
 - **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02c28
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection |
-
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
 #### Search
 
@@ -77,12 +76,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $user$ has configured a forwarding rule for multiple mailboxes to the same destination $ForwardingAddress$ |
+
 
 
 
@@ -94,7 +93,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.003/o365_email_forwarding_rule/o365_email_forwarding_rule.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_suspicious_admin_email_forwarding.yml) \| *version*: **1**

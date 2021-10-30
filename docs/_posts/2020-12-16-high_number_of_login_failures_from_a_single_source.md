@@ -1,20 +1,19 @@
 ---
 title: "High Number of Login Failures from a single source"
-excerpt: "Password Guessing"
+excerpt: "Password Guessing, Brute Force"
 categories:
   - Cloud
 last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1110.001
   - Password Guessing
+  - Credential Access
+  - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -35,12 +34,12 @@ This search will detect more than 5 login failures in Office365 Azure Active Dir
 - **ID**: 7f398cfb-918d-41f4-8db8-2e2474e02222
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1110.001](https://attack.mitre.org/techniques/T1110/001/) | Password Guessing | Credential Access |
-
+| [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 #### Search
 
@@ -82,13 +81,13 @@ unknown
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

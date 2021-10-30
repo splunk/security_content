@@ -7,13 +7,10 @@ last_modified_at: 2020-02-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -32,8 +29,6 @@ This search looks for processes referencing the plist files that determine which
 - **Last Updated**: 2020-02-07
 - **Author**: Jamie Windley, Splunk
 - **ID**: 40bb64f9-f619-4e3d-8732-328d40377c4b
-
-
 
 #### Search
 
@@ -73,13 +68,13 @@ At this stage, there are no known false positives. During testing, no process ev
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

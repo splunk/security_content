@@ -7,15 +7,12 @@ last_modified_at: 2020-07-27
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1550
   - Use Alternate Authentication Material
   - Defense Evasion
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Lateral Movement
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -39,10 +36,8 @@ This search provides detection of suspicious use of sts:GetSessionToken. These t
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
-
-
 
 #### Search
 
@@ -85,13 +80,13 @@ Sts:GetSessionToken can be very noisy as in certain environments numerous calls 
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,21 +7,15 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1021
   - Remote Services
   - Lateral Movement
-  - T1113
   - Screen Capture
   - Collection
-  - T1123
   - Audio Capture
   - Collection
-  - T1563
   - Remote Service Session Hijacking
   - Lateral Movement
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -43,13 +37,11 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
 | [T1123](https://attack.mitre.org/techniques/T1123/) | Audio Capture | Collection |
 | [T1563](https://attack.mitre.org/techniques/T1563/) | Remote Service Session Hijacking | Lateral Movement |
-
-
 
 #### Search
 
@@ -86,12 +78,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 85.0 | 85 | 100 | PowerSploit malware is tapping into user content - microphone, camera, ongoing HTTP or RDP session. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 
@@ -106,7 +98,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/illegal_access_to_content/logAllPowerSploitModulesWithOldNames.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/illegal_access_to_content/logAllPowerSploitModulesWithOldNames.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_access_to_user_content_via_powersploit_modules.yml) \| *version*: **1**

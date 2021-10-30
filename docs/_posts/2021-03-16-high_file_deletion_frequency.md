@@ -7,15 +7,12 @@ last_modified_at: 2021-03-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1485
   - Data Destruction
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,10 +34,8 @@ This search looks for high frequency of file deletion relative to process name a
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ To successfully implement this search, you need to be ingesting logs with the de
 user may delete bunch of pictures or files in a folder.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | High frequency file deletion activity detected on host $Computer$ |
+
 
 
 
@@ -99,7 +94,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/high_file_deletion_frequency.yml) \| *version*: **1**

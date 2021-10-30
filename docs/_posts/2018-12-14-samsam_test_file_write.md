@@ -7,15 +7,12 @@ last_modified_at: 2018-12-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1486
   - Data Encrypted for Impact
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Delivery
 ---
 
 
@@ -37,10 +34,8 @@ The search looks for a file named &#34;test.txt&#34; written to the windows syst
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
 
 #### Search
 
@@ -76,12 +71,12 @@ You must be ingesting data that records the file-system activity from your hosts
 No false positives have been identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 60 | 20 | A samsam ransomware test file creation in $file_path$ in host $dest$ |
+
 
 
 
@@ -93,7 +88,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/sam_sam_note/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/sam_sam_note/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/samsam_test_file_write.yml) \| *version*: **1**

@@ -1,19 +1,19 @@
 ---
 title: "Detect Pass the Hash"
-excerpt: "Pass the Hash"
+excerpt: "Use Alternate Authentication Material, Pass the Hash"
 categories:
   - Endpoint
 last_modified_at: 2020-10-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1550.002
+  - Use Alternate Authentication Material
+  - Defense Evasion
+  - Lateral Movement
   - Pass the Hash
   - Defense Evasion
   - Lateral Movement
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -35,9 +35,12 @@ This search looks for specific authentication events from the Windows Security E
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
+| ----------- | ----------- |--------------- |
+| [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
+
+
+| [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
 
 #### Search
 
@@ -79,12 +82,12 @@ The test data is converted from Windows Security Event logs generated from Attac
 Legitimate logon activity by authorized NTLM systems may be detected by this search. Please investigate as appropriate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 16.0 | 80 | 20 | Potential use of the pass the hash/token attacks that spoof authentication. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 
@@ -97,7 +100,6 @@ Legitimate logon activity by authorized NTLM systems may be detected by this sea
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

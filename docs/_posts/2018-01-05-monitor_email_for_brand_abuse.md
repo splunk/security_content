@@ -7,12 +7,10 @@ last_modified_at: 2018-01-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Email
-  - Delivery
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -31,8 +29,6 @@ This search looks for emails claiming to be sent from a domain similar to one th
 - **Last Updated**: 2018-01-05
 - **Author**: David Dorsey, Splunk
 - **ID**: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
-
-
 
 #### Search
 
@@ -75,13 +71,13 @@ None at this time
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

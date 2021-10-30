@@ -1,19 +1,19 @@
 ---
 title: "Potential Pass the Token or Hash Observed by an Event Collecting Device"
-excerpt: "Pass the Hash"
+excerpt: "Use Alternate Authentication Material, Pass the Hash"
 categories:
   - Endpoint
 last_modified_at: 2021-09-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1550.002
+  - Use Alternate Authentication Material
+  - Defense Evasion
+  - Lateral Movement
   - Pass the Hash
   - Defense Evasion
   - Lateral Movement
   - Splunk Behavioral Analytics
-  - Lateral Movement
 ---
 
 
@@ -35,9 +35,12 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
+| ----------- | ----------- |--------------- |
+| [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
 
+
+
+| [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
 
 #### Search
 
@@ -83,12 +86,12 @@ You must be ingesting Windows Security logs from devices of interest - at least 
 Environments in which NTLM is used extremely rarely and for benign purposes (such as a rare use of SMB shares).
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | Potential lateral movement and credential stealing via Pass the Token or Pass the Hash techniques. Operation is performed via credentials of the account $dest_user_id$ and observed by the logging device $origin_device_id$ |
+
 
 
 
@@ -101,7 +104,6 @@ Environments in which NTLM is used extremely rarely and for benign purposes (suc
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

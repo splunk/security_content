@@ -1,21 +1,20 @@
 ---
 title: "Gsuite Outbound Email With Attachment To External Domain"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol"
+excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
 categories:
   - Cloud
 last_modified_at: 2021-08-17
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1048.003
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration
+  - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Exploitation
 ---
 
 
@@ -34,12 +33,12 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 - **ID**: dc4dc3a8-ff54-11eb-8bf7-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-
+| [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
 #### Search
 
@@ -59,7 +58,7 @@ This search is to detect a suspicious outbound e-mail from internal email to ext
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](/stories/devsecops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement
@@ -77,12 +76,12 @@ To successfully implement this search, you need to be ingesting logs related to 
 network admin and normal user may send this file attachment as part of their day to day work. having a good protocol in attaching this file type to an e-mail may reduce the risk of having a spear phishing attack.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | suspicious email from $source.address$ to $destination{}.address$ |
+
 
 
 
@@ -97,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gsuite_outbound_email_to_external/gsuite_external_domain.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/gsuite_outbound_email_with_attachment_to_external_domain.yml) \| *version*: **1**

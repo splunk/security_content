@@ -7,8 +7,6 @@ last_modified_at: 2020-02-20
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1525
   - Implant Internal Image
   - Persistence
   - Splunk Enterprise
@@ -37,10 +35,8 @@ This searches show information on uploaded containers including source user, ima
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1525](https://attack.mitre.org/techniques/T1525/) | Implant Internal Image | Persistence |
-
-
 
 #### Search
 
@@ -71,13 +67,13 @@ Uploading container is a normal behavior from developers or users with access to
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

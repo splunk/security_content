@@ -7,8 +7,6 @@ last_modified_at: 2020-10-07
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1535
   - Unused/Unsupported Cloud Regions
   - Defense Evasion
   - Splunk Security Analytics for AWS
@@ -16,7 +14,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Authentication
-  - Actions on Objectives
 ---
 
 
@@ -38,10 +35,8 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
-
-
 
 #### Search
 
@@ -87,12 +82,12 @@ You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later
 When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | User $user$ is logging into the AWS console from Region $Region$ for the first time |
+
 
 
 
@@ -104,7 +99,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_aws_console_login_by_user_from_new_region.yml) \| *version*: **1**

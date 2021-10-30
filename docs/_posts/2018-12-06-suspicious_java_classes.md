@@ -7,11 +7,9 @@ last_modified_at: 2018-12-06
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -30,8 +28,6 @@ This search looks for suspicious Java classes that are often used to exploit rem
 - **Last Updated**: 2018-12-06
 - **Author**: Jose Hernandez, Splunk
 - **ID**: if1fea6da-3c86-4c1d-b255-fc3b2781a491
-
-
 
 #### Search
 
@@ -75,13 +71,13 @@ There are no known false positives.
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

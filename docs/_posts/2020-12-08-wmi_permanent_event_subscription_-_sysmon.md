@@ -1,21 +1,21 @@
 ---
 title: "WMI Permanent Event Subscription - Sysmon"
-excerpt: "Windows Management Instrumentation Event Subscription"
+excerpt: "Windows Management Instrumentation Event Subscription, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-12-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1546.003
   - Windows Management Instrumentation Event Subscription
+  - Privilege Escalation
+  - Persistence
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -39,12 +39,12 @@ Monitor for the creation of new WMI EventFilter, EventConsumer, and FilterToCons
 - **ID**: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1546.003](https://attack.mitre.org/techniques/T1546/003/) | Windows Management Instrumentation Event Subscription | Privilege Escalation, Persistence |
-
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search, you must be collecting Sysmon data using 
 Although unlikely, administrators may use event subscriptions for legitimate purposes.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 30 | 100 | User $user$ on $host$ executed the following suspicious WMI query: $Query$.  Filter: $filter$. Consumer: $Consumer$.  EventCode: $EventCode$ |
+
 
 
 
@@ -105,7 +105,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wmi_permanent_event_subscription_-_sysmon.yml) \| *version*: **3**

@@ -1,15 +1,18 @@
 ---
 title: "Abnormally High Number Of Cloud Infrastructure API Calls"
-excerpt: "Cloud Accounts"
+excerpt: "Cloud Accounts, Valid Accounts"
 categories:
   - Cloud
 last_modified_at: 2020-09-07
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1078.004
   - Cloud Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
@@ -19,7 +22,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Change
-  - Actions on Objectives
 ---
 
 
@@ -38,12 +40,12 @@ This search will detect a spike in the number of API calls made to your cloud in
 - **ID**: 0840ddf1-8c89-46ff-b730-c8d6722478c0
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
 
@@ -89,12 +91,12 @@ You must be ingesting your cloud infrastructure logs. You also must run the base
 
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | user $user$ has made $api_calls$ api calls, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$. |
+
 
 
 
@@ -106,7 +108,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/abnormally_high_number_of_cloud_infrastructure_api_calls.yml) \| *version*: **1**

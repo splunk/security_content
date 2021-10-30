@@ -1,21 +1,20 @@
 ---
 title: "Suspicious MSBuild Spawn"
-excerpt: "MSBuild"
+excerpt: "Trusted Developer Utilities Proxy Execution, MSBuild"
 categories:
   - Endpoint
 last_modified_at: 2021-01-12
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1127.001
+  - Trusted Developer Utilities Proxy Execution
+  - Defense Evasion
   - MSBuild
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,9 +36,12 @@ The following analytic identifies wmiprvse.exe spawning msbuild.exe. This behavi
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 
+
+
+| [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
 
 #### Search
 
@@ -82,12 +84,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Suspicious msbuild.exe process executed on $dest$ by $user$ |
+
 
 
 
@@ -103,7 +105,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_msbuild_spawn.yml) \| *version*: **2**

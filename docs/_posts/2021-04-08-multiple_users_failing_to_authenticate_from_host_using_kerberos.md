@@ -1,21 +1,20 @@
 ---
 title: "Multiple Users Failing To Authenticate From Host Using Kerberos"
-excerpt: "Password Spraying"
+excerpt: "Password Spraying, Brute Force"
 categories:
   - Endpoint
 last_modified_at: 2021-04-08
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1110.003
   - Password Spraying
+  - Credential Access
+  - Brute Force
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,12 +36,12 @@ The analytics returned fields allow analysts to investigate the event further by
 - **ID**: 3a91a212-98a9-11eb-b86a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1110.003](https://attack.mitre.org/techniques/T1110/003/) | Password Spraying | Credential Access |
-
+| [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
 
 #### Search
 
@@ -80,12 +79,12 @@ To successfully implement this search, you need to be ingesting Domain Controlle
 A host failing to authenticate with multiple valid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, missconfigured systems and multi-user systems like Citrix farms.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Potential Kerberos based password spraying attack from $Client_Address$ |
+
 
 
 
@@ -102,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_kerberos/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_kerberos/windows-security.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/multiple_users_failing_to_authenticate_from_host_using_kerberos.yml) \| *version*: **1**

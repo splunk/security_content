@@ -7,14 +7,10 @@ last_modified_at: 2017-09-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Sessions
-  - Reconnaissance
-  - Delivery
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -33,8 +29,6 @@ By populating the organization&#39;s assets within the assets_by_str.csv, we wil
 - **Last Updated**: 2017-09-13
 - **Author**: Bhavin Patel, Splunk
 - **ID**: dcfd6b40-42f9-469d-a433-2e53f7489ff4
-
-
 
 #### Search
 
@@ -77,13 +71,13 @@ This search might be prone to high false positives. Please consider this when co
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

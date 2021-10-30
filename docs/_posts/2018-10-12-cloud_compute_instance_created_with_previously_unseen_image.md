@@ -7,7 +7,6 @@ last_modified_at: 2018-10-12
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,8 +28,6 @@ This search looks for cloud compute instances being created with previously unse
 - **Last Updated**: 2018-10-12
 - **Author**: David Dorsey, Splunk
 - **ID**: bc24922d-987c-4645-b288-f8c73ec194c4
-
-
 
 #### Search
 
@@ -72,12 +69,12 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 After a new image is created, the first systems created with that image will cause this alert to fire.  Verify that the image being used was created by a legitimate user.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | User $user$ is creating an instance $dest$ with an image that has not been previously seen. |
+
 
 
 
@@ -89,7 +86,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/cloud_compute_instance_created_with_previously_unseen_image.yml) \| *version*: **1**

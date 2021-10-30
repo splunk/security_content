@@ -1,19 +1,18 @@
 ---
 title: "WevtUtil Usage To Clear Logs"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2021-06-15
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1070.001
+  - Indicator Removal on Host
+  - Defense Evasion
   - Clear Windows Event Logs
   - Defense Evasion
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,9 +34,12 @@ The wevtutil.exe application is the windows event log utility. This searches for
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
+
+
+| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 #### Search
 
@@ -77,12 +79,12 @@ You must be ingesting data that records process activity from your hosts to popu
 The wevtutil.exe application is a legitimate Windows event log utility. Administrators may use it to manage Windows event logs.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A wevtutil process $process_name$ with commandline $cmd_line$ to clear event logs in host $dest_device_id$ |
+
 
 
 
@@ -97,7 +99,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wevtutil_usage_to_clear_logs.yml) \| *version*: **1**

@@ -1,15 +1,17 @@
 ---
 title: "Msmpeng Application DLL Side Loading"
-excerpt: "DLL Side-Loading"
+excerpt: "DLL Side-Loading, Hijack Execution Flow"
 categories:
   - Endpoint
 last_modified_at: 2021-07-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1574.002
   - DLL Side-Loading
+  - Persistence
+  - Privilege Escalation
+  - Defense Evasion
+  - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
   - Defense Evasion
@@ -17,7 +19,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -36,12 +37,12 @@ This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll in no
 - **ID**: 8bb3f280-dd9b-11eb-84d5-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1574.002](https://attack.mitre.org/techniques/T1574/002/) | DLL Side-Loading | Persistence, Privilege Escalation, Defense Evasion |
-
+| [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
 
 #### Search
 
@@ -81,6 +82,7 @@ quite minimal false positive expected.
 
 
 
+
 #### Reference
 
 * [https://community.sophos.com/b/security-blog/posts/active-ransomware-attack-on-kaseya-customers](https://community.sophos.com/b/security-blog/posts/active-ransomware-attack-on-kaseya-customers)
@@ -92,7 +94,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/msmpeng_application_dll_side_loading.yml) \| *version*: **1**

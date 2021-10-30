@@ -7,22 +7,17 @@ last_modified_at: 2020-11-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1543
   - Create or Modify System Process
   - Persistence
   - Privilege Escalation
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
-  - T1574
   - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -44,12 +39,10 @@ This detection identifies use of Mimikatz modules for discovery of process or se
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
-
-
 
 #### Search
 
@@ -86,12 +79,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Mimikatz malware is looking for and invoking Microsoft Detours package that enables spoofing of in-memory code. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 
@@ -105,7 +98,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

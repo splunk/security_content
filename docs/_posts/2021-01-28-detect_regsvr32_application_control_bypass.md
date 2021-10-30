@@ -1,21 +1,20 @@
 ---
 title: "Detect Regsvr32 Application Control Bypass"
-excerpt: "Regsvr32"
+excerpt: "Signed Binary Proxy Execution, Regsvr32"
 categories:
   - Endpoint
 last_modified_at: 2021-01-28
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.010
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Regsvr32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -38,9 +37,12 @@ Upon investigating, look for network connections to remote destinations (interna
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+
+
+| [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
 #### Search
 
@@ -84,12 +86,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives related to third party software registering .DLL&#39;s.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ in an attempt to bypass detection and preventative controls was identified on endpoint $dest$ by user $user$. |
+
 
 
 
@@ -107,7 +109,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.010/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_regsvr32_application_control_bypass.yml) \| *version*: **2**

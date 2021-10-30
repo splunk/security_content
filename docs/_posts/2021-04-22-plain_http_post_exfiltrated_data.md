@@ -1,21 +1,20 @@
 ---
 title: "Plain HTTP POST Exfiltrated Data"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol"
+excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
 categories:
   - Network
 last_modified_at: 2021-04-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1048.003
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration
+  - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Exfiltration
 ---
 
 
@@ -34,12 +33,12 @@ This search is to detect potential plain HTTP POST method data exfiltration. Thi
 - **ID**: e2b36208-a364-11eb-8909-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-
+| [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
 #### Search
 
@@ -77,12 +76,12 @@ To successfully implement this search, you need to be ingesting logs with the st
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A http post $http_method$ sending packet with plain text of information $form_data$ in uri path $uri_path$ |
+
 
 
 
@@ -97,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/plain_exfil_data/stream_http_events.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/network/plain_http_post_exfiltrated_data.yml) \| *version*: **1**

@@ -4,7 +4,7 @@ import csv
 from io import StringIO
 import re
 import os
-
+import shutil
 
 class Yaml2Json():
 
@@ -274,12 +274,10 @@ class Yaml2Json():
 if __name__ == "__main__":
     json_types = []
     yml_types = ['detections', 'baselines', 'lookups', 'macros', 'response_tasks', 'responses', 'stories', 'deployments']
-    output_dir = os.path.splitext(__file__)[0]
+    output_dir = os.path.splitext(os.path.basename(__file__))[0]
+    shutil.rmtree(output_dir, ignore_errors=True)
     os.mkdir(output_dir)
     for yt in yml_types:
         processor = Yaml2Json(yt)
         with open(os.path.join(output_dir, yt + '.json'), 'w') as json_out:
             json.dump(processor.list_objects(yt), json_out)
-
-    #y = Yaml2Json('macros')
-    #print(y.list_objects('macros'))

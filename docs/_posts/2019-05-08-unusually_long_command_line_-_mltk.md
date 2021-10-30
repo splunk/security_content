@@ -7,11 +7,9 @@ last_modified_at: 2019-05-08
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -30,8 +28,6 @@ Command lines that are extremely long may be indicative of malicious activity on
 - **Last Updated**: 2019-05-08
 - **Author**: Rico Valdez, Splunk
 - **ID**: 57edaefa-a73b-45e5-bbae-f39c1473f941
-
-
 
 #### Search
 
@@ -78,13 +74,13 @@ Some legitimate applications use long command lines for installs or updates. You
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,12 +7,9 @@ last_modified_at: 2020-08-25
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1036
   - Masquerading
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -34,10 +31,8 @@ An attacker tries might try to use different version of a system command without
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
-
-
 
 #### Search
 
@@ -99,12 +94,12 @@ Collect endpoint data such as sysmon or 4688 events.
 None
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A system process $process_name$ with commandline $cmd_line$ spawn in non-default folder path in host $dest_device_id$ |
+
 
 
 
@@ -116,7 +111,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/system_process_running_from_unexpected_location.yml) \| *version*: **3**

@@ -1,24 +1,24 @@
 ---
 title: "Suspicious msbuild path"
-excerpt: "MSBuild, Rename System Utilities"
+excerpt: "Masquerading, Trusted Developer Utilities Proxy Execution, Rename System Utilities, MSBuild"
 categories:
   - Endpoint
 last_modified_at: 2021-01-12
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1127.001
-  - MSBuild
+  - Masquerading
   - Defense Evasion
-  - T1036.003
+  - Trusted Developer Utilities Proxy Execution
+  - Defense Evasion
   - Rename System Utilities
+  - Defense Evasion
+  - MSBuild
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -40,9 +40,17 @@ The following analytic identifies msbuild.exe executing from a non-standard path
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion || [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+| [T1127](https://attack.mitre.org/techniques/T1127/) | Trusted Developer Utilities Proxy Execution | Defense Evasion |
 
+
+
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+
+
+
+| [T1127.001](https://attack.mitre.org/techniques/T1127/001/) | MSBuild | Defense Evasion |
 
 #### Search
 
@@ -87,12 +95,12 @@ To successfully implement this search you need to be ingesting information on pr
 Some legitimate applications may use a moved copy of msbuild.exe, triggering a false positive. Baselining of MSBuild.exe usage is recommended to better understand it&#39;s path usage. Visual Studio runs an instance out of a path that will need to be filtered on.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Msbuild.exe ran from an uncommon path on $dest$ execyted by $user$ |
+
 
 
 
@@ -108,7 +116,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_msbuild_path.yml) \| *version*: **2**

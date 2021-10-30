@@ -1,39 +1,31 @@
 ---
 title: "Reconnaissance and Access to Operating System Elements via PowerSploit modules"
-excerpt: "System Service Discovery, Query Registry, Network Service Scanning, Windows Management Instrumentation, Process Discovery, File and Directory Discovery, Software Discovery, Software"
+excerpt: "Process Discovery, File and Directory Discovery, Software, Network Service Scanning, Query Registry, System Service Discovery, Windows Management Instrumentation, Gather Victim Host Information, Software Discovery"
 categories:
   - Endpoint
 last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1007
-  - System Service Discovery
-  - Discovery
-  - T1012
-  - Query Registry
-  - Discovery
-  - T1046
-  - Network Service Scanning
-  - Discovery
-  - T1047
-  - Windows Management Instrumentation
-  - Execution
-  - T1057
   - Process Discovery
   - Discovery
-  - T1083
   - File and Directory Discovery
   - Discovery
-  - T1518
-  - Software Discovery
-  - Discovery
-  - T1592.002
   - Software
   - Reconnaissance
+  - Network Service Scanning
+  - Discovery
+  - Query Registry
+  - Discovery
+  - System Service Discovery
+  - Discovery
+  - Windows Management Instrumentation
+  - Execution
+  - Gather Victim Host Information
+  - Reconnaissance
+  - Software Discovery
+  - Discovery
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -55,16 +47,19 @@ This detection identifies access to PowerSploit modules that discover and access
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
-| [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery |
-| [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
-| [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+| ----------- | ----------- |--------------- |
 | [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
 | [T1083](https://attack.mitre.org/techniques/T1083/) | File and Directory Discovery | Discovery |
-| [T1518](https://attack.mitre.org/techniques/T1518/) | Software Discovery | Discovery |
-| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
 
+
+
+| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
+| [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
+| [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery |
+| [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
+| [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
+| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+| [T1518](https://attack.mitre.org/techniques/T1518/) | Software Discovery | Discovery |
 
 #### Search
 
@@ -101,12 +96,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | PowerSploit malware is searching for and tapping into ongoing processes, mounted drives or other operating system elements. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 
@@ -119,7 +114,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

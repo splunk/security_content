@@ -1,21 +1,20 @@
 ---
 title: "TOR Traffic"
-excerpt: "Web Protocols"
+excerpt: "Application Layer Protocol, Web Protocols"
 categories:
   - Network
 last_modified_at: 2020-07-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1071.001
+  - Application Layer Protocol
+  - Command And Control
   - Web Protocols
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -39,9 +38,12 @@ This search looks for network traffic identified as The Onion Router (TOR), a be
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1071.001](https://attack.mitre.org/techniques/T1071/001/) | Web Protocols | Command And Control |
+| ----------- | ----------- |--------------- |
+| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
 
+
+
+| [T1071.001](https://attack.mitre.org/techniques/T1071/001/) | Web Protocols | Command And Control |
 
 #### Search
 
@@ -83,13 +85,13 @@ None at this time
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

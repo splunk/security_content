@@ -1,22 +1,22 @@
 ---
 title: "Suspicious Driver Loaded Path"
-excerpt: "Windows Service"
+excerpt: "Windows Service, Create or Modify System Process"
 categories:
   - Endpoint
 last_modified_at: 2021-04-29
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1543.003
   - Windows Service
+  - Persistence
+  - Privilege Escalation
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,12 +35,12 @@ This analytic will detect suspicious driver loaded paths. This technique is comm
 - **ID**: f880acd4-a8f1-11eb-a53b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
-
+| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 #### Search
 
@@ -77,12 +77,12 @@ To successfully implement this search, you need to be ingesting logs with the dr
 Limited false positives will be present. Some applications do load drivers
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious driver $ImageLoaded$ on $Computer$ |
+
 
 
 
@@ -98,7 +98,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_driver_loaded_path.yml) \| *version*: **1**

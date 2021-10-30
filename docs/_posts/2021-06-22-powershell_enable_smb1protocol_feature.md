@@ -1,21 +1,20 @@
 ---
 title: "Powershell Enable SMB1Protocol Feature"
-excerpt: "Indicator Removal from Tools"
+excerpt: "Obfuscated Files or Information, Indicator Removal from Tools"
 categories:
   - Endpoint
 last_modified_at: 2021-06-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1027.005
+  - Obfuscated Files or Information
+  - Defense Evasion
   - Indicator Removal from Tools
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,9 +36,12 @@ This search is to detect a suspicious enabling of smb1protocol through &#34;powe
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1027.005](https://attack.mitre.org/techniques/T1027/005/) | Indicator Removal from Tools | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
 
+
+
+| [T1027.005](https://attack.mitre.org/techniques/T1027/005/) | Indicator Removal from Tools | Defense Evasion |
 
 #### Search
 
@@ -77,6 +79,7 @@ network operator may enable or disable this windows feature.
 
 
 
+
 #### Reference
 
 * [https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/](https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/)
@@ -88,7 +91,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-powershell.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_enable_smb1protocol_feature.yml) \| *version*: **1**

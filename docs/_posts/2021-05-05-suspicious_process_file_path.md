@@ -7,8 +7,6 @@ last_modified_at: 2021-05-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1543
   - Create or Modify System Process
   - Persistence
   - Privilege Escalation
@@ -16,7 +14,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -38,10 +35,8 @@ The following analytic will detect a suspicious process running in a file path w
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicioues process $Processes.process_path.file_path$ running from suspicious location |
+
 
 
 
@@ -101,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_process_file_path.yml) \| *version*: **1**

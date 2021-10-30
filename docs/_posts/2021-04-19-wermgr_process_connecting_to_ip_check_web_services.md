@@ -1,21 +1,20 @@
 ---
 title: "Wermgr Process Connecting To IP Check Web Services"
-excerpt: "IP Addresses"
+excerpt: "Gather Victim Network Information, IP Addresses"
 categories:
   - Endpoint
 last_modified_at: 2021-04-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1590.005
+  - Gather Victim Network Information
+  - Reconnaissance
   - IP Addresses
   - Reconnaissance
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,9 +36,12 @@ this search is designed to detect suspicious wermgr.exe process that tries to co
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1590.005](https://attack.mitre.org/techniques/T1590/005/) | IP Addresses | Reconnaissance |
+| ----------- | ----------- |--------------- |
+| [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
 
+
+
+| [T1590.005](https://attack.mitre.org/techniques/T1590/005/) | IP Addresses | Reconnaissance |
 
 #### Search
 
@@ -78,12 +80,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Wermgr.exe process connecting IP location web services on $ComputerName$ |
+
 
 
 
@@ -99,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wermgr_process_connecting_to_ip_check_web_services.yml) \| *version*: **1**

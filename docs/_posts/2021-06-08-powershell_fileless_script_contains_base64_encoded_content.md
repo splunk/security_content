@@ -1,24 +1,21 @@
 ---
 title: "Powershell Fileless Script Contains Base64 Encoded Content"
-excerpt: "Obfuscated Files or Information, PowerShell"
+excerpt: "Command and Scripting Interpreter, Obfuscated Files or Information, PowerShell"
 categories:
   - Endpoint
 last_modified_at: 2021-06-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1027
+  - Command and Scripting Interpreter
+  - Execution
   - Obfuscated Files or Information
   - Defense Evasion
-  - T1059.001
   - PowerShell
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
-  - Privilege Escalation
 ---
 
 
@@ -43,10 +40,13 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
-| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
+
+
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 #### Search
 
@@ -83,12 +83,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 False positives should be limited. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious powershell script contains base64 command in $Message$ with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 
@@ -106,7 +106,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/windows-powershell.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_fileless_script_contains_base64_encoded_content.yml) \| *version*: **1**

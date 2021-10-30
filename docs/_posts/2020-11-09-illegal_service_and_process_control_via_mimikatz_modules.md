@@ -7,19 +7,14 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
-  - T1106
   - Native API
   - Execution
-  - T1569
   - System Services
   - Execution
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -41,12 +36,10 @@ This detection identifies use of Mimikatz modules for illegal control over servi
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
 | [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution |
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
-
-
 
 #### Search
 
@@ -83,12 +76,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | Mimikatz malware is controlling computer&#39;s processess and services. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 
@@ -103,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllMimikatzModules.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllMimikatzModules.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_service_and_process_control_via_mimikatz_modules.yml) \| *version*: **1**

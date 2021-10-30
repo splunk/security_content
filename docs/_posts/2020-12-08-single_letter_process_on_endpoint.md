@@ -1,21 +1,20 @@
 ---
 title: "Single Letter Process On Endpoint"
-excerpt: "Malicious File"
+excerpt: "User Execution, Malicious File"
 categories:
   - Endpoint
 last_modified_at: 2020-12-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1204.002
+  - User Execution
+  - Execution
   - Malicious File
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -37,9 +36,12 @@ This search looks for process names that consist only of a single letter.
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+| ----------- | ----------- |--------------- |
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
+
+
+| [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 #### Search
 
@@ -78,12 +80,12 @@ You must be ingesting data that records process activity from your hosts to popu
 Single-letter executables are not always malicious. Investigate this activity with your normal incident-response process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A suspicious process $process_name$ with single letter in host $dest$ |
+
 
 
 
@@ -95,7 +97,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/single_letter_process_on_endpoint.yml) \| *version*: **3**

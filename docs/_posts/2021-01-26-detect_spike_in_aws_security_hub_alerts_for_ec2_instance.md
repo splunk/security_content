@@ -7,7 +7,6 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -28,8 +27,6 @@ This search looks for a spike in number of of AWS security Hub alerts for an EC2
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
-
-
 
 #### Search
 
@@ -70,12 +67,12 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 None
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Spike in AWS security Hub alerts with title $Title$ for EC2 instance $dest$ |
+
 
 
 
@@ -87,7 +84,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_spike_in_aws_security_hub_alerts_for_ec2_instance.yml) \| *version*: **3**

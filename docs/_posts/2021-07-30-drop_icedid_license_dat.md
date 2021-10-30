@@ -1,21 +1,20 @@
 ---
 title: "Drop IcedID License dat"
-excerpt: "Malicious File"
+excerpt: "User Execution, Malicious File"
 categories:
   - Endpoint
 last_modified_at: 2021-07-30
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1204.002
+  - User Execution
+  - Execution
   - Malicious File
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,9 +36,12 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+| ----------- | ----------- |--------------- |
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
+
+
+| [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 #### Search
 
@@ -70,12 +72,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | process $SourceImage$ create a file $TargetImage$ in host $Computer$ |
+
 
 
 
@@ -90,7 +92,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/drop_icedid_license_dat.yml) \| *version*: **1**

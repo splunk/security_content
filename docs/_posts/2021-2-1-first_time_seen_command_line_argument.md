@@ -7,18 +7,12 @@ last_modified_at: 2021-2-1
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1117
   - Regsvr32
-  - T1202
   - Indirect Command Execution
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Command and Control
-  - Actions on Objectives
 ---
 
 
@@ -40,12 +34,10 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 #### ATT&CK
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 | [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  |
 | [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
-
-
 
 #### Search
 
@@ -88,12 +80,12 @@ You must be populating the endpoint data model for SSA and specifically the proc
 Legitimate programs can also use command-line arguments to execute. Please verify the command-line arguments to check what command/program is being executed. We recommend customizing the `first_time_seen_cmd_line_filter` macro to exclude legitimate parent_process_name
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | A cmd process $process_name$ with commandline $cmd_line$ try to execute command has not previously seen in host $dest_device_id$ |
+
 
 
 
@@ -103,7 +95,6 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

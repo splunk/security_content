@@ -1,21 +1,20 @@
 ---
 title: "DNS Query Length Outliers - MLTK"
-excerpt: "DNS"
+excerpt: "DNS, Application Layer Protocol"
 categories:
   - Network
 last_modified_at: 2020-01-22
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1071.004
   - DNS
+  - Command And Control
+  - Application Layer Protocol
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Resolution
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +35,12 @@ This search allows you to identify DNS requests that are unusually large for the
 - **ID**: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
-
+| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
 
 #### Search
 
@@ -94,13 +93,13 @@ If you are seeing more results than desired, you may consider reducing the value
 
 
 
+
 #### Reference
 
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

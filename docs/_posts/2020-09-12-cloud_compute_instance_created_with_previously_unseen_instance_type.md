@@ -7,7 +7,6 @@ last_modified_at: 2020-09-12
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -29,8 +28,6 @@ Find EC2 instances being created with previously unseen instance types.
 - **Last Updated**: 2020-09-12
 - **Author**: David Dorsey, Splunk
 - **ID**: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
-
-
 
 #### Search
 
@@ -72,12 +69,12 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 It is possible that an admin will create a new system using a new instance type that has never been used before. Verify with the creator that they intended to create the system with the new instance type.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | User $user$ is creating an instance $dest$ with an instance type $instance_type$ that has not been previously seen. |
+
 
 
 
@@ -89,7 +86,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/cloud_compute_instance_created_with_previously_unseen_instance_type.yml) \| *version*: **1**
