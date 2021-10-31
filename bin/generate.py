@@ -105,7 +105,7 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
         manifest_file = OUTPUT_PATH + '/detections/' + d['name'].lower().replace(" ", "_") + '.yml'
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(d, file, sort_keys=True)
-            
+
     return OUTPUT_PATH + '/detections/'
 
 def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_PATH):
@@ -344,18 +344,9 @@ def add_annotations(detection):
             detection['tags']['risk_severity'] = 'medium'
         else:
             detection['tags']['risk_severity'] = 'low'
-
     return detection
 
 def add_rba(detection):
-
-    # removed since this is causing a duplicate bug in ES 6.4+
-    # if 'risk_object' in detection['tags']:
-    #     detection['risk_object'] = detection['tags']['risk_object']
-    # if 'risk_object_type' in detection['tags']:
-    #    detection['risk_object_type'] = detection['tags']['risk_object_type']
-    # if 'risk_score' in detection['tags']:
-    #     detection['risk_score'] = detection['tags']['risk_score']
 
     # grab risk message
     if 'message' in detection['tags']:
@@ -676,27 +667,32 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
         if 'deprecated' in d:
             deprecated.append(d)
 
+    detection_path = ''
+    lookups_path = ''
+    lookups_files= ''
+    use_case_lib_path = ''
+    macros_path = ''
+    workbench_panels_objects = ''
+
     if global_product == 'SSA':
         detection_path = generate_ssa_yaml(objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-        if VERBOSE:
-            print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
-            print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
-
+        objects["macros"] = []
     else:
+        detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
         lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
         lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
         lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
-        detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
         use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
         macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
         workbench_panels_objects = generate_workbench_panels(objects["detections"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
-        if VERBOSE:
-            print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), use_case_lib_path))
-            print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
-            print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
-            print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
-            print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
-            print("security content generation completed..")
+
+    if VERBOSE:
+        print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), use_case_lib_path))
+        print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
+        print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
+        print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
+        print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
+        print("security content generation completed..")
 
 
 if __name__ == "__main__":
