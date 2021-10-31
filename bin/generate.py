@@ -92,6 +92,22 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     return output_path
 
+def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
+    '''
+    @param detections: input list of individual YAML detections in detections/ directory
+    @return: the enhanced yaml file located in /detections directory
+    '''
+
+    # disable yaml pointers https://stackoverflow.com/questions/51272814/python-yaml-dumping-pointer-references
+    yaml.Dumper.ignore_aliases = lambda *args : True
+
+    for d in detections:
+        manifest_file = OUTPUT_PATH + '/detections/' + d['name'].lower().replace(" ", "_") + '.yml'
+        with open(manifest_file, 'w') as file:
+            documents = yaml.dump(d, file, sort_keys=True)
+            
+    return OUTPUT_PATH + '/detections/'
+
 def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_PATH):
     '''
     @param detections: input list of individual YAML detections in detections/ directory
@@ -112,19 +128,6 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
         f.write(output)
 
     return output_path
-
-# def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
-#     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-
-#     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
-#                          trim_blocks=True)
-#     template = j2_env.get_template('analytic_stories.j2')
-#     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
-#     output = template.render(stories=stories, time=utc_time)
-#     with open(output_path, 'w', encoding="utf-8") as f:
-#         f.write(output)
-
-#     return output_path
 
 def generate_use_case_library_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
@@ -245,7 +248,6 @@ def get_deployments(object, deployments):
 
                     for tag_value_deployment in tag_array_deployment:
                         if tag_value == tag_value_deployment:
-                            # print("tag value: {}, matched deployment tag: {} on deployment: {}".format(tag_value,tag_value_deployment, deployment))
                             matched_deployments.append(deployment)
                             continue
 
@@ -257,9 +259,7 @@ def get_deployments(object, deployments):
                     last_deployment = deployment
     else:
         last_deployment = matched_deployments[-1]
-        # last_deployment = replace_vars_in_deployment(last_deployment, object) # Not needed because of custom_jinja2_enrichment_filter
 
-    # print(last_deployment)
     return last_deployment
 
 def get_nes_fields(search, deployment):
@@ -335,6 +335,15 @@ def add_annotations(detection):
             if key in detection['tags']:
                 savedsearch_annotations[key] = detection['tags'][key]
     detection['savedsearch_annotations'] = savedsearch_annotations
+
+    # add SSA risk_severity
+    if 'risk_score' in detection['tags']:
+        if detection['tags']['risk_score'] >= 80:
+            detection['tags']['risk_severity'] = 'high'
+        elif(50>= detection['tags']['risk_score'] <=79):
+            detection['tags']['risk_severity'] = 'medium'
+        else:
+            detection['tags']['risk_severity'] = 'low'
 
     return detection
 
@@ -433,7 +442,6 @@ def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
             elif detection['type'] == 'Correlation':
                 detection['search'] = detection['search'] + ' | collect index=alerts'
 
-
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])
         if data_model:
@@ -465,7 +473,7 @@ def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
             if 'product' in detection['tags']:
                 detection['product'] = detection['tags']['product']
 
-            # turn all SAAWS detections
+            # enable all SAAWS detections
             if (OUTPUT_PATH) == 'dist/saaws':
                 detection['disabled'] = 'false'
 
@@ -626,14 +634,17 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
         objects["detections"]  = [object for object in objects["detections"]  if 'Dev Sec Ops Analytics' in object['tags']['product']]
         objects["stories"] = [object for object in objects["stories"] if 'Dev Sec Ops Analytics' in object['tags']['product']]
 
+    if PRODUCT == "ESCU":
+        # only use ESCU detections to the configurations
+        objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
+        objects["stories"] = sorted(filter(lambda s: not 'Splunk Behavioral Analytics' in s['tags']['product'], objects["stories"]), key=lambda s: s['name'])
 
-    # only use ESCU detections to the configurations
-    objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
-    # only use ESCU stories to the configuration
-    objects["stories"] = sorted(filter(lambda s: not 'Splunk Behavioral Analytics' in s['tags']['product'], objects["stories"]), key=lambda s: s['name'])
+    if PRODUCT == "SSA":
+        # only SSA detections, also no need to calculate stories
+        objects["detections"] = sorted(filter(lambda d: 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
+        objects["stories"] = sorted(filter(lambda s: 'Splunk Behavioral Analytics' in s['tags']['product'], objects["stories"]), key=lambda s: s['name'])
 
     objects["macros"] = sorted(objects["macros"], key=lambda m: m['name'])
-
     objects["detections"] = prepare_detections(objects["detections"], objects["deployments"], objects["playbooks"], OUTPUT_PATH)
     objects["stories"] = prepare_stories(objects["stories"], objects["detections"], objects["playbooks"])
 
@@ -654,24 +665,10 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        generate_mitre_lookup(OUTPUT_PATH)
+    #    generate_mitre_lookup(OUTPUT_PATH)
     except Exception as e:
         print('Error: ' + str(e))
         print("WARNING: Generation of Mitre lookup failed.")
-
-    lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
-    lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
-    lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
-
-    detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
-
-    # story_path = generate_analytic_story_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-
-    use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-
-    macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-
-    workbench_panels_objects = generate_workbench_panels(objects["detections"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
 
     # calculate deprecation totals
     deprecated = []
@@ -679,13 +676,27 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
         if 'deprecated' in d:
             deprecated.append(d)
 
-    if VERBOSE:
-        print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), use_case_lib_path))
-        print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
-        print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
-        print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
-        print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
-        print("security content generation completed..")
+    if global_product == 'SSA':
+        detection_path = generate_ssa_yaml(objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        if VERBOSE:
+            print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
+            print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
+
+    else:
+        lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
+        lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
+        lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
+        detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
+        use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        workbench_panels_objects = generate_workbench_panels(objects["detections"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
+        if VERBOSE:
+            print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), use_case_lib_path))
+            print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
+            print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
+            print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
+            print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
+            print("security content generation completed..")
 
 
 if __name__ == "__main__":
