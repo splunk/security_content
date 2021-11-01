@@ -109,9 +109,6 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
         del d['deployment']
         del d['mappings']
 
-        # pretty search
-        d['search'] = d['search'].replace("|", "\n|")
-
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(d, file, sort_keys=True)
 
