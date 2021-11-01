@@ -50,11 +50,11 @@ jobs:
           
           - name: Install Docker 
             run: |
-              sudo apt update -qq
-              sudo apt install containerd
-              which containerd
-              sudo apt install docker.io
-              sudo usermod -aG docker $USER
+              #sudo apt update -qq
+              #sudo apt install runc
+              #sudo apt install containerd
+              #sudo apt install docker.io
+              #sudo usermod -aG docker $USER
 
               #python2.7 needed for slim, for now
               sudo apt install python2.7
