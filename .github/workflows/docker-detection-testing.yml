@@ -1,4 +1,4 @@
-name: detection-testing
+name: docker-detection-testing
 on:
   push:
 jobs:
@@ -36,7 +36,7 @@ jobs:
           echo "No, this is not a dependabot run!"
 
 
-  detection-testing:
+  docker-detection-testing:
       runs-on: ubuntu-latest
       needs: [validate-tag-if-present, quit-for-dependabot]
       steps:  
@@ -51,6 +51,7 @@ jobs:
           - name: Install Docker 
             run: |
               sudo apt update -qq
+              which containerd
               sudo apt install docker.io
               sudo usermod -aG docker $USER
 
