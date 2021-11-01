@@ -1,0 +1,80 @@
+name: detection-testing
+on:
+  push:
+jobs:
+
+  validate-tag-if-present:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: TAGGED, Validate that the tag is in the correct format
+        
+        run: |
+          echo "The GITHUB_REF: $GITHUB_REF"
+          #First check to see if the release is a tag
+          if [[ $GITHUB_REF =~ refs/tags/* ]]; then
+            #Yes, this is a tag, so we need to test to make sure that the tag
+            #is in the correct format (like v1.10.20)
+            if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
+              echo "PASS: Tagged release with good format"
+              exit 0
+            else
+              echo "FAIL: Tagged release with bad format"
+              exit 1
+            fi
+          else
+          echo "PASS: Not a tagged release"
+          exit 0
+          fi                    
+  
+  quit-for-dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
+    steps:
+      - name: "Placeholder"
+        run: |
+          echo "No, this is not a dependabot run!"
+
+
+  detection-testing:
+      runs-on: ubuntu-latest
+      needs: [validate-tag-if-present, quit-for-dependabot]
+      steps:  
+          - name: Get branch and PR required for detection testing main.py
+            id: vars
+            run: |
+              echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+
+          - name: Checkout Repo
+            uses: actions/checkout@v2
+          
+          - name: Install Docker 
+            run: |
+              sudo apt update -qq
+              sudo apt install docker.io
+              sudo usermod -aG docker $USER
+
+              #python2.7 needed for slim, for now
+              sudo apt install python2.7
+              sudo apt install virtualenv python2.7-pip
+
+          - uses: actions/setup-python@v2
+            with:
+              python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+              architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified          
+          
+          - name: Install Python Dependencies
+            run: |
+              cd automated_detection_testing/ci/detection_testing_batch
+              python3 -m venv .venv
+              source .venv/bin/activate
+              python3 -m pip install wheel
+              python3 -m pip install -r requirements.txt
+          
+          - name: Run the CI
+            run: |
+              cd automated_detection_testing/ci/detection_testing_batch
+              source .venv/bin/activate
+              python3 detection_testing_execution.py -b {{ steps.vars.outputs.branch }} -u 123456789 --splunkbase_username {{ secrets.SPLUNKBASE_TESTING_USERANME }} --splunkbase_password {{ secrets.SPLUNKBASE_TESTING_KEY }} -m selected -tf security_content/detections/endpoint/7zip_commandline_to_smb_share_path.yml -n1
+              echo "DONE!"
+          

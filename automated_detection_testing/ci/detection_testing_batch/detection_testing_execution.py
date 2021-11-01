@@ -81,15 +81,11 @@ def wait_for_splunk_ready(container_name:str, splunk_web_port:int, splunk_ip:str
             #Splunk container will not have proper ssl certificate
             response = get(splunk_ready_url,timeout=5, verify=False)
             response.raise_for_status()
-            print("\n\n\n*****CONTAINER GET WORKED OKAY******")
             return True
         except Exception as e:
             elapsed = timer() - start
-            print(str(e))
             if elapsed > max_seconds:
                 raise(Exception("Container [%s] took longer than maximum start time of [%d].\n\tQuitting..."%(container_name, max_seconds)))
-        print("Wait progress [%d of %d]"%(elapsed, max_seconds))
-        print(timer() - start)
         time.sleep(5)
     
 
@@ -497,30 +493,42 @@ def main(args):
 
     #Just a hack until we get the new version of system deployed and available from splunkbase
     CONTAINER_VOLUME_PATH = '/tmp/apps/'
-    BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH  = os.path.expanduser("~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")    
-    shutil.copyfile(BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
     
-    BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
     GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH = os.path.join(CONTAINER_VOLUME_PATH, "DA-ESS-ContentUpdate-latest.tar.gz")
 
     SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
+    #Order that we install the apps is actually important
     APPS_DICT = OrderedDict()
     APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS'] = {"app_number":742, 'app_version':"8.2.0", 'location':'splunkbase'}
     APPS_DICT['SPLUNK_SECURITY_ESSENTIALS'] = {"app_number":3435, 'app_version':"3.3.4", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES'] = {"app_number":1876, 'app_version':"5.2.0", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365'] = {"app_number":4055, 'app_version':"2.2.0", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE'] = {"app_number":3719, 'app_version':"1.3.2", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_ANALYTIC_STORY_EXECUTION_APP'] = {"app_number":4971, 'app_version': "2.0.3", 'location':'splunkbase'}
-    APPS_DICT['PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT'] = {"app_number":2882, 'app_version':"2.0.2", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_MACHINE_LEARNING_TOOLKIT'] = {"app_number":2890, 'app_version':"5.2.2", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_APP_FOR_STREAM'] = {"app_number":1809, 'app_version':"8.0.1", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA'] = {"app_number":5234, 'app_version':"8.0.1", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS'] = {"app_number":5238, 'app_version':"8.0.1", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO'] = {"app_number":1617, 'app_version':"4.0.0", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX'] = {"app_number":833, 'app_version':"8.3.1", 'location':'splunkbase'}
     APPS_DICT['GENERATED_SPLUNK_ES_CONTENT_UPDATE'] = {"app_number":3449, 'app_version':"Generated at %s"%(datetime.now()), 'location':GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH}
-    APPS_DICT['BETA_SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":3449, 'app_version':"Generated at %s"%(datetime.now()), 'location':BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH}
     
+    
+    try:
+        raise
+        BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH  = os.path.expanduser("~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")    
+        shutil.copyfile(BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
+    
+        BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
+        APPS_DICT['BETA_SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":5709, 'app_version':"Generated at %s"%(datetime.now()), 'location':BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH}
+    except Exception as e:
+        print("Failed to grab beta sysmon at ~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl. Using the one from Splunkbase")
+        APPS_DICT['SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":5709, 'app_version':"1.0.1", 'location':'splunkbase'}
+    
+    if True:
+        APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES'] = {"app_number":1876, 'app_version':"5.2.0", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365'] = {"app_number":4055, 'app_version':"2.2.0", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE'] = {"app_number":3719, 'app_version':"1.3.2", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_ANALYTIC_STORY_EXECUTION_APP'] = {"app_number":4971, 'app_version': "2.0.3", 'location':'splunkbase'}
+        APPS_DICT['PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT'] = {"app_number":2882, 'app_version':"2.0.2", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_MACHINE_LEARNING_TOOLKIT'] = {"app_number":2890, 'app_version':"5.2.2", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_APP_FOR_STREAM'] = {"app_number":1809, 'app_version':"8.0.1", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA'] = {"app_number":5234, 'app_version':"8.0.1", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS'] = {"app_number":5238, 'app_version':"8.0.1", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO'] = {"app_number":1617, 'app_version':"4.0.0", 'location':'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX'] = {"app_number":833, 'app_version':"8.3.1", 'location':'splunkbase'}
+    
+
     #CIM is last here for a reason!  Because we copy a file to a directory that does not exist until CIM
     #has been installed, we use it to prevent the testing from beginning until the copy has succeeded.  
     #KEEP THIS APP LAST!
@@ -528,6 +536,7 @@ def main(args):
     
     
 
+    
     SPLUNK_APPS = []
     for key, value in APPS_DICT.items():
         if value['location'] == 'splunkbase':
@@ -560,8 +569,10 @@ def main(args):
         
         
         
-        mounts = [docker.types.Mount(target = CONTAINER_VOLUME_PATH, source = local_volume_path, type='bind', read_only=True)]
 
+        
+        mounts = [docker.types.Mount(target = CONTAINER_VOLUME_PATH, source = local_volume_path, type='bind', read_only=True)]
+        
         print("Creating CONTAINER: [%s]"%(container_name))
         base_container = client.containers.create(full_docker_hub_container_name, ports=ports, environment=environment, name=container_name, mounts=mounts, detach=True)
         print("Created CONTAINER : [%s]"%(container_name))
@@ -852,7 +863,7 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     #is truly ready for testing and all apps have been installed
     copy_file_to_container(datamodel_file_local_path, datamodel_file_container_path, container_name)
     print("Finished copying files to container: [%s]"%(container_name))
-
+    
 
     
     from modules.splunk_sdk import enable_delete_for_admin
@@ -869,7 +880,7 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     print("Container [%s] setup complete and waiting for other containers to be ready..."%(container_name))
     testing_object.start_barrier.wait()
     wait_for_splunk_ready(container_name, splunk_web_port,splunk_ip, max_seconds=300)
-
+    
     while True:
         #Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1,30))
