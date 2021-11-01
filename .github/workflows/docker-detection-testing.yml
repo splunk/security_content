@@ -51,6 +51,7 @@ jobs:
           - name: Install Docker 
             run: |
               sudo apt update -qq
+              sudo apt install containerd
               which containerd
               sudo apt install docker.io
               sudo usermod -aG docker $USER
