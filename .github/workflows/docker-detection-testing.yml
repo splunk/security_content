@@ -76,6 +76,6 @@ jobs:
             run: |
               cd automated_detection_testing/ci/detection_testing_batch
               source .venv/bin/activate
-              python3 detection_testing_execution.py -b {{ steps.vars.outputs.branch }} -u 123456789 --splunkbase_username {{ secrets.SPLUNKBASE_TESTING_USERANME }} --splunkbase_password {{ secrets.SPLUNKBASE_TESTING_KEY }} -m selected -tf security_content/detections/endpoint/7zip_commandline_to_smb_share_path.yml -n1
+              python3 detection_testing_execution.py -b ${{ steps.vars.outputs.branch }} -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m selected -tf security_content/detections/endpoint/7zip_commandline_to_smb_share_path.yml -n1
               echo "DONE!"
           
