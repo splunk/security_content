@@ -55,7 +55,7 @@ jobs:
 
               #python2.7 needed for slim, for now
               sudo apt install python2
-              sudo apt install virtualenv python2.7-pip
+              sudo apt install virtualenv 
               curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
               sudo python2.7 get-pip.py
 
