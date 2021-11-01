@@ -7,7 +7,10 @@ import os
 import shutil
 
 class Yaml2Json():
-
+    '''
+    Yaml2Json is a logical port of security-content-api > chalicelib > data_mapper.py
+    This module processes YAML files directly within the repo and outputs consolidated JSON.
+    '''
     def __init__(self, type):
 
         self.repo = 'security_content'
@@ -55,16 +58,9 @@ class Yaml2Json():
 
     def load_objects(self, type):
 
-        '''
-        if type not in ['detections', 'baselines', 'lookups', 'macros', 'response_tasks', 'responses', 'stories', 'deployments']:
-            raise BadRequestError(type  + ' is not a valid REST API endpoint.')
-        '''
         type_dir = self.get_type_dir(type)
         file_paths = []
-        '''
-        for key in client.list_objects(Bucket=bucket, Prefix=type)['Contents']:
-            filepath = key['Key']
-        '''
+
         for root, dirnames, filenames in os.walk(type_dir):
             for filename in filenames:
                 filepath = os.path.join(root, filename)
@@ -85,12 +81,6 @@ class Yaml2Json():
 
     def load_object(self, file_path, type):
 
-        '''
-        try:
-            response = client.get_object(Bucket=bucket, Key=file_path)
-        except:
-            raise BadRequestError('file ' + file_path + ' can not be found.')
-        '''
         with open(file_path, 'r') as stream:
             try:
                 file = yaml.safe_load(stream)
@@ -163,13 +153,6 @@ class Yaml2Json():
     def load_mitre_lookup(self, type):
 
         with open(os.path.join(self.get_repo_dir(), 'lookups', 'mitre_enrichment.csv')) as csv_file:
-            
-            '''
-            try:
-                response = client.get_object(Bucket=bucket, Key="lookups/mitre_enrichment.csv")
-            except:
-                raise BadRequestError('file lookups/mitre_enrichment.csv can not be found.')
-            '''
 
             try:
                 mitre_enrichment = {}
@@ -267,17 +250,26 @@ class Yaml2Json():
 
                 lookup_objects.append(lookup_obj)
 
-
         return lookup_objects
 
 
 if __name__ == "__main__":
     json_types = []
+    # List of all YAML types to search in repo
     yml_types = ['detections', 'baselines', 'lookups', 'macros', 'response_tasks', 'responses', 'stories', 'deployments']
+    # output directory name will be same as this filename
     output_dir = os.path.splitext(os.path.basename(__file__))[0]
+    print("JSON output directory: " + output_dir)
+    # remove any pre-existing output directories
     shutil.rmtree(output_dir, ignore_errors=True)
+    print("Remove pre-existing JSON directory")
+    # create output directory
     os.mkdir(output_dir)
+    print("Created output directory")
+    # Generate all YAML types
     for yt in yml_types:
         processor = Yaml2Json(yt)
         with open(os.path.join(output_dir, yt + '.json'), 'w') as json_out:
+            # write out YAML type
             json.dump(processor.list_objects(yt), json_out)
+            print("Writing %s JSON" % yt)
