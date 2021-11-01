@@ -50,15 +50,14 @@ jobs:
           
           - name: Install Docker 
             run: |
-              #sudo apt update -qq
-              #sudo apt install runc
-              #sudo apt install containerd
-              #sudo apt install docker.io
-              #sudo usermod -aG docker $USER
+              sudo apt update -qq
+              
 
               #python2.7 needed for slim, for now
-              sudo apt install python2.7
+              sudo apt install python2
               sudo apt install virtualenv python2.7-pip
+              curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+              sudo python2.7 get-pip.py
 
           - uses: actions/setup-python@v2
             with:
