@@ -1,28 +1,6 @@
 author: Ignacio Bermudez Corrales, Splunk
 datamodel: []
 date: 2021-2-1
-deployment:
-  alert_action:
-    notable:
-      nes_fields:
-      - user
-      - dest
-      - src
-      rule_description: '%description%'
-      rule_title: '%name%'
-  author: Bhavin Patel
-  date: '2020-04-27'
-  description: This configuration file applies to all correlation searches that are
-    used for detection
-  id: bc91a8cd-35e7-4bb2-6140-e756cc46f212
-  name: Enterprise Security deployment configuration
-  scheduling:
-    cron_schedule: 0 * * * *
-    earliest_time: -70m@m
-    latest_time: -10m@m
-    schedule_window: auto
-  tags:
-    analytic_story: all
 description: This search looks for command-line arguments that use a `/c` parameter
   to execute a command that has not previously been seen. This is an implementation
   on SPL2 of the rule `First time seen command line argument` by @bpatel.
@@ -33,32 +11,10 @@ known_false_positives: Legitimate programs can also use command-line arguments t
   execute. Please verify the command-line arguments to check what command/program
   is being executed. We recommend customizing the `first_time_seen_cmd_line_filter`
   macro to exclude legitimate parent_process_name
-mappings:
-  cis20:
-  - CIS 3
-  - CIS 8
-  kill_chain_phases:
-  - Command and Control
-  - Actions on Objectives
-  mitre_attack:
-  - T1059
-  - T1117
-  - T1202
-  nist:
-  - PR.PT
-  - DE.CM
-  - PR.IP
 name: First time seen command line argument
 product:
 - Splunk Behavioral Analytics
 references: []
-risk:
-- risk_object_field: dest_device_id
-  risk_object_type: system
-  risk_score: 30
-- risk_object_field: dest_user_id
-  risk_object_type: user
-  risk_score: 30
 risk_message: A cmd process $process_name$ with commandline $cmd_line$ try to execute
   command has not previously seen in host $dest_device_id$
 savedsearch_annotations:
@@ -92,23 +48,26 @@ savedsearch_annotations:
     role:
     - Victim
     type: user
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)) | eval dest_user_id=ucast(map_get(input_event, "dest_user_id"),
-  "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string",
-  null), process_name=ucast(map_get(input_event, "process_name"), "string", null),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), cmd_line_norm=lower(cmd_line),
-  cmd_line_norm=replace(cmd_line_norm, /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/,
-  "GUID"), cmd_line_norm=replace(cmd_line_norm, /(?<=\s)+\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/,
-  "\\PATH"), /* replaces " \\Something\\Something\\command.ext" => "PATH\\command.ext"
-  */ cmd_line_norm=replace(cmd_line_norm, /\w:\\[^:]*(?=\\.*\.\w{3}(\s|$)+)/, "\\PATH"),
-  /* replaces "C:\\Something\\Something\\command.ext" => "PATH\\command.ext" */ cmd_line_norm=replace(cmd_line_norm,
-  /\d+/, "N"), event_id=ucast(map_get(input_event, "event_id"), "string", null) |
-  where process_name="cmd.exe" AND match_regex(ucast(cmd_line, "string", ""), /.*
-  \/[cC] .*/)=true | select process_name, cmd_line, cmd_line_norm, timestamp, dest_device_id,
-  dest_user_id | first_time_event input_columns=["cmd_line_norm"] | where first_time_cmd_line_norm
-  | eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id,
-  dest_user_id), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name]) | into write_ssa_detected_events();'
+search: "\n| from read_ssa_enriched_events() \n| eval timestamp=parse_long(ucast(map_get(input_event,\
+  \ \"_time\"), \"string\", null)) \n| eval dest_user_id=ucast(map_get(input_event,\
+  \ \"dest_user_id\"), \"string\", null), dest_device_id=ucast(map_get(input_event,\
+  \ \"dest_device_id\"), \"string\", null), process_name=ucast(map_get(input_event,\
+  \ \"process_name\"), \"string\", null), cmd_line=ucast(map_get(input_event, \"process\"\
+  ), \"string\", null), cmd_line_norm=lower(cmd_line), cmd_line_norm=replace(cmd_line_norm,\
+  \ /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/, \"\
+  GUID\"), cmd_line_norm=replace(cmd_line_norm, /(?<=\\s)+\\\\[^:]*(?=\\\\.*\\.\\\
+  w{3}(\\s\n|$)+)/, \"\\\\PATH\"), /* replaces \" \\\\Something\\\\Something\\\\command.ext\"\
+  \ => \"PATH\\\\command.ext\" */ cmd_line_norm=replace(cmd_line_norm, /\\w:\\\\[^:]*(?=\\\
+  \\.*\\.\\w{3}(\\s\n|$)+)/, \"\\\\PATH\"), /* replaces \"C:\\\\Something\\\\Something\\\
+  \\command.ext\" => \"PATH\\\\command.ext\" */ cmd_line_norm=replace(cmd_line_norm,\
+  \ /\\d+/, \"N\"), event_id=ucast(map_get(input_event, \"event_id\"), \"string\"\
+  , null) \n| where process_name=\"cmd.exe\" AND match_regex(ucast(cmd_line, \"string\"\
+  , \"\"), /.* \\/[cC] .*/)=true \n| select process_name, cmd_line, cmd_line_norm,\
+  \ timestamp, dest_device_id, dest_user_id \n| first_time_event input_columns=[\"\
+  cmd_line_norm\"] \n| where first_time_cmd_line_norm \n| eval start_time = timestamp,\
+  \ end_time = timestamp, entities = mvappend(dest_device_id, dest_user_id), body=create_map([\"\
+  event_id\", event_id, \"cmd_line\", cmd_line, \"process_name\", process_name]) \n\
+  | into write_ssa_detected_events();"
 tags:
   analytic_story:
   - Unusual Processes

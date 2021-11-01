@@ -1,59 +1,17 @@
 author: Stanislav Miskovic, Splunk
 datamodel: []
 date: '2020-11-05'
-deployment:
-  alert_action:
-    notable:
-      nes_fields:
-      - user
-      - dest
-      - src
-      rule_description: '%description%'
-      rule_title: '%name%'
-  author: Bhavin Patel
-  date: '2020-04-27'
-  description: This configuration file applies to all correlation searches that are
-    used for detection
-  id: bc91a8cd-35e7-4bb2-6140-e756cc46f212
-  name: Enterprise Security deployment configuration
-  scheduling:
-    cron_schedule: 0 * * * *
-    earliest_time: -70m@m
-    latest_time: -10m@m
-    schedule_window: auto
-  tags:
-    analytic_story: all
 description: This detection identifies use of PowerSploit modules for assessment of
   presence of defensive tools.
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 id: 24b4e659-63a2-4e7b-89ac-87dd659c7110
 known_false_positives: None identified.
-mappings:
-  cis20:
-  - CIS 16
-  - CIS 20
-  kill_chain_phases:
-  - Actions on Objectives
-  mitre_attack:
-  - T1592.002
-  - T1595.002
-  - T1592
-  - T1595
-  nist:
-  - PR.AC
-  - PR.IP
 name: Reconnaissance of Defensive Tools via PowerSploit modules
 product:
 - Splunk Behavioral Analytics
 references:
 - https://github.com/PowerShellMafia/PowerSploit
-risk:
-- risk_object_field: dest_device_id
-  risk_object_type: system
-  risk_score: 40
-- threat_object_field: cmd_line
-  threat_object_type: processname
 risk_message: PowerSploit malware is looking for presence of anti virus software.
   Operation is performed at the device $dest_device_id$, by the account $dest_user_id$
   via command $cmd_line$
@@ -92,17 +50,14 @@ savedsearch_annotations:
     role:
     - Others
     type: processname
-search: '| from read_ssa_enriched_events()
-
-  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
-  cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event,
-  "event_id"), "string", null) | where cmd_line != null AND ( match_regex(cmd_line,
-  /(?i)Find-AVSignature/)=true )
-
-  | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id,  "cmd_line", cmd_line])
-  | into write_ssa_detected_events();'
+search: "\n| from read_ssa_enriched_events()\n\n| eval timestamp=parse_long(ucast(map_get(input_event,\
+  \ \"_time\"), \"string\", null)), cmd_line=ucast(map_get(input_event, \"process\"\
+  ), \"string\", null), event_id=ucast(map_get(input_event, \"event_id\"), \"string\"\
+  , null) \n| where cmd_line != null AND ( match_regex(cmd_line, /(?i)Find-AVSignature/)=true\
+  \ )\n\n| eval start_time = timestamp, end_time = timestamp, entities = mvappend(\
+  \ ucast(map_get(input_event, \"dest_user_id\"), \"string\", null), ucast(map_get(input_event,\
+  \ \"dest_device_id\"), \"string\", null)), body=create_map([\"event_id\", event_id,\
+  \  \"cmd_line\", cmd_line]) \n| into write_ssa_detected_events();"
 tags:
   analytic_story:
   - Windows Discovery Techniques

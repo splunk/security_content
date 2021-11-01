@@ -2,28 +2,6 @@ author: Teoderick Contreras, Splunk
 datamodel:
 - Endpoint
 date: '2021-06-21'
-deployment:
-  alert_action:
-    notable:
-      nes_fields:
-      - user
-      - dest
-      - src
-      rule_description: '%description%'
-      rule_title: '%name%'
-  author: Bhavin Patel
-  date: '2020-04-27'
-  description: This configuration file applies to all correlation searches that are
-    used for detection
-  id: bc91a8cd-35e7-4bb2-6140-e756cc46f212
-  name: Enterprise Security deployment configuration
-  scheduling:
-    cron_schedule: 0 * * * *
-    earliest_time: -70m@m
-    latest_time: -10m@m
-    schedule_window: auto
-  tags:
-    analytic_story: all
 description: This analytic will identify a suspicious command-line that disables a
   user account using the `net.exe` utility native to Windows. This technique may used
   by the adversaries to interrupt availability of such users to do their malicious
@@ -36,23 +14,11 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 id: ba858b08-d26c-11eb-af9b-acde48001122
 known_false_positives: network operator may use this approach to quickly disable an
   account but not a common practice.
-mappings:
-  cis20:
-  - CIS 4
-  - CIS 16
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack:
-  - T1489
-  nist:
-  - PR.AC
-  - PR.IP
 name: Disable Net User Account
 product:
 - Splunk Behavioral Analytics
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
-risk: []
 savedsearch_annotations:
   analytic_story:
   - XMRig
@@ -67,18 +33,19 @@ savedsearch_annotations:
   nist:
   - PR.AC
   - PR.IP
-search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
-  "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string",
-  null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string",
-  null), event_id=ucast(map_get(input_event, "event_id"), "string", null) | where
-  cmd_line IS NOT NULL AND like(cmd_line, "%/active:no%") AND (process_name="net1.exe"
-  OR process_name="net.exe") | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event,
-  "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
-  "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name",
-  process_name, "parent_process_name", parent_process_name, "process_path", process_path])
-  | into write_ssa_detected_events();'
+search: "\n| from read_ssa_enriched_events() \n| eval timestamp=parse_long(ucast(map_get(input_event,\
+  \ \"_time\"), \"string\", null)), cmd_line=lower(ucast(map_get(input_event, \"process\"\
+  ), \"string\", null)), process_name=lower(ucast(map_get(input_event, \"process_name\"\
+  ), \"string\", null)), process_path=ucast(map_get(input_event, \"process_path\"\
+  ), \"string\", null), parent_process_name=ucast(map_get(input_event, \"parent_process_name\"\
+  ), \"string\", null), event_id=ucast(map_get(input_event, \"event_id\"), \"string\"\
+  , null) \n| where cmd_line IS NOT NULL AND like(cmd_line, \"%/active:no%\") AND\
+  \ (process_name=\"net1.exe\" OR process_name=\"net.exe\") \n| eval start_time=timestamp,\
+  \ end_time=timestamp, entities=mvappend(ucast(map_get(input_event, \"dest_user_id\"\
+  ), \"string\", null), ucast(map_get(input_event, \"dest_device_id\"), \"string\"\
+  , null)), body=create_map([\"event_id\", event_id, \"cmd_line\", cmd_line, \"process_name\"\
+  , process_name, \"parent_process_name\", parent_process_name, \"process_path\",\
+  \ process_path]) \n| into write_ssa_detected_events();"
 tags:
   analytic_story:
   - XMRig

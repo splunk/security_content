@@ -1,27 +1,6 @@
 author: Jose Hernandez, Splunk
 datamodel: []
 date: '2020-09-15'
-deployment:
-  alert_action:
-    notable:
-      nes_fields:
-      - user
-      - dest
-      - src
-      rule_description: '%description%'
-      rule_title: '%name%'
-  author: Patrick Bareiss
-  date: '2021-01-13'
-  description: Example for a deployment for a specific Analytics Story
-  id: 52f52a7c-078f-4413-84da-388b61ccac26
-  name: Credential Dumping Story
-  scheduling:
-    cron_schedule: 0 * * * *
-    earliest_time: -70m@m
-    latest_time: -10m@m
-    schedule_window: auto
-  tags:
-    analytic_story: Credential Dumping
 description: This search detects the memory of lsass.exe being dumped for offline
   credential theft attack.
 how_to_implement: You must be ingesting endpoint data that tracks process activity,
@@ -30,28 +9,11 @@ how_to_implement: You must be ingesting endpoint data that tracks process activi
   on the [attack_range](https://github.com/splunk/attack_range/blob/develop/ansible/roles/windows_common/tasks/windows-enable-4688-cmd-line-audit.yml).
 id: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 known_false_positives: None identified.
-mappings:
-  cis20:
-  - CIS 8
-  - CIS 16
-  kill_chain_phases:
-  - Actions on Objectives
-  mitre_attack:
-  - T1003.003
-  - T1003
-  nist:
-  - DE.CM
 name: Detect Dump LSASS Memory using comsvcs
 product:
 - Splunk Behavioral Analytics
 references:
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
-risk:
-- risk_object_field: dest_device_id
-  risk_object_type: system
-  risk_score: 70
-- threat_object_field: cmd_line
-  threat_object_type: processname
 risk_message: Malicious actor is dumping encoded credentials via Microsoft's native
   comsvc DLL. Operation is performed at the device $dest_device_id$, by the account
   $dest_user_id$ via command $cmd_line$
@@ -87,15 +49,16 @@ savedsearch_annotations:
     role:
     - Others
     type: processname
-search: '| from read_ssa_enriched_events() | eval tenant=ucast(map_get(input_event,
-  "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"),
-  "string", null), process_name=lower(ucast(map_get(input_event, "process_name"),
-  "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string",
-  null)), process=lower(ucast(map_get(input_event, "process"), "string", null)), event_id=ucast(map_get(input_event,
-  "event_id"), "string", null) | where process_name LIKE "%rundll32.exe%" AND match_regex(process,
-  /(?i)comsvcs.dll[,\s]+MiniDump/)=true | eval start_time = timestamp, end_time =
-  timestamp, entities = mvappend(machine), body=create_map(["event_id", event_id,
-  "process_name", process_name, "process", process]) | into write_ssa_detected_events();'
+search: "\n| from read_ssa_enriched_events() \n| eval tenant=ucast(map_get(input_event,\
+  \ \"_tenant\"), \"string\", null), machine=ucast(map_get(input_event, \"dest_device_id\"\
+  ), \"string\", null), process_name=lower(ucast(map_get(input_event, \"process_name\"\
+  ), \"string\", null)), timestamp=parse_long(ucast(map_get(input_event, \"_time\"\
+  ), \"string\", null)), process=lower(ucast(map_get(input_event, \"process\"), \"\
+  string\", null)), event_id=ucast(map_get(input_event, \"event_id\"), \"string\"\
+  , null) \n| where process_name LIKE \"%rundll32.exe%\" AND match_regex(process,\
+  \ /(?i)comsvcs.dll[,\\s]+MiniDump/)=true \n| eval start_time = timestamp, end_time\
+  \ = timestamp, entities = mvappend(machine), body=create_map([\"event_id\", event_id,\
+  \ \"process_name\", process_name, \"process\", process]) \n| into write_ssa_detected_events();"
 tags:
   analytic_story:
   - Credential Dumping
