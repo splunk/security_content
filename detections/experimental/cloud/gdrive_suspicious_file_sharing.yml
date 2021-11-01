@@ -6,12 +6,12 @@ author: Rod Soto, Teoderick Contreras
 type: Anomaly
 datamodel: []
 description: This search can help the detection of compromised accounts or internal,external users sending malicious documents via GSuite file sharing.
-search: 'source="http:gsuite" name=change_user_access parameters.target_user = "*yourdomain*" parameters.owner !="*yourdomain.com"
+search: '`gsuite_drive` name=change_user_access parameters.target_user = "*yourdomain*" parameters.owner !="*yourdomain.com"
 | spath "parameters.owner"
 | search "parameters.owner"="*"
 | stats  count values("parameters.owner") as owner values("parameters.target_user") as target dc("parameters.target_user") as distinct_target by src_ip parameters.doc_type parameters.doc_title |where count > 100 | `gdrive_suspicious_file_sharing_filter`'
-how_to_implement: Need to implement Gsuite logging targeting Google suite drive activity.
-known_false_positives: This is an anomaly search, you must specify your domain in the parameters so it either filters outside domains or focus on internal domains. This search may also help investigate compromise of accounts. By looking at for example source ip addresses, document titles and abnormal number of shares and shared target users.
+how_to_implement: Need to implement Gsuite logging targeting Google suite drive activity. In order for the search to work for your environment please update `yourdomain.com` value in the query with the domain relavant for your organization. 
+known_false_positives: This is an anomaly search, you must specify your domain in the parameters so it either filters outside domains or focus on internal domains. This search may also help investigate compromise of accounts. By looking at for example source ip addresses, document titles and abnormal number of shares and shared target users. 
 references:
 - https://www.splunk.com/en_us/blog/security/investigating-gsuite-phishing-attacks-with-splunk.html
 tags:
