@@ -20,59 +20,34 @@ references:
 risk_message: Potential lateral movement and credential stealing via Pass the Token
   or Pass the Hash techniques. Operation is performed via credentials of the account
   $dest_user_id$ and observed by the logging device $origin_device_id$
-savedsearch_annotations:
-  analytic_story:
-  - Lateral Movement
-  cis20:
-  - CIS 16
-  - CIS 20
-  confidence: 80
-  context:
-  - Source:AD
-  - Source:Endpoint
-  - Stage:Credential Access
-  - Stage:Lateral Movement
-  impact: 80
-  kill_chain_phases:
-  - Lateral Movement
-  mitre_attack:
-  - T1550
-  - T1550.002
-  nist:
-  - PR.PT
-  - PR.AT
-  - PR.AC
-  - PR.IP
-  observable:
-  - name: dest_user_id
-    role:
-    - Actor
-    type: User
-  - name: origin_device_id
-    role:
-    - Other
-    type: Hostname
-search: "\n| from read_ssa_enriched_events() \n| eval timestamp=      parse_long(ucast(map_get(input_event,\
-  \ \"_time\"), \"string\", null)), dest_user=      lower(ucast(map_get(input_event,\
-  \ \"dest_user_primary_artifact\"), \"string\", null)), dest_user_id=   lower(ucast(map_get(input_event,\
-  \ \"dest_user_id\"), \"string\", null)), origin_device_id=       lower(ucast(map_get(input_event,\
-  \ \"origin_device_id\"), \"string\", null)), signature_id=   lower(ucast(map_get(input_event,\
-  \ \"signature_id\"), \"string\", null)), authentication_method=  lower(ucast(map_get(input_event,\
-  \ \"authentication_method\"), \"string\", null))\n\n| where signature_id = \"4624\"\
-  \ AND (authentication_method=\"ntlmssp\" OR authentication_method=\"kerberos\")\
-  \ AND dest_user_id != null AND origin_device_id != null\n\n| eval isKerberos=if(authentication_method\
-  \ == \"kerberos\", 1, 0), isNtlm=if(authentication_method == \"ntlmssp\", 1, 0),\
-  \ timeNTLM=if(isNtlm > 0, timestamp, null)\n\n| stats sum(isKerberos) as totalKerberos,\
-  \ sum(isNtlm)     as totalNtlm, min(timestamp)  as startTime, min(timeNTLM)   as\
-  \ startNTLMTime, max(timestamp)  as endTime, max(timeNTLM)   as endNTLMTime by dest_user_id,\
-  \ dest_user, origin_device_id, span(timestamp, 86400s)\n\n| where NOT dest_user=\"\
-  -\" AND totalKerberos > 0 AND totalNtlm > 0 AND endTime - startTime > 1800000 AND\
-  \ (totalKerberos > 10 * totalNtlm AND totalKerberos > 50)  AND (endTime - startTime)\
-  \ > 3 * (endNTLMTime - startNTLMTime)\n\n| eval start_time=startNTLMTime, end_time=endNTLMTime,\
-  \ entities=mvappend(dest_user_id, origin_device_id), body=create_map([\"total_kerberos\"\
-  , totalKerberos, \"total_ntlm\", totalNtlm, \"analysis_start_time\", startTime,\
-  \ \"analysis_end_time\", endTime, \"detection_start_time\", startNTLMTime, \"detection_end_time\"\
-  , endNTLMTime])\n\n| into write_ssa_detected_events();"
+search: '| from read_ssa_enriched_events() | eval timestamp=      parse_long(ucast(map_get(input_event,
+  "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"),
+  "string", null)), dest_user_id=   lower(ucast(map_get(input_event, "dest_user_id"),
+  "string", null)), origin_device_id=       lower(ucast(map_get(input_event, "origin_device_id"),
+  "string", null)), signature_id=   lower(ucast(map_get(input_event, "signature_id"),
+  "string", null)), authentication_method=  lower(ucast(map_get(input_event, "authentication_method"),
+  "string", null))
+
+  | where signature_id = "4624" AND (authentication_method="ntlmssp" OR authentication_method="kerberos")
+  AND dest_user_id != null AND origin_device_id != null
+
+  | eval isKerberos=if(authentication_method == "kerberos", 1, 0), isNtlm=if(authentication_method
+  == "ntlmssp", 1, 0), timeNTLM=if(isNtlm > 0, timestamp, null)
+
+  | stats sum(isKerberos) as totalKerberos, sum(isNtlm)     as totalNtlm, min(timestamp)  as
+  startTime, min(timeNTLM)   as startNTLMTime, max(timestamp)  as endTime, max(timeNTLM)   as
+  endNTLMTime by dest_user_id, dest_user, origin_device_id, span(timestamp, 86400s)
+
+  | where NOT dest_user="-" AND totalKerberos > 0 AND totalNtlm > 0 AND endTime -
+  startTime > 1800000 AND (totalKerberos > 10 * totalNtlm AND totalKerberos > 50)  AND
+  (endTime - startTime) > 3 * (endNTLMTime - startNTLMTime)
+
+  | eval start_time=startNTLMTime, end_time=endNTLMTime, entities=mvappend(dest_user_id,
+  origin_device_id), body=create_map(["total_kerberos", totalKerberos, "total_ntlm",
+  totalNtlm, "analysis_start_time", startTime, "analysis_end_time", endTime, "detection_start_time",
+  startNTLMTime, "detection_end_time", endNTLMTime])
+
+  | into write_ssa_detected_events();'
 tags:
   analytic_story:
   - Lateral Movement

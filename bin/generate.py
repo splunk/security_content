@@ -108,6 +108,7 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
         del d['risk']
         del d['deployment']
         del d['mappings']
+        del d['savedsearch_annotations']
 
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(d, file, sort_keys=True)
