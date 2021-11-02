@@ -7,20 +7,15 @@ last_modified_at: 2021-10-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
-  - T1543
   - Create or Modify System Process
   - Persistence
   - Privilege Escalation
-  - T1134.004
   - Parent PID Spoofing
   - Defense Evasion
   - Privilege Escalation
-  - T1134
   - Access Token Manipulation
   - Defense Evasion
   - Privilege Escalation
@@ -28,7 +23,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -51,23 +45,13 @@ This analytic is to detect a suspicious spawned process by wscript or cscript pr
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
-
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 
+
 | [T1134.004](https://attack.mitre.org/techniques/T1134/004/) | Parent PID Spoofing | Defense Evasion, Privilege Escalation |
-
-
-
 | [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
-
-
-
-
 
 #### Search
 
@@ -132,7 +116,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wscript_or_cscript_suspicious_child_process.yml) \| *version*: **1**

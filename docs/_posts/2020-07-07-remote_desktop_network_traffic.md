@@ -7,18 +7,14 @@ last_modified_at: 2020-07-07
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1021.001
   - Remote Desktop Protocol
   - Lateral Movement
-  - T1021
   - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -39,19 +35,12 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 - **ID**: 272b8407-842d-4b3d-bead-a704584003d3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
-
-
-
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
-
-
-
-
 
 #### Search
 
@@ -101,7 +90,6 @@ Remote Desktop may be used legitimately by users on the network.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

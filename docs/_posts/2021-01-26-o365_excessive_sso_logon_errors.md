@@ -7,8 +7,6 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1556
   - Modify Authentication Process
   - Credential Access
   - Defense Evasion
@@ -17,7 +15,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objective
 ---
 
 
@@ -40,12 +37,7 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
-
-
-
-
 
 #### Search
 
@@ -103,7 +95,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_sso_logon_errors/o365_sso_logon_errors.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/o365_excessive_sso_logon_errors.yml) \| *version*: **1**

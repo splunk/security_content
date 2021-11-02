@@ -1,33 +1,25 @@
 ---
 title: "Detect IPv6 Network Infrastructure Threats"
-excerpt: "Hardware Additions, Network Denial of Service, Man-in-the-Middle, ARP Cache Poisoning"
+excerpt: "Hardware Additions, Network Denial of Service, Adversary-in-the-Middle, ARP Cache Poisoning"
 categories:
   - Network
 last_modified_at: 2020-10-28
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1200
   - Hardware Additions
   - Initial Access
-  - T1498
   - Network Denial of Service
   - Impact
-  - T1557
   - Man-in-the-Middle
   - Credential Access
   - Collection
-  - T1557.002
   - ARP Cache Poisoning
   - Credential Access
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Reconnaissance
-  - Delivery
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -52,11 +44,7 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
-
-
-
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
 
@@ -64,11 +52,8 @@ By enabling IPv6 First Hop Security as a Layer 2 Security measure on the organiz
 | [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Credential Access, Collection |
 
 
+
 | [T1557.002](https://attack.mitre.org/techniques/T1557/002/) | ARP Cache Poisoning | Credential Access, Collection |
-
-
-
-
 
 #### Search
 
@@ -133,7 +118,6 @@ None currently known
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

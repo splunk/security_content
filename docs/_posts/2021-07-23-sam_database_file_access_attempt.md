@@ -7,11 +7,8 @@ last_modified_at: 2021-07-23
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1003.002
   - Security Account Manager
   - Credential Access
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
@@ -19,7 +16,6 @@ tags:
   - Splunk Cloud
   - CVE-2021-36934
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -38,19 +34,12 @@ The following analytic identifies access to SAM, SYSTEM or SECURITY databases&#3
 - **ID**: 57551656-ebdb-11eb-afdf-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
-
-
-
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
-
-
 
 #### Search
 
@@ -113,7 +102,6 @@ Natively, `dllhost.exe` will access the files. Every environment will have addit
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,18 +7,14 @@ last_modified_at: 2021-07-27
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218
   - Signed Binary Proxy Execution
   - Defense Evasion
-  - T1218.010
   - Regsvr32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -41,15 +37,11 @@ this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execu
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
 
+
 | [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
-
-
-
-
 
 #### Search
 
@@ -112,7 +104,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_icedid_regsvr32_cmdline.yml) \| *version*: **2**

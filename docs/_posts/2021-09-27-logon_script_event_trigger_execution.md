@@ -7,12 +7,9 @@ last_modified_at: 2021-09-27
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1037
   - Boot or Logon Initialization Scripts
   - Persistence
   - Privilege Escalation
-  - T1037.001
   - Logon Script (Windows)
   - Persistence
   - Privilege Escalation
@@ -20,7 +17,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -43,15 +39,11 @@ This search is to detect a suspicious modification of registry entry to persist 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1037](https://attack.mitre.org/techniques/T1037/) | Boot or Logon Initialization Scripts | Persistence, Privilege Escalation |
 
 
+
 | [T1037.001](https://attack.mitre.org/techniques/T1037/001/) | Logon Script (Windows) | Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 
@@ -109,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.001/logonscript_reg/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.001/logonscript_reg/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/logon_script_event_trigger_execution.yml) \| *version*: **1**

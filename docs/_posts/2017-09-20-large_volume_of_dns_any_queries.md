@@ -7,18 +7,14 @@ last_modified_at: 2017-09-20
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1498
   - Network Denial of Service
   - Impact
-  - T1498.002
   - Reflection Amplification
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Resolution
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -43,15 +39,11 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
 
 
+
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
-
-
-
-
 
 #### Search
 
@@ -94,7 +86,6 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

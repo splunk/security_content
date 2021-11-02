@@ -7,13 +7,10 @@ last_modified_at: 2020-12-17
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1053.005
   - Scheduled Task
   - Execution
   - Persistence
   - Privilege Escalation
-  - T1053
   - Scheduled Task/Job
   - Execution
   - Persistence
@@ -22,7 +19,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -41,19 +37,12 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 - **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
-
-
-
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
-
-
-
-
 
 #### Search
 
@@ -109,7 +98,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/scheduled_task_deleted_or_created_via_cmd.yml) \| *version*: **5**

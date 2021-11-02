@@ -7,15 +7,12 @@ last_modified_at: 2021-05-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1087
   - Account Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -38,12 +35,7 @@ This analytic will detect a suspicious Telegram process enumerating all network 
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
-
-
-
-
 
 #### Search
 
@@ -104,7 +96,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/minergate/windows-security.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/enumerate_users_local_group_using_telegram.yml) \| *version*: **1**

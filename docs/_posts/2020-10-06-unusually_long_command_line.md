@@ -7,9 +7,7 @@ last_modified_at: 2020-10-06
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -26,8 +24,6 @@ Command lines that are extremely long may be indicative of malicious activity on
 - **Last Updated**: 2020-10-06
 - **Author**: Ignacio Bermudez Corrales, Splunk
 - **ID**: 58f43aba-1775-445e-b19c-be2b87d83ae3
-
-
 
 #### Search
 
@@ -86,7 +82,6 @@ This detection may flag suspiciously long command lines when there is not suffic
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -19,7 +19,9 @@ search: '`gsuite_drive` NOT (email IN("", "null")) | rex field=parameters.owner 
   | `gsuite_drive_share_in_external_email_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs related to gsuite having the file attachment metadata like file type, file
-  extension, source email, destination email, num of attachment and etc. In order for the search to work for your environment, please edit the query to use your company specific email domain instead of `internal_test_email.com`.
+  extension, source email, destination email, num of attachment and etc. In order
+  for the search to work for your environment, please edit the query to use your company
+  specific email domain instead of `internal_test_email.com`.
 known_false_positives: network admin or normal user may share files to customer and
   external team.
 references:
@@ -67,4 +69,3 @@ tags:
   - parameters.doc_type
   risk_score: 72
   security_domain: endpoint
-

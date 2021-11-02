@@ -7,18 +7,14 @@ last_modified_at: 2020-07-22
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1021.002
   - SMB/Windows Admin Shares
   - Lateral Movement
-  - T1021
   - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -39,19 +35,12 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 - **ID**: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
-
-
-
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
-
-
-
-
 
 #### Search
 
@@ -107,7 +96,6 @@ If you are seeing more results than desired, you may consider reducing the value
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

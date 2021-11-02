@@ -7,13 +7,10 @@ last_modified_at: 2020-11-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1574.011
   - Services Registry Permissions Weakness
   - Persistence
   - Privilege Escalation
   - Defense Evasion
-  - T1574
   - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
@@ -22,7 +19,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
 ---
 
 
@@ -41,19 +37,12 @@ The search looks for reg.exe modifying registry keys that define Windows service
 - **ID**: 8470d755-0c13-45b3-bd63-387a373c10cf
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1574.011](https://attack.mitre.org/techniques/T1574/011/) | Services Registry Permissions Weakness | Persistence, Privilege Escalation, Defense Evasion |
-
-
-
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
-
-
-
-
 
 #### Search
 
@@ -109,7 +98,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/reg_exe_manipulating_windows_services_registry_keys.yml) \| *version*: **5**

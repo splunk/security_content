@@ -7,13 +7,10 @@ last_modified_at: 2020-07-03
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1574.009
   - Path Interception by Unquoted Path
   - Persistence
   - Privilege Escalation
   - Defense Evasion
-  - T1574
   - Hijack Execution Flow
   - Persistence
   - Privilege Escalation
@@ -22,7 +19,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -41,19 +37,12 @@ The detection Detect Path Interception By Creation Of program exe is detecting t
 - **ID**: c77162d3-f93c-45cc-80c8-22f6v5264g9f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1574.009](https://attack.mitre.org/techniques/T1574/009/) | Path Interception by Unquoted Path | Persistence, Privilege Escalation, Defense Evasion |
-
-
-
 | [T1574](https://attack.mitre.org/techniques/T1574/) | Hijack Execution Flow | Persistence, Privilege Escalation, Defense Evasion |
-
-
-
-
 
 #### Search
 
@@ -123,7 +112,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.009/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.009/atomic_red_team/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_path_interception_by_creation_of_program_exe.yml) \| *version*: **3**

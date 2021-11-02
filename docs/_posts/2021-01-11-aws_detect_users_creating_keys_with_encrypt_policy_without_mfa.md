@@ -7,8 +7,6 @@ last_modified_at: 2021-01-11
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1486
   - Data Encrypted for Impact
   - Impact
   - Splunk Security Analytics for AWS
@@ -37,12 +35,7 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
-
-
 
 #### Search
 
@@ -107,7 +100,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_detect_users_creating_keys_with_encrypt_policy_without_mfa.yml) \| *version*: **1**

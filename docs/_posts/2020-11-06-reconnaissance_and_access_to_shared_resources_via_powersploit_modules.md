@@ -7,21 +7,15 @@ last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1021
   - Remote Services
   - Lateral Movement
-  - T1039
   - Data from Network Shared Drive
   - Collection
-  - T1135
   - Network Share Discovery
   - Discovery
-  - T1021.002
   - SMB/Windows Admin Shares
   - Lateral Movement
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -44,23 +38,13 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
-
-
-
 | [T1039](https://attack.mitre.org/techniques/T1039/) | Data from Network Shared Drive | Collection |
-
-
-
 | [T1135](https://attack.mitre.org/techniques/T1135/) | Network Share Discovery | Discovery |
 
 
+
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
-
-
-
-
 
 #### Search
 
@@ -115,7 +99,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

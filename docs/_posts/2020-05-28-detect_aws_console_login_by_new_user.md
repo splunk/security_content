@@ -7,13 +7,11 @@ last_modified_at: 2020-05-28
 toc: true
 toc_label: ""
 tags:
-  - Hunting
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Authentication
-  - Actions on Objectives
 ---
 
 
@@ -30,8 +28,6 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 - **Last Updated**: 2020-05-28
 - **Author**: Rico Valdez, Splunk
 - **ID**: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-
-
 
 #### Search
 
@@ -86,7 +82,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_aws_console_login_by_new_user.yml) \| *version*: **1**

@@ -7,8 +7,6 @@ last_modified_at: 2021-05-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1190
   - Exploit Public-Facing Application
   - Initial Access
   - Splunk Enterprise
@@ -16,9 +14,6 @@ tags:
   - Splunk Cloud
   - CVE-2021-31166
   - Endpoint
-  - Exploitation
-  - Privilege Escalation
-  - Denial of Service
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -43,12 +38,7 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
-
-
-
-
 
 #### Search
 
@@ -110,7 +100,6 @@ Unknown. Add new processes or filter as needed. It is possible system management
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

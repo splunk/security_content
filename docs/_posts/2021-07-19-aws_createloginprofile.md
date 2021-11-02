@@ -7,18 +7,14 @@ last_modified_at: 2021-07-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1136.003
   - Cloud Account
   - Persistence
-  - T1136
   - Create Account
   - Persistence
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -37,19 +33,12 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 - **ID**: 2a9b80d3-6340-4345-11ad-212bf444d111
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
-
-
-
 | [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
-
-
-
-
 
 #### Search
 
@@ -110,7 +99,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_createloginprofile/aws_cloudtrail_events.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_createloginprofile.yml) \| *version*: **2**

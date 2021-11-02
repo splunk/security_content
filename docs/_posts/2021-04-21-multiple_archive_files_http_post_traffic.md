@@ -7,18 +7,14 @@ last_modified_at: 2021-04-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1048.003
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
   - Exfiltration
-  - T1048
   - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Exfiltration
 ---
 
 
@@ -37,19 +33,12 @@ This search is designed to detect high frequency of archive files data exfiltrat
 - **ID**: 4477f3ea-a28f-11eb-b762-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
-
-
-
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
-
-
-
-
 
 #### Search
 
@@ -115,7 +104,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/archive_http_post/stream_http_events.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/network/multiple_archive_files_http_post_traffic.yml) \| *version*: **1**

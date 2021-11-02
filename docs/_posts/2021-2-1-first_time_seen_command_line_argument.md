@@ -7,18 +7,12 @@ last_modified_at: 2021-2-1
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1117
   - Regsvr32
-  - T1202
   - Indirect Command Execution
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Command and Control
-  - Actions on Objectives
 ---
 
 
@@ -41,20 +35,9 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
-
 | [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  |
-
-
-
 | [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
-
-
-
-
 
 #### Search
 
@@ -112,7 +95,6 @@ Legitimate programs can also use command-line arguments to execute. Please verif
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

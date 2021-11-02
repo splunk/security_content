@@ -7,18 +7,14 @@ last_modified_at: 2021-09-06
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1552.002
   - Credentials in Registry
   - Credential Access
-  - T1552
   - Unsecured Credentials
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,19 +33,12 @@ this search is to detect a suspicious registry modification to implement auto ad
 - **ID**: d4a3eb62-0f1e-11ec-a971-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic         |
-| ----------- | ----------- |--------------- |
+| ID          | Technique   | Tactic      |
+| ----------- | ----------- | ----------- |
 | [T1552.002](https://attack.mitre.org/techniques/T1552/002/) | Credentials in Registry | Credential Access |
-
-
-
 | [T1552](https://attack.mitre.org/techniques/T1552/) | Unsecured Credentials | Credential Access |
-
-
-
-
 
 #### Search
 
@@ -105,7 +94,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.002/autoadminlogon/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.002/autoadminlogon/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/add_defaultuser_and_password_in_registry.yml) \| *version*: **1**

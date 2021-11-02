@@ -7,17 +7,13 @@ last_modified_at: 2021-08-18
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1059.001
   - PowerShell
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
 ---
 
 
@@ -40,15 +36,11 @@ The following Hunting analytic assists with identifying suspicious PowerShell ex
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
 
+
 | [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
-
-
-
-
 
 #### Search
 
@@ -278,7 +270,6 @@ Limited false positives. May filter as needed.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

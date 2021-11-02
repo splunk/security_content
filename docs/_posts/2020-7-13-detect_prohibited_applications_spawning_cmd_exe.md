@@ -7,12 +7,9 @@ last_modified_at: 2020-7-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1059
   - Command and Scripting Interpreter
   - Execution
   - Splunk Behavioral Analytics
-  - Exploitation
 ---
 
 
@@ -35,12 +32,7 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
-
-
 
 #### Search
 
@@ -100,7 +92,6 @@ There are circumstances where an application may legitimately execute and intera
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,18 +7,14 @@ last_modified_at: 2021-06-24
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1569
   - System Services
   - Execution
-  - T1569.002
   - Service Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -41,15 +37,11 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 
+
 | [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
-
-
-
-
 
 #### Search
 
@@ -102,7 +94,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/excessive_usage_of_sc_service_utility.yml) \| *version*: **1**

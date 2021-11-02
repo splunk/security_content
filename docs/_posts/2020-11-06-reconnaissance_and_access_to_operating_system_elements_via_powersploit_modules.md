@@ -7,36 +7,25 @@ last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1057
   - Process Discovery
   - Discovery
-  - T1083
   - File and Directory Discovery
   - Discovery
-  - T1592.002
   - Software
   - Reconnaissance
-  - T1046
   - Network Service Scanning
   - Discovery
-  - T1012
   - Query Registry
   - Discovery
-  - T1007
   - System Service Discovery
   - Discovery
-  - T1047
   - Windows Management Instrumentation
   - Execution
-  - T1592
   - Gather Victim Host Information
   - Reconnaissance
-  - T1518
   - Software Discovery
   - Discovery
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -59,43 +48,18 @@ This detection identifies access to PowerSploit modules that discover and access
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
-
 | [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
-
-
-
 | [T1083](https://attack.mitre.org/techniques/T1083/) | File and Directory Discovery | Discovery |
 
 
+
 | [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
-
-
-
 | [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
-
-
-
 | [T1012](https://attack.mitre.org/techniques/T1012/) | Query Registry | Discovery |
-
-
-
 | [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
-
-
-
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
-
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
-
-
-
 | [T1518](https://attack.mitre.org/techniques/T1518/) | Software Discovery | Discovery |
-
-
-
-
 
 #### Search
 
@@ -150,7 +114,6 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

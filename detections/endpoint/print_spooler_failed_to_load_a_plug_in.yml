@@ -40,6 +40,9 @@ tags:
   - Stage:Privilege Escalation
   - Stage:Defense Evasion
   - Scope:Incoming
+  cve:
+  - CVE-2021-34527
+  - CVE-2021-1675
   dataset: []
   impact: 80
   kill_chain_phases:
@@ -66,6 +69,3 @@ tags:
   - Message
   risk_score: 72
   security_domain: endpoint
-  cve:
-  - CVE-2021-34527
-  - CVE-2021-1675
