@@ -26,7 +26,7 @@ from tempfile import mkdtemp
 import csv
 
 from requests import get
-
+import json
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -389,6 +389,10 @@ def main(args):
         print("Error - Failed to read in detection files: [%s].\nQuitting..."%(str(e)))    
         sys.exit(1)
     
+    if len(test_files) == 0:
+        print("No files were found to be tested.  Returning an error (should this return success?).\n\tQuitting...")
+        sys.exit(1)
+    
     
     
     #Go into the security content directory
@@ -541,7 +545,8 @@ def main(args):
     for key, value in APPS_DICT.items():
         if value['location'] == 'splunkbase':
             #The app is on Splunkbase
-            SPLUNK_APPS.append(SPLUNKBASE_URL%(value['app_number'],value['app_version']))
+            target=SPLUNKBASE_URL%(value['app_number'],value['app_version'])
+            SPLUNK_APPS.append(target)
         else:
             #The app is a file we generated locally
             SPLUNK_APPS.append(value['location'])
@@ -627,17 +632,20 @@ def main(args):
     
     #Remove the attack data and 
     #generate all of the output information
+    stop_time = timer()
+    stop_datetime = datetime.now()
     baseline = OrderedDict()
     baseline['SPLUNK_VERSION'] = full_docker_hub_container_name
-    baseline['SPLUNK_APPS'] = ','.join(SPLUNK_APPS)
+    baseline['SPLUNK_APPS'] = APPS_DICT
     baseline['TEST_START_TIME'] = str(start_datetime)
+    baseline['TEST_FINISH_TIME'] = str(stop_datetime)
 
     results_tracker.finish(baseline)
     
     
 
     #now we are done!
-    stop_time = timer()
+    
     print("Total Execution Time: [%s]"%(timedelta(seconds=stop_time - start_time, microseconds=0)))
     
 
@@ -715,8 +723,11 @@ class SynchronizedResultsTracker:
             self.errors.append(detection)
         finally:
             self.lock.release()
-    def outputResultsFile(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
+    
+
+    def outputResultsCSV(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
         success = True
+
         print("Generating %s..."%(output_filename), end='')
         self.lock.acquire()
         
@@ -724,7 +735,19 @@ class SynchronizedResultsTracker:
             with open(output_filename, 'w') as csvfile:
                 header_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
                 for key in baseline:
-                    header_writer.writerow([key, baseline[key]])
+                    #Very basic support for pretty pritning dicts. Doesn't handle more than 1 nested dict
+                    if type(baseline[key]) is OrderedDict:
+                        header_writer.writerow([key, "-"])
+                        for nestedkey in baseline[key]:
+                            header_writer.writerow([nestedkey, baseline[key][nestedkey]])
+                    #Basic support for 1 layer nested list. Doesn't handle more than 1.
+                    elif type(baseline[key]) is list and len(baseline[key])>0:
+                        header_writer.writerow([key, baseline[key][0]])
+                        for i in range(1,len(baseline[key])):
+                            header_writer.writerow(['-', baseline[key][i]])
+                        
+                    else:
+                        header_writer.writerow([key, baseline[key]])
                 header_writer.writerow(['',''])
                 csv_writer = csv.DictWriter(csvfile, fieldnames=field_names)
                 csv_writer.writeheader()
@@ -741,11 +764,29 @@ class SynchronizedResultsTracker:
 
         return success
 
+    def outputResultsJSON(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
+        success = True
+        try:
+            with open(output_filename, "w") as jsonFile:
+                json.dump({'baseline': baseline, 'results':data}, jsonFile, indent="   ")
+        except Exception as e:
+            print("There was an error generating [%s]: [%s]"%(output_filename, str(e)))
+            success = False
+        return success
+    def outputResultsFile(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict, output_json:bool=True, output_csv:bool=True)->bool:
+        success = True
+        if output_csv:
+            success |= self.outputResultsCSV(field_names, output_filename + ".csv", data, baseline)
+        if output_json:
+            success |= self.outputResultsJSON(field_names, output_filename + ".json", data, baseline)
+        return success
+        
+
     def outputResultsFiles(self, baseline:OrderedDict, fields:list[str]=['detection_name', 'detection_file','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount', 'detection_error'])->bool:
-        res = self.outputResultsFile(fields,"success.csv", self.successes, baseline)
-        res |= self.outputResultsFile(fields, "failures.csv", self.failures, baseline)
-        res |= self.outputResultsFile(fields, "errors.csv", self.errors, baseline)
-        res |= self.outputResultsFile(fields, "combined.csv", self.successes + self.failures + self.errors, baseline)
+        res = self.outputResultsFile(fields,"success", self.successes, baseline)
+        res |= self.outputResultsFile(fields, "failure", self.failures, baseline)
+        res |= self.outputResultsFile(fields, "error", self.errors, baseline)
+        res |= self.outputResultsFile(fields, "combined", self.successes + self.failures + self.errors, baseline)
         return res
 
     def finish(self, baseline:OrderedDict):

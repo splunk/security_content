@@ -118,7 +118,7 @@ class GithubService:
         return filenames
 
 
-    def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'], ttps_to_test=["Anomaly","Hunting","TTP"], previously_successful_tests=[]):
+    def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'], ttps_to_test=["Anomaly","Hunting","TTP"], previously_successful_tests=[])->list[str]:
         branch1 = self.security_content_branch
         branch2 = 'develop'
         g = git.Git('security_content')
@@ -137,6 +137,9 @@ class GithubService:
                     # changed detections
                     if 'detections' in file_path and os.path.basename(file_path).endswith('.yml'):
                             changed_detection_files.append(file_path)
+        else:
+            print("Looking for changed detections by diffing [%s] against [%s].  Of course none were returned."%(branch1, branch2))
+            return []
                             
 
         #all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters

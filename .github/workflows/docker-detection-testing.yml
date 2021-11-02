@@ -77,6 +77,19 @@ jobs:
               cd automated_detection_testing/ci/detection_testing_batch
               source .venv/bin/activate
               #python3 detection_testing_execution.py -b ${{ steps.vars.outputs.branch }} -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m new -n2
-              python3 detection_testing_execution.py -b RegistryDetectionFixes -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m new -n2
+              python3 detection_testing_execution.py -b RegistryDetectionFixes -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m new -n1
               echo "DONE!"
           
+          - name: Upload Test Results Files
+            uses: actions/upload-artifact@v2
+            with:
+              name: testing-results-files
+              path: |
+                automated_detection_testing/ci/detection_testing_batch/success.csv
+                automated_detection_testing/ci/detection_testing_batch/error.csv
+                automated_detection_testing/ci/detection_testing_batch/failure.csv
+                automated_detection_testing/ci/detection_testing_batch/combined.csv
+                automated_detection_testing/ci/detection_testing_batch/success.json
+                automated_detection_testing/ci/detection_testing_batch/error.json
+                automated_detection_testing/ci/detection_testing_batch/failure.json
+                automated_detection_testing/ci/detection_testing_batch/combined.json
