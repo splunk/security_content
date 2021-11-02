@@ -163,6 +163,7 @@
             "Endpoint_AccountManagement (V2)",
             "Endpoint_Filesystem",
             "Endpoint_Filesystem (V2)",
+            "Endpoint_Processes",
             "Endpoint_Registry",
             "Endpoint_Registry (V2)",
             "Endpoint_ResourceAccess",

@@ -253,6 +253,7 @@ def validate_tests(REPO_PATH, object):
 def main(REPO_PATH, verbose):
 
     validation_objects = ['macros','lookups','stories','detections', 'ba_detections','deployments', 'tests']
+    validation_objects = ['ba_detections']
 
     objects = {}
     schema_error = False
