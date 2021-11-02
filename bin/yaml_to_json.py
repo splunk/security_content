@@ -1,5 +1,5 @@
 import yaml, json
-from chalice import BadRequestError
+#from chalice import BadRequestError
 import csv
 from io import StringIO
 import re
@@ -85,7 +85,8 @@ class Yaml2Json():
             try:
                 file = yaml.safe_load(stream)
             except:
-                raise BadRequestError('file ' + file_path + ' can not be loaded.')
+                raise
+                #raise BadRequestError('file ' + file_path + ' can not be loaded.')
 
         # enrich story with detections and responses
         if type == 'stories':
@@ -161,7 +162,8 @@ class Yaml2Json():
                 for row in reader:
                     mitre_enrichment[row['mitre_id']] = [row['technique'], row['tactics'].split('|'), row['groups'].split('|')]
             except:
-                raise BadRequestError('mitre enrichment lookup can not be loaded.')
+                raise
+                #raise BadRequestError('mitre enrichment lookup can not be loaded.')
 
         return mitre_enrichment
 
