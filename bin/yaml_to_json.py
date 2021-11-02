@@ -40,7 +40,8 @@ class Yaml2Json():
 
 
     def get_repo_dir(self):
-        return os.path.join(os.getcwd().split(self.repo)[0], self.repo)
+        #return os.path.join(os.getcwd().split(self.repo)[0], self.repo)
+        return os.path.join(os.path.dirname(__file__), '../')
 
 
     def get_type_dir(self, type):
