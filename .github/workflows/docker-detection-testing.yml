@@ -148,7 +148,7 @@ jobs:
         - name: Upload Test Results Files
           uses: actions/upload-artifact@v2
           with:
-            name: testing-results-files
+            name: ${{ matrix.test_filename}}.results
             path: |
               automated_detection_testing/ci/detection_testing_batch/success.csv
               automated_detection_testing/ci/detection_testing_batch/error.csv
