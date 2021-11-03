@@ -42,7 +42,7 @@ def validate_schema(REPO_PATH, detection_type, objects, verbose):
     manifest_files = []
     for root, dirs, files in walk(REPO_PATH + "/" + detection_type):
         for file in files:
-            if re.search(filename_regex, file) is not None:
+            if re.search(filename_regex, path.basename(file)) is not None:
                 manifest_files.append((path.join(root, file)))
     print(len(manifest_files))
     for manifest_file in manifest_files:
