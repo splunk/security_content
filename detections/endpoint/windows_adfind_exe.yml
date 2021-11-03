@@ -2,7 +2,7 @@ name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
 version: 2
 date: '2021-11-03'
-author: Jose Hernandez, Splunk
+author: Jose Hernandez, Bhavin Patel, Splunk
 type: TTP
 datamodel:
 - Endpoint
