@@ -4,7 +4,8 @@ version: 1
 date: '2021-09-01'
 author: Stanislav Miskovic, Splunk
 type: TTP
-datamodel: []
+datamodel: 
+- Certificates
 description: This detection identifies potential Pass the Token or Pass the Hash credential
   exploits. We detect the main side effect of these attacks, which is a transition
   from the dominant Kerberos logins to rare NTLM logins for a given user, as reported

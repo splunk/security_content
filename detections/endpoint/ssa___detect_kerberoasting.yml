@@ -4,7 +4,8 @@ version: 2
 date: '2020-10-21'
 author: Xiao Lin, Splunk
 type: TTP
-datamodel: []
+datamodel: 
+- Certificates
 description: This search detects a potential kerberoasting attack via service principal
   name requests
 search: ' | from read_ssa_enriched_events() | eval _time=map_get(input_event, "_time"),

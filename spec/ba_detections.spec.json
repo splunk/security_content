@@ -147,38 +147,28 @@
         "default": "",
         "description": "datamodel used in the search",
         "examples": [
-          "Endpoint"
+          "Endpoint_Processes"
         ],
         "items": {
           "enum": [
             "Alerts",
             "Authentication",
-            "Authentication (V2)",
             "Certificates",
-            "Certificates (v2)",
             "Data Loss Prevention",
             "Email",
-            "Email (V2)",
             "Endpoint_AccountManagement",
-            "Endpoint_AccountManagement (V2)",
             "Endpoint_Filesystem",
-            "Endpoint_Filesystem (V2)",
             "Endpoint_Processes",
             "Endpoint_Registry",
-            "Endpoint_Registry (V2)",
             "Endpoint_ResourceAccess",
-            "Endpoint_ResourceAccess (V2)",
             "Intrusion_Detection",
-            "Intrusion_Detection (V2)",
             "Inventory_User",
             "Malware_Attacks",
-            "Malware_Attacks(V2)",
             "Network_Traffic",
             "Network_Sessions",
-            "Network_Resolution (DNS)",
+            "Network_Resolution",
             "Web",
-            "Web.Proxy",
-            "Web.Proxy (v2)"
+            "Web.Proxy"
           ],
           "type": "string"
         },
