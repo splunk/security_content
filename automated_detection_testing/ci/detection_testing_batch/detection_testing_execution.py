@@ -225,13 +225,19 @@ def main(args):
     parser.add_argument("-user", "--splunkbase_username", type=str, required=False, help="Splunkbase username for downloading Splunkbase apps")
     parser.add_argument("-pw", "--splunkbase_password", type=str, required=False, help="Splunkbase password for downloading Splunkbase apps")
     parser.add_argument("-m", "--mode", type=str, choices=DETECTION_MODES, required=False, help="Whether to test new detections, specific detections, or all detections", default="new")
-    parser.add_argument("-tf","--test_files", type=str, required=False, help="The names of files that you want to test, separated by commas.")
+    parser.add_argument("-tfl","--test_files_list", type=str, required=False, help="The names of files that you want to test, separated by commas.")
+    parser.add_argument("-tff","--test_files_file", type=argparse.FileType('r'), required=False, help="A file containing a list of detections to run, one per line")
+    parser.add_argument("-e","--escu_package", type=argparse.FileType('rb'), required=False, help="The ESCU file to use - will not generate a new ESCU package")
 
     parser.add_argument("-t", "--types", type=str, required=False, help="Detection types to test. Can be one of more of %s"%(str(DETECTION_TYPES)), default=','.join(DETECTION_TYPES))
     parser.add_argument("-ct", "--container_tag", type=str, required=False, help="The tag of the Splunk Container to use.  Tags are located at https://hub.docker.com/r/splunk/splunk/tags",default=DEFAULT_CONTAINER_TAG)
     parser.add_argument("-p", "--persist_security_content", required=False, default=False, action="store_true", help="Assumes security_content directory already exists.  Don't check it out and overwrite it again.  Saves "\
                                                                                                                      "time and allows you to test a detection that you've updated.  Runs generate again in case you have "\
                                                                                                                      "updated macros or anything else.  Especially useful for quick, local, iterative testing.")
+    
+
+    parser.add_argument("-split","--split_detections_then_stop", required=False, default=False, action='store_true', help="Should existing images be re-used, or should they be redownloaded?")
+
     start_datetime = datetime.now()
     import requests.packages.urllib3
     requests.packages.urllib3.disable_warnings()
@@ -249,7 +255,7 @@ def main(args):
     interactive_failure = args.interactive_failure
     show_password = args.show_password
     splunk_password = args.container_password
-    
+    pregenerated_escu_package = args.escu_package
     
     
         
@@ -289,9 +295,17 @@ def main(args):
 
     #Ensure that a valid mode was chosen 
     mode = args.mode
-    if mode == "selected" and args.test_files == None:
+    if mode == "selected" and args.test_files_list is None and args.test_files_file is None:
         print("Error - mode [%s] but did not provide any files to test.\nQuitting..."%(mode))
-    
+        sys.exit(1)
+    elif mode == "selected" and args.test_files_list is not None and args.test_files_file is not None:
+        print("Error - mode [%s] but you specified a list of detections to test AND a file of detections to test.\nQuitting..."%(mode))
+        sys.exit(1)
+    elif mode == "selected" and args.test_files_list is not None:
+        command_line_files_to_test = [name.strip() for name in args.test_files_list.split(',')]
+    elif mode == "selected" and args.test_files_file is not None:
+        lines = args.test_files_file.readlines()
+        command_line_files_to_test = [l.strip() for l in lines]
 
     folders = [a.strip() for a in args.types.split(',')]
     for t in folders:
@@ -345,6 +359,7 @@ def main(args):
 
 
     
+    
 
     if persist_security_content is True and os.path.exists("security_content"):
         print("******You chose --persist_security_content and the security_content directory exists. We will not check out the repo again. Please be aware, this could cause issues if you're out of date.******")
@@ -378,8 +393,8 @@ def main(args):
         elif mode == "selected":
             if set(folders) != set(DETECTION_TYPES):
                 print("You specified mode [%s] but also types: [%s]. We will ignore type restrictions and test all specified files"%(mode,str(folders)))
-            files_to_test = [name.strip() for name in args.test_files.split(',')]
-            test_files = github_service.get_selected_test_files(files_to_test,
+            
+            test_files = github_service.get_selected_test_files(command_line_files_to_test,
                                                             previously_successful_tests=success_tests)
 
         else:
@@ -393,85 +408,124 @@ def main(args):
         print("No files were found to be tested.  Returning an error (should this return success?).\n\tQuitting...")
         sys.exit(1)
     
-    
-    
-    #Go into the security content directory
-    print("****GENERATE NEW CONTENT****")
-    os.chdir("security_content")
-    print(os.getcwd())
-    if persist_security_content is False:
-        commands = ["python3 -m venv .venv", 
-                    ". ./.venv/bin/activate", 
-                    "python3 -m pip install wheel", 
-                    "python3 -m pip install -r requirements.txt", 
-                    "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
-    else:
-        commands = ["s. ./.venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
-    ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
-    if ret.returncode != 0:
-        print("Error generating new content.  Exiting...")
-        sys.exit(1)
-    print("New content generated successfully")    
-    
-
-    print("Generate new ESCU Package using new content")
-    if persist_security_content is True:
-        os.chdir("slim_packaging")
-        commands = ["cd slim-latest", 
-                    ". ./.venv/bin/activate",
-                    "cp -R ../../dist/escu DA-ESS-ContentUpdate",
-                    "slim package -o upload DA-ESS-ContentUpdate",
-                    "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
-    
-    else:
-        os.mkdir("slim_packaging")
-        os.chdir("slim_packaging")
+    local_volume_path = os.path.join(os.getcwd(), "apps")
+    try:
         os.mkdir("apps")
+    except FileExistsError as e:
+        #Directory already exists, do nothing
+        pass
+    except Exception as e:
+        print("Caught an error when copying the ESCU package [%s] to the apps folder [%s].\n\tQuitting..."%(pregenerated_escu_package.name, local_volume_path))
+        sys.exit(1)
+
+    if pregenerated_escu_package is None:
+        #Go into the security content directory
+        print("****GENERATE NEW CONTENT****")
+        os.chdir("security_content")
+        print(os.getcwd())
+        if persist_security_content is False:
+            commands = ["python3 -m venv .venv", 
+                        ". ./.venv/bin/activate", 
+                        "python3 -m pip install wheel", 
+                        "python3 -m pip install -r requirements.txt", 
+                        "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+        else:
+            commands = ["s. ./.venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+        ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
+        if ret.returncode != 0:
+            print("Error generating new content.  Exiting...")
+            sys.exit(1)
+        print("New content generated successfully")    
         
-        try:
-            SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
-            SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
-            print("Downloading the Splunk Packaging Toolkit from %s..."%(SPLUNK_PACKAGING_TOOLKIT_URL), end='')
-            response = get(SPLUNK_PACKAGING_TOOLKIT_URL)
-            response.raise_for_status()
-            with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
-                slim_file.write(response.content)
+
+        print("Generate new ESCU Package using new content")
+        if persist_security_content is True:
+            os.chdir("slim_packaging")
+            commands = ["cd slim-latest", 
+                        ". ./.venv/bin/activate",
+                        "cp -R ../../dist/escu DA-ESS-ContentUpdate",
+                        "slim package -o upload DA-ESS-ContentUpdate",
+                         "cp upload/DA-ESS-ContentUpdate*.tar.gz %s"%(os.path.join(local_volume_path, "DA-ESS-ContentUpdate-latest.tar.gz" ))]
+        
+        else:
+            os.mkdir("slim_packaging")
+            os.chdir("slim_packaging")
+            os.mkdir("apps")
             
-            print("success")
+            try:
+                SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
+                SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
+                print("Downloading the Splunk Packaging Toolkit from %s..."%(SPLUNK_PACKAGING_TOOLKIT_URL), end='')
+                response = get(SPLUNK_PACKAGING_TOOLKIT_URL)
+                response.raise_for_status()
+                with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
+                    slim_file.write(response.content)
+                
+                print("success")
 
 
+            except Exception as e:
+                print("FAILED")
+                print("Error downloading the Splunk Packaging Toolkit: [%s]"%(str(e)))
+                sys.exit(1)
+            
+            
+            commands = ["rm -rf slim-latest",
+                        "mkdir slim-latest", 
+                        "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
+                        "cd slim-latest", 
+                        "virtualenv --python=/usr/bin/python2.7 --clear .venv",
+                        ". ./.venv/bin/activate",
+                        "python3 -m pip install --upgrade pip",
+                        "python2 -m pip install wheel",
+                        "python2 -m pip install semantic_version",
+                        "python2 -m pip install .",
+                        "cp -R ../../dist/escu DA-ESS-ContentUpdate",
+                        "slim package -o upload DA-ESS-ContentUpdate",
+                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s"%(os.path.join(local_volume_path, "DA-ESS-ContentUpdate-latest.tar.gz" ))]
+            
+        
+        
+
+        ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
+        if ret.returncode != 0:
+            print("Error generating new ESCU Package.\n\tQuitting..."%())
+            sys.exit(1)
+        os.chdir("../..")
+        print("New ESCU Package generated successfully")
+    else:
+        print("Using previous generated ESCU package: [%s]"%(pregenerated_escu_package.name))    
+        try:
+            with open(os.path.join(local_volume_path, os.path.basename(pregenerated_escu_package.name)),'wb') as escu_package:
+                escu_package.write(pregenerated_escu_package.read())
         except Exception as e:
-            print("FAILED")
-            print("Error downloading the Splunk Packaging Toolkit: [%s]"%(str(e)))
+            print("Failure writing the ESCU package [%s] to [%s]: [%s].\n\tQuitting..."%(pregenerated_escu_package.name, local_volume_path, str(e)))
             sys.exit(1)
         
-        
-        commands = ["rm -rf slim-latest",
-                    "mkdir slim-latest", 
-                    "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
-                    "cd slim-latest", 
-                    "virtualenv --python=/usr/bin/python2.7 --clear .venv",
-                    ". ./.venv/bin/activate",
-                    "python3 -m pip install --upgrade pip",
-                    "python2 -m pip install wheel",
-                    "python2 -m pip install semantic_version",
-                    "python2 -m pip install .",
-                    "cp -R ../../dist/escu DA-ESS-ContentUpdate",
-                    "slim package -o upload DA-ESS-ContentUpdate",
-                    "cp upload/DA-ESS-ContentUpdate*.tar.gz ../apps/DA-ESS-ContentUpdate-latest.tar.gz"]
+    
+    print("Wrote ESCU package to volume.")
         
     
     
+    if args.split_detections_then_stop:
+        for output_file_index in range(0,num_containers):
+            fname = "container_%d_tests.txt"%(output_file_index)
+            print("Writing tests to [%s]..."%(fname), end='')
+            with open(fname, "w") as output_file:
+                detection_tests = test_files[output_file_index::num_containers]
+                normalized_detection_names = []
+                for d in detection_tests:
+                    filename = os.path.basename(d)
+                    filename = filename.replace(".test.yml", ".yml")
+                    leading = os.path.split(d)[0]
+                    leading = leading.replace("tests/", "detections/")
+                    new_name = os.path.join("security_content", leading, filename)
+                    normalized_detection_names.append(new_name)
+                output_file.write('\n'.join(normalized_detection_names))
+            print("Done", end='')
+        sys.exit(0)
 
-    ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
-    if ret.returncode != 0:
-        print("Error generating new ESCU Package.\n\tQuitting..."%())
-        sys.exit(1)
-    os.chdir("../..")
-    print("New ESCU Package generated successfully")    
-    
-    
-    
+
 
 
     
@@ -486,7 +540,7 @@ def main(args):
 
     results_tracker = SynchronizedResultsTracker(test_files, num_containers)
     
-    local_volume_path = os.path.join(os.getcwd(), "security_content", "slim_packaging","apps")
+    
 
           
     
@@ -509,7 +563,6 @@ def main(args):
     
     
     try:
-        raise
         BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH  = os.path.expanduser("~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")    
         shutil.copyfile(BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
     
