@@ -1,0 +1,621 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Threat Response",
+    "coa": {
+        "data": {
+            "description": "This playbook was built to be used in coordination with the \"ESCU - Gsuite Drive Share In External Email - Rule\" detection, distributed as part of the Splunk Enterprise Security Content Update app.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_6",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_8_to_port_9",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_3_to_port_10",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_10_to_port_11",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_6_to_port_1",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_8_to_port_1",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_2_to_port_1",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_11_to_port_13",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_13_to_port_12",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_12_to_port_1",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "f265229f619caed39cefae49f20187bea283db0f",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 1000,
+                    "y": 419.99999999999983
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 1100,
+                    "y": 1380
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format search",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "format_search",
+                        "id": "10",
+                        "parameters": [
+                            "artifact:*.cef.doc_id"
+                        ],
+                        "template": "| search `gsuite_drive` parameters.doc_id=\"{0}\" | rename parameters.owner as user | stats count by user",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "format",
+                    "x": 1320,
+                    "y": 620
+                },
+                "11": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "join": []
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": 5,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_query_1",
+                        "id": "11",
+                        "parameters": {
+                            "command": "search",
+                            "display": "user",
+                            "query": "format_search:formatted_data"
+                        },
+                        "requiredParameters": [
+                            "query"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "action",
+                    "x": 1320,
+                    "y": 760
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "add_note_1",
+                        "id": "12",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "add_note": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "description": "",
+                                        "label": "title",
+                                        "name": "title",
+                                        "placeholder": "Enter a note title",
+                                        "renderType": "input",
+                                        "required": false
+                                    },
+                                    {
+                                        "description": "",
+                                        "label": "content",
+                                        "name": "content",
+                                        "placeholder": "Enter the note content",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "choices": [
+                                            "markdown",
+                                            "html"
+                                        ],
+                                        "default": "markdown",
+                                        "description": "",
+                                        "label": "note format",
+                                        "name": "note_format",
+                                        "placeholder": "Enter the note content",
+                                        "renderType": "dropdown",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "default": "general",
+                                        "hidden": true,
+                                        "name": "note_type",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "author",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "event_id",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "task_id",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "add note",
+                                "name": "add_note"
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "add_note": {
+                                "_internal": [
+                                    "container",
+                                    "note_type",
+                                    "author",
+                                    "event_id",
+                                    "task_id",
+                                    "trace"
+                                ],
+                                "content": "format_output:formatted_data.*",
+                                "note_format": "markdown",
+                                "note_type": "general",
+                                "title": "List of users with same email"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "utility",
+                    "x": 1320,
+                    "y": 980
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format output",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 2,
+                        "functionName": "format_output",
+                        "id": "13",
+                        "parameters": [
+                            "run_query_1:action_result.data.*.user"
+                        ],
+                        "template": "The following Users received this email:\n%%\n{0}\n%%\n\nThese emails and users should also be investigated.",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "format",
+                    "x": 1320,
+                    "y": 884.5
+                },
+                "2": {
+                    "data": {
+                        "action": "lookup ip",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "Greynoise Lookup",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "GreyNoise",
+                        "connectorConfigs": [
+                            "greynoise"
+                        ],
+                        "connectorId": 9,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "greynoise_lookup",
+                        "id": "2",
+                        "parameters": {
+                            "ip": "artifact:*.cef.src_ip"
+                        },
+                        "requiredParameters": [
+                            "ip"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "action",
+                    "x": 620,
+                    "y": 520
+                },
+                "3": {
+                    "data": {
+                        "action": "get file",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "Get File from GDrive",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "G Suite for Drive",
+                        "connectorConfigs": [
+                            "google-gdrive"
+                        ],
+                        "connectorId": 7,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_file_from_gdrive",
+                        "id": "3",
+                        "parameters": {
+                            "download_file": true,
+                            "id": "artifact:*.cef.doc_id"
+                        },
+                        "requiredParameters": [
+                            "id"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "x": 1180,
+                    "y": 520
+                },
+                "4": {
+                    "data": {
+                        "action": "file reputation",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "VT Lookup",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "VirusTotal",
+                        "connectorConfigs": [
+                            "virustotal"
+                        ],
+                        "connectorId": 8,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "vt_lookup",
+                        "id": "4",
+                        "parameters": {
+                            "hash": "get_file_from_gdrive:action_result.summary.vault_id"
+                        },
+                        "requiredParameters": [
+                            "hash"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "action",
+                    "x": 1040,
+                    "y": 620
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "vt_lookup:action_result.status",
+                                        "value": "failed"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "File Not Found",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "File Found",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "decision_1",
+                        "id": "6",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "decision",
+                    "x": 1120,
+                    "y": 724.5
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "prompt for upload",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "approver": "Administrator",
+                        "functionId": 1,
+                        "functionName": "prompt_for_upload",
+                        "id": "7",
+                        "message": "File was not found on VirusTotal",
+                        "parameters": [],
+                        "responseTime": 30,
+                        "responses": [
+                            {
+                                "responseOptions": [
+                                    "Yes",
+                                    "No"
+                                ],
+                                "responsePrompt": "Should this file be uploaded to VirusTotal?",
+                                "responseType": "yes/no"
+                            }
+                        ],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "prompt",
+                    "x": 1040,
+                    "y": 840
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "prompt_for_upload:action_result.summary.responses.0",
+                                        "value": "Yes"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "Upload",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "Finish",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "decision_2",
+                        "id": "8",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "decision",
+                    "x": 1050,
+                    "y": 984.5
+                },
+                "9": {
+                    "data": {
+                        "action": "detonate file",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "join": []
+                        },
+                        "connector": "VirusTotal",
+                        "connectorConfigs": [
+                            "virustotal"
+                        ],
+                        "connectorId": 8,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "detonate_file_1",
+                        "id": "9",
+                        "parameters": {
+                            "vault_id": "get_file_from_gdrive:action_result.summary.vault_id"
+                        },
+                        "requiredParameters": [
+                            "vault_id"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "action",
+                    "x": 800,
+                    "y": 1120
+                }
+            },
+            "notes": "This playbook uses the following apps:\n- Greynoise (lookup ip) [asset name = greynoise] -  looks up IP reputation\n- VirusTotal (file reputation, detonate file) [asset name = virustotal] - looks up file reputation, and potentially submits files for detonation\n- G Suite for Drive (get file) [asset name = google-gdrive] - gets the file by document id specified in the alert and saves it to the vault\n- Splunk (run query) [asset name = splunk] - runs a search to look for other users having received the same email\n\nDeployment notes:\nThis playbook is designed to use with the \"GSuite Drive Share In External Email\" detection as part of the Enterprise Security Content Update app in Splunk. "
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-11-03T21:39:05.885072+00:00",
+    "draft_mode": false,
+    "labels": [
+        "events"
+    ],
+    "tags": [
+        "ESCU"
+    ]
+}

@@ -1,0 +1,27 @@
+name: Securing DevSecOps GDrive Shares
+id: fc0edc96-ff2b-48b0-9f6f-63da7783fd63
+version: 1
+date: '2021-10-30'
+author: Lou Stella, Splunk
+type: Investigation
+description: The Splunk Threat Research Team has created a Splunk SOAR playbook specifically for use with the GSuite Drive Share In External Email detection. This playbook was designed to help you accelerate your investigation of these alerts.
+playbook: securing_devsecops_gdrive_shares
+how_to_implement: This playbook is designed to use with the "GSuite Drive Share In External Email" detection as part of the Enterprise Security Content Update app in Splunk.  
+references: []
+app_list:
+- "Greynoise"
+- "VirusTotal"
+- "Splunk"
+tags:
+  analytic_story:
+  - Dev Sec Ops
+  detections:
+  - Gsuite Drive Share In External Email
+  platform_tags:
+  - ESCU
+  - Investigation
+  playbook_fields:
+  - src_ip
+  - doc_id
+  product:
+  - Splunk SOAR
