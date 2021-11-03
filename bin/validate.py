@@ -33,6 +33,10 @@ def validate_schema(REPO_PATH, detection_type, objects, verbose):
     errors = []
 
     schema_file = path.join(path.expanduser(REPO_PATH), 'spec/' + detection_type + '.spec.json')
+    #remove the prefix if the detection type starts with ba_ so we can
+    #get the files from the proper folders and proceed correctly
+    if detection_type.startswith("ba_"):
+        detection_type = detection_type[3:]
 
     try:
         schema = json.loads(open(schema_file, 'rb').read())
