@@ -83,7 +83,7 @@ jobs:
           - name: Upload Test Results Files
             uses: actions/upload-artifact@v2
             with:
-              name: testing-results-files
+              name: testing-results-config
               path: |
                 automated_detection_testing/ci/detection_testing_batch/apps/DA-ESS-ContentUpdate-latest.tar.gz
                 automated_detection_testing/ci/detection_testing_batch/container_0_tests.txt
@@ -111,8 +111,8 @@ jobs:
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: testing-results-files
-            path: automated_detection_testing/ci/detection_testing_batch
+            name: testing-results-config
+            path: automated_detection_testing/ci/detection_testing_batch/prior_config
         - name: Install Docker 
           run: |
             sudo apt update -qq
@@ -142,7 +142,7 @@ jobs:
             cd automated_detection_testing/ci/detection_testing_batch
             source .venv/bin/activate
             #python3 detection_testing_execution.py -b ${{ steps.vars.outputs.branch }} -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m new -n2
-            python3 detection_testing_execution.py -b RegistryDetectionFixes -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m selected -tff ${{ matrix.test_filename}} -n1 -e DA-ESS-ContentUpdate-latest.tar.gz
+            python3 detection_testing_execution.py -b RegistryDetectionFixes -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m selected -tff prior_config/${{ matrix.test_filename}} -n1 -e prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz
                     
         
         - name: Upload Test Results Files

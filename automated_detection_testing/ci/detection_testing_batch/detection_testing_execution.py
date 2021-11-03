@@ -522,7 +522,7 @@ def main(args):
                     new_name = os.path.join("security_content", leading, filename)
                     normalized_detection_names.append(new_name)
                 output_file.write('\n'.join(normalized_detection_names))
-            print("Done", end='')
+            print("Done")
         sys.exit(0)
 
 
