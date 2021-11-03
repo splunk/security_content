@@ -5,7 +5,7 @@ date: '2021-06-18'
 author: Teoderick Contreras, splunk
 type: TTP
 datamodel:
-- Endpoint
+- Endpoint_Processes
 description: This analytic identifies suspicious series of attempt to kill multiple
   services on a system using either `net.exe` or `sc.exe`. This technique is use by
   adversaries to terminate security services or other related services to continue
