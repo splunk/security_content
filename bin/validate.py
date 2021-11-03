@@ -21,8 +21,10 @@ def validate_schema(REPO_PATH, detection_type, objects, verbose):
     #Default regex does NOT match ssa___*.yml files: "^(?!ssa___).*\.yml$"
     #The following search will match ssa___*.yml files: "^ssa___.*\.yml$"
     if detection_type.startswith("ba_"):
+        print("***SSA_REGEX_SET***")
         filename_regex = "^ssa___.*\.yml$"
     else:
+        print("***NO SSA_REGEX_SET***")
         filename_regex = "^(?!ssa___).*\.yml$"
         
     
@@ -42,7 +44,7 @@ def validate_schema(REPO_PATH, detection_type, objects, verbose):
         for file in files:
             if re.search(filename_regex, file) is not None:
                 manifest_files.append((path.join(root, file)))
-
+    print(len(manifest_files))
     for manifest_file in manifest_files:
         if verbose:
             print("processing manifest {0}".format(manifest_file))
@@ -68,7 +70,7 @@ def validate_schema(REPO_PATH, detection_type, objects, verbose):
             arr = []
             arr.append(object)
             objects[detection_type] = arr
-
+    print("***END OF VALIDATE SCHEMA ***")
     return objects, error, errors
 
 
@@ -253,7 +255,7 @@ def validate_tests(REPO_PATH, object):
 def main(REPO_PATH, verbose):
 
     validation_objects = ['macros','lookups','stories','detections', 'ba_detections','deployments', 'tests']
-    validation_objects = ['ba_detections']
+    
 
     objects = {}
     schema_error = False
