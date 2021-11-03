@@ -49,6 +49,12 @@ tags:
     a permission of a file or directory in host $dest_device_id$
   mitre_attack_id:
   - T1222
+  cis20:
+  - CIS 8
+  - CIS 13
+  nist:
+  - PR.DS
+  - PR.IP
   observable:
   - name: dest_device_id
     type: Hostname
@@ -69,4 +75,5 @@ tags:
   - dest_user_id
   - process
   risk_score: 35
+  risk_severity: medium
   security_domain: endpoint
