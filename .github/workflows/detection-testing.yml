@@ -69,7 +69,7 @@ jobs:
           - name: Install Python Dependencies
             run: |
               #Get the virtualenv set up
-              cd automated_detection_testing/ci/python_ci_code
+              cd bin/automated_detection_testing/ci/python_ci_code
               rm -rf venv
               python3 -m venv --clear venv
               source venv/bin/activate
@@ -90,7 +90,7 @@ jobs:
           - name: Run Detection testing
             timeout-minutes: 120
             run: |
-              cd automated_detection_testing/ci/python_ci_code
+              cd bin/automated_detection_testing/ci/python_ci_code
               source venv/bin/activate 
               
               echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
