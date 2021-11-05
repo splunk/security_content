@@ -17,7 +17,6 @@ masthead_title: "Security Content"
 words_per_minute: 200
 search: true
 search_full_content: true
-breadcrumbs: true
 # Social Sharing
 twitter:
   username: splunk
