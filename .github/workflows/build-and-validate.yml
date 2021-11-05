@@ -589,13 +589,8 @@ jobs:
     needs: [validate-content, build-sources, build-package]
     #needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
     #Only run when tagged
-<<<<<<< HEAD
     #if: startsWith(github.ref, 'refs/tags/')
     steps:  
-=======
-    if: startsWith(github.ref, 'refs/tags/')
-    steps:
->>>>>>> 15cf69bd822cd12f658c225df2d0870ff4cf9ee8
       - name: Checkout Repo
         uses: actions/checkout@v2
         #with:
@@ -621,14 +616,11 @@ jobs:
         run: |
           source venv/bin/activate
           python3 bin/create_baseline_folder.py
-<<<<<<< HEAD
 
       - name: Create YML to JSON Folder
         run: |
           source venv/bin/activate
           python3 bin/yaml_to_json.py
-=======
->>>>>>> 15cf69bd822cd12f658c225df2d0870ff4cf9ee8
 
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
