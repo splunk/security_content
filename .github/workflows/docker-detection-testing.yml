@@ -190,56 +190,67 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: container_0_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_0
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_1_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_1
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_2_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_2
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_3_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_3
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_4_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_4
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_5_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_5
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_6_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_6
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_7_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_7
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_8_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_8
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
             name: container_9_tests.txt.results
-            path: automated_detection_testing/ci/detection_testing_batch/results
+            path: automated_detection_testing/ci/detection_testing_batch/results_9
         
+        - uses: actions/setup-python@v2
+          with:
+            python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+            architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified    
+
         - name: Merge Detections into single File
           run: |
-            cd automated_detection_testing/ci/detection_testing_batch/results
-            ls -lah
-            echo "DONE!"
+            cd automated_detection_testing/ci/detection_testing_batch
+            python summarize_json.py --files results_*/combined.json --output_filename summary_test_results.json
             
+            
+        - name: Upload Summary Test Results JSON
+          uses: actions/upload-artifact@v2
+          with:
+            name: SummaryTestResults
+            path: |
+              automated_detection_testing/ci/detection_testing_batch/summary_test_results.json
