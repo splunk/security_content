@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: TAGGED, Validate that the tag is in the correct format
-        
+
         run: |
           echo "The GITHUB_REF: $GITHUB_REF"
           #First check to see if the release is a tag
@@ -32,7 +32,7 @@ jobs:
             #is in the correct format (like v1.10.20)
             if [[ $GITHUB_REF =~ refs/tags/v[0-9]+.[0-9]+.[0-9]+ ]]; then
               echo "PASS: Tagged release with good format"
-              exit 0 
+              exit 0
             else
               echo "FAIL: Tagged release with bad format"
               exit 1
@@ -49,14 +49,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: [validate-tag-if-present]
     steps:
-      #Previous config chose which branch/tag to operate on. 
+      #Previous config chose which branch/tag to operate on.
       #I think Github is smart enough to choose based on whether it's a pull request or push + other info?
-      - name: Check out the repository code 
+      - name: Check out the repository code
         uses: actions/checkout@v2
         #with:
         #  repository: splunk/security-content #check out https://github.com/mitre/cti.git, defaults to HEAD
         #  path: "security-content"
-      
+
 
       - uses: actions/setup-python@v2
         with:
@@ -66,14 +66,14 @@ jobs:
 
       #TODO: CircleCI restore_cache equivalent
 
-      #don't need to install python3 or python3-dev since it was handled by the action above?  
+      #don't need to install python3 or python3-dev since it was handled by the action above?
       #Also, no support for YAML anchors/aliases in Github Actions...
       - name: Install System Packages
-        run: | 
+        run: |
           sudo apt update -qq
-          sudo apt install jq -qq          
-      #TODO: CircleCI save_cache equivalent    
-      
+          sudo apt install jq -qq
+      #TODO: CircleCI save_cache equivalent
+
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
@@ -83,19 +83,19 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
-      
 
-      - name: run validate  
-        run: | 
+
+      - name: run validate
+        run: |
           source venv/bin/activate
           python3 contentctl.py --path . --verbose validate
 
-      - name: Get CTI Repo for Mitre context 
-        uses:  actions/checkout@v2  
+      - name: Get CTI Repo for Mitre context
+        uses:  actions/checkout@v2
         with:
           repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
           path: "cti/"
-          
+
 
       #Now generate the documentation (uses Node)
       - uses: actions/setup-node@v2
@@ -108,18 +108,18 @@ jobs:
           #Enter the virtualenv and run the docgen
           source venv/bin/activate
           python3 bin/doc_gen.py --path . --output docs -v
-          
+
           #Now generate the spec docs
           npm install -g @adobe/jsonschema2md
           jsonschema2md -d spec -o docs/spec -f yaml -e spec.json -x -
 
           #Clean up extra properties on docs
           rm -rf docs/spec/*-*.md
-          
+
           echo "****** BRANCH INFORMATION ******"
           git branch
           git branch --show-current
-      
+
   build-sources:
     runs-on: ubuntu-latest
     needs: validate-content
@@ -128,10 +128,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install System Packages
-        run: | 
+        run: |
           sudo apt update -qq
-          sudo apt install jq -qq          
-      
+          sudo apt install jq -qq
+
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
@@ -143,18 +143,15 @@ jobs:
           python3 -m pip install -q -r requirements.txt
 
       - name: Run Generate
-        run: | 
+        run: |
           source venv/bin/activate
           python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu
           python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
           python3 contentctl.py --path . --verbose generate --product DevSecOps --output dist/devsecops
-          # make a copy of use_case_lib in order to have ES work :-(
-          # cp dist/escu/default/use_case_library.conf dist/escu/default/analyticstories.conf
-          # cp dist/saaws/default/use_case_library.conf dist/saaws/default/analyticstories.conf
-          # cp dist/devsecops/default/use_case_library.conf dist/devsecops/default/analyticstories.conf
+          python3 contentctl.py --path . --verbose generate --product SSA --output dist/ssa
 
       - name: Copy lookups .csv files
-        run: | 
+        run: |
           # clean up current lookups
           rm -rf dist/escu/lookups
           rm -rf dist/saaws/lookups
@@ -167,7 +164,7 @@ jobs:
           cp -rv *.csv ../dist/escu/lookups
           cp -rv *.csv ../dist/saaws/lookups
           cp -rv *.csv ../dist/devsecops/lookups
-      
+
       #Tag is '' for non-tagged push and the tag name for a tagged release
       - name: Set tag
         id: vars
@@ -198,7 +195,7 @@ jobs:
             sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/escu/app.manifest
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
             tar -czf content-pack-build-escu.tar.gz dist/escu/*
-            
+
             # update build number and version for saaws
             sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/saaws/default/app.conf
             sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/app.conf
@@ -209,6 +206,9 @@ jobs:
             # update build number and version for devsecops
             tar -czf content-pack-build-devsecops.tar.gz dist/devsecops/*
 
+            # update build number and version for ssa
+            tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
+
       - name: Persist to Workspace
         uses: actions/upload-artifact@v2
         with:
@@ -217,12 +217,13 @@ jobs:
             content-pack-build-escu.tar.gz
             content-pack-build-saaws.tar.gz
             content-pack-build-devsecops.tar.gz
-            
+            content-pack-build-ssa.tar.gz
+
 
   build-package:
     runs-on: ubuntu-latest
     needs: [validate-content, build-sources]
-    
+
     steps:
       - uses: actions/download-artifact@v2
         with:
@@ -234,12 +235,12 @@ jobs:
         with:
           python-version: '2.7' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-      
+
       - name: Get virtualenv for Python 2.7
         run: |
-          sudo apt install virtualenv 
+          sudo apt install virtualenv
 
-      - name: Grab Splunk Packaging Toolkit    
+      - name: Grab Splunk Packaging Toolkit
         run : |
           curl -Ls https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz -o splunk-packaging-toolkit-latest.tar.gz
           mkdir slim-latest
@@ -264,6 +265,7 @@ jobs:
           mv dist/escu DA-ESS-ContentUpdate
           mv dist/saaws DA-ESS_AmazonWebServices_Content
           mv dist/devsecops dev_sec_ops_analytics
+
           slim package -o upload DA-ESS-ContentUpdate
           slim package -o upload DA-ESS_AmazonWebServices_Content
           slim package -o upload dev_sec_ops_analytics
@@ -275,6 +277,9 @@ jobs:
           sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz >> checksum.txt
 
           cp upload/dev_sec_ops_analytics-*tar.gz dev_sec_ops_analytics-latest.tar.gz
+
+          cp content-pack-build-ssa.tar.gz upload/SSA_Content-latest.tar.gz
+          sha256sum upload/SSA_Content-latest.tar.gz >> checksum.txt
 
           touch tag-canary.txt
 
@@ -292,8 +297,9 @@ jobs:
             build/DA-ESS-ContentUpdate-latest.tar.gz
             build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
             build/dev_sec_ops_analytics-latest.tar.gz
+            build/SSA_Content-latest.tar.gz
             build/checksum.txt
-      
+
 
   #Everything below this line should ONLY run on a tag and nothing else
   #We still want all of the above checks to run and pass before running these
@@ -301,7 +307,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [validate-content, build-sources, build-package]
     #Only run when tagged
-    if: startsWith(github.ref, 'refs/tags/') 
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
 
       - name: Checkout Repo
@@ -319,10 +325,10 @@ jobs:
 
 
       - name: Install System Packages
-        run: | 
+        run: |
           sudo apt update -qq
           sudo apt install jq -qq
-      
+
 
 
       - name: Submit ESCU Package to AppInspect API
@@ -333,8 +339,8 @@ jobs:
           cd bin
           #Enclose in quotes in case there are any special characters in the username/password
           #Better not to pass these arguments on the command line, if possible
-          ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD" 
-      
+          ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
+
       - name: Submit SAAWS Package to AppInspect API
         env:
           APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
@@ -342,20 +348,20 @@ jobs:
         run: |
           cd bin
           ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
-      
+
       - name: Create report artifact
         if: always()
         run: |
           #Always create this, regardless of whether success or failure above
           tar -cvzf report.tar.gz report/
 
-      - name: store_artifacts 
+      - name: store_artifacts
         uses: actions/upload-artifact@v2
         with:
           name: appinspect_reports
           path: |
             report.tar.gz
-            
+
       #Still store the report, even if we have failed (otherwise we don't know why/how we failed)
       - name: store_artifacts_on_failure
         uses: actions/upload-artifact@v2
@@ -364,7 +370,7 @@ jobs:
           name: appinspect_reports_failure
           path: |
             report.tar.gz
-  
+
   create-report:
     runs-on: ubuntu-latest
     needs: [validate-content, build-sources, build-package, run-appinspect]
@@ -375,13 +381,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: 'develop'
-      
-      
+
+
       - name: Install System Packages
-        run: | 
+        run: |
           sudo apt update -qq
           sudo apt install jq -qq
-      
+
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
@@ -396,12 +402,12 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
-      
+
       - name: run reporting
-        run: | 
+        run: |
           source venv/bin/activate
           python3 bin/reporting.py
-      
+
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -410,23 +416,23 @@ jobs:
           # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
           aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
 
-      - name: Upload Reporting 
+      - name: Upload Reporting
         run: |
           aws s3 cp bin/reporting s3://security-content/reporting --recursive --exclude "*" --include "*.svg"
-      
+
   update-sources-github:
     runs-on: ubuntu-latest
     needs: [validate-content, build-sources, build-package, run-appinspect, create-report]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
-    steps: 
+    steps:
 
       - name: Checkout Repo
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PROTECTED_BRANCH_PUSH_TOKEN }}
           ref: 'develop'
-      
+
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
@@ -443,6 +449,8 @@ jobs:
           tar -zxf DA-ESS-ContentUpdate-latest.tar.gz -C latest-escu --strip-components=1
           mkdir latest-saaws
           tar -zxf DA-ESS_AmazonWebServices_Content-latest.tar.gz -C latest-saaws --strip-components=1
+          mkdir latest-ssa
+          tar -zxf SSA_Content-latest.tar.gz -C latest-saaws --strip-components=1
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
@@ -452,9 +460,9 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel
           python3 -m pip install -q -r requirements.txt
-      
-      - name: Get CTI Repo for Mitre context 
-        uses:  actions/checkout@v2  
+
+      - name: Get CTI Repo for Mitre context
+        uses:  actions/checkout@v2
         with:
           repository: mitre/cti #check out https://github.com/mitre/cti.git, defaults to HEAD
           path: "cti/"
@@ -463,33 +471,30 @@ jobs:
         id: vars
         run: |
           echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-      
-      - name: Run doc-gen 
-        run: |
-          source venv/bin/activate 
-          python3 bin/doc_gen.py --path . --output docs -v
-      
-      - name: Make YAMLs Pretty 
+
+      - name: Run doc-gen
         run: |
           source venv/bin/activate
-          python3 bin/pretty_yaml.py --path . -v 
+          python3 bin/doc_gen.py --path . --output docs -v
+
+      - name: Make YAMLs Pretty
+        run: |
+          source venv/bin/activate
+          python3 bin/pretty_yaml.py --path . -v
 
       - name: Run generate-coverage-map
         run: |
           source venv/bin/activate
           python3 bin/generate-coverage-map.py --projects_path . --output docs/mitre-map
-      
+
       - name: Update github with new docs and package bits
         run: |
           rm -rf dist
           mkdir dist
-          echo "Directory layout 3"
-          pwd
-          ls -lah
           mv latest-escu dist/escu
           mv latest-saaws dist/saaws
+          mv latest-ssa dist/ssa
           # configure git to prep for commit
-          #git config credential.helper 'cache --timeout=120'
           git config user.email "research@splunk.com"
           git config user.name "research bot"
           git config --global push.default simple
@@ -500,7 +505,7 @@ jobs:
           # Push quietly to prevent showing the token in log
           #No need to provide any credentials
           git push
-      
+
 
   publish-github-release:
     #Github-maintained release action is in archived state: https://github.com/actions/create-release
@@ -510,7 +515,7 @@ jobs:
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
     steps:
-      
+
       #Get the artifacts that we need
       - uses: actions/download-artifact@v2
         with:
@@ -520,23 +525,24 @@ jobs:
         with:
           name: appinspect_reports
 
-      
-      
+
+
       #Rename those artifacts appropriately
       - name: Set tag
         id: vars
         run: echo "::set-output name=tag::${GITHUB_REF#refs/*/}"
 
-      - name: Rename the content-update appropriately 
+      - name: Rename the content-update appropriately
         run: |
           cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
           cp DA-ESS_AmazonWebServices_Content-latest.tar.gz DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
-          
+          cp SSA_Content-latest.tar.gz SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
+
           #No checksum on the reports
           cp report.tar.gz report-${{ steps.vars.outputs.tag }}.tar.gz
-          
+
           cp checksum.txt checksum-${{ steps.vars.outputs.tag }}.txt
-      
+
       #Upload all of the artifacts that we have created using the third party
       #action recommended bu Github
       - name: Upload Release Artifacts
@@ -545,18 +551,19 @@ jobs:
           files: |
             DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
             DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
+            SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
             report-${{ steps.vars.outputs.tag }}.tar.gz
             checksum-${{ steps.vars.outputs.tag }}.txt
 
-          
+
 
   attack-range-update:
     runs-on: ubuntu-latest
     needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release]
     #Only run when tagged
     if: startsWith(github.ref, 'refs/tags/')
-    steps:  
-      
+    steps:
+
       #Get the artifacts that we need
       - uses: actions/download-artifact@v2
         with:
@@ -569,21 +576,26 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
-          aws-region: us-west-1 #assume we will always use this, could make this an environment variable... 
+          aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
 
       - name: Sync latest ESCU to the Attack Range S3 bucket for apps
         run: |
             aws s3 cp DA-ESS-ContentUpdate-latest.tar.gz s3://attack-range-appbinaries/
             # make the file public since it is not by default
             aws s3api put-object-acl --bucket attack-range-appbinaries --key DA-ESS-ContentUpdate-latest.tar.gz --acl public-read
-  
+
   master-api-update:
     runs-on: ubuntu-latest
     needs: [validate-content, build-sources, build-package]
     #needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
     #Only run when tagged
+<<<<<<< HEAD
     #if: startsWith(github.ref, 'refs/tags/')
     steps:  
+=======
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+>>>>>>> 15cf69bd822cd12f658c225df2d0870ff4cf9ee8
       - name: Checkout Repo
         uses: actions/checkout@v2
         #with:
@@ -609,11 +621,14 @@ jobs:
         run: |
           source venv/bin/activate
           python3 bin/create_baseline_folder.py
+<<<<<<< HEAD
 
       - name: Create YML to JSON Folder
         run: |
           source venv/bin/activate
           python3 bin/yaml_to_json.py
+=======
+>>>>>>> 15cf69bd822cd12f658c225df2d0870ff4cf9ee8
 
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
@@ -621,7 +636,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
-          aws-region: us-west-1 #assume we will always use this, could make this an environment variable... 
+          aws-region: us-west-1 #assume we will always use this, could make this an environment variable...
 
       - name: Update API sources
         run: |
@@ -644,5 +659,3 @@ jobs:
             echo "Error [Security Content API status: $API_STATUS]"
             exit 1
           fi
-
-  
