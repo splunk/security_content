@@ -620,7 +620,7 @@ jobs:
       - name: Create YML to JSON Folder
         run: |
           source venv/bin/activate
-          python3 bin/yaml_to_json.py
+          python3 contentctl.py --path . --verbose generate --product API --output dist/api
 
       #Official, Verified Amazon-AWS Github Account Provided Action
       - uses: aws-actions/configure-aws-credentials@v1
@@ -641,7 +641,7 @@ jobs:
           # aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
           # aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
           # aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
-          aws s3 cp yaml_to_json s3://security-content/test-json --recursive --exclude "*" --include "*.json"
+          aws s3 cp dist/api s3://security-content/test-json --recursive --exclude "*" --include "*.json"
       - name: Security Content API Smoke Test
         run: |
           API_URL='https://content.splunkresearch.com/detections'
