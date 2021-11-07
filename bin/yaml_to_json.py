@@ -11,9 +11,10 @@ class Yaml2Json():
     Yaml2Json is a logical port of security-content-api > chalicelib > data_mapper.py
     This module processes YAML files directly within the repo and outputs consolidated JSON.
     '''
-    def __init__(self, type):
+    def __init__(self, type, repo_path=None):
 
-        self.repo = 'security_content'
+        #self.repo = 'security_content'
+        self.repo_path = repo_path
 
         if type == 'detections' or type == 'stories':
             lookup_objects = self.load_objects('lookups')
@@ -41,7 +42,10 @@ class Yaml2Json():
 
     def get_repo_dir(self):
         #return os.path.join(os.getcwd().split(self.repo)[0], self.repo)
-        return os.path.join(os.path.dirname(__file__), '../')
+        if not self.repo_path:
+            return os.path.join(os.path.dirname(__file__), '../')
+        else:
+            return os.path.abspath(self.repo_path)
 
 
     def get_type_dir(self, type):

@@ -675,7 +675,7 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
         if VERBOSE: print("Created output directory")
         # Generate all YAML types
         for yt in yml_types:
-            processor = Yaml2Json(yt)
+            processor = Yaml2Json(yt, REPO_PATH)
             with open(os.path.join(output_dir, yt + '.json'), 'w') as json_out:
                 # write out YAML type
                 json.dump(processor.list_objects(yt), json_out)
