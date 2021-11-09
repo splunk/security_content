@@ -13,10 +13,11 @@ description: This analytic is to detect a loading of dll using regsvr32 applicat
   pivot the parent process, parent commandline and commandline of the file that execute
   this regsvr32.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = regsvr32.exe
-  Processes.process="*/i*" Processes.process="*/s*" by Processes.dest Processes.parent_process
-  Processes.process Processes.parent_process_name Processes.process_name Processes.original_file_name
-  Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` AND
+  ((Processes.process="*/i*" AND Processes.process="*/s*") OR Processes.process="*/si*" OR Processes.process="*-si*") by Processes.dest Processes.parent_process
+  Processes.process Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.user 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `regsvr32_silent_and_install_param_dll_loading_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
