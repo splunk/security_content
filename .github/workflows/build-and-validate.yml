@@ -272,7 +272,7 @@ jobs:
           slim package -o upload DA-ESS-ContentUpdate
           slim package -o upload DA-ESS_AmazonWebServices_Content
           slim package -o upload dev_sec_ops_analytics
-          $slim package -o upload SSA_Content
+          #slim package -o upload SSA_Content
 
           cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
           sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
