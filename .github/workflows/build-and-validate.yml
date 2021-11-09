@@ -587,14 +587,14 @@ jobs:
   master-api-update:
     runs-on: ubuntu-latest
     needs: [validate-content, build-sources, build-package]
-    #needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
+    needs: [validate-content, build-sources, build-package, run-appinspect, create-report, update-sources-github, publish-github-release, attack-range-update]
     #Only run when tagged
-    #if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/')
     steps:  
       - name: Checkout Repo
         uses: actions/checkout@v2
-        #with:
-        #  ref: 'develop'
+        with:
+          ref: 'develop'
 
 
       - uses: actions/setup-python@v2
@@ -632,15 +632,15 @@ jobs:
 
       - name: Update API sources
         run: |
-          # aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
-          # aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
-          # aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
-          # aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
-          # aws s3 cp playbooks s3://security-content/playbooks --recursive --exclude "*" --include "*.yml"
-          # aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
-          # aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
-          # aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
-          # aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
+          aws s3 rm s3://security-content --recursive --exclude "*" --include "*.yml"
+          aws s3 cp stories s3://security-content/stories --recursive --exclude "*" --include "*.yml"
+          aws s3 cp baselines s3://security-content/baselines --recursive --exclude "*" --include "*.yml"
+          aws s3 cp detections s3://security-content/detections --recursive --exclude "*" --include "*.yml"
+          aws s3 cp playbooks s3://security-content/playbooks --recursive --exclude "*" --include "*.yml"
+          aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.yml"
+          aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
+          aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
+          aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
           aws s3 cp dist/api s3://security-content/json --recursive --exclude "*" --include "*.json"
       - name: Security Content API Smoke Test
         run: |
