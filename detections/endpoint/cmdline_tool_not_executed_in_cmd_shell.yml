@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious non-command shell process (e.g. cmd.exe, powershell.exe) 
+description: This search is to detect a suspicious non-command shell process (example of cmd shell process are cmd.exe, powershell.exe) 
   spawning windows console application (e.g ipconfig.exe, systeminfo.exe). 
   This technique was seen in FIN7 loader implant that executes existing windows console tools or application 
   to gather system information from the compromised host. 
