@@ -1,7 +1,7 @@
 name: Potential Pass the Token or Hash Observed by an Event Collecting Device
 id: 1058ba3e-a698-49bc-a1e5-7cedece4ea87
-version: 1
-date: '2021-09-01'
+version: 2
+date: '2021-11-05'
 author: Stanislav Miskovic, Splunk
 type: TTP
 datamodel: 
