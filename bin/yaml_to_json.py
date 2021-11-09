@@ -1,5 +1,4 @@
 import yaml, json
-#from chalice import BadRequestError
 import csv
 from io import StringIO
 import re
@@ -13,7 +12,6 @@ class Yaml2Json():
     '''
     def __init__(self, type, repo_path=None):
 
-        #self.repo = 'security_content'
         self.repo_path = repo_path
 
         if type == 'detections' or type == 'stories':
@@ -41,8 +39,8 @@ class Yaml2Json():
 
 
     def get_repo_dir(self):
-        #return os.path.join(os.getcwd().split(self.repo)[0], self.repo)
         if not self.repo_path:
+            # this file typically resides in '\bin' one level below the repo
             return os.path.join(os.path.dirname(__file__), '../')
         else:
             return os.path.abspath(self.repo_path)
@@ -91,7 +89,6 @@ class Yaml2Json():
                 file = yaml.safe_load(stream)
             except:
                 raise
-                #raise BadRequestError('file ' + file_path + ' can not be loaded.')
 
         # enrich story with detections and responses
         if type == 'stories':
@@ -162,13 +159,11 @@ class Yaml2Json():
 
             try:
                 mitre_enrichment = {}
-                #lines = response["Body"]
                 reader = csv.DictReader(csv_file)
                 for row in reader:
                     mitre_enrichment[row['mitre_id']] = [row['technique'], row['tactics'].split('|'), row['groups'].split('|')]
             except:
                 raise
-                #raise BadRequestError('mitre enrichment lookup can not be loaded.')
 
         return mitre_enrichment
 
