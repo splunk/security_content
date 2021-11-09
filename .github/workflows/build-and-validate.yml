@@ -450,7 +450,7 @@ jobs:
           mkdir latest-saaws
           tar -zxf DA-ESS_AmazonWebServices_Content-latest.tar.gz -C latest-saaws --strip-components=1
           mkdir latest-ssa
-          tar -zxf SSA_Content-latest.tar.gz -C latest-saaws --strip-components=1
+          tar -zxf SSA_Content-latest.tar.gz -C latest-ssa --strip-components=1
       - name: Install Python Dependencies
         run: |
           #Get the virtualenv set up
