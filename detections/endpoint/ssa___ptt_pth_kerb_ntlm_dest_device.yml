@@ -1,7 +1,7 @@
 name: Potential Pass the Token or Hash Observed at the Destination Device
 id: 82e76b80-5cdb-4899-9b43-85dbe777b36d
-version: 1
-date: '2021-09-01'
+version: 2
+date: '2021-11-05'
 author: Stanislav Miskovic, Splunk
 type: TTP
 datamodel: []
