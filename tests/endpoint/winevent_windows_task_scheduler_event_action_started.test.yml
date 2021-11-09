@@ -3,7 +3,7 @@ tests:
 - name: WinEvent Windows Task Scheduler Event Action Started
   file: endpoint/winevent_windows_task_scheduler_event_action_started.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-10d'
+  earliest_time: '-45d'
   latest_time: 'now'
   attack_data:
   - file_name: windows-taskschedule.log
