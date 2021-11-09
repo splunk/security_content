@@ -6,12 +6,12 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious parent process execution of commandline
-  tool not in shell commandline. This technique was seen in FIN7 JSSLoader .net compile
-  payload where it run ipconfig.exe and systeminfo.exe using .net application. This
-  event cause some good TTP since those tool are commonly run in commandline not by
-  another application. This TTP is a good indicator for application gather host information
-  either an attacker or an automated tool made by admin.
+description: This search is to detect a suspicious non-command shell process (e.g. cmd.exe, powershell.exe) 
+  spawning windows console application (e.g ipconfig.exe, systeminfo.exe). 
+  This technique was seen in FIN7 loader implant that executes existing windows console tools or application 
+  to gather system information from the compromised host. 
+  This TTP is a good indicator for possible advesaries implant, malware doing a recon on a target host 
+  or a third party application run by administrator for audit purposes. 
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where  (Processes.process_name = "ipconfig.exe"
   OR Processes.process_name = "systeminfo.exe") AND NOT (Processes.parent_process_name

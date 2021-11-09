@@ -1,4 +1,4 @@
-name: Regsvr32 Silent Param Dll Loading
+name: Regsvr32 Silent and Install Param Dll Loading
 id: f421c250-24e7-11ec-bc43-acde48001122
 version: 1
 date: '2021-10-04'
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process="*/i*" Processes.process="*/s*" by Processes.dest Processes.parent_process
   Processes.process Processes.parent_process_name Processes.process_name Processes.original_file_name
   Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `regsvr32_silent_param_dll_loading_filter`'
+  | `security_content_ctime(lastTime)` | `regsvr32_silent_and_install_param_dll_loading_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
