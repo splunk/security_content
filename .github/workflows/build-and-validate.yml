@@ -641,7 +641,7 @@ jobs:
           # aws s3 cp lookups s3://security-content/lookups --recursive --exclude "*" --include "*.csv"
           # aws s3 cp macros s3://security-content/macros --recursive --exclude "*" --include "*.yml"
           # aws s3 cp deployments s3://security-content/deployments --recursive --exclude "*" --include "*.yml"
-          aws s3 cp dist/api s3://security-content/test-json --recursive --exclude "*" --include "*.json"
+          aws s3 cp dist/api s3://security-content/json --recursive --exclude "*" --include "*.json"
       - name: Security Content API Smoke Test
         run: |
           API_URL='https://content.splunkresearch.com/detections'
