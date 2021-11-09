@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: 'The following analytic identifies the use of Windows Curl.exe download
+description: 'The following analytic identifies the use of Windows Curl.exe downloading
   a file to a suspicious location. \
 
   -O or --output is used when a file is to be downloaded and placed in a specified
