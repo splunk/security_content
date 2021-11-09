@@ -3,7 +3,7 @@ tests:
 - name: Regsvr32 with Known Silent Switch Cmdline
   file: endpoint/regsvr32_with_known_silent_switch_cmdline.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-150d'
   latest_time: 'now'
   attack_data:
   - file_name: windows-sysmon.log
