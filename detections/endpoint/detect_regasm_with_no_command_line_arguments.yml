@@ -10,8 +10,8 @@ description: The following analytic identifies regasm.exe with no command line a
   This particular behavior occurs when another process injects into regasm.exe, no
   command line arguments will be present. During investigation, identify any network
   connections and parallel processes. Identify any suspicious module loads related
-  to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe
-  and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
+  to credential dumping or file writes. Regasm.exe are natively found in `C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe`
+  and `C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe`.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_regasm` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name
