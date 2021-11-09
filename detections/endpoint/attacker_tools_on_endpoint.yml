@@ -1,7 +1,7 @@
 name: Attacker Tools On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-16a110145893
-version: 1
-date: '2021-06-21'
+version: 2
+date: '2021-11-04'
 author: Bhavin Patel, Splunk
 type: TTP
 datamodel:
@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.user!=unknown by Processes.dest Processes.user Processes.process_name
   Processes.process | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` | lookup attacker_tools attacker_tool_names AS
-  process_name OUTPUT description | search description=* | `attacker_tools_on_endpoint_filter`'
+  process_name OUTPUT description | search description !=false| `attacker_tools_on_endpoint_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records process activity from your hosts to populate the endpoint data model
   in the processes node. This is typically populated via endpoint detection-and-response
