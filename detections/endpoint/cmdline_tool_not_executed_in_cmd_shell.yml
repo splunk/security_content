@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search detects a suspicious process execution of a command line tool executed
+description: This search detects a suspicious process execution of a console tool/application executed
   with a parent process not matching CMD, PowerShell, or Explorer. This technique was seen in FIN7's
   JSSLoader .NET payload where it spawned ipconfig.exe and systeminfo.exe.  This event stands out as a
   TTP since these tools are commonly run with a command line or Explorer parent, and not by another
