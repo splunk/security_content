@@ -6,12 +6,12 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious parent process execution of commandline
-  tool not in shell commandline. This technique was seen in FIN7 JSSLoader .net compile
-  payload where it run ipconfig.exe and systeminfo.exe using .net application. This
-  event cause some good TTP since those tool are commonly run in commandline not by
-  another application. This TTP is a good indicator for application gather host information
-  either an attacker or an automated tool made by admin.
+description: This search detects a suspicious process execution of a command line tool executed
+  with a parent process not matching CMD, PowerShell, or Explorer. This technique was seen in FIN7's
+  JSSLoader .NET payload where it spawned ipconfig.exe and systeminfo.exe.  This event stands out as a
+  TTP since these tools are commonly run with a command line or Explorer parent, and not by another
+  application. This TTP is a good indicator for an attack gathering host information, but one possible
+  false positive might be an automated tool used by a system administator.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where  (Processes.process_name = "ipconfig.exe"
   OR Processes.process_name = "systeminfo.exe") AND NOT (Processes.parent_process_name
@@ -23,7 +23,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: network operator or admin may create this type of tool to gather
+known_false_positives: A network operator or systems administrator may create this type of tool to gather
   host information
 references:
 - https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
