@@ -1,9 +1,9 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: c10a18cb-fd80-4ffa-a844-25026e0a0c94
-version: 1
-date: 2020-7-13
+version: 2
+date: 2021-11-10
 author: Ignacio Bermudez Corrales, Splunk
-type: TTP
+type: Anomaly
 datamodel: []
 description: This search looks for executions of cmd.exe spawned by a process that
   is often abused by attackers and that does not typically launch cmd.exe. This is
@@ -36,9 +36,6 @@ references: []
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
-  - Suspicious MSHTA Activity
-  - Suspicious Zoom Child Processes
-  - Sunburst Malware
   cis20:
   - CIS 8
   confidence: 80
@@ -47,7 +44,7 @@ tags:
   - Source:Endpoint
   - Stage:Command And Control
   - Consequence:Loss Of Control
-  impact: 70
+  impact: 50
   kill_chain_phases:
   - Exploitation
   message: Potential malicious landing to the console via unexpected programs that
@@ -79,6 +76,6 @@ tags:
   - _time
   - dest_device_id
   - dest_user_id
-  risk_score: 56
+  risk_score: 40
   risk_severity: low
   security_domain: endpoint
