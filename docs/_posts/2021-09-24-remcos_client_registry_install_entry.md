@@ -31,7 +31,7 @@ This search detects registry key license at host where Remcos RAT agent is insta
 - **ID**: f2a1615a-1d63-11ec-97d2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -92,6 +92,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_panel_client/remcos_registry_entry.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/remcos_client_registry_install_entry.yml) \| *version*: **1**
