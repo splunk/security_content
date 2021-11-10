@@ -32,7 +32,7 @@ The following analytic identifies DLLHost.exe with no command line arguments wit
 - **ID**: f1c07594-a141-11eb-8407-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -101,6 +101,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_dllhost.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_dllhost.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/dllhost_with_no_command_line_arguments_with_network.yml) \| *version*: **2**

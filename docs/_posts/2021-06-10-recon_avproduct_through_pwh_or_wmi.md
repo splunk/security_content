@@ -30,7 +30,7 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: 28077620-c9f6-11eb-8785-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -94,6 +94,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/recon_avproduct_through_pwh_or_wmi.yml) \| *version*: **1**

@@ -3,7 +3,7 @@ title: "Potential Pass the Token or Hash Observed at the Destination Device"
 excerpt: "Use Alternate Authentication Material, Pass the Hash"
 categories:
   - Endpoint
-last_modified_at: 2021-09-01
+last_modified_at: 2021-11-05
 toc: true
 toc_label: ""
 tags:
@@ -27,18 +27,16 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **Last Updated**: 2021-09-01
+- **Last Updated**: 2021-11-05
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 82e76b80-5cdb-4899-9b43-85dbe777b36d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
-
-
 
 | [T1550.002](https://attack.mitre.org/techniques/T1550/002/) | Pass the Hash | Defense Evasion, Lateral Movement |
 
@@ -47,7 +45,7 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=      parse_long(ucast(map_get(input_event, "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null)), dest_user_id=   lower(ucast(map_get(input_event, "dest_user_id"), "string", null)), dest_device_id=       lower(ucast(map_get(input_event, "dest_device_id"), "string", null)), signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string", null)), authentication_method=  lower(ucast(map_get(input_event, "authentication_method"), "string", null))
+| eval timestamp=      parse_long(ucast(map_get(input_event, "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null)), dest_user_id=   ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=       ucast(map_get(input_event, "dest_device_id"), "string", null), signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string", null)), authentication_method=  lower(ucast(map_get(input_event, "authentication_method"), "string", null))
 
 | where signature_id = "4624" AND (authentication_method="ntlmssp" OR authentication_method="kerberos") AND dest_user_id != null AND dest_device_id != null
 
@@ -107,4 +105,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/potential_pass_the_token_or_hash_observed_at_the_destination_device.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/potential_pass_the_token_or_hash_observed_at_the_destination_device.yml) \| *version*: **2**

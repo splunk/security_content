@@ -31,7 +31,7 @@ The following analytic identifes Event Code 4768, A `Kerberos authentication tic
 - **ID**: e3ef244e-0a67-11ec-abf2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -100,6 +100,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-security.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/petitpotam_suspicious_kerberos_tgt_request.yml) \| *version*: **1**

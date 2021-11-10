@@ -35,7 +35,7 @@ This search looks for cloud provisioning activities from previously unseen citie
 - **ID**: e7ecc5e0-88df-48b9-91af-51104c68f02f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -101,6 +101,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/cloud_provisioning_activity_from_previously_unseen_city.yml) \| *version*: **1**

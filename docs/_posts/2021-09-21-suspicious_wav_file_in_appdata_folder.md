@@ -31,7 +31,7 @@ This analytic is to detect a suspicious creation of .wav file in appdata folder.
 - **ID**: 5be109e6-1ac5-11ec-b421-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -97,6 +97,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon_wav.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon_wav.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_wav_file_in_appdata_folder.yml) \| *version*: **1**
