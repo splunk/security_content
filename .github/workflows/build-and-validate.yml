@@ -351,8 +351,6 @@ jobs:
           ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
           ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
           ./appinspect.sh ../ dev_sec_ops_analytics-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
-          #Not a real app yet, so it will fail appinspect - remove the comment when it's a real app generated with SLIM
-          #./appinspect.sh ../ SSA_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
 
       - name: Create report artifact
         if: always()
