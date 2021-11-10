@@ -77,4 +77,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
+
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/spike_in_file_writes.yml) \| *version*: **3**

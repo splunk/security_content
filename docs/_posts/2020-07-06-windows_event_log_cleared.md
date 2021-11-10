@@ -32,13 +32,11 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 - **ID**: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
@@ -99,6 +97,7 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-security.log)
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/atomic_red_team/windows-system.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_event_log_cleared.yml) \| *version*: **6**

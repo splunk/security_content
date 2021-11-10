@@ -35,13 +35,11 @@ This search is to detect a suspicious modification of registry entry to persist 
 - **ID**: 4c38c264-1f74-11ec-b5fa-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1037](https://attack.mitre.org/techniques/T1037/) | Boot or Logon Initialization Scripts | Persistence, Privilege Escalation |
-
-
 
 | [T1037.001](https://attack.mitre.org/techniques/T1037/001/) | Logon Script (Windows) | Persistence, Privilege Escalation |
 
@@ -101,6 +99,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.001/logonscript_reg/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.001/logonscript_reg/sysmon.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/logon_script_event_trigger_execution.yml) \| *version*: **1**

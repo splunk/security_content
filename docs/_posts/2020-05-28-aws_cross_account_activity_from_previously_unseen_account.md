@@ -89,4 +89,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
 
 
+
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_cross_account_activity_from_previously_unseen_account.yml) \| *version*: **1**

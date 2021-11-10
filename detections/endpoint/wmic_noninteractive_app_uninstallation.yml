@@ -31,13 +31,33 @@ references:
 tags:
   analytic_story:
   - IceID
+  automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: wmic $process$ with commandline $process$ in $dest$
   mitre_attack_id:
   - T1562.001
   - T1562
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -55,25 +75,5 @@ tags:
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 50
-  confidence: 50
   risk_score: 25
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: wmic $process$ with commandline $process$ in $dest$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: process_name
-    type: Process
-    role:
-    - Target
-  automated_detection_testing: passed
+  security_domain: endpoint

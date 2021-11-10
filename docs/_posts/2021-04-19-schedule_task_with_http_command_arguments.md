@@ -33,7 +33,7 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 - **ID**: 523c2684-a101-11eb-916b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -97,6 +97,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/tasksched/windows-security.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/schedule_task_with_http_command_arguments.yml) \| *version*: **1**

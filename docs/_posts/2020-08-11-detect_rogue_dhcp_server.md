@@ -11,7 +11,7 @@ tags:
   - Initial Access
   - Network Denial of Service
   - Impact
-  - Man-in-the-Middle
+  - Adversary-in-the-Middle
   - Credential Access
   - Collection
   - Splunk Enterprise
@@ -37,12 +37,14 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization&#39;
 - **ID**: 6e1ada88-7a0d-4ac1-92c6-03d354686079
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
+
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+
 | [T1557](https://attack.mitre.org/techniques/T1557/) | Adversary-in-the-Middle | Credential Access, Collection |
 
 #### Search
@@ -90,6 +92,7 @@ This search might be prone to high false positives if DHCP Snooping has been inc
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 
