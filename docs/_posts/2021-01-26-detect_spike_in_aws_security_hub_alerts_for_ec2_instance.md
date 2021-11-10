@@ -86,4 +86,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json)
 
 
+
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/detect_spike_in_aws_security_hub_alerts_for_ec2_instance.yml) \| *version*: **3**

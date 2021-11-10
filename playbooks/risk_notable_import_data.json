@@ -1,0 +1,864 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Risk Notable",
+    "coa": {
+        "data": {
+            "description": "This playbook gathers all of the events associated with the Risk Notable and imports them as artifacts. It also generates a custom markdown formatted note.\t",
+            "edges": [
+                {
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_8_to_port_11",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_15_to_port_16",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_16_to_port_17",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "id": "port_18_to_port_19",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_33_to_port_15",
+                    "sourceNode": "33",
+                    "sourcePort": "33_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "id": "port_11_to_port_34",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "34",
+                    "targetPort": "34_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_34_to_port_33",
+                    "sourceNode": "34",
+                    "sourcePort": "34_out",
+                    "targetNode": "33",
+                    "targetPort": "33_in"
+                },
+                {
+                    "id": "port_15_to_port_18",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "id": "port_0_to_port_6",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_19_to_port_1",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "ab7a6a505a05ce38a01f94104475c55ce339ef12",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 1000,
+                    "y": 520
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\t\n    # Error handling in case of playbook not being able to import data properly\n    if not format_summary_note:\n        raise RuntimeError(\"Error occured during import data and summary note is missing\")\n    \n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 960,
+                    "y": 1800
+                },
+                "11": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run risk rule query",
+                            "customNameId": 0,
+                            "description": "Reaches back into the risk index to pull out all the detections that led up to the notable firing.",
+                            "join": [],
+                            "note": "Reaches back into the risk index to pull out all the detections that led up to the notable firing."
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": 129,
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "run_risk_rule_query",
+                        "id": "11",
+                        "parameters": {
+                            "command": "search",
+                            "parse_only": true,
+                            "query": "format_risk_query:formatted_data"
+                        },
+                        "requiredParameters": [
+                            "query"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "action",
+                    "x": 980,
+                    "y": 1000
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "create risk artifacts",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "artifact_create",
+                            "repoName": "community"
+                        },
+                        "functionId": 5,
+                        "functionName": "create_risk_artifacts",
+                        "id": "15",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "artifact_create": {
+                                "description": "Create a new artifact with the specified attributes.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "Container which the artifact will be added to.",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the new artifact, which is optional and defaults to \"artifact\".",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "artifact",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The label of the new artifact, which is optional and defaults to \"events\"",
+                                        "inputType": "item",
+                                        "label": "label",
+                                        "name": "label",
+                                        "placeholder": "events",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "The severity of the new artifact, which is optional and defaults to \"Medium\". Typically this is either \"High\", \"Medium\", or \"Low\".",
+                                        "inputType": "item",
+                                        "label": "severity",
+                                        "name": "severity",
+                                        "placeholder": "Medium",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the CEF field to populate in the artifact, such as \"destinationAddress\" or \"sourceDnsDomain\". Required only if cef_value is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_field",
+                                        "name": "cef_field",
+                                        "placeholder": "destinationAddress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The value of the CEF field to populate in the artifact, such as the IP address, domain name, or file hash. Required only if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_value",
+                                        "name": "cef_value",
+                                        "placeholder": "192.0.2.192",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The CEF data type of the data in cef_value. For example, this could be \"ip\", \"hash\", or \"domain\". Optional.",
+                                        "inputType": "item",
+                                        "label": "cef_data_type",
+                                        "name": "cef_data_type",
+                                        "placeholder": "ip",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "A comma-separated list of tags to apply to the created artifact, which is optional.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1, tag2, tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Either \"true\" or \"false\", depending on whether or not the new artifact should trigger the execution of any playbooks that are set to active on the label of the container the artifact will be added to. Optional and defaults to \"false\".",
+                                        "inputType": "item",
+                                        "label": "run_automation",
+                                        "name": "run_automation",
+                                        "placeholder": "false",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to modify any extra attributes of the artifact. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+                                        "inputType": "item",
+                                        "label": "input_json",
+                                        "name": "input_json",
+                                        "placeholder": "{\"source_data_identifier\": \"1234\", \"data\": \"5678\"}",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "artifact_create",
+                                "name": "artifact_create"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "artifact_create": {
+                                "cef_data_type": null,
+                                "cef_field": null,
+                                "cef_value": null,
+                                "container": "container:id",
+                                "input_json": "parse_risk_results_1:custom_function_result.data.*.item",
+                                "label": "risk_rule",
+                                "name": null,
+                                "run_automation": null,
+                                "severity": "informational",
+                                "tags": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "utility",
+                    "x": 1140,
+                    "y": 1380
+                },
+                "16": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter artifact score",
+                            "customNameId": 0,
+                            "description": "Find artifacts with an individual contributing risk_score that is greater than or equal to 50.",
+                            "join": [],
+                            "note": "Find artifacts with an individual contributing risk_score that is greater than or equal to 50.",
+                            "scope": "all"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">=",
+                                        "param": "artifact:*.cef.risk_score",
+                                        "value": "50"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "risk score above 50",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "filter_artifact_score",
+                        "id": "16",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "filter",
+                    "x": 1200,
+                    "y": 1500
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "mark artifact evidence",
+                            "customNameId": 0,
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "mark_evidence",
+                            "repoName": "community"
+                        },
+                        "functionId": 6,
+                        "functionName": "mark_artifact_evidence",
+                        "id": "17",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "mark_evidence": {
+                                "description": "Mark an object as Evidence in a container",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "Container ID or Container Object",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The object to mark as evidence. This could be a vault_id, artifact_id, note_id, container_id, or action_run_id. If the previous playbook block is an action then \"keyword_argument:results\" can be used for the action_run_id with the content_type \"action_run_id\". Vault_id can be an ID or a vault hash.",
+                                        "inputType": "item",
+                                        "label": "input_object",
+                                        "name": "input_object",
+                                        "placeholder": "artifact id, note id, vault_id, etc.",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The content type of the object to add as evidence which must be one of the following:\n            \n            vault_id\n            artifact_id\n            container_id\n            note_id\n            action_run_id",
+                                        "inputType": "item",
+                                        "label": "content_type",
+                                        "name": "content_type",
+                                        "placeholder": "See help text for supported types",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "mark_evidence",
+                                "name": "mark_evidence"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "mark_evidence": {
+                                "container": "container:id",
+                                "content_type": "artifact_id",
+                                "input_object": "filtered-data:filter_artifact_score:condition_1:artifact:*.cef.event_id"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "utility",
+                    "x": 1580,
+                    "y": 1640
+                },
+                "18": {
+                    "data": {
+                        "advanced": {
+                            "customName": "mitre format",
+                            "customNameId": 0,
+                            "description": "This code block organizes all of the artifact descriptions by MITRE tactic and technique. Then, it outputs that information as a formatted string.",
+                            "join": [],
+                            "note": "This code block organizes all of the artifact descriptions by MITRE tactic and technique. Then, it outputs that information as a formatted string."
+                        },
+                        "functionId": 2,
+                        "functionName": "mitre_format",
+                        "id": "18",
+                        "inputParameters": [],
+                        "outputVariables": [
+                            "output"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "code",
+                    "userCode": "    from collections import OrderedDict \n    from operator import getitem \n    \n    def mitre_sorter(item):\n        tactic_list = ['reconnaissance', 'resource-development', 'initial-access', 'execution', \n                       'persistence', 'privilege-escalation', 'defense-evasion', 'credential-access', \n                       'discovery', 'lateral-movement', 'collection', 'command-and-control', 'exfiltration', 'impact']\n        index_map = {v: i for i, v in enumerate(tactic_list)}\n        if ',' in item[0]:\n            first_item = item[0].split(', ')[1]\n            #first_item = json.loads(item[0])[1]\n            return index_map[first_item]\n        else:\n            return index_map[item[0]]\n\n    artifact_data = phantom.collect2(\n        container=container, datapath=[\n            'artifact:*.cef.mitre_tactic', \n            'artifact:*.cef.mitre_technique', \n            'artifact:*.cef.mitre_technique_id', \n            'artifact:*.cef.description'\n        ], \n        scope='all'\n    )\n\n    mitre_dictionary = {}\n    for mitre_tactic, mitre_technique, mitre_technique_id, risk_message in artifact_data:\n        if isinstance(mitre_tactic, list):\n            mitre_tactic = json.dumps(mitre_tactic)\n        if mitre_tactic and mitre_tactic not in mitre_dictionary.keys():\n            mitre_dictionary[mitre_tactic] = {mitre_technique: {'id': mitre_technique_id, 'risk_message': [risk_message]}}\n        elif mitre_tactic and mitre_tactic in mitre_dictionary.keys():\n            if mitre_technique and mitre_technique not in mitre_dictionary[mitre_tactic].keys():\n                mitre_dictionary[mitre_tactic][mitre_technique] = {'id': mitre_technique_id, 'risk_message': [risk_message]}\n            elif mitre_technique and mitre_technique in mitre_dictionary[mitre_tactic].keys():\n                if risk_message not in mitre_dictionary[mitre_tactic][mitre_technique]['risk_message']:\n                    mitre_dictionary[mitre_tactic][mitre_technique]['risk_message'].append(risk_message)\n    \n    mitre_copy = mitre_dictionary.copy()\n    for k,v in mitre_copy.items():\n        sorted_techniques = OrderedDict(sorted(v.items(),\n                                               key = lambda x: getitem(x[1], 'id')\n                                              )\n                                       ) \n        for a,b in sorted_techniques.items():\n            sorted_techniques[a] = b['risk_message']\n        mitre_copy[k] = sorted_techniques\n\n    final_dictionary = sorted(mitre_copy.items(), key=mitre_sorter)\n    final_format = \"\"\n    for tactics in final_dictionary:\n        if ',' in tactics[0]:\n            tactic_list = tactics[0].split(', ')\n            final_format += \"\\n ## \"\n            for tactic in tactic_list[:-1]:\n                split_tactic = tactic.split('-')\n                for item in split_tactic[:-1]:\n                    final_format += \"{} \".format(item.capitalize())\n                final_format += \"{}, \".format(split_tactic[-1].capitalize())\n            split_tactic = tactic_list[-1].split('-')\n            for item in split_tactic[:-1]:\n                final_format += \"{} \".format(item.capitalize())\n            final_format += \"{}\".format(split_tactic[-1].capitalize())\n        else:\n            tactic_list = tactics[0].split('-')\n            final_format += \"\\n ## \"\n            for tactic in tactic_list[:-1]:\n                final_format += \"{} \".format(tactic.capitalize())\n            final_format += \"{}\".format(tactic_list[-1].capitalize())\n        for k,v in tactics[1].items():\n            final_format += \"\\n - #### {}: {}\".format(k, mitre_dictionary[tactics[0]][k]['id'])\n            for risk_message in v:\n                final_format += \"\\n   - ```{}```\".format(risk_message)\n        final_format += \"\\n\"\n    \n\n    if final_format:\n    \tmitre_format__output = final_format\n    else:\n        mitre_format__output = \"No Tactics / Techniques available in contributing risk events.\"\n\t\n\n",
+                    "x": 940,
+                    "y": 1500
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format summary note",
+                            "customNameId": 0,
+                            "description": "Format a summary note with all of the information gathered up to this point.",
+                            "join": [],
+                            "note": "Format a summary note with all of the information gathered up to this point.",
+                            "scope": "all"
+                        },
+                        "functionId": 4,
+                        "functionName": "format_summary_note",
+                        "id": "19",
+                        "parameters": [
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object_type",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_score",
+                            "get_splunk_asset_details:custom_function_result.data.configuration.device",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_min_time",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_max_time",
+                            "mitre_format:custom_function:output",
+                            "run_risk_rule_query:action_result.data.*._time",
+                            "run_risk_rule_query:action_result.data.*.risk_message"
+                        ],
+                        "template": "#### Splunk Enterprise Security has detected that {0} '**{1}**' generated {2} points of risk.\n\nFull statistics and timeline on this user's risk behavior can be found [here](https://{3}/en-US/app/SplunkEnterpriseSecuritySuite/risk_analysis?earliest={4}&latest={5}&form.risk_object_type_raw={0}&form.risk_object_raw={1})\n\n| _time | event |\n| --- | --- |\n%%\n| **{7}** | `{8}` |\n%%\n\n![](https://attack.mitre.org/theme/images/mitrelogowhiteontrans.gif)\n\n{6}",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "format",
+                    "x": 940,
+                    "y": 1640
+                },
+                "33": {
+                    "data": {
+                        "advanced": {
+                            "customName": "parse risk results",
+                            "customNameId": 1,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "passthrough",
+                            "repoName": "community"
+                        },
+                        "functionId": 7,
+                        "functionName": "parse_risk_results_1",
+                        "id": "33",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "passthrough": {
+                                "description": "Return the inputs as outputs. This is useful for publishing pieces of data for other blocks in the playbook to use.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_1",
+                                        "name": "input_1",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_2",
+                                        "name": "input_2",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_3",
+                                        "name": "input_3",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_4",
+                                        "name": "input_4",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_5",
+                                        "name": "input_5",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_6",
+                                        "name": "input_6",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_7",
+                                        "name": "input_7",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_8",
+                                        "name": "input_8",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_9",
+                                        "name": "input_9",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_10",
+                                        "name": "input_10",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "passthrough",
+                                "name": "passthrough"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "passthrough": {
+                                "input_1": "run_risk_rule_query:action_result.data",
+                                "input_10": null,
+                                "input_2": null,
+                                "input_3": null,
+                                "input_4": null,
+                                "input_5": null,
+                                "input_6": null,
+                                "input_7": null,
+                                "input_8": null,
+                                "input_9": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "33",
+                    "type": "utility",
+                    "userCode": "    from dateutil.parser import parse\n    from django.utils.dateparse import parse_datetime\n    import re\n    \n    search_json = run_risk_rule_query_result_item_0[0]\n    \n    # overwrite parameters\n    parameters = []\n\n    # Helper recursive function to flatten nested lists\n    def flatten(input_list):\n        if not input_list:\n            return input_list\n        if isinstance(input_list[0], list):\n            return flatten(input_list[0]) + flatten(input_list[1:])\n        return input_list[:1] + flatten(input_list[1:])\n    \n    # Declare dictionary for cim to cef translation\n    # adjust as needed\n    cim_cef = {\n        \"action\": \"act\", \n        \"action_name\": \"act\", \n        \"app\": \"app\", \n        \"bytes_in\": \"bytesIn\", \n        \"bytes_out\": \"bytesOut\", \n        \"category\": \"cat\",\n        \"dest\": \"destinationAddress\", \n        \"dest_ip\": \"destinationAddress\", \n        \"dest_mac\": \"destinationMacAddress\", \n        \"dest_nt_domain\": \"destinationNtDomain\", \n        \"dest_port\": \"destinationPort\", \n        \"dest_translated_ip\": \"destinationTranslatedAddress\", \n        \"dest_translated_port\": \"destinationTranslatedPort\", \n        \"direction\": \"deviceDirection\",\n        \"dns\": \"destinationDnsDomain\", \n        \"dvc\": \"dvc\", \n        \"dvc_ip\": \"deviceAddress\", \n        \"dvc_mac\": \"deviceMacAddress\", \n        \"file_create_time\": \"fileCreateTime\", \n        \"file_hash\": \"fileHash\", \n        \"file_modify_time\": \"fileModificationTime\", \n        \"file_name\": \"fileName\", \n        \"file_path\": \"filePath\", \n        \"file_size\": \"fileSize\", \n        \"message\": \"message\", \n        \"protocol\": \"transportProtocol\", \n        \"request_payload\": \"request\", \n        \"request_payload_type\": \"requestMethod\", \n        \"src\": \"sourceAddress\", \n        \"src_dns\": \"sourceDnsDomain\", \n        \"src_ip\": \"sourceAddress\", \n        \"src_mac\": \"sourceMacAddress\", \n        \"src_nt_domain\": \"sourceNtDomain\", \n        \"src_port\": \"sourcePort\", \n        \"src_translated_ip\": \"sourceTranslatedAddress\", \n        \"src_translated_port\": \"sourceTranslatedPort\", \n        \"src_user\": \"sourceUserId\", \n        \"transport\": \"transportProtocol\", \n        \"url\": \"requestURL\", \n        \"user\": \"destinationUserName\", \n        \"user_id\": \"destinationUserId\", \n    }\n    \n    \n    # Iterate through Splunk search results\n    for index, artifact_json in enumerate(search_json):\n        field_mapping = {}\n        \n        for k,v in artifact_json.items():\n            tags = []\n            # Swap CIM for CEF values\n            if k.lower() in cim_cef.keys():\n                if k.lower() == 'dest':\n                    # if 'dest' matches an IP, use 'dest', otherwise use 'destinationHostName'\n                    if re.match('(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', k):\n                        artifact_json[cim_cef[k]] = artifact_json.pop(k)\n                    else:\n                        artifact_json['destinationHostName'] = artifact_json.pop(k)\n                elif k.lower() == 'src':\n                    # if 'src' matches an IP, use 'src', otherwise use 'sourceHostName'\n                    if re.match('(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)', k):\n                        artifact_json[cim_cef[k]] = artifact_json.pop(k)\n                    else:\n                        artifact_json['sourceHostName'] = artifact_json.pop(k)\n                else:\n                    artifact_json[cim_cef[k.lower()]] = artifact_json.pop(k)\n                    \n        for k,v in artifact_json.items():\n            if type(v) == list:\n                artifact_json[k] = \", \".join(flatten(v))\n                \n        # Swap risk_message for description\n        if 'risk_message' in artifact_json.keys():\n            artifact_json['description'] = artifact_json.pop('risk_message')\n\n        # Make _time easier to read\n        if '_time' in artifact_json.keys():\n            timestring = parse(artifact_json['_time'])\n            artifact_json['_time'] = \"{} {}\".format(timestring.date(), timestring.time())\n\n        # Add threat_object_type to threat_object field_mapping\n        if 'threat_object' in artifact_json.keys() and 'threat_object_type' in artifact_json.keys():\n            field_mapping['threat_object'] = [artifact_json['threat_object_type']]                  \n\n        # Set the underlying data type in field mapping based on the risk_object_type     \n        if 'risk_object' in artifact_json.keys() and 'risk_object_type' in artifact_json.keys():\n            if 'user' in artifact_json['risk_object_type']:\n                field_mapping['risk_object'] = [\"user name\"]\n            elif artifact_json['risk_object_type'] == 'system':\n                field_mapping['risk_object'] = [\"host name\", \"hostname\"]\n            else:\n                field_mapping['risk_object'] = artifact_json['risk_object_type']\n            \n        # Extract tags\n        if 'rule_attack_tactic_technique' in artifact_json.keys():\n            for match in re.findall('(^|\\|)(\\w+)\\s+',artifact_json['rule_attack_tactic_technique']):\n                tags.append(match[1])\n            tags=list(set(tags))\n\n        # Final setp is to build the output. This is reliant on the source field existing which should be present in all Splunk search results\n        if 'source' in artifact_json.keys():\n            if index < len(search_json[0]) - 1:\n                name = artifact_json.pop('source')\n                parameters.append({'input_1': json.dumps({'cef_data': artifact_json, 'tags': tags, 'name': name, 'field_mapping': field_mapping, 'run_automation': False})})\n            else:\n                name = artifact_json.pop('source')\n                parameters.append({'input_1': json.dumps({'cef_data': artifact_json, 'tags': tags, 'name': name, 'field_mapping': field_mapping, 'run_automation': True})})\n\t\n\n\n",
+                    "x": 1140,
+                    "y": 1280
+                },
+                "34": {
+                    "data": {
+                        "advanced": {
+                            "customName": "results decision",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "run_risk_rule_query:action_result.summary.total_events",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "results found",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "results_decision",
+                        "id": "34",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "34",
+                    "type": "decision",
+                    "x": 1060,
+                    "y": 1140
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get splunk asset details",
+                            "customNameId": 0,
+                            "join": [],
+                            "notRequiredJoins": [
+                                "add_workbook",
+                                "list_workbooks"
+                            ]
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "asset_get_attributes",
+                            "repoName": "community"
+                        },
+                        "functionId": 3,
+                        "functionName": "get_splunk_asset_details",
+                        "id": "6",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "asset_get_attributes": {
+                                "description": "Allows the retrieval of an attribute from an asset configuration for access in a playbook. This can be valuable in instances such as a dynamic note that references the Asset hostname. Must provide asset name or id.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "Asset numeric ID or asset name.",
+                                        "inputType": "item",
+                                        "label": "asset",
+                                        "name": "asset",
+                                        "placeholder": "splunk_es",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "asset_get_attributes",
+                                "name": "asset_get_attributes"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "asset_get_attributes": {
+                                "asset": "splunk"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "utility",
+                    "x": 980,
+                    "y": 640
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "event id filter",
+                            "customNameId": 0,
+                            "description": "A notable event ID must be present to proceed with the playbook.",
+                            "join": [],
+                            "note": "A notable event ID must be present to proceed with the playbook.",
+                            "scope": "all"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.cef.event_id",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "event id",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "event_id_filter",
+                        "id": "7",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "filter",
+                    "x": 1040,
+                    "y": 740
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format risk query",
+                            "customNameId": 0,
+                            "description": "Formats a query to reach back into the risk index to pull out all the detections that led up to the notable triggering. The time tokens contain the earliest and latest times found in info_min_time and info_max_time",
+                            "join": [],
+                            "note": "Formats a query to reach back into the risk index to pull out all the detections that led up to the notable triggering. The time tokens contain the earliest and latest times found in info_min_time and info_max_time",
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "format_risk_query",
+                        "id": "8",
+                        "parameters": [
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_min_time",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_max_time"
+                        ],
+                        "template": "index=risk risk_object=\"{0}\"\nearliest=\"{1}\"\nlatest=\"{2}\"  | rex field=source \".*-\\s(?<source>.*)\\s+-\\s+\\w+\\s+-\\s+Rule\" \n| eval risk_message=coalesce(risk_message,source), threat_object=coalesce(threat_object, \"unknown\"), threat_object_type=coalesce(threat_object_type, \"unknown\") \n| eval threat_zip = mvzip(threat_object, threat_object_type) \n| stats earliest(_time) as earliest_time latest(_time) as latest_time values(*) as * by source threat_zip risk_message \n| rex field=threat_zip \"(?<threat_object>.*)\\,(?<threat_object_type>.*)\" | rename annotations.mitre_attack.mitre_technique_id as mitre_technique_id annotations.mitre_attack.mitre_tactic as mitre_tactic annotations.mitre_attack.mitre_technique as mitre_technique | fields - annotations* risk_object_* date_* orig_* user_* src_user_* src_* dest_* dest_user_* info_* search_* splunk_* tag* risk_modifier* risk_rule* sourcetype timestamp index next_cron_time timeendpos timestartpos testmode linecount threat_zip | sort + latest_time | `uitime(earliest_time)` \n| `uitime(latest_time)` \n| eval _time=latest_time\n| dedup earliest_time latest_time source threat_object threat_object_type",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "format",
+                    "x": 980,
+                    "y": 880
+                }
+            },
+            "notes": "For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack"
+        },
+        "input_spec": null,
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "[Auto-Generated] Notable Event Summary"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "note_title"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_summary_note:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "note_content"
+            }
+        ],
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-10-19T20:23:02.160676+00:00",
+    "draft_mode": false,
+    "labels": [
+        "risk_notable"
+    ],
+    "tags": []
+}

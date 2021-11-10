@@ -29,7 +29,7 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 - **ID**: 8776d79c-d26e-11eb-9a56-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -88,4 +88,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/delete_a_net_user.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/delete_a_net_user.yml) \| *version*: **2**
