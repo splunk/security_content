@@ -35,7 +35,7 @@ This search provides detection of an user attaching itself to a different role t
 - **ID**: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -79,6 +79,7 @@ Attach to policy can create a lot of noise. This search can be adjusted to provi
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 

@@ -31,7 +31,7 @@ This analytic will identify suspicious series of process executions.  We have ob
 - **ID**: 23587b6a-c479-11eb-b671-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -91,6 +91,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/windows_temp_processes/logExcessiveWindowsTemp.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/meterpreter/windows_temp_processes/logExcessiveWindowsTemp.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/excessive_number_of_distinct_processes_created_in_windows_temp_folder.yml) \| *version*: **1**

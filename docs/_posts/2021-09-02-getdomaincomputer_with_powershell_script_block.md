@@ -31,7 +31,7 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: f64da023-b988-4775-8d57-38e512beb56e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -90,6 +90,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-powershell.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/getdomaincomputer_with_powershell_script_block.yml) \| *version*: **1**

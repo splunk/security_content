@@ -32,7 +32,7 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 - **ID**: b690df8c-a145-11eb-a38b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -99,6 +99,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/searchprotocolhost_with_no_command_line_with_network.yml) \| *version*: **2**

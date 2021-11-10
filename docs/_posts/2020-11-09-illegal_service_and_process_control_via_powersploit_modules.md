@@ -33,12 +33,14 @@ This detection identifies access to PowerSploit modules that enable illegal cont
 - **ID**: 0e910e5b-309d-4bc3-8af2-0030c02aa353
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
 | [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution |
+
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
 #### Search
@@ -98,6 +100,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_service_and_process_control_via_powersploit_modules.yml) \| *version*: **1**

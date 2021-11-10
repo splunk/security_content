@@ -28,7 +28,7 @@ An attacker tries might try to use different version of a system command without
 - **ID**: 28179107-099a-464a-94d3-08301e6c055f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -111,6 +111,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/system_process_running_unexpected_location/windows-security.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/system_process_running_from_unexpected_location.yml) \| *version*: **3**

@@ -32,12 +32,14 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 - **ID**: 0243d37c-57c1-4182-bfd1-39b212255fc8
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1007](https://attack.mitre.org/techniques/T1007/) | System Service Discovery | Discovery |
+
 | [T1046](https://attack.mitre.org/techniques/T1046/) | Network Service Scanning | Discovery |
+
 | [T1057](https://attack.mitre.org/techniques/T1057/) | Process Discovery | Discovery |
 
 #### Search
@@ -93,6 +95,7 @@ None identified.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 

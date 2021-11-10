@@ -31,13 +31,11 @@ The wevtutil.exe application is the windows event log utility. This searches for
 - **ID**: 5438113c-cdd9-11eb-93b8-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
 
 | [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
@@ -101,4 +99,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/clear_evt.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wevtutil_usage_to_clear_logs.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/wevtutil_usage_to_clear_logs.yml) \| *version*: **2**
