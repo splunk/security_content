@@ -31,7 +31,7 @@ This search is to detect a suspicious whoami execution to check if the cmd or sh
 - **ID**: a9079b18-1633-11ec-859c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -91,6 +91,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/check_elevated_cmd_using_whoami.yml) \| *version*: **1**

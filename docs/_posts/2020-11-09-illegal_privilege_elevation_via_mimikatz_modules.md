@@ -32,11 +32,12 @@ This detection identifies use of Mimikatz modules for illegal privilege elevatio
 - **ID**: 2f873b1f-6352-4844-b7b9-b419f09a42c7
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
+
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 #### Search
@@ -94,6 +95,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/logAllMimikatzModules.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/logAllMimikatzModules.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/illegal_privilege_elevation_via_mimikatz_modules.yml) \| *version*: **1**

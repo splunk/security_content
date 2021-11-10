@@ -35,9 +35,10 @@ This analytic is to detect an application try to connect and create ADSI Object 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
+
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
 #### Search
@@ -96,6 +97,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/blackmatter_schcache/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/blackmatter_schcache/windows-sysmon.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/schcache_change_by_app_connect_and_create_adsi_object.yml) \| *version*: **1**

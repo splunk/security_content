@@ -410,8 +410,12 @@ def add_playbook(detection, playbooks):
     preface = " The following Splunk SOAR playbook can be used to respond to this detection: "
 
     for playbook in playbooks:
-        if detection['name'] in playbook['tags']['detections']:
-            detection['how_to_implement'] = detection['how_to_implement'] + preface + playbook['name']
+        try:
+            if detection['name'] in playbook['tags']['detections']:
+                detection['how_to_implement'] = detection['how_to_implement'] + preface + playbook['name']
+        except KeyError:
+            print("playbook " + playbook['name'] + " has no detections, passing....")
+            pass
     return detection
 
 def map_playbooks_to_stories(playbooks):

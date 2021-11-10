@@ -42,9 +42,10 @@ This search will detect a spike in the number of API calls made to your cloud in
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -109,6 +110,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/abnormally_high_number_of_cloud_security_group_api_calls.yml) \| *version*: **1**

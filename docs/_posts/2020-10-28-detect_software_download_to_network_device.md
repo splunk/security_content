@@ -39,9 +39,10 @@ Adversaries may abuse netbooting to load an unauthorized network device operatin
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1542.005](https://attack.mitre.org/techniques/T1542/005/) | TFTP Boot | Defense Evasion, Persistence |
+
 | [T1542](https://attack.mitre.org/techniques/T1542/) | Pre-OS Boot | Defense Evasion, Persistence |
 
 #### Search
@@ -89,6 +90,7 @@ This search will also report any legitimate attempts of software downloads to ne
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 

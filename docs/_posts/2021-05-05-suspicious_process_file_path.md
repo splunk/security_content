@@ -32,7 +32,7 @@ The following analytic will detect a suspicious process running in a file path w
 - **ID**: 9be25988-ad82-11eb-a14f-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -96,6 +96,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_process_file_path.yml) \| *version*: **1**

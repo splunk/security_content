@@ -31,7 +31,7 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 - **ID**: e91bd102-d630-4e76-ab73-7e3ba22c5961
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -93,6 +93,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/zoom_child_process/windows-sysmon.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/first_time_seen_child_process_of_zoom.yml) \| *version*: **1**

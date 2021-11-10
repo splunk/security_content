@@ -1,0 +1,1027 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Risk Notable",
+    "coa": {
+        "data": {
+            "description": "This playbook prepares a Risk Notable for investigation. First, it ensures that a \"Risk Notable\" links back to the original notable event with a card pinned to the HUD. It then posts a link to this container in the comment field of Enterprise Security. Finally, it updates the container name, description, and severity to reflect the data in the Notable artifact.\t",
+            "edges": [
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_3_to_port_5",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_7",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_11_to_port_13",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_7_to_port_11",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_8_to_port_10",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_7_to_port_14",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_14_to_port_15",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "id": "port_15_to_port_16",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "id": "port_16_to_port_1",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_10_to_port_1",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_13_to_port_1",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                }
+            ],
+            "hash": "95559ec6b932f68ec3d455fbfb09d8c65c0f6804",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 200,
+                    "y": 179.9999999999998
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 360,
+                    "y": 1080
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "pin es url",
+                            "customNameId": 0,
+                            "description": "Pin the Enterprise Security URL",
+                            "join": [],
+                            "note": "Pin the Enterprise Security URL",
+                            "refreshNotableData": true
+                        },
+                        "functionId": 5,
+                        "functionName": "pin_es_url",
+                        "id": "10",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "pin": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "description": "",
+                                        "label": "message",
+                                        "name": "message",
+                                        "placeholder": "Enter a message",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "description": "",
+                                        "label": "data",
+                                        "name": "data",
+                                        "placeholder": "Enter a value",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "choices": [
+                                            "card",
+                                            "data"
+                                        ],
+                                        "description": "",
+                                        "label": "pin type",
+                                        "name": "pin_type",
+                                        "placeholder": "Select pin type",
+                                        "renderType": "dropdown",
+                                        "required": false
+                                    },
+                                    {
+                                        "choices": [
+                                            "grey",
+                                            "blue",
+                                            "red"
+                                        ],
+                                        "description": "",
+                                        "label": "pin color",
+                                        "name": "pin_style",
+                                        "placeholder": "Select pin color",
+                                        "renderType": "dropdown",
+                                        "required": false
+                                    },
+                                    {
+                                        "description": "",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "Use a named pin",
+                                        "renderType": "input",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "author",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "truncate",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "pin",
+                                "name": "pin"
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "pin": {
+                                "_internal": [
+                                    "container",
+                                    "author",
+                                    "truncate",
+                                    "trace"
+                                ],
+                                "data": "format_es_url:formatted_data",
+                                "message": "Enterprise Security URL",
+                                "name": "es_url",
+                                "pin_style": "grey",
+                                "pin_type": "card"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "utility",
+                    "x": 340,
+                    "y": 840
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format es note",
+                            "customNameId": 0,
+                            "description": "Format a note with the current event information.",
+                            "join": [],
+                            "note": "Format a note with the current event information.",
+                            "scope": "all"
+                        },
+                        "functionId": 2,
+                        "functionName": "format_es_note",
+                        "id": "11",
+                        "parameters": [
+                            "container:id",
+                            "container:url"
+                        ],
+                        "template": "SOAR event created: {0}\nComplete details can be found here: {1}/summary/evidence",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "format",
+                    "x": 0,
+                    "y": 700
+                },
+                "13": {
+                    "data": {
+                        "action": "update event",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "update notable",
+                            "customNameId": 0,
+                            "description": "Update the notable event  in Enterprise Security with a link back to this container",
+                            "join": [],
+                            "note": "Update the notable event in Enterprise Security with a link back to this container",
+                            "scope": "all"
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": 167,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "update_notable",
+                        "id": "13",
+                        "parameters": {
+                            "comment": "format_es_note:formatted_data",
+                            "event_ids": "filtered-data:event_id_filter:condition_1:artifact:*.cef.event_id",
+                            "status": "in progress"
+                        },
+                        "requiredParameters": [
+                            "event_ids"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "action",
+                    "x": 0,
+                    "y": 840
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format event name",
+                            "customNameId": 0,
+                            "description": "Format the event name as 'Source: Risk Object'",
+                            "join": [],
+                            "note": "Format the event name as 'Source: Risk Object'",
+                            "scope": "all"
+                        },
+                        "functionId": 3,
+                        "functionName": "format_event_name",
+                        "id": "14",
+                        "parameters": [
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.source",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.risk_object"
+                        ],
+                        "template": "{0}: {1}",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "format",
+                    "x": 680,
+                    "y": 700
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "container update info",
+                            "customNameId": 0,
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "container_update",
+                            "repoName": "community"
+                        },
+                        "functionId": 4,
+                        "functionName": "container_update_info",
+                        "id": "15",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "container_update": {
+                                "description": "Allows updating various attributes of a container in a single custom function. Any attributes of a container not listed can be updated via the input_json parameter. ",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "Supports a container id or container dictionary",
+                                        "inputType": "item",
+                                        "label": "container_input",
+                                        "name": "container_input",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to change container name",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "My Container Name",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to change the container description",
+                                        "inputType": "item",
+                                        "label": "description",
+                                        "name": "description",
+                                        "placeholder": "My Container Description",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "phantom container label"
+                                        ],
+                                        "description": "Optional parameter to change the container label",
+                                        "inputType": "item",
+                                        "label": "label",
+                                        "name": "label",
+                                        "placeholder": "my_label",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to change the container owner. Accepts a username or role name or keyword \"current\" to set the currently running playbook user as the owner.",
+                                        "inputType": "item",
+                                        "label": "owner",
+                                        "name": "owner",
+                                        "placeholder": "admin",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to change the container sensitivity. ",
+                                        "inputType": "item",
+                                        "label": "sensitivity",
+                                        "name": "sensitivity",
+                                        "placeholder": "amber",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to change the container severity.",
+                                        "inputType": "item",
+                                        "label": "severity",
+                                        "name": "severity",
+                                        "placeholder": "medium",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to change the container status.",
+                                        "inputType": "item",
+                                        "label": "status",
+                                        "name": "status",
+                                        "placeholder": "open",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to change the container tags. Must be in the format of a comma separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1, tag2",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to modify any extra attributes of a container. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+                                        "inputType": "item",
+                                        "label": "input_json",
+                                        "name": "input_json",
+                                        "placeholder": "{\"custom_fields\": {\"field_name\": \"field_value\"}}",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "container_update",
+                                "name": "container_update"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "container_update": {
+                                "container_input": "container:id",
+                                "description": "filtered-data:event_id_filter:condition_1:artifact:*.cef.source",
+                                "input_json": null,
+                                "label": null,
+                                "name": "format_event_name:formatted_data",
+                                "owner": null,
+                                "sensitivity": null,
+                                "severity": "filtered-data:event_id_filter:condition_1:artifact:*.cef.urgency",
+                                "status": null,
+                                "tags": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "utility",
+                    "x": 680,
+                    "y": 840
+                },
+                "16": {
+                    "data": {
+                        "advanced": {
+                            "customName": "artifact update severity",
+                            "customNameId": 0,
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "artifact_update",
+                            "repoName": "community"
+                        },
+                        "functionId": 6,
+                        "functionName": "artifact_update_severity",
+                        "id": "16",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "artifact_update": {
+                                "description": "Update an artifact with the specified attributes. All parameters are optional, except that cef_field and cef_value must both be provided if one is provided.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom artifact id"
+                                        ],
+                                        "description": "ID of the artifact to update, which is required.",
+                                        "inputType": "item",
+                                        "label": "artifact_id",
+                                        "name": "artifact_id",
+                                        "placeholder": "1234",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Change the name of the artifact.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "artifact",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Change the label of the artifact.",
+                                        "inputType": "item",
+                                        "label": "label",
+                                        "name": "label",
+                                        "placeholder": "events",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "Change the severity of the artifact. Typically this is either \"High\", \"Medium\", or \"Low\".",
+                                        "inputType": "item",
+                                        "label": "severity",
+                                        "name": "severity",
+                                        "placeholder": "Medium",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the CEF field to populate in the artifact, such as \"destinationAddress\" or \"sourceDnsDomain\". Required only if cef_value is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_field",
+                                        "name": "cef_field",
+                                        "placeholder": "destinationAddress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The value of the CEF field to populate in the artifact, such as the IP address, domain name, or file hash. Required only if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_value",
+                                        "name": "cef_value",
+                                        "placeholder": "192.0.2.192",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The CEF data type of the data in cef_value. For example, this could be \"ip\", \"hash\", or \"domain\". Optional, but only operational if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_data_type",
+                                        "name": "cef_data_type",
+                                        "placeholder": "ip",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "A comma-separated list of tags to apply to the artifact, which is optional.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1, tag2, tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to modify any extra attributes of the artifact. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+                                        "inputType": "item",
+                                        "label": "input_json",
+                                        "name": "input_json",
+                                        "placeholder": "{\"source_data_identifier\": \"1234\", \"data\": \"5678\"}",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "artifact_update",
+                                "name": "artifact_update"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "artifact_update": {
+                                "artifact_id": "filtered-data:event_id_filter:condition_1:artifact:*.id",
+                                "cef_data_type": null,
+                                "cef_field": null,
+                                "cef_value": null,
+                                "input_json": null,
+                                "label": null,
+                                "name": null,
+                                "severity": "filtered-data:event_id_filter:condition_1:artifact:*.cef.urgency",
+                                "tags": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "utility",
+                    "x": 680,
+                    "y": 940
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "event id filter",
+                            "customNameId": 0,
+                            "description": "Only proceed if the event_id value is present. The event_id is also sometimes called a Notable ID.",
+                            "join": [],
+                            "note": "Only proceed if the event_id value is present. The event_id is also sometimes called a Notable ID.\n\nCheck if the artifact name needs to be adjusted due to a generic Splunk poll ingest.\n",
+                            "scope": "all"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.cef.event_id",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "event_id",
+                                "logic": "and"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "!=",
+                                        "param": "artifact:*.cef.event_id",
+                                        "value": ""
+                                    },
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "artifact:*.name",
+                                        "value": "Field Values"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "event_id_fix_name",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "event_id_filter",
+                        "id": "3",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "filter",
+                    "x": 240,
+                    "y": 300
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "artifact update notable",
+                            "customNameId": 0,
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "artifact_update",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "artifact_update_notable",
+                        "id": "4",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "artifact_update": {
+                                "description": "Update an artifact with the specified attributes. All parameters are optional, except that cef_field and cef_value must both be provided if one is provided.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom artifact id"
+                                        ],
+                                        "description": "ID of the artifact to update, which is required.",
+                                        "inputType": "item",
+                                        "label": "artifact_id",
+                                        "name": "artifact_id",
+                                        "placeholder": "1234",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Change the name of the artifact.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "artifact",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Change the label of the artifact.",
+                                        "inputType": "item",
+                                        "label": "label",
+                                        "name": "label",
+                                        "placeholder": "events",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "Change the severity of the artifact. Typically this is either \"High\", \"Medium\", or \"Low\".",
+                                        "inputType": "item",
+                                        "label": "severity",
+                                        "name": "severity",
+                                        "placeholder": "Medium",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the CEF field to populate in the artifact, such as \"destinationAddress\" or \"sourceDnsDomain\". Required only if cef_value is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_field",
+                                        "name": "cef_field",
+                                        "placeholder": "destinationAddress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The value of the CEF field to populate in the artifact, such as the IP address, domain name, or file hash. Required only if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_value",
+                                        "name": "cef_value",
+                                        "placeholder": "192.0.2.192",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The CEF data type of the data in cef_value. For example, this could be \"ip\", \"hash\", or \"domain\". Optional, but only operational if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_data_type",
+                                        "name": "cef_data_type",
+                                        "placeholder": "ip",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "A comma-separated list of tags to apply to the artifact, which is optional.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1, tag2, tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to modify any extra attributes of the artifact. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+                                        "inputType": "item",
+                                        "label": "input_json",
+                                        "name": "input_json",
+                                        "placeholder": "{\"source_data_identifier\": \"1234\", \"data\": \"5678\"}",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "artifact_update",
+                                "name": "artifact_update"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "artifact_update": {
+                                "artifact_id": "filtered-data:event_id_filter:condition_2:artifact:*.id",
+                                "cef_data_type": null,
+                                "cef_field": null,
+                                "cef_value": null,
+                                "input_json": null,
+                                "label": null,
+                                "name": "Notable Artifact",
+                                "severity": null,
+                                "tags": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "utility",
+                    "x": 0,
+                    "y": 460
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "mark evidence artifact",
+                            "customNameId": 0,
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "mark_evidence",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "mark_evidence_artifact",
+                        "id": "5",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "mark_evidence": {
+                                "description": "Mark an object as Evidence in a container",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "Container ID or Container Object",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The object to mark as evidence. This could be a vault_id, artifact_id, note_id, container_id, or action_run_id. If the previous playbook block is an action then \"keyword_argument:results\" can be used for the action_run_id with the content_type \"action_run_id\". Vault_id can be an ID or a vault hash.",
+                                        "inputType": "item",
+                                        "label": "input_object",
+                                        "name": "input_object",
+                                        "placeholder": "artifact id, note id, vault_id, etc.",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The content type of the object to add as evidence which must be one of the following:\n            \n            vault_id\n            artifact_id\n            container_id\n            note_id\n            action_run_id",
+                                        "inputType": "item",
+                                        "label": "content_type",
+                                        "name": "content_type",
+                                        "placeholder": "See help text for supported types",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "mark_evidence",
+                                "name": "mark_evidence"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "mark_evidence": {
+                                "container": "container:id",
+                                "content_type": "artifact_id",
+                                "input_object": "filtered-data:event_id_filter:condition_1:artifact:*.id"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "utility",
+                    "x": 340,
+                    "y": 460
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "asset get splunk",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "asset_get_attributes",
+                            "repoName": "community"
+                        },
+                        "functionId": 3,
+                        "functionName": "asset_get_splunk",
+                        "id": "7",
+                        "selectMore": false,
+                        "tab": "customFunctions",
+                        "type": "utility",
+                        "utilities": {
+                            "asset_get_attributes": {
+                                "description": "Allows the retrieval of an attribute from an asset configuration for access in a playbook. This can be valuable in instances such as a dynamic note that references the Asset hostname. Must provide asset name or id.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "Asset numeric ID or asset name.",
+                                        "inputType": "item",
+                                        "label": "asset",
+                                        "name": "asset",
+                                        "placeholder": "splunk_es",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "asset_get_attributes",
+                                "name": "asset_get_attributes"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "asset_get_attributes": {
+                                "asset": "splunk"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "utility",
+                    "x": 340,
+                    "y": 580
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format es url",
+                            "customNameId": 0,
+                            "description": "Format a URL for the link back to the Notable ID. Change the port number as needed.",
+                            "join": [],
+                            "note": "Format a URL for the link back to the Notable ID. Change the port number as needed.",
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "format_es_url",
+                        "id": "8",
+                        "parameters": [
+                            "asset_get_splunk:custom_function_result.data.configuration.device",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.info_min_time",
+                            "filtered-data:event_id_filter:condition_1:artifact:*.cef.event_id"
+                        ],
+                        "template": "https://{0}/en-US/app/SplunkEnterpriseSecuritySuite/incident_review?earliest={1}&latest=now&search=event_id%3D{2}",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "format",
+                    "x": 340,
+                    "y": 700
+                }
+            },
+            "notes": "For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack"
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-10-19T20:23:56.075988+00:00",
+    "draft_mode": false,
+    "labels": [
+        "risk_notable"
+    ],
+    "tags": []
+}

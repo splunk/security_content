@@ -35,9 +35,10 @@ This search is to detect suspicious google drive or google docs files shared out
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1567.002](https://attack.mitre.org/techniques/T1567/002/) | Exfiltration to Cloud Storage | Exfiltration |
+
 | [T1567](https://attack.mitre.org/techniques/T1567/) | Exfiltration Over Web Service | Exfiltration |
 
 #### Search
@@ -102,6 +103,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567.002/gsuite_share_drive/gdrive_share_external.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/gsuite_drive_share_in_external_email.yml) \| *version*: **1**

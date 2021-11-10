@@ -7,15 +7,12 @@ last_modified_at: 2021-10-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1558.003
   - Kerberoasting
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Lateral Movement
 ---
 
 
@@ -43,8 +40,8 @@ During triage, review parallel processes for further suspicious activity.
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1558.003](https://attack.mitre.org/techniques/T1558/003/) | Kerberoasting | Credential Access |
 
 #### Search
