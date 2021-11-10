@@ -15,13 +15,16 @@ description: This search is to detect a suspicious MS office application that dr
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe")
   by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
-  | `drop_dm_object_name(Processes)` | join process_guid, _time [| tstats `security_content_summariesonly`
-  count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+  Processes.process_guid | `drop_dm_object_name(Processes)` |rename process_guid as
+  proc_guid |join proc_guid, _time [| tstats `security_content_summariesonly` count
+  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
   where Filesystem.file_name IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1")
   by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
-  Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest file_create_time
-  file_name file_path process_name process_path process] | dedup file_create_time
-  | table dest, process_name, process, file_create_time, file_name, file_path | `office_application_drop_executable_filter`'
+  Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)`
+  | rename process_guid as proc_guid | fields _time dest file_create_time file_name
+  file_path process_name process_path process proc_guid] | dedup file_create_time
+  | table dest, process_name, process, file_create_time, file_name, file_path, proc_guid
+  | `office_application_drop_executable_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the

@@ -3,7 +3,7 @@ tests:
 - name: Office Application Drop Executable
   file: endpoint/office_application_drop_executable.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-120d'
   latest_time: 'now'
   attack_data:
   - file_name: sysmon.log
