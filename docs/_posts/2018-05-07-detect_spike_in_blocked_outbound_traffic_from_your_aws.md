@@ -88,4 +88,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
+
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/cloud/detect_spike_in_blocked_outbound_traffic_from_your_aws.yml) \| *version*: **1**

@@ -31,7 +31,7 @@ This search detects a suspicioous termination of known services killed by ransom
 - **ID**: 3070f8e0-c528-11eb-b2a0-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -92,6 +92,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf3/windows-system.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/known_services_killed_by_ransomware.yml) \| *version*: **1**

@@ -79,8 +79,6 @@ stories:
         url: /stories/best_practices/
       - title: Cloud Security
         url: /stories/cloud_security/
-      - title: Lateral Movement
-        url: /stories/lateral_movement/
       - title: Malware
         url: /stories/malware/
       - title: Vulnerability
