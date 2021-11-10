@@ -29,7 +29,7 @@ This analytic will identify suspicious series of command-line to disable several
 - **ID**: afb31de4-d023-11eb-98d5-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -90,4 +90,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_disable_services.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_disable_services.yml) \| *version*: **2**

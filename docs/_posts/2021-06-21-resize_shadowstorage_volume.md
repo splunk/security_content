@@ -29,7 +29,7 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 - **ID**: dbc30554-d27e-11eb-9e5e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -89,4 +89,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/resize_shadowstorage_volume.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/resize_shadowstorage_volume.yml) \| *version*: **2**

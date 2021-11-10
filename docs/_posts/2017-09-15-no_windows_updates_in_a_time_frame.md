@@ -79,4 +79,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
+
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/no_windows_updates_in_a_time_frame.yml) \| *version*: **1**

@@ -1,0 +1,1160 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Risk Notable",
+    "coa": {
+        "data": {
+            "description": "This playbook attempts to find assets and users from the notable event and match those with assets and identities from Splunk Enterprise Security. If a match was found and the user has playbooks available to contain entities, the analyst decides which entities to disable or quarantine.\t",
+            "edges": [
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_20_to_port_16",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                },
+                {
+                    "id": "port_16_to_port_21",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "21",
+                    "targetPort": "21_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_22_to_port_14",
+                    "sourceNode": "22",
+                    "sourcePort": "22_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_14_to_port_23",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "23",
+                    "targetPort": "23_in"
+                },
+                {
+                    "id": "port_23_to_port_24",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "24",
+                    "targetPort": "24_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_22_to_port_24",
+                    "sourceNode": "22",
+                    "sourcePort": "22_out",
+                    "targetNode": "24",
+                    "targetPort": "24_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_24_to_port_32",
+                    "sourceNode": "24",
+                    "sourcePort": "24_out",
+                    "targetNode": "32",
+                    "targetPort": "32_in"
+                },
+                {
+                    "id": "port_36_to_port_26",
+                    "sourceNode": "36",
+                    "sourcePort": "36_out",
+                    "targetNode": "26",
+                    "targetPort": "26_in"
+                },
+                {
+                    "id": "port_0_to_port_11",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_24_to_port_36",
+                    "sourceNode": "24",
+                    "sourcePort": "24_out",
+                    "targetNode": "36",
+                    "targetPort": "36_in"
+                },
+                {
+                    "id": "port_26_to_port_13",
+                    "sourceNode": "26",
+                    "sourcePort": "26_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_6_to_port_20",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "id": "port_7_to_port_22",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "22",
+                    "targetPort": "22_in"
+                },
+                {
+                    "id": "port_40_to_port_45",
+                    "sourceNode": "40",
+                    "sourcePort": "40_out",
+                    "targetNode": "45",
+                    "targetPort": "45_in"
+                },
+                {
+                    "id": "port_45_to_port_1",
+                    "sourceNode": "45",
+                    "sourcePort": "45_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_32_to_port_45",
+                    "sourceNode": "32",
+                    "sourcePort": "32_out",
+                    "targetNode": "45",
+                    "targetPort": "45_in"
+                },
+                {
+                    "id": "port_13_to_port_40",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "40",
+                    "targetPort": "40_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_48_to_port_6",
+                    "sourceNode": "48",
+                    "sourcePort": "48_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_21_to_port_7",
+                    "sourceNode": "21",
+                    "sourcePort": "21_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_20_to_port_7",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_11_to_port_49",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "49",
+                    "targetPort": "49_in"
+                },
+                {
+                    "id": "port_49_to_port_48",
+                    "sourceNode": "49",
+                    "sourcePort": "49_out",
+                    "targetNode": "48",
+                    "targetPort": "48_in"
+                }
+            ],
+            "hash": "7acc2672b81d95c82981ee3bd36f15ba62747876",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 120,
+                    "y": -460.0000000000003
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "    list_asset_playbooks_data = phantom.collect2(container=container, datapath=[\"list_asset_playbooks:custom_function_result.data.*.full_name\"])\n    list_identity_playbooks_data = phantom.collect2(container=container, datapath=[\"list_identity_playbooks:custom_function_result.data.*.full_name\"])\n    list_asset_playbooks_list = [item[0] for item in list_asset_playbooks_data if item[0]]\n    list_identity_playbooks_list = [item[0] for item in list_identity_playbooks_data if item[0]]\n    \n    if not list_asset_playbooks_list and not list_identity_playbooks_list:\n        raise RuntimeError(\"No playbooks found for provided 'playbooks_list' criteria\")\n    \n    \n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 120,
+                    "y": 1960
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "list asset playbooks",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "playbooks_list",
+                            "repoName": "community"
+                        },
+                        "functionId": 6,
+                        "functionName": "list_asset_playbooks",
+                        "id": "11",
+                        "selectMore": false,
+                        "tab": "customFunctions",
+                        "type": "utility",
+                        "utilities": {
+                            "playbooks_list": {
+                                "description": "List all playbooks matching the provided name, category, and tags. If no filters are provided, list all playbooks.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks with the provided name.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "Playbook Name",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only returns playbooks that match the provided category.",
+                                        "inputType": "item",
+                                        "label": "category",
+                                        "name": "category",
+                                        "placeholder": "Playbook Category",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that contain ALL the provided tags. Multiple tags must be a comma-separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that exist in this repo.",
+                                        "inputType": "item",
+                                        "label": "repo",
+                                        "name": "repo",
+                                        "placeholder": "local",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that match the provided type. Accepts 'automation', 'input' or 'data.'",
+                                        "inputType": "item",
+                                        "label": "playbook_type",
+                                        "name": "playbook_type",
+                                        "placeholder": "automation",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "playbooks_list",
+                                "name": "playbooks_list"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "playbooks_list": {
+                                "category": null,
+                                "name": null,
+                                "playbook_type": "input",
+                                "repo": "local",
+                                "tags": "asset, protect, risk_notable"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "utility",
+                    "x": 100,
+                    "y": -340
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "decide and launch playbooks",
+                            "customNameId": 0,
+                            "description": "Route information to input playbooks based on playbook input spec.",
+                            "join": [],
+                            "note": "Route information to input playbooks based on playbook input spec."
+                        },
+                        "functionId": 1,
+                        "functionName": "decide_and_launch_playbooks",
+                        "id": "13",
+                        "inputParameters": [
+                            "protect_prompt:action_result.summary.responses",
+                            "list_asset_playbooks:custom_function_result.data.*.full_name",
+                            "list_asset_playbooks:custom_function_result.data.*.tags",
+                            "list_asset_playbooks:custom_function_result.data.*.input_spec",
+                            "list_identity_playbooks:custom_function_result.data.*.full_name",
+                            "list_identity_playbooks:custom_function_result.data.*.tags",
+                            "list_identity_playbooks:custom_function_result.data.*.input_spec"
+                        ],
+                        "outputVariables": [
+                            "playbook_names",
+                            "playbook_inputs"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "code",
+                    "userCode": "    responses = protect_prompt_summary_responses[0]\n    all_entity_list = json.loads(phantom.get_run_data(key=\"all_entities\"))\n    decide_and_launch_playbooks__output = {'user_playbooks': [], 'user_values': [], 'host_playbooks': [], 'host_values': []}\n    user_list = []\n    device_list = []\n\n    decide_and_launch_playbooks__playbook_names = []\n    decide_and_launch_playbooks__playbook_inputs = []\n    \n    playbook_launch_list = {}\n    for entity,response in zip(all_entity_list,responses):\n        if response.lower() == 'yes':\n            if entity['type'] == 'device':\n                device_list.append(entity['name'])\n            if entity['type'] == 'user':\n                user_list.append(entity['name'])\n    \n    # Iterate through identity playbooks\n    if list_identity_playbooks_data___full_name:\n        for pb_name, pb_spec in zip(list_identity_playbooks_data___full_name, list_identity_playbooks_data___input_spec):\n            pb_inputs = {}\n            for user in user_list:\n                for spec in pb_spec:\n                    if any('user' in list_item for list_item in spec['contains']):\n                        phantom.debug(f\"Match found for user '{user}' in playbook '{pb_name}' at input '{spec['name']}'\")\n                        if not pb_inputs:\n                            pb_inputs[spec['name']] = [user]\n                        else:\n                            if user not in pb_inputs[spec['name']]:\n                                pb_inputs[spec['name']].append(user)\n\n            if pb_inputs:\n                playbook_launch_list[pb_name] = pb_inputs\n\t\n    # Iterate through asset playbooks\n    if list_asset_playbooks_data___full_name:\n        for pb_name, pb_spec in zip(list_asset_playbooks_data___full_name, list_asset_playbooks_data___input_spec):\n            pb_inputs = {}\n            for host in device_list:\n                for spec in pb_spec:\n                    if any('host' in list_item for list_item in spec['contains']):\n                        phantom.debug(f\"Match found for host '{host}' in playbook '{pb_name}' at input '{spec['name']}'\")\n                        if not pb_inputs:\n                            pb_inputs[spec['name']] = [host]\n                        else:\n                            if host not in pb_inputs[spec['name']]:\n                                pb_inputs[spec['name']].append(host)\n\n            if pb_inputs:\n                if pb_name in playbook_launch_list.keys():\n                    playbook_launch_list[pb_name].update(pb_inputs)\n                else:\n                    playbook_launch_list[pb_name] = pb_inputs\n    \n    if playbook_launch_list:\n        for k,v in playbook_launch_list.items():\n            decide_and_launch_playbooks__playbook_names.append(k)\n            decide_and_launch_playbooks__playbook_inputs.append(v)\n            phantom.playbook(playbook=k, container=container, inputs=v)\n    # Raise error if there were no matches found in the two playbook categories\n    else:\n        raise RuntimeError(\"Unable to find match between indicator types and playbook input types\")\n        \n",
+                    "x": 100,
+                    "y": 1500
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format asset query",
+                            "customNameId": 0,
+                            "description": "Format a Splunk query with host data from the container.",
+                            "drop_none": true,
+                            "join": [],
+                            "notRequiredJoins": [
+                                "collect_type_host",
+                                "run_identity_query"
+                            ],
+                            "note": "Format a Splunk query with host data from the container."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_asset_query",
+                        "id": "14",
+                        "parameters": [
+                            "collect_type_host:custom_function_result.data.*.artifact_value"
+                        ],
+                        "template": "asset_lookup_by_str | search asset IN (\n%%\n\"{0}\"\n%%\n)\n| eval category=mvjoin(category, \"; \")",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "format",
+                    "x": 100,
+                    "y": 820
+                },
+                "16": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format identity query",
+                            "customNameId": 0,
+                            "description": "Format a Splunk query with user data from the container.",
+                            "drop_none": true,
+                            "join": [],
+                            "note": "Format a Splunk query with user data from the container."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_identity_query",
+                        "id": "16",
+                        "parameters": [
+                            "collect_type_user:custom_function_result.data.*.artifact_value"
+                        ],
+                        "template": "identity_lookup_expanded | search identity IN (\n%%\n\"{0}\"\n%%\n)\n| eval category=mvjoin(category, \"; \")",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "format",
+                    "x": 100,
+                    "y": 280
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "customName": "user decision",
+                            "customNameId": 0,
+                            "description": "Determine if a user data type is present in the container.",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "collect_type_host"
+                            ],
+                            "note": "Determine if a user data type is present in the container."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "collect_type_user:custom_function_result.data.*.artifact_value",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "user exists",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "criteria missing",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 5,
+                        "functionName": "user_decision",
+                        "id": "20",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "decision",
+                    "x": 180,
+                    "y": 120
+                },
+                "21": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run identity query",
+                            "customNameId": 0,
+                            "description": "Search for any matches to users in the identity table in Splunk.",
+                            "join": [],
+                            "note": "Search for any matches to users in the identity table in Splunk."
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": 129,
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_identity_query",
+                        "id": "21",
+                        "parameters": {
+                            "command": "| inputlookup",
+                            "query": "format_identity_query:formatted_data"
+                        },
+                        "requiredParameters": [
+                            "query"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "21",
+                    "type": "action",
+                    "x": 100,
+                    "y": 420
+                },
+                "22": {
+                    "data": {
+                        "advanced": {
+                            "customName": "host decision",
+                            "customNameId": 1,
+                            "description": "Determine if a host/hostname datatype was found in the event.",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "run_identity_query",
+                                "collect_type_host"
+                            ],
+                            "note": "Determine if a host/hostname datatype was found in the event."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "collect_type_host:custom_function_result.data.*.artifact_value",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "host exists",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "criteria missing",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 6,
+                        "functionName": "host_decision_1",
+                        "id": "22",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "22",
+                    "type": "decision",
+                    "x": 180,
+                    "y": 660
+                },
+                "23": {
+                    "data": {
+                        "action": "run query",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "run asset query",
+                            "customNameId": 0,
+                            "description": "Search for any matches to hosts in the asset table in Splunk.",
+                            "join": [],
+                            "note": "Search for any matches to hosts in the asset table in Splunk."
+                        },
+                        "connector": "Splunk",
+                        "connectorConfigs": [
+                            "splunk"
+                        ],
+                        "connectorId": 129,
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "run_asset_query",
+                        "id": "23",
+                        "parameters": {
+                            "command": "| inputlookup",
+                            "query": "format_asset_query:formatted_data"
+                        },
+                        "requiredParameters": [
+                            "query"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "23",
+                    "type": "action",
+                    "x": 100,
+                    "y": 940
+                },
+                "24": {
+                    "data": {
+                        "advanced": {
+                            "customName": "results decision",
+                            "customNameId": 0,
+                            "description": "Determine if any results were found by the preceding queries.",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "run_asset_query",
+                                "run_identity_query",
+                                "collect_type_host"
+                            ],
+                            "note": "Determine if any results were found by the preceding queries."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "run_asset_query:action_result.summary.total_events",
+                                        "value": "0"
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "run_identity_query:action_result.summary.total_events",
+                                        "value": "0"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "information exists",
+                                "display": "If",
+                                "logic": "or",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "leave error note",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 7,
+                        "functionName": "results_decision",
+                        "id": "24",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "24",
+                    "type": "decision",
+                    "x": 180,
+                    "y": 1080
+                },
+                "26": {
+                    "customCode": "def protect_prompt(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, **kwargs):\n    phantom.debug(\"protect_prompt() called\")\n\n    # set user and message variables for phantom.prompt call\n\n    user_id = phantom.get_effective_user()\n    url = phantom.build_phantom_rest_url('ph_user', user_id)\n    response = phantom.requests.get(url, verify=False).json()\n    user = response['username']\n    message = \"\"\"{0}\"\"\"\n\n    # parameter list for template variable replacement\n    parameters = [\n        \"format_prompt:formatted_data\"\n    ]\n    \n    device_data = phantom.collect2(container=container, datapath=['run_asset_query:action_result.data.*.nt_host'], action_results=results )\n    device_list = [item[0] for item in device_data]\n    user_data = phantom.collect2(container=container, datapath=['run_identity_query:action_result.data.*.email'], action_results=results )\n    user_list = [item[0] for item in user_data]\n    \n    list_asset_playbooks_data = phantom.collect2(container=container, datapath=[\"list_asset_playbooks:custom_function_result.data.*.full_name\"])\n    list_asset_playbooks_list = [item[0] for item in list_asset_playbooks_data if item[0]]\n    list_identity_playbooks_data = phantom.collect2(container=container, datapath=[\"list_identity_playbooks:custom_function_result.data.*.full_name\"])\n    list_identity_playbooks_list = [item[0] for item in list_identity_playbooks_data if item[0]]\n    \n\t#responses:\n    all_entity_list = []\n    response_types = []\n    # only add a response if a device exists and a playbook exists\n    if device_list and list_asset_playbooks_list: \n        for item in device_list:\n            if item:\n                response_types.append({\n                        \"prompt\": \"Launch protect asset playbooks on '{}'?\".format(item),\n                        \"options\": {\n                            \"type\": \"list\",\n                            \"choices\": [\n                                \"Yes\",\n                                \"No\"\n                            ]\n                        },\n                    })\n                all_entity_list.append({'type': 'device', 'name': item})\n    \n    # only add a response if a user exists and a playbook exists\n    if user_list and list_identity_playbooks_list: \n        for item in user_list:\n            if item:\n                response_types.append({\n                        \"prompt\": \"Launch protect identity playbooks on '{}'?\".format(item),\n                        \"options\": {\n                            \"type\": \"list\",\n                            \"choices\": [\n                                \"Yes\",\n                                \"No\"\n                            ]\n                        },\n                    })\n                all_entity_list.append({'type': 'user', 'name': item})\n                \n    phantom.save_run_data(key='all_entities', value=json.dumps(all_entity_list))    \n    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name=\"protect_prompt\", parameters=parameters, response_types=response_types, callback=decide_and_launch_playbooks)\n\n    return",
+                    "data": {
+                        "advanced": {
+                            "customName": "protect prompt",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "approver": "admin",
+                        "functionId": 1,
+                        "functionName": "protect_prompt",
+                        "id": "26",
+                        "message": "{0}",
+                        "parameters": [
+                            "format_prompt:formatted_data"
+                        ],
+                        "responseTime": 30,
+                        "responses": [],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "26",
+                    "type": "prompt",
+                    "x": 180,
+                    "y": 1360
+                },
+                "32": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format error note",
+                            "customNameId": 0,
+                            "description": "Format a note letting the user know that no assets or identities were found.",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "run_asset_query",
+                                "collect_type_host"
+                            ],
+                            "note": "Format a note letting the user know that no assets or identities were found."
+                        },
+                        "functionId": 3,
+                        "functionName": "format_error_note",
+                        "id": "32",
+                        "parameters": [
+                            "collect_type_user:custom_function_result.data.*.artifact_value",
+                            "collect_type_host:custom_function_result.data.*.artifact_value"
+                        ],
+                        "template": "Splunk SOAR was unable to locate any matches in the Enterprise Security Asset & Identity Table for the below entities in this incident.\n\nUsers:\n%%\n- {0}\n%%\n\nAssets:\n%%\n- {1}\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "32",
+                    "type": "format",
+                    "x": -160,
+                    "y": 1660
+                },
+                "36": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format prompt",
+                            "customNameId": 0,
+                            "description": "Format a table of the asset and identity information.",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "run_asset_query",
+                                "run_identity_query",
+                                "collect_type_host"
+                            ],
+                            "note": "Format a table of the asset and identity information."
+                        },
+                        "functionId": 4,
+                        "functionName": "format_prompt",
+                        "id": "36",
+                        "parameters": [
+                            "run_asset_query:action_result.data.*.nt_host",
+                            "run_asset_query:action_result.data.*.category",
+                            "run_asset_query:action_result.data.*.bunit",
+                            "run_asset_query:action_result.data.*.owner",
+                            "run_asset_query:action_result.data.*.city",
+                            "run_asset_query:action_result.data.*.country",
+                            "run_asset_query:action_result.data.*.pci_domain",
+                            "run_asset_query:action_result.data.*.priority",
+                            "run_identity_query:action_result.data.*.email",
+                            "run_identity_query:action_result.data.*.first",
+                            "run_identity_query:action_result.data.*.last",
+                            "run_identity_query:action_result.data.*.category",
+                            "run_identity_query:action_result.data.*.bunit",
+                            "run_identity_query:action_result.data.*.priority"
+                        ],
+                        "template": "Below is a list of users and devices that were detected related to this event. \n\n\n**Only users and devices that are present in the ES Asset Inventory are shown.**\n\n#### Asset\n| nt_host | category | bunit | owner | city | country | pci_domain | priority |\n| --- | --- | --- | --- | --- | --- | --- | --- | \n%%\n| {0} | {1} | {2} | {3} | {4} | {5} | {6} | {7} |  \n%%\n\n#### Identity\n| email | first | last | category | bunit | priority |\n| --- | --- | --- | --- | --- | --- |\n%%\n| {8} | {9} | {10} | {11} | {12} | {13} |\n%%\n---\n\n\n### Please select an action for the entities below. **Only entities with an applicable playbook are shown.** ",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "36",
+                    "type": "format",
+                    "x": 100,
+                    "y": 1220
+                },
+                "40": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format final note",
+                            "customNameId": 0,
+                            "description": "Format a final note with everything done up to this point.",
+                            "drop_none": true,
+                            "join": [],
+                            "note": "Format a final note with everything done up to this point."
+                        },
+                        "functionId": 5,
+                        "functionName": "format_final_note",
+                        "id": "40",
+                        "parameters": [
+                            "decide_and_launch_playbooks:custom_function:playbook_names",
+                            "decide_and_launch_playbooks:custom_function:playbook_inputs"
+                        ],
+                        "template": "Summary of playbook launch activity below. Ensure the users or devices were contained by checking action results.\n\n| Playbooks | Inputs |\n| --- | --- |\n%%\n| `{0}` | `{1}` |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "40",
+                    "type": "format",
+                    "x": 100,
+                    "y": 1660
+                },
+                "45": {
+                    "data": {
+                        "advanced": {
+                            "customName": "merge notes",
+                            "customNameId": 0,
+                            "description": "Merge available notes based on which format block was triggered.",
+                            "drop_none": true,
+                            "join": [],
+                            "notRequiredJoins": [
+                                "collect_type_host",
+                                "run_asset_query",
+                                "get_playbook_launch_data",
+                                "list_quarantine_playbooks",
+                                "list_disable_playbooks"
+                            ],
+                            "note": "Merge available notes based on which format block was triggered."
+                        },
+                        "functionId": 7,
+                        "functionName": "merge_notes",
+                        "id": "45",
+                        "parameters": [
+                            "format_error_note:formatted_data",
+                            "format_final_note:formatted_data"
+                        ],
+                        "template": "{0}{1}",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "45",
+                    "type": "format",
+                    "x": 100,
+                    "y": 1820
+                },
+                "48": {
+                    "data": {
+                        "advanced": {
+                            "customName": "playbook decision",
+                            "customNameId": 0,
+                            "description": "Determine if any protect playbooks exist.",
+                            "join": [],
+                            "note": "Determine if any protect playbooks exist."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "list_asset_playbooks:custom_function_result.data.*.full_name",
+                                        "value": ""
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "list_identity_playbooks:custom_function_result.data.*.full_name",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "playbooks exist",
+                                "display": "If",
+                                "logic": "or",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "playbook_decision",
+                        "id": "48",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "48",
+                    "type": "decision",
+                    "x": 180,
+                    "y": -140
+                },
+                "49": {
+                    "data": {
+                        "advanced": {
+                            "customName": "list identity playbooks",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "playbooks_list",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "list_identity_playbooks",
+                        "id": "49",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "playbooks_list": {
+                                "description": "List all playbooks matching the provided name, category, and tags. If no filters are provided, list all playbooks.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks with the provided name.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "Playbook Name",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only returns playbooks that match the provided category.",
+                                        "inputType": "item",
+                                        "label": "category",
+                                        "name": "category",
+                                        "placeholder": "Playbook Category",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that contain ALL the provided tags. Multiple tags must be a comma-separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that exist in this repo.",
+                                        "inputType": "item",
+                                        "label": "repo",
+                                        "name": "repo",
+                                        "placeholder": "local",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that match the provided type. Accepts 'automation', 'input' or 'data.'",
+                                        "inputType": "item",
+                                        "label": "playbook_type",
+                                        "name": "playbook_type",
+                                        "placeholder": "automation",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "playbooks_list",
+                                "name": "playbooks_list"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "playbooks_list": {
+                                "category": null,
+                                "name": null,
+                                "playbook_type": "input",
+                                "repo": "local",
+                                "tags": "identity, protect, risk_notable"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "49",
+                    "type": "utility",
+                    "x": 100,
+                    "y": -240
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "collect type user",
+                            "customNameId": 0,
+                            "join": [],
+                            "notRequiredJoins": [
+                                "list_workbooks",
+                                "add_risk_workbook"
+                            ]
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "collect_by_cef_type",
+                            "repoName": "community"
+                        },
+                        "functionId": 4,
+                        "functionName": "collect_type_user",
+                        "id": "6",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "collect_by_cef_type": {
+                                "description": "Collect all artifact values that match the desired CEF data types, such as \"ip\", \"url\", \"sha1\", or \"all\". Optionally also filter for artifacts that have the specified tags.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "Container ID or container object.",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The CEF data type to collect values for. This could be a single string or a comma separated list such as \"hash,filehash,file_hash\". The special value \"all\" can also be used to collect all field values from all artifacts.",
+                                        "inputType": "item",
+                                        "label": "data_types",
+                                        "name": "data_types",
+                                        "placeholder": "data_type1, data_type2, data_type3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "If tags are provided, only return fields from artifacts that have all of the provided tags. This could be an individual tag or a comma separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Defaults to 'new'. Define custom scope. Advanced Settings Scope is not passed to a custom function. Options are 'all' or 'new'.",
+                                        "inputType": "item",
+                                        "label": "scope",
+                                        "name": "scope",
+                                        "placeholder": "new",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "collect_by_cef_type",
+                                "name": "collect_by_cef_type"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "collect_by_cef_type": {
+                                "container": "container:id",
+                                "data_types": "user,username,user name,user_name,username",
+                                "scope": "all",
+                                "tags": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "utility",
+                    "x": 100,
+                    "y": 20
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "collect type host",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "collect_by_cef_type",
+                            "repoName": "community"
+                        },
+                        "functionId": 5,
+                        "functionName": "collect_type_host",
+                        "id": "7",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "collect_by_cef_type": {
+                                "description": "Collect all artifact values that match the desired CEF data types, such as \"ip\", \"url\", \"sha1\", or \"all\". Optionally also filter for artifacts that have the specified tags.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "Container ID or container object.",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The CEF data type to collect values for. This could be a single string or a comma separated list such as \"hash,filehash,file_hash\". The special value \"all\" can also be used to collect all field values from all artifacts.",
+                                        "inputType": "item",
+                                        "label": "data_types",
+                                        "name": "data_types",
+                                        "placeholder": "data_type1, data_type2, data_type3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "If tags are provided, only return fields from artifacts that have all of the provided tags. This could be an individual tag or a comma separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Defaults to 'new'. Define custom scope. Advanced Settings Scope is not passed to a custom function. Options are 'all' or 'new'.",
+                                        "inputType": "item",
+                                        "label": "scope",
+                                        "name": "scope",
+                                        "placeholder": "new",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "collect_by_cef_type",
+                                "name": "collect_by_cef_type"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "collect_by_cef_type": {
+                                "container": "container:id",
+                                "data_types": "host name,host,hostname,host_name",
+                                "scope": "all",
+                                "tags": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "utility",
+                    "x": 100,
+                    "y": 560
+                }
+            },
+            "notes": "For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack"
+        },
+        "input_spec": null,
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "[Auto-Generated] Protect Assets and Users Summary"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "note_title"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "merge_notes:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "note_content"
+            }
+        ],
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.3",
+        "version": "5.0.1.66250"
+    },
+    "create_time": "2021-10-19T20:24:15.998858+00:00",
+    "draft_mode": false,
+    "labels": [
+        "risk_notable"
+    ],
+    "tags": []
+}

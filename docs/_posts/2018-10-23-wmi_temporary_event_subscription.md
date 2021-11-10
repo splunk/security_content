@@ -32,7 +32,7 @@ This search looks for the creation of WMI temporary event subscriptions.
 - **ID**: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -82,6 +82,7 @@ Some software may create WMI temporary event subscriptions for various purposes.
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 

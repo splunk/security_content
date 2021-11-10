@@ -29,7 +29,7 @@ This analytic identifies a potential adversary that changes the security permiss
 - **ID**: b76eae28-cd25-11eb-9c92-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -93,4 +93,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/deny_permission_using_cacls_utility.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/deny_permission_using_cacls_utility.yml) \| *version*: **2**

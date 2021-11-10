@@ -35,13 +35,11 @@ The search is used to identify attempts to use your DNS Infrastructure for DDoS 
 - **ID**: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
-
-
 
 | [T1498.002](https://attack.mitre.org/techniques/T1498/002/) | Reflection Amplification | Impact |
 
@@ -86,6 +84,7 @@ Legitimate ANY requests may trigger this search, however it is unusual to see a 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 
