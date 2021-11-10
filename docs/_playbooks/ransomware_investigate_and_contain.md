@@ -703,6 +703,9 @@ This playbook investigates and contains ransomware detected on endpoints.
 
 
 
+
+
+
 #### How To Implement
 This playbook requires the Splunk SOAR apps for Palo Alto Networks Firewalls, Palo Alto Wildfire, LDAP, and Carbon Black Response.
 
