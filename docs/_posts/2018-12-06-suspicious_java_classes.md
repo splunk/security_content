@@ -81,4 +81,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
+
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/application/suspicious_java_classes.yml) \| *version*: **1**
