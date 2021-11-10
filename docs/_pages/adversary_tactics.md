@@ -57,5 +57,5 @@ sidebar:
 | [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Discovery Techniques](/stories/windows_discovery_techniques/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Process Injection](/tags/#process-injection), [Hijack Execution Flow](/tags/#hijack-execution-flow) | [Persistence](/tags/#persistence) |
 | [Windows Log Manipulation](/stories/windows_log_manipulation/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | [Defense Evasion](/tags/#defense-evasion) |
-| [Windows Persistence Techniques](/stories/windows_persistence_techniques/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | [Execution](/tags/#execution) |
+| [Windows Persistence Techniques](/stories/windows_persistence_techniques/) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) |
 | [Windows Privilege Escalation](/stories/windows_privilege_escalation/) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |

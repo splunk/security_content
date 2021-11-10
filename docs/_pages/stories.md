@@ -50,7 +50,7 @@ sidebar:
 | [GCP Cross Account Activity](gcp_cross_account_activity) | [Valid Accounts](/tags/#valid-accounts) | [Defense Evasion](/tags/#defense-evasion) |
 | [HAFNIUM Group](hafnium_group) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
 | [Hidden Cobra Malware](hidden_cobra_malware) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Remote Services](/tags/#remote-services) | [Lateral Movement](/tags/#lateral-movement) |
-| [IcedID](icedid) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | [Execution](/tags/#execution) |
+| [IcedID](icedid) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) |
 | [Ingress Tool Transfer](ingress_tool_transfer) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Command And Control](/tags/#command-and-control) |
 | [JBoss Vulnerability](jboss_vulnerability) | [System Information Discovery](/tags/#system-information-discovery) | [Discovery](/tags/#discovery) |
 | [Kubernetes Scanning Activity](kubernetes_scanning_activity) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Discovery](/tags/#discovery) |
@@ -110,7 +110,7 @@ sidebar:
 | [Windows Discovery Techniques](windows_discovery_techniques) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Process Injection](/tags/#process-injection), [Hijack Execution Flow](/tags/#hijack-execution-flow) | [Persistence](/tags/#persistence) |
 | [Windows File Extension and Association Abuse](windows_file_extension_and_association_abuse) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Log Manipulation](windows_log_manipulation) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | [Defense Evasion](/tags/#defense-evasion) |
-| [Windows Persistence Techniques](windows_persistence_techniques) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | [Execution](/tags/#execution) |
+| [Windows Persistence Techniques](windows_persistence_techniques) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) |
 | [Windows Privilege Escalation](windows_privilege_escalation) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |
 | [Windows Service Abuse](windows_service_abuse) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
 | [XMRig](xmrig) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
