@@ -252,6 +252,7 @@ def main(args):
     splunkbase_username = args.splunkbase_username
     splunkbase_password = args.splunkbase_password
     full_docker_hub_container_name = "splunk/splunk:%s"%args.container_tag
+    #full_docker_hub_container_name = "customimage"
     interactive_failure = args.interactive_failure
     show_password = args.show_password
     splunk_password = args.container_password
@@ -826,6 +827,7 @@ class SynchronizedResultsTracker:
             print("There was an error generating [%s]: [%s]"%(output_filename, str(e)))
             success = False
         return success
+        
     def outputResultsFile(self, field_names:list[str], output_filename:str, data:list[dict], baseline:OrderedDict, output_json:bool=True, output_csv:bool=True)->bool:
         success = True
         if output_csv:
@@ -974,7 +976,8 @@ def splunk_container_manager(testing_object:SynchronizedResultsTracker, containe
     print("Container [%s] setup complete and waiting for other containers to be ready..."%(container_name))
     testing_object.start_barrier.wait()
     wait_for_splunk_ready(container_name, splunk_web_port,splunk_ip, max_seconds=300)
-    
+    #print("\n\n\nLONG WAIT FOR THE EXPORT PLEASE \n\n\n\n")
+    #time.sleep(3600)
     while True:
         #Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1,30))
