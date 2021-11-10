@@ -3,7 +3,7 @@ title: "Windows AdFind Exe"
 excerpt: "Remote System Discovery"
 categories:
   - Endpoint
-last_modified_at: 2020-12-16
+last_modified_at: 2021-11-03
 toc: true
 toc_label: ""
 tags:
@@ -15,8 +15,6 @@ tags:
   - Endpoint
 ---
 
-### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -28,12 +26,12 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2020-12-16
-- **Author**: Jose Hernandez, Splunk
+- **Last Updated**: 2021-11-03
+- **Author**: Jose Hernandez, Bhavin Patel, Splunk
 - **ID**: bd3b0187-189b-46c0-be45-f52da2bae67f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -42,12 +40,12 @@ This search looks for the execution of `adfind.exe` with command-line arguments 
 #### Search
 
 ```
- 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process=*-f* OR Processes.process=*-b*) AND (Processes.process=*objectcategory* OR Processes.process=*-gcb* OR Processes.process=*-sc*) by Processes.dest Processes.user Processes.process_name Processes.process  Processes.parent_process Processes.process_id Processes.parent_process_id 
+
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process="* -f *" OR Processes.process="* -b *") AND (Processes.process=*objectcategory* OR Processes.process="* -gcb *" OR Processes.process="* -sc *") by Processes.dest Processes.user Processes.process_name Processes.process Processes.parent_process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `windows_adfind_exe_filter` 
+| `windows_adfind_exe_filter`
 ```
 
 #### Associated Analytic Story
@@ -94,4 +92,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/atomic_red_team/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/atomic_red_team/windows-sysmon.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/windows_adfind_exe.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_adfind_exe.yml) \| *version*: **2**

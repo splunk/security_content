@@ -31,7 +31,7 @@ This search is to detect a pushed or commit to master or main branch. This is to
 - **ID**: c9d2bfe2-019f-11ec-a8eb-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -89,6 +89,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/github_commit_changes_in_master.yml) \| *version*: **1**
