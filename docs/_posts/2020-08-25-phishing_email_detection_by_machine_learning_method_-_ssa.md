@@ -7,12 +7,9 @@ last_modified_at: 2020-08-25
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1566
   - Phishing
   - Initial Access
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -33,10 +30,10 @@ Malicious mails can conduct phishing that induces readers to open attachment, cl
 - **ID**: 4b237388-dfa1-41a6-91d4-4de2d598376f
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 #### Search
@@ -82,7 +79,6 @@ Because of imbalance of anomaly data in training, the model will less likely rep
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

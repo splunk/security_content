@@ -24,6 +24,8 @@ tags:
   asset_type: Endpoint
   cis20:
   - CIS 4
+  cve:
+  - CVE-2017-5753
   nist:
   - ID.RA
   - RS.MI
@@ -36,5 +38,3 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
-  cve:
-  - CVE-2017-5753

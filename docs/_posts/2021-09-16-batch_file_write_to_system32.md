@@ -7,18 +7,14 @@ last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1204
   - User Execution
   - Execution
-  - T1204.002
   - Malicious File
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Delivery
 ---
 
 
@@ -37,11 +33,14 @@ The search looks for a batch file (.bat) written to the Windows system directory
 - **ID**: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
+
+
+
 | [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 #### Search
@@ -102,7 +101,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/batch_file_in_system32/windows-sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/batch_file_write_to_system32.yml) \| *version*: **2**

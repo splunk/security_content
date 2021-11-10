@@ -7,7 +7,6 @@ last_modified_at: 2020-09-12
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -87,7 +86,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/cloud_compute_instance_created_with_previously_unseen_instance_type.yml) \| *version*: **1**

@@ -7,14 +7,11 @@ last_modified_at: 2018-11-27
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1530
   - Data from Cloud Storage Object
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -35,10 +32,10 @@ This search detects users creating spikes in API activity related to deletion of
 - **ID**: ad12w478-84a8-4641-a3w1-e32372q4bd53
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
 
 #### Search
@@ -97,7 +94,6 @@ Based on the values of`dataPointThreshold` and `deviationThreshold`, the false p
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

@@ -7,12 +7,9 @@ last_modified_at: 2021-09-29
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1547.003
   - Time Providers
   - Persistence
   - Privilege Escalation
-  - T1547
   - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
@@ -20,7 +17,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -103,7 +99,6 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.003/timeprovider_reg/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.003/timeprovider_reg/sysmon.log)
-
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/time_provider_persistence_registry.yml) \| *version*: **1**

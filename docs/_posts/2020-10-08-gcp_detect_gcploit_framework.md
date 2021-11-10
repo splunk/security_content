@@ -7,8 +7,6 @@ last_modified_at: 2020-10-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
@@ -17,7 +15,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Lateral Movement
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -38,10 +35,10 @@ This search provides detection of GCPloit exploitation framework. This framework
 - **ID**: a1c5a85e-a162-410c-a5d9-99ff639e5a52
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
@@ -92,7 +89,6 @@ Payload.request.function.timeout value can possibly be match with other function
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 

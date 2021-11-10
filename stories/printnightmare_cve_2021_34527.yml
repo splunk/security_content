@@ -24,8 +24,7 @@ tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
   category:
-  - Lateral Movement
-  - Privilege Escalation
+  - Vulnerability
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

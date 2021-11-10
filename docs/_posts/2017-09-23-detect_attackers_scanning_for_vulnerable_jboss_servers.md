@@ -7,15 +7,12 @@ last_modified_at: 2017-09-23
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1082
   - System Information Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Web
-  - Reconnaissance
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,10 +33,10 @@ This search looks for specific GET or HEAD requests to web servers that are indi
 - **ID**: 104658f4-afdc-499e-9719-17243f982681
 
 
-#### [ATT&CK](https://attack.mitre.org/)
+#### ATT&CK
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
 
 #### Search
@@ -86,7 +83,6 @@ It&#39;s possible for legitimate HTTP requests to be made to URLs containing the
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
-
 
 
 
