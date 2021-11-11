@@ -17,7 +17,7 @@ distlib==0.3.3
 distro==1.6.0
 filelock==3.2
 fire==0.4.0
-gitdb==4.0.7
+gitdb==4.0.9
 html5lib==1.1
 humanfriendly==10.0
 identify==2.2.13
