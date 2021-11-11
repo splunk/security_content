@@ -29,7 +29,7 @@ Jinja2==3.0.2
 jsonschema==4.2.1
 lockfile==0.12.2
 MarkupSafe==2.0.1
-more-itertools==8.8.0
+more-itertools==8.11.0
 msgpack==1.0.2
 nodeenv==1.6.0
 packaging==21.0
@@ -70,7 +70,7 @@ tomli==1.2.2
 typing==3.7.4.3
 tzlocal==3.0
 urllib3==1.26.6
-virtualenv==20.9.0
+virtualenv==20.10.0
 wcwidth==0.2.5
 webencodings==0.5.1
 zipp==3.5.0
