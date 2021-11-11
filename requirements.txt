@@ -22,10 +22,10 @@ html5lib==1.1
 humanfriendly==10.0
 identify==2.2.13
 idna==3.3
-importlib-metadata==4.8.1
+importlib-metadata==4.8.2
 importlib-resources==5.2.2
 ipaddr==2.2.0
-Jinja2==3.0.2
+Jinja2==3.0.3
 jsonschema==4.2.1
 lockfile==0.12.2
 MarkupSafe==2.0.1
@@ -40,7 +40,7 @@ Pillow==8.4.0
 platformdirs==2.4.0
 pre-commit==2.14.1
 progress==1.6
-prompt-toolkit==1.0.14
+prompt-toolkit==3.0.22
 pycvesearch==1.0.1
 pyfiglet==0.8.post1
 Pygments==2.10.0
