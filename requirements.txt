@@ -8,7 +8,7 @@ CacheControl==0.12.6
 certifi==2021.5.30
 cfgv==3.3.1
 chardet==4.0.0
-charset-normalizer==2.0.4
+charset-normalizer==2.0.7
 colorama==0.4.4
 coloredlogs==15.0.1
 configparser==5.0.2
