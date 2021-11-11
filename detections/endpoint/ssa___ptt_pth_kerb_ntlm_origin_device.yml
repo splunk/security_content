@@ -11,7 +11,10 @@ description: This detection identifies potential Pass the Token or Pass the Hash
   from the dominant Kerberos logins to rare NTLM logins for a given user, as reported
   by an event-collecting device (i.e., a specific domain controller or an endpoint
   destination).
-search: '| from read_ssa_enriched_events() | eval timestamp=      parse_long(ucast(map_get(input_event,
+search: '| from read_ssa_enriched_events()
+  | where "Authentication" IN(_datamodels)
+
+  | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"),
   "string", null)), dest_user_id=   ucast(map_get(input_event, "dest_user_id"), "string",
   null), origin_device_id=       ucast(map_get(input_event, "origin_device_id"), "string",
