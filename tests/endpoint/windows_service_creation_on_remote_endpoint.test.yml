@@ -1,0 +1,12 @@
+name: Windows Service Creation on Remote Endpoint Unit Test
+tests:
+- name: Windows Service Creation on Remote Endpoint
+  file: endpoint/windows_service_creation_on_remote_endpoint.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: UPDATE_DATASET_URL
+    source: WinEventLog:Security
+    sourcetype: WinEventLog
