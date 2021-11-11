@@ -3,7 +3,7 @@ id: f421c250-24e7-11ec-bc43-acde48001122
 version: 1
 date: '2021-10-04'
 author: Teoderick Contreras, Splunk
-type: TTP
+type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic is to detect a loading of dll using regsvr32 application
