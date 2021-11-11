@@ -5,7 +5,7 @@ attackcti==0.3.4.4
 attrs==21.2.0
 backports.entry-points-selectable==1.1.1
 CacheControl==0.12.10
-certifi==2021.5.30
+certifi==2021.10.8
 cfgv==3.3.1
 chardet==4.0.0
 charset-normalizer==2.0.7
@@ -45,7 +45,7 @@ pycvesearch==1.0.1
 pyfiglet==0.8.post1
 Pygments==2.10.0
 PyInquirer==1.0.3
-pyparsing==2.4.7
+pyparsing==3.0.5
 pyrsistent==0.18.0
 python-dateutil==2.8.2
 pytoml==0.1.21
