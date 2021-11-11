@@ -35,13 +35,11 @@ This analytic is developed to detect possible event trigger execution through sc
 - **ID**: 58cea3ec-1f6d-11ec-8560-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
-
-
 
 | [T1546.002](https://attack.mitre.org/techniques/T1546/002/) | Screensaver | Privilege Escalation, Persistence |
 
@@ -102,6 +100,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.002/scrnsave_reg/sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.002/scrnsave_reg/sysmon.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/screensaver_event_trigger_execution.yml) \| *version*: **1**

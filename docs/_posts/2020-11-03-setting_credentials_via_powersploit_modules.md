@@ -35,12 +35,14 @@ This detection identifies illegal setting of credentials via PowerSploit modules
 - **ID**: 07b2a501-f967-4ddc-9f56-2dce46dfce44
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 
 #### Search
@@ -98,6 +100,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllPowerSploitModulesWithOldNames.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllPowerSploitModulesWithOldNames.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/setting_credentials_via_powersploit_modules.yml) \| *version*: **1**

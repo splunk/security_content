@@ -74,4 +74,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
+
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/web/monitor_web_traffic_for_brand_abuse.yml) \| *version*: **1**

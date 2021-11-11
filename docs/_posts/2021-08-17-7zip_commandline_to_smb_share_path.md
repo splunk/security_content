@@ -35,9 +35,10 @@ This search is to detect a suspicious 7z process with commandline pointing to SM
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
+
 | [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
 
 #### Search
@@ -98,6 +99,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon_7z.log)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/7zip_commandline_to_smb_share_path.yml) \| *version*: **1**

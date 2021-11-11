@@ -33,7 +33,7 @@ This search detects attempts to run exploits for the Zerologon CVE-2020-1472 vul
 - **ID**: bf7a06ec-f703-11ea-adc1-0242ac120002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -90,6 +90,7 @@ unknown
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 

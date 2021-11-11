@@ -36,7 +36,7 @@ Review the source attempting to perform this activity against your environment. 
 - **ID**: 29228ab4-0762-11ec-94aa-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -98,6 +98,7 @@ Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://githu
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/exchange-events.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/exchange-events.json)
+
 
 
 [*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/exchange_powershell_abuse_via_ssrf.yml) \| *version*: **1**

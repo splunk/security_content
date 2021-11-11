@@ -37,9 +37,10 @@ This search allows you to identify DNS requests that are unusually large for the
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
+
 | [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
 
 #### Search
@@ -100,6 +101,7 @@ If you are seeing more results than desired, you may consider reducing the value
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
 
 
 
