@@ -50,11 +50,12 @@ class GithubService:
 
                 # changed detections
                 if file_path.startswith('detections'):
-                    if os.path.basename(file_path).startswith('ssa'):
-                        file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
-                        file_path_new = file_path_base + '.yml'
-                        if file_path_new not in changed_ssa_test_files:
-                            changed_ssa_test_files.append(file_path_new)
+                    if not 'deprecated' in file_path:
+                        if os.path.basename(file_path).startswith('ssa'):
+                            file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
+                            file_path_new = file_path_base + '.yml'
+                            if file_path_new not in changed_ssa_test_files:
+                                changed_ssa_test_files.append(file_path_new)
 
                 # changed CI code
                 if file_path == '.gitlab-ci.yml' or file_path.startswith('bin/ssa-end-to-end-testing'):
