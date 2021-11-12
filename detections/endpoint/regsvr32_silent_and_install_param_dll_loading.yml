@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   by Processes.dest Processes.parent_process Processes.process Processes.parent_process_name
   Processes.process_name Processes.original_file_name Processes.user | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where
-  match(process,"(?i)[\-|\/]s*") | `regsvr32_silent_and_install_param_dll_loading_filter`'
+  match(process,"(?i)[\-|\/][Ss]{1}") | `regsvr32_silent_and_install_param_dll_loading_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
