@@ -26,22 +26,22 @@ class PublishArtifactory:
         self.endpoint = JfrogArtifactoryConstant.JFROG_ENDPOINT
         # Jfrog artifactory repository
         self.repository = JfrogArtifactoryConstant.JFROG_REPOSITORY
-        # Pre-QA dir name
+        # Pre-QA directory name
         self.pre_qa_repository_dir_name = JfrogArtifactoryConstant.PRE_QA_DIR
-        # Pre-QA artifactory repository endpoint
+        # Pre-QA artifactory endpoint
         self.pre_qa_endpoint = f"{self.endpoint}/artifactory/{self.repository}"
         # Pre-QA artifactory API endpoint
         self.pre_qa_api_endpoint = (
             f"{self.endpoint}/artifactory/api/storage/{self.repository}"
         )
-        # Artifactory name list, will push to pre-qa
+        # Artifactory name list, will push to Pre-QA
         self.artifactory_files = artifactory_list
-        # Github tag endpoint endpoint for download assets
+        # Github tags API endpoint for download assets
         self.git_tags_api_endpoint = (
             f"https://api.github.com/repos/splunk/security_content/releases/tags/"
             f"{self.release_id}"
         )
-        # Max artifact in builds dir
+        # Max artifact in builds directory
         self.max_artifacts_in_build_dir = 5
 
     def __fetch_and_download_artifactory_from_git(self):
@@ -82,7 +82,7 @@ class PublishArtifactory:
 
         logging.debug(f"Artifactory list - {artifactory_list}")
 
-        # Download artifactory from github using CURL
+        # Download build from github
         for assets_name, assets_url in artifactory_list.items():
             download_url = f"curl -vLJO -H 'Authorization: Basic {token}' -H 'Accept: application/octet-stream' {assets_url}"
             status, output = subprocess.getstatusoutput(download_url)
@@ -104,11 +104,11 @@ class PublishArtifactory:
 
     def __delete_exiting_artifactory_from_pre_qa(self, artifactory):
         """
-        Delete the existing build from JFROG artifactory latest dir and builds dir of given product
-        :param artifactory: Artifactory name
+        Delete the existing build from JFROG artifactory latest directory and builds directory of given product
+        :param artifactory: Product name
         :return: None
         """
-        # Delete the existing build from pre-qa latest dir
+        # Delete the existing build from product latest directory
         pre_qa_latest_endpoint = f"{self.pre_qa_endpoint}/{self.pre_qa_repository_dir_name}/{artifactory}/latest"
         delete_pre_qa_latest_response = requests.request(
             "DELETE",
@@ -132,7 +132,7 @@ class PublishArtifactory:
             logging.error(error_message)
             raise Exception(error_message)
 
-        # Get all artifact from builds dir
+        # Get artifact details from product builds directory
         pre_qa_builds_endpoint = f"{self.pre_qa_api_endpoint}/{self.pre_qa_repository_dir_name}/{artifactory}/builds/"
         response = requests.request(
             "GET",
@@ -175,7 +175,7 @@ class PublishArtifactory:
 
                 delete_artifactory_list = list(delete_artifactory_dict.values())
 
-                # Delete the artifactory list from builds dir
+                # Delete older build from product builds directory
                 for obj in delete_artifactory_list:
                     url = f"{self.pre_qa_endpoint}/{self.pre_qa_repository_dir_name}/{artifactory}/builds{obj}"
                     delete_response = requests.request(
@@ -195,13 +195,14 @@ class PublishArtifactory:
                         return
                     else:
                         error_message = (
-                            f"Error occur while deleting build from jfrog artifactory builds dir, "
+                            f"Error occur while deleting build from jfrog artifactory builds directory, "
                             f"Reason: {delete_response.content}, endpoint: {url}"
                         )
                         logging.error(error_message)
                         raise Exception(error_message)
 
-    def __publish_single_artifactory_to_pre_qa(self, artifactory, endpoint):
+    @staticmethod
+    def __publish_single_artifactory_to_pre_qa(artifactory, endpoint):
         """
         Deploy build to jfrog artifactory server
         :param artifactory: Local downloaded  artifactory path
@@ -245,19 +246,19 @@ class PublishArtifactory:
         """
         for artifactory in artifactory_list:
             try:
-                # Current artifactory dir name
+                # product directory name
                 current_artifactory_dir_name = (
                     artifactory.replace("_", "-")
                     .lower()
                     .split(re.search("-v\d+(\.\d+){2,}", artifactory).group())[0]
                 )
 
-                # Delete existing builds from Pre-qa artifactory latest and builds
+                # Delete existing builds from product latest and builds directory
                 self.__delete_exiting_artifactory_from_pre_qa(
                     current_artifactory_dir_name
                 )
 
-                # Push build to Pre-qa builds
+                # Push build to product builds directory
                 builds_endpoint = (
                     f"{self.pre_qa_endpoint}/{self.pre_qa_repository_dir_name}/"
                     f"{current_artifactory_dir_name}/builds/{artifactory}"
@@ -266,7 +267,7 @@ class PublishArtifactory:
                     artifactory, builds_endpoint
                 )
 
-                # Push build to Pre-qa latest
+                # Push build to product latest directory
                 latest_endpoint = (
                     f"{self.pre_qa_endpoint}/{self.pre_qa_repository_dir_name}/"
                     f"{current_artifactory_dir_name}/latest/{artifactory}"
@@ -314,7 +315,7 @@ if __name__ == "__main__":
         nargs="+",
         type=str,
         help="List of builds, need to fetch from Security content "
-        "github assets and deploy to Pre-QA Dir of artifactory",
+        "github assets and deploy to Pre-QA directory of artifactory",
         required=True,
     )
     args = parser.parse_args()
