@@ -11,7 +11,7 @@ chardet==4.0.0
 charset-normalizer==2.0.7
 colorama==0.4.4
 coloredlogs==15.0.1
-configparser==5.0.2
+configparser==5.1.0
 contextlib2==21.6.0
 distlib==0.3.3
 distro==1.6.0
@@ -23,7 +23,7 @@ humanfriendly==10.0
 identify==2.2.13
 idna==3.3
 importlib-metadata==4.8.2
-importlib-resources==5.2.2
+importlib-resources==5.4.0
 ipaddr==2.2.0
 Jinja2==3.0.3
 jsonschema==4.2.1
@@ -68,7 +68,7 @@ termcolor==1.1.0
 toml==0.10.2
 tomli==1.2.2
 typing==3.7.4.3
-tzlocal==3.0
+tzlocal==4.1
 urllib3==1.26.6
 virtualenv==20.10.0
 wcwidth==0.2.5
