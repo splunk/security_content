@@ -7,13 +7,10 @@ last_modified_at: 2021-08-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Reconnaissance
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -32,8 +29,6 @@ The following analytic identifies cleartext protocols at risk of leaking sensiti
 - **Last Updated**: 2021-08-19
 - **Author**: Rico Valdez, Splunk
 - **ID**: 6923cd64-17a0-453c-b945-81ac2d8c6db9
-
-
 
 #### Search
 
@@ -70,6 +65,7 @@ This search requires you to be ingesting your network traffic, and populating th
 
 #### Known False Positives
 Some networks may use kerberized FTP or telnet servers, however, this is rare.
+
 
 
 

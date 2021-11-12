@@ -35,16 +35,18 @@ If there is evidence of lateral movement, it is imperative for analysts to colle
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Detect Activity Related to Pass the Hash Attacks](/endpoint/detect_activity_related_to_pass_the_hash_attacks/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
-| [Detect Pass the Hash](/endpoint/detect_pass_the_hash/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
-| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [Service Execution](/tags/#service-execution) | Hunting |
-| [Kerberoasting spn request with RC4 encryption](/endpoint/kerberoasting_spn_request_with_rc4_encryption/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
-| [Potential Pass the Token or Hash Observed at the Destination Device](/endpoint/potential_pass_the_token_or_hash_observed_at_the_destination_device/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
-| [Potential Pass the Token or Hash Observed by an Event Collecting Device](/endpoint/potential_pass_the_token_or_hash_observed_by_an_event_collecting_device/) | [Pass the Hash](/tags/#pass-the-hash) | TTP |
-| [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | Anomaly |
-| [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol) | Hunting |
-| [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | [Scheduled Task](/tags/#scheduled-task) | TTP |
+| [Detect Activity Related to Pass the Hash Attacks](/endpoint/detect_activity_related_to_pass_the_hash_attacks/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
+| [Detect Pass the Hash](/endpoint/detect_pass_the_hash/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
+| [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
+| [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | Hunting |
+| [Kerberoasting spn request with RC4 encryption](/endpoint/kerberoasting_spn_request_with_rc4_encryption/) | [Kerberoasting](/tags/#kerberoasting), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets) | TTP |
+| [Potential Pass the Token or Hash Observed at the Destination Device](/endpoint/potential_pass_the_token_or_hash_observed_at_the_destination_device/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
+| [Potential Pass the Token or Hash Observed by an Event Collecting Device](/endpoint/potential_pass_the_token_or_hash_observed_by_an_event_collecting_device/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
+| [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | Anomaly |
+| [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | Hunting |
+| [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
+| [ServicePrincipalNames Discovery with PowerShell](/endpoint/serviceprincipalnames_discovery_with_powershell/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
+| [ServicePrincipalNames Discovery with SetSPN](/endpoint/serviceprincipalnames_discovery_with_setspn/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
 
 #### Reference
 

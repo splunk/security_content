@@ -7,15 +7,12 @@ last_modified_at: 2021-09-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1018
   - Remote System Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 - **ID**: 7141122c-3bc2-4aaa-ab3b-7a85a0bbefc3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 21.0 | 30 | 70 | Remote system discovery enumeration using WMI on $dest$ by $user$ |
+
 
 
 

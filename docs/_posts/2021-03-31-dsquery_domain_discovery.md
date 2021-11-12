@@ -7,15 +7,12 @@ last_modified_at: 2021-03-31
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1482
   - Domain Trust Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -39,13 +36,11 @@ In addition to trust discovery, review parallel processes for additional behavio
 - **ID**: cc316032-924a-11eb-91a2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-
-
 
 #### Search
 
@@ -85,12 +80,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives. If there is a true false positive, filter based on command-line or parent process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified performing domain discovery on endpoint $dest$ by user $user$. |
+
 
 
 

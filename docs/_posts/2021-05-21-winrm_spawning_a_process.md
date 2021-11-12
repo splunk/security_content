@@ -7,17 +7,13 @@ last_modified_at: 2021-05-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1190
   - Exploit Public-Facing Application
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-31166
   - Endpoint
-  - Exploitation
-  - Privilege Escalation
-  - Denial of Service
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -38,13 +34,11 @@ The following analytic identifies suspicious processes spawning from WinRM (wsmp
 - **ID**: a081836a-ba4d-11eb-8593-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
-
-
 
 #### Search
 
@@ -84,6 +78,14 @@ To successfully implement this search you need to be ingesting information on pr
 #### Known False Positives
 Unknown. Add new processes or filter as needed. It is possible system management software may spawn processes from `wsmprovhost.exe`.
 
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-31166](https://nvd.nist.gov/vuln/detail/CVE-2021-31166) | HTTP Protocol Stack Remote Code Execution Vulnerability | 7.5 |
 
 
 

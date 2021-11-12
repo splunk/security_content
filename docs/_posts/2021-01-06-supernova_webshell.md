@@ -7,15 +7,12 @@ last_modified_at: 2021-01-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1505.003
   - Web Shell
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Web
-  - Exfiltration
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +33,11 @@ This search aims to detect the Supernova webshell used in the SUNBURST attack.
 - **ID**: 2ec08a09-9ff1-4dac-b59f-1efd57972ec1
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1505.003](https://attack.mitre.org/techniques/T1505/003/) | Web Shell | Persistence |
-
 
 #### Search
 
@@ -74,6 +70,7 @@ To successfully implement this search, you need to be monitoring web traffic to 
 
 #### Known False Positives
 There might be false positives associted with this detection since items like args as a web argument is pretty generic.
+
 
 
 

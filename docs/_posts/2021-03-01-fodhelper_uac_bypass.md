@@ -1,26 +1,24 @@
 ---
 title: "FodHelper UAC Bypass"
-excerpt: "Modify Registry, Bypass User Account Control"
+excerpt: "Modify Registry, Bypass User Account Control, Abuse Elevation Control Mechanism"
 categories:
   - Endpoint
 last_modified_at: 2021-03-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1112
   - Modify Registry
   - Defense Evasion
-  - T1548.002
   - Bypass User Account Control
+  - Privilege Escalation
+  - Defense Evasion
+  - Abuse Elevation Control Mechanism
   - Privilege Escalation
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
-  - Privilege Escalation
 ---
 
 
@@ -43,13 +41,15 @@ Upon triage, fodhelper.exe will have a child process and read access will occur 
 - **ID**: 909f8fd8-7ac8-11eb-a1f3-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
+
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 #### Search
 
@@ -91,12 +91,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited to no false positives are expected.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | Suspcious registy keys added by process fodhelper.exe (process_id- $process_id), with a parent_process of $parent_process_name$ that has been executed on $dest$ by $user$. |
+
 
 
 

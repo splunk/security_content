@@ -7,15 +7,12 @@ last_modified_at: 2021-03-12
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1486
   - Data Encrypted for Impact
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Obfuscation
 ---
 
 
@@ -34,13 +31,11 @@ The following analytics identifies a big number of instance of ransomware notes 
 - **ID**: eff7919a-8330-11eb-83f8-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ You must be ingesting data that records the filesystem activity from your hosts 
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | A high frequency file creation of $file_name$ in different file path in host $Computer$ |
+
 
 
 

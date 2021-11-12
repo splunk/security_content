@@ -7,11 +7,9 @@ last_modified_at: 2019-01-25
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -30,8 +28,6 @@ This search looks for processes in an MacOS system that is tapping keyboard even
 - **Last Updated**: 2019-01-25
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 2a371608-331d-4034-ae2c-21dda8f1d0ec
-
-
 
 #### Search
 
@@ -68,6 +64,7 @@ In order to properly run this search, Splunk needs to ingest data from your osqu
 
 #### Known False Positives
 There might be some false positives as keyboard event taps are used by processes like Siri and Zoom video chat, for some good examples of processes to exclude please see [this](https://github.com/facebook/osquery/pull/5345#issuecomment-454639161) comment.
+
 
 
 

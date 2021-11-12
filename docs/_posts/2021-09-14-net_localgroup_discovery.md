@@ -1,21 +1,20 @@
 ---
 title: "Net Localgroup Discovery"
-excerpt: "Local Groups"
+excerpt: "Permission Groups Discovery, Local Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-09-14
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1069.001
+  - Permission Groups Discovery
+  - Discovery
   - Local Groups
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,12 +33,13 @@ The following hunting analytic will identify the use of localgroup discovery usi
 - **ID**: 54f5201e-155b-11ec-a6e2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
+| [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives may be present. Tune as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Local group discovery on $dest$ by $user$. |
+
 
 
 

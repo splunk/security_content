@@ -1,21 +1,20 @@
 ---
 title: "Gsuite Suspicious Shared File Name"
-excerpt: "Spearphishing Attachment"
+excerpt: "Spearphishing Attachment, Phishing"
 categories:
   - Cloud
 last_modified_at: 2021-08-23
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1566.001
   - Spearphishing Attachment
+  - Initial Access
+  - Phishing
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect a shared file in google drive with suspicious file name
 - **ID**: 07eed200-03f5-11ec-98fb-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 #### Search
 
@@ -58,11 +58,11 @@ This search is to detect a shared file in google drive with suspicious file name
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](/stories/devsecops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc.
+To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc. In order for the search to work for your environment, please edit the query to use your company specific email domain instead of `internal_test_email.com`.
 
 #### Required field
 * _time
@@ -83,12 +83,12 @@ To successfully implement this search, you need to be ingesting logs related to 
 normal user or normal transaction may contain the subject and file type attachment that this detection try to search
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 21.0 | 30 | 70 | suspicious share gdrive from $parameters.owner$ to $email$ namely as $parameters.doc_title$ |
+
 
 
 

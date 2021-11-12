@@ -1,21 +1,20 @@
 ---
 title: "Extraction of Registry Hives"
-excerpt: "Security Account Manager"
+excerpt: "Security Account Manager, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-09-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.002
   - Security Account Manager
+  - Credential Access
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies the use of `reg.exe` exporting Windows Registr
 - **ID**: 8bbb7d58-b360-11eb-ba21-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -83,12 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 It is possible some agent based products will generate false positives. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | Suspicious use of `reg.exe` exporting Windows Registry hives containing credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$ |
+
 
 
 

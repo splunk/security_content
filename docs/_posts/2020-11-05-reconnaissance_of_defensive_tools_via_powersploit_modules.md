@@ -1,21 +1,21 @@
 ---
 title: "Reconnaissance of Defensive Tools via PowerSploit modules"
-excerpt: "Vulnerability Scanning, Software"
+excerpt: "Software, Vulnerability Scanning, Gather Victim Host Information, Active Scanning"
 categories:
   - Endpoint
 last_modified_at: 2020-11-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1595.002
-  - Vulnerability Scanning
-  - Reconnaissance
-  - T1592.002
   - Software
   - Reconnaissance
+  - Vulnerability Scanning
+  - Reconnaissance
+  - Gather Victim Host Information
+  - Reconnaissance
+  - Active Scanning
+  - Reconnaissance
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +34,17 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 - **ID**: 24b4e659-63a2-4e7b-89ac-87dd659c7110
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1595.002](https://attack.mitre.org/techniques/T1595/002/) | Vulnerability Scanning | Reconnaissance || [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
+| ----------- | ----------- |--------------- |
+| [T1592.002](https://attack.mitre.org/techniques/T1592/002/) | Software | Reconnaissance |
 
+| [T1595.002](https://attack.mitre.org/techniques/T1595/002/) | Vulnerability Scanning | Reconnaissance |
+
+| [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
+| [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
 
 #### Search
 
@@ -76,12 +81,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 40 | 100 | PowerSploit malware is looking for presence of anti virus software. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

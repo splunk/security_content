@@ -1,21 +1,20 @@
 ---
 title: "Excessive number of service control start as disabled"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-06-25
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This detection targets behaviors observed when threat actors have used sc.exe to
 - **ID**: 77592bec-d5cc-11eb-9e60-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
 #### Search
 
@@ -79,12 +79,12 @@ You must be ingesting data that records process activity from your hosts to popu
 Legitimate programs and administrators will execute sc.exe with the start disabled flag.  It is possible, but unlikely from the telemetry of normal Windows operation we observed, that sc.exe will be called more than seven times in a short period of time.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An excessive amount of $process_name$ was executed on $dest$ attempting to disable services. |
+
 
 
 

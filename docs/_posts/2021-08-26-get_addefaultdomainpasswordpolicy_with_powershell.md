@@ -7,15 +7,12 @@ last_modified_at: 2021-08-26
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1201
   - Password Policy Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ This analytic looks for the execution of `powershell.exe` executing the Get-ADDe
 - **ID**: 36e46ebe-065a-11ec-b4c7-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
-
-
 
 #### Search
 
@@ -80,12 +75,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | an instance of process $process_name$ with commandline $process$ in $dest$ |
+
 
 
 

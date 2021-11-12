@@ -7,8 +7,6 @@ last_modified_at: 2021-04-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1053
   - Scheduled Task/Job
   - Execution
   - Persistence
@@ -17,7 +15,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -36,13 +33,11 @@ The following query utilizes Windows Security EventCode 4698, `A scheduled task 
 - **ID**: 75b00fd8-a0ff-11eb-8b31-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
-
-
 
 #### Search
 
@@ -84,12 +79,12 @@ To successfully implement this search, you need to be ingesting logs with the ta
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A schedule task process commandline rundll32 arguments $Arguments$ in host $dest$ |
+
 
 
 

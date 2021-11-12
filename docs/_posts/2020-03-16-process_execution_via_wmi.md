@@ -7,15 +7,12 @@ last_modified_at: 2020-03-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1047
   - Windows Management Instrumentation
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ The following analytic identifies `WmiPrvSE.exe` spawning a process. This typica
 - **ID**: 24869767-8579-485d-9a4f-d9ddfd8f0cac
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
 
 #### Search
 
@@ -77,12 +72,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Although unlikely, administrators may use wmi to execute commands for legitimate purposes.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | A remote instance execution of wmic.exe that will spawn $parent_process_name$ in host $dest$ |
+
 
 
 

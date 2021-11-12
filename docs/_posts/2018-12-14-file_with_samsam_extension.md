@@ -7,12 +7,10 @@ last_modified_at: 2018-12-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
 ---
 
 
@@ -29,8 +27,6 @@ The search looks for file writes with extensions consistent with a SamSam ransom
 - **Last Updated**: 2018-12-14
 - **Author**: Rico Valdez, Splunk
 - **ID**: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
-
-
 
 #### Search
 
@@ -68,12 +64,12 @@ You must be ingesting data that records file-system activity from your hosts to 
 Because these extensions are not typically used in normal operations, you should investigate all results.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 100 | 90 | File writes $file_name$ with extensions consistent with a SamSam ransomware attack seen on $dest$ |
+
 
 
 

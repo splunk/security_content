@@ -1,20 +1,19 @@
 ---
 title: "Detect Regasm with Network Connection"
-excerpt: "Regsvcs/Regasm"
+excerpt: "Signed Binary Proxy Execution, Regsvcs/Regasm"
 categories:
   - Endpoint
 last_modified_at: 2021-02-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.009
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Regsvcs/Regasm
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -33,12 +32,13 @@ The following analytic identifies regasm.exe with a network connection to a publ
 - **ID**: 07921114-6db4-4e2e-ae58-3ea8a52ae93f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
 #### Search
 
@@ -78,12 +78,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Although unlikely, limited instances of regasm.exe with a network connection may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ contacting a remote destination was identified on endpoint $Computer$ by user $user$. This behavior is not normal for $process_name$. |
+
 
 
 

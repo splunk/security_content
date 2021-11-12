@@ -1,22 +1,22 @@
 ---
 title: "Shim Database Installation With Suspicious Parameters"
-excerpt: "Application Shimming"
+excerpt: "Application Shimming, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-11-23
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1546.011
   - Application Shimming
+  - Privilege Escalation
+  - Persistence
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -35,12 +35,13 @@ This search detects the process execution and arguments required to silently cre
 - **ID**: 404620de-46d8-48b6-90cc-8a8d7b0876a3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
 
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
 
 #### Search
 
@@ -76,12 +77,12 @@ You must be ingesting data that records process activity from your hosts to popu
 None identified
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A process $process_name$ that possible create a shim db silently in host $dest$ |
+
 
 
 

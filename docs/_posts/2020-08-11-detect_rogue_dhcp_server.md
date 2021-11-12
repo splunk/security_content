@@ -7,23 +7,16 @@ last_modified_at: 2020-08-11
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1200
   - Hardware Additions
   - Initial Access
-  - T1498
   - Network Denial of Service
   - Impact
-  - T1557
   - Man-in-the-Middle
   - Credential Access
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Reconnaissance
-  - Delivery
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -44,15 +37,15 @@ By enabling DHCP Snooping as a Layer 2 Security measure on the organization&#39;
 - **ID**: 6e1ada88-7a0d-4ac1-92c6-03d354686079
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
+
 | [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+
 | [T1557](https://attack.mitre.org/techniques/T1557/) | Man-in-the-Middle | Credential Access, Collection |
-
-
 
 #### Search
 
@@ -88,6 +81,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 
 #### Known False Positives
 This search might be prone to high false positives if DHCP Snooping has been incorrectly configured or in the unlikely event that the DHCP server has been moved to another network interface.
+
 
 
 

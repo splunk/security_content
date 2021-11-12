@@ -12,7 +12,7 @@ baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://splunkresearch.com" # the base hostname & protocol for your site, e.g. http://example.com
 repository: splunk/security_content
 logo: "/static/logo.png"
-teaser: "/static/logo.png"
+#teaser: "/static/logo.png"
 masthead_title: "Security Content"
 words_per_minute: 200
 search: true
@@ -25,7 +25,7 @@ github_username: splunk
 
 # Build settings
 #theme: minimal-mistakes-jekyll
-remote_theme: "mmistakes/minimal-mistakes"
+#remote_theme: "mmistakes/minimal-mistakes"
 minimal_mistakes_skin: "contrast" #default, neon, dark are also options
 #minimal_mistakes_skin: "neon"
 
@@ -102,9 +102,9 @@ defaults:
       layout: single
       author_profile: false
       read_time: false
-      comments: true
+      comments: false
       share: true
-      related: true
+      related: false
       toc: true
   # _pages
   - scope:
@@ -120,9 +120,9 @@ defaults:
     values:
       layout: single
       author_profile: false
-      comments: true
+      comments: false
       share: true
-      related: true
+      related: false
       toc: true
   # _playbooks
   - scope:
@@ -131,7 +131,7 @@ defaults:
     values:
       layout: single
       author_profile: false
-      comments: true
+      comments: false
       share: true
       related: true
       toc: true

@@ -7,15 +7,12 @@ last_modified_at: 2021-03-17
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1204
   - User Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Obfuscation
 ---
 
 
@@ -34,13 +31,11 @@ The following analytics are designed to identifies some CLOP ransomware variant 
 - **ID**: 5a8a2a72-8322-11eb-9ee9-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
-
-
 
 #### Search
 
@@ -83,12 +78,12 @@ To successfully implement this search you need to be ingesting information on pr
 Operators can execute third party tools using these parameters.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 100.0 | 100 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting using arguments to execute its main code or feature of its code related to Clop ransomware. |
+
 
 
 

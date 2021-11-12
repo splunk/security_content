@@ -1,20 +1,19 @@
 ---
 title: "Windows Event Log Cleared"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2020-07-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1070.001
+  - Indicator Removal on Host
+  - Defense Evasion
   - Clear Windows Event Logs
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -33,12 +32,13 @@ The following analytic utilizes Windows Security Event ID 1102 or System log eve
 - **ID**: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
+| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 #### Search
 
@@ -73,12 +73,12 @@ To successfully implement this search, you need to be ingesting Windows event lo
 It is possible that these logs may be legitimately cleared by Administrators. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Windows event logs cleared on $dest$ via EventCode $EventCode$ |
+
 
 
 

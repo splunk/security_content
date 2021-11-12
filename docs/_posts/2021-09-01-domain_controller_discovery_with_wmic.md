@@ -7,15 +7,12 @@ last_modified_at: 2021-09-01
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1018
   - Remote System Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ This analytic looks for the execution of `wmic.exe` with command-line arguments 
 - **ID**: 64c7adaa-48ee-483c-b0d6-7175bc65e6cc
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 21.0 | 30 | 70 | Domain controller discovery on $dest$ by $user$ |
+
 
 
 

@@ -1,21 +1,20 @@
 ---
 title: "Detect Regasm Spawning a Process"
-excerpt: "Regsvcs/Regasm"
+excerpt: "Signed Binary Proxy Execution, Regsvcs/Regasm"
 categories:
   - Endpoint
 last_modified_at: 2021-02-12
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.009
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Regsvcs/Regasm
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies regasm.exe spawning a process. This particular
 - **ID**: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
 #### Search
 
@@ -78,12 +78,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, limited instances of regasm.exe or regsvcs.exe may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ spawning a child process, typically not normal behavior for $parent_process_name$. |
+
 
 
 

@@ -1,21 +1,20 @@
 ---
 title: "Email files written outside of the Outlook directory"
-excerpt: "Local Email Collection"
+excerpt: "Email Collection, Local Email Collection"
 categories:
   - Application
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1114.001
+  - Email Collection
+  - Collection
   - Local Email Collection
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +35,13 @@ The search looks at the change-analysis data model and detects email files creat
 - **ID**: ee18ed37-0802-4268-9435-b3b91aaa18xx
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
+| ----------- | ----------- |--------------- |
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
+| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
 
 #### Search
 
@@ -76,6 +76,7 @@ To successfully implement this search, you must be ingesting data that records t
 
 #### Known False Positives
 Administrators and users sometimes prefer backing up their email data by moving the email files into a different folder. These attempts will be detected by the search.
+
 
 
 

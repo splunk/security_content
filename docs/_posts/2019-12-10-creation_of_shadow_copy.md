@@ -1,21 +1,20 @@
 ---
 title: "Creation of Shadow Copy"
-excerpt: "NTDS"
+excerpt: "NTDS, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2019-12-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.003
   - NTDS
+  - Credential Access
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ Monitor for signs that Vssadmin or Wmic has been used to create a shadow copy.
 - **ID**: eb120f5f-b879-4a63-97c1-93352b5df844
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -82,12 +82,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Legitimate administrator usage of Vssadmin or Wmic will create false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to create a shadow copy to perform offline password cracking. |
+
 
 
 

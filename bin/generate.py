@@ -67,7 +67,7 @@ def generate_transforms_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
-                         trim_blocks=True) 
+                         trim_blocks=True)
     template = j2_env.get_template('transforms.j2')
     output_path = path.join(OUTPUT_PATH, 'default/transforms.conf')
     output = template.render(lookups=sorted_lookups, time=utc_time)
@@ -92,6 +92,29 @@ def generate_collections_conf(lookups, TEMPLATE_PATH, OUTPUT_PATH):
 
     return output_path
 
+def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
+    '''
+    @param detections: input list of individual YAML detections in detections/ directory
+    @return: the enhanced yaml file located in /detections directory
+    '''
+
+    # disable yaml pointers https://stackoverflow.com/questions/51272814/python-yaml-dumping-pointer-references
+    yaml.Dumper.ignore_aliases = lambda *args : True
+
+    for d in detections:
+        manifest_file = OUTPUT_PATH + '/detections/' + d['name'].lower().replace(" ", "_") + '.yml'
+
+        # remove unused fields
+        del d['risk']
+        del d['deployment']
+        del d['mappings']
+        del d['savedsearch_annotations']
+
+        with open(manifest_file, 'w') as file:
+            documents = yaml.dump(d, file, sort_keys=True)
+
+    return OUTPUT_PATH + '/detections/'
+
 def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_PATH):
     '''
     @param detections: input list of individual YAML detections in detections/ directory
@@ -112,19 +135,6 @@ def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_P
         f.write(output)
 
     return output_path
-
-# def generate_analytic_story_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
-#     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
-
-#     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
-#                          trim_blocks=True)
-#     template = j2_env.get_template('analytic_stories.j2')
-#     output_path = path.join(OUTPUT_PATH, 'default/analytic_stories.conf')
-#     output = template.render(stories=stories, time=utc_time)
-#     with open(output_path, 'w', encoding="utf-8") as f:
-#         f.write(output)
-
-#     return output_path
 
 def generate_use_case_library_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PATH):
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
@@ -230,7 +240,7 @@ def get_deployments(object, deployments):
     for deployment in deployments:
 
         for tag in object['tags'].keys():
-            
+
             if tag in deployment['tags'].keys():
                 if type(object['tags'][tag]) is str:
                     tag_array = [object['tags'][tag]]
@@ -245,7 +255,6 @@ def get_deployments(object, deployments):
 
                     for tag_value_deployment in tag_array_deployment:
                         if tag_value == tag_value_deployment:
-                            # print("tag value: {}, matched deployment tag: {} on deployment: {}".format(tag_value,tag_value_deployment, deployment))
                             matched_deployments.append(deployment)
                             continue
 
@@ -257,9 +266,7 @@ def get_deployments(object, deployments):
                     last_deployment = deployment
     else:
         last_deployment = matched_deployments[-1]
-        # last_deployment = replace_vars_in_deployment(last_deployment, object) # Not needed because of custom_jinja2_enrichment_filter
 
-    # print(last_deployment)
     return last_deployment
 
 def get_nes_fields(search, deployment):
@@ -325,7 +332,7 @@ def add_annotations(detection):
     # changes to this data structure separate from the mappings generation
     # @todo expose the JSON data structure for newer risk type
 
-    annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story', 'observable', 'context', 'impact', 'confidence']
+    annotation_keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist', 'analytic_story', 'observable', 'context', 'impact', 'confidence', 'cve']
     savedsearch_annotations = {}
     for key in annotation_keys:
         if key == 'mitre_attack':
@@ -336,17 +343,17 @@ def add_annotations(detection):
                 savedsearch_annotations[key] = detection['tags'][key]
     detection['savedsearch_annotations'] = savedsearch_annotations
 
+    # add SSA risk_severity
+    if 'risk_score' in detection['tags']:
+        if detection['tags']['risk_score'] >= 80:
+            detection['tags']['risk_severity'] = 'high'
+        elif(50>= detection['tags']['risk_score'] <=79):
+            detection['tags']['risk_severity'] = 'medium'
+        else:
+            detection['tags']['risk_severity'] = 'low'
     return detection
 
 def add_rba(detection):
-
-    # removed since this is causing a duplicate bug in ES 6.4+
-    # if 'risk_object' in detection['tags']:
-    #     detection['risk_object'] = detection['tags']['risk_object']
-    # if 'risk_object_type' in detection['tags']:
-    #    detection['risk_object_type'] = detection['tags']['risk_object_type']
-    # if 'risk_score' in detection['tags']:
-    #     detection['risk_score'] = detection['tags']['risk_score']
 
     # grab risk message
     if 'message' in detection['tags']:
@@ -364,7 +371,7 @@ def add_rba(detection):
 
             # determine if is a user type, create risk
             if entity['type'].lower() in risk_object_user_types:
-                
+
                 for r in entity['role']:
                     if 'attacker' == r.lower() or 'victim' ==r.lower():
 
@@ -376,10 +383,10 @@ def add_rba(detection):
 
             # determine if is a system type, create risk
             elif entity['type'].lower() in risk_object_system_types:
-                
+
                 for r in entity['role']:
                     if 'attacker' == r.lower() or 'victim' ==r.lower():
-                        
+
                         risk_object['risk_object_type'] = 'system'
                         risk_object['risk_object_field'] = entity['name']
                         risk_object['risk_score'] = detection['tags']['risk_score']
@@ -393,15 +400,19 @@ def add_rba(detection):
                 continue
 
     detection['risk'] = risk_objects
-    
+
     return detection
 
 def add_playbook(detection, playbooks):
     preface = " The following Splunk SOAR playbook can be used to respond to this detection: "
-    
+
     for playbook in playbooks:
-        if detection['name'] in playbook['tags']['detections']:
-            detection['how_to_implement'] = detection['how_to_implement'] + preface + playbook['name']
+        try:
+            if detection['name'] in playbook['tags']['detections']:
+                detection['how_to_implement'] = detection['how_to_implement'] + preface + playbook['name']
+        except KeyError:
+            print("playbook " + playbook['name'] + " has no detections, passing....")
+            pass
     return detection
 
 def map_playbooks_to_stories(playbooks):
@@ -433,7 +444,6 @@ def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
             elif detection['type'] == 'Correlation':
                 detection['search'] = detection['search'] + ' | collect index=alerts'
 
-
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])
         if data_model:
@@ -456,7 +466,7 @@ def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
                     if key in detection['tags']:
                         mappings[key] = detection['tags'][key]
             detection['mappings'] = mappings
-            
+
             detection = add_annotations(detection)
             detection = add_rba(detection)
             detection = add_playbook(detection, playbooks)
@@ -465,7 +475,7 @@ def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
             if 'product' in detection['tags']:
                 detection['product'] = detection['tags']['product']
 
-            # turn all SAAWS detections
+            # enable all SAAWS detections
             if (OUTPUT_PATH) == 'dist/saaws':
                 detection['disabled'] = 'false'
 
@@ -626,14 +636,17 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
         objects["detections"]  = [object for object in objects["detections"]  if 'Dev Sec Ops Analytics' in object['tags']['product']]
         objects["stories"] = [object for object in objects["stories"] if 'Dev Sec Ops Analytics' in object['tags']['product']]
 
+    if PRODUCT == "ESCU":
+        # only use ESCU detections to the configurations
+        objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
+        objects["stories"] = sorted(filter(lambda s: not 'Splunk Behavioral Analytics' in s['tags']['product'], objects["stories"]), key=lambda s: s['name'])
 
-    # only use ESCU detections to the configurations
-    objects["detections"] = sorted(filter(lambda d: not 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
-    # only use ESCU stories to the configuration
-    objects["stories"] = sorted(filter(lambda s: not 'Splunk Behavioral Analytics' in s['tags']['product'], objects["stories"]), key=lambda s: s['name'])
+    if PRODUCT == "SSA":
+        # only SSA detections, also no need to calculate stories
+        objects["detections"] = sorted(filter(lambda d: 'Splunk Behavioral Analytics' in d['tags']['product'], objects["detections"]), key=lambda d: d['name'])
+        objects["stories"] = sorted(filter(lambda s: 'Splunk Behavioral Analytics' in s['tags']['product'], objects["stories"]), key=lambda s: s['name'])
 
     objects["macros"] = sorted(objects["macros"], key=lambda m: m['name'])
-
     objects["detections"] = prepare_detections(objects["detections"], objects["deployments"], objects["playbooks"], OUTPUT_PATH)
     objects["stories"] = prepare_stories(objects["stories"], objects["detections"], objects["playbooks"])
 
@@ -654,30 +667,35 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     try:
         if VERBOSE:
             print("generating Mitre lookups")
-        generate_mitre_lookup(OUTPUT_PATH)
+    #    generate_mitre_lookup(OUTPUT_PATH)
     except Exception as e:
         print('Error: ' + str(e))
         print("WARNING: Generation of Mitre lookup failed.")
-
-    lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
-    lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
-    lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
-
-    detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
-
-    # story_path = generate_analytic_story_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-
-    use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-
-    macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-
-    workbench_panels_objects = generate_workbench_panels(objects["detections"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
 
     # calculate deprecation totals
     deprecated = []
     for d in objects['detections']:
         if 'deprecated' in d:
             deprecated.append(d)
+
+    detection_path = ''
+    lookups_path = ''
+    lookups_files= ''
+    use_case_lib_path = ''
+    macros_path = ''
+    workbench_panels_objects = ''
+
+    if global_product == 'SSA':
+        detection_path = generate_ssa_yaml(objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        objects["macros"] = []
+    else:
+        detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
+        lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
+        lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
+        lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
+        use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        workbench_panels_objects = generate_workbench_panels(objects["detections"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
 
     if VERBOSE:
         print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), use_case_lib_path))
@@ -698,7 +716,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", required=False, default=False, action='store_true', help="prints verbose output")
     parser.add_argument("--product", required=True, default="ESCU", help="package type")
 
-    
+
     # parse them
     args = parser.parse_args()
     REPO_PATH = args.path

@@ -7,14 +7,11 @@ last_modified_at: 2020-12-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1203
   - Exploitation for Client Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -35,13 +32,11 @@ The malware sunburst will load the malicious dll by SolarWinds.BusinessLayerHost
 - **ID**: 701a8740-e8db-40df-9190-5516d3819787
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
-
-
 
 #### Search
 
@@ -76,6 +71,7 @@ This detection relies on sysmon logs with the Event ID 7, Driver loaded. Please 
 
 #### Known False Positives
 unknown
+
 
 
 

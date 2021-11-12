@@ -1,21 +1,20 @@
 ---
 title: "AWS CreateLoginProfile"
-excerpt: "Cloud Account"
+excerpt: "Cloud Account, Create Account"
 categories:
   - Cloud
 last_modified_at: 2021-07-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1136.003
   - Cloud Account
+  - Persistence
+  - Create Account
   - Persistence
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ This search looks for AWS CloudTrail events where a user A(victim A) creates a l
 - **ID**: 2a9b80d3-6340-4345-11ad-212bf444d111
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
 
 #### Search
 
@@ -79,12 +79,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 While this search has no known false positives, it is possible that an AWS admin has legitimately created a login profile for another user.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | User $user_arn$ is attempting to create a login profile for $requestParameters.userName$ and did a console login from this IP $src_ip$ |
+
 
 
 

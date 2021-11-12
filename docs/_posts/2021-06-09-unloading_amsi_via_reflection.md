@@ -7,14 +7,11 @@ last_modified_at: 2021-06-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1562
   - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
 ---
 
 
@@ -35,13 +32,11 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: a21e3484-c94d-11eb-b55b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
-
-
 
 #### Search
 
@@ -77,12 +72,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Potential for some third party applications to disable AMSI upon invocation. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Possible AMSI Unloading via Reflection using PowerShell on $ComputerName$ |
+
 
 
 

@@ -7,15 +7,12 @@ last_modified_at: 2021-08-31
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
-  - Lateral Movement
+  - CVE-2021-36942
 ---
 
 
@@ -34,13 +31,11 @@ The following analytic identifes Event Code 4768, A `Kerberos authentication tic
 - **ID**: e3ef244e-0a67-11ec-abf2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
 
 #### Search
 
@@ -77,12 +72,19 @@ The following analytic requires Event Code 4768. Ensure that it is logging no Do
 False positives are possible if the environment is using certificates for authentication.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | A Kerberos TGT was requested in a non-standard manner against $dest$, potentially related to CVE-2021-36942, PetitPotam. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-36942](https://nvd.nist.gov/vuln/detail/CVE-2021-36942) | Windows LSA Spoofing Vulnerability | 5.0 |
 
 
 

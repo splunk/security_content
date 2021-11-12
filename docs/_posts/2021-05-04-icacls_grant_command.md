@@ -7,15 +7,12 @@ last_modified_at: 2021-05-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1222
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This analytic identifies potential adversaries that modify the security permissi
 - **ID**: b1b1e316-accc-11eb-a9b4-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
 
 #### Search
 
@@ -79,12 +74,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Unknown. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Process name $process_name$ with grant argument executed by $user$ to change security permission of a specific file or directory on host $dest$ |
+
 
 
 

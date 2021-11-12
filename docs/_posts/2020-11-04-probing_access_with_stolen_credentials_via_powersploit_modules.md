@@ -7,18 +7,14 @@ last_modified_at: 2020-11-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
   - Initial Access
-  - T1098
   - Account Manipulation
   - Persistence
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -37,14 +33,13 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 - **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 60.0 | 60 | 100 | PowerSploit malware is probing access with stolen credentials. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

@@ -7,19 +7,14 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1098
   - Account Manipulation
   - Persistence
-  - T1207
   - Rogue Domain Controller
   - Defense Evasion
-  - T1484
   - Domain Policy Modification
   - Defense Evasion
   - Privilege Escalation
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -38,15 +33,15 @@ This detection identifies use of DSInternals modules for illegal management of A
 - **ID**: a587ca9f-c138-47b4-ba51-699f319b8cc5
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
 | [T1207](https://attack.mitre.org/techniques/T1207/) | Rogue Domain Controller | Defense Evasion |
+
 | [T1484](https://attack.mitre.org/techniques/T1484/) | Domain Policy Modification | Defense Evasion, Privilege Escalation |
-
-
 
 #### Search
 
@@ -83,12 +78,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | DSInternals malware is controlling infrastructure by modifying Active Directory elements, domain controllers, and policies. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

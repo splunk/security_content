@@ -1,14 +1,17 @@
 ---
 title: "Detect Excessive User Account Lockouts"
-excerpt: "Local Accounts"
+excerpt: "Valid Accounts, Local Accounts"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1078.003
+  - Valid Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
   - Local Accounts
   - Defense Evasion
   - Persistence
@@ -36,12 +39,13 @@ This search detects user accounts that have been locked out a relatively high nu
 - **ID**: 95a7f9a5-6096-437e-a19e-86f42ac609bd
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1078.003](https://attack.mitre.org/techniques/T1078/003/) | Local Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
+| [T1078.003](https://attack.mitre.org/techniques/T1078/003/) | Local Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
 
@@ -77,12 +81,12 @@ ou must ingest your Windows security event logs in the `Change` datamodel under 
 It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | Multiple accounts have been locked out. Review $nodename$ and $result$ related to $user$. |
+
 
 
 

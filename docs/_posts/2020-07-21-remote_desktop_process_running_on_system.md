@@ -1,21 +1,20 @@
 ---
 title: "Remote Desktop Process Running On System"
-excerpt: "Remote Desktop Protocol"
+excerpt: "Remote Desktop Protocol, Remote Services"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1021.001
   - Remote Desktop Protocol
+  - Lateral Movement
+  - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +35,13 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 - **ID**: f5939373-8054-40ad-8c64-cec478a22a4a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
 
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 #### Search
 
@@ -76,6 +76,7 @@ To successfully implement this search, you must be ingesting data that records p
 
 #### Known False Positives
 Remote Desktop may be used legitimately by users on the network.
+
 
 
 

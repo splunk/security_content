@@ -1,21 +1,20 @@
 ---
 title: "Write Executable in SMB Share"
-excerpt: "SMB/Windows Admin Shares"
+excerpt: "Remote Services, SMB/Windows Admin Shares"
 categories:
   - Endpoint
 last_modified_at: 2021-04-23
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1021.002
+  - Remote Services
+  - Lateral Movement
   - SMB/Windows Admin Shares
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Lateral Movement
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect suspicious dropping or creating an executable file in k
 - **ID**: f63c34fe-a435-11eb-935a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
+| ----------- | ----------- |--------------- |
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
+| [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
 #### Search
 
@@ -78,12 +78,12 @@ To successfully implement this search, you need to be ingesting Windows Security
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | $user$ dropped or created an executable file in known sensitive SMB share.  Share name=$Share_Name$, Target name=$Relative_Target_Name$, and Access mask=$Access_Mask$ |
+
 
 
 

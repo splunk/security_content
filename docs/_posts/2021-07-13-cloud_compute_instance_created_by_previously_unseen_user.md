@@ -1,15 +1,18 @@
 ---
 title: "Cloud Compute Instance Created By Previously Unseen User"
-excerpt: "Cloud Accounts"
+excerpt: "Cloud Accounts, Valid Accounts"
 categories:
   - Cloud
 last_modified_at: 2021-07-13
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1078.004
   - Cloud Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
@@ -37,12 +40,13 @@ This search looks for cloud compute instances created by users who have not crea
 - **ID**: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
 
@@ -82,12 +86,12 @@ You must be ingesting the appropriate cloud-infrastructure logs Run the &#34;Pre
 It&#39;s possible that a user will start to create compute instances for the first time, for any number of reasons. Verify with the user launching instances that this is the intended behavior.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | User $user$ is creating a new instance $dest$ for the first time |
+
 
 
 

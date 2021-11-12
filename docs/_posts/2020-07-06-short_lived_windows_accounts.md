@@ -1,15 +1,15 @@
 ---
 title: "Short Lived Windows Accounts"
-excerpt: "Local Account"
+excerpt: "Local Account, Create Account"
 categories:
   - Endpoint
 last_modified_at: 2020-07-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1136.001
   - Local Account
+  - Persistence
+  - Create Account
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -33,12 +33,13 @@ This search detects accounts that were created and deleted in a short time perio
 - **ID**: b25f6f62-0782-43c1-b403-083231ffd97d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
 
 #### Search
 
@@ -75,12 +76,12 @@ This search requires you to have enabled your Group Management Audit Logs in you
 It is possible that an administrator created and deleted an account in a short time period.  Verifying activity with an administrator is advised.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A user account created or delete shortly in host $dest$ |
+
 
 
 

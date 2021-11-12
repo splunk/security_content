@@ -1,21 +1,20 @@
 ---
 title: "Create local admin accounts using net exe"
-excerpt: "Local Account"
+excerpt: "Local Account, Create Account"
 categories:
   - Endpoint
 last_modified_at: 2021-09-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1136.001
   - Local Account
+  - Persistence
+  - Create Account
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ This search looks for the creation of local administrator accounts using net.exe
 - **ID**: b89919ed-fe5f-492c-b139-151bb162040e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1136.001](https://attack.mitre.org/techniques/T1136/001/) | Local Account | Persistence |
 
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
 
 #### Search
 
@@ -82,12 +82,12 @@ You must be ingesting data that records process activity from your hosts to popu
 Administrators often leverage net.exe to create admin accounts.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to add a user to the local Administrators group. |
+
 
 
 

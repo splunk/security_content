@@ -1,21 +1,20 @@
 ---
 title: "Gsuite Email With Known Abuse Web Service Link"
-excerpt: "Spearphishing Attachment"
+excerpt: "Spearphishing Attachment, Phishing"
 categories:
   - Cloud
 last_modified_at: 2021-08-23
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1566.001
   - Spearphishing Attachment
+  - Initial Access
+  - Phishing
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This analytics is to detect a gmail containing a link that are known to be abuse
 - **ID**: 8630aa22-042b-11ec-af39-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 #### Search
 
@@ -57,7 +57,7 @@ This analytics is to detect a gmail containing a link that are known to be abuse
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](/stories/devsecops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement
@@ -73,6 +73,7 @@ To successfully implement this search, you need to be ingesting logs related to 
 
 #### Known False Positives
 normal email contains this link that are known application within the organization or network can be catched by this detection.
+
 
 
 

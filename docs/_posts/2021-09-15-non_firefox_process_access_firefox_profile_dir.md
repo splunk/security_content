@@ -1,21 +1,20 @@
 ---
 title: "Non Firefox Process Access Firefox Profile Dir"
-excerpt: "Credentials from Web Browsers"
+excerpt: "Credentials from Password Stores, Credentials from Web Browsers"
 categories:
   - Endpoint
 last_modified_at: 2021-09-15
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1555.003
+  - Credentials from Password Stores
+  - Credential Access
   - Credentials from Web Browsers
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect an anomaly event of non-firefox process accessing the f
 - **ID**: e6fc13b0-1609-11ec-b533-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
+| ----------- | ----------- |--------------- |
+| [T1555](https://attack.mitre.org/techniques/T1555/) | Credentials from Password Stores | Credential Access |
 
+| [T1555.003](https://attack.mitre.org/techniques/T1555/003/) | Credentials from Web Browsers | Credential Access |
 
 #### Search
 
@@ -79,12 +79,12 @@ To successfully implement this search, you must ingest Windows Security Event lo
 other browser not listed related to firefox may catch by this rule.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | a non firefox browser process $process_name$ accessing $Object_Name$ |
+
 
 
 

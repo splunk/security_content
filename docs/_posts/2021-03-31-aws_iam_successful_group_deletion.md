@@ -1,24 +1,22 @@
 ---
 title: "AWS IAM Successful Group Deletion"
-excerpt: "Cloud Groups, Account Manipulation"
+excerpt: "Cloud Groups, Account Manipulation, Permission Groups Discovery"
 categories:
   - Cloud
 last_modified_at: 2021-03-31
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1069.003
   - Cloud Groups
   - Discovery
-  - T1098
   - Account Manipulation
   - Persistence
+  - Permission Groups Discovery
+  - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Splunk Security Analytics for AWS
-  - Actions on Objectives
 ---
 
 
@@ -37,13 +35,15 @@ The following query uses IAM events to track the success of a group being delete
 - **ID**: e776d06c-9267-11eb-819b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1069.003](https://attack.mitre.org/techniques/T1069/003/) | Cloud Groups | Discovery || [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+| ----------- | ----------- |--------------- |
+| [T1069.003](https://attack.mitre.org/techniques/T1069/003/) | Cloud Groups | Discovery |
 
+| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
 
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
 #### Search
 
@@ -78,12 +78,12 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 5.0 | 10 | 50 | User $user_arn$ has sucessfully deleted mulitple groups $group_deleted$ from $src$ |
+
 
 
 

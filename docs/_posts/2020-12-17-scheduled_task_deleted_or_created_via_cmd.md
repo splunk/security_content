@@ -1,15 +1,17 @@
 ---
 title: "Scheduled Task Deleted Or Created via CMD"
-excerpt: "Scheduled Task"
+excerpt: "Scheduled Task, Scheduled Task/Job"
 categories:
   - Endpoint
 last_modified_at: 2020-12-17
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1053.005
   - Scheduled Task
+  - Execution
+  - Persistence
+  - Privilege Escalation
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -17,7 +19,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -36,12 +37,13 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 - **ID**: d5af132c-7c17-439c-9d31-13d55340f36c
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
+| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -80,12 +82,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Tasks should not be manually created via CLI, this is rarely done by admins as well
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A schedule task process $process_name$ with create or delete commandline $process$ in host $dest$ |
+
 
 
 

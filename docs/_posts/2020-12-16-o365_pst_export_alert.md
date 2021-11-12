@@ -7,15 +7,12 @@ last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1114
   - Email Collection
   - Collection
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objective
 ---
 
 
@@ -34,13 +31,11 @@ This search detects when a user has performed an Ediscovery search or exported a
 - **ID**: 5f694cc4-a678-4a60-9410-bffca1b647dc
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 PST export can be done for legitimate purposes but due to the sensitive nature of its content it must be monitored.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $Source$ has exported a PST file from the search using this operation- $Operation$ with a severity of $Severity$ |
+
 
 
 

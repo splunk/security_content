@@ -1,20 +1,19 @@
 ---
 title: "Creation of lsass Dump with Taskmgr"
-excerpt: "LSASS Memory"
+excerpt: "LSASS Memory, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2020-02-03
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.001
   - LSASS Memory
+  - Credential Access
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -33,12 +32,13 @@ Detect the hands on keyboard behavior of Windows Task Manager creating a process
 - **ID**: b2fbe95a-9c62-4c12-8a29-24b97e84c0cd
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -75,12 +75,12 @@ This search requires Sysmon Logs and a Sysmon configuration, which includes Even
 Administrators can create memory dumps for debugging purposes, but memory dumps of the LSASS process would be unusual.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | $process_name$ was identified on endpoint $Computer$ writing $TargetFilename$ to disk. This behavior is related to dumping credentials via Task Manager. |
+
 
 
 

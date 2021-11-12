@@ -7,11 +7,9 @@ last_modified_at: 2020-12-08
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -28,8 +26,6 @@ Command lines that are extremely long may be indicative of malicious activity on
 - **Last Updated**: 2020-12-08
 - **Author**: David Dorsey, Splunk
 - **ID**: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-
-
 
 #### Search
 
@@ -73,12 +69,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Some legitimate applications start with long command lines.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | Unusually long command line $Processes.process_name$ on $dest$ |
+
 
 
 

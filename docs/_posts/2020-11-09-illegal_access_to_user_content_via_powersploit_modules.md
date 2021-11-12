@@ -7,21 +7,15 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1021
   - Remote Services
   - Lateral Movement
-  - T1113
   - Screen Capture
   - Collection
-  - T1123
   - Audio Capture
   - Collection
-  - T1563
   - Remote Service Session Hijacking
   - Lateral Movement
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -40,16 +34,17 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 - **ID**: 01fc7d91-eb0c-478e-8633-e4fa4904463a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
+
 | [T1113](https://attack.mitre.org/techniques/T1113/) | Screen Capture | Collection |
+
 | [T1123](https://attack.mitre.org/techniques/T1123/) | Audio Capture | Collection |
+
 | [T1563](https://attack.mitre.org/techniques/T1563/) | Remote Service Session Hijacking | Lateral Movement |
-
-
 
 #### Search
 
@@ -86,12 +81,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 85.0 | 85 | 100 | PowerSploit malware is tapping into user content - microphone, camera, ongoing HTTP or RDP session. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

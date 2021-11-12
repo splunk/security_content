@@ -1,21 +1,20 @@
 ---
 title: "Detect Regsvcs with No Command Line Arguments"
-excerpt: "Regsvcs/Regasm"
+excerpt: "Signed Binary Proxy Execution, Regsvcs/Regasm"
 categories:
   - Endpoint
 last_modified_at: 2021-09-20
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.009
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Regsvcs/Regasm
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies regsvcs.exe with no command line arguments. Th
 - **ID**: 6b74d578-a02e-4e94-a0d1-39440d0bf254
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
 #### Search
 
@@ -83,12 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, limited instances of regsvcs.exe may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The process $process_name$ was spawned by $parent_process_name$ without any command-line arguments on $dest$ by $user$. |
+
 
 
 

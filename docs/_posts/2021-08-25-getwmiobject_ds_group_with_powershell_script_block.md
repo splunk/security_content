@@ -1,21 +1,20 @@
 ---
 title: "GetWmiObject Ds Group with PowerShell Script Block"
-excerpt: "Domain Groups"
+excerpt: "Permission Groups Discovery, Domain Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-08-25
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1069.002
+  - Permission Groups Discovery
+  - Discovery
   - Domain Groups
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 67740bd3-1506-469c-b91d-effc322cc6e5
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
 #### Search
 
@@ -73,12 +73,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Domain group discovery enumeration using PowerShell on $dest$ by $user$ |
+
 
 
 

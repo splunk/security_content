@@ -1,21 +1,20 @@
 ---
 title: "Detect mshta renamed"
-excerpt: "Mshta"
+excerpt: "Signed Binary Proxy Execution, Mshta"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1218.005
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Mshta
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies renamed instances of mshta.exe executing. Msht
 - **ID**: 8f45fcf0-5b68-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.005](https://attack.mitre.org/techniques/T1218/005/) | Mshta | Defense Evasion |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may use a moved copy of mshta.exe, but never renamed, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$. |
+
 
 
 

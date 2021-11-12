@@ -7,16 +7,12 @@ last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1048
   - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Delivery
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -37,13 +33,11 @@ This search looks for network traffic defined by port and transport layer protoc
 - **ID**: ce5a0962-849f-4720-a678-753fe6674479
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
-
-
 
 #### Search
 
@@ -82,6 +76,7 @@ In order to properly run this search, Splunk needs to ingest data from firewalls
 
 #### Known False Positives
 None identified
+
 
 
 

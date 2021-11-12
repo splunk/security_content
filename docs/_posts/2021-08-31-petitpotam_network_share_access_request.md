@@ -7,15 +7,12 @@ last_modified_at: 2021-08-31
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1187
   - Forced Authentication
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
-  - Lateral Movement
+  - CVE-2021-36942
 ---
 
 
@@ -37,13 +34,11 @@ During triage, review parallel security events to identify further suspicious ac
 - **ID**: 95b8061a-0a67-11ec-85ec-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1187](https://attack.mitre.org/techniques/T1187/) | Forced Authentication | Credential Access |
-
-
 
 #### Search
 
@@ -81,12 +76,19 @@ Windows Event Code 5145 is required to utilize this analytic and it may not be e
 False positives have been limited when the Anonymous Logon is used for Account Name.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | A remote host is enumerating a $dest$ to identify permissions. This is a precursor event to CVE-2021-36942, PetitPotam. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-36942](https://nvd.nist.gov/vuln/detail/CVE-2021-36942) | Windows LSA Spoofing Vulnerability | 5.0 |
 
 
 

@@ -1,21 +1,20 @@
 ---
 title: "Suspicious Regsvr32 Register Suspicious Path"
-excerpt: "Regsvr32"
+excerpt: "Signed Binary Proxy Execution, Regsvr32"
 categories:
   - Endpoint
 last_modified_at: 2021-01-28
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.010
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Regsvr32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ Adversaries may abuse Regsvr32.exe to proxy execution of malicious code by using
 - **ID**: 62732736-6250-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.010](https://attack.mitre.org/techniques/T1218/010/) | Regsvr32 | Defense Evasion |
 
 #### Search
 
@@ -83,12 +83,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Limited false positives with the query restricted to specified paths. Add more world writeable paths as tuning continues.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious $Processes.process_path.file_path$ process potentially loading malicious code |
+
 
 
 

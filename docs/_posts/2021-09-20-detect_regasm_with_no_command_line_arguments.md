@@ -1,21 +1,20 @@
 ---
 title: "Detect Regasm with no Command Line Arguments"
-excerpt: "Regsvcs/Regasm"
+excerpt: "Signed Binary Proxy Execution, Regsvcs/Regasm"
 categories:
   - Endpoint
 last_modified_at: 2021-09-20
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.009
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Regsvcs/Regasm
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -24,7 +23,7 @@ tags:
 
 #### Description
 
-The following analytic identifies regasm.exe with no command line arguments. This particular behavior occurs when another process injects into regasm.exe, no command line arguments will be present. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Regasm.exe are natively found in C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe and C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe.
+The following analytic identifies regasm.exe with no command line arguments. This particular behavior occurs when another process injects into regasm.exe, no command line arguments will be present. During investigation, identify any network connections and parallel processes. Identify any suspicious module loads related to credential dumping or file writes. Regasm.exe are natively found in `C:\Windows\Microsoft.NET\Framework\v*\regasm|regsvcs.exe` and `C:\Windows\Microsoft.NET\Framework64\v*\regasm|regsvcs.exe`.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -34,12 +33,13 @@ The following analytic identifies regasm.exe with no command line arguments. Thi
 - **ID**: c3bc1430-04e7-4178-835f-047d8e6e97df
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.009](https://attack.mitre.org/techniques/T1218/009/) | Regsvcs/Regasm | Defense Evasion |
 
 #### Search
 
@@ -83,12 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, limited instances of regasm.exe or may cause a false positive. Filter based endpoint usage, command line arguments, or process lineage.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | The process $process_name$ was spawned by $parent_process_name$ without any command-line arguments on $dest$ by $user$. |
+
 
 
 

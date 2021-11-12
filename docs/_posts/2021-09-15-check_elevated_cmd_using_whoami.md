@@ -7,15 +7,12 @@ last_modified_at: 2021-09-15
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1033
   - System Owner/User Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This search is to detect a suspicious whoami execution to check if the cmd or sh
 - **ID**: a9079b18-1633-11ec-859c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
-
-
 
 #### Search
 
@@ -79,12 +74,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Process name $process_name$ with commandline $process$ in $dest$ |
+
 
 
 

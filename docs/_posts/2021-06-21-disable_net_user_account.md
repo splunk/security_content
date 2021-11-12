@@ -7,13 +7,10 @@ last_modified_at: 2021-06-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1489
   - Service Stop
   - Impact
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -32,13 +29,11 @@ This analytic will identify a suspicious command-line that disables a user accou
 - **ID**: ba858b08-d26c-11eb-af9b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -79,6 +74,7 @@ network operator may use this approach to quickly disable an account but not a c
 
 
 
+
 #### Reference
 
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)
@@ -93,4 +89,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/disable_net_user_account.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/disable_net_user_account.yml) \| *version*: **2**

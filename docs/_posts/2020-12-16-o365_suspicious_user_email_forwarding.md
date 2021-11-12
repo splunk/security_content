@@ -1,21 +1,20 @@
 ---
 title: "O365 Suspicious User Email Forwarding"
-excerpt: "Email Forwarding Rule"
+excerpt: "Email Forwarding Rule, Email Collection"
 categories:
   - Cloud
 last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1114.003
   - Email Forwarding Rule
+  - Collection
+  - Email Collection
   - Collection
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ This search detects when multiple user configured a forwarding rule to the same 
 - **ID**: f8dfe015-dbb3-4569-ba75-b13787e06aa4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1114.003](https://attack.mitre.org/techniques/T1114/003/) | Email Forwarding Rule | Collection |
 
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
 #### Search
 
@@ -77,12 +77,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 80 | 60 | User $user$ configured multiple users $src_user$ with a count of $count_src_user$, a forwarding rule to same destination $ForwardingSmtpAddress$ |
+
 
 
 

@@ -1,21 +1,20 @@
 ---
 title: "O365 Add App Role Assignment Grant User"
-excerpt: "Cloud Account"
+excerpt: "Cloud Account, Create Account"
 categories:
   - Cloud
 last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1136.003
   - Cloud Account
+  - Persistence
+  - Create Account
   - Persistence
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objective
 ---
 
 
@@ -34,12 +33,13 @@ This search detects the creation of a new Federation setting by alerting about a
 - **ID**: b2c81cc6-6040-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
 
 #### Search
 
@@ -78,12 +78,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 The creation of a new Federation is not necessarily malicious, however this events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | User $Actor.ID$ has created a new federation setting on $dest$ from IP Address $ActorIpAddress$ |
+
 
 
 

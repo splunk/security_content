@@ -7,15 +7,12 @@ last_modified_at: 2021-04-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1526
   - Cloud Service Discovery
   - Discovery
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ This search looks for AWS CloudTrail events and analyse the amount of eventNames
 - **ID**: 1fdd164a-def8-4762-83a9-9ffe24e74d5a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
-
-
 
 #### Search
 
@@ -77,12 +72,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 While this search has no known false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 18.0 | 30 | 60 | user $user$ has excessive number of api calls $dc_events$ from these IP addresses $src$, violating the threshold of 50,  using the following commands $command$. |
+
 
 
 

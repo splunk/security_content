@@ -7,14 +7,11 @@ last_modified_at: 2020-08-05
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1530
   - Data from Cloud Storage Object
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -35,13 +32,11 @@ This search looks for GCP PubSub events where a user has created an open/public 
 - **ID**: f6ea3466-d6bb-11ea-87d0-0242ac130003
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
 
 #### Search
 
@@ -85,6 +80,7 @@ This search relies on the Splunk Add-on for Google Cloud Platform, setting up a 
 
 #### Known False Positives
 While this search has no known false positives, it is possible that a GCP admin has legitimately created a public bucket for a specific purpose. That said, GCP strongly advises against granting full control to the &#34;allUsers&#34; group.
+
 
 
 

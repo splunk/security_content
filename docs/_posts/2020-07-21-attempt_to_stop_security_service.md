@@ -1,22 +1,20 @@
 ---
 title: "Attempt To Stop Security Service"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
-  - Actions on Objectives
 ---
 
 
@@ -35,12 +33,13 @@ This search looks for attempts to stop security-related services on the endpoint
 - **ID**: c8e349c6-b97c-486e-8949-bd7bcd1f3910
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
 #### Search
 
@@ -87,12 +86,12 @@ To successfully implement this search you need to be ingesting information on pr
 None identified. Attempts to disable security-related services should be identified and understood.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 20.0 | 40 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified attempting to disable security services on endpoint $dest$ by user $user$. |
+
 
 
 

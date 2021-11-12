@@ -7,14 +7,10 @@ last_modified_at: 2017-09-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Sessions
-  - Reconnaissance
-  - Delivery
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -33,8 +29,6 @@ By populating the organization&#39;s assets within the assets_by_str.csv, we wil
 - **Last Updated**: 2017-09-13
 - **Author**: Bhavin Patel, Splunk
 - **ID**: dcfd6b40-42f9-469d-a433-2e53f7489ff4
-
-
 
 #### Search
 
@@ -73,6 +67,7 @@ This search uses the Network_Sessions data model shipped with Enterprise Securit
 
 #### Known False Positives
 This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
+
 
 
 

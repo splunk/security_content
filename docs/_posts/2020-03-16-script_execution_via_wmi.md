@@ -7,15 +7,12 @@ last_modified_at: 2020-03-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1047
   - Windows Management Instrumentation
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ This search looks for scripts launched via WMI.
 - **ID**: aa73f80d-d728-4077-b226-81ea0c8be589
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
 
 #### Search
 
@@ -75,12 +70,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Although unlikely, administrators may use wmi to launch scripts for legitimate purposes. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 36.0 | 60 | 60 | A wmic.exe process $process_name$ taht execute script in host $dest$ |
+
 
 
 

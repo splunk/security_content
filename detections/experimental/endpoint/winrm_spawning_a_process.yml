@@ -30,6 +30,8 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
+  cve:
+  - CVE-2021-31166
   dataset: []
   kill_chain_phases:
   - Exploitation

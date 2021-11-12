@@ -1,21 +1,20 @@
 ---
 title: "Excel Spawning Windows Script Host"
-excerpt: "Security Account Manager"
+excerpt: "Security Account Manager, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-04-12
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.002
   - Security Account Manager
+  - Credential Access
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ The following detection identifies Microsoft Excel spawning Windows Script Host 
 - **ID**: 57fe880a-9be3-11eb-9bf3-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -77,12 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited, but if any are present, filter as needed. In some instances, `cscript.exe` is used for legitimate business practices.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$, indicating potential suspicious macro execution. |
+
 
 
 

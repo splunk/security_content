@@ -7,14 +7,11 @@ last_modified_at: 2021-06-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1140
   - Deobfuscate/Decode Files or Information
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
 ---
 
 
@@ -33,13 +30,11 @@ The following analytic identifies suspicious PowerShell script execution via Eve
 - **ID**: c396a0c4-c9f2-11eb-b4f5-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1140](https://attack.mitre.org/techniques/T1140/) | Deobfuscate/Decode Files or Information | Defense Evasion |
-
-
 
 #### Search
 
@@ -74,12 +69,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 powershell may used this function to store out object into memory.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 50 | 80 | A suspicious powershell script contains memorystream command in $Message$ as new object backstore with EventCode $EventCode$ in host $ComputerName$ |
+
 
 
 

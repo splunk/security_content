@@ -7,7 +7,6 @@ last_modified_at: 2017-09-15
 toc: true
 toc_label: ""
 tags:
-  - Hunting
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -30,8 +29,6 @@ This search looks for Windows endpoints that have not generated an event indicat
 - **Last Updated**: 2017-09-15
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
-
-
 
 #### Search
 
@@ -68,6 +65,7 @@ To successfully implement this search, it requires that the &#39;Update&#39; dat
 
 #### Known False Positives
 None identified
+
 
 
 

@@ -9,12 +9,12 @@ header:
   actions:
     - label: "Download"
       url: "https://splunkbase.splunk.com/app/3449/"
-excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with **637** detections for Splunk."
+excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with **675** detections for Splunk."
 feature_row:
   - image_path: /static/feature_detection.png
     alt: "customizable"
     title: "Detections"
-    excerpt: "See all **637** Splunk Analytics built to find evil 😈."
+    excerpt: "See all **675** Splunk Analytics built to find evil 😈."
     url: "/detections"
     btn_class: "btn--primary"
     btn_label: "Explore"
@@ -28,7 +28,7 @@ feature_row:
   - image_path: /static/feature_playbooks.png
     alt: "100% free"
     title: "Playbooks"
-    excerpt: "See all **1** sets of steps 🐾 to automatically response to a threat."
+    excerpt: "See all **11** sets of steps 🐾 to automatically response to a threat."
     url: "/playbooks"
     btn_class: "btn--primary"
     btn_label: "Explore"

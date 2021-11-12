@@ -7,15 +7,12 @@ last_modified_at: 2021-08-20
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1212
   - Exploitation for Credential Access
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ This search uses the Kubernetes logs from a nginx ingress controller to detect l
 - **ID**: 0f83244b-425b-4528-83db-7a88c5f66e48
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1212](https://attack.mitre.org/techniques/T1212/) | Exploitation for Credential Access | Credential Access |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Local File Inclusion Attack detected on $host$ |
+
 
 
 

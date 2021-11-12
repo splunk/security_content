@@ -7,8 +7,6 @@ last_modified_at: 2021-08-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
@@ -16,7 +14,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,13 +32,11 @@ This search is to detect suspicious process injection in command shell. This tec
 - **ID**: 10399c1e-f51e-11eb-b920-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
 
 #### Search
 
@@ -79,12 +74,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | process $SourceImage$ create a remote thread to shell app process $TargetImage$ in host $Computer$ |
+
 
 
 

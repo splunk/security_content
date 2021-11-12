@@ -1,21 +1,20 @@
 ---
 title: "Detect Renamed 7-Zip"
-excerpt: "Archive via Utility"
+excerpt: "Archive via Utility, Archive Collected Data"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1560.001
   - Archive via Utility
+  - Collection
+  - Archive Collected Data
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exfiltration
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies renamed 7-Zip usage using Sysmon. At this stag
 - **ID**: 4057291a-b8cf-11eb-95fe-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
+| [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives, however this analytic will need to be modified for each environment if Sysmon is not used.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. |
+
 
 
 

@@ -1,22 +1,22 @@
 ---
 title: "Registry Keys Used For Persistence"
-excerpt: "Registry Run Keys / Startup Folder"
+excerpt: "Registry Run Keys / Startup Folder, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-09-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1547.001
   - Registry Run Keys / Startup Folder
+  - Persistence
+  - Privilege Escalation
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -35,18 +35,19 @@ The search looks for modifications to registry keys that can be used to launch a
 - **ID**: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1547.001](https://attack.mitre.org/techniques/T1547/001/) | Registry Run Keys / Startup Folder | Persistence, Privilege Escalation |
 
+| [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
 
 #### Search
 
 ```
 
-| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run* OR Registry.registry_path=*\\currentversion\\runservices* OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\* OR (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*" AND Registry.registry_key_name=Debugger) OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa" AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa\\OSConfig" AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\*") OR (Registry.registry_path="*currentVersion\\Windows" AND Registry.registry_key_name="Load") OR (Registry.registry_path="*\\CurrentVersion" AND Registry.registry_key_name="Svchost") OR (Registry.registry_path="*\\CurrentControlSet\Control\Session Manager"AND Registry.registry_key_name="BootExecute") OR (Registry.registry_path="*\\Software\\Run" AND Registry.registry_key_name="auto_update")) by Registry.dest Registry.user 
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path=*\\currentversion\\run* OR Registry.registry_path=*\\currentVersion\\Windows\\Appinit_Dlls* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Shell* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Notify* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\Userinit* OR Registry.registry_path=*\\CurrentVersion\\Winlogon\\VmApplet* OR Registry.registry_path=*\\currentversion\\policies\\explorer\\run* OR Registry.registry_path=*\\currentversion\\runservices* OR Registry.registry_path=HKLM\\SOFTWARE\\Microsoft\\Netsh\\* OR (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*" AND Registry.registry_key_name=Debugger) OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa" AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\CurrentControlSet\\Control\\Lsa\\OSConfig" AND Registry.registry_key_name="Security Packages") OR (Registry.registry_path="*\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\*") OR (Registry.registry_path="*currentVersion\\Windows" AND Registry.registry_key_name="Load") OR (Registry.registry_path="*\\CurrentVersion" AND Registry.registry_key_name="Svchost") OR (Registry.registry_path="*\\CurrentControlSet\Control\Session Manager"AND Registry.registry_key_name="BootExecute") OR (Registry.registry_path="*\\Software\\Run" AND Registry.registry_key_name="auto_update")) by Registry.dest Registry.user 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 
@@ -84,12 +85,12 @@ To successfully implement this search, you must be ingesting data that records r
 There are many legitimate applications that must execute on system startup and will use these registry keys to accomplish that task.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 76.0 | 80 | 95 | A registry activity in $registry_path$ related to persistence in host $dest$ |
+
 
 
 

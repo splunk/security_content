@@ -7,8 +7,6 @@ last_modified_at: 2021-05-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1053
   - Scheduled Task/Job
   - Execution
   - Persistence
@@ -17,7 +15,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -36,13 +33,11 @@ This analytic identifies an on demand run of a Windows Schedule Task through she
 - **ID**: bb37061e-af1f-11eb-a159-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
-
-
 
 #### Search
 
@@ -80,12 +75,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Administrators may use to debug Schedule Task entries. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | A &#34;on demand&#34; execution of schedule task process $process_name$  using commandline $process$ in host $dest$ |
+
 
 
 

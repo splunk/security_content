@@ -7,11 +7,9 @@ last_modified_at: 2020-06-23
 toc: true
 toc_label: ""
 tags:
-  - Hunting
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Lateral Movement
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -30,8 +28,6 @@ This search provides information on anonymous Kubectl calls with IP, verb namesp
 - **Last Updated**: 2020-06-23
 - **Author**: Rod Soto, Splunk
 - **ID**: 042a3d32-8318-4763-9679-09db2644a8f2
-
-
 
 #### Search
 
@@ -65,6 +61,7 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 
 #### Known False Positives
 Kubectl calls are not malicious by nature. However source IP, verb and Object can reveal potential malicious activity, specially anonymous suspicious IPs and sensitive objects such as configmaps or secrets
+
 
 
 

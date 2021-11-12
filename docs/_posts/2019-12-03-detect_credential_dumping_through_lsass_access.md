@@ -1,20 +1,19 @@
 ---
 title: "Detect Credential Dumping through LSASS access"
-excerpt: "LSASS Memory"
+excerpt: "LSASS Memory, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2019-12-03
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.001
   - LSASS Memory
+  - Credential Access
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -33,12 +32,13 @@ This search looks for reading lsass memory consistent with credential dumping.
 - **ID**: 2c365e57-4414-4540-8dc0-73ab10729996
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.001](https://attack.mitre.org/techniques/T1003/001/) | LSASS Memory | Credential Access |
 
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -79,12 +79,12 @@ This search needs Sysmon Logs and a sysmon configuration, which includes EventCo
 The activity may be legitimate. Other tools can access lsass for legitimate reasons, and it&#39;s possible this event could be generated in those cases. In these cases, false positives should be fairly obvious and you may need to tweak the search to eliminate noise.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The $source_image$ has attempted access to read $TargetImage$ was identified on endpoint $Computer$, this is indicative of credential dumping and should be investigated. |
+
 
 
 

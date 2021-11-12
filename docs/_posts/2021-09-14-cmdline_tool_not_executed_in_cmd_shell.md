@@ -1,21 +1,20 @@
 ---
 title: "Cmdline Tool Not Executed In CMD Shell"
-excerpt: "JavaScript"
+excerpt: "Command and Scripting Interpreter, JavaScript"
 categories:
   - Endpoint
 last_modified_at: 2021-09-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1059.007
+  - Command and Scripting Interpreter
+  - Execution
   - JavaScript
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -24,7 +23,7 @@ tags:
 
 #### Description
 
-This search is to detect a suspicious parent process execution of commandline tool not in shell commandline. This technique was seen in FIN7 JSSLoader .net compile payload where it run ipconfig.exe and systeminfo.exe using .net application. This event cause some good TTP since those tool are commonly run in commandline not by another application. This TTP is a good indicator for application gather host information either an attacker or an automated tool made by admin.
+The following analytic identifies a non-standard parent process (not matching CMD, PowerShell, or Explorer) spawning `ipconfig.exe` or `systeminfo.exe`. This particular behavior was seen in FIN7&#39;s JSSLoader .NET payload. This is also typically seen when an adversary is injected into another process performing different discovery techniques. This event stands out as a TTP since these tools are commonly executed with a shell application or Explorer parent, and not by another application. This TTP is a good indicator for an adversary gathering host information, but one possible false positive might be an automated tool used by a system administator.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -34,18 +33,19 @@ This search is to detect a suspicious parent process execution of commandline to
 - **ID**: 6c3f7dd8-153c-11ec-ac2d-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+| ----------- | ----------- |--------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
+| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 #### Search
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where  (Processes.process_name = "ipconfig.exe" OR Processes.process_name = "systeminfo.exe") AND NOT (Processes.parent_process_name = "cmd.exe" OR Processes.parent_process_name = "powershell*" OR Processes.parent_process_name = "explorer.exe") by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process_id Processes.process Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where  (Processes.process_name = "ipconfig.exe" OR Processes.process_name = "systeminfo.exe") AND NOT (Processes.parent_process_name = "cmd.exe" OR Processes.parent_process_name = "powershell*" OR Processes.parent_process_name="pwsh.exe" OR Processes.parent_process_name = "explorer.exe") by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.original_file_name Processes.process_id Processes.process Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -57,17 +57,21 @@ This search is to detect a suspicious parent process execution of commandline to
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
-* Processes.parent_process_name
-* Processes.parent_process
-* Processes.process_name
-* Processes.process_id
-* Processes.process
 * Processes.dest
 * Processes.user
+* Processes.parent_process_name
+* Processes.parent_process
+* Processes.original_file_name
+* Processes.process_name
+* Processes.process
+* Processes.process_id
+* Processes.parent_process_path
+* Processes.process_path
+* Processes.parent_process_id
 
 
 #### Kill Chain Phase
@@ -75,15 +79,15 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 
 #### Known False Positives
-network operator or admin may create this type of tool to gather host information
-
+A network operator or systems administrator may utilize an automated host discovery application that may generate false positives. Filter as needed.
 
 
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 56.0 | 70 | 80 | parent process name $parent_process_name$ with child process $process_name$ to execute commandline tool in $dest$ |
+| 56.0 | 70 | 80 | A non-standard parent process $parent_process_name$ spawned child process $process_name$ to execute command-line tool on $dest$. |
+
 
 
 

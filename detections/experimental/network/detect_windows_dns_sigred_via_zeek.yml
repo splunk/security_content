@@ -27,6 +27,8 @@ tags:
   cis20:
   - CIS 8
   - CIS 16
+  cve:
+  - CVE-2020-1350
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:

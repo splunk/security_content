@@ -1,21 +1,20 @@
 ---
 title: "Excessive DNS Failures"
-excerpt: "DNS"
+excerpt: "DNS, Application Layer Protocol"
 categories:
   - Network
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1071.004
   - DNS
+  - Command And Control
+  - Application Layer Protocol
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Resolution
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +35,13 @@ This search identifies DNS query failures by counting the number of DNS response
 - **ID**: 104658f4-afdc-499e-9719-17243f9826f1
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1071.004](https://attack.mitre.org/techniques/T1071/004/) | DNS | Command And Control |
 
+| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
 
 #### Search
 
@@ -80,6 +80,7 @@ To successfully implement this search you must ensure that DNS data is populatin
 
 #### Known False Positives
 It is possible legitimate traffic can trigger this rule. Please investigate as appropriate. The threshold for generating an event can also be customized to better suit your environment.
+
 
 
 

@@ -7,13 +7,10 @@ last_modified_at: 2021-06-15
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1222
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -32,13 +29,11 @@ This analytic identifies suspicious modification of ACL permission to a files or
 - **ID**: 9ae9a48a-cdbe-11eb-875a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
 
 #### Search
 
@@ -76,12 +71,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 network administrator may use this windows utility. filter is needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | A cacls process $process_name$ with commandline $cmd_line$ try to modify a permission of a file or directory in host $dest_device_id$ |
+
 
 
 

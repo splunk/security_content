@@ -7,15 +7,12 @@ last_modified_at: 2021-05-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1020
   - Automated Exfiltration
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exfiltration
 ---
 
 
@@ -34,13 +31,11 @@ This analytic identifies commonly used command-line arguments used by `rclone.ex
 - **ID**: 32e0baea-b3f1-11eb-a2ce-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
-
-
 
 #### Search
 
@@ -80,12 +75,12 @@ To successfully implement this search you need to be ingesting information on pr
 There is potential for false positives as these arguments may be used by other applications. Filter or tune the analytic as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to connect to a remote cloud service to move files or folders. |
+
 
 
 

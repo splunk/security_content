@@ -7,14 +7,11 @@ last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1489
   - Service Stop
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Delivery
 ---
 
 
@@ -33,13 +30,11 @@ The search looks for a Windows Security Account Manager (SAM) was stopped via co
 - **ID**: 69c12d59-d951-431e-ab77-ec426b8d65e6
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -75,12 +70,12 @@ You must be ingesting data that records the process-system activity from your ho
 SAM is a critical windows service, stopping it would cause major issues on an endpoint this makes false positive rare. AlthoughNo false positives have been identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | The Windows Security Account Manager (SAM) was stopped via cli by $user$ on $dest$ by this command: $processs$ |
+
 
 
 

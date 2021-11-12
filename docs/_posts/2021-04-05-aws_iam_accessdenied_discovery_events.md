@@ -7,15 +7,12 @@ last_modified_at: 2021-04-05
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1580
   - Cloud Infrastructure Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Splunk Security Analytics for AWS
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ The following detection identifies excessive AccessDenied events within an hour 
 - **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1580](https://attack.mitre.org/techniques/T1580/) | Cloud Infrastructure Discovery | Discovery |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. T
 It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 10.0 | 20 | 50 | User $userIdentity.arn$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied. |
+
 
 
 

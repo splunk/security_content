@@ -1,21 +1,20 @@
 ---
 title: "GetWmiObject DS User with PowerShell"
-excerpt: "Domain Account"
+excerpt: "Domain Account, Account Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-08-24
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1087.002
   - Domain Account
+  - Discovery
+  - Account Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,12 +33,13 @@ This analytic looks for the execution of `powershell.exe` with command-line argu
 - **ID**: 22d3b118-04df-11ec-8fa3-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
 
 #### Search
 
@@ -79,12 +79,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | an instance of process $process_name$ with commandline $process$ in $dest$ |
+
 
 
 

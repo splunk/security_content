@@ -7,16 +7,12 @@ last_modified_at: 2021-10-05
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1027
   - Obfuscated Files or Information
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Command and Control
-  - Actions on Objectives
 ---
 
 
@@ -38,13 +34,11 @@ Alternatively, may use regex per matching here https://regexr.com/662ov.
 - **ID**: c4db14d9-7909-48b4-a054-aa14d89dbb19
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1027](https://attack.mitre.org/techniques/T1027/) | Obfuscated Files or Information | Defense Evasion |
-
-
 
 #### Search
 
@@ -89,12 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 System administrators may use this option, but it&#39;s not common.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Powershell.exe running potentially malicious encodede commands on $dest$ |
+
 
 
 

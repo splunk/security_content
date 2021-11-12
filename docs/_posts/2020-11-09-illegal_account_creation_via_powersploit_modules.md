@@ -7,12 +7,9 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1585
   - Establish Accounts
   - Resource Development
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -31,13 +28,11 @@ This detection identifies access to PowerSploit modules that create accounts ill
 - **ID**: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1585](https://attack.mitre.org/techniques/T1585/) | Establish Accounts | Resource Development |
-
-
 
 #### Search
 
@@ -74,12 +69,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | PowerSploit malware is creating illegal domain accounts. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

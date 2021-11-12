@@ -1,26 +1,26 @@
 ---
 title: "CMD Echo Pipe - Escalation"
-excerpt: "Windows Command Shell, Windows Service"
+excerpt: "Command and Scripting Interpreter, Windows Command Shell, Windows Service, Create or Modify System Process"
 categories:
   - Endpoint
 last_modified_at: 2021-05-20
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1059.003
+  - Command and Scripting Interpreter
+  - Execution
   - Windows Command Shell
   - Execution
-  - T1543.003
   - Windows Service
+  - Persistence
+  - Privilege Escalation
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
-  - Privilege Escalation
 ---
 
 
@@ -39,12 +39,17 @@ This analytic identifies a common behavior by Cobalt Strike and other frameworks
 - **ID**: eb277ba0-b96b-11eb-b00e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution || [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+| ----------- | ----------- |--------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
+| [T1059.003](https://attack.mitre.org/techniques/T1059/003/) | Windows Command Shell | Execution |
+
+| [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
+
+| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 #### Search
 
@@ -88,12 +93,12 @@ To successfully implement this search you need to be ingesting information on pr
 Unknown. It is possible filtering may be required to ensure fidelity.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ potentially performing privilege escalation using named pipes related to Cobalt Strike and other frameworks. |
+
 
 
 

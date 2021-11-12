@@ -7,15 +7,12 @@ last_modified_at: 2021-09-10
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1049
   - System Network Connections Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ This analytic looks for the execution of `netstat.exe` with command-line argumen
 - **ID**: 2cf5cc25-f39a-436d-a790-4857e5995ede
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Network Connection discovery on $dest$ by $user$ |
+
 
 
 

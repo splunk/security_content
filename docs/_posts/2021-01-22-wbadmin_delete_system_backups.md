@@ -7,15 +7,12 @@ last_modified_at: 2021-01-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1490
   - Inhibit System Recovery
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ This search looks for flags passed to wbadmin.exe (Windows Backup Administrator 
 - **ID**: cd5aed7e-5cea-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Administrators may modify the boot configuration.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | System backups deletion on $dest$ |
+
 
 
 

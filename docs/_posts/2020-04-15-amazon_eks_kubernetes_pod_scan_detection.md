@@ -7,14 +7,11 @@ last_modified_at: 2020-04-15
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1526
   - Cloud Service Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Reconnaissance
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -35,13 +32,11 @@ This search provides detection information on unauthenticated requests against K
 - **ID**: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1526](https://attack.mitre.org/techniques/T1526/) | Cloud Service Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,6 +77,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Known False Positives
 Not all unauthenticated requests are malicious, but frequency, UA and source IPs and direct request to API provide context.
+
 
 
 

@@ -114,7 +114,45 @@ This playbook investigates and contains ransomware detected on endpoints.
 
 
 
+
+
+
 * [Conti Common Exec parameter](/detections/TTP/conti_common_exec_parameter)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

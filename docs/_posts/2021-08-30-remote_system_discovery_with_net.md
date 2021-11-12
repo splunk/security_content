@@ -7,15 +7,12 @@ last_modified_at: 2021-08-30
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1018
   - Remote System Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ This analytic looks for the execution of `net.exe` or `net1.exe` with command-li
 - **ID**: 9df16706-04a2-41e2-bbfe-9b38b34409d3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Remote system discovery enumeration on $dest$ by $user$ |
+
 
 
 

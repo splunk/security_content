@@ -7,15 +7,12 @@ last_modified_at: 2021-02-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -35,13 +32,11 @@ Upon triage, review the process performing the named pipe. If it is explorer.exe
 - **ID**: 5876d429-0240-4709-8b93-ea8330b411b5
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some of the named pipes identified and added may cause false positives. Filter by process name or pipe name to reduce false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | An instance of $process_name$ was identified on endpoint $Computer$ by user $user$ accessing known suspicious named pipes related to Cobalt Strike. |
+
 
 
 

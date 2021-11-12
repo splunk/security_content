@@ -1,21 +1,20 @@
 ---
 title: "Create or delete windows shares using net exe"
-excerpt: "Network Share Connection Removal"
+excerpt: "Indicator Removal on Host, Network Share Connection Removal"
 categories:
   - Endpoint
 last_modified_at: 2020-09-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1070.005
+  - Indicator Removal on Host
+  - Defense Evasion
   - Network Share Connection Removal
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ This search looks for the creation or deletion of hidden shares using net.exe.
 - **ID**: qw9919ed-fe5f-492c-b139-151bb162140e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1070.005](https://attack.mitre.org/techniques/T1070/005/) | Network Share Connection Removal | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
+| [T1070.005](https://attack.mitre.org/techniques/T1070/005/) | Network Share Connection Removal | Defense Evasion |
 
 #### Search
 
@@ -83,12 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators often leverage net.exe to create or delete network shares. You should verify that the activity was intentional and is legitimate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ enumerating Windows file shares. |
+
 
 
 

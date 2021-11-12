@@ -1,21 +1,20 @@
 ---
 title: "Mailsniper Invoke functions"
-excerpt: "Local Email Collection"
+excerpt: "Email Collection, Local Email Collection"
 categories:
   - Endpoint
 last_modified_at: 2021-05-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1114.001
+  - Email Collection
+  - Collection
   - Local Email Collection
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect known mailsniper.ps1 functions executed in a machine. T
 - **ID**: a36972c8-b894-11eb-9f78-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
+| ----------- | ----------- |--------------- |
+| [T1114](https://attack.mitre.org/techniques/T1114/) | Email Collection | Collection |
 
+| [T1114.001](https://attack.mitre.org/techniques/T1114/001/) | Local Email Collection | Collection |
 
 #### Search
 
@@ -74,12 +74,12 @@ To successfully implement this search, you need to be ingesting logs with the po
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | mailsniper.ps1 functions $Message$ executed on a $ComputerName$ by user $user$. |
+
 
 
 

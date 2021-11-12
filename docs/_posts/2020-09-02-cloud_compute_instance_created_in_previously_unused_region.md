@@ -7,8 +7,6 @@ last_modified_at: 2020-09-02
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1535
   - Unused/Unsupported Cloud Regions
   - Defense Evasion
   - Splunk Security Analytics for AWS
@@ -16,7 +14,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Change
-  - Actions on Objectives
 ---
 
 
@@ -35,13 +32,11 @@ This search looks at cloud-infrastructure events where an instance is created in
 - **ID**: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1535](https://attack.mitre.org/techniques/T1535/) | Unused/Unsupported Cloud Regions | Defense Evasion |
-
-
 
 #### Search
 
@@ -82,12 +77,12 @@ You must be ingesting your cloud infrastructure logs from your cloud provider. Y
 It&#39;s possible that a user has unknowingly started an instance in a new region. Please verify that this activity is legitimate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is creating an instance $dest$ in a new region for the first time |
+
 
 
 

@@ -7,13 +7,10 @@ last_modified_at: 2021-06-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1489
   - Service Stop
   - Impact
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -32,13 +29,11 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 - **ID**: dbc30554-d27e-11eb-9e5e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -79,6 +74,7 @@ network admin can resize the shadowstorage for valid purposes.
 
 
 
+
 #### Reference
 
 * [https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html](https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html)
@@ -94,4 +90,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/resize_shadowstorage_volume.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/resize_shadowstorage_volume.yml) \| *version*: **2**

@@ -1,21 +1,20 @@
 ---
 title: "Suspicious Email Attachment Extensions"
-excerpt: "Spearphishing Attachment"
+excerpt: "Spearphishing Attachment, Phishing"
 categories:
   - Application
 last_modified_at: 2020-07-22
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1566.001
   - Spearphishing Attachment
+  - Initial Access
+  - Phishing
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Email
-  - Delivery
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +35,13 @@ This search looks for emails that have attachments with suspicious file extensio
 - **ID**: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
 #### Search
 
@@ -78,6 +78,7 @@ If Splunk Phantom is also configured in your environment, a Playbook called &#34
 
 #### Known False Positives
 None identified
+
 
 
 

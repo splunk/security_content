@@ -7,12 +7,10 @@ last_modified_at: 2017-09-23
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Web
-  - Delivery
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -31,8 +29,6 @@ This search looks for Web requests to faux domains similar to the one that you w
 - **Last Updated**: 2017-09-23
 - **Author**: David Dorsey, Splunk
 - **ID**: 134da869-e264-4a8f-8d7e-fcd0ec88f301
-
-
 
 #### Search
 
@@ -64,6 +60,7 @@ You need to ingest data from your web traffic. This can be accomplished by index
 
 #### Known False Positives
 None at this time
+
 
 
 

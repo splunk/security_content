@@ -1,21 +1,20 @@
 ---
 title: "Elevated Group Discovery with PowerView"
-excerpt: "Domain Groups"
+excerpt: "Permission Groups Discovery, Domain Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-08-25
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1069.002
+  - Permission Groups Discovery
+  - Discovery
   - Domain Groups
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 10d62950-0de5-4199-a710-cff9ea79b413
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
 #### Search
 
@@ -73,12 +73,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Administrators or power users may use this PowerView for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 21.0 | 30 | 70 | Elevated group discovery using PowerView on $dest$ by $user$ |
+
 
 
 

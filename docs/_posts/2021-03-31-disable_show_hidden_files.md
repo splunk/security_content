@@ -1,24 +1,24 @@
 ---
 title: "Disable Show Hidden Files"
-excerpt: "Hidden Files and Directories, Disable or Modify Tools"
+excerpt: "Hidden Files and Directories, Disable or Modify Tools, Hide Artifacts, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-03-31
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1564.001
   - Hidden Files and Directories
   - Defense Evasion
-  - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - Hide Artifacts
+  - Defense Evasion
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -37,12 +37,17 @@ The following analytic is to identify a modification in the Windows registry to 
 - **ID**: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1564.001](https://attack.mitre.org/techniques/T1564/001/) | Hidden Files and Directories | Defense Evasion || [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1564.001](https://attack.mitre.org/techniques/T1564/001/) | Hidden Files and Directories | Defense Evasion |
 
+| [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
+
+| [T1564](https://attack.mitre.org/techniques/T1564/) | Hide Artifacts | Defense Evasion |
+
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
 #### Search
 
@@ -79,12 +84,12 @@ To successfully implement this search you need to be ingesting information on pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 40 | 100 | Disabled &#39;Show Hidden Files&#39; on $dest$ |
+
 
 
 

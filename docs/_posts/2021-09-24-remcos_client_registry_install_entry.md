@@ -7,15 +7,12 @@ last_modified_at: 2021-09-24
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1112
   - Modify Registry
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This search detects registry key license at host where Remcos RAT agent is insta
 - **ID**: f2a1615a-1d63-11ec-97d2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1112](https://attack.mitre.org/techniques/T1112/) | Modify Registry | Defense Evasion |
-
-
 
 #### Search
 
@@ -77,12 +72,12 @@ To successfully implement this search you need to be ingesting information on pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | A registry entry $registry_path$ with registry keyname $registry_key_name$ related to Remcos RAT in host $dest$ |
+
 
 
 

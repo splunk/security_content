@@ -1,22 +1,22 @@
 ---
 title: "Suspicious PlistBuddy Usage"
-excerpt: "Launch Agent"
+excerpt: "Launch Agent, Create or Modify System Process"
 categories:
   - Endpoint
 last_modified_at: 2021-02-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1543.001
   - Launch Agent
+  - Persistence
+  - Privilege Escalation
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -44,12 +44,13 @@ Upon triage, capture the property list file being written to disk and review for
 - **ID**: c3194009-e0eb-4f84-87a9-4070f8688f00
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1543.001](https://attack.mitre.org/techniques/T1543/001/) | Launch Agent | Persistence, Privilege Escalation |
 
+| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 #### Search
 
@@ -86,6 +87,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.
+
 
 
 

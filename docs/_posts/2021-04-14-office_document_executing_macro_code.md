@@ -1,21 +1,20 @@
 ---
 title: "Office Document Executing Macro Code"
-excerpt: "Spearphishing Attachment"
+excerpt: "Phishing, Spearphishing Attachment"
 categories:
   - Endpoint
 last_modified_at: 2021-04-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1566.001
+  - Phishing
+  - Initial Access
   - Spearphishing Attachment
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ this detection was designed to identifies suspicious office documents that using
 - **ID**: b12c89bc-9d06-11eb-a592-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 #### Search
 
@@ -80,12 +80,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Normal Office Document macro use for automation
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Office document executing a macro on $dest$ |
+
 
 
 

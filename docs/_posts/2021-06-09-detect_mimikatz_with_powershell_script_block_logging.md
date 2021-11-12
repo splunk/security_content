@@ -7,14 +7,11 @@ last_modified_at: 2021-06-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
 ---
 
 
@@ -35,13 +32,11 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: 8148c29c-c952-11eb-9255-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
 
 #### Search
 
@@ -77,12 +72,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 False positives should be limited as the commands being identifies are quite specific to EventCode 4104 and Mimikatz. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | The following behavior was identified and typically related to MimiKatz being loaded within the context of PowerShell on $ComputerName$ by $User$. |
+
 
 
 

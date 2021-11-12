@@ -7,15 +7,12 @@ last_modified_at: 2021-05-12
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1490
   - Inhibit System Recovery
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This following analytic detects PowerShell command to delete shadow copy using t
 - **ID**: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
 
 #### Search
 
@@ -77,12 +72,12 @@ To successfully implement this search, you need to be ingesting logs with the po
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | An attempt to delete ShadowCopy was performed using PowerShell on $ComputerName$ by $User$. |
+
 
 
 

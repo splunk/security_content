@@ -7,15 +7,12 @@ last_modified_at: 2021-06-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1490
   - Inhibit System Recovery
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This search detects a suspicioous termination of known services killed by ransom
 - **ID**: 3070f8e0-c528-11eb-b2a0-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
 
 #### Search
 
@@ -76,12 +71,12 @@ To successfully implement this search, you need to be ingesting logs with the 70
 Admin activities or installing related updates may do a sudden stop to list of services we monitor.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Known services $Message$ terminated by a potential ransomware on $dest$ |
+
 
 
 

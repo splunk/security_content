@@ -7,15 +7,12 @@ last_modified_at: 2021-04-15
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1048
   - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ this search is to detect potential DNS exfiltration using nslookup application. 
 - **ID**: 2452e632-9e0d-11eb-bacd-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
-
-
 
 #### Search
 
@@ -86,12 +81,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 admin nslookup usage
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ performing activity related to DNS exfiltration. |
+
 
 
 

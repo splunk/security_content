@@ -1,21 +1,20 @@
 ---
 title: "Disable Registry Tool"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-03-31
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search identifies modification of registry to disable the regedit or regist
 - **ID**: cd2cf33c-9201-11eb-a10a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
 #### Search
 
@@ -76,12 +76,12 @@ To successfully implement this search you need to be ingesting information on pr
 admin may disable this application for non technical user.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 40.0 | 40 | 100 | Disabled Registry Tools on $dest$ |
+
 
 
 

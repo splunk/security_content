@@ -7,18 +7,13 @@ last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1592
   - Gather Victim Host Information
   - Reconnaissance
-  - T1590
   - Gather Victim Network Information
   - Reconnaissance
-  - T1087
   - Account Discovery
   - Discovery
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -37,15 +32,15 @@ This detection identifies access to PowerSploit modules that discover computers,
 - **ID**: fe1c4c5a-09f3-4b43-8129-560a7f38a08b
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1592](https://attack.mitre.org/techniques/T1592/) | Gather Victim Host Information | Reconnaissance |
+
 | [T1590](https://attack.mitre.org/techniques/T1590/) | Gather Victim Network Information | Reconnaissance |
+
 | [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +77,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | PowerSploit malware is seaching for or accessing domain controllers, computers, file servers, etc. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

@@ -7,15 +7,12 @@ last_modified_at: 2021-06-07
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1033
   - System Owner/User Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This detection targets behaviors observed in post exploit kits like Meterpreter 
 - **ID**: f443dac2-c7cf-11eb-ab51-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ To successfully implement this search you need to be ingesting events related to
 Administrators, administrative actions or certain applications may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | An excessive amount of $process_name$ was executed on $dest$ indicative of suspicious behavior. |
+
 
 
 

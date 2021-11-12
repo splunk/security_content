@@ -1,21 +1,20 @@
 ---
 title: "System Processes Run From Unexpected Locations"
-excerpt: "Rename System Utilities"
+excerpt: "Masquerading, Rename System Utilities"
 categories:
   - Endpoint
 last_modified_at: 2020-12-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1036.003
+  - Masquerading
+  - Defense Evasion
   - Rename System Utilities
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -36,12 +35,13 @@ During triage, review the parallel processes - what process moved the native Win
 - **ID**: a34aae96-ccf8-4aef-952c-3ea21444444d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 #### Search
 
@@ -84,12 +84,12 @@ To successfully implement this search you need to be ingesting information on pr
 This detection may require tuning based on third party applications utilizing native Windows binaries in non-standard paths.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | System process running from unexpected location on $dest$ |
+
 
 
 

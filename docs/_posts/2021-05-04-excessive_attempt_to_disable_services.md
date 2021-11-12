@@ -7,15 +7,12 @@ last_modified_at: 2021-05-04
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1489
   - Service Stop
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This analytic will identify suspicious series of command-line to disable several
 - **ID**: 8fa2a0f0-acd9-11eb-8994-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -79,12 +74,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An excessive amount of $process_name$ was executed on $dest$ attempting to disable services. |
+
 
 
 

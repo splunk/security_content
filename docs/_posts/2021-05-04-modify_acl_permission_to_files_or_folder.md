@@ -7,15 +7,12 @@ last_modified_at: 2021-05-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1222
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This analytic identifies suspicious modification of ACL permission to a files or
 - **ID**: 7e8458cc-acca-11eb-9e3f-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 administrators may use this command. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 32.0 | 40 | 80 | Suspicious ACL permission modification on $dest$ |
+
 
 
 

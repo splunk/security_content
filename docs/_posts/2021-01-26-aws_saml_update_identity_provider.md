@@ -7,8 +7,6 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
@@ -36,13 +34,11 @@ This search provides detection of updates to SAML provider in AWS. Updates to SA
 - **ID**: 2f0604c6-6030-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
 
 #### Search
 
@@ -79,12 +75,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 Updating a SAML provider or creating a new one may not necessarily be malicious however it needs to be closely monitored.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $userIdentity.principalId$ from IP address $sourceIPAddress$ has trigged an event $eventName$ to update the SAML provider to $requestParameters.sAMLProviderArn$ |
+
 
 
 

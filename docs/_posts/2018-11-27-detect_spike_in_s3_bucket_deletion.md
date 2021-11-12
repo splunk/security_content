@@ -7,14 +7,11 @@ last_modified_at: 2018-11-27
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1530
   - Data from Cloud Storage Object
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -35,13 +32,11 @@ This search detects users creating spikes in API activity related to deletion of
 - **ID**: ad12w478-84a8-4641-a3w1-e32372q4bd53
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
 
 #### Search
 
@@ -88,6 +83,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Known False Positives
 Based on the values of`dataPointThreshold` and `deviationThreshold`, the false positive rate may vary. Please modify this according the your environment.
+
 
 
 

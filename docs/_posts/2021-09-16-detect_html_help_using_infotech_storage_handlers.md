@@ -1,21 +1,20 @@
 ---
 title: "Detect HTML Help Using InfoTech Storage Handlers"
-excerpt: "Compiled HTML File"
+excerpt: "Signed Binary Proxy Execution, Compiled HTML File"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.001
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Compiled HTML File
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies hh.exe (HTML Help) execution of a Compiled HTM
 - **ID**: 0b2eefa5-5508-450d-b970-3dd2fb761aec
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.001](https://attack.mitre.org/techniques/T1218/001/) | Compiled HTML File | Defense Evasion |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 It is rare to see instances of InfoTech Storage Handlers being used, but it does happen in some legitimate instances. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | $process_name$ has been identified using Infotech Storage Handlers to load a specific file within a CHM on $dest$ under user $user$. |
+
 
 
 

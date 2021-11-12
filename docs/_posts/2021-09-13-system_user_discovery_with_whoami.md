@@ -7,15 +7,12 @@ last_modified_at: 2021-09-13
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1033
   - System Owner/User Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ This analytic looks for the execution of `whoami.exe` without any arguments. Thi
 - **ID**: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1033](https://attack.mitre.org/techniques/T1033/) | System Owner/User Discovery | Discovery |
-
-
 
 #### Search
 
@@ -83,12 +78,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | System user discovery on $dest$ |
+
 
 
 

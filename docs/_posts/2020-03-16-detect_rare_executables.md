@@ -7,14 +7,10 @@ last_modified_at: 2020-03-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
-  - Command and Control
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -33,8 +29,6 @@ This search will return a table of rare processes, the names of the systems runn
 - **Last Updated**: 2020-03-16
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
-
-
 
 #### Search
 
@@ -78,6 +72,7 @@ To successfully implement this search, you must be ingesting data that records p
 
 #### Known False Positives
 Some legitimate processes may be only rarely executed in your environment. As these are identified, update `rare_process_allow_list_local.csv` to filter them out of your search results.
+
 
 
 

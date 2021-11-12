@@ -7,15 +7,12 @@ last_modified_at: 2021-07-20
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1537
   - Transfer Data to Cloud Account
   - Exfiltration
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ The following analytic utilizes AWS CloudTrail events to identify when an EC2 sn
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d222c4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1537](https://attack.mitre.org/techniques/T1537/) | Transfer Data to Cloud Account | Exfiltration |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 It is possible that an AWS admin has legitimately shared a snapshot with others for  a specific purpose.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | AWS EC2 snapshot from account $aws_account_id$ is shared with $requested_account_id$ by user $user_arn$ from $src_ip$ |
+
 
 
 

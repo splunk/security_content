@@ -7,15 +7,12 @@ last_modified_at: 2021-08-20
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1199
   - Trusted Relationship
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This search is to detect a pushed or commit to master or main branch. This is to
 - **ID**: c9d2bfe2-019f-11ec-a8eb-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1199](https://attack.mitre.org/techniques/T1199/) | Trusted Relationship | Initial Access |
-
-
 
 #### Search
 
@@ -56,7 +51,7 @@ This search is to detect a pushed or commit to master or main branch. This is to
 ```
 
 #### Associated Analytic Story
-* [DevSecOps](/stories/devsecops)
+* [Dev Sec Ops](/stories/dev_sec_ops)
 
 
 #### How To Implement
@@ -74,12 +69,12 @@ To successfully implement this search, you need to be ingesting logs related to 
 admin can do changes directly to master branch
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | suspicious commit by $commit.commit.author.email$ to main branch |
+
 
 
 

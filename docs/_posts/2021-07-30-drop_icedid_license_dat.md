@@ -1,21 +1,20 @@
 ---
 title: "Drop IcedID License dat"
-excerpt: "Malicious File"
+excerpt: "User Execution, Malicious File"
 categories:
   - Endpoint
 last_modified_at: 2021-07-30
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1204.002
+  - User Execution
+  - Execution
   - Malicious File
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect dropping a suspicious file named as &#34;license.dat&#3
 - **ID**: b7a045fc-f14a-11eb-8e79-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
+| ----------- | ----------- |--------------- |
+| [T1204](https://attack.mitre.org/techniques/T1204/) | User Execution | Execution |
 
+| [T1204.002](https://attack.mitre.org/techniques/T1204/002/) | Malicious File | Execution |
 
 #### Search
 
@@ -70,12 +70,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | process $SourceImage$ create a file $TargetImage$ in host $Computer$ |
+
 
 
 

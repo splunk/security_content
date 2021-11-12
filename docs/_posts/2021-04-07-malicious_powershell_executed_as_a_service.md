@@ -1,21 +1,20 @@
 ---
 title: "Malicious Powershell Executed As A Service"
-excerpt: "Service Execution"
+excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-04-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1569.002
+  - System Services
+  - Execution
   - Service Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Privilege Escalation
 ---
 
 
@@ -34,12 +33,13 @@ This detection is to identify the abuse the Windows SC.exe to execute malicious 
 - **ID**: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+| ----------- | ----------- |--------------- |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
+| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 #### Search
 
@@ -86,12 +86,12 @@ To successfully implement this search, you need to be ingesting Windows System l
 Creating a hidden powershell service is rare and could key off of those instances.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $Service_File_Name$ by $user$ on $dest$ |
+
 
 
 

@@ -7,15 +7,12 @@ last_modified_at: 2021-03-12
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1490
   - Inhibit System Recovery
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 - **ID**: bc760ca6-8336-11eb-bcbb-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 network admin can resize the shadowstorage for valid purposes.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | A process $parent_process_name$ attempt to resize shadow copy with commandline $process$ in host $dest$ |
+
 
 
 

@@ -1,21 +1,20 @@
 ---
 title: "Allow Inbound Traffic By Firewall Rule Registry"
-excerpt: "Remote Desktop Protocol"
+excerpt: "Remote Desktop Protocol, Remote Services"
 categories:
   - Endpoint
 last_modified_at: 2021-05-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1021.001
   - Remote Desktop Protocol
+  - Lateral Movement
+  - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This analytic detects a potential suspicious modification of firewall rule regis
 - **ID**: 0a46537c-be02-11eb-92ca-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1021.001](https://attack.mitre.org/techniques/T1021/001/) | Remote Desktop Protocol | Lateral Movement |
 
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 #### Search
 
@@ -83,12 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 network admin may add/remove/modify public inbound firewall rule that may cause this rule to be triggered.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 3.0 | 10 | 30 | Suspicious firewall modifications were detected via the registry on endpoint $dest$ by user $user$. |
+
 
 
 

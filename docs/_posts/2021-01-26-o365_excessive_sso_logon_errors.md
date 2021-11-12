@@ -7,8 +7,6 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1556
   - Modify Authentication Process
   - Credential Access
   - Defense Evasion
@@ -17,7 +15,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objective
 ---
 
 
@@ -36,13 +33,11 @@ This search detects accounts with high number of Single Sign ON (SSO) logon erro
 - **ID**: 8158ccc4-6038-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
-
-
 
 #### Search
 
@@ -80,12 +75,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 Logon errors may not be malicious in nature however it may indicate attempts to reuse a token or password obtained via credential access attack.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $UserId$ has caused excessive number of SSO logon errors from $ActorIpAddress$ using UserAgent $UserAgent$. |
+
 
 
 

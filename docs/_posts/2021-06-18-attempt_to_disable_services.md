@@ -7,13 +7,10 @@ last_modified_at: 2021-06-18
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1489
   - Service Stop
   - Impact
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -32,13 +29,11 @@ This analytic will identify suspicious series of command-line to disable several
 - **ID**: afb31de4-d023-11eb-98d5-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -80,6 +75,7 @@ unknown
 
 
 
+
 #### Reference
 
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)
@@ -95,4 +91,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_disable_services.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_disable_services.yml) \| *version*: **2**

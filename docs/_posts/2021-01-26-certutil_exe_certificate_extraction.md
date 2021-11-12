@@ -7,12 +7,10 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
 ---
 
 
@@ -29,8 +27,6 @@ This search looks for arguments to certutil.exe indicating the manipulation or e
 - **Last Updated**: 2021-01-26
 - **Author**: Rod Soto, Splunk
 - **ID**: 337a46be-600f-11eb-ae93-0242ac130002
-
-
 
 #### Search
 
@@ -73,12 +69,12 @@ To successfully implement this search you need to be ingesting information on pr
 Unless there are specific use cases, manipulating or exporting certificates using certutil is uncommon. Extraction of certificate has been observed during attacks such as Golden SAML and other campaigns targeting Federated services.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 90 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting export a certificate. |
+
 
 
 

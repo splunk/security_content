@@ -1,21 +1,20 @@
 ---
 title: "Clear Unallocated Sector Using Cipher App"
-excerpt: "File Deletion"
+excerpt: "File Deletion, Indicator Removal on Host"
 categories:
   - Endpoint
 last_modified_at: 2021-06-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1070.004
   - File Deletion
+  - Defense Evasion
+  - Indicator Removal on Host
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ this search is to detect execution of `cipher.exe` to clear the unallocated sect
 - **ID**: cd80a6ac-c9d9-11eb-8839-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1070.004](https://attack.mitre.org/techniques/T1070/004/) | File Deletion | Defense Evasion |
 
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 administrator may execute this app to manage disk
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 100 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to clear the unallocated sectors of a specific disk. |
+
 
 
 

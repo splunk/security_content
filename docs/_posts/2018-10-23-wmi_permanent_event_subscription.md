@@ -7,14 +7,11 @@ last_modified_at: 2018-10-23
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1047
   - Windows Management Instrumentation
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -35,13 +32,11 @@ This search looks for the creation of WMI permanent event subscriptions.
 - **ID**: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1047](https://attack.mitre.org/techniques/T1047/) | Windows Management Instrumentation | Execution |
-
-
 
 #### Search
 
@@ -78,6 +73,7 @@ To successfully implement this search, you must be ingesting the Windows WMI act
 
 #### Known False Positives
 Although unlikely, administrators may use event subscriptions for legitimate purposes.
+
 
 
 

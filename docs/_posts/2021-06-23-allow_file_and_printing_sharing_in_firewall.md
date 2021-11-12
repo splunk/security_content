@@ -1,21 +1,20 @@
 ---
 title: "Allow File And Printing Sharing In Firewall"
-excerpt: "Disable or Modify Cloud Firewall"
+excerpt: "Disable or Modify Cloud Firewall, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-06-23
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1562.007
   - Disable or Modify Cloud Firewall
+  - Defense Evasion
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect a suspicious modification of firewall to allow file and
 - **ID**: ce27646e-d411-11eb-8a00-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1562.007](https://attack.mitre.org/techniques/T1562/007/) | Disable or Modify Cloud Firewall | Defense Evasion |
 
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
 #### Search
 
@@ -80,6 +80,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 #### Known False Positives
 network admin may modify this firewall feature that may cause this rule to be triggered.
+
 
 
 

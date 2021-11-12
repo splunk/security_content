@@ -7,15 +7,12 @@ last_modified_at: 2021-05-07
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1222
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe` o
 - **ID**: 0bdf6092-af17-11eb-939a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
 
 #### Search
 
@@ -79,12 +74,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or administrative scripts may use this application. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An excessive amount of $process_name$ was executed on $dest$ attempting to modify permissions. |
+
 
 
 

@@ -7,18 +7,12 @@ last_modified_at: 2021-2-1
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1117
   - Regsvr32
-  - T1202
   - Indirect Command Execution
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Command and Control
-  - Actions on Objectives
 ---
 
 
@@ -37,15 +31,15 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 - **ID**: fc0edc95-ff2b-48b0-9f6f-63da3789fd23
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 | [T1117](https://attack.mitre.org/techniques/T1117/) | Regsvr32 |  |
+
 | [T1202](https://attack.mitre.org/techniques/T1202/) | Indirect Command Execution | Defense Evasion |
-
-
 
 #### Search
 
@@ -88,12 +82,12 @@ You must be populating the endpoint data model for SSA and specifically the proc
 Legitimate programs can also use command-line arguments to execute. Please verify the command-line arguments to check what command/program is being executed. We recommend customizing the `first_time_seen_cmd_line_filter` macro to exclude legitimate parent_process_name
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | A cmd process $process_name$ with commandline $cmd_line$ try to execute command has not previously seen in host $dest_device_id$ |
+
 
 
 

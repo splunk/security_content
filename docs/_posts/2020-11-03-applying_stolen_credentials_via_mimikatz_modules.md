@@ -7,52 +7,39 @@ last_modified_at: 2020-11-03
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
-  - T1068
   - Exploitation for Privilege Escalation
   - Privilege Escalation
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
   - Initial Access
-  - T1098
   - Account Manipulation
   - Persistence
-  - T1134
   - Access Token Manipulation
   - Defense Evasion
   - Privilege Escalation
-  - T1543
   - Create or Modify System Process
   - Persistence
   - Privilege Escalation
-  - T1547
   - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
-  - T1548
   - Abuse Elevation Control Mechanism
   - Privilege Escalation
   - Defense Evasion
-  - T1554
   - Compromise Client Software Binary
   - Persistence
-  - T1556
   - Modify Authentication Process
   - Credential Access
   - Defense Evasion
   - Persistence
-  - T1558
   - Steal or Forge Kerberos Tickets
   - Credential Access
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -71,23 +58,31 @@ This detection indicates use of Mimikatz modules that facilitate Pass-the-Token 
 - **ID**: 759a653f-cb92-40f9-94c9-ec4e47b0f709
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
+
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
 | [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | Persistence |
+
 | [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
+
 | [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
+
 | [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
+
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
+
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
+
 | [T1556](https://attack.mitre.org/techniques/T1556/) | Modify Authentication Process | Credential Access, Defense Evasion, Persistence |
+
 | [T1558](https://attack.mitre.org/techniques/T1558/) | Steal or Forge Kerberos Tickets | Credential Access |
-
-
 
 #### Search
 
@@ -123,12 +118,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | Mimikatz malware is violating authentication processes by injecting golden or silver Kerberos tickets or passing stolen authentication tokens. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

@@ -7,11 +7,9 @@ last_modified_at: 2020-03-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -30,8 +28,6 @@ The search looks for a sharp increase in the number of files written to a partic
 - **Last Updated**: 2020-03-16
 - **Author**: David Dorsey, Splunk
 - **ID**: fdb0f805-74e4-4539-8c00-618927333aae
-
-
 
 #### Search
 
@@ -67,6 +63,7 @@ In order to implement this search, you must populate the Endpoint file-system da
 
 #### Known False Positives
 It is important to understand that if you happen to install any new applications on your hosts or are copying a large number of files, you can expect to see a large increase of file modifications.
+
 
 
 

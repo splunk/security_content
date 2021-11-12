@@ -7,24 +7,18 @@ last_modified_at: 2021-05-20
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1203
   - Exploitation for Client Execution
   - Execution
-  - T1059
   - Command and Scripting Interpreter
   - Execution
-  - T1053
   - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
-  - T1072
   - Software Deployment Tools
   - Execution
   - Lateral Movement
   - Splunk Behavioral Analytics
-  - Exploitation
 ---
 
 
@@ -43,16 +37,17 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 - **ID**: cf090c78-bcc6-11eb-8529-0242ac130003
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1203](https://attack.mitre.org/techniques/T1203/) | Exploitation for Client Execution | Execution |
+
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
+
 | [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
+
 | [T1072](https://attack.mitre.org/techniques/T1072/) | Software Deployment Tools | Execution, Lateral Movement |
-
-
 
 #### Search
 
@@ -94,6 +89,7 @@ Collect endpoint data such as sysmon or 4688 events.
 
 #### Known False Positives
 Some custom tools used by admins could be used rarely to launch remotely applications. This might trigger false positives at the beginning when it hasn&#39;t collected yet enough data to construct the baseline.
+
 
 
 

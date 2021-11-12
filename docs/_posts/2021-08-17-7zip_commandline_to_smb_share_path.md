@@ -1,21 +1,20 @@
 ---
 title: "7zip CommandLine To SMB Share Path"
-excerpt: "Archive via Utility"
+excerpt: "Archive via Utility, Archive Collected Data"
 categories:
   - Endpoint
 last_modified_at: 2021-08-17
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1560.001
   - Archive via Utility
+  - Collection
+  - Archive Collected Data
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect a suspicious 7z process with commandline pointing to SM
 - **ID**: 01d29b48-ff6f-11eb-b81e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
+| [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
 
 #### Search
 
@@ -79,12 +79,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | archive process $process_name$ with suspicious cmdline $process$ in host $dest$ |
+
 
 
 

@@ -7,8 +7,6 @@ last_modified_at: 2021-03-29
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1197
   - BITS Jobs
   - Defense Evasion
   - Persistence
@@ -16,7 +14,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,13 +32,11 @@ Start-BitsTransfer is the PowerShell &#34;version&#34; of BitsAdmin.exe. Similar
 - **ID**: 39e2605a-90d8-11eb-899e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1197](https://attack.mitre.org/techniques/T1197/) | BITS Jobs | Defense Evasion, Persistence |
-
-
 
 #### Search
 
@@ -84,12 +79,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives. It is possible administrators will utilize Start-BitsTransfer for administrative tasks, otherwise filter based parent process or command-line arguments.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious process $process_name$ with commandline $process$ that are related to bittransfer functionality in host $dest$ |
+
 
 
 

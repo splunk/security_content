@@ -7,8 +7,6 @@ last_modified_at: 2021-09-20
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
@@ -16,7 +14,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,13 +32,11 @@ The following analytic identifies searchprotocolhost.exe with no command line ar
 - **ID**: f52d2db8-31f9-4aa7-a176-25779effe55c
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
-
-
 
 #### Search
 
@@ -85,12 +80,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives may be present in small environments. Tuning may be required based on parent process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | Suspicious searchprotocolhost.exe process with no command line arguments executed on $dest$ by $user$ |
+
 
 
 

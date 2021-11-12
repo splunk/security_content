@@ -7,15 +7,12 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1490
   - Inhibit System Recovery
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ The vssadmin.exe utility is used to interact with the Volume Shadow Copy Service
 - **ID**: b89919ed-ee5f-492c-b139-95dbb162039e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1490](https://attack.mitre.org/techniques/T1490/) | Inhibit System Recovery | Impact |
-
-
 
 #### Search
 
@@ -86,12 +81,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 vssadmin.exe and wmic.exe are standard applications shipped with modern versions of windows. They may be used by administrators to legitimately delete old backup copies, although this is typically rare.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 81.0 | 90 | 90 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to delete shadow copies. |
+
 
 
 

@@ -7,15 +7,12 @@ last_modified_at: 2021-06-02
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1491
   - Defacement
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This analytic identifies suspicious modification of registry to deface or change
 - **ID**: accb0712-c381-11eb-8e5b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1491](https://attack.mitre.org/techniques/T1491/) | Defacement | Impact |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ To successfully implement this search, you need to be ingesting logs with the Im
 3rd party tool may used to changed the wallpaper of the machine
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 54.0 | 60 | 90 | Wallpaper modification on $dest$ |
+
 
 
 

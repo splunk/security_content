@@ -1,21 +1,20 @@
 ---
 title: "SMB Traffic Spike"
-excerpt: "SMB/Windows Admin Shares"
+excerpt: "SMB/Windows Admin Shares, Remote Services"
 categories:
   - Network
 last_modified_at: 2020-07-22
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1021.002
   - SMB/Windows Admin Shares
+  - Lateral Movement
+  - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +35,13 @@ This search looks for spikes in the number of Server Message Block (SMB) traffic
 - **ID**: 7f5fb3e1-4209-4914-90db-0ec21b936378
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 #### Search
 
@@ -80,6 +80,7 @@ This search requires you to be ingesting your network traffic logs and populatin
 
 #### Known False Positives
 A file server may experience high-demand loads that could cause this analytic to trigger.
+
 
 
 

@@ -1,22 +1,20 @@
 ---
 title: "Detect Outbound SMB Traffic"
-excerpt: "File Transfer Protocols"
+excerpt: "File Transfer Protocols, Application Layer Protocol"
 categories:
   - Network
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1071.002
   - File Transfer Protocols
+  - Command And Control
+  - Application Layer Protocol
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Actions on Objectives
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -37,12 +35,13 @@ This search looks for outbound SMB connections made by hosts within your network
 - **ID**: 7f5fb3e1-4209-414-90db-0ec21b936378
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1071.002](https://attack.mitre.org/techniques/T1071/002/) | File Transfer Protocols | Command And Control |
 
+| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Command And Control |
 
 #### Search
 
@@ -82,6 +81,7 @@ In order to run this search effectively, we highly recommend that you leverage t
 
 #### Known False Positives
 It is likely that the outbound Server Message Block (SMB) traffic is legitimate, if the company&#39;s internal networks are not well-defined in the Assets and Identity Framework. Categorize the internal CIDR blocks as `internal` in the lookup file to avoid creating notable events for traffic destined to those CIDR blocks. Any other network connection that is going out to the Internet should be investigated and blocked. Best practices suggest preventing external communications of all SMB versions and related protocols at the network boundary.
+
 
 
 

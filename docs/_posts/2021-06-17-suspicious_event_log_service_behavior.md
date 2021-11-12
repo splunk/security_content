@@ -1,20 +1,19 @@
 ---
 title: "Suspicious Event Log Service Behavior"
-excerpt: "Clear Windows Event Logs"
+excerpt: "Indicator Removal on Host, Clear Windows Event Logs"
 categories:
   - Endpoint
 last_modified_at: 2021-06-17
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1070.001
+  - Indicator Removal on Host
+  - Defense Evasion
   - Clear Windows Event Logs
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -33,12 +32,13 @@ The following analytic utilizes Windows Event ID 1100 to identify when Windows e
 - **ID**: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
 
+| [T1070.001](https://attack.mitre.org/techniques/T1070/001/) | Clear Windows Event Logs | Defense Evasion |
 
 #### Search
 
@@ -73,12 +73,12 @@ To successfully implement this search, you need to be ingesting Windows event lo
 It is possible the Event Logging service gets shut down due to system errors or legitimately administration tasks. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | The Windows Event Log Service shutdown on $ComputerName$ |
+
 
 
 

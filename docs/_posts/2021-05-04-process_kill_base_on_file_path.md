@@ -1,21 +1,20 @@
 ---
 title: "Process Kill Base On File Path"
-excerpt: "Disable or Modify Tools"
+excerpt: "Disable or Modify Tools, Impair Defenses"
 categories:
   - Endpoint
 last_modified_at: 2021-05-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1562.001
   - Disable or Modify Tools
+  - Defense Evasion
+  - Impair Defenses
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies the use of `wmic.exe` using `delete` to remove
 - **ID**: 5ffaa42c-acdb-11eb-9ad3-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1562.001](https://attack.mitre.org/techniques/T1562/001/) | Disable or Modify Tools | Defense Evasion |
 
+| [T1562](https://attack.mitre.org/techniques/T1562/) | Impair Defenses | Defense Evasion |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 Unknown.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A process $process_name$ attempt to kill process by its file path using commandline $process$ in host $dest$ |
+
 
 
 

@@ -7,8 +7,6 @@ last_modified_at: 2021-01-11
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1486
   - Data Encrypted for Impact
   - Impact
   - Splunk Security Analytics for AWS
@@ -33,13 +31,11 @@ This search provides detection of KMS keys where action kms:Encrypt is accessibl
 - **ID**: c79c164f-4b21-4847-98f9-cf6a9f49179e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
 
 #### Search
 
@@ -82,12 +78,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 25.0 | 50 | 50 | AWS account is potentially compromised and user $userIdentity.principalId$ is trying to compromise other accounts. |
+
 
 
 

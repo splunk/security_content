@@ -7,17 +7,12 @@ last_modified_at: 2020-11-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1016
   - System Network Configuration Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
-  - Command and Control
-  - Actions on Objectives
 ---
 
 
@@ -36,13 +31,11 @@ This search looks for fast execution of processes used for system network config
 - **ID**: a51bfe1a-94f0-48cc-b1e4-16ae10145893
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1016](https://attack.mitre.org/techniques/T1016/) | System Network Configuration Discovery | Discovery |
-
-
 
 #### Search
 
@@ -91,12 +84,12 @@ You must be ingesting data that records registry activity from your hosts to pop
 It is uncommon for normal users to execute a series of commands used for network discovery. System administrators often use scripts to execute these commands. These can generate false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 32.0 | 40 | 80 | An instance of $parent_process_name$ spawning multiple $process_name$ was identified on endpoint $dest$ by user $user$ typically not a normal behavior of the process. |
+
 
 
 

@@ -1,21 +1,20 @@
 ---
 title: "Excessive Usage Of SC Service Utility"
-excerpt: "Service Execution"
+excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-06-24
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1569.002
+  - System Services
+  - Execution
   - Service Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect a suspicious excessive usage of sc.exe in a host machin
 - **ID**: cb6b339e-d4c6-11eb-a026-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+| ----------- | ----------- |--------------- |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
+| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 #### Search
 
@@ -76,6 +76,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 #### Known False Positives
 excessive execution of sc.exe is quite suspicious since it can modify or execute app in high privilege permission.
+
 
 
 

@@ -7,15 +7,12 @@ last_modified_at: 2020-05-20
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1068
   - Exploitation for Privilege Escalation
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ This search looks for child processes spawned by zoom.exe or zoom.us that has no
 - **ID**: e91bd102-d630-4e76-ab73-7e3ba22c5961
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1068](https://attack.mitre.org/techniques/T1068/) | Exploitation for Privilege Escalation | Privilege Escalation |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ You must be ingesting data that records process activity from your hosts to popu
 A new child process of zoom isn&#39;t malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously on host $dest$ |
+
 
 
 

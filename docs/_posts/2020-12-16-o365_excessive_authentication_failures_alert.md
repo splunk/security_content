@@ -7,15 +7,12 @@ last_modified_at: 2020-12-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1110
   - Brute Force
   - Credential Access
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Not Applicable
 ---
 
 
@@ -34,13 +31,11 @@ This search detects when an excessive number of authentication failures occur th
 - **ID**: d441364c-349c-453b-b55f-12eccab67cf9
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1110](https://attack.mitre.org/techniques/T1110/) | Brute Force | Credential Access |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ You must install splunk Microsoft Office 365 add-on. This search works with o365
 The threshold for alert is above 10 attempts and this should reduce the number of false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | User $user$ has caused excessive number of authentication failures from $src_ip$ using UserAgent $UserAgent$. |
+
 
 
 

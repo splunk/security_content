@@ -1,21 +1,20 @@
 ---
 title: "Winword Spawning PowerShell"
-excerpt: "Spearphishing Attachment"
+excerpt: "Phishing, Spearphishing Attachment"
 categories:
   - Endpoint
 last_modified_at: 2021-04-12
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1566.001
+  - Phishing
+  - Initial Access
   - Spearphishing Attachment
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ The following detection identifies Microsoft Word spawning PowerShell. Typically
 - **ID**: b2c950b8-9be2-11eb-8658-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited, but if any are present, filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | $parent_process_name$ on $dest$ by $user$ launched the following powershell process: $process_name$ which is very common in spearphishing attacks |
+
 
 
 

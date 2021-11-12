@@ -7,15 +7,12 @@ last_modified_at: 2021-09-01
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1018
   - Remote System Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: a9a1da02-8e27-4bf7-a348-f4389c9da487
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1018](https://attack.mitre.org/techniques/T1018/) | Remote System Discovery | Discovery |
-
-
 
 #### Search
 
@@ -74,12 +69,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Remote system discovery enumeration on $dest$ by $user$ |
+
 
 
 

@@ -7,15 +7,12 @@ last_modified_at: 2021-09-02
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1554
   - Compromise Client Software Binary
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ This search looks for disable security job in CircleCI pipeline.
 - **ID**: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1554](https://attack.mitre.org/techniques/T1554/) | Compromise Client Software Binary | Persistence |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ You must index CircleCI logs.
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | disable security job $mandatory_job$ in workflow $workflow_name$ from user $user$ |
+
 
 
 

@@ -1,21 +1,20 @@
 ---
 title: "Execution of File with Multiple Extensions"
-excerpt: "Rename System Utilities"
+excerpt: "Masquerading, Rename System Utilities"
 categories:
   - Endpoint
 last_modified_at: 2020-11-18
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1036.003
+  - Masquerading
+  - Defense Evasion
   - Rename System Utilities
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ This search looks for processes launched from files that have double extensions 
 - **ID**: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
 
+| [T1036.003](https://attack.mitre.org/techniques/T1036/003/) | Rename System Utilities | Defense Evasion |
 
 #### Search
 
@@ -76,12 +76,12 @@ To successfully implement this search, you must be ingesting data that records p
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | process $process$ have double extensions in the file name is executed on $dest$ by $user$ |
+
 
 
 

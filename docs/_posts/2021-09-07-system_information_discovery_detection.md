@@ -7,15 +7,12 @@ last_modified_at: 2021-09-07
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1082
   - System Information Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ Detect system information discovery techniques used by attackers to understand c
 - **ID**: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1082](https://attack.mitre.org/techniques/T1082/) | System Information Discovery | Discovery |
-
-
 
 #### Search
 
@@ -79,12 +74,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators debugging servers
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Potential system information discovery behavior on $dest$ by $User$ |
+
 
 
 

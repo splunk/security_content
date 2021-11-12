@@ -7,7 +7,6 @@ last_modified_at: 2021-01-26
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
@@ -29,8 +28,6 @@ This search looks for a spike in number of of AWS security Hub alerts for an AWS
 - **Last Updated**: 2021-01-26
 - **Author**: Bhavin Patel, Splunk
 - **ID**: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
-
-
 
 #### Search
 
@@ -66,6 +63,7 @@ You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-
 
 #### Known False Positives
 None
+
 
 
 

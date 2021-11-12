@@ -7,15 +7,12 @@ last_modified_at: 2021-06-03
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1059
   - Command and Scripting Interpreter
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This analytic will identify suspicious series of process executions.  We have ob
 - **ID**: 23587b6a-c479-11eb-b671-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
-
-
 
 #### Search
 
@@ -76,12 +71,12 @@ To successfully implement this search, you need to be ingesting logs with the fu
 Many benign applications will create processes from executables in Windows\Temp, although unlikely to exceed the given threshold.  Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Multiple processes were executed out of windows\temp within a short amount of time on $dest$. |
+
 
 
 

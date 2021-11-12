@@ -1,21 +1,20 @@
 ---
 title: "Anomalous usage of 7zip"
-excerpt: "Archive via Utility"
+excerpt: "Archive via Utility, Archive Collected Data"
 categories:
   - Endpoint
 last_modified_at: 2021-04-22
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1560.001
   - Archive via Utility
+  - Collection
+  - Archive Collected Data
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objective
 ---
 
 
@@ -34,12 +33,13 @@ The following detection identifies a 7z.exe spawned from `Rundll32.exe` or `Dllh
 - **ID**: 9364ee8e-a39a-11eb-8f1d-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1560.001](https://attack.mitre.org/techniques/T1560/001/) | Archive via Utility | Collection |
 
+| [T1560](https://attack.mitre.org/techniques/T1560/) | Archive Collected Data | Collection |
 
 #### Search
 
@@ -81,12 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 False positives should be limited as this behavior is not normal for `rundll32.exe` or `dllhost.exe` to spawn and run 7zip.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading of 7zip. |
+
 
 
 

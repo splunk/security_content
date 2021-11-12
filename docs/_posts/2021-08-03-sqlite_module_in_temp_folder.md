@@ -7,15 +7,12 @@ last_modified_at: 2021-08-03
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1005
   - Data from Local System
   - Collection
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This search is to detect a suspicious file creation of sqlite3.dll in %temp% fol
 - **ID**: 0f216a38-f45f-11eb-b09c-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1005](https://attack.mitre.org/techniques/T1005/) | Data from Local System | Collection |
-
-
 
 #### Search
 
@@ -76,12 +71,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | process $SourceImage$ create a file $TargetImage$ in host $Computer$ |
+
 
 
 

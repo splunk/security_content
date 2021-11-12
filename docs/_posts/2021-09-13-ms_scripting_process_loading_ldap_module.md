@@ -1,21 +1,20 @@
 ---
 title: "MS Scripting Process Loading Ldap Module"
-excerpt: "JavaScript"
+excerpt: "Command and Scripting Interpreter, JavaScript"
 categories:
   - Endpoint
 last_modified_at: 2021-09-13
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1059.007
+  - Command and Scripting Interpreter
+  - Execution
   - JavaScript
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This search is to detect a suspicious MS scripting process such as wscript.exe o
 - **ID**: 0b0c40dc-14a6-11ec-b267-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
+| ----------- | ----------- |--------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
+| [T1059.007](https://attack.mitre.org/techniques/T1059/007/) | JavaScript | Execution |
 
 #### Search
 
@@ -77,12 +77,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 automation scripting language may used by network operator to do ldap query.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 9.0 | 30 | 30 | $process_name$ loading ldap modules $ImageLoaded$ in $dest$ |
+
 
 
 

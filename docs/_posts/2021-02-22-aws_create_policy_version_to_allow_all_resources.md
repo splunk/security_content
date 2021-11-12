@@ -1,15 +1,18 @@
 ---
 title: "AWS Create Policy Version to allow all resources"
-excerpt: "Cloud Accounts"
+excerpt: "Cloud Accounts, Valid Accounts"
 categories:
   - Cloud
 last_modified_at: 2021-02-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1078.004
   - Cloud Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - Valid Accounts
   - Defense Evasion
   - Persistence
   - Privilege Escalation
@@ -18,7 +21,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -37,12 +39,13 @@ This search looks for AWS CloudTrail events where a user created a policy versio
 - **ID**: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1078.004](https://attack.mitre.org/techniques/T1078/004/) | Cloud Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
 
 #### Search
 
@@ -81,12 +84,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 While this search has no known false positives, it is possible that an AWS admin has legitimately created a policy to allow a user to access all resources. That said, AWS strongly advises against granting full control to all AWS resources
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 49.0 | 70 | 70 | User $user$ created a policy version that allows them to access any resource in their account |
+
 
 
 

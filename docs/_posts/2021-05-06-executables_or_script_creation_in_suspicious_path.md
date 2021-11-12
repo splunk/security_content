@@ -7,15 +7,12 @@ last_modified_at: 2021-05-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1036
   - Masquerading
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This analytic will identify suspicious executable or scripts (known file extensi
 - **ID**: a7e3f0f0-ae42-11eb-b245-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators may allow creation of script or exe in the paths specified. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | Suspicious executable or scripts with file name $file_name$, $file_path$ and process_id $process_id$ executed in suspicious file path in Windows by $user$ |
+
 
 
 

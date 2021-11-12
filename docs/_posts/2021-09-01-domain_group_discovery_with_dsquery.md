@@ -1,21 +1,20 @@
 ---
 title: "Domain Group Discovery With Dsquery"
-excerpt: "Domain Groups"
+excerpt: "Permission Groups Discovery, Domain Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-09-01
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1069.002
+  - Permission Groups Discovery
+  - Discovery
   - Domain Groups
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,12 +33,13 @@ This analytic looks for the execution of `dsquery.exe` with command-line argumen
 - **ID**: f0c9d62f-a232-4edd-b17e-bc409fb133d4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
 #### Search
 
@@ -81,12 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Domain group discovery enumeration on $dest$ by $user$ |
+
 
 
 

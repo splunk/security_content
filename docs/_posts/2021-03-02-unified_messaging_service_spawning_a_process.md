@@ -7,15 +7,13 @@ last_modified_at: 2021-03-02
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1190
   - Exploit Public-Facing Application
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-26857
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +32,11 @@ This detection identifies Microsoft Exchange Server&#39;s Unified Messaging serv
 - **ID**: f1126df0-7bd5-11eb-988f-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
-
-
 
 #### Search
 
@@ -79,12 +75,19 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Unknown. Tune out child processes as needed to limit volume of false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | Possible CVE-2021-26857 exploitation on $dest$ |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-26857](https://nvd.nist.gov/vuln/detail/CVE-2021-26857) | Microsoft Exchange Server Remote Code Execution Vulnerability This CVE ID is unique from CVE-2021-26412, CVE-2021-26854, CVE-2021-26855, CVE-2021-26858, CVE-2021-27065, CVE-2021-27078. | 6.8 |
 
 
 

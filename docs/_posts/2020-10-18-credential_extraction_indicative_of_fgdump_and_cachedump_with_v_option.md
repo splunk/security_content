@@ -7,12 +7,9 @@ last_modified_at: 2020-10-18
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -31,13 +28,11 @@ Credential extraction is often an illegal recovery of credential material from s
 - **ID**: 3c40b0ef-a03f-460a-9484-e4b9117cbb38
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
 
 #### Search
 
@@ -77,12 +72,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Malicious actor is accessing stored credentials via FGDump or CacheDump tools. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

@@ -7,8 +7,6 @@ last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1197
   - BITS Jobs
   - Defense Evasion
   - Persistence
@@ -16,7 +14,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,13 +32,11 @@ The following query identifies Microsoft Background Intelligent Transfer Service
 - **ID**: e97a5ffe-90bf-11eb-928a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1197](https://attack.mitre.org/techniques/T1197/) | BITS Jobs | Defense Evasion, Persistence |
-
-
 
 #### Search
 
@@ -84,12 +79,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives will be present. Typically, applications will use `BitsAdmin.exe`. Any filtering should be done based on command-line arguments (legitimate applications) or parent process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to persist using BITS. |
+
 
 
 

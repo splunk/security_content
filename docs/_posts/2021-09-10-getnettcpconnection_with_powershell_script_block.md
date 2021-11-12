@@ -7,15 +7,12 @@ last_modified_at: 2021-09-10
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1049
   - System Network Connections Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: 091712ff-b02a-4d43-82ed-34765515d95d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
-
-
 
 #### Search
 
@@ -74,12 +69,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 Administrators or power users may use this PowerShell commandlet for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Network Connection discovery on $dest$ by $user$ |
+
 
 
 

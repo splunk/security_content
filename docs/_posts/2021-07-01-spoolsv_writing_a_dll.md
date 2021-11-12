@@ -1,22 +1,23 @@
 ---
 title: "Spoolsv Writing a DLL"
-excerpt: "Print Processors"
+excerpt: "Print Processors, Boot or Logon Autostart Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-07-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1547.012
   - Print Processors
+  - Persistence
+  - Privilege Escalation
+  - Boot or Logon Autostart Execution
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-34527
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,12 +36,13 @@ The following analytic identifies a `.dll` being written by `spoolsv.exe`. This 
 - **ID**: d5bf5cf2-da71-11eb-92c2-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1547.012](https://attack.mitre.org/techniques/T1547/012/) | Print Processors | Persistence, Privilege Escalation |
 
+| [T1547](https://attack.mitre.org/techniques/T1547/) | Boot or Logon Autostart Execution | Persistence, Privilege Escalation |
 
 #### Search
 
@@ -84,12 +86,19 @@ To successfully implement this search you need to be ingesting information on pr
 Unknown.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 80 | 90 | $process_name$ has been identified writing dll&#39;s to $file_path$ on endpoint $dest$. This behavior is suspicious and related to PrintNightmare. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-34527](https://nvd.nist.gov/vuln/detail/CVE-2021-34527) | Windows Print Spooler Remote Code Execution Vulnerability | 9.0 |
 
 
 

@@ -7,15 +7,12 @@ last_modified_at: 2021-03-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1485
   - Data Destruction
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This search looks for high frequency of file deletion relative to process name a
 - **ID**: 45b125c4-866f-11eb-a95a-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1485](https://attack.mitre.org/techniques/T1485/) | Data Destruction | Impact |
-
-
 
 #### Search
 
@@ -78,12 +73,12 @@ To successfully implement this search, you need to be ingesting logs with the de
 user may delete bunch of pictures or files in a folder.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | High frequency file deletion activity detected on host $Computer$ |
+
 
 
 

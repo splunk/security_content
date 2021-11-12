@@ -1,21 +1,20 @@
 ---
 title: "Suspicious Rundll32 StartW"
-excerpt: "Rundll32"
+excerpt: "Signed Binary Proxy Execution, Rundll32"
 categories:
   - Endpoint
 last_modified_at: 2021-02-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.011
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Rundll32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies rundll32.exe executing a DLL function name, St
 - **ID**: 9319dda5-73f2-4d43-a85a-67ce961bddb7
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 #### Search
 
@@ -84,12 +84,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may use Start as a function and call it via the command line. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | rundll32.exe running with suspicious parameters on $dest$ |
+
 
 
 

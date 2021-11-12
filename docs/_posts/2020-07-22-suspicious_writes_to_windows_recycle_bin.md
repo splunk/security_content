@@ -7,8 +7,6 @@ last_modified_at: 2020-07-22
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1036
   - Masquerading
   - Defense Evasion
   - Splunk Enterprise
@@ -32,13 +30,11 @@ This search detects writes to the recycle bin by a process other than explorer.e
 - **ID**: b5541828-8ffd-4070-9d95-b3da4de924cb
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
-
-
 
 #### Search
 
@@ -80,12 +76,12 @@ To successfully implement this search you need to be ingesting information on fi
 Because the Recycle Bin is a hidden folder in modern versions of Windows, it would be unusual for a process other than explorer.exe to write to it. Incidents should be investigated as appropriate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 28.0 | 40 | 70 | Suspicious writes to windows Recycle Bin process $Processes.process_name$ |
+
 
 
 

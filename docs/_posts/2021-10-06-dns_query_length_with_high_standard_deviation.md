@@ -1,21 +1,20 @@
 ---
 title: "DNS Query Length With High Standard Deviation"
-excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol"
+excerpt: "Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol, Exfiltration Over Alternative Protocol"
 categories:
   - Network
 last_modified_at: 2021-10-06
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1048.003
   - Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol
+  - Exfiltration
+  - Exfiltration Over Alternative Protocol
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Resolution
-  - Command and Control
 ---
 
 
@@ -34,12 +33,13 @@ This search allows you to identify DNS requests and compute the standard deviati
 - **ID**: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1048.003](https://attack.mitre.org/techniques/T1048/003/) | Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol | Exfiltration |
 
+| [T1048](https://attack.mitre.org/techniques/T1048/) | Exfiltration Over Alternative Protocol | Exfiltration |
 
 #### Search
 
@@ -81,12 +81,12 @@ To successfully implement this search, you will need to ensure that DNS data is 
 It&#39;s possible there can be long domain names that are legitimate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A dns query $query$ with 2 time standard deviation of name len of the dns query in host  $host$ |
+
 
 
 

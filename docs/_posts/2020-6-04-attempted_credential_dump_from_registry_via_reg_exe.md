@@ -7,12 +7,9 @@ last_modified_at: 2020-6-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003
   - OS Credential Dumping
   - Credential Access
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -31,13 +28,11 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 - **ID**: 14038953-e5f2-4daf-acff-5452062baf03
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
-
-
 
 #### Search
 
@@ -75,12 +70,12 @@ You must be ingesting windows endpoint data that tracks process activity, includ
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Malicious actor is dumping stored credentials from the registry sections SAM, Security, or System. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

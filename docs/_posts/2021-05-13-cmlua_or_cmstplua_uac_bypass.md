@@ -1,21 +1,20 @@
 ---
 title: "CMLUA Or CMSTPLUA UAC Bypass"
-excerpt: "CMSTP"
+excerpt: "Signed Binary Proxy Execution, CMSTP"
 categories:
   - Endpoint
 last_modified_at: 2021-05-13
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.003
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - CMSTP
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +33,13 @@ This analytic detects a potential process using COM Object like CMLUA or CMSTPLU
 - **ID**: f87b5062-b405-11eb-a889-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.003](https://attack.mitre.org/techniques/T1218/003/) | CMSTP | Defense Evasion |
 
 #### Search
 
@@ -78,12 +78,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 Legitimate windows application that are not on the list loading this dll. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | The following module $ImageLoaded$ was loaded by a non-standard application on endpoint $Computer$ by user $user$. |
+
 
 
 

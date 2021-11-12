@@ -1,21 +1,20 @@
 ---
 title: "Attempted Credential Dump From Registry via Reg exe"
-excerpt: "Security Account Manager"
+excerpt: "Security Account Manager, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.002
   - Security Account Manager
+  - Credential Access
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 - **ID**: e9fb4a59-c5fb-440a-9f24-191fbc6b2911
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.002](https://attack.mitre.org/techniques/T1003/002/) | Security Account Manager | Credential Access |
 
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -83,12 +83,12 @@ To successfully implement this search you need to be ingesting information on pr
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to export the registry keys. |
+
 
 
 

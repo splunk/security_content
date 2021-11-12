@@ -7,15 +7,12 @@ last_modified_at: 2018-06-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1095
   - Non-Application Layer Protocol
   - Command And Control
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Command and Control
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,13 +33,11 @@ This search looks for outbound ICMP packets with a packet size larger than 1,000
 - **ID**: e9c102de-4d43-42a7-b1c8-8062ea297419
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1095](https://attack.mitre.org/techniques/T1095/) | Non-Application Layer Protocol | Command And Control |
-
-
 
 #### Search
 
@@ -80,6 +75,7 @@ In order to run this search effectively, we highly recommend that you leverage t
 
 #### Known False Positives
 ICMP packets are used in a variety of ways to help troubleshoot networking issues and ensure the proper flow of traffic. As such, it is possible that a large ICMP packet could be perfectly legitimate. If large ICMP packets are associated with command and control traffic, there will typically be a large number of these packets observed over time. If the search is providing a large number of false positives, you can modify the macro `detect_large_outbound_icmp_packets_filter` to adjust the byte threshold or add specific IP addresses to an allow list.
+
 
 
 

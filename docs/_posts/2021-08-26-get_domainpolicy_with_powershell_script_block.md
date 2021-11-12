@@ -7,15 +7,12 @@ last_modified_at: 2021-08-26
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1201
   - Password Policy Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
 - **ID**: a360d2b2-065a-11ec-b0bf-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1201](https://attack.mitre.org/techniques/T1201/) | Password Policy Discovery | Discovery |
-
-
 
 #### Search
 
@@ -75,12 +70,12 @@ The following Hunting analytic requires PowerShell operational logs to be import
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | powershell process having commandline $Message$ to query domain policy. |
+
 
 
 

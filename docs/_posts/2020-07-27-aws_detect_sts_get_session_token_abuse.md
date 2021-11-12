@@ -7,15 +7,12 @@ last_modified_at: 2020-07-27
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1550
   - Use Alternate Authentication Material
   - Defense Evasion
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Lateral Movement
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,13 +33,11 @@ This search provides detection of suspicious use of sts:GetSessionToken. These t
 - **ID**: 85d7b35f-b8b5-4b01-916f-29b81e7a0551
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1550](https://attack.mitre.org/techniques/T1550/) | Use Alternate Authentication Material | Defense Evasion, Lateral Movement |
-
-
 
 #### Search
 
@@ -81,6 +76,7 @@ You must install splunk AWS add-on and Splunk App for AWS. This search works wit
 
 #### Known False Positives
 Sts:GetSessionToken can be very noisy as in certain environments numerous calls of this type can be executed. This search can be adjusted to provide specific values to identify cases of abuse. In specific environments the use of field requestParameters.serialNumber will need to be used.
+
 
 
 

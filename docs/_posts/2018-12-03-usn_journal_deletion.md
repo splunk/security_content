@@ -7,15 +7,12 @@ last_modified_at: 2018-12-03
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1070
   - Indicator Removal on Host
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ The fsutil.exe application is a legitimate Windows utility used to perform tasks
 - **ID**: b6e0ff70-b122-4227-9368-4cf322ab43c3
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1070](https://attack.mitre.org/techniques/T1070/) | Indicator Removal on Host | Defense Evasion |
-
-
 
 #### Search
 
@@ -80,12 +75,12 @@ You must be ingesting data that records process activity from your hosts to popu
 None identified
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 45.0 | 50 | 90 | Possible USN journal deletion on $dest$ |
+
 
 
 

@@ -35,6 +35,8 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Credential Access
+  cve:
+  - CVE-2021-36934
   impact: 80
   kill_chain_phases:
   - Exploitation

@@ -1,15 +1,17 @@
 ---
 title: "Suspicious Scheduled Task from Public Directory"
-excerpt: "Scheduled Task"
+excerpt: "Scheduled Task, Scheduled Task/Job"
 categories:
   - Endpoint
 last_modified_at: 2021-03-01
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1053.005
   - Scheduled Task
+  - Execution
+  - Persistence
+  - Privilege Escalation
+  - Scheduled Task/Job
   - Execution
   - Persistence
   - Privilege Escalation
@@ -17,8 +19,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
-  - Privilege Escalation
 ---
 
 
@@ -37,12 +37,13 @@ The following detection identifies Scheduled Tasks registering (creating a new t
 - **ID**: 7feb7972-7ac3-11eb-bac8-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1053.005](https://attack.mitre.org/techniques/T1053/005/) | Scheduled Task | Execution, Persistence, Privilege Escalation |
 
+| [T1053](https://attack.mitre.org/techniques/T1053/) | Scheduled Task/Job | Execution, Persistence, Privilege Escalation |
 
 #### Search
 
@@ -85,12 +86,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives may be present. Filter as needed by parent process or command line argument.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | Suspicious scheduled task registered on $dest$ |
+
 
 
 

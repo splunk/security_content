@@ -1,18 +1,17 @@
 ---
 title: "Detect Dump LSASS Memory using comsvcs"
-excerpt: "NTDS"
+excerpt: "NTDS, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2020-09-15
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.003
   - NTDS
   - Credential Access
+  - OS Credential Dumping
+  - Credential Access
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -31,12 +30,13 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 - **ID**: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -72,12 +72,12 @@ You must be ingesting endpoint data that tracks process activity, including Wind
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | Malicious actor is dumping encoded credentials via Microsoft&#39;s native comsvc DLL. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

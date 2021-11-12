@@ -7,15 +7,12 @@ last_modified_at: 2021-09-02
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1482
   - Domain Trust Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -36,13 +33,11 @@ During triage, review parallel processes using an EDR product or 4688 events. It
 - **ID**: 70fac80e-0bf1-11ec-9ba0-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-
-
 
 #### Search
 
@@ -79,12 +74,12 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 UPDATE_KNOWN_FALSE_POSITIVES
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 12.0 | 30 | 40 | Suspicious PowerShell Get-ForestTrust was identified on endpoint $ComputerName$ by user $User$. |
+
 
 
 

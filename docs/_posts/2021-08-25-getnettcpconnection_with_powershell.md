@@ -7,15 +7,12 @@ last_modified_at: 2021-08-25
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1049
   - System Network Connections Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,13 +31,11 @@ This analytic looks for the execution of `powershell.exe` with command-line util
 - **ID**: e02af35c-1de5-4afe-b4be-f45aba57272b
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1049](https://attack.mitre.org/techniques/T1049/) | System Network Connections Discovery | Discovery |
-
-
 
 #### Search
 
@@ -82,12 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 15.0 | 30 | 50 | Network Connection discovery on $dest$ by $user$ |
+
 
 
 

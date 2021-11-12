@@ -1,21 +1,20 @@
 ---
 title: "SMB Traffic Spike - MLTK"
-excerpt: "SMB/Windows Admin Shares"
+excerpt: "SMB/Windows Admin Shares, Remote Services"
 categories:
   - Network
 last_modified_at: 2020-07-22
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1021.002
   - SMB/Windows Admin Shares
+  - Lateral Movement
+  - Remote Services
   - Lateral Movement
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Traffic
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +35,13 @@ This search uses the Machine Learning Toolkit (MLTK) to identify spikes in the n
 - **ID**: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1021.002](https://attack.mitre.org/techniques/T1021/002/) | SMB/Windows Admin Shares | Lateral Movement |
 
+| [T1021](https://attack.mitre.org/techniques/T1021/) | Remote Services | Lateral Movement |
 
 #### Search
 
@@ -86,6 +86,7 @@ Detailed documentation on how to create a new field within Incident Review is fo
 
 #### Known False Positives
 If you are seeing more results than desired, you may consider reducing the value of the threshold in the search. You should also periodically re-run the support search to re-build the ML model on the latest data. Please update the `smb_traffic_spike_mltk_filter` macro to filter out false positive results
+
 
 
 

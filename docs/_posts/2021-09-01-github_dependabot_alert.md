@@ -1,21 +1,20 @@
 ---
 title: "GitHub Dependabot Alert"
-excerpt: "Compromise Software Dependencies and Development Tools"
+excerpt: "Compromise Software Dependencies and Development Tools, Supply Chain Compromise"
 categories:
   - Cloud
 last_modified_at: 2021-09-01
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1195.001
   - Compromise Software Dependencies and Development Tools
+  - Initial Access
+  - Supply Chain Compromise
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Dev Sec Ops Analytics
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ This search looks for Dependabot Alerts in Github logs.
 - **ID**: 05032b04-4469-4034-9df7-05f607d75cba
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1195.001](https://attack.mitre.org/techniques/T1195/001/) | Compromise Software Dependencies and Development Tools | Initial Access |
 
+| [T1195](https://attack.mitre.org/techniques/T1195/) | Supply Chain Compromise | Initial Access |
 
 #### Search
 
@@ -83,12 +83,12 @@ You must index GitHub logs. You can follow the url in reference to onboard GitHu
 unknown
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | Vulnerabilities found in packages used by GitHub repository $repository$ |
+
 
 
 

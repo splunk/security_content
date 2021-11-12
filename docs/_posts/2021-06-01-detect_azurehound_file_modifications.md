@@ -1,33 +1,30 @@
 ---
 title: "Detect AzureHound File Modifications"
-excerpt: "Domain Account, Local Account, Domain Trust Discovery, Domain Groups, Local Groups"
+excerpt: "Domain Account, Local Groups, Domain Trust Discovery, Local Account, Account Discovery, Domain Groups, Permission Groups Discovery"
 categories:
   - Endpoint
 last_modified_at: 2021-06-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1087.002
   - Domain Account
   - Discovery
-  - T1087.001
-  - Local Account
+  - Local Groups
   - Discovery
-  - T1482
   - Domain Trust Discovery
   - Discovery
-  - T1069.002
+  - Local Account
+  - Discovery
+  - Account Discovery
+  - Discovery
   - Domain Groups
   - Discovery
-  - T1069.001
-  - Local Groups
+  - Permission Groups Discovery
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -46,13 +43,23 @@ The following analytic is similar to SharpHound file modifications, but this ins
 - **ID**: 1c34549e-c31b-11eb-996b-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery || [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery || [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
-| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery || [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1087.002](https://attack.mitre.org/techniques/T1087/002/) | Domain Account | Discovery |
 
+| [T1069.001](https://attack.mitre.org/techniques/T1069/001/) | Local Groups | Discovery |
+
+| [T1482](https://attack.mitre.org/techniques/T1482/) | Domain Trust Discovery | Discovery |
+
+| [T1087.001](https://attack.mitre.org/techniques/T1087/001/) | Local Account | Discovery |
+
+| [T1087](https://attack.mitre.org/techniques/T1087/) | Account Discovery | Discovery |
+
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
+
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
 #### Search
 
@@ -89,12 +96,12 @@ To successfully implement this search you need to be ingesting information on fi
 False positives should be limited as the analytic is specific to a filename with extension .zip. Filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | A file - $file_name$ was written to disk that is related to AzureHound, a AzureAD enumeration utility, has occurred on endpoint $dest$ by user $user$. |
+
 
 
 

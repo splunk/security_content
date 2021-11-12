@@ -1,21 +1,20 @@
 ---
 title: "Elevated Group Discovery With Net"
-excerpt: "Domain Groups"
+excerpt: "Permission Groups Discovery, Domain Groups"
 categories:
   - Endpoint
 last_modified_at: 2021-08-25
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1069.002
+  - Permission Groups Discovery
+  - Discovery
   - Domain Groups
   - Discovery
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Reconnaissance
 ---
 
 
@@ -34,12 +33,13 @@ This analytic looks for the execution of `net.exe` or `net1.exe`  with command-l
 - **ID**: a23a0e20-0b1b-4a07-82e5-ec5f70811e7a
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
+| ----------- | ----------- |--------------- |
+| [T1069](https://attack.mitre.org/techniques/T1069/) | Permission Groups Discovery | Discovery |
 
+| [T1069.002](https://attack.mitre.org/techniques/T1069/002/) | Domain Groups | Discovery |
 
 #### Search
 
@@ -81,12 +81,12 @@ To successfully implement this search you need to be ingesting information on pr
 Administrators or power users may use this command for troubleshooting.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 21.0 | 30 | 70 | Elevated domain group discovery enumeration on $dest$ by $user$ |
+
 
 
 

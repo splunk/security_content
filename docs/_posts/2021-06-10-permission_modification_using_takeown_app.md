@@ -7,15 +7,12 @@ last_modified_at: 2021-06-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1222
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This search is to detect a modification of file or directory permission using ta
 - **ID**: fa7ca5c6-c9d8-11eb-bce9-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
 
 #### Search
 
@@ -80,12 +75,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 takeown.exe is a normal windows application that may used by network operator.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A suspicious of execution of $process_name$ with process id $process_id$ and commandline $process$ to modify permission of directory or files in host $dest$ |
+
 
 
 

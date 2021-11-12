@@ -1,22 +1,22 @@
 ---
 title: "Sdclt UAC Bypass"
-excerpt: "Bypass User Account Control"
+excerpt: "Bypass User Account Control, Abuse Elevation Control Mechanism"
 categories:
   - Endpoint
 last_modified_at: 2021-07-01
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1548.002
   - Bypass User Account Control
+  - Privilege Escalation
+  - Defense Evasion
+  - Abuse Elevation Control Mechanism
   - Privilege Escalation
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,12 +35,13 @@ This search is to detect a suspicious sdclt.exe registry modification. This tech
 - **ID**: d71efbf6-da63-11eb-8c6e-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1548.002](https://attack.mitre.org/techniques/T1548/002/) | Bypass User Account Control | Privilege Escalation, Defense Evasion |
 
+| [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
 
 #### Search
 
@@ -76,12 +77,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited to no false positives are expected.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 63.0 | 70 | 90 | Suspicious modification of registry $registry_path$ with possible payload path $registry_value_name$ in $dest$ |
+
 
 
 

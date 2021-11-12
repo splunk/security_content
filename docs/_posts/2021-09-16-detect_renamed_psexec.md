@@ -1,23 +1,20 @@
 ---
 title: "Detect Renamed PSExec"
-excerpt: "Service Execution"
+excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - Hunting
-  - T1569.002
+  - System Services
+  - Execution
   - Service Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
-  - Lateral Movement
-  - Execution
 ---
 
 
@@ -36,12 +33,13 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 - **ID**: 683e6196-b8e8-11eb-9a79-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+| ----------- | ----------- |--------------- |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
+| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 #### Search
 
@@ -90,12 +88,12 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives should be present. It is possible some third party applications may use older versions of PsExec, filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 27.0 | 30 | 90 | The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$. |
+
 
 
 

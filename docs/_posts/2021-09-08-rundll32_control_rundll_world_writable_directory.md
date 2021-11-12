@@ -1,21 +1,21 @@
 ---
 title: "Rundll32 Control RunDLL World Writable Directory"
-excerpt: "Rundll32"
+excerpt: "Signed Binary Proxy Execution, Rundll32"
 categories:
   - Endpoint
 last_modified_at: 2021-09-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.011
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Rundll32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-40444
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +34,13 @@ The following detection identifies rundll32.exe with `control_rundll` within the
 - **ID**: 1adffe86-10c3-11ec-8ce6-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 #### Search
 
@@ -82,12 +83,19 @@ To successfully implement this search you need to be ingesting information on pr
 This may be tuned, or a new one related, by adding .cpl to command-line. However, it&#39;s important to look for both. Tune/filter as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a suspicious file from disk. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
 
 
 

@@ -32,18 +32,18 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
-| [Access LSASS Memory for Dump Creation](/endpoint/access_lsass_memory_for_dump_creation/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
+| [Access LSASS Memory for Dump Creation](/endpoint/access_lsass_memory_for_dump_creation/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Applying Stolen Credentials via Mimikatz modules](/endpoint/applying_stolen_credentials_via_mimikatz_modules/) | [Process Injection](/tags/#process-injection), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation), [Access Token Manipulation](/tags/#access-token-manipulation), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Compromise Client Software Binary](/tags/#compromise-client-software-binary), [Modify Authentication Process](/tags/#modify-authentication-process), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets) | TTP |
 | [Applying Stolen Credentials via PowerSploit modules](/endpoint/applying_stolen_credentials_via_powersploit_modules/) | [Process Injection](/tags/#process-injection), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation), [Access Token Manipulation](/tags/#access-token-manipulation), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Compromise Client Software Binary](/tags/#compromise-client-software-binary), [Credentials from Password Stores](/tags/#credentials-from-password-stores), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets) | TTP |
 | [Assessment of Credential Strength via DSInternals modules](/endpoint/assessment_of_credential_strength_via_dsinternals_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation), [Account Discovery](/tags/#account-discovery), [Password Policy Discovery](/tags/#password-policy-discovery), [Unsecured Credentials](/tags/#unsecured-credentials), [Credentials from Password Stores](/tags/#credentials-from-password-stores) | TTP |
+| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
-| [Create Remote Thread into LSASS](/endpoint/create_remote_thread_into_lsass/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
-| [Creation of Shadow Copy](/endpoint/creation_of_shadow_copy/) | [NTDS](/tags/#ntds) | TTP |
-| [Creation of Shadow Copy with wmic and powershell](/endpoint/creation_of_shadow_copy_with_wmic_and_powershell/) | [NTDS](/tags/#ntds) | TTP |
-| [Creation of lsass Dump with Taskmgr](/endpoint/creation_of_lsass_dump_with_taskmgr/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
-| [Credential Dumping via Copy Command from Shadow Copy](/endpoint/credential_dumping_via_copy_command_from_shadow_copy/) | [NTDS](/tags/#ntds) | TTP |
-| [Credential Dumping via Symlink to Shadow Copy](/endpoint/credential_dumping_via_symlink_to_shadow_copy/) | [NTDS](/tags/#ntds) | TTP |
+| [Create Remote Thread into LSASS](/endpoint/create_remote_thread_into_lsass/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Creation of Shadow Copy](/endpoint/creation_of_shadow_copy/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Creation of Shadow Copy with wmic and powershell](/endpoint/creation_of_shadow_copy_with_wmic_and_powershell/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Creation of lsass Dump with Taskmgr](/endpoint/creation_of_lsass_dump_with_taskmgr/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Credential Dumping via Copy Command from Shadow Copy](/endpoint/credential_dumping_via_copy_command_from_shadow_copy/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Credential Dumping via Symlink to Shadow Copy](/endpoint/credential_dumping_via_symlink_to_shadow_copy/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction indicative of FGDump and CacheDump with s option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_s_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction indicative of FGDump and CacheDump with v option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction indicative of Lazagne command line options](/endpoint/credential_extraction_indicative_of_lazagne_command_line_options/) | [OS Credential Dumping](/tags/#os-credential-dumping), [Credentials from Password Stores](/tags/#credentials-from-password-stores) | TTP |
@@ -54,19 +54,20 @@ The detection searches in this Analytic Story monitor access to the Local Securi
 | [Credential Extraction native Microsoft debuggers peek into the kernel](/endpoint/credential_extraction_native_microsoft_debuggers_peek_into_the_kernel/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction native Microsoft debuggers via z command line option](/endpoint/credential_extraction_native_microsoft_debuggers_via_z_command_line_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals](/endpoint/credential_extraction_via_get-addbaccount_module_present_in_powersploit_and_dsinternals/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Detect Copy of ShadowCopy with Script Block Logging](/endpoint/detect_copy_of_shadowcopy_with_script_block_logging/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
-| [Detect Credential Dumping through LSASS access](/endpoint/detect_credential_dumping_through_lsass_access/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
-| [Detect Dump LSASS Memory using comsvcs](/endpoint/detect_dump_lsass_memory_using_comsvcs/) | [NTDS](/tags/#ntds) | TTP |
-| [Detect Kerberoasting](/endpoint/detect_kerberoasting/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
-| [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
-| [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
-| [Dump LSASS via procdump](/endpoint/dump_lsass_via_procdump/) | [LSASS Memory](/tags/#lsass-memory) | TTP |
-| [Esentutl SAM Copy](/endpoint/esentutl_sam_copy/) | [Security Account Manager](/tags/#security-account-manager) | Hunting |
-| [Extraction of Registry Hives](/endpoint/extraction_of_registry_hives/) | [Security Account Manager](/tags/#security-account-manager) | TTP |
-| [Ntdsutil Export NTDS](/endpoint/ntdsutil_export_ntds/) | [NTDS](/tags/#ntds) | TTP |
-| [SAM Database File Access Attempt](/endpoint/sam_database_file_access_attempt/) | [Security Account Manager](/tags/#security-account-manager) | Hunting |
-| [SecretDumps Offline NTDS Dumping Tool](/endpoint/secretdumps_offline_ntds_dumping_tool/) | [NTDS](/tags/#ntds) | TTP |
-| [Set Default PowerShell Execution Policy To Unrestricted or Bypass](/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass/) | [PowerShell](/tags/#powershell) | TTP |
+| [Detect Copy of ShadowCopy with Script Block Logging](/endpoint/detect_copy_of_shadowcopy_with_script_block_logging/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Detect Credential Dumping through LSASS access](/endpoint/detect_credential_dumping_through_lsass_access/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Detect Dump LSASS Memory using comsvcs](/endpoint/detect_dump_lsass_memory_using_comsvcs/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Detect Kerberoasting](/endpoint/detect_kerberoasting/) | [Kerberoasting](/tags/#kerberoasting), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets) | TTP |
+| [Detect Mimikatz Using Loaded Images](/endpoint/detect_mimikatz_using_loaded_images/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Dump LSASS via comsvcs DLL](/endpoint/dump_lsass_via_comsvcs_dll/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Dump LSASS via procdump](/endpoint/dump_lsass_via_procdump/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Enable WDigest UseLogonCredential Registry](/endpoint/enable_wdigest_uselogoncredential_registry/) | [Modify Registry](/tags/#modify-registry), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Esentutl SAM Copy](/endpoint/esentutl_sam_copy/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | Hunting |
+| [Extraction of Registry Hives](/endpoint/extraction_of_registry_hives/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Ntdsutil Export NTDS](/endpoint/ntdsutil_export_ntds/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [SAM Database File Access Attempt](/endpoint/sam_database_file_access_attempt/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | Hunting |
+| [SecretDumps Offline NTDS Dumping Tool](/endpoint/secretdumps_offline_ntds_dumping_tool/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Set Default PowerShell Execution Policy To Unrestricted or Bypass](/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 
 #### Reference
 

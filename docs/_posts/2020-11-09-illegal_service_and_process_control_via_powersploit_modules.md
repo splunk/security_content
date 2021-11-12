@@ -7,19 +7,14 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1055
   - Process Injection
   - Defense Evasion
   - Privilege Escalation
-  - T1106
   - Native API
   - Execution
-  - T1569
   - System Services
   - Execution
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -38,15 +33,15 @@ This detection identifies access to PowerSploit modules that enable illegal cont
 - **ID**: 0e910e5b-309d-4bc3-8af2-0030c02aa353
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1055](https://attack.mitre.org/techniques/T1055/) | Process Injection | Defense Evasion, Privilege Escalation |
+
 | [T1106](https://attack.mitre.org/techniques/T1106/) | Native API | Execution |
+
 | [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
-
-
 
 #### Search
 
@@ -85,12 +80,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | PowerSploit malware is controlling computer&#39;s processess and services. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

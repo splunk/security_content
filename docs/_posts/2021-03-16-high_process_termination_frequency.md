@@ -7,15 +7,12 @@ last_modified_at: 2021-03-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1486
   - Data Encrypted for Impact
   - Impact
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,13 +31,11 @@ This analytics are designed to indentify a high frequency of process termination
 - **ID**: 17cd75b2-8666-11eb-9ab4-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1486](https://attack.mitre.org/techniques/T1486/) | Data Encrypted for Impact | Impact |
-
-
 
 #### Search
 
@@ -77,12 +72,12 @@ To successfully implement this search, you need to be ingesting logs with the Im
 admin or user tool that can terminate multiple process.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 72.0 | 90 | 80 | High frequency process termination (more than 15 processes within 3s) detected on host $Computer$ |
+
 
 
 

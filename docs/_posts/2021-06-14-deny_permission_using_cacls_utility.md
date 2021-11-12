@@ -7,13 +7,10 @@ last_modified_at: 2021-06-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1222
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -32,13 +29,11 @@ This analytic identifies a potential adversary that changes the security permiss
 - **ID**: b76eae28-cd25-11eb-9c92-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1222](https://attack.mitre.org/techniques/T1222/) | File and Directory Permissions Modification | Defense Evasion |
-
-
 
 #### Search
 
@@ -76,12 +71,12 @@ To successfully implement this search, you need to be ingesting logs with the pr
 network administrator may use this windows utility but this is not a common practice.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 50 | 70 | A cacls process $process_name$ with commandline $cmd_line$ try to deny a permission of a file or directory in host $dest_device_id$ |
+
 
 
 
@@ -99,4 +94,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/deny_permission_using_cacls_utility.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/deny_permission_using_cacls_utility.yml) \| *version*: **2**

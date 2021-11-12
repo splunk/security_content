@@ -7,16 +7,12 @@ last_modified_at: 2021-01-14
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1189
   - Drive-by Compromise
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Network_Resolution
-  - Command and Control
-  - Actions on Objectives
 ---
 
 
@@ -35,13 +31,11 @@ Malicious actors often abuse legitimate Dynamic DNS services to host malicious p
 - **ID**: c77162d3-f93c-45cc-80c8-22f6v5464g9f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1189](https://attack.mitre.org/techniques/T1189/) | Drive-by Compromise | Initial Access |
-
-
 
 #### Search
 
@@ -88,12 +82,12 @@ Detailed documentation on how to create a new field within Incident Review may b
 Some users and applications may leverage Dynamic DNS to reach out to some domains on the Internet since dynamic DNS by itself is not malicious, however this activity must be verified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A dns query $query$ from your infra connecting to suspicious domain in host  $host$ |
+
 
 
 

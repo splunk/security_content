@@ -1,22 +1,20 @@
 ---
 title: "Attempt To Add Certificate To Untrusted Store"
-excerpt: "Install Root Certificate"
+excerpt: "Install Root Certificate, Subvert Trust Controls"
 categories:
   - Endpoint
 last_modified_at: 2021-09-16
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1553.004
   - Install Root Certificate
+  - Defense Evasion
+  - Subvert Trust Controls
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
-  - Actions on Objectives
 ---
 
 
@@ -35,12 +33,13 @@ Attempt To Add Certificate To Untrusted Store
 - **ID**: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1553.004](https://attack.mitre.org/techniques/T1553/004/) | Install Root Certificate | Defense Evasion |
 
+| [T1553](https://attack.mitre.org/techniques/T1553/) | Subvert Trust Controls | Defense Evasion |
 
 #### Search
 
@@ -81,12 +80,12 @@ You must be ingesting data that records process activity from your hosts to popu
 There may be legitimate reasons for administrators to add a certificate to the untrusted certificate store. In such cases, this will typically be done on a large number of systems.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 35.0 | 70 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified attempting to add a certificate to the store on endpoint $dest$ by user $user$. |
+
 
 
 

@@ -1,21 +1,20 @@
 ---
 title: "AWS UpdateLoginProfile"
-excerpt: "Cloud Account"
+excerpt: "Cloud Account, Create Account"
 categories:
   - Cloud
 last_modified_at: 2021-07-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1136.003
   - Cloud Account
+  - Persistence
+  - Create Account
   - Persistence
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ This search looks for AWS CloudTrail events where a user A who has already permi
 - **ID**: 2a9b80d3-6a40-4115-11ad-212bf3d0d111
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1136.003](https://attack.mitre.org/techniques/T1136/003/) | Cloud Account | Persistence |
 
+| [T1136](https://attack.mitre.org/techniques/T1136/) | Create Account | Persistence |
 
 #### Search
 
@@ -75,12 +75,12 @@ You must install splunk AWS add on and Splunk App for AWS. This search works wit
 While this search has no known false positives, it is possible that an AWS admin has legitimately created keys for another user.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 30.0 | 50 | 60 | From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for updating the existing login profile, potentially giving user $user_arn$ more access privilleges |
+
 
 
 

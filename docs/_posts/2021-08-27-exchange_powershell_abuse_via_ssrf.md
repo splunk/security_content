@@ -7,14 +7,11 @@ last_modified_at: 2021-08-27
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1190
   - Exploit Public-Facing Application
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Exploitation
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -39,13 +36,11 @@ Review the source attempting to perform this activity against your environment. 
 - **ID**: 29228ab4-0762-11ec-94aa-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Initial Access |
-
-
 
 #### Search
 
@@ -81,12 +76,12 @@ The following analytic requires on-premise Exchange to be logging to Splunk usin
 Limited false positives, however, tune as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | Activity related to ProxyShell has been identified on $dest$. Review events and take action accordingly. |
+
 
 
 

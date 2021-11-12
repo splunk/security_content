@@ -7,12 +7,9 @@ last_modified_at: 2020-08-25
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1036
   - Masquerading
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -31,13 +28,11 @@ An attacker tries might try to use different version of a system command without
 - **ID**: 28179107-099a-464a-94d3-08301e6c055f
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
-
-
 
 #### Search
 
@@ -99,12 +94,12 @@ Collect endpoint data such as sysmon or 4688 events.
 None
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A system process $process_name$ with commandline $cmd_line$ spawn in non-default folder path in host $dest_device_id$ |
+
 
 
 

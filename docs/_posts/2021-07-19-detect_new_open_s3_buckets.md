@@ -7,15 +7,12 @@ last_modified_at: 2021-07-19
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1530
   - Data from Cloud Storage Object
   - Collection
   - Splunk Security Analytics for AWS
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,13 +31,11 @@ This search looks for AWS CloudTrail events where a user has created an open/pub
 - **ID**: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1530](https://attack.mitre.org/techniques/T1530/) | Data from Cloud Storage Object | Collection |
-
-
 
 #### Search
 
@@ -88,12 +83,12 @@ You must install the AWS App for Splunk.
 While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the &#34;All Users&#34; group.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | User $user_arn$ has created an open/public bucket $bucketName$ with the following permissions $permission$ |
+
 
 
 

@@ -1,21 +1,21 @@
 ---
 title: "Office Product Writing cab or inf"
-excerpt: "Spearphishing Attachment"
+excerpt: "Phishing, Spearphishing Attachment"
 categories:
   - Endpoint
 last_modified_at: 2021-09-10
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1566.001
+  - Phishing
+  - Initial Access
   - Spearphishing Attachment
   - Initial Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-40444
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +34,13 @@ The following analytic identifies behavior related to CVE-2021-40444. Whereas th
 - **ID**: f48cd1d4-125a-11ec-a447-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
+| ----------- | ----------- |--------------- |
+| [T1566](https://attack.mitre.org/techniques/T1566/) | Phishing | Initial Access |
 
+| [T1566.001](https://attack.mitre.org/techniques/T1566/001/) | Spearphishing Attachment | Initial Access |
 
 #### Search
 
@@ -82,12 +83,19 @@ To successfully implement this search you need to be ingesting information on pr
 The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $process_name$ was identified on $dest$ writing an inf or cab file to this. This is not typical of $process_name$. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
 
 
 

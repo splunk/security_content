@@ -1,21 +1,20 @@
 ---
 title: "RunDLL Loading DLL By Ordinal"
-excerpt: "Rundll32"
+excerpt: "Signed Binary Proxy Execution, Rundll32"
 categories:
   - Endpoint
 last_modified_at: 2020-11-30
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.011
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Rundll32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
 ---
 
 
@@ -34,12 +33,13 @@ This search looks for executing scripts with rundll32. Adversaries may abuse run
 - **ID**: 6c135f8d-5e60-454e-80b7-c56eed739833
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 While not common, loading a DLL under %AppData% and calling a function by ordinal is possible by a legitimate process
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 70.0 | 70 | 100 | A rundll32 process $process_name$ with ordinal parameter like this process commandline $process$ in host $dest$ |
+
 
 
 

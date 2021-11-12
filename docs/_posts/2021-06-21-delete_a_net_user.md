@@ -7,13 +7,10 @@ last_modified_at: 2021-06-21
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1489
   - Service Stop
   - Impact
   - Splunk Behavioral Analytics
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -32,13 +29,11 @@ This analytic will detect a suspicious net.exe/net1.exe command-line to delete a
 - **ID**: 8776d79c-d26e-11eb-9a56-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1489](https://attack.mitre.org/techniques/T1489/) | Service Stop | Impact |
-
-
 
 #### Search
 
@@ -79,6 +74,7 @@ System administrators or scripts may delete user accounts via this technique. Fi
 
 
 
+
 #### Reference
 
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)
@@ -93,4 +89,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/delete_a_net_user.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/delete_a_net_user.yml) \| *version*: **2**

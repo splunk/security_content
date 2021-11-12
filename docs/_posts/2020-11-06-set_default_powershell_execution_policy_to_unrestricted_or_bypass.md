@@ -1,22 +1,20 @@
 ---
 title: "Set Default PowerShell Execution Policy To Unrestricted or Bypass"
-excerpt: "PowerShell"
+excerpt: "Command and Scripting Interpreter, PowerShell"
 categories:
   - Endpoint
 last_modified_at: 2020-11-06
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1059.001
+  - Command and Scripting Interpreter
+  - Execution
   - PowerShell
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Installation
-  - Actions on Objectives
 ---
 
 
@@ -35,12 +33,13 @@ Monitor for changes of the ExecutionPolicy in the registry to the values &#34;un
 - **ID**: c2590137-0b08-4985-9ec5-6ae23d92f63d
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
+| ----------- | ----------- |--------------- |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Execution |
 
+| [T1059.001](https://attack.mitre.org/techniques/T1059/001/) | PowerShell | Execution |
 
 #### Search
 
@@ -79,12 +78,12 @@ You must be ingesting data that records process activity from your hosts to popu
 Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to &#34;unrestricted&#34; or &#34;bypass&#34; as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 48.0 | 60 | 80 | A registry modification in $registry_path$ with reg key $registry_key_name$ and reg value $registry_value_name$ in host $dest$ |
+
 
 
 

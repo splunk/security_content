@@ -1,21 +1,19 @@
 ---
 title: "First Time Seen Running Windows Service"
-excerpt: "Service Execution"
+excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-07-21
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1569.002
+  - System Services
+  - Execution
   - Service Execution
   - Execution
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Installation
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -36,12 +34,13 @@ This search looks for the first and last time a Windows service is seen running 
 - **ID**: 823136f2-d755-4b6d-ae04-372b486a5808
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
+| ----------- | ----------- |--------------- |
+| [T1569](https://attack.mitre.org/techniques/T1569/) | System Services | Execution |
 
+| [T1569.002](https://attack.mitre.org/techniques/T1569/002/) | Service Execution | Execution |
 
 #### Search
 
@@ -78,6 +77,7 @@ While this search does not require you to adhere to Splunk CIM, you must be inge
 
 #### Known False Positives
 A previously unseen service is not necessarily malicious. Verify that the service is legitimate and that was installed by a legitimate process.
+
 
 
 

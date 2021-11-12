@@ -7,8 +7,6 @@ last_modified_at: 2020-08-16
 toc: true
 toc_label: ""
 tags:
-  - Anomaly
-  - T1078
   - Valid Accounts
   - Defense Evasion
   - Persistence
@@ -37,13 +35,11 @@ This search looks for cloud provisioning activities from previously unseen regio
 - **ID**: 5aba1860-9617-4af9-b19d-aecac16fe4f2
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
-
-
 
 #### Search
 
@@ -88,12 +84,12 @@ This is a strictly behavioral search, so we define &#34;false positive&#34; slig
  This search will fire any time a new IP address is seen in the **GeoIP** database for any kind of provisioning activity. If you typically do all provisioning from tools inside of your country, there should be few false positives. If you are located in countries where the free version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution (particularly small countries in less economically powerful regions), this may be much less valuable to you.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 42.0 | 70 | 60 | User $user$ is starting or creating an instance $object$ for the first time in region $Region$ from IP address $src$ |
+
 
 
 

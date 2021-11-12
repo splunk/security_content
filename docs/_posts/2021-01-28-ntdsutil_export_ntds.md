@@ -1,21 +1,20 @@
 ---
 title: "Ntdsutil Export NTDS"
-excerpt: "NTDS"
+excerpt: "NTDS, OS Credential Dumping"
 categories:
   - Endpoint
 last_modified_at: 2021-01-28
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1003.003
   - NTDS
+  - Credential Access
+  - OS Credential Dumping
   - Credential Access
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -36,12 +35,13 @@ This technique uses &#34;Install from Media&#34; (IFM), which will extract a cop
 - **ID**: da63bc76-61ae-11eb-ae93-0242ac130002
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1003.003](https://attack.mitre.org/techniques/T1003/003/) | NTDS | Credential Access |
 
+| [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
 
 #### Search
 
@@ -81,12 +81,12 @@ You must be ingesting endpoint data that tracks process activity, including pare
 Highly possible Server Administrators will troubleshoot with ntdsutil.exe, generating false positives.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 50.0 | 100 | 50 | Active Directory NTDS export on $dest$ |
+
 
 
 

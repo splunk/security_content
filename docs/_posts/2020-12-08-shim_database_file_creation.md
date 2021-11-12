@@ -1,21 +1,21 @@
 ---
 title: "Shim Database File Creation"
-excerpt: "Application Shimming"
+excerpt: "Application Shimming, Event Triggered Execution"
 categories:
   - Endpoint
 last_modified_at: 2020-12-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1546.011
   - Application Shimming
+  - Privilege Escalation
+  - Persistence
+  - Event Triggered Execution
   - Privilege Escalation
   - Persistence
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +34,13 @@ This search looks for shim database files being written to default directories. 
 - **ID**: 6e4c4588-ba2f-42fa-97e6-9f6f548eaa33
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1546.011](https://attack.mitre.org/techniques/T1546/011/) | Application Shimming | Privilege Escalation, Persistence |
 
+| [T1546](https://attack.mitre.org/techniques/T1546/) | Event Triggered Execution | Privilege Escalation, Persistence |
 
 #### Search
 
@@ -75,12 +76,12 @@ You must be ingesting data that records the filesystem activity from your hosts 
 Because legitimate shim files are created and used all the time, this event, in itself, is not suspicious. However, if there are other correlating events, it may warrant further investigation.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 70 | 80 | A process that possibly write shim database in $file_path$ in host $dest$ |
+
 
 
 

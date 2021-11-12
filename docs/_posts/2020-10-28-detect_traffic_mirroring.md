@@ -1,27 +1,23 @@
 ---
 title: "Detect Traffic Mirroring"
-excerpt: "Hardware Additions, Network Denial of Service, Traffic Duplication"
+excerpt: "Hardware Additions, Automated Exfiltration, Network Denial of Service, Traffic Duplication"
 categories:
   - Network
 last_modified_at: 2020-10-28
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1200
   - Hardware Additions
   - Initial Access
-  - T1498
+  - Automated Exfiltration
+  - Exfiltration
   - Network Denial of Service
   - Impact
-  - T1020.001
   - Traffic Duplication
   - Exfiltration
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  - Delivery
-  - Actions on Objectives
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
@@ -42,14 +38,17 @@ Adversaries may leverage traffic mirroring in order to automate data exfiltratio
 - **ID**: 42b3b753-5925-49c5-9742-36fa40a73990
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1200](https://attack.mitre.org/techniques/T1200/) | Hardware Additions | Initial Access |
-| [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
-| [T1020.001](https://attack.mitre.org/techniques/T1020/001/) | Traffic Duplication | Exfiltration |
 
+| [T1020](https://attack.mitre.org/techniques/T1020/) | Automated Exfiltration | Exfiltration |
+
+| [T1498](https://attack.mitre.org/techniques/T1498/) | Network Denial of Service | Impact |
+
+| [T1020.001](https://attack.mitre.org/techniques/T1020/001/) | Traffic Duplication | Exfiltration |
 
 #### Search
 
@@ -82,6 +81,7 @@ This search uses a standard SPL query on logs from Cisco Network devices. The ne
 
 #### Known False Positives
 This search will return false positives for any legitimate traffic captures by network administrators.
+
 
 
 

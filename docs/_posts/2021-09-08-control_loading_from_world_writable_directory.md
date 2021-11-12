@@ -1,21 +1,21 @@
 ---
 title: "Control Loading from World Writable Directory"
-excerpt: "Control Panel"
+excerpt: "Signed Binary Proxy Execution, Control Panel"
 categories:
   - Endpoint
 last_modified_at: 2021-09-08
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.002
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Control Panel
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-40444
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -34,12 +34,13 @@ The following detection identifies control.exe loading either a .cpl or .inf fro
 - **ID**: 10423ac4-10c9-11ec-8dc4-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.002](https://attack.mitre.org/techniques/T1218/002/) | Control Panel | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.002](https://attack.mitre.org/techniques/T1218/002/) | Control Panel | Defense Evasion |
 
 #### Search
 
@@ -81,12 +82,19 @@ To successfully implement this search you need to be ingesting information on pr
 Limited false positives will be present as control.exe does not natively load from writable paths as defined. One may add .cpl or .inf to the command-line if there is any false positives. Tune as needed.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a suspicious file from disk. |
+
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-40444](https://nvd.nist.gov/vuln/detail/CVE-2021-40444) | Microsoft MSHTML Remote Code Execution Vulnerability | 6.8 |
 
 
 

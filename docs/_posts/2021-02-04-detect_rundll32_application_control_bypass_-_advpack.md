@@ -1,21 +1,20 @@
 ---
 title: "Detect Rundll32 Application Control Bypass - advpack"
-excerpt: "Rundll32"
+excerpt: "Signed Binary Proxy Execution, Rundll32"
 categories:
   - Endpoint
 last_modified_at: 2021-02-04
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1218.011
+  - Signed Binary Proxy Execution
+  - Defense Evasion
   - Rundll32
   - Defense Evasion
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Actions on Objectives
 ---
 
 
@@ -34,12 +33,13 @@ The following analytic identifies rundll32.exe loading advpack.dll and ieadvpack
 - **ID**: 4aefadfe-9abd-4bf8-b3fd-867e9ef95bf8
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
-| [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
+| ----------- | ----------- |--------------- |
+| [T1218](https://attack.mitre.org/techniques/T1218/) | Signed Binary Proxy Execution | Defense Evasion |
 
+| [T1218.011](https://attack.mitre.org/techniques/T1218/011/) | Rundll32 | Defense Evasion |
 
 #### Search
 
@@ -82,12 +82,12 @@ To successfully implement this search you need to be ingesting information on pr
 Although unlikely, some legitimate applications may use advpack.dll or ieadvpack.dll, triggering a false positive.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | An instance of $parent_process_name$ spawning $process_name$ loading advpack.dll and ieadvpack.dll by calling the LaunchINFSection function on the command line was identified on endpoint $dest$ by user $user$. |
+
 
 
 

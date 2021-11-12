@@ -7,17 +7,13 @@ last_modified_at: 2020-11-09
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1134
   - Access Token Manipulation
   - Defense Evasion
   - Privilege Escalation
-  - T1548
   - Abuse Elevation Control Mechanism
   - Privilege Escalation
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Actions on Objectives
 ---
 
 
@@ -36,14 +32,13 @@ This detection identifies use of Mimikatz modules for illegal privilege elevatio
 - **ID**: 2f873b1f-6352-4844-b7b9-b419f09a42c7
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1134](https://attack.mitre.org/techniques/T1134/) | Access Token Manipulation | Defense Evasion, Privilege Escalation |
+
 | [T1548](https://attack.mitre.org/techniques/T1548/) | Abuse Elevation Control Mechanism | Privilege Escalation, Defense Evasion |
-
-
 
 #### Search
 
@@ -80,12 +75,12 @@ You must be ingesting Windows Security logs from devices of interest, including 
 None identified.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 90.0 | 90 | 100 | Mimikatz malware is setting highest privileges to malicious entities. Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$ |
+
 
 
 

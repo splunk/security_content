@@ -1,22 +1,22 @@
 ---
 title: "XMRIG Driver Loaded"
-excerpt: "Windows Service"
+excerpt: "Windows Service, Create or Modify System Process"
 categories:
   - Endpoint
 last_modified_at: 2021-04-29
 toc: true
 toc_label: ""
 tags:
-  - TTP
-  - T1543.003
   - Windows Service
+  - Persistence
+  - Privilege Escalation
+  - Create or Modify System Process
   - Persistence
   - Privilege Escalation
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
-  - Exploitation
 ---
 
 
@@ -35,12 +35,13 @@ This analytic identifies XMRIG coinminer driver installation on the system. The 
 - **ID**: 90080fa6-a8df-11eb-91e4-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
-| ----------- | ----------- | -------------- |
+| ----------- | ----------- |--------------- |
 | [T1543.003](https://attack.mitre.org/techniques/T1543/003/) | Windows Service | Persistence, Privilege Escalation |
 
+| [T1543](https://attack.mitre.org/techniques/T1543/) | Create or Modify System Process | Persistence, Privilege Escalation |
 
 #### Search
 
@@ -77,12 +78,12 @@ To successfully implement this search, you need to be ingesting logs with the dr
 False positives should be limited.
 
 
-
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
 | 80.0 | 80 | 100 | A driver $ImageLoaded$ related to xmrig crytominer loaded in host $Computer$ |
+
 
 
 
