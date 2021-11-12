@@ -25,9 +25,9 @@ references:
 - https://attack.mitre.org/techniques/T1053/005/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - Lateral Movement
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-sysmon.log
   kill_chain_phases:
   - Lateral Movement
   mitre_attack_id:
