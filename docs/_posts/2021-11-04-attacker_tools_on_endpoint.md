@@ -3,7 +3,7 @@ title: "Attacker Tools On Endpoint"
 excerpt: "Match Legitimate Name or Location, Masquerading, OS Credential Dumping, Active Scanning"
 categories:
   - Endpoint
-last_modified_at: 2021-06-21
+last_modified_at: 2021-11-04
 toc: true
 toc_label: ""
 tags:
@@ -32,18 +32,21 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-06-21
+- **Last Updated**: 2021-11-04
 - **Author**: Bhavin Patel, Splunk
 - **ID**: a51bfe1a-94f0-48cc-b4e4-16a110145893
 
 
 #### [ATT&CK](https://attack.mitre.org/)
 
-| ID          | Technique   | Tactic      |
-| ----------- | ----------- | ----------- |
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
 | [T1036.005](https://attack.mitre.org/techniques/T1036/005/) | Match Legitimate Name or Location | Defense Evasion |
+
 | [T1036](https://attack.mitre.org/techniques/T1036/) | Masquerading | Defense Evasion |
+
 | [T1003](https://attack.mitre.org/techniques/T1003/) | OS Credential Dumping | Credential Access |
+
 | [T1595](https://attack.mitre.org/techniques/T1595/) | Active Scanning | Reconnaissance |
 
 #### Search
@@ -55,7 +58,7 @@ This search looks for execution of commonly used attacker tools on an endpoint.
 | `security_content_ctime(lastTime)` 
 | `drop_dm_object_name(Processes)` 
 | lookup attacker_tools attacker_tool_names AS process_name OUTPUT description 
-| search description=* 
+| search description !=false
 | `attacker_tools_on_endpoint_filter`
 ```
 
@@ -105,4 +108,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attacker_tools_on_endpoint.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attacker_tools_on_endpoint.yml) \| *version*: **2**

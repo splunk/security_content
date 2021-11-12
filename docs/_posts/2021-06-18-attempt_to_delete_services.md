@@ -29,7 +29,7 @@ This analytic identifies suspicious series of attempt to kill multiple services 
 - **ID**: a0c8c292-d01a-11eb-aa18-acde48001122
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -88,4 +88,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 * [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_del.log)
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_delete_services.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_delete_services.yml) \| *version*: **2**

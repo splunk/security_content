@@ -3,7 +3,7 @@ title: "Detect Prohibited Applications Spawning cmd exe"
 excerpt: "Command and Scripting Interpreter"
 categories:
   - Endpoint
-last_modified_at: 2020-7-13
+last_modified_at: 2021-11-10
 toc: true
 toc_label: ""
 tags:
@@ -18,17 +18,17 @@ tags:
 
 #### Description
 
-This search looks for executions of cmd.exe spawned by a process that is often abused by attackers and that does not typically launch cmd.exe. This is a SPL2 implementation of the rule `Detect Prohibited Applications Spawning cmd.exe` by @bpatel.
+The following analytic identifies parent processes, browsers, Windows terminal applications, Office Products and Java spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or built into macros. Much of this will need to be tuned to further enhance the risk. During triage, review parallel process execution and identify any file modifications that may have occurred. Capture any artifacts and review further.
 
-- **Type**: TTP
+- **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
 - **Datamodel**: 
-- **Last Updated**: 2020-7-13
+- **Last Updated**: 2021-11-10
 - **Author**: Ignacio Bermudez Corrales, Splunk
 - **ID**: c10a18cb-fd80-4ffa-a844-25026e0a0c94
 
 
-#### ATT&CK
+#### [ATT&CK](https://attack.mitre.org/)
 
 | ID          | Technique   | Tactic         |
 | ----------- | ----------- |--------------- |
@@ -53,13 +53,10 @@ This search looks for executions of cmd.exe spawned by a process that is often a
 
 #### Associated Analytic Story
 * [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions)
-* [Suspicious MSHTA Activity](/stories/suspicious_mshta_activity)
-* [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes)
-* [Sunburst Malware](/stories/sunburst_malware)
 
 
 #### How To Implement
-You must be ingesting sysmon logs. This search has been modified to process raw sysmon data from attack_range&#39;s nxlogs on DSP.
+In order to successfully implement this analytic, you will need endpoint process data from a EDR product or Sysmon. This search has been modified to process raw sysmon data from attack_range&#39;s nxlogs on DSP.
 
 #### Required field
 * process_name
@@ -74,19 +71,22 @@ You must be ingesting sysmon logs. This search has been modified to process raw 
 
 
 #### Known False Positives
-There are circumstances where an application may legitimately execute and interact with the Windows command-line interface. Investigate and modify the lookup file, as appropriate.
+There are circumstances where an application may legitimately execute and interact with the Windows command-line interface.
 
 
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 56.0 | 70 | 80 | Potential malicious landing to the console via unexpected programs that called cmd.exe.  Operation is performed at the device $dest_device_id$, by the account $dest_user_id$ where parent process $parent_process$ spwaned $process_name$. |
+| 35.0 | 70 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$, producing a suspicious event that warrants investigating. |
 
 
 
 
 #### Reference
+
+* [https://attack.mitre.org/techniques/T1059/](https://attack.mitre.org/techniques/T1059/)
+
 
 
 #### Test Dataset
@@ -95,4 +95,5 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_prohibited_applications_spawning_cmd_exe.yml) \| *version*: **1**
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_prohibited_applications_spawning_cmd_exe.yml) \| *version*: **2**
