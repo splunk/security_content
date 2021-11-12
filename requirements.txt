@@ -35,7 +35,7 @@ nodeenv==1.6.0
 packaging==21.2
 pathlib2==2.3.6
 pendulum==2.1.2
-pep517==0.11.0
+pep517==0.12.0
 Pillow==8.4.0
 platformdirs==2.4.0
 pre-commit==2.14.1
