@@ -12,7 +12,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
 id: a0c8c292-d01a-11eb-aa18-acde48001122
 known_false_positives: unknown
-name: Attempt To delete Services
+name: Attempt To Delete Services
 product:
 - Splunk Behavioral Analytics
 references:
