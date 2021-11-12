@@ -77,4 +77,3 @@ class GithubService:
         return changed_ssa_test_files, ci_changes
 
 
-
