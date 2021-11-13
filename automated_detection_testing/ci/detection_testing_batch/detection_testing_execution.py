@@ -36,7 +36,7 @@ datamodel_file_local_path = "datamodels.conf.tar"
 datamodel_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "Splunk_SA_CIM")
 
 
-PASSWORD_LENGTH=20
+
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING=2
 DEFAULT_CONTAINER_TAG="latest"
 LOCAL_BASE_CONTAINER_NAME = "splunk_test_%d"
@@ -51,22 +51,6 @@ DETECTION_TYPES = ['endpoint', 'cloud', 'network']
 DETECTION_MODES = ['new', 'all', 'selected']
 
 
-
-    
-
-
-
-
-        
-
-
-
-
-        
-
-    
-
-    
 
 
 def main(args):

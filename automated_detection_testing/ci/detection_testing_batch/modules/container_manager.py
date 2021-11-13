@@ -15,7 +15,7 @@ class ContainerManager:
     def __init__(
         self,
         test_list: list[str],
-        full_docker_hub_name,
+        full_docker_hub_name: str,
         container_name_template: str,
         num_containers: int,
         apps: OrderedDict,
@@ -47,8 +47,6 @@ class ContainerManager:
             splunkbase_password,
             files_to_copy_to_container,
         )
-
-        self.run_containers()
 
     def run_containers(self) -> None:
         for container in self.containers:

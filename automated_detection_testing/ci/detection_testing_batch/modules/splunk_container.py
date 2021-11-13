@@ -23,7 +23,7 @@ SPLUNK_START_ARGS = "--accept-license"
 class SplunkContainer:
     def __init__(
         self,
-        synchronization_object:test_driver.TestDriver,
+        synchronization_object: test_driver.TestDriver,
         full_docker_hub_path,
         container_name: str,
         apps: OrderedDict,
@@ -34,8 +34,8 @@ class SplunkContainer:
         mounts: list[docker.types.Mount] = [],
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
-        splunk_ip:str = "127.0.0.1",
-        interactive_failure:bool = False
+        splunk_ip: str = "127.0.0.1",
+        interactive_failure: bool = False,
     ):
         self.interactive_failure = interactive_failure
         self.synchronization_object = synchronization_object
@@ -56,7 +56,6 @@ class SplunkContainer:
         self.container = self.make_container()
 
         self.thread = threading.Thread(target=self.run_container)
-
 
     def prepare_apps_path(
         self,
@@ -135,6 +134,9 @@ class SplunkContainer:
         return container_string
 
     def make_container(self) -> docker.models.resource.Model:
+        # First, make sure that the container has been removed if it already existed
+        self.removeContainer()
+        
         container = self.client.containers.create(
             self.full_docker_hub_path,
             ports=self.ports,
@@ -251,16 +253,15 @@ class SplunkContainer:
                 % (self.container_name, str(e))
             )
 
-
         # Wait for all of the threads to join here
         print(
             "Container [%s] setup complete and waiting for other containers to be ready..."
             % (self.container_name)
         )
-        
+
         self.synchronization_object.start_barrier.wait()
         self.wait_for_splunk_ready()
-        
+
         while True:
             # Sleep for a small random time so that containers drift apart and don't synchronize their testing
             time.sleep(random.randint(1, 30))
@@ -306,40 +307,3 @@ class SplunkContainer:
                 self.synchronization_object.addError(
                     {"detection_file": detection_to_test, "detection_error": str(e)}
                 )
-
-
-"""
-def remove_existing_containers(client: docker.client.DockerClient, reuse_containers: bool, container_template: str, num_containers: int, forceRemove: bool=True) -> bool:
-    if reuse_containers is True:
-        #Check to make sure that all of the requested containers exist
-        for index in range(0, num_containers):
-            container_name = container_template%(index)
-            print("Checking for the existence of container named [%s]"%(container_name))
-            try:
-                this_container = client.containers.get(container_name)
-            except Exception as e:
-                print("Failed to find a container named [%s]"%(container_name))
-                reuse_containers = False
-                break
-            try:
-                #Make sure that the container is stopped
-                print("Found [%s]. Stopping container..."%(container_name))
-                this_container.stop()
-            except Exception as e:
-                print("Failed to stop a container named [%s]"%(container_name))
-                reuse_containers = False
-                break
-        print("Found all of the containers, we will reuse them")
-        return True
-    
-    #Note that this variable can be changed by the block above, so don't
-    #convert this into an if/else. Note that this IF is for verbosity:
-
-    if reuse_containers is False:
-        for index in range(0,num_containers):
-            container_name = container_template%(index)
-            removeContainer(client, container_name, forceRemove)
-        return False
-    else:
-        raise(Exception("Error removing existing containers"))
-   """
