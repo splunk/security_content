@@ -4,6 +4,7 @@ import docker.types
 import random
 import splunk_container
 import string
+import test_driver
 from typing import Union
 
 WEB_PORT_STRING = "8000/tcp"
@@ -13,10 +14,12 @@ MANAGEMENT_PORT_STRING = "8089/tcp"
 class ContainerManager:
     def __init__(
         self,
+        test_list: list[str],
+        full_docker_hub_name,
         container_name_template: str,
         num_containers: int,
-        apps: list[dict],
-        files_to_copy_to_container:OrderedDict=OrderedDict(),
+        apps: OrderedDict,
+        files_to_copy_to_container: OrderedDict = OrderedDict(),
         web_port_start: int = 8000,
         management_port_start: int = 8089,
         mounts: list[dict[str, Union[str, bool]]] = [],
@@ -24,46 +27,61 @@ class ContainerManager:
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
     ):
+        self.synchronization_object = test_driver.TestDriver(test_list, num_containers)
+
         self.mounts = self.create_mounts(mounts)
         self.apps = apps
-        self.client = docker.from_env()
 
         if container_password is None:
             self.container_password = self.get_random_password()
         else:
             self.container_password = container_password
 
-        self.create_containers(
+        self.containers = self.create_containers(
+            full_docker_hub_name,
             container_name_template,
             num_containers,
             web_port_start,
             management_port_start,
             splunkbase_username,
             splunkbase_password,
+            files_to_copy_to_container,
         )
+
+        self.run_containers()
+
+    def run_containers(self) -> None:
+        for container in self.containers:
+            container.thread.run()
 
     def create_containers(
         self,
+        full_docker_hub_name: str,
         container_name_template: str,
         num_containers: int,
         web_port_start: int,
         management_port_start: int,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
+        files_to_copy_to_container: OrderedDict = OrderedDict(),
     ) -> list[splunk_container.SplunkContainer]:
         new_containers = []
         for index in range(num_containers):
             container_name = container_name_template % index
-            web_port = (WEB_PORT_STRING, web_port_start + index)
-            management_port = (MANAGEMENT_PORT_STRING, management_port_start + index)
-
+            web_port_tuple = (WEB_PORT_STRING, web_port_start + index)
+            management_port_tuple = (
+                MANAGEMENT_PORT_STRING,
+                management_port_start + index,
+            )
+            #Get a new client for this container
             new_containers.append(
                 splunk_container.SplunkContainer(
-                    self.client,
+                    self.synchronization_object,
+                    full_docker_hub_name,
                     container_name,
                     self.apps,
-                    web_port,
-                    management_port,
+                    web_port_tuple,
+                    management_port_tuple,
                     self.container_password,
                     files_to_copy_to_container,
                     self.mounts,

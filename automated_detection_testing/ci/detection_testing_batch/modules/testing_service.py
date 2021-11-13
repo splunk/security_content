@@ -14,10 +14,10 @@ from os.path import relpath
 from tempfile import mkdtemp
 
 
-def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, test_file:str, test_index:int, uuid_test:str, attack_data_root_folder, wait_on_failure:bool=False)->dict:
+def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, test_file:str, attack_data_root_folder, wait_on_failure:bool=False)->dict:
     
     uuid_var = str(uuid.uuid4())
-    result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, test_index, uuid_test, uuid_var, attack_data_root_folder)
+    result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, uuid_var, attack_data_root_folder)
     if result_test is None:
         #We failed so early in the process that we could not produce any meaningful result
         raise(Exception("Test execution Error"))    
@@ -38,7 +38,7 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
     return result_test    
 
 
-def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, test_index:int, uuid_test, uuid_var, attack_data_root_folder)->Union[dict,None]:
+def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, uuid_var, attack_data_root_folder)->Union[dict,None]:
     try:
         test_file_obj = load_file(os.path.join("security_content/", test_file))
     except Exception as e:
@@ -73,9 +73,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             if attack_data['update_timestamp'] == True:
                 data_manipulation = DataManipulation()
                 data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
-        INDEX_TO_REPLAY_INTO = 'test' + str(test_index)
-        INDEX_TO_REPLAY_INTO = 'main'
-        replay_attack_dataset(container_name, splunk_password, folder_name, INDEX_TO_REPLAY_INTO, attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
+        replay_attack_dataset(container_name, splunk_password, folder_name, "main", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
     
     time.sleep(30)
     

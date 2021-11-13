@@ -5,14 +5,16 @@ import docker.models
 import docker.models.resource
 import docker.models.containers
 import os.path
+import random
 import requests
 import shutil
 import splunk_sdk
 import testing_service
+import test_driver
 import time
 import timeit
 from typing import Union
-
+import threading
 
 SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
 SPLUNK_START_ARGS = "--accept-license"
@@ -21,19 +23,21 @@ SPLUNK_START_ARGS = "--accept-license"
 class SplunkContainer:
     def __init__(
         self,
-        synchronization_object,
+        synchronization_object:test_driver.TestDriver,
         full_docker_hub_path,
         container_name: str,
-        apps: list[dict],
-        web_port: tuple[str, int],
-        management_port: tuple[str, int],
+        apps: OrderedDict,
+        web_port_tuple: tuple[str, int],
+        management_port_tuple: tuple[str, int],
         container_password: str,
         files_to_copy_to_container: OrderedDict = OrderedDict(),
         mounts: list[docker.types.Mount] = [],
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
-        splunk_ip:str = "127.0.0.1"
+        splunk_ip:str = "127.0.0.1",
+        interactive_failure:bool = False
     ):
+        self.interactive_failure = interactive_failure
         self.synchronization_object = synchronization_object
         self.client = docker.client.from_env()
         self.full_docker_hub_path = full_docker_hub_path
@@ -46,20 +50,24 @@ class SplunkContainer:
         self.environment = self.make_environment(
             apps, container_password, splunkbase_username, splunkbase_password
         )
-        self.ports = self.make_ports(web_port, management_port)
-        self.web_port = web_port
-        self.management_port = management_port
+        self.ports = self.make_ports(web_port_tuple, management_port_tuple)
+        self.web_port = web_port_tuple[1]
+        self.management_port = management_port_tuple[1]
         self.container = self.make_container()
+
+        self.thread = threading.Thread(target=self.run_container)
+
 
     def prepare_apps_path(
         self,
-        apps: list[dict],
+        apps: OrderedDict,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
     ) -> tuple[str, bool]:
         apps_to_install = []
         require_credentials = False
-        for app in self.apps:
+        for app_name in self.apps:
+            app = self.apps[app_name]
             if app["location"] == "splunkbase":
                 if splunkbase_username is None or splunkbase_password is None:
                     raise Exception(
@@ -85,7 +93,7 @@ class SplunkContainer:
 
     def make_environment(
         self,
-        apps: list[dict],
+        apps: OrderedDict,
         container_password: str,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
@@ -249,44 +257,43 @@ class SplunkContainer:
             "Container [%s] setup complete and waiting for other containers to be ready..."
             % (self.container_name)
         )
-        synchornization_object.start_barrier.wait()
+        
+        self.synchronization_object.start_barrier.wait()
         self.wait_for_splunk_ready()
         
         while True:
             # Sleep for a small random time so that containers drift apart and don't synchronize their testing
             time.sleep(random.randint(1, 30))
             # Try to get something from the queue
-            detection_to_test = testing_object.getTest()
+            detection_to_test = self.synchronization_object.getTest()
             if detection_to_test is None:
                 try:
                     print(
                         "Container [%s] has finished running detections, time to stop the container."
-                        % (container_name)
+                        % (self.container_name)
                     )
-                    container.stop()
-                    print("Container [%s] successfully stopped" % (container_name))
+                    self.container.stop()
+                    print("Container [%s] successfully stopped" % (self.container_name))
                     # remove the container
-                    removeContainer(client, container_name, forceRemove=True)
+                    self.removeContainer()
                 except Exception as e:
                     print("Error stopping or removing the container: [%s]" % (str(e)))
 
                 return None
 
             # There is a detection to test
-            print("Container [%s]--->[%s]" % (container_name, detection_to_test))
+            print("Container [%s]--->[%s]" % (self.container_name, detection_to_test))
             try:
                 result = testing_service.test_detection_wrapper(
-                    container_name,
-                    splunk_ip,
-                    splunk_password,
-                    splunk_management_port,
+                    self.container_name,
+                    self.splunk_ip,
+                    self.container_password,
+                    self.management_port,
                     detection_to_test,
-                    0,
-                    uuid_test,
-                    testing_object.attack_data_root_folder,
-                    wait_on_failure=interactive_failure,
+                    self.synchronization_object.attack_data_root_folder,
+                    wait_on_failure=self.interactive_failure,
                 )
-                testing_object.addResult(result)
+                self.synchronization_object.addResult(result)
 
                 # Remove the data from the test that we just ran.  We MUST do this when running on CI because otherwise, we will download
                 # a massive amount of data over the course of a long path and will run out of space on the relatively small CI runner drive
@@ -296,7 +303,7 @@ class SplunkContainer:
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
                     % (detection_to_test, str(e))
                 )
-                testing_object.addError(
+                self.synchronization_object.addError(
                     {"detection_file": detection_to_test, "detection_error": str(e)}
                 )
 

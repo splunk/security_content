@@ -218,7 +218,7 @@ class TestDriver:
             #Neither a success or a failure, so add the object to the failures queue
             self.addError({'detection_file':"Unknown File", "detection_error":str(result)})
 
-def queue_status_thread(status_object:TestingSynchronization)->None:
+def queue_status_thread(status_object:TestDriver)->None:
     #This will run forever by design
     print("start status")
     while True:      
