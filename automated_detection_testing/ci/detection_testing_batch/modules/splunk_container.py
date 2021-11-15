@@ -1,4 +1,5 @@
 from collections import OrderedDict
+import datetime
 import docker
 import docker.types
 import docker.models
@@ -57,6 +58,10 @@ class SplunkContainer:
 
         self.thread = threading.Thread(target=self.run_container)
 
+        self.container_start_time = 0
+        self.test_start_time = 0
+        self.num_tests_completed = 0
+
     def prepare_apps_path(
         self,
         apps: OrderedDict,
@@ -72,7 +77,8 @@ class SplunkContainer:
                     raise Exception(
                         "Error: Requested app from Splunkbase but Splunkbase username and/or password were not supplied."
                     )
-                target = SPLUNKBASE_URL % (app["app_number"], app["app_version"])
+                target = SPLUNKBASE_URL % (
+                    app["app_number"], app["app_version"])
                 apps_to_install.append(target)
                 require_credentials = True
             elif app["location"] == "local":
@@ -136,7 +142,7 @@ class SplunkContainer:
     def make_container(self) -> docker.models.resource.Model:
         # First, make sure that the container has been removed if it already existed
         self.removeContainer()
-        
+
         container = self.client.containers.create(
             self.full_docker_hub_path,
             ports=self.ports,
@@ -199,8 +205,52 @@ class SplunkContainer:
             # No need to print that the container has been removed, it is expected behavior
             return True
         except Exception as e:
-            print("Could not remove Docker Container [%s]" % (self.container_name))
+            print("Could not remove Docker Container [%s]" % (
+                self.container_name))
             raise (Exception("CONTAINER REMOVE ERROR"))
+
+    def get_container_summary(self) -> str:
+        current_time = timeit.default_timer()
+        # Get rid of the decimal (microseconds) so that we have whole seconds
+        if self.container_start_time is None or self.test_start_time is None:
+            print(self.container_start_time)
+
+        # Total time the container has been running
+        if self.container_start_time == -1:
+            total_time_string = "NOT STARTED"
+        else:
+            total_time_rounded = datetime.timedelta(
+                round(current_time - self.container_start_time))
+            total_time_string = str(total_time_rounded)
+
+        # Time that the container setup took
+        if self.test_start_time == -1 or self.container_start_time == -1:
+            setup_time_string = "NOT SET UP"
+        else:
+            setup_secounds_rounded = datetime.timedelta(
+                round(self.test_start_time - self.container_start_time))
+            setup_time_string = str(setup_secounds_rounded)
+
+        # Time that the tests have been running
+        if self.test_start_time == -1 or self.num_tests_completed == 0:
+            testing_time_string = "NO TESTS COMPLETED"
+        else:
+            testing_seconds_rounded = datetime.timedelta(
+                round(current_time - self.test_start_time))
+
+            # Get the approximate time per test.  This is a clunky way to get rid of decimal
+            # seconds.... but it works
+            timedelta_per_test = testing_seconds_rounded/self.num_tests_completed
+            timedelta_per_test_rounded = timedelta_per_test - \
+                datetime.timedelta(
+                    microseconds=timedelta_per_test.microseconds)
+
+            testing_time_string = "%s per test (%d tests)"%(timedelta_per_test_rounded, str(testing_seconds_rounded))
+
+        summary_str = "[%s] Summary\n\t"\
+                      "Total Time          :"\
+                      "Container Start Time:"\
+                      "Test Execution Time :" %(total_time_string, setup_time_string, testing_time_string)
 
     def wait_for_splunk_ready(
         self,
@@ -216,7 +266,8 @@ class SplunkContainer:
         while True:
             try:
                 # Splunk container will not have proper ssl certificate
-                response = requests.get(splunk_ready_url, timeout=5, verify=False)
+                response = requests.get(
+                    splunk_ready_url, timeout=5, verify=False)
                 response.raise_for_status()
                 return True
             except Exception as e:
@@ -232,6 +283,7 @@ class SplunkContainer:
 
     def run_container(self) -> None:
         print("Starting the container [%s]" % (self.container_name))
+        self.container_start_time = timeit.default_timer()
         self.container.start()
 
         # By default, first copy the index file then the datamodel file
@@ -262,9 +314,10 @@ class SplunkContainer:
         self.synchronization_object.start_barrier.wait()
         self.wait_for_splunk_ready()
 
+        # Sleep for a small random time so that containers drift apart and don't synchronize their testing
+        time.sleep(random.randint(1, 30))
+        self.test_start_time = timeit.default_timer()
         while True:
-            # Sleep for a small random time so that containers drift apart and don't synchronize their testing
-            time.sleep(random.randint(1, 30))
             # Try to get something from the queue
             detection_to_test = self.synchronization_object.getTest()
             if detection_to_test is None:
@@ -274,16 +327,19 @@ class SplunkContainer:
                         % (self.container_name)
                     )
                     self.container.stop()
-                    print("Container [%s] successfully stopped" % (self.container_name))
+                    print("Container [%s] successfully stopped" %
+                          (self.container_name))
                     # remove the container
                     self.removeContainer()
                 except Exception as e:
-                    print("Error stopping or removing the container: [%s]" % (str(e)))
+                    print(
+                        "Error stopping or removing the container: [%s]" % (str(e)))
 
                 return None
 
             # There is a detection to test
-            print("Container [%s]--->[%s]" % (self.container_name, detection_to_test))
+            print("Container [%s]--->[%s]" %
+                  (self.container_name, detection_to_test))
             try:
                 result = testing_service.test_detection_wrapper(
                     self.container_name,
@@ -305,5 +361,10 @@ class SplunkContainer:
                     % (detection_to_test, str(e))
                 )
                 self.synchronization_object.addError(
-                    {"detection_file": detection_to_test, "detection_error": str(e)}
+                    {"detection_file": detection_to_test,
+                        "detection_error": str(e)}
                 )
+            self.num_tests_completed+=1
+
+            # Sleep for a small random time so that containers drift apart and don't synchronize their testing
+            time.sleep(random.randint(1, 30))

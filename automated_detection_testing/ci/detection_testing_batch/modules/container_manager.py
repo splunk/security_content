@@ -1,10 +1,13 @@
 from collections import OrderedDict
 import docker
+import datetime
 import docker.types
 import random
 import splunk_container
 import string
 import test_driver
+import threading
+import time
 from typing import Union
 
 WEB_PORT_STRING = "8000/tcp"
@@ -27,7 +30,8 @@ class ContainerManager:
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
     ):
-        self.synchronization_object = test_driver.TestDriver(test_list, num_containers)
+        self.synchronization_object = test_driver.TestDriver(
+            test_list, num_containers)
 
         self.mounts = self.create_mounts(mounts)
         self.apps = apps
@@ -47,10 +51,39 @@ class ContainerManager:
             splunkbase_password,
             files_to_copy_to_container,
         )
+        self.summary_thread = threading.Thread(target=self.queue_status_thread,args=())
+
+        #Construct the baseline from the splunk version and the apps to be installed
+        self.baseline = OrderedDict()
+        #Get a datetime and add it as the first entry in the baseline
+        self.baseline['DATE'] = str(datetime.datetime.now().replace(microsecond=0))
+        self.baseline['SPLUNK_VERSION'] = full_docker_hub_name
+        for key in self.apps:
+            self.baseline[key] = self.apps[key]
+
+    def run_test(self):
+        self.run_containers()
+        self.run_status_thread()
+        for container in self.containers:
+            container.thread.join()
+            print(container.get_container_summary())
+        self.summary_thread.join()
+        print("All containers completed testing!")
+        
+        
+        self.synchronization_object.finish(self.baseline)
+
+
+
 
     def run_containers(self) -> None:
         for container in self.containers:
             container.thread.run()
+    
+    def run_status_thread(self) -> None:
+        self.queue_status_thread.run()
+        
+
 
     def create_containers(
         self,
@@ -71,7 +104,7 @@ class ContainerManager:
                 MANAGEMENT_PORT_STRING,
                 management_port_start + index,
             )
-            #Get a new client for this container
+            # Get a new client for this container
             new_containers.append(
                 splunk_container.SplunkContainer(
                     self.synchronization_object,
@@ -122,3 +155,11 @@ class ContainerManager:
         random.SystemRandom().shuffle(password_list)
         password = "".join(password_list)
         return password
+
+    def queue_status_thread(self)->None:
+        #This will run fo
+        while True:      
+            if self.synchronization_object.summarize() == False:
+                #There are no more tests to run, so we can return from this thread
+                return None
+            time.sleep(10)
