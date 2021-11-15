@@ -59,3 +59,16 @@ tags:
   - process
   risk_severity: medium
   security_domain: endpoint
+  impact: 70
+  confidence: 70
+  # (impact * confidence)/100
+  risk_score: 49
+  context:
+  - Source:Endpoint
+  - stage:Defense Evasion
+  message: disable service with commandline $process$ on $dest$ by $user$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim

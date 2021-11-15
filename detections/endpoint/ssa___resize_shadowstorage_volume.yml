@@ -61,3 +61,16 @@ tags:
   - process
   risk_severity: high
   security_domain: endpoint
+  impact: 80
+  confidence: 80
+  # (impact * confidence)/100
+  risk_score: 64
+  context:
+  - Source:Endpoint
+  - stage:Defense Evasion
+  message: resize shadow copy made by process$process_name$ with commandline $process$ on $dest$ by $user$
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
