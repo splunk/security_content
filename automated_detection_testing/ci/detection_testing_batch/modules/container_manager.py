@@ -8,6 +8,7 @@ import string
 import test_driver
 import threading
 import time
+import timeit
 from typing import Union
 
 WEB_PORT_STRING = "8000/tcp"
@@ -29,6 +30,7 @@ class ContainerManager:
         container_password: Union[str, None] = None,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
+        reuse_image:bool = True
     ):
         self.synchronization_object = test_driver.TestDriver(
             test_list, num_containers)
@@ -50,14 +52,20 @@ class ContainerManager:
             splunkbase_username,
             splunkbase_password,
             files_to_copy_to_container,
+            reuse_image
         )
         self.summary_thread = threading.Thread(target=self.queue_status_thread,args=())
 
         #Construct the baseline from the splunk version and the apps to be installed
         self.baseline = OrderedDict()
         #Get a datetime and add it as the first entry in the baseline
-        self.baseline['DATE'] = str(datetime.datetime.now().replace(microsecond=0))
+        self.start_time = datetime.datetime.now()
         self.baseline['SPLUNK_VERSION'] = full_docker_hub_name
+        #Added here first to preserve ordering for OrderedDict
+        self.baseline['TEST_START_TIME'] = "TO BE UPDATED"
+        self.baseline['TEST_FINISH_TIME'] = "TO BE UPDATED"
+        self.baseline['TEST_DURATION'] = "TO BE UPDATED"
+
         for key in self.apps:
             self.baseline[key] = self.apps[key]
 
@@ -71,6 +79,15 @@ class ContainerManager:
         print("All containers completed testing!")
         
         
+        stop_time = datetime.datetime.now()
+        x = stop_time - self.start_time
+
+        self.baseline['TEST_START_TIME'] = str(self.start_time)
+        self.baseline['TEST_FINISH_TIME'] =  str(stop_time)
+        
+        duration = stop_time - self.start_time
+        self.baseline['TEST_DURATION'] = duration - datetime.timedelta(microseconds=duration.microseconds)
+
         self.synchronization_object.finish(self.baseline)
 
 
@@ -95,7 +112,11 @@ class ContainerManager:
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
         files_to_copy_to_container: OrderedDict = OrderedDict(),
+        reuse_image = True
     ) -> list[splunk_container.SplunkContainer]:
+        #First make sure that the image exists and has been downloaded
+        self.setup_image(reuse_image, full_docker_hub_name)
+
         new_containers = []
         for index in range(num_containers):
             container_name = container_name_template % index
@@ -104,7 +125,7 @@ class ContainerManager:
                 MANAGEMENT_PORT_STRING,
                 management_port_start + index,
             )
-            # Get a new client for this container
+            
             new_containers.append(
                 splunk_container.SplunkContainer(
                     self.synchronization_object,
@@ -163,3 +184,49 @@ class ContainerManager:
                 #There are no more tests to run, so we can return from this thread
                 return None
             time.sleep(10)
+
+    def setup_image(self, reuse_images: bool, container_name: str) -> None:
+        client = docker.client.from_env()
+        if not reuse_images:
+            #Check to see if the image exists.  If it does, then remove it.  If it does not, then do nothing
+            docker_image = None
+            try:
+                docker_image = client.images.get(container_name)
+            except Exception as e:
+                #We don't need to do anything, the image did not exist on our system
+                #print("Image named [%s] did not exist, so we don't need to try and remove it."%(container_name))
+                pass
+            if docker_image != None:
+                #We found the image.  Let's try to delete it
+                print("Found docker image named [%s] and you have requested that we forcefully remove it"%(container_name))
+                try:
+                    client.images.remove(image=container_name, force=True, noprune=False)
+                    print("Docker image named [%s] forcefully removed"%(container_name))
+                except Exception as e:
+                    print("Error forcefully removing [%s]"%(container_name))
+                    raise(e)
+        
+        #See if the image exists.  If it doesn't, then pull it from Docker Hub
+        try:
+            docker_image = client.images.get(container_name)
+            print("Docker image [%s] found, no need to download it."%(container_name))
+        except Exception as e:
+            #Image did not exist on the system
+            docker_image = None
+
+        if docker_image is None:
+            #We did not find the image, so pull it
+            try:
+                print("Downloading image [%s].  Please note "
+                    "that this could take a long time depending on your "
+                    "connection. It's around 2GB."%(container_name))
+                pull_start_time = timeit.default_timer()
+                client.images.pull(container_name)
+                pull_finish_time = timeit.default_timer()
+                print("Successfully pulled the docker image [%s] in %ss"%
+                    (container_name,
+                    datetime.timedelta(seconds=pull_finish_time - pull_start_time, microseconds=0) ))
+
+            except Exception as e:
+                print("There was an error trying to pull the image [%s]: [%s]"%(container_name,str(e)))
+                raise(e)

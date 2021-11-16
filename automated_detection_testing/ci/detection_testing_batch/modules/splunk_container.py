@@ -251,6 +251,8 @@ class SplunkContainer:
                       "Total Time          :"\
                       "Container Start Time:"\
                       "Test Execution Time :" %(total_time_string, setup_time_string, testing_time_string)
+        
+        return summary_str
 
     def wait_for_splunk_ready(
         self,
@@ -368,3 +370,4 @@ class SplunkContainer:
 
             # Sleep for a small random time so that containers drift apart and don't synchronize their testing
             time.sleep(random.randint(1, 30))
+
