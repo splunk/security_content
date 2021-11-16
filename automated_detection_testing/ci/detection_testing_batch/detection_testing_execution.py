@@ -422,7 +422,7 @@ def main(args):
         shutil.copyfile(BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
     
         BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
-        APPS_DICT['BETA_SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":5709, 'app_version':"Generated at %s"%(datetime.now()), 'location':BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH}
+        APPS_DICT['BETA_SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":5709, 'app_version':"Generated at %s"%(datetime.now()), 'location':"local", "container_path": BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH}
     except Exception as e:
         print("Failed to grab beta sysmon at ~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl. Using the one from Splunkbase")
         APPS_DICT['SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":5709, 'app_version':"1.0.1", 'location':'splunkbase'}
