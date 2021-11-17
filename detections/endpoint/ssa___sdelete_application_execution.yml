@@ -51,9 +51,7 @@ tags:
   - T1070.004
   - T1070
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest
