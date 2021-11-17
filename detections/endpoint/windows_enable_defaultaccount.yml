@@ -9,11 +9,11 @@ datamodel:
 description: 'The following analytic identifies the enabling of DefaultAccount by using `net.exe user`. It is a user-neutral account that can be used to run processes that are either multi-user aware or user-agnostic. The DSMA (Default System Managed Account) is disabled by default on the desktop SKUs (full windows SKUs) and WS 2016 with the Desktop.
   The DSMA has a well-known RID of 503. The security identifier (SID) of the DSMA will thus have a well-known SID in the following format S-1-5-21-<ComputerIdentifier>-503. Adversaries may enable, set a password, and add the account to groups to obtain remote/local access to the endpoint.'
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_net` Processes.process="*user*" Processes.process="*DefaultAccount*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
+  as lastTime from datamodel=Endpoint.Processes where `process_net` Processes.process="*user*" AND  Processes.process="*DefaultAccount*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name
   Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+| `drop_dm_object_name(Processes)` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
   | `windows_enable_defaultaccount_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: This account is typically not enabled manually by Administrators, however filter as needed.
