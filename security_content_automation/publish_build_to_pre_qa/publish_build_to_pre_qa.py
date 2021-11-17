@@ -226,7 +226,7 @@ class PublishArtifactory:
                 break
             else:
                 error_message = (
-                    f"Error occur while downloading build from github, Reason: {output}"
+                    f"Error occur while deploy build to pre-qa, Reason: {output}"
                 )
                 logging.error(error_message)
                 time.sleep(RetryConstant.RETRY_INTERVAL)
