@@ -1,7 +1,7 @@
-name: CSC .Net On The Fly Compilation Unit Test
+name: CSC Net On The Fly Compilation Unit Test
 tests:
-- name: CSC .Net On The Fly Compilation
-  file: endpoint/csc__net_on_the_fly_compilation.yml
+- name: CSC Net On The Fly Compilation
+  file: endpoint/csc_net_on_the_fly_compilation.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

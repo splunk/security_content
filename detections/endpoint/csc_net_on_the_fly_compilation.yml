@@ -1,4 +1,4 @@
-name: CSC .Net On The Fly Compilation
+name: CSC Net On The Fly Compilation
 id: ea73128a-43ab-11ec-9753-acde48001122
 version: 1
 date: '2021-11-12'
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | `csc__net_on_the_fly_compilation_filter`'
+  | `csc_net_on_the_fly_compilation_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
