@@ -1,7 +1,7 @@
 name: Sdelete Application Execution Unit Test
 tests:
   - name: Sdelete Application Execution
-    file: endpoint/ssa__sdelete_application_execution.yml
+    file: endpoint/ssa___sdelete_application_execution.yml
     pass_condition: '@count_gt(0)'
     description: Test for sdelete execution command
     attack_data:
