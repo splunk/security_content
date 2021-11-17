@@ -15,7 +15,7 @@ import re
 from attackcti import attack_client
 import csv
 import shutil
-from bin.yaml_to_json import Yaml2Json
+from yaml_to_json import Yaml2Json
 import os
 import json
 
