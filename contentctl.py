@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 from bin import validate as validator
+sys.path.append('bin')
 from bin import generate as generator
 from bin import newcontent as content
 from pathlib import Path
