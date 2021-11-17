@@ -12,3 +12,6 @@ splunk-packaging-toolkit==1.0.1
 #newest version of docker for managing the splunk containers
 #we will freeze at a specific version later
 docker==5.0.3
+
+#For help getting and parsing the configuration
+jsonschema

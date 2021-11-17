@@ -1,10 +1,18 @@
 import argparse
+import json
+from modules import validate_args
 import sys
 
-
+DEFAULT_CONFIG_FILE = "defaults.json"
 def main(args):
 
-    default_args = {}
+    try:
+        with open(DEFAULT_CONFIG_FILE, 'r') as settings_file:
+            default_settings = json.load(settings_file)
+    except Exception as e:
+        print("Error loading settings file %s: %s"%(DEFAULT_CONFIG_FILE, str(e)), file=sys.stderr)
+        sys.exit(1)
+    
 
     parser = argparse.ArgumentParser(
         description="Use 'SOME_PROGRAM_NAME_STRING --help' to get help with the arguments")
@@ -14,7 +22,7 @@ def main(args):
         "configure", help="configure a test run")
 
     configure_parser.add_argument(
-        '-c', '--context', required=True, help="Some help as a test")
+        '-o', '--output_config', required=True, help="Name of config file to generate")
 
     test_parser = actions_parser.add_parser("test", help="run a test")
     test_parser.add_argument('-b', '--branch', required=True,
@@ -43,13 +51,20 @@ def main(args):
                              "updated macros or anything else.  Especially useful for quick, local, iterative testing.")
 
 
-    test_parser.add_argument('tag', '--container_tag', required=False, default = default_args['container_tag'], 
+    test_parser.add_argument('-tag', '--container_tag', required=False, default = default_args['container_tag'], 
                              help="The tag of the Splunk Container to use.  Tags are located "\
                                   "at https://hub.docker.com/r/splunk/splunk/tags")
 
     test_parser.add_argument("-show", "--show_password", required=False, default=False, action='store_true', 
                              help="Show the generated password to use to login to splunk.  For a CI/CD run, "\
                             "you probably don't want this.")
+
+    test_parser.add_argument('-r','--reuse_image', required=False, default=True, action='store_true', 
+                             help="Should existing images be re-used, or should they be redownloaded?")
+
+    test_parser.add_argument('-i', '--interactive_failure', required=False, default=False, action='store_true',
+                            help="If a test fails, should we pause before removing data so that the search can be debugged?")
+    
 
     
     #Mode settings
@@ -75,10 +90,14 @@ def main(args):
                                              "Note that this could take a very long time.")
 
 
-    a = parser.parse_args()
-    
-    print(a)
-    print(a.__dict__)
+    args = parser.parse_args()
+    try:
+        validate_args.validate(args.__dict__)
+
+    except Exception as e:
+        print("Error validating command line arguments: [%s]"%(str(e)))
+        sys.exit(1)
+
 
 
 if __name__ == "__main__":
