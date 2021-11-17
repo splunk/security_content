@@ -3,7 +3,7 @@ tests:
 - name: Network Discovery Using Route Windows App
   file: endpoint/network_discovery_using_route_windows_app.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-30d'
   latest_time: 'now'
   attack_data:
   - file_name: sysmon.log

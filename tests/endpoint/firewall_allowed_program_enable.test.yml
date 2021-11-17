@@ -3,7 +3,7 @@ tests:
 - name: Firewall Allowed Program Enable
   file: endpoint/firewall_allowed_program_enable.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-30d'
   latest_time: 'now'
   attack_data:
   - file_name: sysmon.log
