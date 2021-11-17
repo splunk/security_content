@@ -66,7 +66,7 @@ tags:
   context:
   - Source:Endpoint
   - stage:Defense Evasion
-  message: disable service with commandline $process$ on $dest$ by $user$
+  message: disable service using sc.exe with commandline $process$ on $dest$ by $user$
   observable:
   - name: dest
     type: Endpoint
