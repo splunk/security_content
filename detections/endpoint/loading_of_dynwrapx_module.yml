@@ -37,7 +37,7 @@ tags:
   analytic_story:
   - Remcos
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
