@@ -1,28 +1,32 @@
+import sys
+import jsonschema.exceptions
+import jsonschema
 import argparse
 import io
 import json
 import jsonschema_errorprinter
+from typing import Union
 
 
+# If we want, we can easily add a description field to any of the objects here!
 setup_schema = {
     "type": "object",
     "properties": {
-        "action": {
-            "type": "string",
-                    "enum": ["configure", "test"]
-            
-        },
+        
 
         "branch": {
-            "type":"string"
+            "type": "string",
+            "default": "develop"
         },
 
         "container_tag": {
-            "type": "string"
+            "type": "string",
+            "default": "latest"
         },
-        
+
         "interactive_failure": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": False
         },
 
         "local_apps": {
@@ -30,9 +34,6 @@ setup_schema = {
             "items": {
                 "type": "object",
                 "properties": {
-                    "local_path": {
-                        "type": "string"
-                    },
                     "app_name": {
                         "type": "string"
                     },
@@ -41,35 +42,46 @@ setup_schema = {
                     },
                     "app_version": {
                         "type": "string"
-                    }
-                }
+                    },
+                    "local_path": {
+                        "type": "string"
+                    },
+                },
+                "default": []
             }
         },
 
         "mode": {
-            "type":"string",
-            "enum": ["changes", "selected", "new"]
+            "type": "string",
+            "enum": ["changes", "selected", "new"],
+            "default": "changes"
         },
 
         "num_containers": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 1,
+            "default": 1
         },
 
         "persist_security_content": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": False
         },
 
         "pr_number": {
-            "type":"integer"
+            "type": ["integer", "null"],
+            "default": None
         },
 
         "reuse_image": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": True
         },
 
         "show_password": {
-            "type": "boolean"
+            "type": "boolean",
+            "default": False
+
         },
 
         "splunkbase_apps": {
@@ -85,53 +97,90 @@ setup_schema = {
                     },
                     "app_version": {
                         "type": "string"
-                    },
-                    "app_name": {
-                        "type": "string"
                     }
-                }
-            }
+                },
+            },
+            "default":  [
+                {"app_name": "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES",
+                    "app_number": 1876, "app_version": "5.2.0"},
+                {"app_name": "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365",
+                 "app_number": 4055, "app_version": "2.2.0"},
+                {"app_name": "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE",
+                 "app_number": 3719, "app_version": "1.3.2"},
+                {"app_name": "SPLUNK_ANALYTIC_STORY_EXECUTION_APP",
+                 "app_number": 4971, "app_version": "2.0.3"},
+                {"app_name": "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT",
+                 "app_number": 2882, "app_version": "2.0.2"},
+                {"app_name": "SPLUNK_MACHINE_LEARNING_TOOLKIT",
+                 "app_number": 2890, "app_version": "5.2.2"},
+                {"app_name": "SPLUNK_APP_FOR_STREAM",
+                 "app_number": 1809, "app_version": "8.0.1"},
+                {"app_name": "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA",
+                 "app_number": 5234, "app_version": "8.0.1"},
+                {"app_name": "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS",
+                 "app_number": 5238, "app_version": "8.0.1"},
+                {"app_name": "SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO",
+                 "app_number": 1617, "app_version": "4.0.0"},
+                {"app_name": "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX",
+                 "app_number": 833, "app_version": "8.3.1"},
+                {"app_name": "SPLUNK_COMMON_INFORMATION_MODEL",
+                 "app_number": 1621, "app_version": "4.20.2"}
+            ]
+        },
+        "splunkbase_username": {
+            "type": ["string","null"],
+            "default": None
+        },
+        "splunkbase_password": {
+            "type": ["string", "null"],
+            "default": None
+        },
+        "splunk_container_apps_directory":{
+            "type":"string",
+            "default": "/opt/splunk/etc/apps"
+        },
+        "local_base_container_name": {
+            "type": "string",
+            "default": "splunk_test_%d"
+        },
+        
+        "mock": {
+            "type": "boolean",
+            "default": False
         },
 
         "types": {
             "type": "array",
-            "enum": ["endpoint", "cloud", "network"],
-            "maxItems": 3,
-            "maxItemsssss":2
+            "items": {
+                "type": "string",
+                "enum": ["endpoint", "cloud", "network"]
+            },
+            "default": ["endpoint", "cloud", "network"]
         },
-        
-
-        
-        
-
-        
-
     }
 }
 
-import jsonschema
-import jsonschema.exceptions
-import sys
 
-def v(configuration:dict)->bool:
+def v(configuration: dict) -> Union[bool, dict]:
     #v = jsonschema.Draft201909Validator(argument_schema)
-    test = {"action":"tests", "branch":15}
+
     try:
-        validation_results = jsonschema_errorprinter.check_json(test, setup_schema)
-        if len(validation_results) == 0:
+        validation_errors, validated_json = jsonschema_errorprinter.check_json(
+            configuration, setup_schema)
+        if len(validation_errors) == 0:
             print("Input configuration successfully validated!")
-            return True
+            return validated_json
         else:
-            print("[%d] failures detected during validation of the configuration!"%(len(validation_results)))
-            for error in validation_results:
-                print(error,end="\n\n", file=sys.stderr)
-            return False            
+            print("[%d] failures detected during validation of the configuration!" % (
+                len(validation_errors)))
+            for error in validation_errors:
+                print(error, end="\n\n", file=sys.stderr)
+            return False
     except Exception as e:
-        print(str(e))
+        print(str(e), file=sys.stderr)
         return False
 
-
-    '''
+    """
     try:
         v.validate({"action":"doot", "branch":"15"}  )
     except jsonschema.exceptions.ValidationError as e:
@@ -141,10 +190,17 @@ def v(configuration:dict)->bool:
         
     except jsonschema.exceptions.SchemaError as e:
         print("Error validating the schema", file=sys.stderr)
-    '''
+    """
+
+
 if __name__ == "__main__":
-    v()
-'''
+    c = v({"action": "test", "branch": "wow"})
+    print(c)
+    if c is False:
+        print("whoops")
+    else:
+        print(c.keys())
+"""
 def load(json_settings: io.TextIOWrapper) -> dict:
     default_settings = json.load(json_settings)
     return default_settings
@@ -178,4 +234,4 @@ def validate_mode_changes(args: dict) -> -bool:
 
 def validate_mode_all(args: dict) -> bool:
     return True
-'''
+"""

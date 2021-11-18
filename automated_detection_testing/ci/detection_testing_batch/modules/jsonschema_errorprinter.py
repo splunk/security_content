@@ -1,7 +1,8 @@
 """
 Courtesy https://github.com/ccpgames/jsonschema-errorprinter with minor
 updates to support Python 3 (changed cStringIO to io), to print out
-multiple errors, and a few other small changes.
+multiple errors, the ability to place default values, and a few
+other small changes.
 
 Licensed under the MIT License, reproduced below:
 Copyright © 2015 CCP hf.
@@ -33,35 +34,69 @@ OR OTHER DEALINGS IN THE SOFTWARE.
     Makes a user friendly error message from a ValidationError.
 
 """
-import json
+
+
+
 import io
-
-
-
+import json
 import jsonschema
+import jsonschema.validators
+
+# The 'default' field is really just for documentation in the
+# json schema.  We would like to use it to actually fill in
+# values when they aren't supplied.  This code is provided
+# by the jsonschema project itself because this behavior
+# is not part of the default jsonschema definition
+# https://python-jsonschema.readthedocs.io/en/latest/faq/
+def extend_with_default(validator_class):
+    validate_properties = validator_class.VALIDATORS["properties"]
+
+    def set_defaults(validator, properties, instance, schema):
+        for property, subschema in properties.items():
+            if "default" in subschema:
+                instance.setdefault(property, subschema["default"])
+
+        for error in validate_properties(
+            validator, properties, instance, schema,
+        ):
+            yield error
+
+    return jsonschema.validators.extend(
+        validator_class, {"properties": set_defaults},
+    )
 
 
-def check_json(json_object, schema, context=None):
+def check_json(json_object, schema, context=None) -> tuple[list[str], dict]:
     try:
-        validator = jsonschema.Draft7Validator(schema, jsonschema.FormatChecker())
+        DefaultValidatingDraft7Validator = extend_with_default(
+                jsonschema.Draft7Validator)
+        
+        validator = DefaultValidatingDraft7Validator(schema, jsonschema.FormatChecker())
         errors_formatted = []
         for error in sorted(validator.iter_errors(json_object), key=str):
 
             #validate(json_object, schema, format_checker=FormatChecker())
-            #except jsonschema.ValidationError as e:
+            # except jsonschema.ValidationError as e:
             report = generate_validation_error_report(error, json_object)
             #note = "\n*** Note - If there is more than one error, only the first error is shown ***\n\n"
             if context:
-                errors_formatted.append("Schema check failed for '{}'\n{}".format(context, report))
-                #return note + "Schema check failed for '{}'\n{}".format(context, report)
+                errors_formatted.append(
+                    "Schema check failed for '{}'\n{}".format(context, report))
+                # return note + "Schema check failed for '{}'\n{}".format(context, report)
             else:
-                errors_formatted.append("Schema check failed.\n{}".format(report))
-                #return note + "Schema check failed.\n{}".format(report)
-        return errors_formatted
+                errors_formatted.append(
+                    "Schema check failed.\n{}".format(report))
+                # return note + "Schema check failed.\n{}".format(report)
+        if len(errors_formatted) == 0:
+            #DefaultValidatingDraft7Validator = extend_with_default(
+            #    jsonschema.Draft7Validator)
+            #DefaultValidatingDraft7Validator(schema).validate(json_object)
+            return (errors_formatted, json_object)
+        else:
+            return (errors_formatted, {})
     except Exception as e:
-        #Some error occurred, probably related to the schema itself
-        raise(Exception("Error validating the JSON Schema: %s"%(str(e))))
-            
+        # Some error occurred, probably related to the schema itself
+        raise(Exception("Error validating the JSON Schema: %s" % (str(e))))
 
 
 def generate_validation_error_report(
@@ -69,7 +104,7 @@ def generate_validation_error_report(
     json_object,
     lines_before=7,
     lines_after=7
-    ):
+):
     """
     Generate a detailed report of a schema validation error.
 
@@ -105,9 +140,9 @@ def generate_validation_error_report(
     errline = None
 
     for lineno, text in enumerate(string_io_instance):
-            if marker in text:
-                errline = lineno
-                break
+        if marker in text:
+            errline = lineno
+            break
 
     if errline is not None:
         # Re-create report.
@@ -127,7 +162,7 @@ def generate_validation_error_report(
 
         s = "Error in line {}:\n".format(errline+1)
         s += "\n".join(report)
-        s+= '\n\tREASON:' + str(e).split('\n')[0]
+        s += '\n\tREASON:' + str(e).split('\n')[0]
         #s += "\n\n" + str(e).replace("u'", "'")
     else:
         s = str(e)

@@ -1,26 +1,58 @@
 import argparse
 import json
-from modules import validate_args
+from typing import OrderedDict
+import validate_args
 import sys
 
 
+def configure_action(args):
+    print("WE ARE CONFIGURING!")
+    settings = OrderedDict()
+    
+    settings = validate_args.v(validate_args.setup_schema)
+    if settings is False:
+        print("Failure while processing settings.\n\tQuitting...", file=sys.stderr)
+        sys.exit(1)
+    for arg in settings:
+        choice = input("%s [%s]:"%(arg,settings[arg]))
+        
+
+    
+
 DEFAULT_CONFIG_FILE = "defaults.json"
 def main(args):
-
+    '''
     try:
         with open(DEFAULT_CONFIG_FILE, 'r') as settings_file:
             default_settings = json.load(settings_file)
     except Exception as e:
         print("Error loading settings file %s: %s"%(DEFAULT_CONFIG_FILE, str(e)), file=sys.stderr)
         sys.exit(1)
-    
+    '''
 
     parser = argparse.ArgumentParser(
         description="Use 'SOME_PROGRAM_NAME_STRING --help' to get help with the arguments")
-    actions_parser = parser.add_subparsers(title="test action")
+    parser.set_defaults(func=lambda _: parser.print_help())
+    
+    actions_parser = parser.add_subparsers(title="Action")
 
     configure_parser = actions_parser.add_parser(
-        "configure", help="configure a test run")
+        "configure", help="Configure a test run")
+    configure_parser.set_defaults(func=configure_action)
+    configure_parser.add_argument('-i', '--input_config_file', required=False, type=argparse.FileType('r'), default=DEFAULT_CONFIG_FILE, help="The config file to base the configuration off of.")
+    configure_parser.add_argument('-o', '--output_config_file', required=False, type=argparse.FileType('w'), help="The config file to write the configuration off of.")
+    
+
+
+    test_parser = actions_parser.add_parser(
+        "run", help="Run a test")
+
+    args = parser.parse_args()
+    #Run the appropriate parser
+
+    args.func(args)
+
+    '''
 
     configure_parser.add_argument(
         '-o', '--output_config', required=True, help="Name of config file to generate")
@@ -99,7 +131,7 @@ def main(args):
     except Exception as e:
         print("Error validating command line arguments: [%s]"%(str(e)))
         sys.exit(1)
-
+    '''
 
 
 if __name__ == "__main__":
