@@ -18,8 +18,8 @@ how_to_implement: To successfully implement this analytic, you will need to enab
   PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
   can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: Administrators may leverage WinRM and `Invoke-Command` to start
-  a process on remote systems for system administration or automation use cases. However,
-  this activity is usually limited to a small set of hosts or users.
+  a process on remote systems for system administration or automation use cases. This activity
+  is usually limited to a small set of hosts or users. In certain environments, tuning may not be possible.
 references:
 - https://attack.mitre.org/techniques/T1021/006/
 - https://pentestlab.blog/2018/05/15/lateral-movement-winrm/
