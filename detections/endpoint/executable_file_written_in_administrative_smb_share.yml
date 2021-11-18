@@ -6,12 +6,13 @@ author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies executable files (.exe or .dll) being written to 
-  Windows administrative SMB shares (Admin$, IPC$, C$). This represents suspicious behavior as its 
-  commonly user by tools like like PsExec/PaExec and others to stage service binaries before creating and
-  starting a Windows service on remote endpoints. Red Teams and adversaries alike may abuse administrative shares
-  for lateral movement and remote code execution. The Trickbot malware family also implements 
-  this behavior to try to infect other machines in the infected network. 
+description: The following analytic identifies executable files (.exe or .dll) being
+  written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents
+  suspicious behavior as its commonly user by tools like like PsExec/PaExec and others
+  to stage service binaries before creating and starting a Windows service on remote
+  endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral
+  movement and remote code execution. The Trickbot malware family also implements
+  this behavior to try to infect other machines in the infected network.
 search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe","*.dll")
   Object_Type=File Share_Name IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") Access_Mask=
   "0x2" | stats min(_time) as firstTime max(_time) as lastTime count by EventCode
@@ -20,8 +21,9 @@ search: '`wineventlog_security` EventCode=5145 Relative_Target_Name IN ("*.exe",
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also
   required. Also enable the object Audit access success/failure in your group policy.
-known_false_positives: System Administrators may use looks like PsExec for troubleshooting or administrations tasks.
-  However, this will typically come only from certain users and certain systems that can be added to an allow list.
+known_false_positives: System Administrators may use looks like PsExec for troubleshooting
+  or administrations tasks. However, this will typically come only from certain users
+  and certain systems that can be added to an allow list.
 references:
 - https://attack.mitre.org/techniques/T1021/002/
 - https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/
