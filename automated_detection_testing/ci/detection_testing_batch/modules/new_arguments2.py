@@ -4,63 +4,100 @@ from typing import OrderedDict
 import validate_args
 import sys
 
+DEFAULT_CONFIG_FILE = "test_config.json"
 
-def configure_action(args):
+def configure_action(args) -> bool:
     settings = OrderedDict()
     if args.input_config_file is None:
-        settings,schema = validate_args.validate({})
+        settings, schema = validate_args.validate({})
     else:
-        try:
-            cfg = json.loads(args.input_config_file.read())
-        except Exception as e:
-            raise(e)
-        settings,schema = validate_args.validate(cfg)
-        
-            
+        settings, schema = validate_args.validate_file(args.input_config_file)
 
-    if settings == None:
+    if settings is None:
         print("Failure while processing settings.\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
-    
+
     new_config = {}
     for arg in settings:
         default = settings[arg]
         default_string = str(default).replace("'", '"')
-        choice = input("%s [default: %s]: "%(arg,default_string))
+        
+        if 'enum' in schema['properties'][arg]:
+            choice = input("%s [default: %s | choices: {%s}]: " % (arg, default_string,','.join(schema['properties'][arg]['enum'])))
+        else:
+            choice = input("%s [default: %s]: " % (arg, default_string))
         choice = choice.strip()
         if len(choice) == 0:
             print("\tNothing entered, using default:")
             new_config[arg] = default
+            formatted_print = default
         else:
-            if choice.lower() in ["true", "false"] and schema['properties'][arg]['type'] == "boolean" :
+            if choice.lower() in ["true", "false"] and schema['properties'][arg]['type'] == "boolean":
                 new_config[arg] = json.loads(choice.lower())
+                formatted_print = choice.lower()
             else:
-                if choice in ['true','false'] or (choice.isdigit() and schema['properties'][arg]['type'] != "integer"):
+                if choice in ['true', 'false'] or (choice.isdigit() and schema['properties'][arg]['type'] != "integer"):
                     choice = '"' + choice + '"'
                 # replace all single quotes with doubles quotes to make valid json
-                if "'" in choice:
-                    print('''Found %d single quotes (') in input... we will convert these to double quotes (") to ensure valida json.'''%(choice.count("'")))
-                    choice = choice.replace("'",'"')
+                elif "'" in choice:
+                    print('''Found %d single quotes (') in input... we will convert these to double quotes (") to ensure valida json.''' % (
+                        choice.count("'")))
+                    choice = choice.replace("'", '"')
+                elif '"' in choice:
+                    #Do nothing
+                    pass
+                else:
+                    choice = '"' + choice + '"'
+
                 new_config[arg] = json.loads(choice)
-        print("\t{0}\n".format(new_config[arg]))
+                formatted_print = choice
+        #We print out choice instead of new_config[arg] because the json.loads() messes up the quotation marks again
+        print("\t{0}\n".format(formatted_print))
 
-
-    #Now parse the new config and make sure it's good
+    # Now parse the new config and make sure it's good
     validated_new_settings, schema = validate_args.validate(new_config)
-    if validate_args == None:
+    if validated_new_settings == None:
         print("Error in the new settings!")
+        return False
     else:
-        print("New settings worked great.  Writing results to : %s"%(args.output_config_file.name))
-        args.output_config_file.write(json.dumps(validated_new_settings, sort_keys=True, indent=4))
+        print("New settings worked great.  Writing results to: %s" %
+              (args.output_config_file.name))
+        args.output_config_file.write(json.dumps(
+            validated_new_settings, sort_keys=True, indent=4))
+        return True
+
+
+def update_config_with_cli_arguments(args_dict:dict)->dict:
+    #First load the config file
+
+    settings,_ = validate_args.validate_file(args_dict['config_file'])
+    if settings is None:
+        print("Failure while processing settings in [%s].\n\tQuitting..."%(args_dict['config_file'].name), file=sys.stderr)
+        sys.exit(1)
+    
+    #Then update it with the values that were passed as command line arguments
+    for key, value in args_dict.items():
+        if key in settings:
+            settings[key] = value
+    
+    #Validate again to make sure we didn't break anything
+    settings,_ = validate_args.validate(settings)
+    if settings is None:
+        print("Failure while processing updated settings from command line.\n\tQuitting...", file=sys.stderr)
+        sys.exit(1)
+    
+    return settings
 
     
 
+def run_action(args) -> bool:
 
-        
+    config = update_config_with_cli_arguments(args.__dict__)
 
-    
 
-DEFAULT_CONFIG_FILE = "defaults.json"
+    return True
+
+
 def main(args):
     '''
     try:
@@ -74,24 +111,62 @@ def main(args):
     parser = argparse.ArgumentParser(
         description="Use 'SOME_PROGRAM_NAME_STRING --help' to get help with the arguments")
     parser.set_defaults(func=lambda _: parser.print_help())
-    
+
     actions_parser = parser.add_subparsers(title="Action")
 
+    # Configure parser
     configure_parser = actions_parser.add_parser(
         "configure", help="Configure a test run")
     configure_parser.set_defaults(func=configure_action)
-    configure_parser.add_argument('-i', '--input_config_file', required=False, type=argparse.FileType('r'), help="The config file to base the configuration off of.")
-    configure_parser.add_argument('-o', '--output_config_file', required=True, type=argparse.FileType('w'), help="The config file to write the configuration off of.")
-    
+    configure_parser.add_argument('-i', '--input_config_file', required=False,
+                                  type=argparse.FileType('r'), help="The config file to base the configuration off of.")
+    configure_parser.add_argument('-o', '--output_config_file', required=False, default=DEFAULT_CONFIG_FILE, 
+                                  type=argparse.FileType('w'), help="The config file to write the configuration off of.")
 
-
-    test_parser = actions_parser.add_parser(
+    # Run parser
+    run_parser = actions_parser.add_parser(
         "run", help="Run a test")
+    run_parser.set_defaults(func=run_action)
+    run_parser.add_argument('-c', '--config_file', required=False,
+                            type=argparse.FileType('r'),
+                            default = DEFAULT_CONFIG_FILE,
+                            help="The config file for the test.  Note that this file "\
+                            "cannot be changed (except for credentials that can be "\
+                            "entered on the command line).")
+
+    run_parser.add_argument('-user', '--splunkbase_username', required=False, type=str,
+                            help="Username for login to splunkbase.  This is required "
+                            "if downloading packages from Splunkbase.  While this can "
+                            "be stored in the config file, it is strongly recommended "
+                            "to enter it at runtime.")
+    run_parser.add_argument('-pass', '--splunkbase_password', required=False, type=str,
+                            help="Password for login to splunkbase.  This is required if "
+                            "downloading packages from Splunkbase.  While this can be "
+                            "stored in the config file, it is strongly recommended "
+                            "to enter it at runtime.")
+
+    run_parser.add_argument('-splunkpass', '--splunk_app_password', required=False, type=str,
+                            help="Password for login to the splunk app.  If you don't "
+                            "provide one here or in the config, it will be generated "
+                            "automatically for you.")
+    run_parser.add_argument("-show_pass", "--show_splunk_app_password", required=False, 
+                            action="store_true",
+                            help="The password to login to the Splunk Server.  ")
 
     args = parser.parse_args()
-    #Run the appropriate parser
+    
+    # Run the appropriate parser
 
-    args.func(args)
+    try:
+        if args.func(args):
+            print("Success!")
+            sys.exit(0)
+        else:
+            print("Fail")
+            sys.exit(1)
+    except Exception as e:
+        print("Unknown Error - [%s]" % (str(e)))
+        sys.exit(1)
 
     '''
 

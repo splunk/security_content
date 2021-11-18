@@ -10,6 +10,7 @@ from typing import Union
 
 
 # If we want, we can easily add a description field to any of the objects here!
+
 setup_schema = {
     "type": "object",
     "properties": {
@@ -26,6 +27,19 @@ setup_schema = {
         "interactive_failure": {
             "type": "boolean",
             "default": False
+        },
+            
+        "detections_list": {
+            "type":["array"],
+            "items": {
+                "type":"string"
+            },
+            "default":[],
+        },
+
+        "detections_file":{
+            "type": ["string","null"],
+            "default": None
         },
 
         "local_apps": {
@@ -52,7 +66,7 @@ setup_schema = {
 
         "mode": {
             "type": "string",
-            "enum": ["changes", "selected", "new"],
+            "enum": ["changes", "selected", "all"],
             "default": "changes"
         },
 
@@ -77,9 +91,9 @@ setup_schema = {
             "default": True
         },
 
-        "show_password": {
+        "show_splunk_app_password": {
             "type": "boolean",
-            "default": False
+            "default": True
 
         },
 
@@ -100,49 +114,89 @@ setup_schema = {
                 },
             },
             "default":  [
-                {"app_name": "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES",
-                    "app_number": 1876, "app_version": "5.2.0"},
-                {"app_name": "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365",
-                 "app_number": 4055, "app_version": "2.2.0"},
-                {"app_name": "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE",
-                 "app_number": 3719, "app_version": "1.3.2"},
-                {"app_name": "SPLUNK_ANALYTIC_STORY_EXECUTION_APP",
-                 "app_number": 4971, "app_version": "2.0.3"},
-                {"app_name": "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT",
-                 "app_number": 2882, "app_version": "2.0.2"},
-                {"app_name": "SPLUNK_MACHINE_LEARNING_TOOLKIT",
-                 "app_number": 2890, "app_version": "5.2.2"},
-                {"app_name": "SPLUNK_APP_FOR_STREAM",
-                 "app_number": 1809, "app_version": "8.0.1"},
-                {"app_name": "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA",
-                 "app_number": 5234, "app_version": "8.0.1"},
-                {"app_name": "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS",
-                 "app_number": 5238, "app_version": "8.0.1"},
-                {"app_name": "SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO",
-                 "app_number": 1617, "app_version": "4.0.0"},
-                {"app_name": "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX",
-                 "app_number": 833, "app_version": "8.3.1"},
-                {"app_name": "SPLUNK_COMMON_INFORMATION_MODEL",
-                 "app_number": 1621, "app_version": "4.20.2"}
+                {
+                    "app_name": "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES",
+                    "app_number": 1876,
+                    "app_version": "5.2.0"
+                },
+                {
+                    "app_name": "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365",
+                    "app_number": 4055,
+                    "app_version": "2.2.0"
+                },
+                {
+                    "app_name": "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE",
+                    "app_number": 3719,
+                    "app_version": "1.3.2"
+                },
+                {
+                    "app_name": "SPLUNK_ANALYTIC_STORY_EXECUTION_APP",
+                    "app_number": 4971,
+                    "app_version": "2.0.3"
+                },
+                {
+                    "app_name": "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT",
+                    "app_number": 2882,
+                    "app_version": "2.0.2"
+                },
+                {
+                    "app_name": "SPLUNK_MACHINE_LEARNING_TOOLKIT",
+                    "app_number": 2890,
+                    "app_version": "5.2.2"
+                },
+                {
+                    "app_name": "SPLUNK_APP_FOR_STREAM",
+                    "app_number": 1809,
+                    "app_version": "8.0.1"
+                },
+                {
+                    "app_name": "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA",
+                    "app_number": 5234,
+                    "app_version": "8.0.1"
+                },
+                {
+                    "app_name": "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS",
+                    "app_number": 5238,
+                    "app_version": "8.0.1"
+                },
+                {
+                    "app_name": "SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO",
+                    "app_number": 1617,
+                    "app_version": "4.0.0"
+                },
+                {
+                    "app_name": "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX",
+                    "app_number": 833,
+                    "app_version": "8.3.1"
+                },
+                {
+                    "app_name": "SPLUNK_COMMON_INFORMATION_MODEL",
+                    "app_number": 1621,
+                    "app_version": "4.20.2"
+                }
             ]
         },
         "splunkbase_username": {
-            "type": ["string","null"],
+            "type": ["string", "null"],
             "default": None
         },
         "splunkbase_password": {
             "type": ["string", "null"],
             "default": None
         },
-        "splunk_container_apps_directory":{
-            "type":"string",
+        "splunk_app_password": {
+            "type": ["string", "null"],
+            "default": None
+        },
+        "splunk_container_apps_directory": {
+            "type": "string",
             "default": "/opt/splunk/etc/apps"
         },
         "local_base_container_name": {
             "type": "string",
             "default": "splunk_test_%d"
         },
-        
+
         "mock": {
             "type": "boolean",
             "default": False
@@ -160,15 +214,50 @@ setup_schema = {
 }
 
 
-def validate(configuration: dict) -> tuple[Union[dict,None],dict]:
-    #v = jsonschema.Draft201909Validator(argument_schema)
+def validate_file(file:io.TextIOWrapper)->tuple[Union[dict, None], dict]:
+    try:
+        settings = json.loads(file.read())
+        return validate(settings)
+    except Exception as e:
+        raise(e)
     
+
+
+
+def check_dependencies(settings: dict)->bool:
+    #Check complex mode dependencies
+    error_free = True
+    if settings['mode'] == 'selected':
+        #Make sure that exactly one of the following fields is populated
+        if settings['detections_file'] == None and settings['detections_list'] == []:
+            print("Error - mode was 'selected' but no detections_list or detections_file were supplied.",file=sys.stderr)
+            error_free = False
+        elif settings['detections_file'] != None and settings['detections_list'] != []:
+            print("Error - mode was 'selected' but detections_list and detections_file were supplied.",file=sys.stderr)
+            error_free = False
+    if settings['mode'] != 'selected'and settings['detections_file'] != None:
+        print("Error - mode was not 'selected' but detections_file was supplied.",file=sys.stderr)
+        error_free = False
+    elif settings['mode'] != 'selected' and settings['detections_list'] != []:
+        print("Error - mode was not 'selected' but detections_list was supplied.",file=sys.stderr)
+        error_free = False
+
+    #Returns true if there are not errors
+    return error_free
+
+def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
+    #v = jsonschema.Draft201909Validator(argument_schema)
+
     try:
         validation_errors, validated_json = jsonschema_errorprinter.check_json(
             configuration, setup_schema)
-        if len(validation_errors) == 0:
+        no_complex_errors = check_dependencies(validated_json)
+        if len(validation_errors) == 0 and no_complex_errors:
             print("Input configuration successfully validated!")
             return validated_json, setup_schema
+        elif no_complex_errors == False:
+            print("Failed due to error(s) listed above.", file=sys.stderr)
+            return None,setup_schema
         else:
             print("[%d] failures detected during validation of the configuration!" % (
                 len(validation_errors)))
