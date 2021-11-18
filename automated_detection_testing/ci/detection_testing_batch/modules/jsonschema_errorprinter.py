@@ -71,13 +71,17 @@ def check_json(json_object, schema, context=None) -> tuple[list[str], dict]:
         DefaultValidatingDraft7Validator = extend_with_default(
                 jsonschema.Draft7Validator)
         
+        
         validator = DefaultValidatingDraft7Validator(schema, jsonschema.FormatChecker())
+        #validator = jsonschema.Draft7Validator(schema, jsonschema.FormatChecker())
         errors_formatted = []
+        
         for error in sorted(validator.iter_errors(json_object), key=str):
 
             #validate(json_object, schema, format_checker=FormatChecker())
             # except jsonschema.ValidationError as e:
             report = generate_validation_error_report(error, json_object)
+            
             #note = "\n*** Note - If there is more than one error, only the first error is shown ***\n\n"
             if context:
                 errors_formatted.append(

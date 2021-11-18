@@ -1,10 +1,11 @@
-import sys
-import jsonschema.exceptions
-import jsonschema
 import argparse
+import copy
 import io
 import json
+import jsonschema
+import jsonschema.exceptions
 import jsonschema_errorprinter
+import sys
 from typing import Union
 
 
@@ -12,8 +13,6 @@ from typing import Union
 setup_schema = {
     "type": "object",
     "properties": {
-        
-
         "branch": {
             "type": "string",
             "default": "develop"
@@ -161,24 +160,24 @@ setup_schema = {
 }
 
 
-def v(configuration: dict) -> Union[bool, dict]:
+def validate(configuration: dict) -> tuple[Union[dict,None],dict]:
     #v = jsonschema.Draft201909Validator(argument_schema)
-
+    
     try:
         validation_errors, validated_json = jsonschema_errorprinter.check_json(
             configuration, setup_schema)
         if len(validation_errors) == 0:
             print("Input configuration successfully validated!")
-            return validated_json
+            return validated_json, setup_schema
         else:
             print("[%d] failures detected during validation of the configuration!" % (
                 len(validation_errors)))
             for error in validation_errors:
                 print(error, end="\n\n", file=sys.stderr)
-            return False
+            return None, setup_schema
     except Exception as e:
         print(str(e), file=sys.stderr)
-        return False
+        return None, setup_schema
 
     """
     try:

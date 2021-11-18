@@ -6,15 +6,56 @@ import sys
 
 
 def configure_action(args):
-    print("WE ARE CONFIGURING!")
     settings = OrderedDict()
-    
-    settings = validate_args.v(validate_args.setup_schema)
-    if settings is False:
+    if args.input_config_file is None:
+        settings,schema = validate_args.validate({})
+    else:
+        try:
+            cfg = json.loads(args.input_config_file.read())
+        except Exception as e:
+            raise(e)
+        settings,schema = validate_args.validate(cfg)
+        
+            
+
+    if settings == None:
         print("Failure while processing settings.\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
+    
+    new_config = {}
     for arg in settings:
-        choice = input("%s [%s]:"%(arg,settings[arg]))
+        default = settings[arg]
+        default_string = str(default).replace("'", '"')
+        choice = input("%s [default: %s]: "%(arg,default_string))
+        choice = choice.strip()
+        if len(choice) == 0:
+            print("\tNothing entered, using default:")
+            new_config[arg] = default
+        else:
+            if choice.lower() in ["true", "false"] and schema['properties'][arg]['type'] == "boolean" :
+                new_config[arg] = json.loads(choice.lower())
+            else:
+                if choice in ['true','false'] or (choice.isdigit() and schema['properties'][arg]['type'] != "integer"):
+                    choice = '"' + choice + '"'
+                # replace all single quotes with doubles quotes to make valid json
+                if "'" in choice:
+                    print('''Found %d single quotes (') in input... we will convert these to double quotes (") to ensure valida json.'''%(choice.count("'")))
+                    choice = choice.replace("'",'"')
+                new_config[arg] = json.loads(choice)
+        print("\t{0}\n".format(new_config[arg]))
+
+
+    #Now parse the new config and make sure it's good
+    validated_new_settings, schema = validate_args.validate(new_config)
+    if validate_args == None:
+        print("Error in the new settings!")
+    else:
+        print("New settings worked great.  Writing results to : %s"%(args.output_config_file.name))
+        args.output_config_file.write(json.dumps(validated_new_settings, sort_keys=True, indent=4))
+
+    
+
+
         
 
     
@@ -39,8 +80,8 @@ def main(args):
     configure_parser = actions_parser.add_parser(
         "configure", help="Configure a test run")
     configure_parser.set_defaults(func=configure_action)
-    configure_parser.add_argument('-i', '--input_config_file', required=False, type=argparse.FileType('r'), default=DEFAULT_CONFIG_FILE, help="The config file to base the configuration off of.")
-    configure_parser.add_argument('-o', '--output_config_file', required=False, type=argparse.FileType('w'), help="The config file to write the configuration off of.")
+    configure_parser.add_argument('-i', '--input_config_file', required=False, type=argparse.FileType('r'), help="The config file to base the configuration off of.")
+    configure_parser.add_argument('-o', '--output_config_file', required=True, type=argparse.FileType('w'), help="The config file to write the configuration off of.")
     
 
 
