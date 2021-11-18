@@ -12,7 +12,7 @@ description: This search is to detect a suspicious wmic.exe process or renamed w
   This TTP is really a good indicator for you to hunt further for FIN7 or other attacker
   that known to used this technique.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process = "*os get*"
+  as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process = "*os get*"
   Processes.process="*/format:*" Processes.process = "*.xsl*" by Processes.parent_process_name
   Processes.parent_process Processes.process_name Processes.process_id Processes.process
   Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
@@ -25,32 +25,42 @@ known_false_positives: unknown
 references:
 - https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html
 - https://attack.mitre.org/groups/G0046/
+- https://web.archive.org/web/20190814201250/https://subt0x11.blogspot.com/2018/04/wmicexe-whitelisting-bypass-hacking.html
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md#atomic-test-3---wmic-bypass-using-local-xsl-file
 tags:
   analytic_story:
   - FIN7
+  - Suspicious WMI Use
   automated_detection_testing: passed
   confidence: 70
   context:
   - Source:Endpoint
-  - Stage:Execution
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
   impact: 70
   kill_chain_phases:
   - Exploitation
-  message: Process name $process_name$ with commandline $process$ to execute jscript
-    in $dest$
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ utilizing wmic to load a XSL script.
   mitre_attack_id:
   - T1220
   observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
   - name: user
     type: User
     role:
     - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
