@@ -8,15 +8,15 @@ datamodel:
 - Endpoint
 description: DynamicWrapperX is an ActiveX component that can be used in a script
   to call Windows API functions, but it requires the dynwrapx.dll to be installed
-  and registered. With that, registering or loading dynwrapx.dll to a host highly suspect. 
-  Why is it needed? In most malicious instances, During triage, review parallel
+  and registered. With that, registering or loading dynwrapx.dll to a host highly
+  suspect. Why is it needed? In most malicious instances, During triage, review parallel
   processes and pivot on the process_guid. Review the registry for any suspicious
   modifications meant to load dynwrapx.dll. Identify any suspicious module loads of
   dynwrapx.dll. This will identify the process that will invoke vbs/wscript/cscript.
-search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName = "dynwrapx.dll" OR  Product = "DynamicWrapperX")  
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded OriginalFileName Product process_name Computer EventCode Signed ProcessId 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName
+  = "dynwrapx.dll" OR  Product = "DynamicWrapperX") | stats count min(_time) as firstTime
+  max(_time) as lastTime by Image ImageLoaded OriginalFileName Product process_name
+  Computer EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `loading_of_dynwrapx_module_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -49,26 +49,26 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Image 
-  - ImageLoaded 
-  - OriginalFileName 
-  - Product 
-  - process_name 
-  - Computer 
-  - EventCode 
-  - Signed 
-  - ProcessId 
+  - Image
+  - ImageLoaded
+  - OriginalFileName
+  - Product
+  - process_name
+  - Computer
+  - EventCode
+  - Signed
+  - ProcessId
   security_domain: endpoint
   impact: 80
   confidence: 100
-  # (impact * confidence)/100
   risk_score: 80
   context:
   - Source:Endpoint
-  - Stage:Defense Evasion 
+  - Stage:Defense Evasion
   message: dynwrapx.dll loaded by process $process_name$ on $Computer$
   observable:
   - name: Computer
     type: Endpoint
     role:
     - Victim
+  automated_detection_testing: passed
