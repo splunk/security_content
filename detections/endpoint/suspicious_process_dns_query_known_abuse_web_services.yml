@@ -6,23 +6,26 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious process having a dns query on known abuse text paste web services, 
-  or VoIP, instant messaging and digital distribution platform to download some files. This technique is abused by adversaries, 
-  malware attacker and red team to download a malicious file on the target host. This is a good TTP indicator for possible initial access 
-  technique. Noise and false positive can be seen if the following instant messaging is allowed or common application in corporate network.
-search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*telegram*", "*t.me*") 
-  process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe", "cscript.exe")
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name QueryResults Computer
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `suspicious_process_dns_query_known_abuse_web_services_filter`'
+description: This analytic is to detect a suspicious process having a dns query on
+  known abuse text paste web services, or VoIP, instant messaging and digital distribution
+  platform to download some files. This technique is abused by adversaries, malware
+  attacker and red team to download a malicious file on the target host. This is a
+  good TTP indicator for possible initial access technique. Noise and false positive
+  can be seen if the following instant messaging is allowed or common application
+  in corporate network.
+search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*telegram*",
+  "*t.me*") process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe",
+  "cscript.exe") | stats count min(_time) as firstTime max(_time) as lastTime by Image
+  QueryName QueryStatus process_name QueryResults Computer | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `suspicious_process_dns_query_known_abuse_web_services_filter`'
 how_to_implement: his detection relies on sysmon logs with the Event ID 7, Driver
   loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll
   is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query.
   We suggest to run this detection at least once a day over the last 14 days.
-known_false_positives: Noise and false positive can be seen if the following instant messaging is allowed to use within corporate network. filter is needed.
+known_false_positives: Noise and false positive can be seen if the following instant
+  messaging is allowed to use within corporate network. filter is needed.
 references:
--  https://urlhaus.abuse.ch/url/1798923/
+- https://urlhaus.abuse.ch/url/1798923/
 tags:
   analytic_story:
   - Remcos
@@ -39,16 +42,15 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Image 
-  - QueryName 
-  - QueryStatus 
-  - process_name 
-  - QueryResults 
+  - Image
+  - QueryName
+  - QueryStatus
+  - process_name
+  - QueryResults
   - Computer
   security_domain: endpoint
   impact: 80
-  confidence: 80 
-  # (impact * confidence)/100
+  confidence: 80
   risk_score: 64
   context:
   - Source:Endpoint
@@ -63,3 +65,4 @@ tags:
     type: process name
     role:
     - Attacker
+  automated_detection_testing: passed
