@@ -78,19 +78,14 @@ def check_source_sink(spl):
     return match_sink
 
 
-def manipulate_spl(env, spl, results_index):
+def manipulate_spl(env, spl, test_id):
     # Obtain the SSA source
     pulsar_source_connection_id, pulsar_source_topic = return_macros(env)
     source = READ_SSA_ENRICHED_EVENTS_EXPANDED\
         .replace("__PULSAR_SOURCE_CONNECTION_ID__", pulsar_source_connection_id)\
         .replace("__PULSAR_SOURCE_TOPIC__", pulsar_source_topic)
     # Obtain the test sink
-    if results_index is not None:
-        module = results_index["module"]
-        index = results_index["name"]
-        sink = f"index(\"{module}\", \"{index}\")"
-    else:
-        sink = "write_null()"
+    sink = f" eval test_id=\"{test_id}\" | into index(\"mc\", \"detection_testing\")"
     # Replace spl template with its `source` and `sink`
     spl = replace_ssa_macros(source, sink, spl)
     LOGGER.info(f"spl: {spl}")
@@ -105,7 +100,7 @@ def read_spl(file_path, file_name):
 
 def replace_ssa_macros(source, sink, spl):
     spl = re.sub(r'read_ssa_enriched_events\(\s*\)', source, spl, flags=re.IGNORECASE)
-    spl = re.sub(r'write_ssa_detected_events\(\s*\)', sink, spl, flags=re.IGNORECASE)
+    spl = re.sub(r'into write_ssa_detected_events()\(\s*\)', sink, spl, flags=re.IGNORECASE)
     return spl
 
 
