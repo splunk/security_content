@@ -31508,7 +31508,7 @@ None identified.
 
 ====Test Dataset====
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllDSInternalsModules.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/logAllDSInternalsModules.log
 
 
 ''version'': 1
@@ -46990,7 +46990,7 @@ None identified.
 
 ====Test Dataset====
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllDSInternalsModules.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/logAllDSInternalsModules.log
 
 
 ''version'': 1
@@ -47077,7 +47077,7 @@ None identified.
 
 ====Test Dataset====
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllMimikatzModules.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/logAllMimikatzModules.log
 
 
 ''version'': 1
@@ -47164,7 +47164,7 @@ None identified.
 
 ====Test Dataset====
 
-* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/logAllPowerSploitModulesWithOldNames.log
+* https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/logAllPowerSploitModulesWithOldNames.log
 
 
 ''version'': 1
