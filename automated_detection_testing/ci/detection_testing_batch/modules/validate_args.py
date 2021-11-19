@@ -30,11 +30,11 @@ setup_schema = {
         },
 
         "detections_list": {
-            "type": ["array"],
+            "type": ["array","null"],
             "items": {
                 "type": "string"
             },
-            "default": [],
+            "default": None,
         },
 
         "detections_file": {
@@ -211,13 +211,22 @@ setup_schema = {
             "default": False
         },
 
-        "types": {
+        "folders": {
             "type": "array",
             "items": {
                 "type": "string",
                 "enum": ["endpoint", "cloud", "network"]
             },
             "default": ["endpoint", "cloud", "network"]
+        },
+
+        "types": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": ["Anomaly", "Hutning", "TTP"]
+            },
+            "default": ["Anomaly", "Hutning", "TTP"]
         },
     }
 }

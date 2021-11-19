@@ -36,16 +36,41 @@ index_file_local_path = "indexes.conf.tar"
 index_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "search")
 
 datamodel_file_local_path = "datamodels.conf.tar"
-datamodel_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "Splunk_SA_CIM")
+datamodel_file_container_path = os.path.join(
+    SPLUNK_CONTAINER_APPS_DIR, "Splunk_SA_CIM")
 
 
-
-MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING=2
-
+MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
 
 
+def ensure_security_content(branch: str, pr_number: Union[int, None], persist_security_content: bool) -> GithubService:
+    if persist_security_content is True and os.path.exists("security_content"):
+        print("****** You chose --persist_security_content and the security_content directory exists. "
+              "We will not check out the repo again. Please be aware, this could cause issues if you're "
+              "out of date. ******")
+        github_service = GithubService(
+            branch, existing_directory=persist_security_content)
 
+    elif persist_security_content is True:
+        print("Error - you chose --persist_security_content but the security_content directory does not exist!\n\tQuitting...")
+        sys.exit(1)
+    else:
+        if os.path.exists("security_content/"):
+            print("Deleting the security_content directory")
+            try:
+                shutil.rmtree("security_content/", ignore_errors=True)
+                print("Successfully removed security_content directory")
+            except Exception as e:
+                print(
+                    "Error - could not remove the security_content directory: [%s].\n\tQuitting..." % (str(e)))
+                sys.exit(1)
 
+        if pr_number:
+            github_service = GithubService(branch, pr_number)
+        else:
+            github_service = GithubService(branch)
+
+    return github_service
 
 
 def main(args):
@@ -54,16 +79,15 @@ def main(args):
     start_datetime = datetime.now()
     action, settings = modules.new_arguments2.parse(args)
     if action == "configure":
-        #Done, nothing else to do
+        # Done, nothing else to do
         print("Configuration complete!")
         sys.exit(0)
     elif action != "run":
-        print("Unsupported action: [%s]"%(action), file=sys.stderr)
+        print("Unsupported action: [%s]" % (action), file=sys.stderr)
         sys.exit(1)
     print("time to run the test!")
-    sys.exit(0)
 
-
+    '''
     parser = argparse.ArgumentParser(description="CI Detection Testing")
     parser.add_argument("-b", "--branch", type=str, required=True, help="security content branch")
     parser.add_argument("-u", "--uuid", type=str, required=True, help="uuid for detection test")
@@ -102,6 +126,8 @@ def main(args):
     
     
     args = parser.parse_args()
+    '''
+    '''
     branch = args.branch
     uuid_test = args.uuid
     pr_number = args.pr_number
@@ -117,224 +143,99 @@ def main(args):
     show_password = args.show_password
     splunk_password = args.container_password
     pregenerated_escu_package = args.escu_package
-    
-    
-        
-    
-        
-    
     '''
-    if splunk_password is None and reuse_containers is True:
-        print("Error - if you are going to reuse a container you MUST provide the password to it!")
-        sys.exit(1)
-    '''
-    if splunk_password is None:
-        #Generate a sufficiently complex password 
-        splunk_password = get_random_password()
-        if show_password is True:
-            print("Generated the password: [%s]"%splunk_password)
-    else:
-        print("Since you supplied a password, we will not generate one for you.")
-    
 
-    persist_security_content = args.persist_security_content
-    #Read in all of the tests that we will ignore because they already passed
-    success_tests = []
-    if success_file is not None:
-        try:
-            with open(success_file, "r") as successes:
-                for line in successes.readlines():
-                    file_path_new = os.path.join("tests", os.path.splitext(line)[0]) + ".test.yml"
-                    success_tests.append(file_path_new)
-        except Exception as e:
-            print("Error - error reading success_file: [%s]"%(str(e)))
-            print("\n\tQuitting...")
-            sys.exit(1)
-                
+    FULL_DOCKER_HUB_CONTAINER_NAME = "splunk/splunk:%s" % settings['container_tag']
 
-    
-
-    #Ensure that a valid mode was chosen 
-    mode = args.mode
-    if mode == "selected" and args.test_files_list is None and args.test_files_file is None:
-        print("Error - mode [%s] but did not provide any files to test.\nQuitting..."%(mode))
-        sys.exit(1)
-    elif mode == "selected" and args.test_files_list is not None and args.test_files_file is not None:
-        print("Error - mode [%s] but you specified a list of detections to test AND a file of detections to test.\nQuitting..."%(mode))
-        sys.exit(1)
-    elif mode == "selected" and args.test_files_list is not None:
-        command_line_files_to_test = [name.strip() for name in args.test_files_list.split(',')]
-    elif mode == "selected" and args.test_files_file is not None:
-        lines = args.test_files_file.readlines()
-        command_line_files_to_test = [l.strip() for l in lines]
-
-    folders = [a.strip() for a in args.types.split(',')]
-    for t in folders:
-        if t not in DETECTION_TYPES:
-            print("Error - requested test of [%s] but the only valid types are %s.\tQuitting..."%(t, str(DETECTION_TYPES)))
-            sys.exit(1)
-    
-
-
-    
-
-    #Do some initial setup and validation of the containers and images  
-
-    #If a user requests to use existing containers, they must also explicitly request to reuse existing images
-    '''
-    if reuse_containers and not reuse_image:
-        print("Error - requested --reuse_containers but did not explicitly request --reuse_image.\n\tQuitting")
-        sys.exit(1)
-    '''
-    if num_containers < 1:
-        #Perhaps this should be a mock-run - do the initial steps but don't do testing on the containers?
-        print("Error, requested 0 containers.  You must run with at least 1 container.")
-        sys.exit(1)
-    elif num_containers > MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING:
+    if settings['num_containers'] > MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING:
         print("You requested to run with [%d] containers which may use a very large amount of resources "
-               "as they all run in parallel.  The maximum suggested number of parallel containers is "
-               "[%d].  We will do what you asked, but be warned!"%(num_containers, MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING))
+              "as they all run in parallel.  The maximum suggested number of parallel containers is "
+              "[%d].  We will do what you asked, but be warned!" % (settings['num_containers'], MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING))
 
-    client = docker.client.from_env()
+    # Check out security content if required
+    github_service = ensure_security_content(
+        settings['branch'], settings['pr_number'], settings['persist_security_content'])
 
-    #Ensure that the images and containers are set up in a proper state
-
-    #Remove containers that previously existed (if we are directed to do so)
-    try:
-        remove_existing_containers(client, False, LOCAL_BASE_CONTAINER_NAME, num_containers)
-    except Exception as e:
-        print("Error tryting to remove existing containers.\n\tQuitting...")
-        sys.exit(1)
-
-    #Download and setup the image
-    try:
-        setup_image(client, reuse_image, full_docker_hub_container_name)
-    except Exception as e:
-        print("Error trying to set up the image.\n\tQuitting...")
-        sys.exit(1)
-    
+    all_test_files = github_service.get_test_files(settings['mode'],
+                                                   settings['folders'],
+                                                   settings['ttps'],
+                                                   settings['detections_list'],
+                                                   settings['detections_file'])
 
     
 
-
-
-
-    
-    
-
-    if persist_security_content is True and os.path.exists("security_content"):
-        print("******You chose --persist_security_content and the security_content directory exists. We will not check out the repo again. Please be aware, this could cause issues if you're out of date.******")
-        github_service = GithubService(branch, existing_directory=persist_security_content)
-
-    elif persist_security_content is True:
-        print("Error - you chose --persist_security_content but the security_content directory does not exist!\n\tQuitting...")
-        sys.exit(1)
-    else:
-        if os.path.exists("security_content/"):
-            print("Deleting the security_content directory")
-            try:
-                shutil.rmtree("security_content/", ignore_errors=True)
-                print("Successfully removed security_content directory")
-            except Exception as e:
-                print("Error - could not remove the security_content directory: [%s].\n\tQuitting..."%(str(e)))
-                sys.exit(1)
-        
-        if pr_number:
-            github_service = GithubService(branch, pr_number)
-        else:
-            github_service = GithubService(branch)
-    
-    try:
-        if mode == "all":
-            test_files = github_service.get_all_tests_and_detections(folders=folders, 
-                                                                    previously_successful_tests=success_tests)
-        elif mode == "new":
-            test_files = github_service.get_changed_test_files(folders=folders,
-                                                            previously_successful_tests=success_tests)
-        elif mode == "selected":
-            if set(folders) != set(DETECTION_TYPES):
-                print("You specified mode [%s] but also types: [%s]. We will ignore type restrictions and test all specified files"%(mode,str(folders)))
-            
-            test_files = github_service.get_selected_test_files(command_line_files_to_test,
-                                                            previously_successful_tests=success_tests)
-
-        else:
-            print("Unsupported mode [%s] chosen.  Supported modes are %s.\n\tQuitting..."%(args.mode, str(DETECTION_MODES)))
-            sys.exit(1)
-    except Exception as e:
-        print("Error - Failed to read in detection files: [%s].\nQuitting..."%(str(e)))    
-        sys.exit(1)
-    
     if len(test_files) == 0:
         print("No files were found to be tested.  Returning an error (should this return success?).\n\tQuitting...")
         sys.exit(1)
-    
+
     local_volume_path = os.path.join(os.getcwd(), "apps")
     try:
         os.mkdir("apps")
     except FileExistsError as e:
-        #Directory already exists, do nothing
+        # Directory already exists, do nothing
         pass
     except Exception as e:
-        print("Caught an error when copying the ESCU package [%s] to the apps folder [%s].\n\tQuitting..."%(pregenerated_escu_package.name, local_volume_path))
+        print("Caught an error when copying the ESCU package [%s] to the apps folder [%s].\n\tQuitting..." % (
+            pregenerated_escu_package.name, local_volume_path))
         sys.exit(1)
 
     if pregenerated_escu_package is None:
-        #Go into the security content directory
+        # Go into the security content directory
         print("****GENERATE NEW CONTENT****")
         os.chdir("security_content")
         print(os.getcwd())
         if persist_security_content is False:
-            commands = ["python3 -m venv .venv", 
-                        ". ./.venv/bin/activate", 
-                        "python3 -m pip install wheel", 
-                        "python3 -m pip install -r requirements.txt", 
+            commands = ["python3 -m venv .venv",
+                        ". ./.venv/bin/activate",
+                        "python3 -m pip install wheel",
+                        "python3 -m pip install -r requirements.txt",
                         "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
         else:
-            commands = ["s. ./.venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
-        ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
+            commands = ["s. ./.venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
+                        "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+        ret = subprocess.run("; ".join(commands),
+                             shell=True, capture_output=True)
         if ret.returncode != 0:
             print("Error generating new content.  Exiting...")
             sys.exit(1)
-        print("New content generated successfully")    
-        
+        print("New content generated successfully")
 
         print("Generate new ESCU Package using new content")
         if persist_security_content is True:
             os.chdir("slim_packaging")
-            commands = ["cd slim-latest", 
+            commands = ["cd slim-latest",
                         ". ./.venv/bin/activate",
                         "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                         "slim package -o upload DA-ESS-ContentUpdate",
-                         "cp upload/DA-ESS-ContentUpdate*.tar.gz %s"%(os.path.join(local_volume_path, "DA-ESS-ContentUpdate-latest.tar.gz" ))]
-        
+                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (os.path.join(local_volume_path, "DA-ESS-ContentUpdate-latest.tar.gz"))]
+
         else:
             os.mkdir("slim_packaging")
             os.chdir("slim_packaging")
             os.mkdir("apps")
-            
+
             try:
                 SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
                 SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
-                print("Downloading the Splunk Packaging Toolkit from %s..."%(SPLUNK_PACKAGING_TOOLKIT_URL), end='')
+                print("Downloading the Splunk Packaging Toolkit from %s..." %
+                      (SPLUNK_PACKAGING_TOOLKIT_URL), end='')
                 response = get(SPLUNK_PACKAGING_TOOLKIT_URL)
                 response.raise_for_status()
                 with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
                     slim_file.write(response.content)
-                
-                print("success")
 
+                print("success")
 
             except Exception as e:
                 print("FAILED")
-                print("Error downloading the Splunk Packaging Toolkit: [%s]"%(str(e)))
+                print(
+                    "Error downloading the Splunk Packaging Toolkit: [%s]" % (str(e)))
                 sys.exit(1)
-            
-            
+
             commands = ["rm -rf slim-latest",
-                        "mkdir slim-latest", 
+                        "mkdir slim-latest",
                         "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
-                        "cd slim-latest", 
+                        "cd slim-latest",
                         "virtualenv --python=/usr/bin/python2.7 --clear .venv",
                         ". ./.venv/bin/activate",
                         "python3 -m pip install --upgrade pip",
@@ -343,35 +244,32 @@ def main(args):
                         "python2 -m pip install .",
                         "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                         "slim package -o upload DA-ESS-ContentUpdate",
-                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s"%(os.path.join(local_volume_path, "DA-ESS-ContentUpdate-latest.tar.gz" ))]
-            
-        
-        
+                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (os.path.join(local_volume_path, "DA-ESS-ContentUpdate-latest.tar.gz"))]
 
-        ret = subprocess.run("; ".join(commands), shell=True, capture_output=True)
+        ret = subprocess.run("; ".join(commands),
+                             shell=True, capture_output=True)
         if ret.returncode != 0:
-            print("Error generating new ESCU Package.\n\tQuitting..."%())
+            print("Error generating new ESCU Package.\n\tQuitting..." % ())
             sys.exit(1)
         os.chdir("../..")
         print("New ESCU Package generated successfully")
     else:
-        print("Using previous generated ESCU package: [%s]"%(pregenerated_escu_package.name))    
+        print("Using previous generated ESCU package: [%s]" % (
+            pregenerated_escu_package.name))
         try:
-            with open(os.path.join(local_volume_path, os.path.basename(pregenerated_escu_package.name)),'wb') as escu_package:
+            with open(os.path.join(local_volume_path, os.path.basename(pregenerated_escu_package.name)), 'wb') as escu_package:
                 escu_package.write(pregenerated_escu_package.read())
         except Exception as e:
-            print("Failure writing the ESCU package [%s] to [%s]: [%s].\n\tQuitting..."%(pregenerated_escu_package.name, local_volume_path, str(e)))
+            print("Failure writing the ESCU package [%s] to [%s]: [%s].\n\tQuitting..." % (
+                pregenerated_escu_package.name, local_volume_path, str(e)))
             sys.exit(1)
-        
-    
+
     print("Wrote ESCU package to volume.")
-        
-    
-    
+
     if args.split_detections_then_stop:
-        for output_file_index in range(0,num_containers):
-            fname = "container_%d_tests.txt"%(output_file_index)
-            print("Writing tests to [%s]..."%(fname), end='')
+        for output_file_index in range(0, num_containers):
+            fname = "container_%d_tests.txt" % (output_file_index)
+            print("Writing tests to [%s]..." % (fname), end='')
             with open(fname, "w") as output_file:
                 detection_tests = test_files[output_file_index::num_containers]
                 normalized_detection_names = []
@@ -380,172 +278,163 @@ def main(args):
                     filename = filename.replace(".test.yml", ".yml")
                     leading = os.path.split(d)[0]
                     leading = leading.replace("tests/", "detections/")
-                    new_name = os.path.join("security_content", leading, filename)
+                    new_name = os.path.join(
+                        "security_content", leading, filename)
                     normalized_detection_names.append(new_name)
                 output_file.write('\n'.join(normalized_detection_names))
             print("Done")
         sys.exit(0)
 
-
-
-
-    
-    
-    #Create threads to manage all of the containers that we will start up
+    # Create threads to manage all of the containers that we will start up
     splunk_container_manager_threads = []
-    
-
-    
-    
-
 
     results_tracker = SynchronizedResultsTracker(test_files, num_containers)
-    
-    
 
-          
-    
     #SPLUNK_ADD_ON_FOR_SYSMON_OLD = "https://splunkbase.splunk.com/app/1914/release/10.6.2/download"
     #SPLUNK_ADD_ON_FOR_SYSMON_NEW = "https://splunkbase.splunk.com/app/5709/release/1.0.1/download"
     #SYSMON_APP_FOR_SPLUNK = "https://splunkbase.splunk.com/app/3544/release/2.0.0/download"
     #SPLUNK_ES_CONTENT_UPDATE = "https://splunkbase.splunk.com/app/3449/release/3.29.0/download"
 
-    #Just a hack until we get the new version of system deployed and available from splunkbase
+    # Just a hack until we get the new version of system deployed and available from splunkbase
     CONTAINER_VOLUME_PATH = '/tmp/apps/'
-    
-    GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH = os.path.join(CONTAINER_VOLUME_PATH, "DA-ESS-ContentUpdate-latest.tar.gz")
+
+    GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH = os.path.join(
+        CONTAINER_VOLUME_PATH, "DA-ESS-ContentUpdate-latest.tar.gz")
 
     SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
-    #Order that we install the apps is actually important
+    # Order that we install the apps is actually important
     APPS_DICT = OrderedDict()
-    APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS'] = {"app_number":742, 'app_version':"8.2.0", 'location':'splunkbase'}
-    APPS_DICT['SPLUNK_SECURITY_ESSENTIALS'] = {"app_number":3435, 'app_version':"3.3.4", 'location':'splunkbase'}
-    APPS_DICT['GENERATED_SPLUNK_ES_CONTENT_UPDATE'] = {"app_number":3449, 'app_version':"Generated at %s"%(datetime.now()), 'location':GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH}
-    
-    
+    APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS'] = {
+        "app_number": 742, 'app_version': "8.2.0", 'location': 'splunkbase'}
+    APPS_DICT['SPLUNK_SECURITY_ESSENTIALS'] = {
+        "app_number": 3435, 'app_version': "3.3.4", 'location': 'splunkbase'}
+    APPS_DICT['GENERATED_SPLUNK_ES_CONTENT_UPDATE'] = {"app_number": 3449, 'app_version': "Generated at %s" % (
+        datetime.now()), 'location': GENERATED_SPLUNK_ES_CONTENT_UPDATE_CONTAINER_PATH}
+
     try:
-        BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH  = os.path.expanduser("~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")    
-        shutil.copyfile(BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
-    
-        BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH  = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
-        APPS_DICT['BETA_SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":5709, 'app_version':"Generated at %s"%(datetime.now()), 'location':"local", "container_path": BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH}
+        BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH = os.path.expanduser(
+            "~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl")
+        shutil.copyfile(BETA_SPLUNK_ADD_ON_FOR_SYSMON_PATH, os.path.join(
+            local_volume_path, "Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"))
+
+        BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH = "/tmp/apps/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
+        APPS_DICT['BETA_SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number": 5709, 'app_version': "Generated at %s" % (
+            datetime.now()), 'location': "local", "container_path": BETA_SPLUNK_ADD_ON_FOR_SYSMON_CONTAINER_PATH}
     except Exception as e:
         print("Failed to grab beta sysmon at ~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl. Using the one from Splunkbase")
-        APPS_DICT['SPLUNK_ADD_ON_FOR_SYSMON'] = {"app_number":5709, 'app_version':"1.0.1", 'location':'splunkbase'}
-    
+        APPS_DICT['SPLUNK_ADD_ON_FOR_SYSMON'] = {
+            "app_number": 5709, 'app_version': "1.0.1", 'location': 'splunkbase'}
+
     if True:
-        APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES'] = {"app_number":1876, 'app_version':"5.2.0", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365'] = {"app_number":4055, 'app_version':"2.2.0", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE'] = {"app_number":3719, 'app_version':"1.3.2", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_ANALYTIC_STORY_EXECUTION_APP'] = {"app_number":4971, 'app_version': "2.0.3", 'location':'splunkbase'}
-        APPS_DICT['PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT'] = {"app_number":2882, 'app_version':"2.0.2", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_MACHINE_LEARNING_TOOLKIT'] = {"app_number":2890, 'app_version':"5.2.2", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_APP_FOR_STREAM'] = {"app_number":1809, 'app_version':"8.0.1", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA'] = {"app_number":5234, 'app_version':"8.0.1", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS'] = {"app_number":5238, 'app_version':"8.0.1", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO'] = {"app_number":1617, 'app_version':"4.0.0", 'location':'splunkbase'}
-        APPS_DICT['SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX'] = {"app_number":833, 'app_version':"8.3.1", 'location':'splunkbase'}
-    
+        APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES'] = {
+            "app_number": 1876, 'app_version': "5.2.0", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365'] = {
+            "app_number": 4055, 'app_version': "2.2.0", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE'] = {
+            "app_number": 3719, 'app_version': "1.3.2", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_ANALYTIC_STORY_EXECUTION_APP'] = {
+            "app_number": 4971, 'app_version': "2.0.3", 'location': 'splunkbase'}
+        APPS_DICT['PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT'] = {
+            "app_number": 2882, 'app_version': "2.0.2", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_MACHINE_LEARNING_TOOLKIT'] = {
+            "app_number": 2890, 'app_version': "5.2.2", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_APP_FOR_STREAM'] = {
+            "app_number": 1809, 'app_version': "8.0.1", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA'] = {
+            "app_number": 5234, 'app_version': "8.0.1", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS'] = {
+            "app_number": 5238, 'app_version': "8.0.1", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO'] = {
+            "app_number": 1617, 'app_version': "4.0.0", 'location': 'splunkbase'}
+        APPS_DICT['SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX'] = {
+            "app_number": 833, 'app_version': "8.3.1", 'location': 'splunkbase'}
 
-    #CIM is last here for a reason!  Because we copy a file to a directory that does not exist until CIM
-    #has been installed, we use it to prevent the testing from beginning until the copy has succeeded.  
-    #KEEP THIS APP LAST!
-    APPS_DICT['SPLUNK_COMMON_INFORMATION_MODEL'] = {"app_number":1621, 'app_version':"4.20.2", 'location':'splunkbase'}
-    
-    
+    # CIM is last here for a reason!  Because we copy a file to a directory that does not exist until CIM
+    # has been installed, we use it to prevent the testing from beginning until the copy has succeeded.
+    # KEEP THIS APP LAST!
+    APPS_DICT['SPLUNK_COMMON_INFORMATION_MODEL'] = {
+        "app_number": 1621, 'app_version': "4.20.2", 'location': 'splunkbase'}
 
-    
     SPLUNK_APPS = []
     for key, value in APPS_DICT.items():
         if value['location'] == 'splunkbase':
-            #The app is on Splunkbase
-            target=SPLUNKBASE_URL%(value['app_number'],value['app_version'])
+            # The app is on Splunkbase
+            target = SPLUNKBASE_URL % (
+                value['app_number'], value['app_version'])
             SPLUNK_APPS.append(target)
         else:
-            #The app is a file we generated locally
+            # The app is a file we generated locally
             SPLUNK_APPS.append(value['location'])
-    
-
 
     for container_index in range(num_containers):
-        container_name = LOCAL_BASE_CONTAINER_NAME%container_index
-        
-        web_port = BASE_CONTAINER_WEB_PORT  + container_index
+        container_name = LOCAL_BASE_CONTAINER_NAME % container_index
+
+        web_port = BASE_CONTAINER_WEB_PORT + container_index
         management_port = BASE_CONTAINER_MANAGEMENT_PORT + container_index
 
-        
-        
-
         environment = {"SPLUNK_START_ARGS": "--accept-license",
-                        "SPLUNK_PASSWORD"  : splunk_password, 
-                        "SPLUNK_APPS_URL"   : ','.join(SPLUNK_APPS),
-                        "SPLUNKBASE_USERNAME" : splunkbase_username,
-                        "SPLUNKBASE_PASSWORD" : splunkbase_password
-                        }
-        ports= {"8000/tcp": web_port,
-                "8089/tcp": management_port
-               }
-        
-        
-        
+                       "SPLUNK_PASSWORD": splunk_password,
+                       "SPLUNK_APPS_URL": ','.join(SPLUNK_APPS),
+                       "SPLUNKBASE_USERNAME": splunkbase_username,
+                       "SPLUNKBASE_PASSWORD": splunkbase_password
+                       }
+        ports = {"8000/tcp": web_port,
+                 "8089/tcp": management_port
+                 }
 
-        
-        mounts = [docker.types.Mount(target = CONTAINER_VOLUME_PATH, source = local_volume_path, type='bind', read_only=True)]
-        
-        print("Creating CONTAINER: [%s]"%(container_name))
-        base_container = client.containers.create(full_docker_hub_container_name, ports=ports, environment=environment, name=container_name, mounts=mounts, detach=True)
-        print("Created CONTAINER : [%s]"%(container_name))
-        
+        mounts = [docker.types.Mount(
+            target=CONTAINER_VOLUME_PATH, source=local_volume_path, type='bind', read_only=True)]
 
-        
-        
-        t = threading.Thread(target=splunk_container_manager, 
-                             args=(results_tracker, 
-                                   container_name, 
-                                   "127.0.0.1", 
+        print("Creating CONTAINER: [%s]" % (container_name))
+        base_container = client.containers.create(
+            full_docker_hub_container_name, ports=ports, environment=environment, name=container_name, mounts=mounts, detach=True)
+        print("Created CONTAINER : [%s]" % (container_name))
+
+        t = threading.Thread(target=splunk_container_manager,
+                             args=(results_tracker,
+                                   container_name,
+                                   "127.0.0.1",
                                    splunk_password,
-                                   web_port, 
-                                   management_port, 
+                                   web_port,
+                                   management_port,
                                    uuid_test,
-                                   interactive_failure 
+                                   interactive_failure
                                    ))
 
         splunk_container_manager_threads.append(t)
 
-    #add the queue status thread - there can be some error in one of the test threads, so this
-    #thread doesn't need to complete for the program to finish execution
-    status_thread = threading.Thread(target=queue_status_thread, 
-                                     args=(results_tracker,), 
-                                           daemon=True)
-    #Start this thread immediately
+    # add the queue status thread - there can be some error in one of the test threads, so this
+    # thread doesn't need to complete for the program to finish execution
+    status_thread = threading.Thread(target=queue_status_thread,
+                                     args=(results_tracker,),
+                                     daemon=True)
+    # Start this thread immediately
     status_thread.start()
-
 
     print("Start the testing threads")
     for t in splunk_container_manager_threads:
         t.start()
-        #we need to start containers slowly.  Would be great it we could do all the setup and
-        #app install once, but it looks like the container is unlikely to support that.
-        #We don't really want to fundamentally change this container, either, and will 
-        #keep it as close to production as possible
+        # we need to start containers slowly.  Would be great it we could do all the setup and
+        # app install once, but it looks like the container is unlikely to support that.
+        # We don't really want to fundamentally change this container, either, and will
+        # keep it as close to production as possible
         time.sleep(5)
-    
-    #Wait for all of the testing threads to complete
+
+    # Wait for all of the testing threads to complete
     for t in splunk_container_manager_threads:
-        t.join() #blocks on waiting to join
+        t.join()  # blocks on waiting to join
         print("Testing thread completed execution")
 
     print("All testing threads have completed execution")
-    #read all the results out from the output queue
+    # read all the results out from the output queue
     strtime = str(int(time.time()))
 
     print("Wait for the status thread to finish executing...")
     status_thread.join()
     print("Status thread finished executing.")
 
-    
-    #Remove the attack data and 
-    #generate all of the output information
+    # Remove the attack data and
+    # generate all of the output information
     stop_time = timer()
     stop_datetime = datetime.now()
     baseline = OrderedDict()
@@ -555,33 +444,17 @@ def main(args):
     baseline['TEST_FINISH_TIME'] = str(stop_datetime)
 
     results_tracker.finish(baseline)
-    
-    
 
-    #now we are done!
-    
-    print("Total Execution Time: [%s]"%(timedelta(seconds=stop_time - start_time, microseconds=0)))
-    
+    # now we are done!
 
-    #detection testing service has already been prepared, no need to do it here!
+    print("Total Execution Time: [%s]" % (
+        timedelta(seconds=stop_time - start_time, microseconds=0)))
+
+    # detection testing service has already been prepared, no need to do it here!
     #testing_service.prepare_detection_testing(ssh_key_name, private_key, splunk_ip, splunk_password)
 
     #testing_service.test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test)
-    
 
 
-
-
-        
-
-
-
-
-            
 if __name__ == "__main__":
     main(sys.argv[1:])
-
-
-
-
-
