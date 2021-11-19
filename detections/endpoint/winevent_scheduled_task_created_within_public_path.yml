@@ -47,6 +47,7 @@ tags:
   - Ransomware
   - Ryuk Ransomware
   - IcedID
+  - Lateral Movement
   automated_detection_testing: passed
   confidence: 100
   context:
