@@ -1,19 +1,20 @@
 name: Remote Process Instantiation via WMI
 id: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
-version: 6
-date: '2020-11-30'
-author: Rico Valdez, Splunk
+version: 7
+date: '2021-11-12'
+author: Rico Valdez, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
 description: This analytic identifies wmic.exe being launched with parameters to spawn
-  a process on a remote system.
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_wmic` Processes.process="*/node*" Processes.process="*process*" Processes.process="*call*"
-  Processes.process="*create*"   by Processes.process_name Processes.original_file_name
-  Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `remote_process_instantiation_via_wmi_filter`'
+  a process on a remote system. Red Teams and adversaries alike may abuse WMI and
+  this binary for lateral movement and remote code execution.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where `process_wmic` (Processes.process="*/node:*"
+  AND Processes.process="*process*" AND Processes.process="*call*" AND  Processes.process="*create*")
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `remote_process_instantiation_via_wmi_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
@@ -22,11 +23,14 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: The wmic.exe utility is a benign Windows application. It may
   be used legitimately by Administrators with these parameters for remote system administration,
   but it's relatively uncommon.
-references: []
+references:
+- https://attack.mitre.org/techniques/T1047/
+- https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/create-method-in-class-win32-process
 tags:
   analytic_story:
   - Ransomware
   - Suspicious WMI Use
+  - Lateral Movement
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
