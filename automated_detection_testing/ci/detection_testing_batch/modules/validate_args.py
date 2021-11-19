@@ -54,7 +54,7 @@ setup_schema = {
                         "type": "integer"
                     },
                     "app_version": {
-                        "type": "string"
+                        "type": ["string","null"]
                     },
                     "local_path": {
                         "type": ["string", "null"],
@@ -66,7 +66,7 @@ setup_schema = {
                 {
                     "app_name": "SPLUNK_ES_CONTENT_UPDATE",
                     "app_number": 3449,
-                    "app_version": "GENERATED",
+                    "app_version": None,
                     'local_path': None
                 }
             ]
@@ -224,9 +224,9 @@ setup_schema = {
             "type": "array",
             "items": {
                 "type": "string",
-                "enum": ["Anomaly", "Hutning", "TTP"]
+                "enum": ["Anomaly", "Hunting", "TTP"]
             },
-            "default": ["Anomaly", "Hutning", "TTP"]
+            "default": ["Anomaly", "Hunting", "TTP"]
         },
     }
 }
@@ -245,16 +245,16 @@ def check_dependencies(settings: dict) -> bool:
     error_free = True
     if settings['mode'] == 'selected':
         # Make sure that exactly one of the following fields is populated
-        if settings['detections_file'] == None and settings['detections_list'] == []:
+        if settings['detections_file'] == None and settings['detections_list'] == None:
             print("Error - mode was 'selected' but no detections_list or detections_file were supplied.", file=sys.stderr)
             error_free = False
-        elif settings['detections_file'] != None and settings['detections_list'] != []:
+        elif settings['detections_file'] != None and settings['detections_list'] != None:
             print("Error - mode was 'selected' but detections_list and detections_file were supplied.", file=sys.stderr)
             error_free = False
     if settings['mode'] != 'selected' and settings['detections_file'] != None:
         print("Error - mode was not 'selected' but detections_file was supplied.", file=sys.stderr)
         error_free = False
-    elif settings['mode'] != 'selected' and settings['detections_list'] != []:
+    elif settings['mode'] != 'selected' and settings['detections_list'] != None:
         print("Error - mode was not 'selected' but detections_list was supplied.", file=sys.stderr)
         error_free = False
 
@@ -271,7 +271,6 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
         
         no_complex_errors = check_dependencies(validated_json)
         if len(validation_errors) == 0 and no_complex_errors:
-            print("Input configuration successfully validated!")
             return validated_json, setup_schema
         elif no_complex_errors == False:
             print("Failed due to error(s) listed above.", file=sys.stderr)
