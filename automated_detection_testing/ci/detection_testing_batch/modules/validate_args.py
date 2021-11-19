@@ -4,7 +4,7 @@ import io
 import json
 import jsonschema
 import jsonschema.exceptions
-import jsonschema_errorprinter
+import modules.jsonschema_errorprinter as jsonschema_errorprinter
 import sys
 from typing import Union
 
@@ -28,17 +28,17 @@ setup_schema = {
             "type": "boolean",
             "default": False
         },
-            
+
         "detections_list": {
-            "type":["array"],
+            "type": ["array"],
             "items": {
-                "type":"string"
+                "type": "string"
             },
-            "default":[],
+            "default": [],
         },
 
-        "detections_file":{
-            "type": ["string","null"],
+        "detections_file": {
+            "type": ["string", "null"],
             "default": None
         },
 
@@ -57,11 +57,20 @@ setup_schema = {
                         "type": "string"
                     },
                     "local_path": {
-                        "type": "string"
+                        "type": ["string", "null"],
+                        "default": None
                     },
-                },
-                "default": []
-            }
+                }
+            },
+            "default": [
+                {
+                    "app_name": "SPLUNK_ES_CONTENT_UPDATE",
+                    "app_number": 3449,
+                    "app_version": "GENERATED",
+                    'local_path': None
+                }
+            ]
+
         },
 
         "mode": {
@@ -214,36 +223,35 @@ setup_schema = {
 }
 
 
-def validate_file(file:io.TextIOWrapper)->tuple[Union[dict, None], dict]:
+def validate_file(file: io.TextIOWrapper) -> tuple[Union[dict, None], dict]:
     try:
         settings = json.loads(file.read())
         return validate(settings)
     except Exception as e:
         raise(e)
-    
 
 
-
-def check_dependencies(settings: dict)->bool:
-    #Check complex mode dependencies
+def check_dependencies(settings: dict) -> bool:
+    # Check complex mode dependencies
     error_free = True
     if settings['mode'] == 'selected':
-        #Make sure that exactly one of the following fields is populated
+        # Make sure that exactly one of the following fields is populated
         if settings['detections_file'] == None and settings['detections_list'] == []:
-            print("Error - mode was 'selected' but no detections_list or detections_file were supplied.",file=sys.stderr)
+            print("Error - mode was 'selected' but no detections_list or detections_file were supplied.", file=sys.stderr)
             error_free = False
         elif settings['detections_file'] != None and settings['detections_list'] != []:
-            print("Error - mode was 'selected' but detections_list and detections_file were supplied.",file=sys.stderr)
+            print("Error - mode was 'selected' but detections_list and detections_file were supplied.", file=sys.stderr)
             error_free = False
-    if settings['mode'] != 'selected'and settings['detections_file'] != None:
-        print("Error - mode was not 'selected' but detections_file was supplied.",file=sys.stderr)
+    if settings['mode'] != 'selected' and settings['detections_file'] != None:
+        print("Error - mode was not 'selected' but detections_file was supplied.", file=sys.stderr)
         error_free = False
     elif settings['mode'] != 'selected' and settings['detections_list'] != []:
-        print("Error - mode was not 'selected' but detections_list was supplied.",file=sys.stderr)
+        print("Error - mode was not 'selected' but detections_list was supplied.", file=sys.stderr)
         error_free = False
 
-    #Returns true if there are not errors
+    # Returns true if there are not errors
     return error_free
+
 
 def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
     #v = jsonschema.Draft201909Validator(argument_schema)
@@ -251,16 +259,17 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
     try:
         validation_errors, validated_json = jsonschema_errorprinter.check_json(
             configuration, setup_schema)
+        
         no_complex_errors = check_dependencies(validated_json)
         if len(validation_errors) == 0 and no_complex_errors:
             print("Input configuration successfully validated!")
             return validated_json, setup_schema
         elif no_complex_errors == False:
             print("Failed due to error(s) listed above.", file=sys.stderr)
-            return None,setup_schema
+            return None, setup_schema
         else:
             print("[%d] failures detected during validation of the configuration!" % (
-                len(validation_errors)))
+                len(validation_errors)),file=sys.stderr)
             for error in validation_errors:
                 print(error, end="\n\n", file=sys.stderr)
             return None, setup_schema

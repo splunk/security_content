@@ -1,12 +1,12 @@
 import argparse
 import json
-from typing import OrderedDict
-import validate_args
+from typing import OrderedDict, Union
+import modules.validate_args as validate_args
 import sys
 
 DEFAULT_CONFIG_FILE = "test_config.json"
 
-def configure_action(args) -> bool:
+def configure_action(args) -> tuple[str, dict]:
     settings = OrderedDict()
     if args.input_config_file is None:
         settings, schema = validate_args.validate({})
@@ -58,16 +58,18 @@ def configure_action(args) -> bool:
     validated_new_settings, schema = validate_args.validate(new_config)
     if validated_new_settings == None:
         print("Error in the new settings!")
-        return False
+        sys.exit(1)
+        
     else:
-        print("New settings worked great.  Writing results to: %s" %
+        print("New settings successful.  Writing results to: %s" %
               (args.output_config_file.name))
         args.output_config_file.write(json.dumps(
             validated_new_settings, sort_keys=True, indent=4))
-        return True
+    
+    return ("configure", validated_new_settings)
 
 
-def update_config_with_cli_arguments(args_dict:dict)->dict:
+def update_config_with_cli_arguments(args_dict:dict)->tuple[str, dict]:
     #First load the config file
 
     settings,_ = validate_args.validate_file(args_dict['config_file'])
@@ -86,19 +88,19 @@ def update_config_with_cli_arguments(args_dict:dict)->dict:
         print("Failure while processing updated settings from command line.\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
     
-    return settings
+    return ("run", settings)
 
     
 
-def run_action(args) -> bool:
+def run_action(args) -> tuple[str,dict]:
 
     config = update_config_with_cli_arguments(args.__dict__)
 
 
-    return True
+    return config
 
 
-def main(args):
+def parse(args)->tuple[str,dict]:
     '''
     try:
         with open(DEFAULT_CONFIG_FILE, 'r') as settings_file:
@@ -158,12 +160,8 @@ def main(args):
     # Run the appropriate parser
 
     try:
-        if args.func(args):
-            print("Success!")
-            sys.exit(0)
-        else:
-            print("Fail")
-            sys.exit(1)
+        action, settings = args.func(args)
+        return action, settings
     except Exception as e:
         print("Unknown Error - [%s]" % (str(e)))
         sys.exit(1)
@@ -251,4 +249,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    parse(sys.argv[1:])

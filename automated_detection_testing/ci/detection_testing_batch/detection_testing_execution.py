@@ -27,6 +27,9 @@ import csv
 
 from requests import get
 import json
+import requests.packages.urllib3
+
+import modules.new_arguments2
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -38,25 +41,28 @@ datamodel_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "Splunk_
 
 
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING=2
-DEFAULT_CONTAINER_TAG="latest"
-LOCAL_BASE_CONTAINER_NAME = "splunk_test_%d"
 
 
 
-BASE_CONTAINER_WEB_PORT=8000
-BASE_CONTAINER_MANAGEMENT_PORT=8089
-
-
-DETECTION_TYPES = ['endpoint', 'cloud', 'network']
-DETECTION_MODES = ['new', 'all', 'selected']
 
 
 
 
 def main(args):
-    
-    start_time = timer()
-    
+    requests.packages.urllib3.disable_warnings()
+
+    start_datetime = datetime.now()
+    action, settings = modules.new_arguments2.parse(args)
+    if action == "configure":
+        #Done, nothing else to do
+        print("Configuration complete!")
+        sys.exit(0)
+    elif action != "run":
+        print("Unsupported action: [%s]"%(action), file=sys.stderr)
+        sys.exit(1)
+    print("time to run the test!")
+    sys.exit(0)
+
 
     parser = argparse.ArgumentParser(description="CI Detection Testing")
     parser.add_argument("-b", "--branch", type=str, required=True, help="security content branch")
@@ -92,9 +98,9 @@ def main(args):
 
     parser.add_argument("-split","--split_detections_then_stop", required=False, default=False, action='store_true', help="Should existing images be re-used, or should they be redownloaded?")
 
-    start_datetime = datetime.now()
-    import requests.packages.urllib3
-    requests.packages.urllib3.disable_warnings()
+    
+    
+    
     args = parser.parse_args()
     branch = args.branch
     uuid_test = args.uuid
