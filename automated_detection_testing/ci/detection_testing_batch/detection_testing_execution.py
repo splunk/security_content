@@ -77,7 +77,6 @@ def generate_escu_app(persist_security_content:bool=False)->str:
     # Go into the security content directory
         print("****GENERATING ESCU APP****")
         os.chdir("security_content")
-        print(os.getcwd())
         if persist_security_content is False:
             commands = ["python3 -m venv .venv",
                         ". ./.venv/bin/activate",
@@ -100,15 +99,15 @@ def generate_escu_app(persist_security_content:bool=False)->str:
         output_file_name = "DA-ESS-ContentUpdate-latest.tar.gz"
         output_file_path_from_slim_latest = os.path.join("upload", output_file_name)
         output_file_path_from_security_content = os.path.join("slim_packaging", "slim_latest", output_file_path_from_slim_latest)
-        output_file_path_from_root = os.path.join("security_content", output_file_path_from_security_content
+        output_file_path_from_root = os.path.join("security_content", output_file_path_from_security_content)
         
         
 
         if persist_security_content is True:
             try:
-                os.remove(output_file_path_from_slim_latest)
+                os.remove(output_file_path_from_security_content)
             except FileNotFoundError:
-                #No problem if we fail to remove it, that just means it wasn't there and we didn't need to
+                #No problem if we fail to remove it, that just means it wasn't there and we didn't need to    
                 pass
             except Exception as e:
                 print("Error deleting the (possibly) existing old ESCU File: [%s]"%(str(e)), file=sys.stderr)
@@ -140,7 +139,7 @@ def generate_escu_app(persist_security_content:bool=False)->str:
 
             commands = ["rm -rf slim_packaging/slim_latest",
                         "mkdir slim_packaging/slim_latest",
-                        "cd splim_packaging",
+                        "cd slim_packaging",
                         "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim_latest --strip-components=1",
                         "cd slim_latest",
                         "virtualenv --python=/usr/bin/python2.7 --clear .venv",
@@ -298,7 +297,6 @@ def main(args):
         #Same file, not a real error.  The copy just doesn't happen
         pass
     except Exception as e:
-        print(os.getcwd())
         print("Error copying ESCU Package [%s] to [%s]: [%s].\n\tQuitting..."%(source_path, dest_path, str(e)), file=sys.stderr)
         sys.exit(1)
 
