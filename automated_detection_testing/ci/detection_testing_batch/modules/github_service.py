@@ -44,7 +44,7 @@ class GithubService:
 
     def prune_detections(self,
                          detections_to_prune: list[str],
-                         ttps_to_test: list[str],
+                           types_to_test: list[str],
                          previously_successful_tests: list[str],
                          exclude_ssa: bool = True,
                          summary_file: str = None) -> list[str]:
@@ -60,8 +60,8 @@ class GithubService:
                     'detections', 'tests') + '.test.yml'
                 test_filepath_without_security_content = str(
                     pathlib.Path(*pathlib.Path(test_filepath).parts[1:]))
-                # If no TTPS are provided, then we will get everything
-                if 'type' in description and (description['type'] in ttps_to_test or len(ttps_to_test) == 0):
+                # If no   types are provided, then we will get everything
+                if 'type' in description and (description['type'] in   types_to_test or len(  types_to_test) == 0):
                     # print(description['type'])
                     if not os.path.exists(test_filepath):
                         print("Detection [%s] references [%s], but it does not exist" % (
@@ -105,11 +105,11 @@ class GithubService:
 
         return pruned_tests
 
-    def get_test_files(self, mode: str, folders:list[str], ttps:list[str],
+    def get_test_files(self, mode: str, folders:list[str],   types:list[str],
                         detections_list: Union[list[str], None], 
                        detections_file=Union[str, None]) -> list[str]:
         if mode == "changes":
-            tests = self.get_changed_test_files(folders, ttps)
+            tests = self.get_changed_test_files(folders,   types)
         elif mode == "selected":
             if detections_list is None and detections_file is None:
                 #It's actually valid to supply an EMPTY list of files and the test should pass.
@@ -124,7 +124,7 @@ class GithubService:
                       (detections_list, detections_file), file=sys.stderr)
                 sys.exit(1)
             if detections_list is not None:
-                tests = self.get_selected_test_files(detections_list, folders, ttps)
+                tests = self.get_selected_test_files(detections_list, folders,   types)
             if detections_file is not None:
                 try:
                     with open(detections_file,'r') as f:
@@ -136,10 +136,10 @@ class GithubService:
                           "Quitting..."%(detections_file, str(e)))
                     sys.exit(1)
                 
-                tests = self.get_selected_test_files(files_to_test, folders, ttps)
+                tests = self.get_selected_test_files(files_to_test, folders,   types)
 
         elif mode == "all":
-            tests = self.get_all_tests_and_detections(folders,ttps)
+            tests = self.get_all_tests_and_detections(folders,  types)
         else:
             print(
                 "Error, unsupported mode [%s].  Mode must be one of %s", file=sys.stderr)
@@ -149,16 +149,16 @@ class GithubService:
 
     def get_selected_test_files(self,
                                 detection_file_list: list[str],
-                                ttps_to_test: list[str] = [
+                                  types_to_test: list[str] = [
                                     "Anomaly", "Hunting", "TTP"],
                                 previously_successful_tests: list[str] = []) -> list[str]:
 
-        return self.prune_detections(detection_file_list, ttps_to_test, previously_successful_tests)
+        return self.prune_detections(detection_file_list,   types_to_test, previously_successful_tests)
 
     def get_all_tests_and_detections(self,
                                      folders: list[str] = [
                                          'endpoint', 'cloud', 'network'],
-                                     ttps_to_test: list[str] = [
+                                       types_to_test: list[str] = [
                                          "Anomaly", "Hunting", "TTP"],
                                      previously_successful_tests: list[str] = []) -> list[str]:
         detections = []
@@ -167,13 +167,13 @@ class GithubService:
                 os.path.join("security_content/detections", folder), "*.yml"))
 
         # Prune this down to only the subset of detections we can test
-        return self.prune_detections(detections, ttps_to_test, previously_successful_tests)
+        return self.prune_detections(detections,   types_to_test, previously_successful_tests)
 
     def get_all_files_in_folder(self, foldername: str, extension: str) -> list[str]:
         filenames = glob.glob(os.path.join(foldername, extension))
         return filenames
 
-    def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'], ttps_to_test=["Anomaly", "Hunting", "TTP"], previously_successful_tests=[]) -> list[str]:
+    def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"], previously_successful_tests=[]) -> list[str]:
         branch1 = self.security_content_branch
         branch2 = 'develop'
         g = git.Git('security_content')
@@ -193,8 +193,8 @@ class GithubService:
                     if 'detections' in file_path and os.path.basename(file_path).endswith('.yml'):
                         changed_detection_files.append(file_path)
         else:
-            print("Looking for changed detections by diffing [%s] against [%s].  Of course none were returned." % (
-                branch1, branch2))
+            print("Looking for changed detections by diffing [%s] against [%s].  They are the same branch, so none were returned." % (
+                branch1, branch2), file=sys.stderr)
             return []
 
         # all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
@@ -214,7 +214,7 @@ class GithubService:
             if name not in changed_detection_files:
                 changed_detection_files.append(name)
 
-        return self.prune_detections(changed_detection_files, ttps_to_test, previously_successful_tests)
+        return self.prune_detections(changed_detection_files,   types_to_test, previously_successful_tests)
 
         #detections_to_test,_,_ = self.filter_test_types(changed_detection_files)
         # for f in detections_to_test:

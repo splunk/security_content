@@ -83,35 +83,47 @@ def generate_escu_app(persist_security_content:bool=False)->str:
                         ". ./.venv/bin/activate",
                         "python3 -m pip install wheel",
                         "python3 -m pip install -r requirements.txt",
-                        "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+                        "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", 
+                        "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
         else:
-            commands = ["s. ./.venv/bin/activate", "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
+            commands = [". ./.venv/bin/activate", 
+                        "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
                         "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
         ret = subprocess.run("; ".join(commands),
                              shell=True, capture_output=True)
         if ret.returncode != 0:
-            print("Error generating new content.  Exiting...")
+            print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (ret.stderr))
             sys.exit(1)
         
 
         
         output_file_name = "DA-ESS-ContentUpdate-latest.tar.gz"
-        output_file_path_from_root = os.path.join("security_content", "slim_packaging", "apps", "upload", output_file_name)
-        output_file_path_from_apps = os.path.join("upload", output_file_name)
+        output_file_path_from_slim_latest = os.path.join("upload", output_file_name)
+        output_file_path_from_security_content = os.path.join("slim_packaging", "slim_latest", output_file_path_from_slim_latest)
+        output_file_path_from_root = os.path.join("security_content", output_file_path_from_security_content
+        
+        
 
         if persist_security_content is True:
-            os.chdir("slim_packaging")
-            commands = ["cd slim-latest",
+            try:
+                os.remove(output_file_path_from_slim_latest)
+            except FileNotFoundError:
+                #No problem if we fail to remove it, that just means it wasn't there and we didn't need to
+                pass
+            except Exception as e:
+                print("Error deleting the (possibly) existing old ESCU File: [%s]"%(str(e)), file=sys.stderr)
+                sys.exit(1)
+
+            #There remove the latest file if it exists
+            commands = ["cd slim_packaging/slim_latest",
                         ". ./.venv/bin/activate",
                         "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                         "slim package -o upload DA-ESS-ContentUpdate",
-                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_apps)]
+                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
 
         else:
             os.mkdir("slim_packaging")
-            os.chdir("slim_packaging")
             os.mkdir("apps")
-
             try:
                 SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
                 SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
@@ -126,10 +138,11 @@ def generate_escu_app(persist_security_content:bool=False)->str:
                       (str(e)), file=sys.stderr)
                 sys.exit(1)
 
-            commands = ["rm -rf slim-latest",
-                        "mkdir slim-latest",
-                        "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim-latest --strip-components=1",
-                        "cd slim-latest",
+            commands = ["rm -rf slim_packaging/slim_latest",
+                        "mkdir slim_packaging/slim_latest",
+                        "cd splim_packaging",
+                        "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim_latest --strip-components=1",
+                        "cd slim_latest",
                         "virtualenv --python=/usr/bin/python2.7 --clear .venv",
                         ". ./.venv/bin/activate",
                         "python3 -m pip install --upgrade pip",
@@ -138,14 +151,15 @@ def generate_escu_app(persist_security_content:bool=False)->str:
                         "python2 -m pip install .",
                         "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                         "slim package -o upload DA-ESS-ContentUpdate",
-                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_apps)]
+                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
 
         ret = subprocess.run("; ".join(commands),
                              shell=True, capture_output=True)
         if ret.returncode != 0:
-            print("Error generating new ESCU Package.\n\tQuitting..." % ())
+            print("Command List:\n%s"%(commands))
+            print("Error generating new ESCU Package.\n\tQuitting and dumping error...\n[%s]" % (ret.stderr.decode('utf-8')),file=sys.stderr)
             sys.exit(1)
-        os.chdir("../..")
+        os.chdir("../")
 
         return output_file_path_from_root
 
@@ -162,7 +176,7 @@ def main(args):
     elif action != "run":
         print("Unsupported action: [%s]" % (action), file=sys.stderr)
         sys.exit(1)
-    print("time to run the test!")
+    
 
     '''
     parser = argparse.ArgumentParser(description="CI Detection Testing")
@@ -235,7 +249,7 @@ def main(args):
 
     all_test_files = github_service.get_test_files(settings['mode'],
                                                    settings['folders'],
-                                                   settings['ttps'],
+                                                   settings['types'],
                                                    settings['detections_list'],
                                                    settings['detections_file'])
 
@@ -266,7 +280,7 @@ def main(args):
         source_path = settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']
         dest_path = os.path.join(local_volume_path, os.path.basename(settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']))
         
-    elif 'SPLUNK_ES_CONTENT_UPDATE' not in settings['local_apps']:
+    elif 'SPLUNK_ES_CONTENT_UPDATE' not in [app['app_name'] for app in settings['local_apps']]:
         print("%s was not found in %s.  We assume this is an error and shut down.\n\t"\
               "Quitting..."%('SPLUNK_ES_CONTENT_UPDATE', "settings['local_apps']"), file=sys.stderr)
         sys.exit(1)
@@ -284,7 +298,8 @@ def main(args):
         #Same file, not a real error.  The copy just doesn't happen
         pass
     except Exception as e:
-        print("Error copying ESCU Package [%s] to [%s].\n\tQuitting..."%(source_path, dest_path), file=sys.stderr)
+        print(os.getcwd())
+        print("Error copying ESCU Package [%s] to [%s]: [%s].\n\tQuitting..."%(source_path, dest_path, str(e)), file=sys.stderr)
         sys.exit(1)
 
 
