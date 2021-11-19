@@ -1,0 +1,60 @@
+name: Remote Process Instantiation via WinRM and PowerShell Script Block
+id: 7d4c618e-4716-11ec-951c-3e22fbd008af
+version: 1
+date: '2021-11-16'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the execution of PowerShell with arguments utilized to start a process
+  on a remote endpoint by abusing the WinRM protocol. Specifically, this search looks
+  for the abuse of the `Invoke-Command` commandlet. Red Teams and adversaries alike
+  may abuse WinRM for lateral movement and remote code execution.
+search: '`powershell` EventCode=4104 (Message="*Invoke-Command*" AND Message="*-ComputerName*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message
+  ComputerName User | `security_content_ctime(firstTime)` | `remote_process_instantiation_via_winrm_and_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
+  can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators may leverage WinRM and `Invoke-Command` to start
+  a process on remote systems for system administration or automation use cases. This activity
+  is usually limited to a small set of hosts or users. In certain environments, tuning may not be possible.
+references:
+- https://attack.mitre.org/techniques/T1021/006/
+- https://pentestlab.blog/2018/05/15/lateral-movement-winrm/
+tags:
+  analytic_story:
+  - Lateral Movement
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_psh/windows-powershell.log
+  kill_chain_phases:
+  - Lateral Movement
+  mitre_attack_id:
+  - T1021
+  - T1021.006
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  security_domain: endpoint
+  impact: 90
+  confidence: 50
+  risk_score: 45
+  context:
+  - Source:Endpoint
+  - Stage:Lateral Movement
+  message: A process was started on a remote endpoint from $ComputerName by abusing
+    WinRM using PowerShell.exe
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
+  automated_detection_testing: passed
