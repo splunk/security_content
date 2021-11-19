@@ -163,6 +163,7 @@ class SSADetectionTesting:
         while not (search_results or max_execution_time_reached):
             max_execution_time_reached = self.wait_time(WAIT_CYCLE)
             query = f"from indexes('detection_testing') | search test_id=\"{test_id}\" "
+            LOGGER.info(f"Executing search query: {query}")
             sid = self.api.submit_search_job('mc', query)
             assert sid is not None, f"Failed to create a Search Job"
 
