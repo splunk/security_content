@@ -1,0 +1,60 @@
+name: Remote Process Instantiation via DCOM and PowerShell Script Block
+id: fa1c3040-4680-11ec-a618-3e22fbd008af
+version: 1
+date: '2021-11-15'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+  to identify the execution of PowerShell with arguments utilized to start a process
+  on a remote endpoint by abusing the DCOM protocol. Specifically, this search looks
+  for the abuse of ShellExecute and ExecuteShellCommand. Red Teams and adversaries
+  alike may abuse DCOM for lateral movement and remote code execution.
+search: '`powershell` EventCode=4104 (Message="*Document.Application.ShellExecute*"
+  OR Message="*Document.ActiveView.ExecuteShellCommand*") | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `remote_process_instantiation_via_dcom_and_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
+  can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators may leverage DCOM to start a process on remote
+  systems, but this activity is usually limited to a small set of hosts or users.
+references:
+- https://attack.mitre.org/techniques/T1021/003/
+- https://www.cybereason.com/blog/dcom-lateral-movement-techniques
+tags:
+  analytic_story:
+  - Lateral Movement
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/lateral_movement/windows-powershell.log
+  kill_chain_phases:
+  - Lateral Movement
+  mitre_attack_id:
+  - T1021
+  - T1021.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - Message
+  - ComputerName
+  - User
+  security_domain: endpoint
+  impact: 90
+  confidence: 70
+  risk_score: 63
+  context:
+  - Source:Endpoint
+  - Stage:Lateral Movement
+  message: A process was started on a remote endpoint from $ComputerName by abusing
+    WMI using PowerShell.exe
+  observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
+  automated_detection_testing: passed
