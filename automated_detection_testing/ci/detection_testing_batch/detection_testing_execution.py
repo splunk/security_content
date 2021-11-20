@@ -10,6 +10,8 @@ import threading
 import queue
 
 from docker.client import DockerClient
+from modules import validate_args
+from modules.validate_args import validate
 from modules.github_service import GithubService
 from modules import aws_service, testing_service
 import time
@@ -163,7 +165,7 @@ def generate_escu_app(persist_security_content:bool=False)->str:
         return output_file_path_from_root
 
 
-def main(args):
+def main(args:list[str]):
     requests.packages.urllib3.disable_warnings()
 
     start_datetime = datetime.now()
@@ -273,13 +275,14 @@ def main(args):
         sys.exit(1)
 
     #Check to see if we want to install ESCU and whether it was preeviously generated and we should use that file
-    if 'SPLUNK_ES_CONTENT_UPDATE' in settings['local_apps'] and  settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE'] is not None:
+    if 'SPLUNK_ES_CONTENT_UPDATE' in settings['local_apps'] and settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] is not None:
         #Using a pregenerated ESCU, copy it to apps (unless it)
 
-        source_path = settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']
-        dest_path = os.path.join(local_volume_path, os.path.basename(settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']))
+        file_path = settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path']
+        source_path = file_path
+        dest_path = os.path.join(local_volume_path, os.path.basename(file_path))
         
-    elif 'SPLUNK_ES_CONTENT_UPDATE' not in [app['app_name'] for app in settings['local_apps']]:
+    elif 'SPLUNK_ES_CONTENT_UPDATE' not in settings['local_apps']:
         print("%s was not found in %s.  We assume this is an error and shut down.\n\t"\
               "Quitting..."%('SPLUNK_ES_CONTENT_UPDATE', "settings['local_apps']"), file=sys.stderr)
         sys.exit(1)
@@ -304,8 +307,50 @@ def main(args):
     print("Wrote ESCU package to volume folder.")
 
     if settings['mock']:
-        print("Okay, just a mock")
-        sys.exit(0)
+        def finish_mock(num_containers:int, detections:list[str], output_file_template:str="config_tests_%d.json"):
+            for output_file_index in range(0, num_containers):
+                fname = output_file_template % (output_file_index)
+                
+                #Get the n'th detection for this file
+                detection_tests = detections[output_file_index::num_containers]
+                normalized_detection_names = []
+                #Normalize the test filename to the name of the detection instead.
+                #These are what we should write to the file
+                for d in detection_tests:
+                    filename = os.path.basename(d)
+                    filename = filename.replace(".test.yml", ".yml")
+                    leading = os.path.split(d)[0]
+                    leading = leading.replace("tests/", "detections/")
+                    new_name = os.path.join(
+                        "security_content", leading, filename)
+                    normalized_detection_names.append(new_name)
+                
+                #Generate an appropriate config file for this test
+                import copy
+                mock_settings = copy.deepcopy(settings)
+                #This may be able to support as many as 2 for GitHub Actions...
+                #we will have to determine in testing.
+                mock_settings['num_containers'] = 1
+                
+                #Must be selected since we are passing in a list of detections
+                mock_settings['mode'] = 'selected'
+            
+                #Pass in the list of detections to run
+                mock_settings['detections_list'] = normalized_detection_names
+
+                #We want to persist security content and run with the escu package that we created
+                mock_settings['persist_security_content'] = True
+
+                #mock_settings['persist_security_content'][]
+
+
+                
+
+                
+            print("Done")
+
+        
+            sys.exit(0)
     print("More than a mock")        
     '''
     if args.split_detections_then_stop:

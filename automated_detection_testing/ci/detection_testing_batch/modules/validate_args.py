@@ -30,7 +30,7 @@ setup_schema = {
         },
 
         "detections_list": {
-            "type": ["array","null"],
+            "type": ["array", "null"],
             "items": {
                 "type": "string"
             },
@@ -43,35 +43,36 @@ setup_schema = {
         },
 
         "local_apps": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "app_name": {
+            "type": "object",
+            "properties": {
+                "value": {
+                    "type": "string",
+                    "properties": {
+                         "app_name": {
                         "type": "string"
                     },
                     "app_number": {
                         "type": "integer"
                     },
                     "app_version": {
-                        "type": ["string","null"]
+                        "type": ["string", "null"]
                     },
                     "local_path": {
                         "type": ["string", "null"],
                         "default": None
                     },
                 }
-            },
-            "default": [
-                {
-                    "app_name": "SPLUNK_ES_CONTENT_UPDATE",
-                    "app_number": 3449,
-                    "app_version": None,
-                    'local_path': None
                 }
-            ]
-
+            },
+            "default": {
+               "SPLUNK_ES_CONTENT_UPDATE": {
+                   "app_number": 3449,
+                   "app_version": None,
+                   'local_path': None
+               }
+            }
         },
+
 
         "mode": {
             "type": "string",
@@ -107,84 +108,80 @@ setup_schema = {
         },
 
         "splunkbase_apps": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "app_name": {
-                        "type": "string"
-                    },
-                    "app_number": {
-                        "type": "integer"
-                    },
-                    "app_version": {
-                        "type": "string"
-                    }
-                },
-            },
-            "default":  [
+            "type": "object",
+            "properies": {
+               "value":
                 {
-                    "app_name": "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES",
+                   "type": "string",
+                    "properties": {
+                        "app_number": {
+                         "type": "integer"
+                     },
+                     "app_version": {
+                         "type": "string"
+                    }
+                    }
+                }
+            },
+            "default": {
+                "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES":{
                     "app_number": 1876,
                     "app_version": "5.2.0"
                 },
+
+                "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365":
                 {
-                    "app_name": "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365",
                     "app_number": 4055,
                     "app_version": "2.2.0"
                 },
-                {
-                    "app_name": "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE",
+
+                "SPLUNK_ADD_ON_FOR_AMAZON_KINESIS_FIREHOSE": {
                     "app_number": 3719,
                     "app_version": "1.3.2"
                 },
-                {
-                    "app_name": "SPLUNK_ANALYTIC_STORY_EXECUTION_APP",
+
+                "SPLUNK_ANALYTIC_STORY_EXECUTION_APP": {
                     "app_number": 4971,
                     "app_version": "2.0.3"
                 },
-                {
-                    "app_name": "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT",
+
+                "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT": {
                     "app_number": 2882,
                     "app_version": "2.0.2"
                 },
-                {
-                    "app_name": "SPLUNK_MACHINE_LEARNING_TOOLKIT",
+
+                "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
                     "app_number": 2890,
                     "app_version": "5.2.2"
                 },
-                {
-                    "app_name": "SPLUNK_APP_FOR_STREAM",
+
+                "SPLUNK_APP_FOR_STREAM": {
                     "app_number": 1809,
                     "app_version": "8.0.1"
                 },
-                {
-                    "app_name": "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA",
+                "SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA": {
                     "app_number": 5234,
                     "app_version": "8.0.1"
                 },
-                {
-                    "app_name": "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS",
+                "SPLUNK_ADD_ON_FOR_STREAM_FORWARDERS": {
                     "app_number": 5238,
                     "app_version": "8.0.1"
                 },
-                {
-                    "app_name": "SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO",
+                "SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO": {
                     "app_number": 1617,
                     "app_version": "4.0.0"
                 },
-                {
-                    "app_name": "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX",
+                "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
                     "app_number": 833,
                     "app_version": "8.3.1"
                 },
-                {
-                    "app_name": "SPLUNK_COMMON_INFORMATION_MODEL",
+                "SPLUNK_COMMON_INFORMATION_MODEL": {
                     "app_number": 1621,
                     "app_version": "4.20.2"
                 }
-            ]
+            }
         },
+
         "splunkbase_username": {
             "type": ["string", "null"],
             "default": None
@@ -262,13 +259,31 @@ def check_dependencies(settings: dict) -> bool:
     return error_free
 
 
+def validate_and_write(configuration: dict, output_file: io.TextIOWrapper) -> tuple[Union[dict, None], dict]:
+    validated_json, setup_schema = validate(configuration)
+    if validated_json == None:
+        print("Error in the new settings! No output file written")
+    else:
+        print("Settings updated.  Writing results to: %s" %
+              (output_file.name))
+        try:
+            output_file.write(json.dumps(
+                validated_json, sort_keys=True, indent=4))
+        except Exception as e:
+            print("Error writing settings to %s: [%s]" % (
+                output_file.name, str(e)), file=sys.stderr)
+            return None, setup_schema
+
+    return validated_json, setup_schema
+
+
 def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
-    #v = jsonschema.Draft201909Validator(argument_schema)
+    # v = jsonschema.Draft201909Validator(argument_schema)
 
     try:
         validation_errors, validated_json = jsonschema_errorprinter.check_json(
             configuration, setup_schema)
-        
+
         no_complex_errors = check_dependencies(validated_json)
         if len(validation_errors) == 0 and no_complex_errors:
             return validated_json, setup_schema
@@ -277,7 +292,7 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
             return None, setup_schema
         else:
             print("[%d] failures detected during validation of the configuration!" % (
-                len(validation_errors)),file=sys.stderr)
+                len(validation_errors)), file=sys.stderr)
             for error in validation_errors:
                 print(error, end="\n\n", file=sys.stderr)
             return None, setup_schema
@@ -292,7 +307,7 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
         print("Error validating the json", file=sys.stderr)
         print(e)
         return False
-        
+
     except jsonschema.exceptions.SchemaError as e:
         print("Error validating the schema", file=sys.stderr)
     """

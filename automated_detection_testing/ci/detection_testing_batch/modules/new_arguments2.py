@@ -55,17 +55,12 @@ def configure_action(args) -> tuple[str, dict]:
         print("\t{0}\n".format(formatted_print))
 
     # Now parse the new config and make sure it's good
-    validated_new_settings, schema = validate_args.validate(new_config)
-    if validated_new_settings == None:
-        print("Error in the new settings!")
+    validated_new_settings, schema = validate_args.validate_and_write(new_config, args.output_config_file)
+    if validated_new_settings == None:        
+        print("Could not update settings.\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
-        
-    else:
-        print("New settings successful.  Writing results to: %s" %
-              (args.output_config_file.name))
-        args.output_config_file.write(json.dumps(
-            validated_new_settings, sort_keys=True, indent=4))
     
+
     return ("configure", validated_new_settings)
 
 
