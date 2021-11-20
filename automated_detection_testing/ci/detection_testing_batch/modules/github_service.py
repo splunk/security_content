@@ -109,7 +109,7 @@ class GithubService:
                         detections_list: Union[list[str], None], 
                        detections_file=Union[str, None]) -> list[str]:
         if mode == "changes":
-            tests = self.get_changed_test_files(folders,   types)
+            tests = self.get_changed_test_files(folders, types)
         elif mode == "selected":
             if detections_list is None and detections_file is None:
                 #It's actually valid to supply an EMPTY list of files and the test should pass.
@@ -118,14 +118,14 @@ class GithubService:
                 print("Trying to test a list of files, but None were provided", file=sys.stderr)
                 sys.exit(1)
 
-            if detections_list is not None and detections_file is not None:
+            elif detections_list is not None and detections_file is not None:
                 print("Both detections_list [%s] and detections_file [%s] were provided.  "\
                       "Because these confilect, we cannot test.\n\tQuitting..."%
                       (detections_list, detections_file), file=sys.stderr)
                 sys.exit(1)
-            if detections_list is not None:
+            elif detections_list is not None:
                 tests = self.get_selected_test_files(detections_list, folders,   types)
-            if detections_file is not None:
+            elif detections_file is not None:
                 try:
                     with open(detections_file,'r') as f:
                         data = f.readlines()
@@ -137,15 +137,18 @@ class GithubService:
                     sys.exit(1)
                 
                 tests = self.get_selected_test_files(files_to_test, folders,   types)
+            else:
+                #impossible to get here
+                print("Impossible to get here.  Just kept to make the if/elif more self describing",file=sys.stderr)
+                sys.exit(1)
 
         elif mode == "all":
             tests = self.get_all_tests_and_detections(folders,  types)
         else:
-            print(
-                "Error, unsupported mode [%s].  Mode must be one of %s", file=sys.stderr)
+            print("Error, unsupported mode [%s].  Mode must be one of %s", file=sys.stderr)
             sys.exit(1)
 
-        return []
+        return tests
 
     def get_selected_test_files(self,
                                 detection_file_list: list[str],

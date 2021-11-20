@@ -1,37 +1,33 @@
-import sys
 import argparse
-import shutil
+import copy
+import csv
+import json
 import os
-import time
+import queue
 import random
 import secrets
-import docker
-import threading
-import queue
-
-from docker.client import DockerClient
-from modules import validate_args
-from modules.validate_args import validate
-from modules.github_service import GithubService
-from modules import aws_service, testing_service
-import time
-import subprocess
-
-from timeit import default_timer as timer
-from datetime import timedelta
-from datetime import datetime
-import string
 import shutil
-from typing import Union
+import string
+import subprocess
+import sys
+import threading
+import time
 from collections import OrderedDict
+from datetime import datetime, timedelta
 from tempfile import mkdtemp
-import csv
+from timeit import default_timer as timer
+from typing import Union
 
-from requests import get
-import json
+import docker
 import requests.packages.urllib3
+from docker.client import DockerClient
+from requests import get
+from modules.validate_args import validate_and_write
 
 import modules.new_arguments2
+from modules import aws_service, testing_service, validate_args
+from modules.github_service import GithubService
+from modules.validate_args import validate
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -52,12 +48,13 @@ def ensure_security_content(branch: str, pr_number: Union[int, None], persist_se
               "out of date. ******")
         github_service = GithubService(
             branch, existing_directory=persist_security_content)
-
-    elif persist_security_content is True:
-        print("Error - you chose --persist_security_content but the security_content directory does not exist!\n\tQuitting...")
-        sys.exit(1)
+    
     else:
-        if os.path.exists("security_content/"):
+        if persist_security_content is True and not os.path.exists("security_content"):
+            print("Error - you chose --persist_security_content but the security_content directory does not exist!"\
+                  "  We will check it out for you.\n\tQuitting...")
+        
+        elif os.path.exists("security_content/"):
             print("Deleting the security_content directory")
             try:
                 shutil.rmtree("security_content/", ignore_errors=True)
@@ -178,7 +175,8 @@ def main(args:list[str]):
         print("Unsupported action: [%s]" % (action), file=sys.stderr)
         sys.exit(1)
     
-
+    
+    
     '''
     parser = argparse.ArgumentParser(description="CI Detection Testing")
     parser.add_argument("-b", "--branch", type=str, required=True, help="security content branch")
@@ -248,6 +246,7 @@ def main(args:list[str]):
     github_service = ensure_security_content(
         settings['branch'], settings['pr_number'], settings['persist_security_content'])
 
+
     all_test_files = github_service.get_test_files(settings['mode'],
                                                    settings['folders'],
                                                    settings['types'],
@@ -307,7 +306,18 @@ def main(args:list[str]):
     print("Wrote ESCU package to volume folder.")
 
     if settings['mock']:
-        def finish_mock(num_containers:int, detections:list[str], output_file_template:str="config_tests_%d.json"):
+        def finish_mock(settings:dict, detections:list[str], output_file_template:str="prior_config/config_tests_%d.json"):
+            num_containers = settings['num_containers']
+
+            
+            try:
+                os.mkdir("prior_config")
+            except FileExistsError:
+                pass
+            except Exception as e:
+                print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..."%(str(e)), file=sys.stderr)
+                sys.exit(1)
+
             for output_file_index in range(0, num_containers):
                 fname = output_file_template % (output_file_index)
                 
@@ -326,7 +336,6 @@ def main(args:list[str]):
                     normalized_detection_names.append(new_name)
                 
                 #Generate an appropriate config file for this test
-                import copy
                 mock_settings = copy.deepcopy(settings)
                 #This may be able to support as many as 2 for GitHub Actions...
                 #we will have to determine in testing.
@@ -341,16 +350,33 @@ def main(args:list[str]):
                 #We want to persist security content and run with the escu package that we created
                 mock_settings['persist_security_content'] = True
 
-                #mock_settings['persist_security_content'][]
-
+                mock_settings['local_apps'] = { 
+                    "SPLUNK_ES_CONTENT_UPDATE": {
+                        "app_number": 3449,
+                        "app_version": None,
+                        'local_path': "prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz"}
+                    }
+                
+                mock_settings['mock'] = False
+                
+                #Make sure that it still validates after all of the changes
 
                 
-
                 
-            print("Done")
+                try:
+                    with open(fname,'w') as cfg:
+                        validated_settings,b = validate_and_write(mock_settings,cfg)
+                        if validated_settings is None:
+                            print("There was an error validating the updated mock settings.\n\tQuitting...",file=sys.stderr)
+                            sys.exit(1)
 
+                except Exception as e:
+                    print("Error writing config file %s: [%s]\n\tQuitting..."%(fname,str(e)),file=sys.stderr)
+                    sys.exit(1)
         
             sys.exit(0)
+        finish_mock(settings,all_test_files)
+
     print("More than a mock")        
     '''
     if args.split_detections_then_stop:

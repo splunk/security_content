@@ -131,6 +131,8 @@ def parse(args)->tuple[str,dict]:
                             "cannot be changed (except for credentials that can be "\
                             "entered on the command line).")
 
+    
+
     run_parser.add_argument('-user', '--splunkbase_username', required=False, type=str,
                             help="Username for login to splunkbase.  This is required "
                             "if downloading packages from Splunkbase.  While this can "
@@ -149,6 +151,10 @@ def parse(args)->tuple[str,dict]:
     run_parser.add_argument("-show_pass", "--show_splunk_app_password", required=False, 
                             action="store_true",
                             help="The password to login to the Splunk Server.  ")
+    
+    run_parser.add_argument("-m", "--mock", required=False, 
+                            action="store_true",
+                            help="Split into multiple configs, don't actually run the tests.")
 
     args = parser.parse_args()
     
