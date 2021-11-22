@@ -6,30 +6,33 @@ author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: This analytic will detect a suspicious process contains a commandline parameter related to web browser credential dumper. 
-  This technique was used by Remcos RAT malware where it use the techique of Nirsoft webbrowserpassview.exe application to dump web browser credentials. 
-  Remcos use the "/stext" commandline to dump the credential in text format. This Hunting query is good indicator to look further for possible remcos infection within the network or possible
-  compromised host. Since the detections is only base on the parameter command and the possible path where it will drop the text credential information, It may catch normal tools that having same 
-  command and behavior. 
+description: This analytic will detect a suspicious process contains a commandline
+  parameter related to web browser credential dumper. This technique was used by Remcos
+  RAT malware where it use the techique of Nirsoft webbrowserpassview.exe application
+  to dump web browser credentials. Remcos use the "/stext" commandline to dump the
+  credential in text format. This Hunting query is good indicator to look further
+  for possible remcos infection within the network or possible compromised host. Since
+  the detections is only base on the parameter command and the possible path where
+  it will drop the text credential information, It may catch normal tools that having
+  same command and behavior.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process  IN ("*/stext *", "*/shtml *", "*/LoadPasswordsIE*", "*/LoadPasswordsFirefox*", "*/LoadPasswordsChrome*", "*/LoadPasswordsOpera*", "*/LoadPasswordsSafari*"
-  , "*/UseOperaPasswordFile*", "*/OperaPasswordFile*","*/stab*", "*/scomma*", "*/stabular*", "*/shtml*", "*/sverhtml*", "*/sxml*", "*/skeepass*" ) 
-  AND Processes.process IN ("*\\temp\\*", "*\\users\\public\\*", "*\\programdata\\*")
+  as lastTime from datamodel=Endpoint.Processes where Processes.process  IN ("*/stext
+  *", "*/shtml *", "*/LoadPasswordsIE*", "*/LoadPasswordsFirefox*", "*/LoadPasswordsChrome*",
+  "*/LoadPasswordsOpera*", "*/LoadPasswordsSafari*" , "*/UseOperaPasswordFile*", "*/OperaPasswordFile*","*/stab*",
+  "*/scomma*", "*/stabular*", "*/shtml*", "*/sverhtml*", "*/sxml*", "*/skeepass*"
+  ) AND Processes.process IN ("*\\temp\\*", "*\\users\\public\\*", "*\\programdata\\*")
   by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `possible_browser_pass_view_parameter_filter`'
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `possible_browser_pass_view_parameter_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
 known_false_positives: False positive is quite limited. Filter is needed
 references:
--  https://www.nirsoft.net/utils/web_browser_password.html
--  https://app.any.run/tasks/df0baf9f-8baf-4c32-a452-16562ecb19be/
+- https://www.nirsoft.net/utils/web_browser_password.html
+- https://app.any.run/tasks/df0baf9f-8baf-4c32-a452-16562ecb19be/
 tags:
   analytic_story:
   - Remcos
@@ -60,9 +63,8 @@ tags:
   security_domain: endpoint
   impact: 40
   confidence: 40
-  # (impact * confidence)/100
   risk_score: 16
-  context: 
+  context:
   - Source:Endpoint
   - Stage:Credential Access
   message: suspicious process $process_name$ contains commandline $process$ on $dest$
@@ -75,3 +77,4 @@ tags:
     type: Hostname
     role:
     - Victim
+  automated_detection_testing: passed
