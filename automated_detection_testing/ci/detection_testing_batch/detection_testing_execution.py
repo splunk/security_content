@@ -48,10 +48,10 @@ def copy_local_apps_to_directory(apps: dict[str,dict], target_directory)->None:
         source_path = os.path.abspath(os.path.expanduser(item['local_path']))
         base_name = os.path.basename(source_path)
         dest_path = os.path.join(target_directory, base_name)
+        
         try:
             shutil.copy(source_path, dest_path)
             item['local_path'] = dest_path
-            print("Copied %s to apps"%(base_name))     
         except shutil.SameFileError as e:
             # Same file, not a real error.  The copy just doesn't happen
             print("err:%s"%(str(e)))
@@ -153,6 +153,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
             response.raise_for_status()
             with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
                 slim_file.write(response.content)
+            print("Done")
         except Exception as e:
             print("Error downloading the Splunk Packaging Toolkit: [%s].\n\tQuitting..." %
                   (str(e)), file=sys.stderr)
@@ -186,6 +187,11 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
 
 def main(args: list[str]):
+    try:
+        docker.client.from_env()
+    except Exception as e:
+        print("Error, failed to get docker client.  Is Docker Running?\n\t%s"%(str(e)))
+
     requests.packages.urllib3.disable_warnings()
 
     start_datetime = datetime.now()
@@ -197,8 +203,8 @@ def main(args: list[str]):
     elif action != "run":
         print("Unsupported action: [%s]" % (action), file=sys.stderr)
         sys.exit(1)
-
-
+    
+    
     '''
     parser = argparse.ArgumentParser(description="CI Detection Testing")
     parser.add_argument("-b", "--branch", type=str, required=True, help="security content branch")
@@ -274,13 +280,8 @@ def main(args: list[str]):
                                                    settings['detections_list'],
                                                    settings['detections_file'])
 
-
-#    if len(all_test_files) == 0:
-#        print("No files were found to be tested.  While this could be due to an error, "\
-#              "this could be correct if there were no changes to detections.  We will "\
-#              "exit with success.\n\tQuitting...")
-#        sys.exit(0)
-
+    
+    
     local_volume_absolute_path = os.path.abspath(
         os.path.join(os.getcwd(), "apps"))
     try:
@@ -444,7 +445,7 @@ def main(args: list[str]):
                                             interactive_failure=settings['interactive_failure'])
 
 
-    print(cm.containers[0].environment)
+    
     cm.run_test()
 
     '''

@@ -103,7 +103,7 @@ class ContainerManager:
         self.baseline['TEST_FINISH_TIME'] =  str(stop_time)
         
         duration = stop_time - self.start_time
-        self.baseline['TEST_DURATION'] = duration - datetime.timedelta(microseconds=duration.microseconds)
+        self.baseline['TEST_DURATION'] = str(duration - datetime.timedelta(microseconds=duration.microseconds))
 
         self.synchronization_object.finish(self.baseline)
 

@@ -1,4 +1,6 @@
 import argparse
+import copy
+import datetime
 import json
 from typing import OrderedDict, Union
 import modules.validate_args as validate_args
@@ -86,6 +88,16 @@ def update_config_with_cli_arguments(args_dict:dict)->tuple[str, dict]:
         print("Failure while processing updated settings from command line.\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
     
+    now = datetime.datetime.now()
+    configname = now.strftime('%Y-%m-%dT%H:%M:%S.%f%z') + '-test-run.json' 
+    with open(configname,'w') as test_config:
+        settings_with_creds_stripped = copy.deepcopy(settings)
+        #strip out credentials
+        settings_with_creds_stripped['splunkbase_password'] = None
+        settings_with_creds_stripped['splunkbase_username'] = None
+        settings_with_creds_stripped['container_password'] = None
+        validate_args.validate_and_write(settings_with_creds_stripped, test_config)
+
     return ("run", settings)
 
     
@@ -141,6 +153,13 @@ def parse(args)->tuple[str,dict]:
                             "if downloading packages from Splunkbase.  While this can "
                             "be stored in the config file, it is strongly recommended "
                             "to enter it at runtime.")
+
+    run_parser.add_argument('-b', '--branch', required=False, type=str,
+                            help="The branch to run the tests on.")
+    
+    run_parser.add_argument('-m', '--mode', required=False, type=str,
+                            help="The mode all, changes, or selected for the testing.")
+
     run_parser.add_argument('-pass', '--splunkbase_password', required=False, type=str,
                             help="Password for login to splunkbase.  This is required if "
                             "downloading packages from Splunkbase.  While this can be "
@@ -158,7 +177,7 @@ def parse(args)->tuple[str,dict]:
                             "file is set to true, it will override the default False for this.  True "\
                             "will override the default value in the config file.")
     
-    run_parser.add_argument("-m", "--mock", required=False, 
+    run_parser.add_argument("-mock", "--mock", required=False, 
                             action="store_true",
                             help="Split into multiple configs, don't actually run the tests. If the config "\
                             "file is set to true, it will override the default False for this.  True "\

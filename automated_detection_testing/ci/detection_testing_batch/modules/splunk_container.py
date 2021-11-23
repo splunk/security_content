@@ -59,7 +59,7 @@ class SplunkContainer:
         self.management_port = management_port_tuple[1]
         self.container = self.make_container()
 
-        self.thread = threading.Thread(target=self.run_container)
+        self.thread = threading.Thread(target=self.run_container, )
 
         self.container_start_time = 0
         self.test_start_time = 0
@@ -221,7 +221,7 @@ class SplunkContainer:
         if self.container_start_time == -1:
             total_time_string = "NOT STARTED"
         else:
-            total_time_rounded = datetime.timedelta(
+            total_time_rounded = datetime.timedelta( seconds =
                 round(current_time - self.container_start_time))
             total_time_string = str(total_time_rounded)
 
@@ -229,7 +229,7 @@ class SplunkContainer:
         if self.test_start_time == -1 or self.container_start_time == -1:
             setup_time_string = "NOT SET UP"
         else:
-            setup_secounds_rounded = datetime.timedelta(
+            setup_secounds_rounded = datetime.timedelta(seconds =
                 round(self.test_start_time - self.container_start_time))
             setup_time_string = str(setup_secounds_rounded)
 
@@ -237,7 +237,7 @@ class SplunkContainer:
         if self.test_start_time == -1 or self.num_tests_completed == 0:
             testing_time_string = "NO TESTS COMPLETED"
         else:
-            testing_seconds_rounded = datetime.timedelta(
+            testing_seconds_rounded = datetime.timedelta( seconds =
                 round(current_time - self.test_start_time))
 
             # Get the approximate time per test.  This is a clunky way to get rid of decimal
@@ -246,13 +246,13 @@ class SplunkContainer:
             timedelta_per_test_rounded = timedelta_per_test - \
                 datetime.timedelta(
                     microseconds=timedelta_per_test.microseconds)
+            
+            testing_time_string = "%s per test (%d tests)"%(timedelta_per_test_rounded, self.num_tests_completed)
 
-            testing_time_string = "%s per test (%d tests)"%(timedelta_per_test_rounded, str(testing_seconds_rounded))
-
-        summary_str = "[%s] Summary\n\t"\
-                      "Total Time          :"\
-                      "Container Start Time:"\
-                      "Test Execution Time :" %(total_time_string, setup_time_string, testing_time_string)
+        summary_str = "Summary\n\t"\
+                      "Total Time          : [%s]\n\t"\
+                      "Container Start Time: [%s]\n\t"\
+                      "Test Execution Time : [%s]" %(total_time_string, setup_time_string, testing_time_string)
         
         return summary_str
 

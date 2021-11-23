@@ -50,6 +50,7 @@ class GithubService:
                          summary_file: str = None) -> list[str]:
         pruned_tests = []
         csvlines = []
+        
         for detection in detections_to_prune:
             if os.path.basename(detection).startswith("ssa") and exclude_ssa:
                 continue
@@ -61,8 +62,8 @@ class GithubService:
                 test_filepath_without_security_content = str(
                     pathlib.Path(*pathlib.Path(test_filepath).parts[1:]))
                 # If no   types are provided, then we will get everything
-                if 'type' in description and (description['type'] in   types_to_test or len(  types_to_test) == 0):
-                    # print(description['type'])
+                if 'type' in description and (description['type'] in types_to_test or len(types_to_test) == 0):
+                    
                     if not os.path.exists(test_filepath):
                         print("Detection [%s] references [%s], but it does not exist" % (
                             detection, test_filepath))
@@ -124,7 +125,7 @@ class GithubService:
                       (detections_list, detections_file), file=sys.stderr)
                 sys.exit(1)
             elif detections_list is not None:
-                tests = self.get_selected_test_files(detections_list, folders,   types)
+                tests = self.get_selected_test_files(detections_list, types)
             elif detections_file is not None:
                 try:
                     with open(detections_file,'r') as f:
@@ -156,7 +157,7 @@ class GithubService:
                                     "Anomaly", "Hunting", "TTP"],
                                 previously_successful_tests: list[str] = []) -> list[str]:
 
-        return self.prune_detections(detection_file_list,   types_to_test, previously_successful_tests)
+        return self.prune_detections(detection_file_list, types_to_test, previously_successful_tests)
 
     def get_all_tests_and_detections(self,
                                      folders: list[str] = [
@@ -170,7 +171,7 @@ class GithubService:
                 os.path.join("security_content/detections", folder), "*.yml"))
 
         # Prune this down to only the subset of detections we can test
-        return self.prune_detections(detections,   types_to_test, previously_successful_tests)
+        return self.prune_detections(detections, types_to_test, previously_successful_tests)
 
     def get_all_files_in_folder(self, foldername: str, extension: str) -> list[str]:
         filenames = glob.glob(os.path.join(foldername, extension))
