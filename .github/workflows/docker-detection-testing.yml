@@ -254,3 +254,18 @@ jobs:
             name: SummaryTestResults
             path: |
               automated_detection_testing/ci/detection_testing_batch/summary_test_results.json
+        
+        - name: Clean up intermediate Files
+          uses: geekyeggo/delete-artifact@v1
+          with:
+              name: |
+                container_0_tests.txt.results
+                container_1_tests.txt.results
+                container_2_tests.txt.results
+                container_3_tests.txt.results
+                container_4_tests.txt.results
+                container_5_tests.txt.results
+                container_6_tests.txt.results
+                container_7_tests.txt.results
+                container_8_tests.txt.results
+                container_9_tests.txt.results

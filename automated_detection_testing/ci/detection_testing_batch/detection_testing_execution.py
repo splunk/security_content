@@ -3,6 +3,7 @@ import copy
 import csv
 import json
 import os
+from posixpath import basename
 import queue
 import random
 import secrets
@@ -41,6 +42,24 @@ datamodel_file_container_path = os.path.join(
 
 
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
+
+def copy_local_apps_to_directory(apps: dict[str,dict], target_directory)->None:
+    for key, item in apps.items():
+        source_path = os.path.abspath(os.path.expanduser(item['local_path']))
+        base_name = os.path.basename(source_path)
+        dest_path = os.path.join(target_directory, base_name)
+        try:
+            shutil.copy(source_path, dest_path)
+            item['local_path'] = dest_path
+            print("Copied %s to apps"%(base_name))     
+        except shutil.SameFileError as e:
+            # Same file, not a real error.  The copy just doesn't happen
+            print("err:%s"%(str(e)))
+            pass
+        except Exception as e:
+            print("Error copying ESCU Package [%s] to [%s]: [%s].\n\tQuitting..." % (
+                source_path, dest_path, str(e)), file=sys.stderr)
+            sys.exit(1)
 
 
 def ensure_security_content(branch: str, pr_number: Union[int, None], persist_security_content: bool) -> GithubService:
@@ -265,7 +284,9 @@ def main(args: list[str]):
     local_volume_absolute_path = os.path.abspath(
         os.path.join(os.getcwd(), "apps"))
     try:
-        os.mkdir("apps")
+        #remove the directory first
+        shutil.rmtree(local_volume_absolute_path,ignore_errors=True)
+        os.mkdir(local_volume_absolute_path)
     except FileExistsError as e:
         # Directory already exists, do nothing
         pass
@@ -277,11 +298,11 @@ def main(args: list[str]):
     # Check to see if we want to install ESCU and whether it was preeviously generated and we should use that file
     if 'SPLUNK_ES_CONTENT_UPDATE' in settings['local_apps'] and settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] is not None:
         # Using a pregenerated ESCU, copy it to apps (unless it)
-
-        file_path = os.path.expanduser(settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'])
-        source_path = file_path
-        dest_path = os.path.join(
-            local_volume_absolute_path, os.path.basename(file_path))
+        pass
+        #file_path = os.path.expanduser(settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'])
+        #source_path = file_path
+        #dest_path = os.path.join(
+        #    local_volume_absolute_path, os.path.basename(file_path))
 
     elif 'SPLUNK_ES_CONTENT_UPDATE' not in settings['local_apps']:
         print("%s was not found in %s.  We assume this is an error and shut down.\n\t"
@@ -290,11 +311,18 @@ def main(args: list[str]):
     else:
         # Need to generate that package
         source_path = generate_escu_app(settings['persist_security_content'])
-        dest_path = os.path.join(
-            local_volume_absolute_path, os.path.basename(source_path))
-    COPY_ALL_LOCAL_FILES_NOT_JUST_ESCU
+        settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
+        #dest_path = os.path.join(
+        #    local_volume_absolute_path, os.path.basename(source_path))
+    
     
 
+    copy_local_apps_to_directory(settings['local_apps'], local_volume_absolute_path)
+    
+
+
+    
+    '''
     # Now write out the package, whether it was previously generated or
     # we just generated it
     try:
@@ -311,19 +339,30 @@ def main(args: list[str]):
         sys.exit(1)
 
     print("Wrote ESCU package to volume folder.")
+    '''
 
     if settings['mock']:
         def finish_mock(settings: dict, detections: list[str], output_file_template: str = "prior_config/config_tests_%d.json"):
             num_containers = settings['num_containers']
 
             try:
-                os.mkdir("prior_config")
-            except FileExistsError:
-                pass
+                #Remove the prior config directory if it exists.  If not, continue
+                shutil.rmtree("prior_config", ignore_errors=True)
+                
+                #We want to make the prior_config directory and the prior_config/apps directory
+                os.makedirs("prior_config/apps")
+            except FileExistsError as e:
+                print("Directory priorconfig/apps exists, but we just deleted it!\m\tQuitting...",file=sys.stderr)
+                sys.exit(1)
             except Exception as e:
                 print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..." % (
                     str(e)), file=sys.stderr)
                 sys.exit(1)
+
+            
+            #Copy the apps to the appropriate local.  This will also update
+            #the app paths in settings['local_apps']
+            copy_local_apps_to_directory(settings['local_apps'], "prior_config/apps")
 
             for output_file_index in range(0, num_containers):
                 fname = output_file_template % (output_file_index)
@@ -356,13 +395,6 @@ def main(args: list[str]):
 
                 # We want to persist security content and run with the escu package that we created
                 mock_settings['persist_security_content'] = True
-
-                mock_settings['local_apps'] = {
-                    "SPLUNK_ES_CONTENT_UPDATE": {
-                        "app_number": 3449,
-                        "app_version": None,
-                        'local_path': "prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz"}
-                }
 
                 mock_settings['mock'] = False
 

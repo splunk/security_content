@@ -180,13 +180,13 @@ setup_schema = {
                     "app_number": 833,
                     "app_version": "8.3.1"
                 },
-                "SPLUNK_COMMON_INFORMATION_MODEL": {
-                    "app_number": 1621,
-                    "app_version": "4.20.2"
-                },
                 "SPLUNK_ADD_ON_FOR_SYSMON": {
                     "app_number": 5709,
                     "app_version": "1.0.1"
+                },
+                "SPLUNK_COMMON_INFORMATION_MODEL": {
+                    "app_number": 1621,
+                    "app_version": "4.20.2"
                 }
             }
         },
