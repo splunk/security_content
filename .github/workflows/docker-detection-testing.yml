@@ -202,7 +202,7 @@ jobs:
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: config_tests_3.json.txt.results
+            name: config_tests_3.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_3
         - name: Download artifacts
           uses: actions/download-artifact@v2
