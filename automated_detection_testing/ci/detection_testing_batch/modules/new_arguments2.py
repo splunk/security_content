@@ -183,6 +183,10 @@ def parse(args)->tuple[str,dict]:
                             "file is set to true, it will override the default False for this.  True "\
                             "will override the default value in the config file.")
 
+    run_parser.add_argument("-n", "--num_containers", required=False, type=int,
+                            help="The number of Splunk containers to run or mock")
+    
+
     args = parser.parse_args()
     
     

@@ -69,11 +69,6 @@ setup_schema = {
                    "app_number": 3449,
                    "app_version": None,
                    'local_path': None
-               },
-               "BETA_SPLUNK_ADD_ON_FOR_SYSMON": {
-                   "app_number": 5709,
-                   "app_version": None,
-                   "local_path": "~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
                }
             }
         },
