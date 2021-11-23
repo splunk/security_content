@@ -69,6 +69,11 @@ setup_schema = {
                    "app_number": 3449,
                    "app_version": None,
                    'local_path': None
+               },
+               "BETA_SPLUNK_ADD_ON_FOR_SYSMON": {
+                   "app_number": 5709,
+                   "app_version": None,
+                   "local_path": "~/Downloads/Splunk_TA_microsoft_sysmon-1.0.2-B1.spl"
                }
             }
         },
@@ -178,6 +183,10 @@ setup_schema = {
                 "SPLUNK_COMMON_INFORMATION_MODEL": {
                     "app_number": 1621,
                     "app_version": "4.20.2"
+                },
+                "SPLUNK_ADD_ON_FOR_SYSMON": {
+                    "app_number": 5709,
+                    "app_version": "1.0.1"
                 }
             }
         },
@@ -240,8 +249,11 @@ def validate_file(file: io.TextIOWrapper) -> tuple[Union[dict, None], dict]:
 def check_dependencies(settings: dict) -> bool:
     # Check complex mode dependencies
     error_free = True
+    
+    
     if settings['mode'] == 'selected':
         # Make sure that exactly one of the following fields is populated
+    
         if settings['detections_file'] == None and settings['detections_list'] == None:
             print("Error - mode was 'selected' but no detections_list or detections_file were supplied.", file=sys.stderr)
             error_free = False
@@ -254,7 +266,7 @@ def check_dependencies(settings: dict) -> bool:
     elif settings['mode'] != 'selected' and settings['detections_list'] != None:
         print("Error - mode was not 'selected' but detections_list was supplied.", file=sys.stderr)
         error_free = False
-
+    
     # Returns true if there are not errors
     return error_free
 
@@ -281,23 +293,27 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
     # v = jsonschema.Draft201909Validator(argument_schema)
 
     try:
+        
         validation_errors, validated_json = jsonschema_errorprinter.check_json(
             configuration, setup_schema)
-
-        no_complex_errors = check_dependencies(validated_json)
-        if len(validation_errors) == 0 and no_complex_errors:
-            return validated_json, setup_schema
-        elif no_complex_errors == False:
-            print("Failed due to error(s) listed above.", file=sys.stderr)
-            return None, setup_schema
+        
+        if len(validation_errors) == 0:
+            #check to make sure there were no complex errors
+            no_complex_errors = check_dependencies(validated_json)
+            if no_complex_errors:
+                return validated_json, setup_schema
+            else:
+                print("Validation failed due to error(s) listed above.", file=sys.stderr)
+                return None, setup_schema
         else:
             print("[%d] failures detected during validation of the configuration!" % (
                 len(validation_errors)), file=sys.stderr)
             for error in validation_errors:
                 print(error, end="\n\n", file=sys.stderr)
             return None, setup_schema
+            
     except Exception as e:
-        print(str(e), file=sys.stderr)
+        print("There was an error validation the configuration: [%s]"%(str(e)), file=sys.stderr)
         return None, setup_schema
 
     """

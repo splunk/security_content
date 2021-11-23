@@ -14,7 +14,7 @@ def configure_action(args) -> tuple[str, dict]:
         settings, schema = validate_args.validate_file(args.input_config_file)
 
     if settings is None:
-        print("Failure while processing settings.\n\tQuitting...", file=sys.stderr)
+        print("Failure while processing settings\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
 
     new_config = {}
@@ -36,6 +36,7 @@ def configure_action(args) -> tuple[str, dict]:
                 new_config[arg] = json.loads(choice.lower())
                 formatted_print = choice.lower()
             else:
+
                 if choice in ['true', 'false'] or (choice.isdigit() and schema['properties'][arg]['type'] != "integer"):
                     choice = '"' + choice + '"'
                 # replace all single quotes with doubles quotes to make valid json
@@ -45,6 +46,8 @@ def configure_action(args) -> tuple[str, dict]:
                     choice = choice.replace("'", '"')
                 elif '"' in choice:
                     #Do nothing
+                    pass
+                elif choice.isdigit():
                     pass
                 else:
                     choice = '"' + choice + '"'
@@ -148,20 +151,43 @@ def parse(args)->tuple[str,dict]:
                             help="Password for login to the splunk app.  If you don't "
                             "provide one here or in the config, it will be generated "
                             "automatically for you.")
-    run_parser.add_argument("-show_pass", "--show_splunk_app_password", required=False, 
+
+    run_parser.add_argument("-show_pass", "--show_splunk_app_password", required=False,
                             action="store_true",
-                            help="The password to login to the Splunk Server.  ")
+                            help="The password to login to the Splunk Server.  If the config "\
+                            "file is set to true, it will override the default False for this.  True "\
+                            "will override the default value in the config file.")
     
     run_parser.add_argument("-m", "--mock", required=False, 
                             action="store_true",
-                            help="Split into multiple configs, don't actually run the tests.")
+                            help="Split into multiple configs, don't actually run the tests. If the config "\
+                            "file is set to true, it will override the default False for this.  True "\
+                            "will override the default value in the config file.")
 
     args = parser.parse_args()
     
+    
     # Run the appropriate parser
-
     try:
+        #If an argument is not passed on the command line, don't overwrite its config 
+        #file value with None - keep the config file value
+        keys = list(args.__dict__.keys())
+        for key in keys:
+            if args.__dict__[key] is None and key in ["show_pass", "mock"]:
+                del args.__dict__[key]
+
         action, settings = args.func(args)
+        
+        '''
+        default_settings,_ = validate_args.validate({})
+        if default_settings is None:
+            print("Somehow default settings were None.\n\tQuitting...",file=sys.stderr)
+            sys.exit(1)
+        #Fix up the show_app_password and mock arguments, as shown in the documentation
+        #for those args
+        settings['show_splunk_app_password'] |= default_settings['show_splunk_app_password']
+        settings['mock'] |= default_settings['mock']
+        '''
         return action, settings
     except Exception as e:
         print("Unknown Error - [%s]" % (str(e)))

@@ -9,9 +9,9 @@ import os.path
 import random
 import requests
 import shutil
-import splunk_sdk
-import testing_service
-import test_driver
+from modules import splunk_sdk
+from modules import testing_service
+from modules import test_driver 
 import time
 import timeit
 from typing import Union
@@ -27,7 +27,8 @@ class SplunkContainer:
         synchronization_object: test_driver.TestDriver,
         full_docker_hub_path,
         container_name: str,
-        apps: OrderedDict,
+        local_apps: OrderedDict,
+        splunkbase_apps: OrderedDict,
         web_port_tuple: tuple[str, int],
         management_port_tuple: tuple[str, int],
         container_password: str,
@@ -43,13 +44,15 @@ class SplunkContainer:
         self.client = docker.client.from_env()
         self.full_docker_hub_path = full_docker_hub_path
         self.container_password = container_password
-        self.apps = apps
+        self.local_apps = local_apps
+        self.splunkbase_apps = splunkbase_apps
+         
         self.files_to_copy_to_container = files_to_copy_to_container
         self.splunk_ip = splunk_ip
         self.container_name = container_name
         self.mounts = mounts
         self.environment = self.make_environment(
-            apps, container_password, splunkbase_username, splunkbase_password
+            local_apps, splunkbase_apps, container_password, splunkbase_username, splunkbase_password
         )
         self.ports = self.make_ports(web_port_tuple, management_port_tuple)
         self.web_port = web_port_tuple[1]
@@ -64,41 +67,40 @@ class SplunkContainer:
 
     def prepare_apps_path(
         self,
-        apps: OrderedDict,
+        local_apps: OrderedDict,
+        splunkbase_apps: OrderedDict,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
     ) -> tuple[str, bool]:
         apps_to_install = []
         require_credentials = False
-        for app_name in self.apps:
-            app = self.apps[app_name]
-            if app["location"] == "splunkbase":
-                if splunkbase_username is None or splunkbase_password is None:
-                    raise Exception(
-                        "Error: Requested app from Splunkbase but Splunkbase username and/or password were not supplied."
-                    )
-                target = SPLUNKBASE_URL % (
-                    app["app_number"], app["app_version"])
-                apps_to_install.append(target)
-                require_credentials = True
-            elif app["location"] == "local":
-                apps_to_install.append(app["container_path"])
+        
+        for app_name, app_info in self.local_apps.items():
+            
+            app_file_name = os.path.basename(app_info['local_path'])
+            app_file_container_path = os.path.join("/tmp/apps", app_file_name)
+            apps_to_install.append(app_file_container_path)
+
+        for app_name, app_info in self.splunkbase_apps.items():
+            
+            if splunkbase_username is None or splunkbase_password is None:
+                raise Exception(
+                    "Error: Requested app from Splunkbase but Splunkbase username and/or password were not supplied."
+                )
+            target = SPLUNKBASE_URL % (
+                app_info["app_number"], app_info["app_version"])
+            apps_to_install.append(target)
+            require_credentials = True
+            #elif app["location"] == "local":
+            #    apps_to_install.append(app["container_path"])
         return ",".join(apps_to_install), require_credentials
 
-    def make_volume(
-        self,
-        local_path: str,
-        container_path: str,
-        type: str = "bind",
-        read_only: bool = True,
-    ) -> docker.types.Mount:
-        return docker.types.Mount(
-            source=local_path, target=container_path, type="bind", read_only=True
-        )
+    
 
     def make_environment(
         self,
-        apps: OrderedDict,
+        local_apps: OrderedDict,
+        splunkbase_apps: OrderedDict,
         container_password: str,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
@@ -107,7 +109,7 @@ class SplunkContainer:
         env["SPLUNK_START_ARGS"] = SPLUNK_START_ARGS
         env["SPLUNK_PASSWORD"] = container_password
         splunk_apps_url, require_credentials = self.prepare_apps_path(
-            apps, splunkbase_username, splunkbase_password
+            local_apps, splunkbase_apps, splunkbase_username, splunkbase_password
         )
         if require_credentials:
             env["SPLUNKBASE_USERNAME"] = splunkbase_username
@@ -289,9 +291,9 @@ class SplunkContainer:
         self.container.start()
 
         # By default, first copy the index file then the datamodel file
-        for f in self.files_to_copy_to_container:
+        for file_description, file_dict in self.files_to_copy_to_container.items():
             self.extract_tar_file_to_container(
-                f["local_file_path"], f["container_file_path"]
+                file_dict["local_file_path"], file_dict["container_file_path"]
             )
 
         print("Finished copying files to [%s]" % (self.container_name))

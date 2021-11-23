@@ -2,13 +2,16 @@ from collections import OrderedDict
 import docker
 import datetime
 import docker.types
+import os
 import random
-import splunk_container
+
+from modules import splunk_container
 import string
-import test_driver
+from modules import test_driver
 import threading
 import time
 import timeit
+
 from typing import Union
 
 WEB_PORT_STRING = "8000/tcp"
@@ -22,26 +25,35 @@ class ContainerManager:
         full_docker_hub_name: str,
         container_name_template: str,
         num_containers: int,
-        apps: OrderedDict,
+        local_apps: OrderedDict,
+        splunkbase_apps:OrderedDict,
         files_to_copy_to_container: OrderedDict = OrderedDict(),
         web_port_start: int = 8000,
         management_port_start: int = 8089,
-        mounts: list[dict[str, Union[str, bool]]] = [],
+        mounts: list[dict[str, str]] = [],
+        show_container_password:bool=True,
         container_password: Union[str, None] = None,
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
-        reuse_image:bool = True
+        reuse_image:bool = True,
+        interactive_failure:bool=False
+
     ):
         self.synchronization_object = test_driver.TestDriver(
             test_list, num_containers)
 
         self.mounts = self.create_mounts(mounts)
-        self.apps = apps
+        self.local_apps = local_apps
+        self.splunkbase_apps = splunkbase_apps
 
         if container_password is None:
             self.container_password = self.get_random_password()
         else:
             self.container_password = container_password
+        
+        if show_container_password:
+            print("Splunk App Password: [%s]"%(self.container_password))
+        
 
         self.containers = self.create_containers(
             full_docker_hub_name,
@@ -52,7 +64,8 @@ class ContainerManager:
             splunkbase_username,
             splunkbase_password,
             files_to_copy_to_container,
-            reuse_image
+            reuse_image,
+            interactive_failure
         )
         self.summary_thread = threading.Thread(target=self.queue_status_thread,args=())
 
@@ -66,8 +79,12 @@ class ContainerManager:
         self.baseline['TEST_FINISH_TIME'] = "TO BE UPDATED"
         self.baseline['TEST_DURATION'] = "TO BE UPDATED"
 
-        for key in self.apps:
-            self.baseline[key] = self.apps[key]
+        for key in self.local_apps:
+            self.baseline[key] = self.local_apps[key]
+
+        for key in self.splunkbase_apps:
+            self.baseline[key] = self.splunkbase_apps[key]
+
 
     def run_test(self):
         self.run_containers()
@@ -95,10 +112,11 @@ class ContainerManager:
 
     def run_containers(self) -> None:
         for container in self.containers:
-            container.thread.run()
+            container.thread.start()
+        
     
     def run_status_thread(self) -> None:
-        self.queue_status_thread.run()
+        self.summary_thread.start()
         
 
 
@@ -112,7 +130,8 @@ class ContainerManager:
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
         files_to_copy_to_container: OrderedDict = OrderedDict(),
-        reuse_image = True
+        reuse_image:bool = True,
+        interactive_failure:bool = True
     ) -> list[splunk_container.SplunkContainer]:
         #First make sure that the image exists and has been downloaded
         self.setup_image(reuse_image, full_docker_hub_name)
@@ -131,7 +150,8 @@ class ContainerManager:
                     self.synchronization_object,
                     full_docker_hub_name,
                     container_name,
-                    self.apps,
+                    self.local_apps,
+                    self.splunkbase_apps,
                     web_port_tuple,
                     management_port_tuple,
                     self.container_password,
@@ -139,22 +159,23 @@ class ContainerManager:
                     self.mounts,
                     splunkbase_username,
                     splunkbase_password,
+                    interactive_failure=interactive_failure
                 )
             )
 
         return new_containers
 
     def create_mounts(
-        self, mounts: list[dict[str, Union[str, bool]]]
+        self, mounts: list[dict[str, str]]
     ) -> list[docker.types.Mount]:
         new_mounts = []
         for mount in mounts:
             new_mounts.append(self.create_mount(mount))
         return new_mounts
 
-    def create_mount(self, mount: dict[str, Union[str, bool]]) -> docker.types.Mount:
+    def create_mount(self, mount: dict[str, str]) -> docker.types.Mount:
         return docker.types.Mount(
-            source=mount["local_path"],
+            source=os.path.abspath(mount["local_path"]),
             target=mount["container_path"],
             type=mount["type"],
             read_only=mount["read_only"],

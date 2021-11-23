@@ -23,6 +23,7 @@ import requests.packages.urllib3
 from docker.client import DockerClient
 from requests import get
 from modules.validate_args import validate_and_write
+from modules import container_manager
 
 import modules.new_arguments2
 from modules import aws_service, testing_service, validate_args
@@ -33,6 +34,7 @@ SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
 index_file_container_path = os.path.join(SPLUNK_CONTAINER_APPS_DIR, "search")
 
+# Should be the last one we copy.
 datamodel_file_local_path = "datamodels.conf.tar"
 datamodel_file_container_path = os.path.join(
     SPLUNK_CONTAINER_APPS_DIR, "Splunk_SA_CIM")
@@ -48,12 +50,12 @@ def ensure_security_content(branch: str, pr_number: Union[int, None], persist_se
               "out of date. ******")
         github_service = GithubService(
             branch, existing_directory=persist_security_content)
-    
+
     else:
         if persist_security_content is True and not os.path.exists("security_content"):
-            print("Error - you chose --persist_security_content but the security_content directory does not exist!"\
+            print("Error - you chose --persist_security_content but the security_content directory does not exist!"
                   "  We will check it out for you.\n\tQuitting...")
-        
+
         elif os.path.exists("security_content/"):
             print("Deleting the security_content directory")
             try:
@@ -72,97 +74,99 @@ def ensure_security_content(branch: str, pr_number: Union[int, None], persist_se
     return github_service
 
 
-def generate_escu_app(persist_security_content:bool=False)->str:
+def generate_escu_app(persist_security_content: bool = False) -> str:
     # Go into the security content directory
-        print("****GENERATING ESCU APP****")
-        os.chdir("security_content")
-        if persist_security_content is False:
-            commands = ["python3 -m venv .venv",
-                        ". ./.venv/bin/activate",
-                        "python3 -m pip install wheel",
-                        "python3 -m pip install -r requirements.txt",
-                        "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu", 
-                        "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
-        else:
-            commands = [". ./.venv/bin/activate", 
-                        "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
-                        "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
-        ret = subprocess.run("; ".join(commands),
-                             shell=True, capture_output=True)
-        if ret.returncode != 0:
-            print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (ret.stderr))
+    print("****GENERATING ESCU APP****")
+    os.chdir("security_content")
+    if persist_security_content is False:
+        commands = ["python3 -m venv .venv",
+                    ". ./.venv/bin/activate",
+                    "python3 -m pip install wheel",
+                    "python3 -m pip install -r requirements.txt",
+                    "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
+                    "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+    else:
+        commands = [". ./.venv/bin/activate",
+                    "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
+                    "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
+    ret = subprocess.run("; ".join(commands),
+                         shell=True, capture_output=True)
+    if ret.returncode != 0:
+        print("Error generating new content.\n\tQuitting and dumping error...\n[%s]" % (
+            ret.stderr))
+        sys.exit(1)
+
+    output_file_name = "DA-ESS-ContentUpdate-latest.tar.gz"
+    output_file_path_from_slim_latest = os.path.join(
+        "upload", output_file_name)
+    output_file_path_from_security_content = os.path.join(
+        "slim_packaging", "slim_latest", output_file_path_from_slim_latest)
+    output_file_path_from_root = os.path.join(
+        "security_content", output_file_path_from_security_content)
+
+    if persist_security_content is True:
+        try:
+            os.remove(output_file_path_from_security_content)
+        except FileNotFoundError:
+            # No problem if we fail to remove it, that just means it wasn't there and we didn't need to
+            pass
+        except Exception as e:
+            print("Error deleting the (possibly) existing old ESCU File: [%s]" % (
+                str(e)), file=sys.stderr)
             sys.exit(1)
-        
 
-        
-        output_file_name = "DA-ESS-ContentUpdate-latest.tar.gz"
-        output_file_path_from_slim_latest = os.path.join("upload", output_file_name)
-        output_file_path_from_security_content = os.path.join("slim_packaging", "slim_latest", output_file_path_from_slim_latest)
-        output_file_path_from_root = os.path.join("security_content", output_file_path_from_security_content)
-        
-        
+        # There remove the latest file if it exists
+        commands = ["cd slim_packaging/slim_latest",
+                    ". ./.venv/bin/activate",
+                    "cp -R ../../dist/escu DA-ESS-ContentUpdate",
+                    "slim package -o upload DA-ESS-ContentUpdate",
+                    "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
 
-        if persist_security_content is True:
-            try:
-                os.remove(output_file_path_from_security_content)
-            except FileNotFoundError:
-                #No problem if we fail to remove it, that just means it wasn't there and we didn't need to    
-                pass
-            except Exception as e:
-                print("Error deleting the (possibly) existing old ESCU File: [%s]"%(str(e)), file=sys.stderr)
-                sys.exit(1)
-
-            #There remove the latest file if it exists
-            commands = ["cd slim_packaging/slim_latest",
-                        ". ./.venv/bin/activate",
-                        "cp -R ../../dist/escu DA-ESS-ContentUpdate",
-                        "slim package -o upload DA-ESS-ContentUpdate",
-                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
-
-        else:
-            os.mkdir("slim_packaging")
-            os.mkdir("apps")
-            try:
-                SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
-                SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
-                print("Downloading the Splunk Packaging Toolkit from %s..." %
-                      (SPLUNK_PACKAGING_TOOLKIT_URL), end='')
-                response = get(SPLUNK_PACKAGING_TOOLKIT_URL)
-                response.raise_for_status()
-                with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
-                    slim_file.write(response.content)
-            except Exception as e:
-                print("Error downloading the Splunk Packaging Toolkit: [%s].\n\tQuitting..." % 
-                      (str(e)), file=sys.stderr)
-                sys.exit(1)
-
-            commands = ["rm -rf slim_packaging/slim_latest",
-                        "mkdir slim_packaging/slim_latest",
-                        "cd slim_packaging",
-                        "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim_latest --strip-components=1",
-                        "cd slim_latest",
-                        "virtualenv --python=/usr/bin/python2.7 --clear .venv",
-                        ". ./.venv/bin/activate",
-                        "python3 -m pip install --upgrade pip",
-                        "python2 -m pip install wheel",
-                        "python2 -m pip install semantic_version",
-                        "python2 -m pip install .",
-                        "cp -R ../../dist/escu DA-ESS-ContentUpdate",
-                        "slim package -o upload DA-ESS-ContentUpdate",
-                        "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
-
-        ret = subprocess.run("; ".join(commands),
-                             shell=True, capture_output=True)
-        if ret.returncode != 0:
-            print("Command List:\n%s"%(commands))
-            print("Error generating new ESCU Package.\n\tQuitting and dumping error...\n[%s]" % (ret.stderr.decode('utf-8')),file=sys.stderr)
+    else:
+        os.mkdir("slim_packaging")
+        os.mkdir("apps")
+        try:
+            SPLUNK_PACKAGING_TOOLKIT_URL = "https://download.splunk.com/misc/packaging-toolkit/splunk-packaging-toolkit-0.9.0.tar.gz"
+            SPLUNK_PACKAGING_TOOLKIT_FILENAME = 'splunk-packaging-toolkit-latest.tar.gz'
+            print("Downloading the Splunk Packaging Toolkit from %s..." %
+                  (SPLUNK_PACKAGING_TOOLKIT_URL), end='')
+            response = get(SPLUNK_PACKAGING_TOOLKIT_URL)
+            response.raise_for_status()
+            with open(SPLUNK_PACKAGING_TOOLKIT_FILENAME, 'wb') as slim_file:
+                slim_file.write(response.content)
+        except Exception as e:
+            print("Error downloading the Splunk Packaging Toolkit: [%s].\n\tQuitting..." %
+                  (str(e)), file=sys.stderr)
             sys.exit(1)
-        os.chdir("../")
 
-        return output_file_path_from_root
+        commands = ["rm -rf slim_packaging/slim_latest",
+                    "mkdir slim_packaging/slim_latest",
+                    "cd slim_packaging",
+                    "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim_latest --strip-components=1",
+                    "cd slim_latest",
+                    "virtualenv --python=/usr/bin/python2.7 --clear .venv",
+                    ". ./.venv/bin/activate",
+                    "python3 -m pip install --upgrade pip",
+                    "python2 -m pip install wheel",
+                    "python2 -m pip install semantic_version",
+                    "python2 -m pip install .",
+                    "cp -R ../../dist/escu DA-ESS-ContentUpdate",
+                    "slim package -o upload DA-ESS-ContentUpdate",
+                    "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]
+
+    ret = subprocess.run("; ".join(commands),
+                         shell=True, capture_output=True)
+    if ret.returncode != 0:
+        print("Command List:\n%s" % (commands))
+        print("Error generating new ESCU Package.\n\tQuitting and dumping error...\n[%s]" % (
+            ret.stderr.decode('utf-8')), file=sys.stderr)
+        sys.exit(1)
+    os.chdir("../")
+
+    return output_file_path_from_root
 
 
-def main(args:list[str]):
+def main(args: list[str]):
     requests.packages.urllib3.disable_warnings()
 
     start_datetime = datetime.now()
@@ -174,9 +178,8 @@ def main(args:list[str]):
     elif action != "run":
         print("Unsupported action: [%s]" % (action), file=sys.stderr)
         sys.exit(1)
-    
-    
-    
+
+
     '''
     parser = argparse.ArgumentParser(description="CI Detection Testing")
     parser.add_argument("-b", "--branch", type=str, required=True, help="security content branch")
@@ -246,7 +249,6 @@ def main(args:list[str]):
     github_service = ensure_security_content(
         settings['branch'], settings['pr_number'], settings['persist_security_content'])
 
-
     all_test_files = github_service.get_test_files(settings['mode'],
                                                    settings['folders'],
                                                    settings['types'],
@@ -254,78 +256,83 @@ def main(args:list[str]):
                                                    settings['detections_file'])
 
 
-    
-
 #    if len(all_test_files) == 0:
 #        print("No files were found to be tested.  While this could be due to an error, "\
 #              "this could be correct if there were no changes to detections.  We will "\
 #              "exit with success.\n\tQuitting...")
 #        sys.exit(0)
 
-    local_volume_path = os.path.join(os.getcwd(), "apps")
+    local_volume_absolute_path = os.path.abspath(
+        os.path.join(os.getcwd(), "apps"))
     try:
         os.mkdir("apps")
     except FileExistsError as e:
         # Directory already exists, do nothing
         pass
     except Exception as e:
-        print("Error creating the apps folder [%s]: [%s]\n\tQuitting..." 
-              % (local_volume_path, str(e)), file=sys.stderr)
+        print("Error creating the apps folder [%s]: [%s]\n\tQuitting..."
+              % (local_volume_absolute_path, str(e)), file=sys.stderr)
         sys.exit(1)
 
-    #Check to see if we want to install ESCU and whether it was preeviously generated and we should use that file
+    # Check to see if we want to install ESCU and whether it was preeviously generated and we should use that file
     if 'SPLUNK_ES_CONTENT_UPDATE' in settings['local_apps'] and settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] is not None:
-        #Using a pregenerated ESCU, copy it to apps (unless it)
+        # Using a pregenerated ESCU, copy it to apps (unless it)
 
-        file_path = settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path']
+        file_path = os.path.expanduser(settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'])
         source_path = file_path
-        dest_path = os.path.join(local_volume_path, os.path.basename(file_path))
-        
+        dest_path = os.path.join(
+            local_volume_absolute_path, os.path.basename(file_path))
+
     elif 'SPLUNK_ES_CONTENT_UPDATE' not in settings['local_apps']:
-        print("%s was not found in %s.  We assume this is an error and shut down.\n\t"\
-              "Quitting..."%('SPLUNK_ES_CONTENT_UPDATE', "settings['local_apps']"), file=sys.stderr)
+        print("%s was not found in %s.  We assume this is an error and shut down.\n\t"
+              "Quitting..." % ('SPLUNK_ES_CONTENT_UPDATE', "settings['local_apps']"), file=sys.stderr)
         sys.exit(1)
     else:
-        #Need to generate that package
+        # Need to generate that package
         source_path = generate_escu_app(settings['persist_security_content'])
-        dest_path = os.path.join(local_volume_path, os.path.basename(source_path))
+        dest_path = os.path.join(
+            local_volume_absolute_path, os.path.basename(source_path))
+    COPY_ALL_LOCAL_FILES_NOT_JUST_ESCU
+    
 
-
-    #Now write out the package, whether it was previously generated or
-    #we just generated it
+    # Now write out the package, whether it was previously generated or
+    # we just generated it
     try:
         shutil.copy(source_path, dest_path)
+        #Update apps path for the ESCU package we just built
+        settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = dest_path
+
     except shutil.SameFileError as e:
-        #Same file, not a real error.  The copy just doesn't happen
+        # Same file, not a real error.  The copy just doesn't happen
         pass
     except Exception as e:
-        print("Error copying ESCU Package [%s] to [%s]: [%s].\n\tQuitting..."%(source_path, dest_path, str(e)), file=sys.stderr)
+        print("Error copying ESCU Package [%s] to [%s]: [%s].\n\tQuitting..." % (
+            source_path, dest_path, str(e)), file=sys.stderr)
         sys.exit(1)
-
 
     print("Wrote ESCU package to volume folder.")
 
     if settings['mock']:
-        def finish_mock(settings:dict, detections:list[str], output_file_template:str="prior_config/config_tests_%d.json"):
+        def finish_mock(settings: dict, detections: list[str], output_file_template: str = "prior_config/config_tests_%d.json"):
             num_containers = settings['num_containers']
 
-            
             try:
                 os.mkdir("prior_config")
             except FileExistsError:
                 pass
             except Exception as e:
-                print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..."%(str(e)), file=sys.stderr)
+                print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..." % (
+                    str(e)), file=sys.stderr)
                 sys.exit(1)
 
             for output_file_index in range(0, num_containers):
                 fname = output_file_template % (output_file_index)
-                
-                #Get the n'th detection for this file
+
+                # Get the n'th detection for this file
                 detection_tests = detections[output_file_index::num_containers]
                 normalized_detection_names = []
-                #Normalize the test filename to the name of the detection instead.
-                #These are what we should write to the file
+                # Normalize the test filename to the name of the detection instead.
+                # These are what we should write to the file
                 for d in detection_tests:
                     filename = os.path.basename(d)
                     filename = filename.replace(".test.yml", ".yml")
@@ -334,50 +341,80 @@ def main(args:list[str]):
                     new_name = os.path.join(
                         "security_content", leading, filename)
                     normalized_detection_names.append(new_name)
-                
-                #Generate an appropriate config file for this test
+
+                # Generate an appropriate config file for this test
                 mock_settings = copy.deepcopy(settings)
-                #This may be able to support as many as 2 for GitHub Actions...
-                #we will have to determine in testing.
+                # This may be able to support as many as 2 for GitHub Actions...
+                # we will have to determine in testing.
                 mock_settings['num_containers'] = 1
-                
-                #Must be selected since we are passing in a list of detections
+
+                # Must be selected since we are passing in a list of detections
                 mock_settings['mode'] = 'selected'
-            
-                #Pass in the list of detections to run
+
+                # Pass in the list of detections to run
                 mock_settings['detections_list'] = normalized_detection_names
 
-                #We want to persist security content and run with the escu package that we created
+                # We want to persist security content and run with the escu package that we created
                 mock_settings['persist_security_content'] = True
 
-                mock_settings['local_apps'] = { 
+                mock_settings['local_apps'] = {
                     "SPLUNK_ES_CONTENT_UPDATE": {
                         "app_number": 3449,
                         "app_version": None,
                         'local_path': "prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz"}
-                    }
-                
-                mock_settings['mock'] = False
-                
-                #Make sure that it still validates after all of the changes
+                }
 
-                
-                
+                mock_settings['mock'] = False
+
+                # Make sure that it still validates after all of the changes
+
                 try:
-                    with open(fname,'w') as cfg:
-                        validated_settings,b = validate_and_write(mock_settings,cfg)
+                    with open(fname, 'w') as cfg:
+                        validated_settings, b = validate_and_write(
+                            mock_settings, cfg)
                         if validated_settings is None:
-                            print("There was an error validating the updated mock settings.\n\tQuitting...",file=sys.stderr)
+                            print(
+                                "There was an error validating the updated mock settings.\n\tQuitting...", file=sys.stderr)
                             sys.exit(1)
 
                 except Exception as e:
-                    print("Error writing config file %s: [%s]\n\tQuitting..."%(fname,str(e)),file=sys.stderr)
+                    print("Error writing config file %s: [%s]\n\tQuitting..." % (
+                        fname, str(e)), file=sys.stderr)
                     sys.exit(1)
-        
-            sys.exit(0)
-        finish_mock(settings,all_test_files)
 
-    print("More than a mock")        
+            sys.exit(0)
+        finish_mock(settings, all_test_files)
+
+    files_to_copy_to_container = OrderedDict()
+    files_to_copy_to_container["INDEXES"] = {
+        "local_file_path": index_file_local_path, "container_file_path": index_file_container_path}
+    files_to_copy_to_container["DATAMODELS"] = {
+        "local_file_path": datamodel_file_local_path, "container_file_path": datamodel_file_container_path}
+
+    mounts = [{"local_path": local_volume_absolute_path,
+               "container_path": "/tmp/apps", "type": "bind", "read_only": True}]
+    
+    cm = container_manager.ContainerManager(all_test_files,
+                                            FULL_DOCKER_HUB_CONTAINER_NAME,
+                                            settings['local_base_container_name'],
+                                            settings['num_containers'],
+                                            settings['local_apps'],
+                                            settings['splunkbase_apps'],
+                                            files_to_copy_to_container=files_to_copy_to_container,
+                                            web_port_start=8000,
+                                            management_port_start=8089,
+                                            mounts=mounts,
+                                            show_container_password=settings['show_splunk_app_password'],
+                                            container_password=settings['splunk_app_password'],
+                                            splunkbase_username=settings['splunkbase_username'],
+                                            splunkbase_password=settings['splunkbase_password'],
+                                            reuse_image=settings['reuse_image'],
+                                            interactive_failure=settings['interactive_failure'])
+
+
+    print(cm.containers[0].environment)
+    cm.run_test()
+
     '''
     if args.split_detections_then_stop:
         for output_file_index in range(0, num_containers):
@@ -568,6 +605,7 @@ def main(args:list[str]):
 
     #testing_service.test_detections(ssh_key_name, private_key, splunk_ip, splunk_password, test_files, uuid_test)
     '''
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
