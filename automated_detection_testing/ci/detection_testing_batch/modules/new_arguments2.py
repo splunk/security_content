@@ -195,13 +195,9 @@ def parse(args)->tuple[str,dict]:
     run_parser.add_argument("-n", "--num_containers", required=False, type=int,
                             help="The number of Splunk containers to run or mock")
     
-    try:
-        args = parser.parse_args()
-    except Exception as e:
-        print(str(e))
-        print(dir(e))
-        print("doot")
-        sys.exit(1)
+    
+    args = parser.parse_args()
+    
     
     
     # Run the appropriate parser
@@ -210,7 +206,7 @@ def parse(args)->tuple[str,dict]:
         #file value with None - keep the config file value
         keys = list(args.__dict__.keys())
         for key in keys:
-            if args.__dict__[key] is None and key in ["show_pass", "mock"]:
+            if args.__dict__[key] is None and key in ["show_pass", "mock", "mode"]:
                 del args.__dict__[key]
 
         action, settings = args.func(args)
