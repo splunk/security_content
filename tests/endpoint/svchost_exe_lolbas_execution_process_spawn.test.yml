@@ -1,4 +1,4 @@
-name: Svchost.exe LOLBAS Execution Process Spawn Unit Test
+name: Svchost LOLBAS Execution Process Spawn Unit Test
 tests:
 - name: Svchost.exe LOLBAS Execution Process Spawn
   file: endpoint/svchost_exe_lolbas_execution_process_spawn.yml

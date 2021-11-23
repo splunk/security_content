@@ -1,25 +1,25 @@
-name: Services LOLBAS Execution Process Spawn
-id: ba9e1954-4c04-11ec-8b74-3e22fbd008af
+name: Mmc LOLBAS Execution Process Spawn
+id: f6601940-4c74-11ec-b9b7-3e22fbd008af
 version: 1
-date: '2021-11-22'
+date: '2021-11-23'
 author: Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: The following analytic identifies `services.exe` spawning a LOLBAS execution process.
-  When adversaries execute code on remote endpoints abusing the Service Control Manager and
-  creating a remote malicious service, the executed command is spawned as a child processs of `services.exe`.
+description: The following analytic identifies `mmc.exe` spawning a LOLBAS execution process.
+  When adversaries execute code on remote endpoints abusing the DCOM protocol and the MMC20
+  COM object, the executed command is spawned as a child processs of `mmc.exe`.
   The LOLBAS project documents Windows native binaries that can be abused by threat actors to
-  perform tasks like executing malicious code. Looking for child processes of services.exe
+  perform tasks like executing malicious code. Looking for child processes of mmc.exe
   that are part of the LOLBAS project can help defenders identify lateral movement activity.
-search: '| UPDATE_SPL | `services_lolbas_execution_process_spawn_filter`'
+search: '| UPDATE_SPL | `mmc_lolbas_execution_process_spawn_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints.
 known_false_positives: Legitimate applications may trigger this behavior, filter as needed.
 references:
-- https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1543.003
-- https://pentestlab.blog/2020/07/21/lateral-movement-services/
+- https://attack.mitre.org/techniques/T1021/003/
+- https://www.cybereason.com/blog/dcom-lateral-movement-techniques 
 - https://lolbas-project.github.io/
 tags:
   analytic_story:
@@ -27,10 +27,10 @@ tags:
   dataset:
   - UPDATE_DATASET_URL
   kill_chain_phases:
-  - Lateral Movement
+  - Privilege Escalation
   mitre_attack_id:
-  - T1543
-  - T1543.003
+  - T1021
+  - T1021.003
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -55,7 +55,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Lateral Movement
-  message: Services.exe spawned a LOLBAS process on $dest
+  message: Mmc.exe spawned a LOLBAS process on $dest
   observable:
   - name: dest
     type: Endpoint

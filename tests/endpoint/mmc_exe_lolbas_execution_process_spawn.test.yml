@@ -1,7 +1,7 @@
-name: Services LOLBAS Execution Process Spawn Unit Test
+name: Mmc EXE LOLBAS Execution Process Spawn Unit Test
 tests:
-- name: Services.exe LOLBAS Execution Process Spawn
-  file: endpoint/services_exe_lolbas_execution_process_spawn.yml
+- name: Mmc.exe LOLBAS Execution Process Spawn
+  file: endpoint/mmc_exe_lolbas_execution_process_spawn.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
