@@ -202,11 +202,13 @@ def parse(args)->tuple[str,dict]:
     
     # Run the appropriate parser
     try:
-        #If an argument is not passed on the command line, don't overwrite its config 
+        #If one of these arguments is not passed on the command line, don't overwrite its config 
         #file value with None - keep the config file value
         keys = list(args.__dict__.keys())
         for key in keys:
-            if args.__dict__[key] is None and key in ["show_pass", "mock", "mode"]:
+            if args.__dict__[key] is None and key in ["splunkbase_username","branch","mode",
+                                                      "splunkbase_password","splunk_app_password",
+                                                      "mock","num_containers"]:
                 del args.__dict__[key]
 
         action, settings = args.func(args)
