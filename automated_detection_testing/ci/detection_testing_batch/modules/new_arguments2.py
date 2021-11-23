@@ -3,7 +3,8 @@ import copy
 import datetime
 import json
 from typing import OrderedDict, Union
-import modules.validate_args as validate_args
+#import modules.validate_args as validate_args
+from modules import validate_args
 import sys
 
 DEFAULT_CONFIG_FILE = "test_config.json"
@@ -120,6 +121,14 @@ def parse(args)->tuple[str,dict]:
         sys.exit(1)
     '''
 
+    import os
+    #if there is no default config file, then generate one
+    if not os.path.exists(DEFAULT_CONFIG_FILE):
+        print("No default configuration file [%s] found.  Creating one..."%(DEFAULT_CONFIG_FILE))
+        with open(DEFAULT_CONFIG_FILE,'w') as cfg:
+            validate_args.validate_and_write({},cfg)
+
+
     parser = argparse.ArgumentParser(
         description="Use 'SOME_PROGRAM_NAME_STRING --help' to get help with the arguments")
     parser.set_defaults(func=lambda _: parser.print_help())
@@ -186,8 +195,13 @@ def parse(args)->tuple[str,dict]:
     run_parser.add_argument("-n", "--num_containers", required=False, type=int,
                             help="The number of Splunk containers to run or mock")
     
-
-    args = parser.parse_args()
+    try:
+        args = parser.parse_args()
+    except Exception as e:
+        print(str(e))
+        print(dir(e))
+        print("doot")
+        sys.exit(1)
     
     
     # Run the appropriate parser

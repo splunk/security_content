@@ -76,43 +76,41 @@ jobs:
             run: |
               cd automated_detection_testing/ci/detection_testing_batch
               source .venv/bin/activate
-              #python3 detection_testing_execution.py -b ${{ steps.vars.outputs.branch }} -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m new -n2
-              python3 detection_testing_execution.py -b RegistryDetectionFixes -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m new -n10 -split
-              echo "DONE!"
+              
+              python3 detection_testing_execution.py run --branch RegistryDetectionFixes  --mode selected --num_containers 10 --mock 
           
           - name: Upload Test Results Files
             uses: actions/upload-artifact@v2
             with:
               name: testing-results-config
               path: |
-                automated_detection_testing/ci/detection_testing_batch/apps/DA-ESS-ContentUpdate-latest.tar.gz
-                automated_detection_testing/ci/detection_testing_batch/container_0_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_1_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_2_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_3_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_4_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_5_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_6_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_7_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_8_tests.txt
-                automated_detection_testing/ci/detection_testing_batch/container_9_tests.txt
-
+                automated_detection_testing/ci/detection_testing_batch/prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_0.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_1.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_2.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_3.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_4.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_5.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_6.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_7.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_8.json
+                automated_detection_testing/ci/detection_testing_batch/prior_config/config_tests_9.json
 
   docker-detection-testing-execution:
     runs-on: ubuntu-latest
     needs: [validate-tag-if-present, quit-for-dependabot, docker-detection-testing-setup]
     strategy:
       matrix:
-        test_filename: ["container_0_tests.txt", 
-                        "container_1_tests.txt", 
-                        "container_2_tests.txt", 
-                        "container_3_tests.txt", 
-                        "container_4_tests.txt", 
-                        "container_5_tests.txt", 
-                        "container_6_tests.txt", 
-                        "container_7_tests.txt", 
-                        "container_8_tests.txt", 
-                        "container_9_tests.txt"]
+        manifest_filename: ["config_tests_0.json", 
+                        "config_tests_1.json",
+                        "config_tests_2.json",
+                        "config_tests_3.json",
+                        "config_tests_4.json",
+                        "config_tests_5.json",
+                        "config_tests_6.json",
+                        "config_tests_7.json",
+                        "config_tests_8.json",
+                        "config_tests_9.json"]
     steps:  
         - name: Get branch and PR required for detection testing main.py
           id: vars
@@ -155,14 +153,14 @@ jobs:
           run: |
             cd automated_detection_testing/ci/detection_testing_batch
             source .venv/bin/activate
-            #python3 detection_testing_execution.py -b ${{ steps.vars.outputs.branch }} -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m new -n2
-            python3 detection_testing_execution.py -b RegistryDetectionFixes -u 123456789 --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} -m selected -tff prior_config/${{ matrix.test_filename}} -n1 -e prior_config/apps/DA-ESS-ContentUpdate-latest.tar.gz
+            
+            python3 detection_testing_execution.py run -c prior_config/${{ matrix.manifest_filename}} --splunkbase_username ${{ secrets.SPLUNKBASE_TESTING_USERNAME }} --splunkbase_password ${{ secrets.SPLUNKBASE_TESTING_KEY }} 
                     
         
         - name: Upload Test Results Files
           uses: actions/upload-artifact@v2
           with:
-            name: ${{ matrix.test_filename}}.results
+            name: ${{ matrix.manifest_filename}}.results
             path: |
               automated_detection_testing/ci/detection_testing_batch/success.csv
               automated_detection_testing/ci/detection_testing_batch/error.csv
@@ -189,52 +187,52 @@ jobs:
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_0_tests.txt.results
+            name: config_tests_0.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_0
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_1_tests.txt.results
+            name: config_tests_1.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_1
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_2_tests.txt.results
+            name: config_tests_2.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_2
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_3_tests.txt.results
+            name: config_tests_3.json.txt.results
             path: automated_detection_testing/ci/detection_testing_batch/results_3
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_4_tests.txt.results
+            name: config_tests_4.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_4
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_5_tests.txt.results
+            name: config_tests_5.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_5
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_6_tests.txt.results
+            name: config_tests_6.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_6
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_7_tests.txt.results
+            name: config_tests_7.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_7
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_8_tests.txt.results
+            name: config_tests_8.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_8
         - name: Download artifacts
           uses: actions/download-artifact@v2
           with:
-            name: container_9_tests.txt.results
+            name: config_tests_9.json.results
             path: automated_detection_testing/ci/detection_testing_batch/results_9
         
         - uses: actions/setup-python@v2
@@ -259,13 +257,14 @@ jobs:
           uses: geekyeggo/delete-artifact@v1
           with:
               name: |
-                container_0_tests.txt.results
-                container_1_tests.txt.results
-                container_2_tests.txt.results
-                container_3_tests.txt.results
-                container_4_tests.txt.results
-                container_5_tests.txt.results
-                container_6_tests.txt.results
-                container_7_tests.txt.results
-                container_8_tests.txt.results
-                container_9_tests.txt.results
+                config_tests_0.json.results
+                config_tests_1.json.results
+                config_tests_2.json.results
+                config_tests_3.json.results
+                config_tests_4.json.results
+                config_tests_5.json.results
+                config_tests_6.json.results
+                config_tests_7.json.results
+                config_tests_8.json.results
+                config_tests_9.json.results
+                
