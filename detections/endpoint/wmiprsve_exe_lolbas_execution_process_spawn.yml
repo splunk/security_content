@@ -1,0 +1,42 @@
+name: Wmiprsve.exe LOLBAS Execution Process Spawn
+id: 95a455f0-4c04-11ec-b8ac-3e22fbd008af
+version: 1
+date: '2021-11-22'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel:
+- Endpoint
+description: 
+	UPDATE_DESCRIPTION
+	WHAT IS THIS?
+	WHAT DOES IT LOOK LIKE?
+	HOW DO YOU TRIAGE IT?
+search: '| UPDATE_SPL | `wmiprsve_exe_lolbas_execution_process_spawn_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+-  
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Lateral Movement
+  mitre_attack_id:
+  - T1047
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 
+  confidence: 
+  # (impact * confidence)/100
+  risk_score: 
+  context:
+  message: 
+  observable:
+  

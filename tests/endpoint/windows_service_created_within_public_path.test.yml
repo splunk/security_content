@@ -7,6 +7,6 @@ tests:
   latest_time: 'now'
   attack_data:
   - file_name: windows-system.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/techniques/
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_suspicious_path/windows-system.log
     source: WinEventLog:System
     sourcetype: WinEventLog
