@@ -6,7 +6,12 @@ import fileinput
 import os
 import re
 import io
+import logging
 
+
+# Logger
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+LOGGER = logging.getLogger(__name__)
 class DataManipulation:
 
     def manipulate_timestamp(self, file_path, sourcetype, source):
@@ -50,4 +55,5 @@ class DataManipulation:
             new_time = self.difference + event_time
             return new_time.strftime("%m/%d/%Y %I:%M:%S %p")
         except Exception as e:
+            LOGGER.error("Error in timestamp replacement occured: " + str(e))
             return match.group()
