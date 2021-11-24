@@ -126,6 +126,8 @@ def read_data(file_path):
         if i == count and tmp_counter > 10:
             data.append(event)
 
+    print("data parsed into individual events:")
+    print(data)
     return data
 
 
