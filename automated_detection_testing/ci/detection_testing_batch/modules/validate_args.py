@@ -275,7 +275,7 @@ def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper,
     if output_file is None:
         import datetime
         now = datetime.datetime.now()
-        configname = now.strftime('%Y-%m-%dT%H:%M:%S.%f%z') + '-test-run.json' 
+        configname = now.strftime('%Y-%m-%dT%H:%M:%S%z') + '-test-run.json' 
         output_file = open(configname, "w")
         closeFile = True
 
