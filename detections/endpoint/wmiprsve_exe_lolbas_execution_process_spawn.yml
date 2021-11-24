@@ -71,7 +71,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Lateral Movement
-  message: Wmiprsve.exe spawned a LOLBAS process on $dest
+  message: Wmiprsve.exe spawned a LOLBAS process on $dest$.
   observable:
   - name: dest
     type: Endpoint
