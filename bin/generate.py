@@ -153,7 +153,7 @@ def generate_use_case_library_conf(stories, detections, TEMPLATE_PATH, OUTPUT_PA
 
     return output_path
 
-def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
+def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH, PRODUCT):
     filter_macros = []
     for detection in detections:
         new_dict = {}
@@ -163,7 +163,13 @@ def generate_macros_conf(macros, detections, TEMPLATE_PATH, OUTPUT_PATH):
             replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter'
         filter_macros.append(new_dict)
 
-    all_macros = macros + filter_macros
+    if PRODUCT == "BAEssentialsContent":
+        for macro in macros:
+            if macro['name'] == "security_content_ctime" or macro['name'] == "security_content_summariesonly":
+                filter_macros.append(macro)
+        all_macros = filter_macros
+    else:
+        all_macros = macros + filter_macros
 
     utc_time = datetime.datetime.utcnow().replace(microsecond=0).isoformat()
 
@@ -432,20 +438,6 @@ def map_playbooks_to_stories(playbooks):
 
 def prepare_detections(detections, deployments, playbooks, OUTPUT_PATH):
     for detection in detections:
-        # only for DevSecOps
-        if global_product == 'DevSecOps':
-            if detection['tags']['risk_score']:
-                detection['search'] = detection['search'] + ' | eval risk_score=' + str(detection['tags']['risk_score'])
-
-            if detection['tags']['mitre_attack_id']:
-                detection['search'] = detection['search'] + ' | eval mitre_attack_id=' + detection['tags']['mitre_attack_id'][0]
-
-            if detection['type'] == 'Anomaly':
-                detection['search'] = detection['search'] + ' | collect index=signals'
-            elif detection['type'] == 'TTP':
-                detection['search'] = detection['search'] + ' | collect index=alerts'
-            elif detection['type'] == 'Correlation':
-                detection['search'] = detection['search'] + ' | collect index=alerts'
 
         # parse out data_models
         data_model = parse_data_models_from_search(detection['search'])
@@ -635,9 +627,9 @@ def compute_objects(objects, PRODUCT, OUTPUT_PATH):
         objects["detections"]  = [object for object in objects["detections"]  if 'Splunk Security Analytics for AWS' in object['tags']['product']]
         objects["stories"] = [object for object in objects["stories"] if 'Splunk Security Analytics for AWS' in object['tags']['product']]
 
-    if PRODUCT == "DevSecOps":
-        objects["detections"]  = [object for object in objects["detections"]  if 'Dev Sec Ops Analytics' in object['tags']['product']]
-        objects["stories"] = [object for object in objects["stories"] if 'Dev Sec Ops Analytics' in object['tags']['product']]
+    if PRODUCT == "BAEssentialsContent":
+        objects["detections"]  = [object for object in objects["detections"]  if 'BA Essentials Content' in object['tags']['product']]
+        objects["stories"] = [object for object in objects["stories"] if 'BA Essentials Content' in object['tags']['product']]
 
     if PRODUCT == "ESCU":
         # only use ESCU detections to the configurations
@@ -714,13 +706,20 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
         if global_product == 'SSA':
             detection_path = generate_ssa_yaml(objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
             objects["macros"] = []
+            
+        elif global_product == 'BAEssentialsContent':
+            ba_essentials_deployment = {"name": "BA Essentials Content Deployment", "scheduling": {"cron_schedule": "0 * * * *", "earliest_time": "-60m", "latest_time": "now", "schedule_window": "auto"}, "tags": {"product": "BA Essentials Content"} }
+            objects["deployments"] = [ba_essentials_deployment]
+            detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
+            macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH, PRODUCT)
+
         else:
             detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
             lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
             lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
             lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
             use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-            macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+            macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH, PRODUCT)
             workbench_panels_objects = generate_workbench_panels(objects["detections"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
 
         if VERBOSE:

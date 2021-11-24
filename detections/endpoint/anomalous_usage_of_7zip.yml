@@ -69,6 +69,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - BA Essentials Content
   required_fields:
   - _time
   - Processes.process_name

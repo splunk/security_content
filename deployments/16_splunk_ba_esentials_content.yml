@@ -1,0 +1,13 @@
+name: BA Essentials Content Deployment
+id: 7b266ec2-7399-4109-9dc0-6e233fb7eca3
+date: '2021-11-23'
+author: Patrick Bareiss
+description: BA Essentials Content Deployment
+scheduling:
+  cron_schedule: 0 * * * *
+  earliest_time: -60m
+  latest_time: now
+  schedule_window: auto
+tags:
+  product: 
+    - BA Essentials Content
