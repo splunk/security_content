@@ -18,6 +18,10 @@ setup_schema = {
             "type": "string",
             "default": "develop"
         },
+        "commit_hash": {
+            "type": ["string","null"],
+            "default": None
+        },
 
         "container_tag": {
             "type": "string",
@@ -266,7 +270,21 @@ def check_dependencies(settings: dict) -> bool:
     return error_free
 
 
-def validate_and_write(configuration: dict, output_file: io.TextIOWrapper) -> tuple[Union[dict, None], dict]:
+def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper,None]=None, strip_credentials:bool=False) -> tuple[Union[dict, None], dict]:
+    closeFile = False
+    if output_file is None:
+        import datetime
+        now = datetime.datetime.now()
+        configname = now.strftime('%Y-%m-%dT%H:%M:%S.%f%z') + '-test-run.json' 
+        output_file = open(configname, "w")
+        closeFile = True
+
+    if strip_credentials:    
+        configuration = copy.deepcopy(configuration)
+        configuration['splunkbase_password'] = None
+        configuration['splunkbase_username'] = None
+        configuration['container_password'] = None
+
     validated_json, setup_schema = validate(configuration)
     if validated_json == None:
         print("Error in the new settings! No output file written")
@@ -279,7 +297,9 @@ def validate_and_write(configuration: dict, output_file: io.TextIOWrapper) -> tu
         except Exception as e:
             print("Error writing settings to %s: [%s]" % (
                 output_file.name, str(e)), file=sys.stderr)
-            return None, setup_schema
+            sys.exit(1)
+    if closeFile is True:
+        output_file.close()
 
     return validated_json, setup_schema
 
@@ -311,58 +331,4 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
         print("There was an error validation the configuration: [%s]"%(str(e)), file=sys.stderr)
         return None, setup_schema
 
-    """
-    try:
-        v.validate({"action":"doot", "branch":"15"}  )
-    except jsonschema.exceptions.ValidationError as e:
-        print("Error validating the json", file=sys.stderr)
-        print(e)
-        return False
-
-    except jsonschema.exceptions.SchemaError as e:
-        print("Error validating the schema", file=sys.stderr)
-    """
-
-
-if __name__ == "__main__":
-    c = v({"action": "test", "branch": "wow"})
-    print(c)
-    if c is False:
-        print("whoops")
-    else:
-        print(c.keys())
-"""
-def load(json_settings: io.TextIOWrapper) -> dict:
-    default_settings = json.load(json_settings)
-    return default_settings
-
-
-def load_and_validate(json_settings: io.TextIOWrapper) -> dict:
-    settings = load(json_settings)
-    validate(settings)
-    return settings
-
-
-def validate(args: dict) -> bool:
-    validate_common_arguments()
-
-    validate_mode()
-
-    return True
-
-
-def validate_mode(args: dict) -> bool:
-    return True
-
-
-def validate_mode_selected(args: dict) -> bool:
-    return True
-
-
-def validate_mode_changes(args: dict) -> -bool:
-    return True
-
-
-def validate_mode_all(args: dict) -> bool:
-    return True
-"""
+ 

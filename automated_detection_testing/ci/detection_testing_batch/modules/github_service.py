@@ -22,7 +22,7 @@ SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
 class GithubService:
 
-    def __init__(self, security_content_branch: str, PR_number: int = None, existing_directory: bool = False):
+    def __init__(self, security_content_branch: str, commit_hash:str, PR_number: int = None, existing_directory: bool = False):
 
         self.security_content_branch = security_content_branch
         if existing_directory:
@@ -31,11 +31,27 @@ class GithubService:
         self.security_content_repo_obj = self.clone_project(
             SECURITY_CONTENT_URL, f"security_content", f"develop")
 
-        if PR_number:
+        if commit_hash is not None and PR_number is not None:
+            print("Error - both the PR number [%d] and the commit hash [%s] were provided.  "\
+                  "Only 0 or 1 can be passed.\n\tQuitting..."%(PR_number, commit_hash))
+            sys.exit()
+
+        elif PR_number:
             subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
                             "refs/pull/%d/head:%s" % (PR_number, security_content_branch)])
 
-        self.security_content_repo_obj.git.checkout(security_content_branch)
+        # No checking to see if the hash is to a commit inside of the branch - the user
+        # has to do that by hand
+        if commit_hash is not None:
+            print("Checking out commit hash: [%s]"%(commit_hash))
+            self.security_content_repo_obj.git.checkout(commit_hash)
+        else:
+            print("Checking out branch: [%s]..."%(security_content_branch),end='')
+            self.security_content_repo_obj.git.checkout(security_content_branch)
+            commit_hash = self.security_content_repo_obj.head.object.hexsha
+            print("commit_hash %s"%(commit_hash))
+        
+        self.commit_hash = commit_hash
 
     def clone_project(self, url, project, branch):
         LOGGER.info(f"Clone Security Content Project")
@@ -184,7 +200,10 @@ class GithubService:
         changed_test_files = []
         changed_detection_files = []
         if branch1 != 'develop':
-            differ = g.diff('--name-status', branch2 + '...' + branch1)
+            if self.commit_hash is None:
+                differ = g.diff('--name-status', branch2 + '...' + branch1)
+            else:
+                differ = g.diff('--name-status', branch2 + '...' + self.commit_hash)
             changed_files = differ.splitlines()
 
             for file_path in changed_files:

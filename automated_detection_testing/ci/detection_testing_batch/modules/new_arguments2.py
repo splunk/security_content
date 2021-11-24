@@ -89,16 +89,7 @@ def update_config_with_cli_arguments(args_dict:dict)->tuple[str, dict]:
         print("Failure while processing updated settings from command line.\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
     
-    now = datetime.datetime.now()
-    configname = now.strftime('%Y-%m-%dT%H:%M:%S.%f%z') + '-test-run.json' 
-    with open(configname,'w') as test_config:
-        settings_with_creds_stripped = copy.deepcopy(settings)
-        #strip out credentials
-        settings_with_creds_stripped['splunkbase_password'] = None
-        settings_with_creds_stripped['splunkbase_username'] = None
-        settings_with_creds_stripped['container_password'] = None
-        validate_args.validate_and_write(settings_with_creds_stripped, test_config)
-
+    
     return ("run", settings)
 
     
@@ -166,6 +157,13 @@ def parse(args)->tuple[str,dict]:
     run_parser.add_argument('-b', '--branch', required=False, type=str,
                             help="The branch to run the tests on.")
     
+    run_parser.add_argument('-hash', '--commit_hash', required=False, type=str,
+                            help="The hash to run the tests on.")
+    
+    run_parser.add_argument('-pr', '--pr_number', required=False, type=int,
+                            help="The Pull request to run the tests on.")
+
+
     run_parser.add_argument('-m', '--mode', required=False, type=str,
                             help="The mode all, changes, or selected for the testing.")
 
@@ -206,9 +204,9 @@ def parse(args)->tuple[str,dict]:
         #file value with None - keep the config file value
         keys = list(args.__dict__.keys())
         for key in keys:
-            if args.__dict__[key] is None and key in ["splunkbase_username","branch","mode",
-                                                      "splunkbase_password","splunk_app_password",
-                                                      "mock","num_containers"]:
+            if args.__dict__[key] is None and key in ["splunkbase_username","branch", "commit_hash", 
+                                                      "pr_number", "mode", "splunkbase_password",
+                                                      "splunk_app_password", "mock","num_containers"]:
                 del args.__dict__[key]
 
         action, settings = args.func(args)

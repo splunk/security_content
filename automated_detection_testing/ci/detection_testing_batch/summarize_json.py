@@ -3,6 +3,9 @@ from collections import OrderedDict
 import argparse
 import sys
 import json
+from modules import validate_args
+import os.path
+
 def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
     success = True
     try:
@@ -41,6 +44,18 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
 
         with open(output_filename, "w") as jsonFile:
             json.dump({'summary':summary, 'baseline': baseline, 'results':data}, jsonFile, indent="    ")
+        
+        
+        #Generate a failure that the user can download to reproduce and test ONLY the failures locally.
+        #This makes it easy to test and debug ONLY those that failed.  No need to test the ones
+        #that succeeded!
+        
+        fail_list = [os.path.join("security_content/detections",x['detection_file'] ) for x in data if x['success'] == False]
+        failures_test_override = {"detection_list": fail_list, "interactive_failure":True, 
+                                  "num_containers":1, "branch": baseline["branch"], "commit_hash":baseline["commit_hash"], 
+                                  "mode":"selected"}
+        with open("detection_failure_manifest.json","w") as failures:
+            validate_args.validate_and_write(failures_test_override, failures)
     except Exception as e:
         print("There was an error generating [%s]: [%s]"%(output_filename, str(e)),file=sys.stderr)
         raise(e)
@@ -58,14 +73,12 @@ args = parser.parse_args()
 
 all_data = OrderedDict()
 try:
-    print("We will summarize the files: %s"%(str(args.files)))
+    print("We will summarize the files: %s"%(str([f.name for f in args.files])))
     for f in args.files:
         if not f.name.endswith('.json'):
             print("Error: passed in file must end in .json - you passed in [%s].\n\tQuitting..."%(f.name))
             sys.exit(1)
         data = json.loads(f.read())
-        print(f.name)
-        print(data)
         if 'baseline' in all_data:
             #everything has the same baseline, only need to do it once
             pass

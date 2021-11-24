@@ -27,6 +27,8 @@ class ContainerManager:
         num_containers: int,
         local_apps: OrderedDict,
         splunkbase_apps:OrderedDict,
+        branch:str,
+        commit_hash:str,
         files_to_copy_to_container: OrderedDict = OrderedDict(),
         web_port_start: int = 8000,
         management_port_start: int = 8089,
@@ -74,6 +76,8 @@ class ContainerManager:
         #Get a datetime and add it as the first entry in the baseline
         self.start_time = datetime.datetime.now()
         self.baseline['SPLUNK_VERSION'] = full_docker_hub_name
+        self.baseline["branch"] = branch
+        self.baseline["commit_hash"] = commit_hash
         #Added here first to preserve ordering for OrderedDict
         self.baseline['TEST_START_TIME'] = "TO BE UPDATED"
         self.baseline['TEST_FINISH_TIME'] = "TO BE UPDATED"
