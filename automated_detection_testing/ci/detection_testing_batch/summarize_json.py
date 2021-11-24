@@ -56,7 +56,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         if len(fail_list) > 0:
             failures_test_override = {"detections_list": fail_list, "interactive_failure":True, 
                                     "num_containers":1, "branch": baseline["branch"], "commit_hash":baseline["commit_hash"], 
-                                    "mode":"selected"}
+                                    "mode":"selected", "show_splunk_app_password": True}
             with open("detection_failure_manifest.json","w") as failures:
                 validate_args.validate_and_write(failures_test_override, failures)
     except Exception as e:
