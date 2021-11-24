@@ -112,16 +112,19 @@ def read_data(file_path):
     count = len(open(modified_file).readlines())
     i = 0
     file = fileinput.input(files=modified_file)
+    event = file[0]
     start_position = 0
 
     for i in range(1, count):
         line = file[i]
+        event = event + line
         i = i + 1
         if re.match(date_rex, line):
-            data.append(file[start_position:i])
+            data.append(event)
             start_position = i
+            event = line
 
-    data.append(file[start_position:count])
+    data.append(event)
 
     LOGGER.info("data parsed into individual events:")
     LOGGER.info(data)
