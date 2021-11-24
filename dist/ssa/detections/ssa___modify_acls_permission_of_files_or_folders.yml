@@ -79,5 +79,17 @@ tags:
   risk_score: 35
   risk_severity: medium
   security_domain: endpoint
+test:
+  name: Modify ACLs Permission Of Files Or Folders Unit Test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/ssa_cacls/all_icalc.log
+      file_name: all_icalc.log
+      source: WinEventLog:Security
+    description: Test for modifying permission of a file(s) or folder(s) using cacls
+      utility.
+    file: endpoint/ssa___modify_acls_permission_of_files_or_folders.yml
+    name: Modify ACLs Permission Of Files Or Folders
+    pass_condition: '@count_gt(0)'
 type: Anomaly
 version: 1

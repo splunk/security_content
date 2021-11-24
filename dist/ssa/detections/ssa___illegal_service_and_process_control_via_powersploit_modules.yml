@@ -90,5 +90,16 @@ tags:
   risk_score: 90
   risk_severity: high
   security_domain: endpoint
+test:
+  name: Illegal Service and Process Control via PowerSploit modules - SSA Unit test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003/credential_extraction/logAllPowerSploitModulesWithOldNames.log
+      file_name: logAllPowerSploitModulesWithOldNames.log
+      source: WinEventLog:Security
+    description: Test illegal service and process control detections
+    file: endpoint/ssa___illegal_service_and_process_control_via_powersploit_modules.yml
+    name: Illegal Service and Process Control via PowerSploit modules
+    pass_condition: '@count_gt(0)'
 type: TTP
 version: 1

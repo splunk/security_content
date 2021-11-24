@@ -74,5 +74,16 @@ tags:
   risk_score: 80
   risk_severity: high
   security_domain: endpoint
+test:
+  name: Illegal Account Creation via PowerSploit modules - SSA Unit test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/illegal_access_to_content/logAllPowerSploitModulesWithOldNames.log
+      file_name: logAllPowerSploitModulesWithOldNames.log
+      source: WinEventLog:Security
+    description: Test illegal account creation detections
+    file: endpoint/ssa___illegal_account_creation_via_powersploit_modules.yml
+    name: Illegal Account Creation via PowerSploit modules
+    pass_condition: '@count_gt(0)'
 type: TTP
 version: 1

@@ -83,5 +83,17 @@ tags:
   risk_score: 90
   risk_severity: high
   security_domain: endpoint
+test:
+  name: Illegal Privilege Elevation and Persistence via PowerSploit modules - SSA
+    Unit test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/logAllPowerSploitModulesWithOldNames.log
+      file_name: logAllPowerSploitModulesWithOldNames.log
+      source: WinEventLog:Security
+    description: Test privilege elevation and persistence detections
+    file: endpoint/ssa___illegal_privilege_elevation_and_persistence_via_powersploit_modules.yml
+    name: Illegal Privilege Elevation and Persistence via PowerSploit modules
+    pass_condition: '@count_gt(0)'
 type: TTP
 version: 1

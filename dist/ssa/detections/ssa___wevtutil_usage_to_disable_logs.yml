@@ -77,5 +77,16 @@ tags:
   risk_score: 63
   risk_severity: low
   security_domain: endpoint
+test:
+  name: Wevtutil Usage To Disable Logs Unit Test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/disable_evt.log
+      file_name: disable_evt.log
+      source: WinEventLog:Security
+    description: Test for wevtutil disable logs command
+    file: endpoint/ssa___wevtutil_usage_to_disable_logs.yml
+    name: Wevtutil Usage To Disable Logs
+    pass_condition: '@count_gt(0)'
 type: TTP
 version: 2
