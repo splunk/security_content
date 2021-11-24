@@ -117,12 +117,14 @@ def read_data(file_path):
 
     for i in range(1, count):
         line = file[i]
-        event = event + line
         i = i + 1
         if re.match(date_rex, line):
             data.append(event)
             start_position = i
             event = line
+        else:
+            event = event + line
+
 
     data.append(event)
 
