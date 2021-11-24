@@ -248,6 +248,7 @@ jobs:
             
         - name: Upload Summary Test Results JSON
           uses: actions/upload-artifact@v2
+          if: always()
           with:
             name: SummaryTestResults
             path: |
@@ -255,6 +256,7 @@ jobs:
         
         - name: Clean up intermediate Files
           uses: geekyeggo/delete-artifact@v1
+          if: always()
           with:
               name: |
                 config_tests_0.json.results
