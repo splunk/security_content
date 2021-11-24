@@ -40,7 +40,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
                  "FAIL_AND_ERROR":fail_and_error_count }
 
         with open(output_filename, "w") as jsonFile:
-            json.dump({'summary':summary, 'baseline': baseline, 'results':data}, jsonFile, indent="   ")
+            json.dump({'summary':summary, 'baseline': baseline, 'results':data}, jsonFile, indent="    ")
     except Exception as e:
         print("There was an error generating [%s]: [%s]"%(output_filename, str(e)),file=sys.stderr)
         raise(e)
