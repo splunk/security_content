@@ -50,12 +50,15 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         #This makes it easy to test and debug ONLY those that failed.  No need to test the ones
         #that succeeded!
         
+        
         fail_list = [os.path.join("security_content/detections",x['detection_file'] ) for x in data if x['success'] == False]
-        failures_test_override = {"detection_list": fail_list, "interactive_failure":True, 
-                                  "num_containers":1, "branch": baseline["branch"], "commit_hash":baseline["commit_hash"], 
-                                  "mode":"selected"}
-        with open("detection_failure_manifest.json","w") as failures:
-            validate_args.validate_and_write(failures_test_override, failures)
+
+        if len(fail_list) > 0:
+            failures_test_override = {"detections_list": fail_list, "interactive_failure":True, 
+                                    "num_containers":1, "branch": baseline["branch"], "commit_hash":baseline["commit_hash"], 
+                                    "mode":"selected"}
+            with open("detection_failure_manifest.json","w") as failures:
+                validate_args.validate_and_write(failures_test_override, failures)
     except Exception as e:
         print("There was an error generating [%s]: [%s]"%(output_filename, str(e)),file=sys.stderr)
         raise(e)
