@@ -72,7 +72,7 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Lateral Movement
-  message: Wsmprovhost.exe spawned a LOLBAS process on $dest
+  message: Wsmprovhost.exe spawned a LOLBAS process on $dest$.
   observable:
   - name: dest
     type: Endpoint
