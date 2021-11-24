@@ -243,6 +243,13 @@ jobs:
         - name: Merge Detections into single File
           run: |
             cd automated_detection_testing/ci/detection_testing_batch
+            echo "res0"
+            ls 
+            echo "res1"
+            ls
+            echo "res2"
+            ls results_*
+
             python summarize_json.py --files results_*/combined.json --output_filename summary_test_results.json
             
             
