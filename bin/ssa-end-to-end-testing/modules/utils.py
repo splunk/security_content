@@ -128,6 +128,7 @@ def read_data(file_path):
 
 
     data.append(event)
+    fileinput.close()
 
     return data
 
