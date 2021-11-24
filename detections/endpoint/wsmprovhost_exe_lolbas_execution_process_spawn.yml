@@ -38,7 +38,7 @@ tags:
   analytic_story:
   - Lateral Movement
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_lolbas/windows-sysmon.log
   kill_chain_phases:
   - Lateral Movement
   mitre_attack_id:
