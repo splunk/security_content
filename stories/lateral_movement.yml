@@ -1,8 +1,8 @@
 name: Lateral Movement
 id: 399d65dc-1f08-499b-a259-aad9051f38ad
 version: 2
-date: '2020-02-04'
-author: David Dorsey, Splunk
+date: '2021-11-23'
+author: David Dorsey, Mauricio Velazco Splunk
 description: Detect and investigate tactics, techniques, and procedures around how
   attackers move laterally within the enterprise. Because lateral movement can expose
   the adversary to detection, it should be an important focus for security analysts.
@@ -32,6 +32,7 @@ narrative: "Once attackers gain a foothold within an enterprise, they will seek 
   \ for all processes to ensure that the attackers did not install unauthorized software."
 references:
 - https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
+- https://www.youtube.com/watch?v=hVTkkkM9XDg
 tags:
   analytic_story: Lateral Movement
   category:
