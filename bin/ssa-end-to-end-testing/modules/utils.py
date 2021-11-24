@@ -108,23 +108,20 @@ def read_data(file_path):
     data_manipulation = DataManipulation()
     modified_file = data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
     data = []
-    event = ""
     date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
     count = len(open(modified_file).readlines())
     i = 0
-    tmp_counter = 0
-    for line in fileinput.input(files=modified_file):
-        i = i + 1
-        if event.strip() != "" and re.match(date_rex, line):
-            data.append(event)
-            tmp_counter = 0
-            event = line
-        else:
-            tmp_counter = tmp_counter + 1
-            event = event + line
+    file = fileinput.input(files=modified_file)
+    start_position = 0
 
-        if i == count and tmp_counter > 10:
-            data.append(event)
+    for i in range(1, count):
+        line = file[i]
+        i = i + 1
+        if re.match(date_rex, line):
+            data.append(file[start_position:i])
+            start_position = i
+
+    data.append(file[start_position:count])
 
     LOGGER.info("data parsed into individual events:")
     LOGGER.info(data)
