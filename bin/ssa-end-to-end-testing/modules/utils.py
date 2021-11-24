@@ -110,7 +110,7 @@ def read_data(file_path):
     data = []
     date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
     count = len(open(modified_file).readlines())
-    LOGGER.info("lines of file: " + str(count))
+
     i = 0
     file = fileinput.input(files=modified_file)
     event = file[0]
@@ -129,8 +129,6 @@ def read_data(file_path):
 
     data.append(event)
 
-    LOGGER.info("data parsed into individual events:")
-    LOGGER.info(data)
     return data
 
 
