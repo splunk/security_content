@@ -58,11 +58,14 @@ args = parser.parse_args()
 
 all_data = OrderedDict()
 try:
+    print("We will summarize the files: %s"%(str(args.files)))
     for f in args.files:
         if not f.name.endswith('.json'):
             print("Error: passed in file must end in .json - you passed in [%s].\n\tQuitting..."%(f.name))
             sys.exit(1)
         data = json.loads(f.read())
+        print(f.name)
+        print(data)
         if 'baseline' in all_data:
             #everything has the same baseline, only need to do it once
             pass
