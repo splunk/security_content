@@ -52,13 +52,6 @@ jobs:
             run: |
               sudo apt update -qq
               
-
-              #python2.7 needed for slim, for now
-              sudo apt install python2
-              sudo apt install virtualenv 
-              curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
-              sudo python2.7 get-pip.py
-
           - uses: actions/setup-python@v2
             with:
               python-version: '3.9' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
@@ -251,6 +244,7 @@ jobs:
         - name: Merge Detections into single File
           run: |
             cd automated_detection_testing/ci/detection_testing_batch
+            source .venv/bin/activate
             python summarize_json.py --files results_*/combined.json --output_filename summary_test_results.json
             
             

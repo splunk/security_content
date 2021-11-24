@@ -74,7 +74,7 @@ def ensure_security_content(branch: str, commit_hash:str, pr_number: Union[int, 
     else:
         if persist_security_content is True and not os.path.exists("security_content"):
             print("Error - you chose --persist_security_content but the security_content directory does not exist!"
-                  "  We will check it out for you.\n\tQuitting...")
+                  "  We will check it out for you.")
 
         elif os.path.exists("security_content/"):
             print("Deleting the security_content directory")

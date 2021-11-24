@@ -247,7 +247,7 @@ class SplunkContainer:
                 datetime.timedelta(
                     microseconds=timedelta_per_test.microseconds)
             
-            testing_time_string = "%s per test (%d tests)"%(timedelta_per_test_rounded, self.num_tests_completed)
+            testing_time_string = "%s (%d tests @ %s per test)"%(testing_seconds_rounded, self.num_tests_completed, timedelta_per_test_rounded)
 
         summary_str = "Summary\n\t"\
                       "Total Time          : [%s]\n\t"\
