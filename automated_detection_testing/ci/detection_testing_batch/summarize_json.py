@@ -6,11 +6,47 @@ import json
 def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
     success = True
     try:
+        test_count = len(data)
+        #Passed
+        pass_count = len([x for x in data if x['success'] == True])
+        
+        #A failure or an error
+        fail_only_count = len([x for x in data if x['success'] == False])
+        
+        #An error (every error is also a failure)
+        fail_and_error_count = len([x for x in data if x['error'] == True])
+        
+        #A failure without an error
+        fail_without_error_count = len([x for x in data if x['success'] == False and x['error'] == False])
+        
+        #This number should always be zero...
+        error_and_success_count = len([x for x in data if x['success'] == True and x['error'] == True])
+        if error_and_success_count > 0:
+            print("Error - a test was successful, but also included an error. This should be impossible.",file=sys.stderr)
+            success = False
+            
+        if test_count != (pass_count + fail_only_count):
+            print("Error - the total tests [%d] does not equal the pass[%d]/fails[%d]"%(test_count, pass_count,fail_only_count))
+            success=False
+
+        if fail_only_count > 0:
+            result = "FAIL for %d detections"%(fail_only_count)
+            success = False
+        else:
+            result = "PASS for all %d detections"%(pass_count)
+
+        summary={"TOTAL_TESTS": test_count, "TESTS_PASSED": pass_count, 
+                 "TOTAL_FAILURES": fail_only_count, "FAIL_ONLY": fail_without_error_count, 
+                 "FAIL_AND_ERROR":fail_and_error_count }
+
         with open(output_filename, "w") as jsonFile:
-            json.dump({'baseline': baseline, 'results':data}, jsonFile, indent="   ")
+            json.dump({'summary':summary, 'baseline': baseline, 'results':data}, jsonFile, indent="   ")
     except Exception as e:
-        print("There was an error generating [%s]: [%s]"%(output_filename, str(e)))
-        success = False
+        print("There was an error generating [%s]: [%s]"%(output_filename, str(e)),file=sys.stderr)
+        raise(e)
+        #success = False
+        #return success, False
+
     return success
 
 
@@ -38,8 +74,16 @@ try:
         else:
             all_data['results'] = data['results']
 
-    outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
-    print("Successfully summarized [%d] detections!"%(len(all_data['results'])))
+    test_pass = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
+    print("Successfully summarized [%d] detections"%(len(all_data['results'])))
+    if not test_pass:
+        print("Result: FAIL")
+        sys.exit(1)
+    else:
+        print("Result: PASS!")
+        sys.exit(0)
+
+    
 except Exception as e:
     print("Error writing the summary file: [%s].\n\tQuitting..."%(str(e)))
     sys.exit(1)
