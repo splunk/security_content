@@ -1,7 +1,0 @@
-process,allow_list
-splunk-regmon.exe,true
-winword.exe,true
-excel.exe,true
-outlook.exe,true
-powerpnt.exe,true
-visio.exe,true
