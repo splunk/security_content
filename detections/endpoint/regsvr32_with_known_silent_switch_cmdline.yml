@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - IcedID
   - Suspicious Regsvr32 Activity
+  - Remcos
   automated_detection_testing: passed
   confidence: 80
   context:
