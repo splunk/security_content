@@ -6,15 +6,16 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic will detect a suspicious process commandline related to windows defender exclusion feature. 
-  This command is abused by adversaries, malware author and red teams to bypassed Windows Defender Anti-Virus product 
-  by excluding  folder path, file path, process, extensions and etc. from its real time or schedule scan to execute their malicious code. 
-  This is a good indicator for defense evasion and to look further for events after this behavior.
-search: '`powershell` EventCode=4104 (Message = "*Add-MpPreference *" OR Message = "*Set-MpPreference *") AND Message = "*-exclusion*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Message ComputerName User 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `powershell_windows_defender_exclusion_commands_filter`'
+description: This analytic will detect a suspicious process commandline related to
+  windows defender exclusion feature. This command is abused by adversaries, malware
+  author and red teams to bypassed Windows Defender Anti-Virus product by excluding  folder
+  path, file path, process, extensions and etc. from its real time or schedule scan
+  to execute their malicious code. This is a good indicator for defense evasion and
+  to look further for events after this behavior.
+search: '`powershell` EventCode=4104 (Message = "*Add-MpPreference *" OR Message =
+  "*Set-MpPreference *") AND Message = "*-exclusion*" | stats count min(_time) as
+  firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `powershell_windows_defender_exclusion_commands_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
@@ -28,7 +29,7 @@ tags:
   - Remcos
   - Windows Defense Evasion Tactics
   dataset:
-  - UPDATE_DATASET_URL
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_powershell/powershell.log
   kill_chain_phases:
   - Exploitation
   mitre_attack_id:
@@ -47,7 +48,6 @@ tags:
   security_domain: endpoint
   impact: 80
   confidence: 80
-  # (impact * confidence)/100
   risk_score: 64
   context:
   - Source:Endpoint
@@ -62,4 +62,4 @@ tags:
     type: Hostname
     role:
     - Victim
-  
+  automated_detection_testing: passed
