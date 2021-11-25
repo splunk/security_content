@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
+  - Remcos
   automated_detection_testing: passed
   confidence: 60
   context:
