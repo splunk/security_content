@@ -44,18 +44,19 @@ datamodel_file_container_path = os.path.join(
 
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
 
-def copy_local_apps_to_directory(apps: dict[str,dict], target_directory)->None:
+
+def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> None:
     for key, item in apps.items():
         source_path = os.path.abspath(os.path.expanduser(item['local_path']))
         base_name = os.path.basename(source_path)
         dest_path = os.path.join(target_directory, base_name)
-        
+
         try:
             shutil.copy(source_path, dest_path)
             item['local_path'] = dest_path
         except shutil.SameFileError as e:
             # Same file, not a real error.  The copy just doesn't happen
-            print("err:%s"%(str(e)))
+            print("err:%s" % (str(e)))
             pass
         except Exception as e:
             print("Error copying ESCU Package [%s] to [%s]: [%s].\n\tQuitting..." % (
@@ -63,7 +64,7 @@ def copy_local_apps_to_directory(apps: dict[str,dict], target_directory)->None:
             sys.exit(1)
 
 
-def ensure_security_content(branch: str, commit_hash:str, pr_number: Union[int, None], persist_security_content: bool) -> GithubService:
+def ensure_security_content(branch: str, commit_hash: str, pr_number: Union[int, None], persist_security_content: bool) -> GithubService:
     if persist_security_content is True and os.path.exists("security_content"):
         print("****** You chose --persist_security_content and the security_content directory exists. "
               "We will not check out the repo again. Please be aware, this could cause issues if you're "
@@ -186,26 +187,26 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
 
     return output_file_path_from_root
 
+
 def finish_mock(settings: dict, detections: list[str], output_file_template: str = "prior_config/config_tests_%d.json"):
     num_containers = settings['num_containers']
 
     try:
-        #Remove the prior config directory if it exists.  If not, continue
+        # Remove the prior config directory if it exists.  If not, continue
         shutil.rmtree("prior_config", ignore_errors=True)
-        
-        #We want to make the prior_config directory and the prior_config/apps directory
+
+        # We want to make the prior_config directory and the prior_config/apps directory
         os.makedirs("prior_config/apps")
     except FileExistsError as e:
-        print("Directory priorconfig/apps exists, but we just deleted it!\m\tQuitting...",file=sys.stderr)
+        print("Directory priorconfig/apps exists, but we just deleted it!\m\tQuitting...", file=sys.stderr)
         sys.exit(1)
     except Exception as e:
         print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..." % (
             str(e)), file=sys.stderr)
         sys.exit(1)
 
-    
-    #Copy the apps to the appropriate local.  This will also update
-    #the app paths in settings['local_apps']
+    # Copy the apps to the appropriate local.  This will also update
+    # the app paths in settings['local_apps']
     copy_local_apps_to_directory(settings['local_apps'], "prior_config/apps")
 
     for output_file_index in range(0, num_containers):
@@ -265,7 +266,7 @@ def main(args: list[str]):
     try:
         docker.client.from_env()
     except Exception as e:
-        print("Error, failed to get docker client.  Is Docker Running?\n\t%s"%(str(e)))
+        print("Error, failed to get docker client.  Is Docker Running?\n\t%s" % (str(e)))
 
     requests.packages.urllib3.disable_warnings()
 
@@ -278,8 +279,8 @@ def main(args: list[str]):
     elif action != "run":
         print("Unsupported action: [%s]" % (action), file=sys.stderr)
         sys.exit(1)
-    
 
+    
     FULL_DOCKER_HUB_CONTAINER_NAME = "splunk/splunk:%s" % settings['container_tag']
 
     if settings['num_containers'] > MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING:
@@ -291,11 +292,11 @@ def main(args: list[str]):
     github_service = ensure_security_content(
         settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
     settings['commit_hash'] = github_service.commit_hash
-    
-    #Make a backup of this config containing the hash and stripped credentials.
-    #This makes the test perfectly reproducible.
-    validate_args.validate_and_write(settings,output_file=None,strip_credentials=True)
-    
+
+    # Make a backup of this config containing the hash and stripped credentials.
+    # This makes the test perfectly reproducible.
+    validate_args.validate_and_write(
+        settings, output_file=None, strip_credentials=True)
 
     all_test_files = github_service.get_test_files(settings['mode'],
                                                    settings['folders'],
@@ -303,13 +304,11 @@ def main(args: list[str]):
                                                    settings['detections_list'],
                                                    settings['detections_file'])
 
-    
-    
     local_volume_absolute_path = os.path.abspath(
         os.path.join(os.getcwd(), "apps"))
     try:
-        #remove the directory first
-        shutil.rmtree(local_volume_absolute_path,ignore_errors=True)
+        # remove the directory first
+        shutil.rmtree(local_volume_absolute_path, ignore_errors=True)
         os.mkdir(local_volume_absolute_path)
     except FileExistsError as e:
         # Directory already exists, do nothing
@@ -325,7 +324,7 @@ def main(args: list[str]):
         pass
         #file_path = os.path.expanduser(settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'])
         #source_path = file_path
-        #dest_path = os.path.join(
+        # dest_path = os.path.join(
         #    local_volume_absolute_path, os.path.basename(file_path))
 
     elif 'SPLUNK_ES_CONTENT_UPDATE' not in settings['local_apps']:
@@ -336,13 +335,11 @@ def main(args: list[str]):
         # Need to generate that package
         source_path = generate_escu_app(settings['persist_security_content'])
         settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
-        #dest_path = os.path.join(
+        # dest_path = os.path.join(
         #    local_volume_absolute_path, os.path.basename(source_path))
-    
-    
 
-    copy_local_apps_to_directory(settings['local_apps'], local_volume_absolute_path)
-    
+    copy_local_apps_to_directory(
+        settings['local_apps'], local_volume_absolute_path)
 
     if settings['mock']:
         finish_mock(settings, all_test_files)
@@ -355,7 +352,7 @@ def main(args: list[str]):
 
     mounts = [{"local_path": local_volume_absolute_path,
                "container_path": "/tmp/apps", "type": "bind", "read_only": True}]
-    
+
     cm = container_manager.ContainerManager(all_test_files,
                                             FULL_DOCKER_HUB_CONTAINER_NAME,
                                             settings['local_base_container_name'],
@@ -375,8 +372,8 @@ def main(args: list[str]):
                                             reuse_image=settings['reuse_image'],
                                             interactive_failure=settings['interactive_failure'])
 
-    
     cm.run_test()
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

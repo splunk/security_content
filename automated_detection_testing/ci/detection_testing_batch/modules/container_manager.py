@@ -53,8 +53,15 @@ class ContainerManager:
         else:
             self.container_password = container_password
         
+        print("\n\n***********************")
+        print("Log into your Splunk Container(s) after they boot at at http://127.0.0.1:[%d-%d]"%(web_port_start, web_port_start + num_containers - 1))
+        print("\tSplunk App Username: [%s]"%("admin"))
+        print("\tSplunk App Password: ", end='')
         if show_container_password:
-            print("Splunk App Password: [%s]"%(self.container_password))
+            print("[%s]"%(self.container_password))
+        else:
+            print(" --show_splunk_app_password set to False - password not printed")
+        print("***********************\n\n")
         
 
         self.containers = self.create_containers(

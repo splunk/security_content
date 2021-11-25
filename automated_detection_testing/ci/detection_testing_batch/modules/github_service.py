@@ -22,7 +22,7 @@ SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
 class GithubService:
 
-    def __init__(self, security_content_branch: str, commit_hash:str, PR_number: int = None, existing_directory: bool = False):
+    def __init__(self, security_content_branch: str, commit_hash: str, PR_number: int = None, existing_directory: bool = False):
 
         self.security_content_branch = security_content_branch
         if existing_directory:
@@ -32,8 +32,8 @@ class GithubService:
             SECURITY_CONTENT_URL, f"security_content", f"develop")
 
         if commit_hash is not None and PR_number is not None:
-            print("Error - both the PR number [%d] and the commit hash [%s] were provided.  "\
-                  "Only 0 or 1 can be passed.\n\tQuitting..."%(PR_number, commit_hash))
+            print("Error - both the PR number [%d] and the commit hash [%s] were provided.  "
+                  "Only 0 or 1 can be passed.\n\tQuitting..." % (PR_number, commit_hash))
             sys.exit()
 
         elif PR_number:
@@ -43,14 +43,16 @@ class GithubService:
         # No checking to see if the hash is to a commit inside of the branch - the user
         # has to do that by hand
         if commit_hash is not None:
-            print("Checking out commit hash: [%s]"%(commit_hash))
+            print("Checking out commit hash: [%s]" % (commit_hash))
             self.security_content_repo_obj.git.checkout(commit_hash)
         else:
-            print("Checking out branch: [%s]..."%(security_content_branch),end='')
-            self.security_content_repo_obj.git.checkout(security_content_branch)
+            print("Checking out branch: [%s]..." %
+                  (security_content_branch), end='')
+            self.security_content_repo_obj.git.checkout(
+                security_content_branch)
             commit_hash = self.security_content_repo_obj.head.object.hexsha
-            print("commit_hash %s"%(commit_hash))
-        
+            print("commit_hash %s" % (commit_hash))
+
         self.commit_hash = commit_hash
 
     def clone_project(self, url, project, branch):
@@ -60,13 +62,13 @@ class GithubService:
 
     def prune_detections(self,
                          detections_to_prune: list[str],
-                           types_to_test: list[str],
+                         types_to_test: list[str],
                          previously_successful_tests: list[str],
                          exclude_ssa: bool = True,
                          summary_file: str = None) -> list[str]:
         pruned_tests = []
         csvlines = []
-        
+
         for detection in detections_to_prune:
             if os.path.basename(detection).startswith("ssa") and exclude_ssa:
                 continue
@@ -79,7 +81,7 @@ class GithubService:
                     pathlib.Path(*pathlib.Path(test_filepath).parts[1:]))
                 # If no   types are provided, then we will get everything
                 if 'type' in description and (description['type'] in types_to_test or len(types_to_test) == 0):
-                    
+
                     if not os.path.exists(test_filepath):
                         print("Detection [%s] references [%s], but it does not exist" % (
                             detection, test_filepath))
@@ -122,54 +124,59 @@ class GithubService:
 
         return pruned_tests
 
-    def get_test_files(self, mode: str, folders:list[str],   types:list[str],
-                        detections_list: Union[list[str], None], 
+    def get_test_files(self, mode: str, folders: list[str],   types: list[str],
+                       detections_list: Union[list[str], None],
                        detections_file=Union[str, None]) -> list[str]:
         if mode == "changes":
             tests = self.get_changed_test_files(folders, types)
         elif mode == "selected":
             if detections_list is None and detections_file is None:
-                #It's actually valid to supply an EMPTY list of files and the test should pass.
-                #This can occur when we try to test, for example, 1 detection but start 2 containers.
-                #We still want this to pass testing, so we shouldn't fail there!
-                print("Trying to test a list of files, but None were provided", file=sys.stderr)
+                # It's actually valid to supply an EMPTY list of files and the test should pass.
+                # This can occur when we try to test, for example, 1 detection but start 2 containers.
+                # We still want this to pass testing, so we shouldn't fail there!
+                print(
+                    "Trying to test a list of files, but None were provided", file=sys.stderr)
                 sys.exit(1)
 
             elif detections_list is not None and detections_file is not None:
-                print("Both detections_list [%s] and detections_file [%s] were provided.  "\
-                      "Because these confilect, we cannot test.\n\tQuitting..."%
+                print("Both detections_list [%s] and detections_file [%s] were provided.  "
+                      "Because these confilect, we cannot test.\n\tQuitting..." %
                       (detections_list, detections_file), file=sys.stderr)
                 sys.exit(1)
             elif detections_list is not None:
                 tests = self.get_selected_test_files(detections_list, types)
             elif detections_file is not None:
                 try:
-                    with open(detections_file,'r') as f:
+                    with open(detections_file, 'r') as f:
                         data = f.readlines()
-                    #Strip all whitespace from lines and exclude lines that are just whitespace
-                    files_to_test = [line.strip() for line in data if len(line.strip()) > 0]
+                    # Strip all whitespace from lines and exclude lines that are just whitespace
+                    files_to_test = [line.strip()
+                                     for line in data if len(line.strip()) > 0]
                 except Exception as e:
-                    print("There was an error reading the input file [%s]: [%s].\n\t"\
-                          "Quitting..."%(detections_file, str(e)))
+                    print("There was an error reading the input file [%s]: [%s].\n\t"
+                          "Quitting..." % (detections_file, str(e)))
                     sys.exit(1)
-                
-                tests = self.get_selected_test_files(files_to_test, folders,   types)
+
+                tests = self.get_selected_test_files(
+                    files_to_test, folders,   types)
             else:
-                #impossible to get here
-                print("Impossible to get here.  Just kept to make the if/elif more self describing",file=sys.stderr)
+                # impossible to get here
+                print(
+                    "Impossible to get here.  Just kept to make the if/elif more self describing", file=sys.stderr)
                 sys.exit(1)
 
         elif mode == "all":
             tests = self.get_all_tests_and_detections(folders,  types)
         else:
-            print("Error, unsupported mode [%s].  Mode must be one of %s", file=sys.stderr)
+            print(
+                "Error, unsupported mode [%s].  Mode must be one of %s", file=sys.stderr)
             sys.exit(1)
 
         return tests
 
     def get_selected_test_files(self,
                                 detection_file_list: list[str],
-                                  types_to_test: list[str] = [
+                                types_to_test: list[str] = [
                                     "Anomaly", "Hunting", "TTP"],
                                 previously_successful_tests: list[str] = []) -> list[str]:
 
@@ -178,7 +185,7 @@ class GithubService:
     def get_all_tests_and_detections(self,
                                      folders: list[str] = [
                                          'endpoint', 'cloud', 'network'],
-                                       types_to_test: list[str] = [
+                                     types_to_test: list[str] = [
                                          "Anomaly", "Hunting", "TTP"],
                                      previously_successful_tests: list[str] = []) -> list[str]:
         detections = []
@@ -203,7 +210,8 @@ class GithubService:
             if self.commit_hash is None:
                 differ = g.diff('--name-status', branch2 + '...' + branch1)
             else:
-                differ = g.diff('--name-status', branch2 + '...' + self.commit_hash)
+                differ = g.diff('--name-status', branch2 +
+                                '...' + self.commit_hash)
             changed_files = differ.splitlines()
 
             for file_path in changed_files:

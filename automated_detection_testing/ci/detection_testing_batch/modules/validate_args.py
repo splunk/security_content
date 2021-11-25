@@ -107,7 +107,7 @@ setup_schema = {
 
         "show_splunk_app_password": {
             "type": "boolean",
-            "default": True
+            "default": False
 
         },
 
