@@ -1,6 +1,6 @@
 name: docker-detection-testing
 on:
-  #push:
+  push:
   #run nightly at 0500 UTC
   schedule:
     - cron: "0 5 * * *"
