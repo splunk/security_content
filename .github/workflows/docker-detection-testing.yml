@@ -1,7 +1,7 @@
 name: docker-detection-testing
 on:
   schedule:
-    - cron: '55 * * * *''
+    - cron: '55 * * * *'
 jobs:
 
   validate-tag-if-present:
