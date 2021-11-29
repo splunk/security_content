@@ -1,9 +1,7 @@
 name: docker-detection-testing
 on:
-  push:
-  #run nightly at 0500 UTC
   schedule:
-    - cron: "0 5 * * *"
+    - cron: "55 * * * *"
 jobs:
 
   validate-tag-if-present:
