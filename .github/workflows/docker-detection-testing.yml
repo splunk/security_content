@@ -80,7 +80,7 @@ jobs:
               cd automated_detection_testing/ci/detection_testing_batch
               source .venv/bin/activate
               
-              python3 detection_testing_execution.py run --branch RegistryDetectionFixes  --mode changes --num_containers 10 --mock 
+              python3 detection_testing_execution.py run --branch develop  --mode all --num_containers 10 --mock 
           
           - name: Upload Test Results Files
             uses: actions/upload-artifact@v2
@@ -275,19 +275,19 @@ jobs:
               automated_detection_testing/ci/detection_testing_batch/detection_failure_manifest.json
             
         
-        - name: Clean up intermediate Files
-          uses: geekyeggo/delete-artifact@v1
-          if: always()
-          with:
-              name: |
-                config_tests_0.json.results
-                config_tests_1.json.results
-                config_tests_2.json.results
-                config_tests_3.json.results
-                config_tests_4.json.results
-                config_tests_5.json.results
-                config_tests_6.json.results
-                config_tests_7.json.results
-                config_tests_8.json.results
-                config_tests_9.json.results
+        #Don't delete the intermediate files, they can be useful for debugging
+        # - name: Clean up intermediate Files
+        #   uses: geekyeggo/delete-artifact@v1
+        #   with:
+        #       name: |
+        #         config_tests_0.json.results
+        #         config_tests_1.json.results
+        #         config_tests_2.json.results
+        #         config_tests_3.json.results
+        #         config_tests_4.json.results
+        #         config_tests_5.json.results
+        #         config_tests_6.json.results
+        #         config_tests_7.json.results
+        #         config_tests_8.json.results
+        #         config_tests_9.json.results
                 
