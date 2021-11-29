@@ -1,7 +1,11 @@
 name: docker-detection-testing
 on:
+  push:
+  #run nightly at 0500 UTC
+  #Note the scheduled workflows will only run if the Action has 
+  #been committed to the default branch (develop)
   schedule:
-    - cron: '55 * * * *'
+    - cron: "0 5 * * *"
 jobs:
 
   validate-tag-if-present:
@@ -76,7 +80,7 @@ jobs:
               cd automated_detection_testing/ci/detection_testing_batch
               source .venv/bin/activate
               
-              python3 detection_testing_execution.py run --branch develop  --mode all --num_containers 10 --mock 
+              python3 detection_testing_execution.py run --branch RegistryDetectionFixes  --mode changes --num_containers 10 --mock 
           
           - name: Upload Test Results Files
             uses: actions/upload-artifact@v2
