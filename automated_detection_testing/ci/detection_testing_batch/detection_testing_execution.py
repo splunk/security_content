@@ -188,7 +188,7 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     return output_file_path_from_root
 
 
-def finish_mock(settings: dict, detections: list[str], output_file_template: str = "prior_config/config_tests_%d.json"):
+def finish_mock(settings: dict, detections: list[str], output_file_template: str = "prior_config/config_tests_%d.json")->bool:
     num_containers = settings['num_containers']
 
     try:
@@ -199,11 +199,11 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
         os.makedirs("prior_config/apps")
     except FileExistsError as e:
         print("Directory priorconfig/apps exists, but we just deleted it!\m\tQuitting...", file=sys.stderr)
-        sys.exit(1)
+        return False
     except Exception as e:
         print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..." % (
             str(e)), file=sys.stderr)
-        sys.exit(1)
+        return False
 
     # Copy the apps to the appropriate local.  This will also update
     # the app paths in settings['local_apps']
@@ -252,22 +252,20 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
                 if validated_settings is None:
                     print(
                         "There was an error validating the updated mock settings.\n\tQuitting...", file=sys.stderr)
-                    sys.exit(1)
+                    return False
 
         except Exception as e:
             print("Error writing config file %s: [%s]\n\tQuitting..." % (
                 fname, str(e)), file=sys.stderr)
-            sys.exit(1)
+            return False
 
-    sys.exit(0)
+    return True
 
 
 def main(args: list[str]):
-    try:
-        docker.client.from_env()
-    except Exception as e:
-        print("Error, failed to get docker client.  Is Docker Running?\n\t%s" % (str(e)))
-
+    #Disable insecure warnings.  We make a number of HTTPS requests to Splunk
+    #docker containers that we've set up.  Without this line, we get an 
+    #insecure warning every time due to invalid cert.
     requests.packages.urllib3.disable_warnings()
 
     start_datetime = datetime.now()
@@ -279,6 +277,16 @@ def main(args: list[str]):
     elif action != "run":
         print("Unsupported action: [%s]" % (action), file=sys.stderr)
         sys.exit(1)
+
+    if settings['mock'] is False:
+        # If this is a real run, then make sure Docker is installed and running and usable
+        # If this is a mock, then that is not required.  By only checking on a non-mock
+        # run, we save ourselves the need to install docker in the CI for the manifest
+        # generation step.
+        try:
+            docker.client.from_env()
+        except Exception as e:
+            print("Error, failed to get docker client.  Is Docker Installed and Running?\n\t%s" % (str(e)))
 
     
     FULL_DOCKER_HUB_CONTAINER_NAME = "splunk/splunk:%s" % settings['container_tag']
@@ -304,6 +312,8 @@ def main(args: list[str]):
                                                    settings['detections_list'],
                                                    settings['detections_file'])
 
+
+    #Set up the directory that will be used to store the local apps/apps we build
     local_volume_absolute_path = os.path.abspath(
         os.path.join(os.getcwd(), "apps"))
     try:
@@ -317,41 +327,51 @@ def main(args: list[str]):
         print("Error creating the apps folder [%s]: [%s]\n\tQuitting..."
               % (local_volume_absolute_path, str(e)), file=sys.stderr)
         sys.exit(1)
+    #Add the info about the mount
+    mounts = [{"local_path": local_volume_absolute_path,
+               "container_path": "/tmp/apps", "type": "bind", "read_only": True}]
+
 
     # Check to see if we want to install ESCU and whether it was preeviously generated and we should use that file
     if 'SPLUNK_ES_CONTENT_UPDATE' in settings['local_apps'] and settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] is not None:
-        # Using a pregenerated ESCU, copy it to apps (unless it)
+        # Using a pregenerated ESCU, no need to build it
         pass
-        #file_path = os.path.expanduser(settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'])
-        #source_path = file_path
-        # dest_path = os.path.join(
-        #    local_volume_absolute_path, os.path.basename(file_path))
-
     elif 'SPLUNK_ES_CONTENT_UPDATE' not in settings['local_apps']:
         print("%s was not found in %s.  We assume this is an error and shut down.\n\t"
               "Quitting..." % ('SPLUNK_ES_CONTENT_UPDATE', "settings['local_apps']"), file=sys.stderr)
         sys.exit(1)
     else:
-        # Need to generate that package
+        # Generate the ESCU package from this branch.
         source_path = generate_escu_app(settings['persist_security_content'])
         settings['local_apps']['SPLUNK_ES_CONTENT_UPDATE']['local_path'] = source_path
-        # dest_path = os.path.join(
-        #    local_volume_absolute_path, os.path.basename(source_path))
+        
 
+    # Copy all the apps, to include ESCU (whether pregenerated or just generated)
     copy_local_apps_to_directory(
         settings['local_apps'], local_volume_absolute_path)
 
-    if settings['mock']:
-        finish_mock(settings, all_test_files)
 
+    # If this is a mock run, finish it now
+    if settings['mock']:
+        #The function below 
+        if finish_mock(settings, all_test_files):
+            # mock was successful!
+            print("Mock successful!  Manifests generated!")
+            sys.exit(0)
+        else:
+            print("There was an unrecoverage error during the mock.\n\tQuitting...",file=sys.stderr)
+            sys.exit(1)
+
+
+
+    #Add some files that always need to be copied to to container to set up indexes and datamodels.
     files_to_copy_to_container = OrderedDict()
     files_to_copy_to_container["INDEXES"] = {
         "local_file_path": index_file_local_path, "container_file_path": index_file_container_path}
     files_to_copy_to_container["DATAMODELS"] = {
         "local_file_path": datamodel_file_local_path, "container_file_path": datamodel_file_container_path}
 
-    mounts = [{"local_path": local_volume_absolute_path,
-               "container_path": "/tmp/apps", "type": "bind", "read_only": True}]
+    
 
     cm = container_manager.ContainerManager(all_test_files,
                                             FULL_DOCKER_HUB_CONTAINER_NAME,

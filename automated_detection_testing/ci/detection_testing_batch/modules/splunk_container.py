@@ -11,7 +11,7 @@ import requests
 import shutil
 from modules import splunk_sdk
 from modules import testing_service
-from modules import test_driver 
+from modules import test_driver
 import time
 import timeit
 from typing import Union
@@ -46,7 +46,7 @@ class SplunkContainer:
         self.container_password = container_password
         self.local_apps = local_apps
         self.splunkbase_apps = splunkbase_apps
-         
+
         self.files_to_copy_to_container = files_to_copy_to_container
         self.splunk_ip = splunk_ip
         self.container_name = container_name
@@ -74,15 +74,15 @@ class SplunkContainer:
     ) -> tuple[str, bool]:
         apps_to_install = []
         require_credentials = False
-        
+
         for app_name, app_info in self.local_apps.items():
-            
+
             app_file_name = os.path.basename(app_info['local_path'])
             app_file_container_path = os.path.join("/tmp/apps", app_file_name)
             apps_to_install.append(app_file_container_path)
 
         for app_name, app_info in self.splunkbase_apps.items():
-            
+
             if splunkbase_username is None or splunkbase_password is None:
                 raise Exception(
                     "Error: Requested app from Splunkbase but Splunkbase username and/or password were not supplied."
@@ -91,11 +91,9 @@ class SplunkContainer:
                 app_info["app_number"], app_info["app_version"])
             apps_to_install.append(target)
             require_credentials = True
-            #elif app["location"] == "local":
+            # elif app["location"] == "local":
             #    apps_to_install.append(app["container_path"])
         return ",".join(apps_to_install), require_credentials
-
-    
 
     def make_environment(
         self,
@@ -221,24 +219,24 @@ class SplunkContainer:
         if self.container_start_time == -1:
             total_time_string = "NOT STARTED"
         else:
-            total_time_rounded = datetime.timedelta( seconds =
-                round(current_time - self.container_start_time))
+            total_time_rounded = datetime.timedelta(
+                seconds=round(current_time - self.container_start_time))
             total_time_string = str(total_time_rounded)
 
         # Time that the container setup took
         if self.test_start_time == -1 or self.container_start_time == -1:
             setup_time_string = "NOT SET UP"
         else:
-            setup_secounds_rounded = datetime.timedelta(seconds =
-                round(self.test_start_time - self.container_start_time))
+            setup_secounds_rounded = datetime.timedelta(
+                seconds=round(self.test_start_time - self.container_start_time))
             setup_time_string = str(setup_secounds_rounded)
 
         # Time that the tests have been running
         if self.test_start_time == -1 or self.num_tests_completed == 0:
             testing_time_string = "NO TESTS COMPLETED"
         else:
-            testing_seconds_rounded = datetime.timedelta( seconds =
-                round(current_time - self.test_start_time))
+            testing_seconds_rounded = datetime.timedelta(
+                seconds=round(current_time - self.test_start_time))
 
             # Get the approximate time per test.  This is a clunky way to get rid of decimal
             # seconds.... but it works
@@ -246,14 +244,16 @@ class SplunkContainer:
             timedelta_per_test_rounded = timedelta_per_test - \
                 datetime.timedelta(
                     microseconds=timedelta_per_test.microseconds)
-            
-            testing_time_string = "%s (%d tests @ %s per test)"%(testing_seconds_rounded, self.num_tests_completed, timedelta_per_test_rounded)
+
+            testing_time_string = "%s (%d tests @ %s per test)" % (
+                testing_seconds_rounded, self.num_tests_completed, timedelta_per_test_rounded)
 
         summary_str = "Summary\n\t"\
                       "Total Time          : [%s]\n\t"\
                       "Container Start Time: [%s]\n\t"\
-                      "Test Execution Time : [%s]" %(total_time_string, setup_time_string, testing_time_string)
-        
+                      "Test Execution Time : [%s]" % (
+                          total_time_string, setup_time_string, testing_time_string)
+
         return summary_str
 
     def wait_for_splunk_ready(
@@ -364,12 +364,15 @@ class SplunkContainer:
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
                     % (detection_to_test, str(e))
                 )
+                # Fill in all the "Empty" fields with default values. Otherwise, we will not be able to 
+                # process the result correctly.  
                 self.synchronization_object.addError(
                     {"detection_file": detection_to_test,
                         "detection_error": str(e)}
+
+
                 )
-            self.num_tests_completed+=1
+            self.num_tests_completed += 1
 
             # Sleep for a small random time so that containers drift apart and don't synchronize their testing
             time.sleep(random.randint(1, 30))
-

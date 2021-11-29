@@ -58,6 +58,15 @@ class TestDriver:
             self.lock.release()
 
     def addError(self, detection:dict)->None:
+        #Make sure that even errors have all of the required fields.
+        for required_field in ['search_string', 'diskUsage','runDuration', 'detection_name', 'scanCount']:
+            if required_field not in detection:
+                detection[required_field] = ""
+        if  'error' not in detection:
+            detection['error'] = True
+        if  'success' not in detection:
+            detection['success'] = False
+
         self.lock.acquire()
         try:
             self.errors.append(detection)

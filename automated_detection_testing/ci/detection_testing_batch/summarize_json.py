@@ -5,13 +5,16 @@ import sys
 import json
 from modules import validate_args
 import os.path
+from operator import itemgetter
 
 def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
     success = True
+    
     try:
         test_count = len(data)
         #Passed
         pass_count = len([x for x in data if x['success'] == True])
+        
         
         #A failure or an error
         fail_only_count = len([x for x in data if x['success'] == False])
@@ -42,8 +45,9 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
                  "TOTAL_FAILURES": fail_only_count, "FAIL_ONLY": fail_without_error_count, 
                  "FAIL_AND_ERROR":fail_and_error_count }
 
+        data_sorted = sorted(data, key = lambda k: (-k['error'], k['success'], k['detection_file']))
         with open(output_filename, "w") as jsonFile:
-            json.dump({'summary':summary, 'baseline': baseline, 'results':data}, jsonFile, indent="    ")
+            json.dump({'summary':summary, 'baseline': baseline, 'results':data_sorted}, jsonFile, indent="    ")
         
         
         #Generate a failure that the user can download to reproduce and test ONLY the failures locally.
@@ -51,7 +55,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         #that succeeded!
         
         
-        fail_list = [os.path.join("security_content/detections",x['detection_file'] ) for x in data if x['success'] == False]
+        fail_list = [os.path.join("security_content/detections",x['detection_file'] ) for x in data_sorted if x['success'] == False]
 
         if len(fail_list) > 0:
             failures_test_override = {"detections_list": fail_list, "interactive_failure":True, 
@@ -61,6 +65,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
                 validate_args.validate_and_write(failures_test_override, failures)
     except Exception as e:
         print("There was an error generating [%s]: [%s]"%(output_filename, str(e)),file=sys.stderr)
+        print(data)
         raise(e)
         #success = False
         #return success, False
