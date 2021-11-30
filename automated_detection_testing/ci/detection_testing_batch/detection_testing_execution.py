@@ -198,7 +198,7 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
         # We want to make the prior_config directory and the prior_config/apps directory
         os.makedirs("prior_config/apps")
     except FileExistsError as e:
-        print("Directory priorconfig/apps exists, but we just deleted it!\m\tQuitting...", file=sys.stderr)
+        print("Directory priorconfig/apps exists, but we just deleted it!\n\tQuitting...", file=sys.stderr)
         return False
     except Exception as e:
         print("Some error occured when trying to make the configs folder: [%s]\n\tQuitting..." % (

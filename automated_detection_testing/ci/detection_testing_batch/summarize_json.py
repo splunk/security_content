@@ -18,7 +18,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         
         
         #A failure or an error
-        fail_only_count = len([x for x in data if x['success'] == False])
+        fail_count = len([x for x in data if x['success'] == False])
         
         #An error (every error is also a failure)
         fail_and_error_count = len([x for x in data if x['error'] == True])
@@ -32,18 +32,18 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
             print("Error - a test was successful, but also included an error. This should be impossible.",file=sys.stderr)
             success = False
             
-        if test_count != (pass_count + fail_only_count):
-            print("Error - the total tests [%d] does not equal the pass[%d]/fails[%d]"%(test_count, pass_count,fail_only_count))
+        if test_count != (pass_count + fail_count):
+            print("Error - the total tests [%d] does not equal the pass[%d]/fails[%d]"%(test_count, pass_count,fail_count))
             success=False
 
-        if fail_only_count > 0:
-            result = "FAIL for %d detections"%(fail_only_count)
+        if fail_count > 0:
+            result = "FAIL for %d detections"%(fail_count)
             success = False
         else:
             result = "PASS for all %d detections"%(pass_count)
 
         summary={"TOTAL_TESTS": test_count, "TESTS_PASSED": pass_count, 
-                 "TOTAL_FAILURES": fail_only_count, "FAIL_ONLY": fail_without_error_count, 
+                 "TOTAL_FAILURES": fail_count, "FAIL_ONLY": fail_without_error_count, 
                  "FAIL_AND_ERROR":fail_and_error_count }
 
         data_sorted = sorted(data, key = lambda k: (-k['error'], k['success'], k['detection_file']))
@@ -71,7 +71,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         #success = False
         #return success, False
 
-    return success, test_count, pass_count, fail_and_error_count
+    return success, test_count, pass_count, fail_count
 
 
 
@@ -99,11 +99,11 @@ try:
         else:
             all_data['results'] = data['results']
 
-    test_pass, test_count, pass_count, fail_and_error_count = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
+    test_pass, test_count, pass_count, fail_count = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
     print("Summary:"\
           "\n\tTotal Tests: %d"\
           "\n\tTotal Pass : %d"\
-          "\n\tTotal Fail : %d"%(test_count, pass_count, fail_and_error_count))
+          "\n\tTotal Fail : %d"%(test_count, pass_count, fail_count))
     if not test_pass:
         print("Result: FAIL")
         sys.exit(1)

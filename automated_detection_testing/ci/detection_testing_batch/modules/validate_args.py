@@ -2,8 +2,6 @@ import argparse
 import copy
 import io
 import json
-import jsonschema
-import jsonschema.exceptions
 import modules.jsonschema_errorprinter as jsonschema_errorprinter
 import sys
 from typing import Union
