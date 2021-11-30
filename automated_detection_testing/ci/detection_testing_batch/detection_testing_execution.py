@@ -287,6 +287,26 @@ def main(args: list[str]):
             docker.client.from_env()
         except Exception as e:
             print("Error, failed to get docker client.  Is Docker Installed and Running?\n\t%s" % (str(e)))
+        
+        credentials_needed = False
+        credential_error = False
+        if len(settings['splunkbase_apps']) > 0:
+            credentials_needed = True
+        
+        
+        if settings['splunkbase_username'] == None and credentials_needed:
+            print("Error - you have listed apps to download from Splunkbase but have "\
+                  "not provided --splunkbase_username via the command line or config file.",file=sys.stderr)
+            credential_error = True
+
+        if settings['splunkbase_password'] == None and credentials_needed:
+            print("Error - you have listed apps to download from Splunkbase but have "\
+                    "not provided --splunkbase_password via the command line or config file.",file=sys.stderr)
+            credential_error = True
+        
+        if credential_error:
+            print("Please supply the required credentials to continue.\n\tQuitting...",file=sys.stderr)
+            sys.exit(1)
 
     
     FULL_DOCKER_HUB_CONTAINER_NAME = "splunk/splunk:%s" % settings['container_tag']
