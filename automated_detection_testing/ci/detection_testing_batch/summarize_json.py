@@ -7,7 +7,8 @@ from modules import validate_args
 import os.path
 from operator import itemgetter
 
-def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict)->bool:
+
+def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict)->tuple[bool,int,int,int]:
     success = True
     
     try:
@@ -70,7 +71,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         #success = False
         #return success, False
 
-    return success
+    return success, test_count, pass_count, fail_and_error_count
 
 
 
@@ -98,8 +99,11 @@ try:
         else:
             all_data['results'] = data['results']
 
-    test_pass = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
-    print("Successfully summarized [%d] detections"%(len(all_data['results'])))
+    test_pass, test_count, pass_count, fail_and_error_count = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
+    print("Summary:"\
+          "\n\tTotal Tests: %d"\
+          "\n\tTotal Pass : %d"\
+          "\n\tTotal Fail : %d"%(test_count, pass_count, fail_and_error_count))
     if not test_pass:
         print("Result: FAIL")
         sys.exit(1)
