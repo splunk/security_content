@@ -306,12 +306,16 @@ def main(args: list[str]):
     validate_args.validate_and_write(
         settings, output_file=None, strip_credentials=True)
 
-    all_test_files = github_service.get_test_files(settings['mode'],
-                                                   settings['folders'],
-                                                   settings['types'],
-                                                   settings['detections_list'],
-                                                   settings['detections_file'])
-
+    try:
+        all_test_files = github_service.get_test_files(settings['mode'],
+                                                    settings['folders'],
+                                                    settings['types'],
+                                                    settings['detections_list'],
+                                                    settings['detections_file'])
+    except Exception as e:
+        print("Error getting test files:\n%s"%(str(e)), file=sys.stderr)
+        print("\tQuitting...", file=sys.stderr)
+        sys.exit(1)
 
     #Set up the directory that will be used to store the local apps/apps we build
     local_volume_absolute_path = os.path.abspath(

@@ -68,7 +68,7 @@ class GithubService:
                          summary_file: str = None) -> list[str]:
         pruned_tests = []
         csvlines = []
-
+        
         for detection in detections_to_prune:
             if os.path.basename(detection).startswith("ssa") and exclude_ssa:
                 continue
@@ -228,22 +228,54 @@ class GithubService:
                 branch1, branch2), file=sys.stderr)
             return []
 
+        
         # all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
         changed_test_files = [os.path.join("security_content", name.split(
             '\t')[1]) for name in changed_test_files if len(name.split('\t')) == 2]
         changed_detection_files = [os.path.join("security_content", name.split(
             '\t')[1]) for name in changed_detection_files if len(name.split('\t')) == 2]
 
-        # convert the test files to the detection file equivalent
+        
+        # Convert the test files to the detection file equivalent. 
+        # Note that some of these tests may be baselines and their associated 
+        # detection could be in experimental or not in the experimental folder
         converted_test_files = []
-        for test_filepath in changed_test_files:
-            detection_filename = str(pathlib.Path(
-                *pathlib.Path(test_filepath).parts[-2:])).replace("tests", "detections", 1)
-            converted_test_files.append(detection_filename)
+        #for test_filepath in changed_test_files:
+        #    detection_filename = str(pathlib.Path(
+        #        *pathlib.Path(test_filepath).parts[-2:])).replace("tests", "detections", 1)
+        #    converted_test_files.append(detection_filename)
+        
+        #check and throw an error if we somehow got experimental tests
+        experimental_tests = [x for x in changed_test_files if 'experimental' in x]
+        if len(experimental_tests) > 0:
+            raise(Exception("Error - expected no experimental detections, but found:\n\t%s]"%("\n\t".join(experimental_tests))))
 
+        #Get the appropriate detection file paths for a modified test file
+        for test_filepath in changed_test_files:
+            folder_and_filename =  str(pathlib.Path(*pathlib.Path(test_filepath).parts[-2:]))
+            folder_and_filename_fixed_suffix = folder_and_filename.replace(".test.yml",".yml")
+            result = None
+            for f in glob.glob("security_content/detections/**/" + folder_and_filename_fixed_suffix,recursive=True):
+                if result != None:
+                    #found a duplicate filename that matches
+                    raise(Exception("Error - Found at least two detection files to match for test file [%s]: [%s] and [%s]"%(test_filepath, result, f)))
+                else:
+                    result = f
+            if result is None:
+                raise(Exception("Error - Failed to find detection file for test file [%s]"%(test_filepath)))
+            else:
+                converted_test_files.append(result)
+        
+        
+        
         for name in converted_test_files:
             if name not in changed_detection_files:
                 changed_detection_files.append(name)
+        
+        #check and throw an error if we somehow got experimental detections
+        experimental_detections = [x for x in changed_detection_files if 'experimental' in x]
+        if len(experimental_detections) > 0:
+            raise(Exception("Error - expected no experimental detections, but found:\n\t%s"%('\n\t'.join(experimental_detections))))
 
         return self.prune_detections(changed_detection_files,   types_to_test, previously_successful_tests)
 
