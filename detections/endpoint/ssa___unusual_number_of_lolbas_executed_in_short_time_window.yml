@@ -1,17 +1,19 @@
-name: More than usual number of LOLBAS applications in short time period
+name: Unusual number of LOLBAS executed in short time window
 id: 59c0dd70-169c-4900-9a1f-bfcf13302f93
-version: 2
-date: '2020-08-25'
+version: 3
+date: '2021-11-30'
 author: Ignacio Bermudez Corrales, Splunk
 type: Anomaly
 datamodel: []
-description: Attacker activity may compromise executing several LOLBAS applications
-  in conjunction to accomplish their objectives. We are looking for more than usual
-  LOLBAS applications over a window of time, by building profiles per machine.
+description: Living Off The Land Binaries, Scripts, and Libraries (LOLBAS) are native system tools that threat actors leverage to run discovery on a system, move laterally, or increase their privileges.
+  Common threat actor behavior is to run scripts that execute many of these tools together in a short time window to accomplish their objectives.
+  This detection looks for a high distinct count (outlier > 99% distribution) of these executables launched in a window of 300 seconds on a single device.
+  It is not uncommon for an administrator to use these tools for system management, it is unusual to see many of them leverage in short time windows unless done by a script.
 search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_event,
   "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event,
   "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)) | where process_name=="regsvcs.exe" OR process_name=="ftp.exe"
+  "_time"), "string", null)), process=ucast(map_get(input_event, "process", "string", null), username=ucast(map_get(input_event,
+    "dest_user_primary_artifact", "string", null) | where process_name=="regsvcs.exe" OR process_name=="ftp.exe"
   OR process_name=="dfsvc.exe" OR process_name=="rasautou.exe" OR process_name=="schtasks.exe"
   OR process_name=="xwizard.exe" OR process_name=="findstr.exe" OR process_name=="esentutl.exe"
   OR process_name=="cscript.exe" OR process_name=="reg.exe" OR process_name=="csc.exe"
@@ -36,18 +38,15 @@ search: ' | from read_ssa_enriched_events() | eval device=ucast(map_get(input_ev
   OR process_name=="explorer.exe" OR process_name=="expand.exe" OR process_name=="installutil.exe"
   OR process_name=="netsh.exe" OR process_name=="wab.exe" OR process_name=="dnscmd.exe"
   OR process_name=="at.exe" OR process_name=="pcalua.exe" OR process_name=="cmdkey.exe"
-  OR process_name=="msconfig.exe" | stats count(process_name) as lolbas_counter by
+  OR process_name=="msconfig.exe" | stats distinct_count(process_name) as lolbas_counter by
   device,span(timestamp, 300s) | eval lolbas_counter=lolbas_counter*1.0 | rename window_end
   as timestamp | adaptive_threshold algorithm="quantile" value="lolbas_counter" entity="device"
   window=2419200000L | where label AND quantile>0.99 | eval start_time = window_start,
   end_time = timestamp, entities = mvappend(device), body=create_map(["lolbas_counter",
-  lolbas_counter, "quantile", quantile, "device", device]) | into write_ssa_detected_events();'
+  lolbas_counter, "quantile", quantile, "device", device, "process_name", process_name, "process", process, "user", username]) | into write_ssa_detected_events();'
 how_to_implement: Collect endpoint data such as sysmon or 4688 events.
 known_false_positives: 'Some administrative tasks may involve multiple use of LOLBAS
-  applications in a short period of time. This might trigger false positives at the
-  beginning when it hasn''t collected yet enough data to construct the baseline.
-
-  '
+  applications, usually when this detection triggers as a false positive, it tends to be due to a administrative script leveraging these tools.'
 references:
 - https://github.com/LOLBAS-Project/LOLBAS/tree/master/yml/OSBinaries
 tags:
@@ -76,7 +75,7 @@ tags:
     role:
     - Victim
   - name: process_name
-    type: processname
+    type: Process Name
     role:
     - Others
   product:
