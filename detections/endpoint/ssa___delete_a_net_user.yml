@@ -1,11 +1,11 @@
 name: Delete A Net User
 id: 8776d79c-d26e-11eb-9a56-acde48001122
-version: 2
-date: '2021-06-21'
+version: 3
+date: '2021-11-30'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint_Processes
 description: This analytic will detect a suspicious net.exe/net1.exe command-line
   to delete a user on a system. This technique may be use by an administrator for
   legitimate purposes, however this behavior has been used in the wild to impair some
@@ -59,6 +59,7 @@ tags:
   - process_path
   - dest_user_id
   - process
+  - cmd_line
   risk_severity: high
   security_domain: endpoint
   impact: 70
@@ -68,9 +69,21 @@ tags:
   context:
   - Source:Endpoint
   - stage:Defense Evasion
-  message: deleted net users with commandline $process$ on $dest$ by $user$
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ attempting to delete a user account.
   observable:
-  - name: dest
-    type: Endpoint
+  - name: dest_user_id
+    type: User
     role:
     - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
