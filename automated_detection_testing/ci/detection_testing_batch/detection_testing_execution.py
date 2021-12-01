@@ -416,7 +416,16 @@ def main(args: list[str]):
                                             reuse_image=settings['reuse_image'],
                                             interactive_failure=settings['interactive_failure'])
 
-    cm.run_test()
+    result = cm.run_test()
+    
+    #Return code indicates whether testing succeeded and all tests were run.
+    #It does NOT indicate that all tests passed!
+    if result is True:
+        print("Test Execution Successful")
+        sys.exit(0)
+    else:
+        print("Test Execution Failed - review the logs for more details")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

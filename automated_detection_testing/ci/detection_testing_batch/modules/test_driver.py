@@ -10,7 +10,7 @@ import threading
 import time
 import timeit
 from typing import Union
-
+import sys
 
 class TestDriver:
     def __init__(self, tests:list[str], num_containers:int):
@@ -28,12 +28,47 @@ class TestDriver:
         self.errors = []
         self.container_ready_time = None
         
+        #No containers have failed
+        self.container_failure = False
+
         #Just make a random folder to store attack data that we donwload
         self.attack_data_root_folder = tempfile.mkdtemp(prefix="attack_data_", dir=os.getcwd())
         print("Attack data for this run will be stored at: [%s]"%(self.attack_data_root_folder))
         self.start_barrier = threading.Barrier(num_containers)
 
+
+    def checkContainerFailure(self)->bool:
+        
+        self.lock.acquire()
+        
+        try:
+            result = self.container_failure
+        finally:
+            self.lock.release()
+        
+        
+        
+        return result
+        
+
+    def containerFailure(self)->None:
+        self.lock.acquire()
+        try:
+            self.container_failure = True
+        finally:
+            self.lock.release()
+        
+
     def getTest(self)-> Union[str,None]:
+        
+        failure = self.checkContainerFailure()
+        
+        
+
+        if failure:
+            #Just return None, don't continue testing if a container crashed
+            return None
+
         try:
             return self.testing_queue.get(block=False)
         except Exception as e:
@@ -142,6 +177,13 @@ class TestDriver:
     def finish(self, baseline:OrderedDict):
         self.cleanup()
         self.outputResultsFiles(baseline)
+
+        if self.checkContainerFailure():
+            print("One or more containers crashed, so testing did not complete successfully. We wrote out the results we have")
+            return False
+        else:
+            return True
+
         
 
     def cleanup(self):
@@ -154,15 +196,25 @@ class TestDriver:
             self.lock.release()
     def summarize(self)->bool:
         
+        if self.checkContainerFailure() == True:
+            print("Error running containers... shutting down", file=sys.stderr)
+            return False
+        
+        
         self.lock.acquire()
         
         try:
+        
             current_time = timeit.default_timer()
+            
+            
+
             if self.testing_queue.qsize() == self.total_number_of_tests:
                 #Testing has not started yet. We are setting up containers
                 print("***********PROGRESS UPDATE***********\n"\
-                      "\tWaiting for container setup: %s"%(datetime.timedelta(seconds=current_time - self.start_time)))
+                      "\tWaiting for container setup: %s\n"%(datetime.timedelta(seconds=current_time - self.start_time)))
             else:
+                
                 if self.container_ready_time is None:
                     #This is the first status update since container setup has completed.  Get the current time.
                     #This makes our remaining time estimates better since that estimate should not involve
@@ -210,10 +262,13 @@ class TestDriver:
             print("Error in printing execution summary: [%s]"%(str(e)))
         finally:
             self.lock.release()
+            
         
         #Return true while there are tests remaining
-        return (self.total_number_of_tests - 
-                (len(self.successes) + len(self.failures) + len(self.errors)) > 0)
+        completed_tests = len(self.successes) + len(self.failures) + len(self.errors)
+        remaining_tests = self.total_number_of_tests - completed_tests
+        return remaining_tests > 0
+                
         
         
     def addResult(self, result:dict)->None:

@@ -60,9 +60,10 @@ class SplunkContainer:
         self.container = self.make_container()
 
         self.thread = threading.Thread(target=self.run_container, )
+        
 
-        self.container_start_time = 0
-        self.test_start_time = 0
+        self.container_start_time = -1
+        self.test_start_time = -1
         self.num_tests_completed = 0
 
     def prepare_apps_path(
@@ -188,6 +189,21 @@ class SplunkContainer:
         )
         return successful_copy
 
+    def stopContainer(self,timeout=10) -> bool:
+        try:        
+            container = self.client.containers.get(self.container_name)
+            #Note that stopping does not remove any of the volumes or logs,
+            #so stopping can be useful if we want to debug any container failure 
+            container.stop(timeout=10)
+            self.synchronization_object.containerFailure()
+            return True
+
+        except Exception as e:
+            # Container does not exist, or we could not get it. Throw and error
+            print("Error stopping docker container [%s]"%(self.container_name))
+            return False
+        
+
     def removeContainer(
         self, removeVolumes: bool = True, forceRemove: bool = True
     ) -> bool:
@@ -211,9 +227,6 @@ class SplunkContainer:
 
     def get_container_summary(self) -> str:
         current_time = timeit.default_timer()
-        # Get rid of the decimal (microseconds) so that we have whole seconds
-        if self.container_start_time is None or self.test_start_time is None:
-            print(self.container_start_time)
 
         # Total time the container has been running
         if self.container_start_time == -1:
@@ -248,11 +261,11 @@ class SplunkContainer:
             testing_time_string = "%s (%d tests @ %s per test)" % (
                 testing_seconds_rounded, self.num_tests_completed, timedelta_per_test_rounded)
 
-        summary_str = "Summary\n\t"\
+        summary_str = "Summary for %s\n\t"\
                       "Total Time          : [%s]\n\t"\
                       "Container Start Time: [%s]\n\t"\
                       "Test Execution Time : [%s]" % (
-                          total_time_string, setup_time_string, testing_time_string)
+                          self.container_name, total_time_string, setup_time_string, testing_time_string)
 
         return summary_str
 
@@ -261,6 +274,7 @@ class SplunkContainer:
         max_seconds: int = 300,
         seconds_between_attempts: int = 5,
     ) -> bool:
+        
         # The smarter version of this will try to hit one of the pages,
         # probably the login page, and when that is available it means that
         # splunk is fully started and ready to go.  Until then, we just
@@ -271,18 +285,21 @@ class SplunkContainer:
             try:
                 # Splunk container will not have proper ssl certificate
                 response = requests.get(
-                    splunk_ready_url, timeout=5, verify=False)
+                    splunk_ready_url, timeout=seconds_between_attempts, verify=False)
                 response.raise_for_status()
                 return True
             except Exception as e:
                 elapsed = timeit.default_timer() - start
+                
                 if elapsed > max_seconds:
+                    self.stopContainer()
                     raise (
                         Exception(
-                            "Container [%s] took longer than maximum start time of [%d].\n\tQuitting..."
+                            "Container [%s] took longer than maximum start time of [%d].\n\tStopping container..."
                             % (self.container_name, max_seconds)
                         )
                     )
+                    
             time.sleep(seconds_between_attempts)
 
     def run_container(self) -> None:
@@ -299,9 +316,7 @@ class SplunkContainer:
         print("Finished copying files to [%s]" % (self.container_name))
 
         try:
-            while not splunk_sdk.enable_delete_for_admin(
-                self.splunk_ip, self.management_port, self.container_password
-            ):
+            while not splunk_sdk.enable_delete_for_admin(self.splunk_ip, self.management_port, self.container_password):
                 time.sleep(10)
         except Exception as e:
             print(
@@ -316,12 +331,25 @@ class SplunkContainer:
         )
 
         self.synchronization_object.start_barrier.wait()
-        self.wait_for_splunk_ready()
+        
+        try:
+            self.wait_for_splunk_ready()
+        except Exception as e:
+            print("Error starting docker container: [%s]"%(str(e)))
+            return None
+        
 
         # Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1, 30))
+        
         self.test_start_time = timeit.default_timer()
         while True:
+            print("%s is getting dertection"%(self.container_name))
+            if self.synchronization_object.checkContainerFailure():
+                self.container.stop()
+                print("Container [%s] successfully stopped early due to failure" % (self.container_name))
+                return None
+
             # Try to get something from the queue
             detection_to_test = self.synchronization_object.getTest()
             if detection_to_test is None:
@@ -330,9 +358,7 @@ class SplunkContainer:
                         "Container [%s] has finished running detections, time to stop the container."
                         % (self.container_name)
                     )
-                    self.container.stop()
-                    print("Container [%s] successfully stopped" %
-                          (self.container_name))
+                    
                     # remove the container
                     self.removeContainer()
                 except Exception as e:

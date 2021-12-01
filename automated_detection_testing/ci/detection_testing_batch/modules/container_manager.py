@@ -97,7 +97,7 @@ class ContainerManager:
             self.baseline[key] = self.splunkbase_apps[key]
 
 
-    def run_test(self):
+    def run_test(self)->bool:
         self.run_containers()
         self.run_status_thread()
         for container in self.containers:
@@ -116,7 +116,7 @@ class ContainerManager:
         duration = stop_time - self.start_time
         self.baseline['TEST_DURATION'] = str(duration - datetime.timedelta(microseconds=duration.microseconds))
 
-        self.synchronization_object.finish(self.baseline)
+        return self.synchronization_object.finish(self.baseline)
 
 
 
@@ -211,9 +211,18 @@ class ContainerManager:
 
     def queue_status_thread(self)->None:
         #This will run fo
-        while True:      
+        while True:
+            print("running in queue status thread")
+            if self.synchronization_object.checkContainerFailure():
+                print("One of the containers has shut down prematurely and generated an exception. Shut down the rest of the containers.")
+                for container in self.containers:
+                    container.stopContainer()
+                print("All containers stopped")
+                print("return from queue status thread")
+                return None
             if self.synchronization_object.summarize() == False:
                 #There are no more tests to run, so we can return from this thread
+                print("return from queue status thread")
                 return None
             time.sleep(10)
 
