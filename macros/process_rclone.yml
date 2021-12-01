@@ -1,0 +1,3 @@
+definition: (Processes.original_file_name=rclone.exe OR Processes.process_name=rclone.exe)
+description: Matches the process with its original file name.
+name: process_rclone
