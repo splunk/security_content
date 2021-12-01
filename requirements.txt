@@ -15,7 +15,7 @@ configparser==5.1.0
 contextlib2==21.6.0
 distlib==0.3.3
 distro==1.6.0
-filelock==3.3.2
+filelock==3.4.0
 fire==0.4.0
 gitdb==4.0.9
 html5lib==1.1
