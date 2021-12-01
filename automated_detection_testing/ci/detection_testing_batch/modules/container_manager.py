@@ -212,7 +212,6 @@ class ContainerManager:
     def queue_status_thread(self)->None:
         #This will run fo
         while True:
-            print("running in queue status thread")
             if self.synchronization_object.checkContainerFailure():
                 print("One of the containers has shut down prematurely and generated an exception. Shut down the rest of the containers.")
                 for container in self.containers:

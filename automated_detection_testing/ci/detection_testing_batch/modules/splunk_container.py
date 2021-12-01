@@ -344,7 +344,6 @@ class SplunkContainer:
         
         self.test_start_time = timeit.default_timer()
         while True:
-            print("%s is getting dertection"%(self.container_name))
             if self.synchronization_object.checkContainerFailure():
                 self.container.stop()
                 print("Container [%s] successfully stopped early due to failure" % (self.container_name))

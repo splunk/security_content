@@ -73,7 +73,8 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
                 data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
         replay_attack_dataset(container_name, splunk_password, folder_name, "main", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
     
-    #time.sleep(30)
+    #Allow some time for the data to be ingested and processed
+    time.sleep(60)
     
     result_test = {}
     test = test_file_obj['tests'][0]
