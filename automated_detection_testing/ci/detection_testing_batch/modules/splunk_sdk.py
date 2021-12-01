@@ -122,7 +122,6 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
         test_results['error'] = True
         return test_results
 
-    
     test_results['diskUsage'] = job['diskUsage']
     test_results['runDuration'] = job['runDuration']
     test_results['detection_name'] = detection_name

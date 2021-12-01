@@ -37,8 +37,10 @@ class GithubService:
             sys.exit()
 
         elif PR_number:
-            subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
+            ret = subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
                             "refs/pull/%d/head:%s" % (PR_number, security_content_branch)])
+            if ret != 0:
+                raise(Exception("Error checking out repository"))
 
         # No checking to see if the hash is to a commit inside of the branch - the user
         # has to do that by hand

@@ -317,9 +317,13 @@ def main(args: list[str]):
               "[%d].  We will do what you asked, but be warned!" % (settings['num_containers'], MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING))
 
     # Check out security content if required
-    github_service = ensure_security_content(
-        settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
-    settings['commit_hash'] = github_service.commit_hash
+    try:
+        github_service = ensure_security_content(
+            settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
+        settings['commit_hash'] = github_service.commit_hash
+    except Exception as e:
+        print("Failure checking out git repository: %s\n\tQuitting",file=sys.stderr)
+        sys.exit(1)
 
     # Make a backup of this config containing the hash and stripped credentials.
     # This makes the test perfectly reproducible.
