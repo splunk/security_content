@@ -5,7 +5,7 @@ date: '2021-12-01'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-  - Endpoint
+- Endpoint_Processes
 description: This analytic will identify a suspicious command-line that disables a
   user account using the native `net.exe` or `net1.exe` utility to Windows. This technique may used
   by the adversaries to interrupt availability of accounts and continue the impact against the organization.
