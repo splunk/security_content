@@ -5,7 +5,7 @@ date: '2021-11-15'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint_Processes
 description: This analytic will detect the execution of sdelete.exe attempting to delete potentially important files 
   that may related to adversary or insider threats to destroy evidence or information sabotage. Sdelete is a SysInternals utility
   meant to securely delete files on disk. This tool is commonly used to clear tracks and artifact on the targeted host.
