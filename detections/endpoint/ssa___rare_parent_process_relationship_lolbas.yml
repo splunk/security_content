@@ -4,7 +4,8 @@ version: 1
 date: '2021-05-20'
 author: Peter Gael, Splunk; Ignacio Bermudez Corrales, Splunk
 type: Anomaly
-datamodel: []
+datamodel: 
+- Endpoint_Processes
 description: An attacker may use LOLBAS tools spawned from vulnerable applications
   not typically used by system administrators. This search leverages the Splunk Streaming
   ML DSP plugin to find rare parent/child relationships. The list of application has
