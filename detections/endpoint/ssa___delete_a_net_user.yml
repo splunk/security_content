@@ -5,7 +5,7 @@ date: '2021-11-30'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint_Processes
+  - Endpoint
 description: This analytic will detect a suspicious net.exe/net1.exe command-line
   to delete a user on a system. This technique may be use by an administrator for
   legitimate purposes, however this behavior has been used in the wild to impair some
