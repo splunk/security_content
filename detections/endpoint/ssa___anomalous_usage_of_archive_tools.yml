@@ -5,7 +5,7 @@ date: '2021-11-22'
 author: Patrick Bareiss, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint_Processes
 description: The following detection identifies the usage of archive tools from the command line.
 search: '| from read_ssa_enriched_events()
   | eval timestamp=parse_long(ucast(map_get(input_event,"_time"), "string", null)), 
