@@ -10,7 +10,7 @@ description: Monitor for changes of the ExecutionPolicy in the registry to the v
   "unrestricted" or "bypass," which allows the execution of malicious scripts.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell*
-  Registry.registry_value_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted
+  Registry.registry_key_name=ExecutionPolicy (Registry.registry_value_name=Unrestricted
   OR Registry.registry_value_name=Bypass) by Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
@@ -46,6 +46,7 @@ tags:
   message: A registry modification in $registry_path$ with reg key $registry_key_name$
     and reg value $registry_value_name$ in host $dest$
   mitre_attack_id:
+  - T1059
   - T1059.001
   nist:
   - DE.CM
