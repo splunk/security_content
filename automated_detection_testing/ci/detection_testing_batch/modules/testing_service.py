@@ -39,15 +39,13 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
 
 
 def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, uuid_var, attack_data_root_folder)->Union[dict,None]:
-    try:
-        test_file_obj = load_file(os.path.join("security_content/", test_file))
-    except Exception as e:
-        print('Error: ' + str(e))
-        return None
+    
+    test_file_obj = load_file(os.path.join("security_content/", test_file))
+    
     
     if not test_file_obj:
         print("Not test_file_obj!")
-        return None
+        raise(Exception("No test file object found for [%s]"%(test_file)))
     #print(test_file_obj)
 
     # write entry dynamodb
@@ -75,7 +73,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
                 data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
         replay_attack_dataset(container_name, splunk_password, folder_name, "main", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
     
-    time.sleep(30)
+    #time.sleep(30)
     
     result_test = {}
     test = test_file_obj['tests'][0]
@@ -115,15 +113,14 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
 def load_file(file_path):
     try:
-        #print("Opening file path [%s]"%(file_path))
         
         with open(file_path, 'r', encoding="utf-8") as stream:
             try:
                 file = list(yaml.safe_load_all(stream))[0]
             except yaml.YAMLError as exc:
-                raise(Exception("ERROR: reading {0}:[{1}]".format(file_path, str(exc))))
+                raise(Exception("ERROR: parsing YAML for {0}:[{1}]".format(file_path, str(exc))))
     except Exception as e:
-        raise(Exception("ERROR: reading {0}:[{1}]".format(file_path, str(e))))
+        raise(Exception("ERROR: opening {0}:[{1}]".format(file_path, str(e))))
     return file
 
 
