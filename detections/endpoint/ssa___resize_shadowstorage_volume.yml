@@ -68,7 +68,7 @@ tags:
   context:
   - Source:Endpoint
   - stage:Defense Evasion
-  message: resize shadow copy made by process$process_name$ with commandline $process$ on $dest$ by $user$
+  message: resize shadow copy made by process $process_name$ with commandline $process$ on $dest$ by $user$
   observable:
   - name: dest
     type: Endpoint
