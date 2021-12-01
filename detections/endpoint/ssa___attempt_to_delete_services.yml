@@ -5,7 +5,7 @@ date: '2021-11-30'
 author: Teoderick Contreras, splunk
 type: TTP
 datamodel:
-  - Endpoint
+- Endpoint_Processes
 description: 'The following analytic identifies Windows Service Control, `sc.exe`, attempting to delete a service. This is typically identified in parallel with other instances of service enumeration of attempts to stop a service and then delete it. Adversaries utilize this technique to terminate security services or other related services to continue
   there objective and evade detections.'
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
