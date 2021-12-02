@@ -1,5 +1,6 @@
 author: Ignacio Bermudez Corrales, Splunk
-datamodel: []
+datamodel:
+- Endpoint_Processes
 date: '2020-08-25'
 description: An attacker tries might try to use different version of a system command
   without overriding original, or they might try to avoid some detection running the

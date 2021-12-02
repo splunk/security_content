@@ -1,16 +1,16 @@
 ---
-title: "Attempt To Disable Services"
+title: "Disable Net User Account"
 excerpt: "Service Stop"
 categories:
   - Endpoint
-last_modified_at: 2021-06-18
+last_modified_at: 2021-12-01
 toc: true
 toc_label: ""
 tags:
   - Service Stop
   - Impact
   - Splunk Behavioral Analytics
-  - Endpoint
+  - Endpoint_Processes
 ---
 
 
@@ -19,14 +19,14 @@ tags:
 
 #### Description
 
-This analytic will identify suspicious series of command-line to disable several services. This technique is seen where the adversary attempts to disable security app services or other malware services to complete the objective on the compromised system.
+This analytic will identify a suspicious command-line that disables a user account using the native `net.exe` or `net1.exe` utility to Windows. This technique may used by the adversaries to interrupt availability of accounts and continue the impact against the organization.
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-06-18
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
+- **Last Updated**: 2021-12-01
 - **Author**: Teoderick Contreras, Splunk
-- **ID**: afb31de4-d023-11eb-98d5-acde48001122
+- **ID**: ba858b08-d26c-11eb-af9b-acde48001122
 
 
 #### [ATT&CK](https://attack.mitre.org/)
@@ -40,9 +40,8 @@ This analytic will identify suspicious series of command-line to disable several
 ```
 
 | from read_ssa_enriched_events() 
-| eval _datamodels=ucast(map_get(input_event, "_datamodels"), "collection<string>", []), body={} 
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), process_path=ucast(map_get(input_event, "process_path"), "string", null), parent_process_name=ucast(map_get(input_event, "parent_process_name"), "string", null), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
-| where cmd_line IS NOT NULL AND like(cmd_line, "%disabled%") AND like(cmd_line, "%config%") AND process_name="sc.exe" 
+| where cmd_line IS NOT NULL AND like(cmd_line, "%/active:no%") AND like(cmd_line, "%user%") AND (process_name="net1.exe" OR process_name="net.exe") 
 | eval start_time=timestamp, end_time=timestamp, entities=mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)), body=create_map(["event_id", event_id, "cmd_line", cmd_line, "process_name", process_name, "parent_process_name", parent_process_name, "process_path", process_path]) 
 | into write_ssa_detected_events();
 ```
@@ -53,7 +52,7 @@ This analytic will identify suspicious series of command-line to disable several
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed net.exe/net1.exe may be used.
 
 #### Required field
 * _time
@@ -63,6 +62,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * process_path
 * dest_user_id
 * process
+* cmd_line
 
 
 #### Kill Chain Phase
@@ -70,8 +70,14 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 
 #### Known False Positives
-unknown
+System administrators or automated scripts may disable an account but not a common practice. Filter as needed.
 
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 49.0 | 70 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ attempting to disable accounts. |
 
 
 
@@ -79,7 +85,6 @@ unknown
 #### Reference
 
 * [https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/](https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/)
-* [https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/](https://app.any.run/tasks/c0f98850-af65-4352-9746-fbebadee4f05/)
 
 
 
@@ -87,8 +92,8 @@ unknown
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
 Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
 
-* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/sc_disable.log)
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_dis.log)
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/attempt_to_disable_services.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/disable_net_user_account.yml) \| *version*: **3**

@@ -12,6 +12,7 @@ tags:
   - OS Credential Dumping
   - Credential Access
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -24,7 +25,7 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-09-15
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
@@ -43,9 +44,11 @@ This search detects the memory of lsass.exe being dumped for offline credential 
 ```
 
 | from read_ssa_enriched_events() 
-| eval tenant=ucast(map_get(input_event, "_tenant"), "string", null), machine=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
+| where "Endpoint_Processes" IN(_datamodels) 
+| eval dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), process_name=lower(ucast(map_get(input_event, "process_name"), "string", null)), timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), process=lower(ucast(map_get(input_event, "process"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where process_name LIKE "%rundll32.exe%" AND match_regex(process, /(?i)comsvcs.dll[,\s]+MiniDump/)=true 
-| eval start_time = timestamp, end_time = timestamp, entities = mvappend(machine), body=create_map(["event_id", event_id, "process_name", process_name, "process", process]) 
+| eval start_time = timestamp, end_time = timestamp, entities = mvappend(dest_device_id) 
+| eval body=create_map(["event_id", event_id, "process_name", process_name, "process", process]) 
 | into write_ssa_detected_events();
 ```
 
@@ -95,4 +98,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_dump_lsass_memory_using_comsvcs.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_dump_lsass_memory_using_comsvcs.yml) \| *version*: **2**

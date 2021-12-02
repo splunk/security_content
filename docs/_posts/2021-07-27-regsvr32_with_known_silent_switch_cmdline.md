@@ -1,5 +1,5 @@
 ---
-title: "Suspicious IcedID Regsvr32 Cmdline"
+title: "Regsvr32 with Known Silent Switch Cmdline"
 excerpt: "Signed Binary Proxy Execution, Regsvr32"
 categories:
   - Endpoint
@@ -23,9 +23,9 @@ tags:
 
 #### Description
 
-this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execute a dll files. This technique was seen in IcedID malware to execute its initial downloader dll that will download the 2nd stage loader that will download and decrypt the config payload.
+The following analytic identifies Regsvr32.exe utilizing the silent switch to load DLLs. This technique has most recently been seen in IcedID campaigns to load its initial dll that will download the 2nd stage loader that will download and decrypt the config payload. The switch type may be either a hyphen `-` or forward slash `/`. This behavior is typically found with `-s`, and it is possible there are more switch types that may be used. \ During triage, review parallel processes and capture any artifacts that may have landed on disk. Isolate and contain the endpoint as necessary.
 
-- **Type**: TTP
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-07-27
@@ -45,15 +45,19 @@ this search is to detect a suspicious regsvr32 commandline &#34;-s&#34; to execu
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` Processes.process=*-s* by  Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name Processes.parent_process Processes.process_id Processes.parent_process_id Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` by Processes.user Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name Processes.dest Processes.process_id 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `suspicious_icedid_regsvr32_cmdline_filter`
+| where match(process,"(?i)[\-
+|\/][Ss]{1}") 
+| `regsvr32_with_known_silent_switch_cmdline_filter`
 ```
 
 #### Associated Analytic Story
 * [IcedID](/stories/icedid)
+* [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement
@@ -86,7 +90,7 @@ minimal. but network operator can use this application to load dll.
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 56.0 | 70 | 80 | regsvr32 process $process_name$ with commandline $process$ in host $dest$ |
+| 56.0 | 70 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a DLL using the silent parameter. |
 
 
 
@@ -94,6 +98,7 @@ minimal. but network operator can use this application to load dll.
 #### Reference
 
 * [https://app.any.run/tasks/56680cba-2bbc-4b34-8633-5f7878ddf858/](https://app.any.run/tasks/56680cba-2bbc-4b34-8633-5f7878ddf858/)
+* [https://regexr.com/699e2](https://regexr.com/699e2)
 
 
 
@@ -105,4 +110,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/suspicious_icedid_regsvr32_cmdline.yml) \| *version*: **2**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/regsvr32_with_known_silent_switch_cmdline.yml) \| *version*: **2**

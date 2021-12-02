@@ -1,5 +1,5 @@
 ---
-title: "Regsvr32 Silent Param Dll Loading"
+title: "Regsvr32 Silent and Install Param Dll Loading"
 excerpt: "Signed Binary Proxy Execution, Regsvr32"
 categories:
   - Endpoint
@@ -23,9 +23,9 @@ tags:
 
 #### Description
 
-This analytic is to detect a loading of dll using regsvr32 application with silent parameter and dllinstall execution. This technique was seen in several RAT malware like remcos, njrat and APT&#39;s to load their malicious dll in the compromised machine. This TTP may executed by normal 3rd party application so it is better to pivot the parent process, parent commandline and commandline of the file that execute this regsvr32.
+This analytic is to detect a loading of dll using regsvr32 application with silent parameter and dllinstall execution. This technique was seen in several RAT malware similar to remcos, njrat and adversaries to load their malicious DLL on the compromised machine. This TTP may executed by normal 3rd party application so it is better to pivot by the parent process, parent command-line and command-line of the file that execute this regsvr32.
 
-- **Type**: TTP
+- **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
 - **Last Updated**: 2021-10-04
@@ -45,19 +45,22 @@ This analytic is to detect a loading of dll using regsvr32 application with sile
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = regsvr32.exe Processes.process="*/i*" Processes.process="*/s*" by Processes.dest Processes.parent_process Processes.process Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` AND Processes.process="*/i*" by Processes.dest Processes.parent_process Processes.process Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `regsvr32_silent_param_dll_loading_filter`
+| where match(process,"(?i)[\-
+|\/][Ss]{1}") 
+| `regsvr32_silent_and_install_param_dll_loading_filter`
 ```
 
 #### Associated Analytic Story
 * [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
@@ -86,7 +89,7 @@ Other third part application may used this parameter but not so common in base w
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 36.0 | 60 | 60 | regsvr32 process with $process$ commandline in $dest$ |
+| 36.0 | 60 | 60 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to load a DLL using the silent and dllinstall parameter. |
 
 
 
@@ -106,4 +109,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/regsvr32_silent_param_dll_loading.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/regsvr32_silent_and_install_param_dll_loading.yml) \| *version*: **1**

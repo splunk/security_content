@@ -1,9 +1,9 @@
 ---
-title: "Write Executable in SMB Share"
+title: "Executable File Written in Administrative SMB Share"
 excerpt: "Remote Services, SMB/Windows Admin Shares"
 categories:
   - Endpoint
-last_modified_at: 2021-04-23
+last_modified_at: 2021-11-18
 toc: true
 toc_label: ""
 tags:
@@ -23,13 +23,13 @@ tags:
 
 #### Description
 
-This search is to detect suspicious dropping or creating an executable file in known sensitive SMB share. This technique is commonly used for lateral movement like how trickbot try to infect other machine in the infected network. This detection catch the access event (FILE WRITE) access to a share.
+The following analytic identifies executable files (.exe or .dll) being written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents suspicious behavior as its commonly user by tools like like PsExec/PaExec and others to stage service binaries before creating and starting a Windows service on remote endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral movement and remote code execution. The Trickbot malware family also implements this behavior to try to infect other machines in the infected network.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-04-23
-- **Author**: Teoderick Contreras, Splunk
+- **Last Updated**: 2021-11-18
+- **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: f63c34fe-a435-11eb-935a-acde48001122
 
 
@@ -48,10 +48,11 @@ This search is to detect suspicious dropping or creating an executable file in k
 | stats min(_time) as firstTime max(_time) as lastTime count by EventCode Share_Name Relative_Target_Name Object_Type Access_Mask user src_port Source_Address 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `write_executable_in_smb_share_filter`
+| `executable_file_written_in_administrative_smb_share_filter`
 ```
 
 #### Associated Analytic Story
+* [Lateral Movement](/stories/lateral_movement)
 * [Trickbot](/stories/trickbot)
 
 
@@ -75,7 +76,7 @@ To successfully implement this search, you need to be ingesting Windows Security
 
 
 #### Known False Positives
-unknown
+System Administrators may use looks like PsExec for troubleshooting or administrations tasks. However, this will typically come only from certain users and certain systems that can be added to an allow list.
 
 
 #### RBA
@@ -89,6 +90,8 @@ unknown
 
 #### Reference
 
+* [https://attack.mitre.org/techniques/T1021/002/](https://attack.mitre.org/techniques/T1021/002/)
+* [https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/](https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/)
 * [https://labs.vipre.com/trickbot-and-its-modules/](https://labs.vipre.com/trickbot-and-its-modules/)
 * [https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html](https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html)
 
@@ -102,4 +105,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/write_executable_in_smb_share.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/executable_file_written_in_administrative_smb_share.yml) \| *version*: **2**

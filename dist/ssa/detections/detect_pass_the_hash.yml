@@ -1,8 +1,13 @@
 author: Xiao Lin, Splunk
-datamodel: []
+datamodel:
+- Authentication
 date: '2020-10-21'
-description: This search looks for specific authentication events from the Windows
-  Security Event logs to detect potential attempts using Pass-the-Hash technique.
+deprecated: true
+description: 'WARNING, this detection has been marked deprecated by the Splunk Threat
+  Research team, this means that it will no longer be maintained or supported. If
+  you have any questions feel free to email us at: research@splunk.com. This search
+  looks for specific authentication events from the Windows Security Event logs to
+  detect potential attempts using Pass-the-Hash technique.'
 how_to_implement: The test data is converted from Windows Security Event logs generated
   from Attach Range simulation and used in SPL search and extended to SPL2
 id: 7cd8b9fa-6b0c-424f-92a6-9c5287a72f5f

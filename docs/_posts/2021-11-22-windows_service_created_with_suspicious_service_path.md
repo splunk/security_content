@@ -1,9 +1,9 @@
 ---
-title: "Create Service In Suspicious File Path"
+title: "Windows Service Created With Suspicious Service Path"
 excerpt: "System Services, Service Execution"
 categories:
   - Endpoint
-last_modified_at: 2021-03-12
+last_modified_at: 2021-11-22
 toc: true
 toc_label: ""
 tags:
@@ -23,13 +23,13 @@ tags:
 
 #### Description
 
-This detection is to identify a creation of &#34;user mode service&#34; where the service file path is located in non-common service folder in windows.
+The following analytc uses Windows Event Id 7045, `New Service Was Installed`, to identify the creation of a Windows Service where the service binary path path is located in a non-common Service folder in Windows. Red Teams and adversaries alike may create malicious Services for lateral movement or remote code execution as well as persistence and execution. The Clop ransomware has also been seen in the wild abusing Windows services.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-03-12
-- **Author**: Teoderick Contreras
+- **Last Updated**: 2021-11-22
+- **Author**: Teoderick Contreras, Mauricio Velazco, Splunk
 - **ID**: 429141be-8311-11eb-adb6-acde48001122
 
 
@@ -44,15 +44,16 @@ This detection is to identify a creation of &#34;user mode service&#34; where th
 #### Search
 
 ```
- `wineventlog_system` EventCode=7045  Service_File_Name = "*\.exe" NOT (Service_File_Name IN ("C:\\Windows\\*", "C:\\Program File*", "C:\\Programdata\\*", "%systemroot%\\*")) Service_Type = "user mode service" 
+ `wineventlog_system` EventCode=7045  Service_File_Name = "*\.exe" NOT (Service_File_Name IN ("C:\\Windows\\*", "C:\\Program File*", "C:\\Programdata\\*", "%systemroot%\\*")) 
 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode Service_File_Name Service_Name Service_Start_Type Service_Type 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
-| `create_service_in_suspicious_file_path_filter`
+| `windows_service_created_with_suspicious_service_path_filter`
 ```
 
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
+* [Lateral Movement](/stories/lateral_movement)
 
 
 #### How To Implement
@@ -69,17 +70,18 @@ To successfully implement this search, you need to be ingesting logs with the Se
 
 #### Kill Chain Phase
 * Privilege Escalation
+* Lateral Movement
 
 
 #### Known False Positives
-unknown
+Legitimate applications may install services with uncommon services paths.
 
 
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 56.0 | 70 | 80 | A service $Service_File_Name$ was created from a non-standard path using $Service_Name$, potentially leading to a privilege escalation. |
+| 56.0 | 70 | 80 | A service $Service_File_Name$ was created from a non-standard path using $Service_Name$ |
 
 
 
@@ -99,4 +101,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/create_service_in_suspicious_file_path.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/windows_service_created_with_suspicious_service_path.yml) \| *version*: **2**

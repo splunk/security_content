@@ -3,7 +3,7 @@ title: "Schtasks scheduling job on remote system"
 excerpt: "Scheduled Task, Scheduled Task/Job"
 categories:
   - Endpoint
-last_modified_at: 2020-07-21
+last_modified_at: 2021-11-11
 toc: true
 toc_label: ""
 tags:
@@ -27,13 +27,13 @@ tags:
 
 #### Description
 
-This search looks for flags passed to schtasks.exe on the command-line that indicate a job is being scheduled on a remote system.
+This analytic looks for the execution of `schtasks.exe` with command-line arguments utilized to create a Scheduled Task on a remote endpoint. Red Teams and adversaries alike may abuse the Task Scheduler for lateral movement and remote code execution.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2020-07-21
-- **Author**: David Dorsey, Splunk
+- **Last Updated**: 2021-11-11
+- **Author**: David Dorsey, Mauricio Velazco, Splunk
 - **ID**: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
 
 
@@ -49,7 +49,7 @@ This search looks for flags passed to schtasks.exe on the command-line that indi
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = schtasks.exe Processes.process="*/create*" (Processes.process="* /s *" OR Processes.process="* /S *") by Processes.process_name Processes.process Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = schtasks.exe OR Processes.original_file_name=schtasks.exe) (Processes.process="*/create*" AND Processes.process="*/s*") by Processes.process_name Processes.process Processes.parent_process_name Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -78,7 +78,7 @@ You must be ingesting data that records process activity from your hosts to popu
 
 
 #### Known False Positives
-Administrators may create jobs on remote systems, but this activity is usually limited to a small set of hosts or users. It is important to validate and investigate as appropriate.
+Administrators may create scheduled tasks on remote systems, but this activity is usually limited to a small set of hosts or users. It is important to validate and investigate as appropriate.
 
 
 #### RBA
@@ -101,4 +101,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/schtasks_scheduling_job_on_remote_system.yml) \| *version*: **4**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/schtasks_scheduling_job_on_remote_system.yml) \| *version*: **5**

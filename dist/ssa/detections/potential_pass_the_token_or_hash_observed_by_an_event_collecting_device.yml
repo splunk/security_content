@@ -1,5 +1,6 @@
 author: Stanislav Miskovic, Splunk
-datamodel: []
+datamodel:
+- Authentication
 date: '2021-11-05'
 description: This detection identifies potential Pass the Token or Pass the Hash credential
   exploits. We detect the main side effect of these attacks, which is a transition
@@ -20,8 +21,10 @@ references:
 risk_message: Potential lateral movement and credential stealing via Pass the Token
   or Pass the Hash techniques. Operation is performed via credentials of the account
   $dest_user_id$ and observed by the logging device $origin_device_id$
-search: '| from read_ssa_enriched_events() | eval timestamp=      parse_long(ucast(map_get(input_event,
-  "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"),
+search: '| from read_ssa_enriched_events() | where "Authentication" IN(_datamodels)
+
+  | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
+  dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"),
   "string", null)), dest_user_id=   ucast(map_get(input_event, "dest_user_id"), "string",
   null), origin_device_id=       ucast(map_get(input_event, "origin_device_id"), "string",
   null), signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string",

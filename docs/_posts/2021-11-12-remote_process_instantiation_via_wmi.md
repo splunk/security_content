@@ -3,7 +3,7 @@ title: "Remote Process Instantiation via WMI"
 excerpt: "Windows Management Instrumentation"
 categories:
   - Endpoint
-last_modified_at: 2020-11-30
+last_modified_at: 2021-11-12
 toc: true
 toc_label: ""
 tags:
@@ -21,13 +21,13 @@ tags:
 
 #### Description
 
-This analytic identifies wmic.exe being launched with parameters to spawn a process on a remote system.
+This analytic identifies wmic.exe being launched with parameters to spawn a process on a remote system. Red Teams and adversaries alike may abuse WMI and this binary for lateral movement and remote code execution.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2020-11-30
-- **Author**: Rico Valdez, Splunk
+- **Last Updated**: 2021-11-12
+- **Author**: Rico Valdez, Mauricio Velazco, Splunk
 - **ID**: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
 
 
@@ -41,16 +41,17 @@ This analytic identifies wmic.exe being launched with parameters to spawn a proc
 
 ```
 
-| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process="*/node*" Processes.process="*process*" Processes.process="*call*" Processes.process="*create*"   by Processes.process_name Processes.original_file_name Processes.parent_process_name Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_wmic` (Processes.process="*/node:*" AND Processes.process="*process*" AND Processes.process="*call*" AND  Processes.process="*create*") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id 
 | `drop_dm_object_name(Processes)` 
-| `security_content_ctime(firstTime)` 
-|`security_content_ctime(lastTime)` 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
 | `remote_process_instantiation_via_wmi_filter`
 ```
 
 #### Associated Analytic Story
 * [Ransomware](/stories/ransomware)
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
+* [Lateral Movement](/stories/lateral_movement)
 
 
 #### How To Implement
@@ -90,6 +91,10 @@ The wmic.exe utility is a benign Windows application. It may be used legitimatel
 
 #### Reference
 
+* [https://attack.mitre.org/techniques/T1047/](https://attack.mitre.org/techniques/T1047/)
+* [https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/create-method-in-class-win32-process](https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/create-method-in-class-win32-process)
+
+
 
 #### Test Dataset
 Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
@@ -99,4 +104,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/remote_process_instantiation_via_wmi.yml) \| *version*: **6**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/remote_process_instantiation_via_wmi.yml) \| *version*: **7**

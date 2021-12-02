@@ -1,5 +1,6 @@
 author: Stanislav Miskovic, Splunk
-datamodel: []
+datamodel:
+- Endpoint_Processes
 date: '2020-11-06'
 description: This detection identifies use of Mimikatz modules for discovery and access
   to network shares.

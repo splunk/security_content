@@ -15,6 +15,7 @@ tags:
   - Account Manipulation
   - Persistence
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -27,7 +28,7 @@ This detection identifies use of DSInternals modules that enable or disable acco
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 3e0f9962-9989-445f-878c-939443326b63

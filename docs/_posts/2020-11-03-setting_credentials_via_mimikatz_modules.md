@@ -17,6 +17,7 @@ tags:
   - Account Manipulation
   - Persistence
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -29,7 +30,7 @@ This detection identifies illegal setting of credentials via Mimikatz modules.
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: c8b84699-7652-4363-910f-efd1ca82f780

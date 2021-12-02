@@ -36,13 +36,25 @@ references:
 tags:
   analytic_story:
   - Remcos
+  automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: dynwrapx.dll loaded by process $process_name$ on $Computer$
   mitre_attack_id:
   - T1055
   - T1055.001
+  observable:
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -58,17 +70,5 @@ tags:
   - EventCode
   - Signed
   - ProcessId
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
   risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: dynwrapx.dll loaded by process $process_name$ on $Computer$
-  observable:
-  - name: Computer
-    type: Endpoint
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

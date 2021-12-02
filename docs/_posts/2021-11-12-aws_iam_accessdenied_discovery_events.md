@@ -3,7 +3,7 @@ title: "AWS IAM AccessDenied Discovery Events"
 excerpt: "Cloud Infrastructure Discovery"
 categories:
   - Cloud
-last_modified_at: 2021-04-05
+last_modified_at: 2021-11-12
 toc: true
 toc_label: ""
 tags:
@@ -26,7 +26,7 @@ The following detection identifies excessive AccessDenied events within an hour 
 - **Type**: Anomaly
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud, Splunk Security Analytics for AWS
 - **Datamodel**: 
-- **Last Updated**: 2021-04-05
+- **Last Updated**: 2021-11-12
 - **Author**: Michael Haag, Splunk
 - **ID**: 3e1f1568-9633-11eb-a69c-acde48001122
 
@@ -42,7 +42,7 @@ The following detection identifies excessive AccessDenied events within an hour 
 ```
 `cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com) 
 | bucket _time span=1h 
-| stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(eventName) as methods, dc(eventSource) as sources values(userIdentity.arn) by src_ip, userIdentity.arn, _time 
+| stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(eventName) as methods, dc(eventSource) as sources by src_ip, userIdentity.arn, _time 
 | where failures >= 5 and methods >= 1 and sources >= 1 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -96,4 +96,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_iam_accessdenied_discovery_events.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_iam_accessdenied_discovery_events.yml) \| *version*: **2**

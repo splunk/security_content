@@ -1,5 +1,6 @@
 author: Ignacio Bermudez Corrales, Splunk
-datamodel: []
+datamodel:
+- Endpoint_Processes
 date: '2020-08-25'
 description: Attacker activity may compromise executing several LOLBAS applications
   in conjunction to accomplish their objectives. We are looking for more than usual
