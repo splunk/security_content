@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: The following hunting analytic leverages Event ID 7045, `A new service was installed in the system`, 
  to identify the installation of a Windows Service with a suspicious, high entropy, Service Name. To achieve this,
- this analytc also leverages the `ut_shannon` function from the URL ToolBox Splunk application.
+ this analytic also leverages the `ut_shannon` function from the URL ToolBox Splunk application.
  Red teams and adversaries alike may abuse the Service Control Manager to create and start a remote Windows Service
  and obtain remote code execution. To achieve this goal, some tools like Metasploit, Cobalt Strike and Impacket,
  typically create a Windows Service with a random service name on the victim host. This hunting analytic may help
