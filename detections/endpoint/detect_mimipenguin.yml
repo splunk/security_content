@@ -1,0 +1,43 @@
+name: Detect MimiPenguin
+id: 1ad20afa-547b-11ec-b4e7-acde48001122
+version: 1
+date: '2021-12-03'
+author: Rod Soto
+type: TTP
+datamodel:
+- Endpoint
+description: 
+	UPDATE_DESCRIPTION
+	WHAT IS THIS?
+	WHAT DOES IT LOOK LIKE?
+	HOW DO YOU TRIAGE IT?
+search: '| sourcetype=sysmon_linux CommandLine="strings -e /etc/apache2/apache2.conf" OR CommandLine="strings -e /etc/ssh/sshd_config" OR CommandLine="strings -e /etc/shadow"  | stats count by Computer parent_process process_current_directory user
+ | `detect_mimipenguin_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+-  
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1552
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 
+  confidence: 
+  # (impact * confidence)/100
+  risk_score: 
+  context:
+  message: 
+  observable:
+  

@@ -1,0 +1,51 @@
+name: Detect LinPeas Execution
+id: 4ea6fa10-547c-11ec-a4f9-acde48001122
+version: 1
+date: '2021-12-03'
+author: Rod Soto
+type: TTP
+datamodel:
+- Endpoint
+description: 
+	UPDATE_DESCRIPTION
+	WHAT IS THIS?
+	WHAT DOES IT LOOK LIKE?
+	HOW DO YOU TRIAGE IT?
+search: '| sourcetype=sysmon_linux CommandLine!=null parent_process_exec=sudo OR parent_process_exec=bash OR CommandLine="cve-list" | stats count by Computer CommandLine user parent_process_exec process_path
+ | `detect_linpeas_execution_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+-  
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Exploitation
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1082
+  - T1083
+  - T1033
+  - T1087
+  - T1046
+  - T1057
+  - T1518
+  - T1033
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 
+  confidence: 
+  # (impact * confidence)/100
+  risk_score: 
+  context:
+  message: 
+  observable:
+  

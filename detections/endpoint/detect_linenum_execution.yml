@@ -1,0 +1,50 @@
+name: Detect LinEnum execution
+id: 570e5278-5479-11ec-89c8-acde48001122
+version: 1
+date: '2021-12-03'
+author: Rod Soto
+type: TTP
+datamodel:
+- Endpoint
+description: 
+	UPDATE_DESCRIPTION
+	WHAT IS THIS?
+	WHAT DOES IT LOOK LIKE?
+	HOW DO YOU TRIAGE IT?
+search: '| sourcetype="sysmon_linux" wget CommandLine="grep -w aria2c\\|arp\\|ash\\|awk\\|base64\\|bash\\|busybox\\|cat\\|chmod\\|chown\\|cp\\|csh\\|curl\\|cut\\|dash\\|date\\|dd\\|diff\\|dmsetup\\|docker\\|ed\\|emacs\\|env\\|expand\\|expect\\|file\\|find\\|flock\\|fmt\\|fold\\|ftp\\|gawk\\|gdb\\|gimp\\|git\\|grep\\|head\\|ht\\|iftop\\|ionice\\|ip$\\|irb\\|jjs\\|jq\\|jrunscript\\|ksh\\|ld.so\\|ldconfig\\|less\\|logsave\\|lua\\|make\\|man\\|mawk\\|more\\|mv\\|mysql\\|nano\\|nawk\\|nc\\|netcat\\|nice\\|nl\\|nmap\\|node\\|od\\|openssl\\|perl\\|pg\\|php\\|pic\\|pico\\|python\\|readelf\\|rlwrap\\|rpm\\|rpmquery\\|rsync\\|ruby\\|run-parts\\|rvim\\|scp\\|script\\|sed\\|setarch\\|sftp\\|sh\\|shuf\\|socat\\|sort\\|sqlite3\\|ssh$\\|start-stop-daemon\\|stdbuf\\|strace\\|systemctl\\|tail\\|tar\\|taskset\\|tclsh\\|tee\\|telnet\\|tftp\\|time\\|timeout\\|ul\\|unexpand\\|uniq\\|unshare\\|vi\\|vim\\|watch\\|wget\\|wish\\|xargs\\|xxd\\|zip\\|zsh" | stats count by Computer CommandLine user process_exec process_current_directory
+ | `detect_linenum_execution_filter`'
+how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+references:
+-  
+tags:
+  analytic_story:
+  - UPDATE_STORY_NAME
+  dataset:
+  - UPDATE_DATASET_URL
+  kill_chain_phases:
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1087
+  - T1069
+  - T1083
+  - T1057
+  - T1518
+  - T1082
+  - T1016
+  - T1033
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  security_domain: endpoint
+  impact: 
+  confidence: 
+  # (impact * confidence)/100
+  risk_score: 
+  context:
+  message: 
+  observable:
+  
