@@ -47,7 +47,7 @@ This search is to detect a suspicious sdclt.exe registry modification. This tech
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "IsolatedCommand") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where (Registry.registry_path= "*\\Windows\\CurrentVersion\\App Paths\\control.exe*" OR Registry.registry_path= "*\\exefile\\shell\\runas\\command\\*") (Registry.registry_value_name = "(Default)" OR Registry.registry_value_name = "IsolatedCommand") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 

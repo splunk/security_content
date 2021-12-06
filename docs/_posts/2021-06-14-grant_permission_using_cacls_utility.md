@@ -10,7 +10,7 @@ tags:
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Endpoint
+  - Endpoint_Processes
 ---
 
 
@@ -23,7 +23,7 @@ This analytic identifies potential adversaries that modify the security permissi
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-06-14
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: c6da561a-cd29-11eb-ae65-acde48001122
