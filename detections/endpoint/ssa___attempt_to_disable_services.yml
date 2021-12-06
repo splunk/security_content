@@ -84,29 +84,3 @@ tags:
   risk_score: 36
   risk_severity: medium
   security_domain: endpoint
-  impact: 60
-  confidence: 60
-  # (impact * confidence)/100
-  risk_score: 36
-  context:
-  - Source:Endpoint
-  - Stage:Privilege Escalation
-  - Stage:Persistence
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ attempting to disable a service.
-  observable:
-  - name: dest_user_id
-    type: User
-    role:
-    - Victim
-  - name: dest_device_id
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Parent Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
