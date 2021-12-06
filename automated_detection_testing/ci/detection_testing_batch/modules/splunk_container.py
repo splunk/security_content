@@ -338,7 +338,7 @@ class SplunkContainer:
         except Exception as e:
             print("Error starting docker container: [%s]"%(str(e)))
             return None
-        input("CONTAINTER WANTS TO START.... WAIT FOR INPUT FROM USER")
+        #input("CONTAINTER WANTS TO START.... WAIT FOR INPUT FROM USER")
 
 
         # Sleep for a small random time so that containers drift apart and don't synchronize their testing

@@ -238,7 +238,8 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
         # Pass in the list of detections to run
         mock_settings['detections_list'] = normalized_detection_names
 
-        # We want to persist security content and run with the escu package that we created
+        # We want to persist security content and run with the escu package that we created.
+        #Note that if we haven't checked this out yet, we will check it out for you.
         mock_settings['persist_security_content'] = True
 
         mock_settings['mock'] = False
