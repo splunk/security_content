@@ -10,6 +10,7 @@ tags:
   - OS Credential Dumping
   - Credential Access
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -22,7 +23,7 @@ Monitor for execution of reg.exe with parameters specifying an export of keys th
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-6-04
 - **Author**: Jose Hernandez, Splunk
 - **ID**: 14038953-e5f2-4daf-acff-5452062baf03

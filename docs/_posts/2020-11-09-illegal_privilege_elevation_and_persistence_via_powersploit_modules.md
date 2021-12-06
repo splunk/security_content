@@ -18,6 +18,7 @@ tags:
   - Privilege Escalation
   - Defense Evasion
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -30,7 +31,7 @@ This detection identifies access to PowerSploit modules that illegaly elevate ge
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 88c10ee9-fe72-4bce-b343-5b129044b991

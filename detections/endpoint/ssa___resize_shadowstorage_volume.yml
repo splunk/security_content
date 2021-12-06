@@ -29,7 +29,8 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: System administrators may resize the shadowstorage for valid purposes. Filter as needed.
+known_false_positives: System administrators may resize the shadowstorage for valid
+  purposes. Filter as needed.
 references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
@@ -40,38 +41,23 @@ tags:
   cis20:
   - CIS 10
   - CIS 13
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow
+    copy to perform offline password cracking.
   mitre_attack_id:
   - T1489
   nist:
   - PR.DS
   - PR.IP
-  product:
-  - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest_device_id
-  - process_name
-  - parent_process_name
-  - process_path
-  - dest_user_id
-  - process
-  - cmd_line
-  risk_severity: high
-  security_domain: endpoint
-  impact: 80
-  confidence: 80
-  # (impact * confidence)/100
-  risk_score: 64
-  context:
-  - Source:Endpoint
-  - stage:Defense Evasion
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow copy to perform
-    offline password cracking.
   observable:
   - name: dest_user_id
     type: User
@@ -89,3 +75,17 @@ tags:
     type: Process
     role:
     - Child Process
+  product:
+  - Splunk Behavioral Analytics
+  required_fields:
+  - _time
+  - dest_device_id
+  - process_name
+  - parent_process_name
+  - process_path
+  - dest_user_id
+  - process
+  - cmd_line
+  risk_score: 64
+  risk_severity: high
+  security_domain: endpoint

@@ -14,6 +14,7 @@ tags:
   - Process Discovery
   - Discovery
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -26,7 +27,7 @@ This detection identifies use of Mimikatz modules for discovery and access to se
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 0243d37c-57c1-4182-bfd1-39b212255fc8
