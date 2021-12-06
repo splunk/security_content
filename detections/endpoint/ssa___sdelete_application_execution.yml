@@ -50,8 +50,25 @@ tags:
   impact: 60
   kill_chain_phases:
   - Exploitation
-  message: sdelete process $process_name$ executed on $dest$ attempting to permanently
-    delete files.
+  message: Sdelete process $process_name$ executed on $dest_device_id$ attempting to permanently
+    delete files by $dest_user_id$.
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   mitre_attack_id:
   - T1485
   - T1070.004
@@ -69,39 +86,4 @@ tags:
   - process_id
   - process_path
   - cmd_line
-  security_domain: endpoint
-  impact: 60
-  confidence: 70
-  # (impact * confidence)/100
-  risk_score: 42
-  context:
-  - Source:Endpoint
-  - Stage:Execution 
-  message: sdelete process $process_name$ executed on $dest$ attempting to permanently delete files.
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  product:
-  - Splunk Behavioral Analytics
-  required_fields:
-  - _time
-  - dest
-  - user
-  - parent_process_name
-  - parent_process
-  - process_name
-  - process
-  - process_id
-  - process_path
-  risk_score: 42
   security_domain: endpoint
