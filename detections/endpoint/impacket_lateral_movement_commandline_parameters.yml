@@ -37,16 +37,29 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  automated_detection_testing: passed
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Lateral Movement
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/impacket/windows-sysmon.log
+  impact: 90
   kill_chain_phases:
   - Lateral Movement
+  message: Suspicious command line parameters on $dest may represent a lateral movement
+    attack with Impackets tools
   mitre_attack_id:
   - T1021
   - T1021.002
   - T1021.003
   - T1047
   - T1543.003
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -64,18 +77,5 @@ tags:
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 90
-  confidence: 70
   risk_score: 63
-  context:
-  - Source:Endpoint
-  - Stage:Lateral Movement
-  message: Suspicious command line parameters on $dest may represent a lateral movement
-    attack with Impackets tools
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

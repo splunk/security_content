@@ -42,14 +42,39 @@ references:
 tags:
   analytic_story:
   - Signed Binary Proxy Execution InstallUtil
+  automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
   - Privilege Escalation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ generating a remote download.
   mitre_attack_id:
   - T1218.004
   - T1218
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -70,30 +95,5 @@ tags:
   - Ports.process_guid
   - Ports.dest
   - Ports.dest_port
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
   risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ generating a remote download.
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: parent_process_name
-    type: Parent Process
-    role:
-    - Parent Process
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  automated_detection_testing: passed
+  security_domain: endpoint

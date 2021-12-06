@@ -36,13 +36,29 @@ references:
 tags:
   analytic_story:
   - Remcos
+  automated_detection_testing: passed
+  confidence: 40
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/web_browser_pass_view/sysmon.log
+  impact: 40
   kill_chain_phases:
   - Exploitation
+  message: suspicious process $process_name$ contains commandline $process$ on $dest$
   mitre_attack_id:
   - T1555.003
   - T1555
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -60,21 +76,5 @@ tags:
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 40
-  confidence: 40
   risk_score: 16
-  context:
-  - Source:Endpoint
-  - Stage:Credential Access
-  message: suspicious process $process_name$ contains commandline $process$ on $dest$
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

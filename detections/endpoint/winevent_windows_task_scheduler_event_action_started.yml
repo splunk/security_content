@@ -31,12 +31,24 @@ tags:
   analytic_story:
   - IcedID
   - Windows Persistence Techniques
+  automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/windows_taskschedule/windows-taskschedule.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: A Scheduled Task was scheduled and ran on $dest$.
   mitre_attack_id:
   - T1053.005
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,17 +60,5 @@ tags:
   - EventID
   - dest
   - ProcessID
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
   risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: A Scheduled Task was scheduled and ran on $dest$.
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint
