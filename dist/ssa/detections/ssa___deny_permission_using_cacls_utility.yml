@@ -1,6 +1,6 @@
 author: Teoderick Contreras, Splunk
 datamodel:
-- Endpoint
+- Endpoint_Processes
 date: '2021-06-14'
 description: This analytic identifies a potential adversary that changes the security
   permission of a specific file or directory. This technique is commonly seen in APT

@@ -1,5 +1,6 @@
 author: Stanislav Miskovic, Splunk
-datamodel: []
+datamodel:
+- Endpoint_Processes
 date: '2020-11-09'
 description: This detection identifies use of DSInternals modules that enable or disable
   accounts illegaly.

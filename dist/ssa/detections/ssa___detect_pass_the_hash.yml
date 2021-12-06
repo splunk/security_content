@@ -1,5 +1,6 @@
 author: Xiao Lin, Splunk
-datamodel: []
+datamodel:
+- Authentication
 date: '2020-10-21'
 deprecated: true
 description: 'WARNING, this detection has been marked deprecated by the Splunk Threat

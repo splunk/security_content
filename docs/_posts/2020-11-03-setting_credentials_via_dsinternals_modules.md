@@ -17,6 +17,7 @@ tags:
   - Account Manipulation
   - Persistence
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -29,7 +30,7 @@ This detection identifies illegal setting of credentials via DSInternals modules
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: d5ef590f-9bde-49eb-9c63-2f5b62a65b9c

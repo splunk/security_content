@@ -1,5 +1,6 @@
 author: Stanislav Miskovic, Splunk
-datamodel: []
+datamodel:
+- Endpoint_Processes
 date: '2020-11-05'
 description: This detection identifies use of Mimikatz modules for discovery of process
   or service hijacking opportunities via Microsoft Detours compatibility. Microsoft

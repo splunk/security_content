@@ -1,5 +1,6 @@
 author: Peter Gael, Splunk; Ignacio Bermudez Corrales, Splunk
-datamodel: []
+datamodel:
+- Endpoint_Processes
 date: '2021-05-20'
 description: An attacker may use LOLBAS tools spawned from vulnerable applications
   not typically used by system administrators. This search leverages the Splunk Streaming

@@ -15,6 +15,7 @@ tags:
   - Account Manipulation
   - Persistence
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -27,7 +28,7 @@ This detection identifies use of PowerSploit modules that facilitate access prob
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-04
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: d405af5d-99f1-45af-8dfb-b8f98b764247

@@ -1,5 +1,6 @@
 author: Stanislav Miskovic, Splunk
-datamodel: []
+datamodel:
+- Endpoint_Processes
 date: '2020-11-06'
 description: This detection identifies access to PowerSploit modules that discover
   and access operating system elements, such as processes, services, registry locations,

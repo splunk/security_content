@@ -16,6 +16,7 @@ tags:
   - SMB/Windows Admin Shares
   - Lateral Movement
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -28,7 +29,7 @@ This detection identifies access to PowerSploit modules that discover and access
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 6b7ca431-6b1e-4b40-9589-21cb368e369e

@@ -1,5 +1,6 @@
 author: Ignacio Bermudez Corrales, Splunk
-datamodel: []
+datamodel:
+- Endpoint_Processes
 date: '2020-10-06'
 description: Command lines that are extremely long may be indicative of malicious
   activity on your hosts. This search leverages the Splunk Streaming ML DSP plugin

@@ -20,7 +20,7 @@ SLEEP_TIME_SEND_DATA = 30
 WAIT_CYCLE = 20
 MAX_EXECUTION_TIME_LIMIT = 600  # per detection test
 
-TEST_DATASET = 'windows-security_small.txt'
+TEST_DATASET = 'windows-security_debug.txt'
 
 
 class SSADetectionTesting:

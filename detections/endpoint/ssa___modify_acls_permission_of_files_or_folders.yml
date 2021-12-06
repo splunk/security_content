@@ -5,7 +5,7 @@ date: '2021-06-15'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint
+- Endpoint_Processes
 description: This analytic identifies suspicious modification of ACL permission to
   a files or folder to make it available to everyone or to a specific user. This technique
   may be used by the adversary to evade ACLs or protected files access. This changes
