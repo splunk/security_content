@@ -1,11 +1,12 @@
 name: docker-detection-testing
 on:
-  push:
+  #push:
+  #pull_request:
   #run nightly at 0500 UTC
   #Note the scheduled workflows will only run if the Action has 
   #been committed to the default branch (develop)
-  schedule:
-    - cron: "0 5 * * *"
+  #schedule:
+  #  - cron: "0 5 * * *"
 jobs:
 
   validate-tag-if-present:
@@ -53,14 +54,21 @@ jobs:
           - name: Checkout Repo
             uses: actions/checkout@v2
           
-          - name: Install requirements for installing slim during execution 
-            run: |
-              sudo apt update -qq
-              #python2.7 needed for slim, for now
-              sudo apt install python2
-              sudo apt install virtualenv 
-              curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
-              sudo python2.7 get-pip.py
+          #- name: Install requirements for installing slim during execution 
+          #  run: |
+          #    sudo apt update -qq
+          #    #python2.7 needed for slim, for now
+          #    sudo apt install python2
+          #    sudo apt install virtualenv 
+          #    curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+          #    sudo python2.7 get-pip.py
+
+          # Get the previously built ESCU
+          - name: Get ESCU
+            uses: actions/download-artifact@v2
+            with:
+              name: content-latest
+              path: automated_detection_testing/ci/detection_testing_batch/prior_config/apps
 
           - uses: actions/setup-python@v2
             with:
@@ -79,8 +87,20 @@ jobs:
             run: |
               cd automated_detection_testing/ci/detection_testing_batch
               source .venv/bin/activate
-              
-              python3 detection_testing_execution.py run --branch develop  --mode all --num_containers 10 --mock 
+              echo "github.event.issue.pull_request    : [${{ github.event.issue.pull_request }}]"
+              echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
+              echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
+              echo "github.event.pull_request.head.ref: [${{ github.event.pull_request.head.ref }}]"
+
+              ls -lahr prior_config
+              if [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
+                echo "Pull request from source branch [${{ github.event.pull_request.head.ref }}] for PR number [${{ github.event.issue.number }}]"
+                python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --pr_number ${{ github.event.pull_request.number }}  --mode changes --mock --config_fig test_config_github_actions.json  
+              else
+                echo "Push from branch [${{ steps.vars.outputs.branch }}]"
+                python detection_testing_execution.py run --branch  [${{ steps.vars.outputs.branch }}  --mode changes --mock --config_file test_config_github_actions.json
+              fi
+
               mv *-test-run.json replicate_test.json
           - name: Upload Test Results Files
             uses: actions/upload-artifact@v2
@@ -135,16 +155,16 @@ jobs:
           with:
             name: testing-results-config
             path: automated_detection_testing/ci/detection_testing_batch/prior_config
-        - name: Install Docker 
-          run: |
-            sudo apt update -qq
+        # - name: Install Docker 
+        #   run: |
+        #     sudo apt update -qq
             
 
-            #python2.7 needed for slim, for now
-            sudo apt install python2
-            sudo apt install virtualenv 
-            curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
-            sudo python2.7 get-pip.py
+        #     #python2.7 needed for slim, for now
+        #     sudo apt install python2
+        #     sudo apt install virtualenv 
+        #     curl https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py
+        #     sudo python2.7 get-pip.py
 
         - uses: actions/setup-python@v2
           with:

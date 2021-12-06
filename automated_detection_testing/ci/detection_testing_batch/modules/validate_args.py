@@ -17,7 +17,7 @@ setup_schema = {
             "default": "develop"
         },
         "commit_hash": {
-            "type": ["string","null"],
+            "type": ["string", "null"],
             "default": None
         },
 
@@ -44,36 +44,56 @@ setup_schema = {
             "default": None
         },
 
+
         "local_apps": {
             "type": "object",
-            "properties": {
-                "value": {
-                    "type": "string",
+            "additionalProperties": False,
+            "patternProperties": {
+                "^.*$": {
+                    "type": "object",
+                    "additionalProperties": False,
                     "properties": {
-                         "app_name": {
-                        "type": "string"
+                        "app_number": {
+                            "type": [
+                                "integer",
+                                "null"
+                            ]
+                        },
+                        "app_version": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "local_path": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "http_path": {
+                            "type": [
+                                "string"
+                            ]
+                        }
                     },
-                    "app_number": {
-                        "type": "integer"
-                    },
-                    "app_version": {
-                        "type": ["string", "null"]
-                    },
-                    "local_path": {
-                        "type": ["string", "null"],
-                        "default": None
-                    },
-                }
+                    "oneOf": [
+                        {"required": ["local_path"]},
+                        {"required": ["http_path"]}
+                    ]
                 }
             },
             "default": {
-               "SPLUNK_ES_CONTENT_UPDATE": {
-                   "app_number": 3449,
-                   "app_version": None,
-                   'local_path': None
-               }
+                "SPLUNK_ES_CONTENT_UPDATE": {
+                    "app_number": 3449,
+                    "app_version": None,
+                    "local_path": None
+                }
             }
         },
+
+
+
 
 
         "mode": {
@@ -109,24 +129,26 @@ setup_schema = {
 
         },
 
+
+
         "splunkbase_apps": {
             "type": "object",
-            "properies": {
-               "value":
-                {
-                   "type": "string",
-                    "properties": {
-                        "app_number": {
-                         "type": "integer"
-                     },
-                     "app_version": {
-                         "type": "string"
+            "patternProperties": {
+                    "^.*$": {
+                        "type": "object",
+                        "additionalProperties": False,
+                        "properties": {
+                            "app_number": {
+                                "type": "integer"
+                            },
+                            "app_version": {
+                                "type": "string"
+                            }
+                        }
                     }
-                    }
-                }
             },
             "default": {
-                "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES":{
+                "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES": {
                     "app_number": 1876,
                     "app_version": "5.2.0"
                 },
@@ -177,10 +199,11 @@ setup_schema = {
                     "app_number": 833,
                     "app_version": "8.3.1"
                 },
-                "SPLUNK_ADD_ON_FOR_SYSMON_OLD": {
-                    "app_number": 1914,
-                    "app_version": "10.6.2"
+                "SPLUNK_ADD_ON_FOR_SYSMON": {
+                    "app_number": 5709,
+                    "app_version": "1.0.1"
                 },
+                # According to https://docs.splunk.com/Documentation/ES/6.6.2/Install/Datamodels, these are included in ES. Don't install separately.
                 "SPLUNK_COMMON_INFORMATION_MODEL": {
                     "app_number": 1621,
                     "app_version": "4.20.2"
@@ -246,11 +269,10 @@ def validate_file(file: io.TextIOWrapper) -> tuple[Union[dict, None], dict]:
 def check_dependencies(settings: dict) -> bool:
     # Check complex mode dependencies
     error_free = True
-    
-    
+
     if settings['mode'] == 'selected':
         # Make sure that exactly one of the following fields is populated
-    
+
         if settings['detections_file'] == None and settings['detections_list'] == None:
             print("Error - mode was 'selected' but no detections_list or detections_file were supplied.", file=sys.stderr)
             error_free = False
@@ -263,21 +285,21 @@ def check_dependencies(settings: dict) -> bool:
     elif settings['mode'] != 'selected' and settings['detections_list'] != None:
         print("Error - mode was not 'selected' but detections_list was supplied.", file=sys.stderr)
         error_free = False
-    
+
     # Returns true if there are not errors
     return error_free
 
 
-def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper,None]=None, strip_credentials:bool=False) -> tuple[Union[dict, None], dict]:
+def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper, None] = None, strip_credentials: bool = False) -> tuple[Union[dict, None], dict]:
     closeFile = False
     if output_file is None:
         import datetime
         now = datetime.datetime.now()
-        configname = now.strftime('%Y-%m-%dT%H:%M:%S%z') + '-test-run.json' 
+        configname = now.strftime('%Y-%m-%dT%H:%M:%S%z') + '-test-run.json'
         output_file = open(configname, "w")
         closeFile = True
 
-    if strip_credentials:    
+    if strip_credentials:
         configuration = copy.deepcopy(configuration)
         configuration['splunkbase_password'] = None
         configuration['splunkbase_username'] = None
@@ -306,17 +328,18 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
     # v = jsonschema.Draft201909Validator(argument_schema)
 
     try:
-        
+
         validation_errors, validated_json = jsonschema_errorprinter.check_json(
             configuration, setup_schema)
-        
+
         if len(validation_errors) == 0:
-            #check to make sure there were no complex errors
+            # check to make sure there were no complex errors
             no_complex_errors = check_dependencies(validated_json)
             if no_complex_errors:
                 return validated_json, setup_schema
             else:
-                print("Validation failed due to error(s) listed above.", file=sys.stderr)
+                print("Validation failed due to error(s) listed above.",
+                      file=sys.stderr)
                 return None, setup_schema
         else:
             print("[%d] failures detected during validation of the configuration!" % (
@@ -324,9 +347,8 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
             for error in validation_errors:
                 print(error, end="\n\n", file=sys.stderr)
             return None, setup_schema
-            
-    except Exception as e:
-        print("There was an error validation the configuration: [%s]"%(str(e)), file=sys.stderr)
-        return None, setup_schema
 
- 
+    except Exception as e:
+        print("There was an error validation the configuration: [%s]" % (
+            str(e)), file=sys.stderr)
+        return None, setup_schema

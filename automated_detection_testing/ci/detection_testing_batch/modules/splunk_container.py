@@ -77,7 +77,6 @@ class SplunkContainer:
         require_credentials = False
 
         for app_name, app_info in self.local_apps.items():
-
             app_file_name = os.path.basename(app_info['local_path'])
             app_file_container_path = os.path.join("/tmp/apps", app_file_name)
             apps_to_install.append(app_file_container_path)
@@ -94,6 +93,8 @@ class SplunkContainer:
             require_credentials = True
             # elif app["location"] == "local":
             #    apps_to_install.append(app["container_path"])
+        
+        print(apps_to_install)
         return ",".join(apps_to_install), require_credentials
 
     def make_environment(
@@ -337,7 +338,8 @@ class SplunkContainer:
         except Exception as e:
             print("Error starting docker container: [%s]"%(str(e)))
             return None
-        
+        input("CONTAINTER WANTS TO START.... WAIT FOR INPUT FROM USER")
+
 
         # Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1, 30))

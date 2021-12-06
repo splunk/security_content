@@ -74,7 +74,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
         replay_attack_dataset(container_name, splunk_password, folder_name, "main", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
     
     #Allow some time for the data to be ingested and processed
-    time.sleep(60)
+    time.sleep(30)
     
     result_test = {}
     test = test_file_obj['tests'][0]
