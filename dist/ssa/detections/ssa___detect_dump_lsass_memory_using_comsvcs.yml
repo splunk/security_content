@@ -76,5 +76,16 @@ tags:
   risk_score: 70
   risk_severity: low
   security_domain: endpoint
+test:
+  name: Detect Dump LSASS Memory using comsvcs - SSA Unit Test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-security.log
+      file_name: windows-security.log
+      source: WinEventLog:Security
+    description: Test credential dumping detections
+    file: endpoint/ssa___detect_dump_lsass_memory_using_comsvcs.yml
+    name: Detect Dump LSASS Memory using comsvcs
+    pass_condition: '@count_gt(0)'
 type: TTP
 version: 2
