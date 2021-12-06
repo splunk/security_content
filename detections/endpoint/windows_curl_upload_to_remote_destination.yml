@@ -44,38 +44,20 @@ references:
 tags:
   analytic_story:
   - Ingress Tool Transfer
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon_curl_upload.log
-  kill_chain_phases:
-  - Exfiltration
-  mitre_attack_id:
-  - T1105
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 80
+  automated_detection_testing: passed
   confidence: 100
-  risk_score: 80
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon_curl_upload.log
+  impact: 80
+  kill_chain_phases:
+  - Exfiltration
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
     on endpoint $dest$ by user $user$ uploading a file to a remote destination.
+  mitre_attack_id:
+  - T1105
   observable:
   - name: user
     type: User
@@ -93,4 +75,22 @@ tags:
     type: Process
     role:
     - Child Process
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 80
+  security_domain: endpoint

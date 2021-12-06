@@ -26,6 +26,7 @@ tags:
   - Software Discovery
   - Discovery
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -38,7 +39,7 @@ This detection identifies access to PowerSploit modules that discover and access
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: c1d33ad9-1727-4f9f-a474-4adbe4fed68a

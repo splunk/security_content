@@ -10,6 +10,7 @@ tags:
   - Indicator Removal on Host
   - Defense Evasion
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -22,7 +23,7 @@ This detection identifies access to PowerSploit modules that delete event logs.
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 4ddb3b0d-f95f-4ae2-b4e8-663296453a7b

@@ -16,6 +16,7 @@ tags:
   - Remote Service Session Hijacking
   - Lateral Movement
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -28,7 +29,7 @@ This detection identifies access to PowerSploit modules that enable illegaly acc
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 01fc7d91-eb0c-478e-8633-e4fa4904463a
