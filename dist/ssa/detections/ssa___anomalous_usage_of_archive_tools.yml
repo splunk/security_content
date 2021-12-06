@@ -81,5 +81,16 @@ tags:
   risk_score: 42
   risk_severity: medium
   security_domain: endpoint
+test:
+  name: Anomalous usage of Archive Tools Unit Test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
+      file_name: security.log
+      source: WinEventLog:Security
+    description: Test for Anomalous usage of Archive Tools
+    file: endpoint/ssa___anomalous_usage_of_archive_tools.yml
+    name: Anomalous usage of Archive Tools
+    pass_condition: '@count_gt(0)'
 type: Anomaly
 version: 1
