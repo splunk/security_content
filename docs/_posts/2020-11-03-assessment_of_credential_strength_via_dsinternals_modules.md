@@ -23,6 +23,7 @@ tags:
   - Credentials from Password Stores
   - Credential Access
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -31,11 +32,11 @@ tags:
 
 #### Description
 
-This detection identifies use of DSInternals modules that verify password strength, i.e., identify week accounts that would be easily compromised.
+This detection identifies use of DSInternals modules that verify password strength, i.e., identify weak accounts that would be easily compromised.
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 5526d3a4-2497-4e8d-9d3c-7a34c9aace2f

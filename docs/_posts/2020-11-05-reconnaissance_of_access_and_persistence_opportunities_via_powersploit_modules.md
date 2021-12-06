@@ -29,6 +29,7 @@ tags:
   - Privilege Escalation
   - Defense Evasion
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -41,7 +42,7 @@ This detection identifies use of PowerSploit modules that discover opportunities
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 3d8bd7f3-1061-4ac7-9225-6764cc0684d7
