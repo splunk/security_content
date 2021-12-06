@@ -6,20 +6,18 @@ author: Rod Soto
 type: TTP
 datamodel:
 - Endpoint
-description: 
-	UPDATE_DESCRIPTION
-	WHAT IS THIS?
-	WHAT DOES IT LOOK LIKE?
-	HOW DO YOU TRIAGE IT?
-search: '| sourcetype="sysmon_linux" wget CommandLine="grep -w aria2c\\|arp\\|ash\\|awk\\|base64\\|bash\\|busybox\\|cat\\|chmod\\|chown\\|cp\\|csh\\|curl\\|cut\\|dash\\|date\\|dd\\|diff\\|dmsetup\\|docker\\|ed\\|emacs\\|env\\|expand\\|expect\\|file\\|find\\|flock\\|fmt\\|fold\\|ftp\\|gawk\\|gdb\\|gimp\\|git\\|grep\\|head\\|ht\\|iftop\\|ionice\\|ip$\\|irb\\|jjs\\|jq\\|jrunscript\\|ksh\\|ld.so\\|ldconfig\\|less\\|logsave\\|lua\\|make\\|man\\|mawk\\|more\\|mv\\|mysql\\|nano\\|nawk\\|nc\\|netcat\\|nice\\|nl\\|nmap\\|node\\|od\\|openssl\\|perl\\|pg\\|php\\|pic\\|pico\\|python\\|readelf\\|rlwrap\\|rpm\\|rpmquery\\|rsync\\|ruby\\|run-parts\\|rvim\\|scp\\|script\\|sed\\|setarch\\|sftp\\|sh\\|shuf\\|socat\\|sort\\|sqlite3\\|ssh$\\|start-stop-daemon\\|stdbuf\\|strace\\|systemctl\\|tail\\|tar\\|taskset\\|tclsh\\|tee\\|telnet\\|tftp\\|time\\|timeout\\|ul\\|unexpand\\|uniq\\|unshare\\|vi\\|vim\\|watch\\|wget\\|wish\\|xargs\\|xxd\\|zip\\|zsh" | stats count by Computer CommandLine user process_exec process_current_directory
+description:
+	LinEnum is a bash script that performs discovery commands for accounts, processes, kernel version, applications, services, and uses the information from these commands to present operator with ways of escalating privileges or further exploitation of targeted host.
+search: '| source="Syslog:Linux-Sysmon/Operational" CommandLine="grep -w aria2c\\|arp\\|ash\\|awk\\|base64\\|bash\\|busybox\\|cat\\|chmod\\|chown\\|cp\\|csh\\|curl\\|cut\\|dash\\|date\\|dd\\|diff\\|dmsetup\\|docker\\|ed\\|emacs\\|env\\|expand\\|expect\\|file\\|find\\|flock\\|fmt\\|fold\\|ftp\\|gawk\\|gdb\\|gimp\\|git\\|grep\\|head\\|ht\\|iftop\\|ionice\\|ip$\\|irb\\|jjs\\|jq\\|jrunscript\\|ksh\\|ld.so\\|ldconfig\\|less\\|logsave\\|lua\\|make\\|man\\|mawk\\|more\\|mv\\|mysql\\|nano\\|nawk\\|nc\\|netcat\\|nice\\|nl\\|nmap\\|node\\|od\\|openssl\\|perl\\|pg\\|php\\|pic\\|pico\\|python\\|readelf\\|rlwrap\\|rpm\\|rpmquery\\|rsync\\|ruby\\|run-parts\\|rvim\\|scp\\|script\\|sed\\|setarch\\|sftp\\|sh\\|shuf\\|socat\\|sort\\|sqlite3\\|ssh$\\|start-stop-daemon\\|stdbuf\\|strace\\|systemctl\\|tail\\|tar\\|taskset\\|tclsh\\|tee\\|telnet\\|tftp\\|time\\|timeout\\|ul\\|unexpand\\|uniq\\|unshare\\|vi\\|vim\\|watch\\|wget\\|wish\\|xargs\\|xxd\\|zip\\|zsh" | stats count by Computer CommandLine user process_exec process_current_directory
  | `detect_linenum_execution_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux. Need to install this add-on to parse fields correctly and execute detection search.
+known_false_positives: Very rare to perform such an extensive grep on a system, however certain monitoring tools can produce similar results. It is important if monitoring tools are in place to verify what is the actual process directory of execution.
 references:
--  
+- https://github.com/rebootuser/LinEnum
+- https://book.hacktricks.xyz/linux-unix/linux-privilege-escalation-checklist
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - Linux Post Exploitation
   dataset:
   - UPDATE_DATASET_URL
   kill_chain_phases:
@@ -39,12 +37,20 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - CommandLine
+  - user
+  - process_exec
+  - process_current_directory
   security_domain: endpoint
-  impact: 
-  confidence: 
+  impact: 50
+  confidence: 90
   # (impact * confidence)/100
-  risk_score: 
+  risk_score: 90
   context:
-  message: 
+    - Source: endpoint
+    - Stage: discovery
+  message: LinEnum post exploitation tool detected
   observable:
-  
+      - name: Computer
+      - Type: Hostname
+      - role: Victim

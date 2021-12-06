@@ -6,20 +6,19 @@ author: Rod Soto
 type: TTP
 datamodel:
 - Endpoint
-description: 
-	UPDATE_DESCRIPTION
-	WHAT IS THIS?
-	WHAT DOES IT LOOK LIKE?
-	HOW DO YOU TRIAGE IT?
-search: '| sourcetype=sysmon_linux CommandLine!=null parent_process_exec=sudo OR parent_process_exec=bash OR CommandLine="cve-list" | stats count by Computer CommandLine user parent_process_exec process_path
+description:
+	Linux local Privilege Escalation Awesome Script (linPEAS) is a script that searches for possible paths to escalate privileges.
+search: '| source="Syslog:Linux-Sysmon/Operational" CommandLine!=null parent_process_exec=sudo OR parent_process_exec=bash OR CommandLine="cve-list" | stats count by Computer CommandLine user parent_process_exec process_path
  | `detect_linpeas_execution_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
+how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux. Need to install this add-on to parse fields correctly and execute detection search.
 known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
 references:
--  
+- https://book.hacktricks.xyz/linux-unix/linux-privilege-escalation-checklist
+- https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS
+- https://attack.mitre.org/matrices/enterprise/linux/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - Linux Post Exploitation
   dataset:
   - UPDATE_DATASET_URL
   kill_chain_phases:
@@ -40,12 +39,21 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Computer
+  - CommandLine
+  - user
+  - parent_process_exec
+  - process_path
   security_domain: endpoint
-  impact: 
-  confidence: 
+  impact: 90
+  confidence: 100
   # (impact * confidence)/100
-  risk_score: 
+  risk_score: 90
   context:
-  message: 
+    - Source: endpoint
+    - Stage: discovery
+  message: LinPEAS post exploitation tool detected
   observable:
-  
+    - name: Computer
+    - Type: Hostname
+    - role: Victim

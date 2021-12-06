@@ -6,20 +6,18 @@ author: Rod Soto
 type: TTP
 datamodel:
 - Endpoint
-description: 
-	UPDATE_DESCRIPTION
-	WHAT IS THIS?
-	WHAT DOES IT LOOK LIKE?
-	HOW DO YOU TRIAGE IT?
-search: '| sourcetype=sysmon_linux CommandLine="strings -e /etc/apache2/apache2.conf" OR CommandLine="strings -e /etc/ssh/sshd_config" OR CommandLine="strings -e /etc/shadow"  | stats count by Computer parent_process process_current_directory user
+description:
+	MimiPenguin is a tool that dumps login passwords from current linux destop users. This search detects execution of this tool.
+search: '| source="Syslog:Linux-Sysmon/Operational" CommandLine="strings -e /etc/apache2/apache2.conf" OR CommandLine="strings -e /etc/ssh/sshd_config" OR CommandLine="strings -e /etc/shadow"  | stats count by Computer parent_process process_current_directory user
  | `detect_mimipenguin_filter`'
-how_to_implement: UPDATE_HOW_TO_IMPLEMENT
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux. Need to install this add-on to parse fields correctly and execute detection search.
+known_false_positives: Some of these commands may be executed by sysadmin however not in the proximity and frequency, specially if querying for tools are that knonwn not to be installed at target system.
 references:
--  
+- https://github.com/huntergregal/mimipenguin
+- https://attack.mitre.org/matrices/enterprise/linux/
 tags:
   analytic_story:
-  - UPDATE_STORY_NAME
+  - Linux Post Exploitation
   dataset:
   - UPDATE_DATASET_URL
   kill_chain_phases:
@@ -32,12 +30,20 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
+  - Computer
+  - parent_process
+  - process_current_directory
+  - user
   security_domain: endpoint
-  impact: 
-  confidence: 
+  impact: 50
+  confidence: 70
   # (impact * confidence)/100
-  risk_score: 
+  risk_score: 60
   context:
-  message: 
+      - Source: endpoint
+      - Stage: discovery
+  message: MimiPenguin post exploitation tool detected
   observable:
-  
+      - name: Computer
+      - Type: Hostname
+      - role: Victim
