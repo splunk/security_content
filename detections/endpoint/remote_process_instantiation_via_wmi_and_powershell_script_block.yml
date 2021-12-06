@@ -25,7 +25,7 @@ references:
 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/invoke-wmimethod?view=powershell-5.1
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement/windows-powershell.log
   kill_chain_phases:

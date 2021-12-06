@@ -28,7 +28,7 @@ references:
 - https://en.wikipedia.org/wiki/Entropy_(information_theory) 
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   kill_chain_phases:
   - Privilege Escalation
   - Lateral Movement

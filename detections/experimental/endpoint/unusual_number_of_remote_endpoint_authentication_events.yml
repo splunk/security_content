@@ -36,7 +36,7 @@ references:
 - https://attack.mitre.org/techniques/T1078/
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   kill_chain_phases:
   - Reconnaissance
   - Lateral Movement

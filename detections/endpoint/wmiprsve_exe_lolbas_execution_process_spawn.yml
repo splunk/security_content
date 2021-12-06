@@ -40,7 +40,7 @@ references:
 - https://lolbas-project.github.io/
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/lateral_movement_lolbas/windows-sysmon.log
   kill_chain_phases:

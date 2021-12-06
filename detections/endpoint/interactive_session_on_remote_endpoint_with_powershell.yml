@@ -23,7 +23,7 @@ references:
 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enter-pssession?view=powershell-7.2
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_pssession/windows-powershell.log
   kill_chain_phases:

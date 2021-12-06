@@ -26,7 +26,7 @@ references:
 - https://attack.mitre.org/techniques/T1053/005/
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-sysmon.log
   kill_chain_phases:

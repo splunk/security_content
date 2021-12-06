@@ -48,7 +48,7 @@ references:
 - https://attack.mitre.org/techniques/T1550/002/
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   asset_type: Windows
   cis20:
   - CIS 16

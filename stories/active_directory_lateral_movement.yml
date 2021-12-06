@@ -1,7 +1,7 @@
-name: Lateral Movement
+name: Active Directory Lateral Movement
 id: 399d65dc-1f08-499b-a259-aad9051f38ad
-version: 2
-date: '2021-11-23'
+version: 3
+date: '2021-12-06'
 author: David Dorsey, Mauricio Velazco Splunk
 description: Detect and investigate tactics, techniques, and procedures around how
   attackers move laterally within the enterprise. Because lateral movement can expose
