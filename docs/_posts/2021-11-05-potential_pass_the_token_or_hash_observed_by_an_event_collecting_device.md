@@ -14,6 +14,7 @@ tags:
   - Defense Evasion
   - Lateral Movement
   - Splunk Behavioral Analytics
+  - Authentication
 ---
 
 
@@ -26,7 +27,7 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Authentication](https://docs.splunk.com/Documentation/CIM/latest/User/Authentication)
 - **Last Updated**: 2021-11-05
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 1058ba3e-a698-49bc-a1e5-7cedece4ea87
@@ -45,7 +46,9 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 ```
 
 | from read_ssa_enriched_events() 
-| eval timestamp=      parse_long(ucast(map_get(input_event, "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null)), dest_user_id=   ucast(map_get(input_event, "dest_user_id"), "string", null), origin_device_id=       ucast(map_get(input_event, "origin_device_id"), "string", null), signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string", null)), authentication_method=  lower(ucast(map_get(input_event, "authentication_method"), "string", null))
+| where "Authentication" IN(_datamodels)
+
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null)), dest_user_id=   ucast(map_get(input_event, "dest_user_id"), "string", null), origin_device_id=       ucast(map_get(input_event, "origin_device_id"), "string", null), signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string", null)), authentication_method=  lower(ucast(map_get(input_event, "authentication_method"), "string", null))
 
 | where signature_id = "4624" AND (authentication_method="ntlmssp" OR authentication_method="kerberos") AND dest_user_id != null AND origin_device_id != null
 

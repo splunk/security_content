@@ -12,6 +12,7 @@ tags:
   - Credentials from Password Stores
   - Credential Access
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -24,7 +25,7 @@ Credential extraction is often an illegal recovery of credential material from s
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-10-18
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 341975fa-4ad0-4f01-9acc-df4f69742db7

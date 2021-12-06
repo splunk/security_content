@@ -46,7 +46,7 @@ This search looks for modifications to registry keys that can be used to elevate
 
 ```
 
-| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_key_name=GlobalFlag OR Registry.registry_key_name=Debugger) by Registry.dest  Registry.user Registry.registry_path Registry.registry_key_name 
+| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_value_name=GlobalFlag OR Registry.registry_value_name=Debugger) by Registry.dest  Registry.user Registry.registry_path Registry.registry_value_name 
 | `security_content_ctime(lastTime)`  
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 

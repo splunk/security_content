@@ -45,7 +45,7 @@ The search looks for the Registry Key DisableAntiSpyware set to disable. This is
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_key_name="DisableAntiSpyware" AND Registry.registry_value_name="DWORD (0x00000001)" by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_value_name="DisableAntiSpyware" AND Registry.registry_value_data="0x00000001" by Registry.dest Registry.user Registry.registry_path Registry.registry_value_data 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 

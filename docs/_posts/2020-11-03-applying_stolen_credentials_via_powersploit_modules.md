@@ -38,6 +38,7 @@ tags:
   - Steal or Forge Kerberos Tickets
   - Credential Access
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -50,7 +51,7 @@ Stolen credentials are applied by methods such as user impersonation, credential
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 270b482d-2af2-448f-9923-9cf005f61be4
