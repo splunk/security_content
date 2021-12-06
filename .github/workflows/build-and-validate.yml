@@ -349,7 +349,7 @@ jobs:
 
             ls -lahr prior_config
             
-            if [[ ${{ steps.vars.outputs.branch }} == develop ]]
+            if [[ ${{ steps.vars.outputs.branch }} == develop ]]; then
               echo "Running a nightly test on all detections"
               python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --mode all --mock --config_file test_config_github_actions.json  
             elif [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
