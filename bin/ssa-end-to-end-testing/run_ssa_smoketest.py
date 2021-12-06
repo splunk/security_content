@@ -7,13 +7,6 @@ from modules.github_service import GithubService
 from modules.test_ssa_detections import SSADetectionTesting
 from modules.security_content_handler import prepare_test, remove_attack_data, remove_security_content
 
-DETECTIONS_TO_SKIP = [
-        "Anomalous usage of Archive Tools",
-        "Applying Stolen Credentials via Mimikatz modules",
-        "Attempt To delete Services",
-        "Attempt To Disable Services"
-]
-
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
@@ -82,9 +75,6 @@ def main(args):
     test_passed = True
     for test_file in test_files_ssa:
         test_obj, attack_data_folder = prepare_test(test_file)
-        if (test_obj["detection_obj"]["name"] in DETECTIONS_TO_SKIP) :
-            LOGGER.info('Skip SSA Detection: ' + test_obj["detection_obj"]["name"])
-            continue
         test_result = ssa_detection_testing.test_ssa_detections(test_obj)
         test_results.append(test_result.copy())
         remove_attack_data(attack_data_folder)
