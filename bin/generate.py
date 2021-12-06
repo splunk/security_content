@@ -104,14 +104,25 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
     # disable yaml pointers https://stackoverflow.com/questions/51272814/python-yaml-dumping-pointer-references
     yaml.Dumper.ignore_aliases = lambda *args : True
 
+    # wiping old detections for SSA
+    shutil.rmtree(OUTPUT_PATH + '/detections/*', ignore_errors=True)
+
     for d in detections:
-        manifest_file = OUTPUT_PATH + '/detections/' + d['name'].lower().replace(" ", "_") + '.yml'
+        manifest_file = OUTPUT_PATH + '/detections/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
 
         # remove unused fields
         del d['risk']
         del d['deployment']
         del d['mappings']
         del d['savedsearch_annotations']
+
+        # add detection test
+        test_file = 'ssa___' + d['name'].lower().replace(" ", "_") + '.test.yml'
+        for file in glob.glob('tests/*/*'):
+            if test_file == file.split("/")[-1]:
+                with open(file, 'r') as file:
+                    test_yaml = yaml.safe_load(file)
+                    d['test'] = test_yaml
 
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(d, file, sort_keys=True)
@@ -414,7 +425,6 @@ def add_playbook(detection, playbooks):
             if detection['name'] in playbook['tags']['detections']:
                 detection['how_to_implement'] = detection['how_to_implement'] + preface + playbook['name']
         except KeyError:
-            print("playbook " + playbook['name'] + " has no detections, passing....")
             pass
     return detection
 
@@ -664,6 +674,43 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
     global global_product
     global_product = PRODUCT
 
+    TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
+
+    objects = get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
+
+    try:
+        if VERBOSE:
+            print("generating Mitre lookups")
+    #    generate_mitre_lookup(OUTPUT_PATH)
+    except Exception as e:
+        print('Error: ' + str(e))
+        print("WARNING: Generation of Mitre lookup failed.")
+
+    # calculate deprecation totals
+    deprecated = []
+    for d in objects['detections']:
+        if 'deprecated' in d:
+            deprecated.append(d)
+
+    detection_path = ''
+    lookups_path = ''
+    lookups_files= ''
+    use_case_lib_path = ''
+    macros_path = ''
+    workbench_panels_objects = ''
+
+    if global_product == 'SSA':
+        detection_path = generate_ssa_yaml(objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        objects["macros"] = []
+    else:
+        detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
+        lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
+        lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
+        lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
+        use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
+        workbench_panels_objects = generate_workbench_panels(objects["detections"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
+
     if global_product == 'API':
         json_types = []
         # List of all YAML types to search in repo
@@ -673,63 +720,25 @@ def main(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE):
         if VERBOSE: print("JSON output directory: " + output_dir)
         # remove any pre-existing output directories
         shutil.rmtree(output_dir, ignore_errors=True)
-        if VERBOSE: print("Remove pre-existing JSON directory")
+        if VERBOSE: print("remove pre-existing JSON directory")
         # create output directory
         os.mkdir(output_dir)
-        if VERBOSE: print("Created output directory")
+        if VERBOSE: print("created output directory")
         # Generate all YAML types
         for yt in yml_types:
             processor = Yaml2Json(yt, REPO_PATH)
             with open(os.path.join(output_dir, yt + '.json'), 'w') as json_out:
                 # write out YAML type
                 json.dump(processor.list_objects(yt), json_out)
-                if VERBOSE: print("Writing %s JSON" % yt)
+                if VERBOSE: print("writing {0} JSON".format(yt))
 
-    else:
-        TEMPLATE_PATH = path.join(REPO_PATH, 'bin/jinja2_templates')
-
-        objects = get_objects(REPO_PATH, OUTPUT_PATH, PRODUCT, VERBOSE)
-
-        try:
-            if VERBOSE:
-                print("generating Mitre lookups")
-        #    generate_mitre_lookup(OUTPUT_PATH)
-        except Exception as e:
-            print('Error: ' + str(e))
-            print("WARNING: Generation of Mitre lookup failed.")
-
-        # calculate deprecation totals
-        deprecated = []
-        for d in objects['detections']:
-            if 'deprecated' in d:
-                deprecated.append(d)
-
-        detection_path = ''
-        lookups_path = ''
-        lookups_files= ''
-        use_case_lib_path = ''
-        macros_path = ''
-        workbench_panels_objects = ''
-
-        if global_product == 'SSA':
-            detection_path = generate_ssa_yaml(objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-            objects["macros"] = []
-        else:
-            detection_path = generate_savedsearches_conf(objects["detections"], objects["deployments"], TEMPLATE_PATH, OUTPUT_PATH)
-            lookups_path = generate_transforms_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
-            lookups_path = generate_collections_conf(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH)
-            lookups_files = generate_lookup_files(objects["lookups"], TEMPLATE_PATH, OUTPUT_PATH,REPO_PATH)
-            use_case_lib_path = generate_use_case_library_conf(objects["stories"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-            macros_path = generate_macros_conf(objects["macros"], objects["detections"], TEMPLATE_PATH, OUTPUT_PATH)
-            workbench_panels_objects = generate_workbench_panels(objects["detections"], objects["stories"], TEMPLATE_PATH, OUTPUT_PATH)
-
-        if VERBOSE:
-            print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), use_case_lib_path))
-            print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
-            print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
-            print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
-            print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
-            print("security content generation completed..")
+    if VERBOSE:
+        print("{0} stories have been successfully written to {1}".format(len(objects["stories"]), use_case_lib_path))
+        print("{0} detections have been successfully written to {1}".format(len(objects["detections"]), detection_path))
+        print("{0} detections have been marked deprecated on {1}".format(len(deprecated), detection_path))
+        print("{0} macros have been successfully written to {1}".format(len(objects["macros"]), macros_path))
+        print("{0} workbench panels have been successfully written to {1}, {2} and {3}".format(len(workbench_panels_objects), OUTPUT_PATH + "/default/es_investigations.conf", OUTPUT_PATH + "/default/workflow_actions.conf", OUTPUT_PATH + "/default/data/ui/panels/*"))
+        print("security content generation completed..")
 
 
 if __name__ == "__main__":

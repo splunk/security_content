@@ -40,6 +40,7 @@ tags:
   - Steal or Forge Kerberos Tickets
   - Credential Access
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -52,7 +53,7 @@ This detection indicates use of Mimikatz modules that facilitate Pass-the-Token 
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 759a653f-cb92-40f9-94c9-ec4e47b0f709

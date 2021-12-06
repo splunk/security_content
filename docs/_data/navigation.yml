@@ -44,12 +44,16 @@ detections:
     children:
       - title: Authentication
         url: /detections/authentication/
+      - title: Certificates
+        url: /detections/certificates/
       - title: Change
         url: /detections/change/
       - title: Email
         url: /detections/email/
       - title: Endpoint
         url: /detections/endpoint/
+      - title: Endpoint_Processes
+        url: /detections/endpoint_processes/
       - title: Network_Resolution
         url: /detections/network_resolution/
       - title: Network_Sessions

@@ -28,13 +28,26 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  automated_detection_testing: passed
+  confidence: 30
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
+  impact: 30
   kill_chain_phases:
   - Reconnaissance
+  message: Network Connection discovery on $dest$ by $user$
   mitre_attack_id:
   - T1016
   - T1016.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -49,18 +62,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 30
-  confidence: 30
   risk_score: 9
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Recon
-  message: Network Connection discovery on $dest$ by $user$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

@@ -8,6 +8,7 @@ toc: true
 toc_label: ""
 tags:
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -20,7 +21,7 @@ Command lines that are extremely long may be indicative of malicious activity on
 
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-10-06
 - **Author**: Ignacio Bermudez Corrales, Splunk
 - **ID**: 58f43aba-1775-445e-b19c-be2b87d83ae3

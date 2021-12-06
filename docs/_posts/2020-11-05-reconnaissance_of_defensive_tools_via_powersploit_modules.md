@@ -16,6 +16,7 @@ tags:
   - Active Scanning
   - Reconnaissance
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -28,7 +29,7 @@ This detection identifies use of PowerSploit modules for assessment of presence 
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 24b4e659-63a2-4e7b-89ac-87dd659c7110
