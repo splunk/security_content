@@ -15,6 +15,7 @@ tags:
   - Defense Evasion
   - Privilege Escalation
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -27,7 +28,7 @@ This detection identifies use of DSInternals modules for illegal management of A
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: a587ca9f-c138-47b4-ba51-699f319b8cc5

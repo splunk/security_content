@@ -15,11 +15,11 @@ search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from da
   where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
   | iplocation Authentication.src | `drop_dm_object_name(Authentication)` | table
   firstTime lastTime user Region | join user  type=outer [| inputlookup previously_seen_users_console_logins
-  | stats min(firstTime) AS earliestseen by user Region | fields earliestseen
-  user Region] | eval userRegion=if(firstTime >= relative_time(now(), "-24h@h"), "New
-  Region","Previously Seen Region") | eval userStatus=if(earliestseen >= relative_time(now(),
-  "-24h@h") OR isnull(earliestseen), "New User","Old User") | where userRegion = "New
-  Region" AND userStatus != "Old User" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | stats min(firstTime) AS earliestseen by user Region | fields earliestseen user
+  Region] | eval userRegion=if(firstTime >= relative_time(now(), "-24h@h"), "New Region","Previously
+  Seen Region") | eval userStatus=if(earliestseen >= relative_time(now(), "-24h@h")
+  OR isnull(earliestseen), "New User","Old User") | where userRegion = "New Region"
+  AND userStatus != "Old User" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | table firstTime lastTime user Region  userStatus userRegion  | `detect_aws_console_login_by_user_from_new_region_filter`'
 how_to_implement: You must install and configure the Splunk Add-on for AWS (version
   5.1.0 or later) and Enterprise Security 6.2, which contains the required updates

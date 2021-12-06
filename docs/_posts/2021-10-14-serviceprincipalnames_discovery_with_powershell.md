@@ -53,7 +53,6 @@ During triage, review parallel processes for further suspicious activity.
 
 #### Associated Analytic Story
 * [Active Directory Discovery](/stories/active_directory_discovery)
-* [Lateral Movement](/stories/lateral_movement)
 
 
 #### How To Implement
@@ -75,7 +74,7 @@ To successfully implement this analytic, you will need to enable PowerShell Scri
 
 
 #### Kill Chain Phase
-* Lateral Movement
+* Privilege Escalation
 
 
 #### Known False Positives
