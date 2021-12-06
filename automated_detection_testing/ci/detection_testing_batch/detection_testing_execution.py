@@ -322,7 +322,8 @@ def main(args: list[str]):
             settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
         settings['commit_hash'] = github_service.commit_hash
     except Exception as e:
-        print("Failure checking out git repository: %s\n\tQuitting",file=sys.stderr)
+        print("Failure checking out git repository:\n\t\n\tHash: [%s]\n\tBranch: [%s]\n\tPR: [%s]\n\tQuitting"%
+              (settings['commit_hash'],settings['branch'],settings['pr_number']),file=sys.stderr)
         sys.exit(1)
 
     # Make a backup of this config containing the hash and stripped credentials.
