@@ -1,33 +1,27 @@
 author: Stanislav Miskovic, Splunk
 datamodel:
 - Endpoint_Processes
-date: '2020-11-03'
-description: Stolen credentials are applied by methods such as user impersonation,
-  credential injection, spoofing of authentication processes or getting hold of critical
-  accounts. This detection indicates such activities carried out by PowerSploit exploit
-  kit APIs.
+date: '2020-11-09'
+description: This detection identifies access to PowerSploit modules that create accounts
+  illegaly.
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
-id: 270b482d-2af2-448f-9923-9cf005f61be4
+id: 20fba62a-fa5b-46cc-b39f-473fa248fee2
 known_false_positives: None identified.
-name: Applying Stolen Credentials via PowerSploit modules
+name: Illegal Account Creation via PowerSploit modules
 product:
 - Splunk Behavioral Analytics
 references:
 - https://github.com/PowerShellMafia/PowerSploit
-risk_message: PowerSploit malware is violating authentication by injecting stolen
-  credentials, manipulating authentication tokens or impersonating system or user
-  accounts. Operation is performed at the device $dest_device_id$, by the account
-  $dest_user_id$ via command $cmd_line$
+risk_message: PowerSploit malware is creating illegal domain accounts. Operation is
+  performed at the device $dest_device_id$, by the account $dest_user_id$ via command
+  $cmd_line$
 search: '| from read_ssa_enriched_events()
 
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)),
   cmd_line=ucast(map_get(input_event, "process"), "string", null), event_id=ucast(map_get(input_event,
   "event_id"), "string", null) | where cmd_line != null AND ( match_regex(cmd_line,
-  /(?i)Invoke-CredentialInjection/)=true OR match_regex(cmd_line, /(?i)Invoke-TokenManipulation/)=true
-  OR match_regex(cmd_line, /(?i)Invoke-UserImpersonation/)=true OR match_regex(cmd_line,
-  /(?i)Get-System/)=true OR match_regex(cmd_line, /(?i)Invoke-RevertToSelf/)=true
-  )
+  /(?i)New-DomainUser/)=true )
 
   | eval start_time = timestamp, end_time = timestamp, entities = mvappend( ucast(map_get(input_event,
   "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"),
@@ -35,7 +29,7 @@ search: '| from read_ssa_enriched_events()
   | into write_ssa_detected_events();'
 tags:
   analytic_story:
-  - Credential Dumping
+  - Windows Persistence Techniques
   asset_type: Windows
   cis20:
   - CIS 16
@@ -44,28 +38,17 @@ tags:
   context:
   - Source:AD
   - Source:Endpoint
-  - Stage:Credential Access
+  - Stage:Persistence
+  - Consequence:Loss Of Control
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/applying_stolen_credentials/logAllPowerSploitModulesWithOldNames.log
-  impact: 90
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1585/illegal_account_creation/logAllPowerSploitModulesWithOldNames.log
+  impact: 80
   kill_chain_phases:
   - Actions on Objectives
-  message: PowerSploit malware is violating authentication by injecting stolen credentials,
-    manipulating authentication tokens or impersonating system or user accounts. Operation
-    is performed at the device $dest_device_id$, by the account $dest_user_id$ via
-    command $cmd_line$
+  message: PowerSploit malware is creating illegal domain accounts. Operation is performed
+    at the device $dest_device_id$, by the account $dest_user_id$ via command $cmd_line$
   mitre_attack_id:
-  - T1055
-  - T1068
-  - T1078
-  - T1098
-  - T1134
-  - T1543
-  - T1547
-  - T1548
-  - T1554
-  - T1555
-  - T1558
+  - T1585
   nist:
   - PR.AC
   - PR.IP
@@ -89,8 +72,19 @@ tags:
   - dest_user_id
   - process
   - _time
-  risk_score: 90
+  risk_score: 80
   risk_severity: high
   security_domain: endpoint
+test:
+  name: Illegal Account Creation via PowerSploit modules - SSA Unit test
+  tests:
+  - attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/illegal_access_to_content/logAllPowerSploitModulesWithOldNames.log
+      file_name: logAllPowerSploitModulesWithOldNames.log
+      source: WinEventLog:Security
+    description: Test illegal account creation detections
+    file: endpoint/ssa___illegal_account_creation_via_powersploit_modules.yml
+    name: Illegal Account Creation via PowerSploit modules
+    pass_condition: '@count_gt(0)'
 type: TTP
 version: 1
