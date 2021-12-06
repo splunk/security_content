@@ -29,13 +29,29 @@ tags:
   analytic_story:
   - Remcos
   - Windows Defense Evasion Tactics
+  automated_detection_testing: passed
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: exclusion registry $registry_path$  modified or added on $dest$
   mitre_attack_id:
   - T1562.001
   - T1562
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,21 +64,5 @@ tags:
   - Registry.dest
   - Registry.registry_value_name
   - Registry.registry_value_data
-  security_domain: endpoint
-  impact: 80
-  confidence: 80
   risk_score: 64
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: exclusion registry $registry_path$  modified or added on $dest$
-  observable:
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

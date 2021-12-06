@@ -10,6 +10,7 @@ tags:
   - Establish Accounts
   - Resource Development
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -22,7 +23,7 @@ This detection identifies access to PowerSploit modules that create accounts ill
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 20fba62a-fa5b-46cc-b39f-473fa248fee2

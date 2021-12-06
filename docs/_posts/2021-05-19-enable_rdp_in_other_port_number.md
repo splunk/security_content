@@ -41,7 +41,7 @@ This search is to detect a modification to registry to enable rdp to a machine w
 
 ```
 
-| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp*" Registry.registry_key_name = "PortNumber" by Registry.dest Registry.user Registry.registry_value_name 
+| tstats `security_content_summariesonly` count values(Registry.registry_key_name) as registry_key_name values(Registry.registry_path) as registry_path min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp*" Registry.registry_value_name = "PortNumber" by Registry.dest Registry.user Registry.registry_value_name 
 | `security_content_ctime(lastTime)` 
 | `security_content_ctime(firstTime)` 
 | `drop_dm_object_name(Registry)` 
