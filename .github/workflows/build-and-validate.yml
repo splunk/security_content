@@ -17,6 +17,8 @@ on:
   push:
   pull_request:
     types: [opened, reopened]
+  schedule:
+    - cron: "44 4 * * *"
 jobs:
   validate-tag-if-present:
     runs-on: ubuntu-latest
@@ -346,9 +348,13 @@ jobs:
             echo "github.event.pull_request.head.ref : [${{ github.event.pull_request.head.ref }}]"
 
             ls -lahr prior_config
-            if [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
+            
+            if [[ ${{ steps.vars.outputs.branch == develop }} ]]
+              echo "Running a nightly test on all detections"
+              python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --mode all --mock --config_file test_config_github_actions.json  
+            elif [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
               echo "Pull request from source branch [${{ github.event.pull_request.head.ref }}] for PR number [${{ github.event.issue.number }}]"
-              python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --pr_number ${{ github.event.pull_request.number }}  --mode changes --mock --config_fig test_config_github_actions.json  
+              python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --pr_number ${{ github.event.pull_request.number }}  --mode changes --mock --config_file test_config_github_actions.json  
             else
               echo "Push from branch [${{ steps.vars.outputs.branch }}]"
               python detection_testing_execution.py run --branch  ${{ steps.vars.outputs.branch }}  --mode changes --mock --config_file test_config_github_actions.json

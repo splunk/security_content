@@ -1,4 +1,4 @@
-name: Access LSASS Memory for Dump Creation Unit Test TESTCHANGES
+name: Access LSASS Memory for Dump Creation Unit Test
 tests:
 - name: Access LSASS Memory for Dump Creation
   file: endpoint/access_lsass_memory_for_dump_creation.yml
