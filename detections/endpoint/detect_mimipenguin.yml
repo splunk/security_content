@@ -19,7 +19,7 @@ tags:
   analytic_story:
   - Linux Post Exploitation
   dataset:
-  - UPDATE_DATASET_URL
+  - https://github.com/splunk/attack_data/raw/master/datasets/suspicious_behaviour/linux_post_exploitation/mimipenguin.txt
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
