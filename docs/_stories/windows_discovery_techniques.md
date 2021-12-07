@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - Endpoint_Processes
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -17,7 +18,7 @@ tags:
 Monitors for behaviors associated with adversaries discovering objects in the environment that can be leveraged in the progression of the attack.
 
 - **Product**: Splunk Behavioral Analytics, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-03-04
 - **Author**: Michael Hart, Splunk
 - **ID**: f7aba570-7d59-11eb-825e-acde48001122

@@ -17,6 +17,7 @@ tags:
   - Account Manipulation
   - Persistence
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -29,7 +30,7 @@ This detection identifies illegal setting of credentials via PowerSploit modules
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 07b2a501-f967-4ddc-9f56-2dce46dfce44

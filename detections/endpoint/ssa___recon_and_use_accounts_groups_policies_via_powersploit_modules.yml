@@ -4,7 +4,7 @@ version: 1
 date: '2020-11-05'
 author: Stanislav Miskovic, Splunk
 type: TTP
-datamodel: 
+datamodel:
 - Endpoint_Processes
 description: This detection identifies access to PowerSploit modules that discover
   accounts, groups and policies that can be accessed or taken over.

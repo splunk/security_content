@@ -45,7 +45,7 @@ this search is to identify modification in registry to disable AMSI windows feat
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable" Registry.registry_value_name = "DWORD (0x00000000)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable" Registry.registry_value_data = "0x00000000" by Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 

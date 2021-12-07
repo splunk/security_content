@@ -18,6 +18,7 @@ tags:
   - Defense Evasion
   - Privilege Escalation
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -30,7 +31,7 @@ This detection identifies use of Mimikatz modules for discovery of accounts and 
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-05
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 1bce67aa-3fc4-4886-9089-67f0bfebbef6
