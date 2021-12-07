@@ -61,7 +61,7 @@ def configure_action(args) -> tuple[str, dict]:
 
     # Now parse the new config and make sure it's good
     validated_new_settings, schema = validate_args.validate_and_write(
-        new_config, args.output_config_file)
+        new_config, args.output_config_file, skip_password_accessibility_check=False)
     if validated_new_settings == None:
         print("Could not update settings.\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
@@ -84,7 +84,7 @@ def update_config_with_cli_arguments(args_dict: dict) -> tuple[str, dict]:
             settings[key] = value
 
     # Validate again to make sure we didn't break anything
-    settings, _ = validate_args.validate(settings)
+    settings, _ = validate_args.validate(settings,skip_password_accessibility_check=False)
     if settings is None:
         print("Failure while processing updated settings from command line.\n\tQuitting...", file=sys.stderr)
         sys.exit(1)
@@ -115,7 +115,7 @@ def parse(args) -> tuple[str, dict]:
         print("No default configuration file [%s] found.  Creating one..." % (
             DEFAULT_CONFIG_FILE))
         with open(DEFAULT_CONFIG_FILE, 'w') as cfg:
-            validate_args.validate_and_write({}, cfg)
+            validate_args.validate_and_write({}, cfg, skip_password_accessibility_check=True)
 
     parser = argparse.ArgumentParser(
         description="Use 'SOME_PROGRAM_NAME_STRING --help' to get help with the arguments")
@@ -227,7 +227,7 @@ def parse(args) -> tuple[str, dict]:
         
         return action, settings
     except Exception as e:
-        print("Unknown Error - [%s]" % (str(e)))
+        print("Unknown Error Validating Json Configuration - [%s]" % (str(e)))
         sys.exit(1)
 
 if __name__ == "__main__":

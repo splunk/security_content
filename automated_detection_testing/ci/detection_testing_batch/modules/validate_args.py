@@ -271,10 +271,11 @@ def validate_file(file: io.TextIOWrapper) -> tuple[Union[dict, None], dict]:
         raise(e)
 
 
-def check_dependencies(settings: dict) -> bool:
+def check_dependencies(settings: dict, skip_password_accessibility_check:bool=True) -> bool:
     # Check complex mode dependencies
     error_free = True
 
+    # Make sure that all the mode arguments are sane
     if settings['mode'] == 'selected':
         # Make sure that exactly one of the following fields is populated
 
@@ -291,11 +292,28 @@ def check_dependencies(settings: dict) -> bool:
         print("Error - mode was not 'selected' but detections_list was supplied.", file=sys.stderr)
         error_free = False
 
+
+    # Make sure that if we will be in an interactive mode, that either the user has provided the password or the password will be printed
+    if skip_password_accessibility_check:
+        pass
+    elif (settings['interactive'] or not settings['no_interactive_failure']) and settings['show_splunk_app_password'] is False:
+        print("\n\n******************************************************\n\n")
+        if settings['splunk_app_password'] is not None:
+            print("Warning: You have chosen an interactive mode, set show_splunk_app_password False,\n"\
+                  "and provided a password in the config file.  We will NOT print this password to\n"\
+                  "stdout.  Look in the config file for this password.",file=sys.stderr)
+        else:
+            print("Warning: You have chosen an interactive mode, set show_splunk_app_password False,\n"\
+                  "and DID NOT provide a password in the config file.  We have updated show_splunk_app_password\n"\
+                  "to True for you.  Otherwise, interactive mode login would be impossible.",file=sys.stderr)
+            settings['show_splunk_app_password'] = True
+        print("\n\n******************************************************\n\n")
+
     # Returns true if there are not errors
     return error_free
 
 
-def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper, None] = None, strip_credentials: bool = False) -> tuple[Union[dict, None], dict]:
+def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper, None] = None, strip_credentials: bool = False, skip_password_accessibility_check:bool=True) -> tuple[Union[dict, None], dict]:
     closeFile = False
     if output_file is None:
         import datetime
@@ -309,8 +327,9 @@ def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper,
         configuration['splunkbase_password'] = None
         configuration['splunkbase_username'] = None
         configuration['container_password'] = None
+        configuration['show_splunk_app_password'] = True
 
-    validated_json, setup_schema = validate(configuration)
+    validated_json, setup_schema = validate(configuration,skip_password_accessibility_check)
     if validated_json == None:
         print("Error in the new settings! No output file written")
     else:
@@ -329,7 +348,7 @@ def validate_and_write(configuration: dict, output_file: Union[io.TextIOWrapper,
     return validated_json, setup_schema
 
 
-def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
+def validate(configuration: dict, skip_password_accessibility_check:bool=True) -> tuple[Union[dict, None], dict]:
     # v = jsonschema.Draft201909Validator(argument_schema)
 
     try:
@@ -339,7 +358,7 @@ def validate(configuration: dict) -> tuple[Union[dict, None], dict]:
 
         if len(validation_errors) == 0:
             # check to make sure there were no complex errors
-            no_complex_errors = check_dependencies(validated_json)
+            no_complex_errors = check_dependencies(validated_json,skip_password_accessibility_check)
             if no_complex_errors:
                 return validated_json, setup_schema
             else:

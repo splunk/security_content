@@ -270,6 +270,7 @@ def main(args: list[str]):
     requests.packages.urllib3.disable_warnings()
 
     start_datetime = datetime.now()
+    
     action, settings = modules.new_arguments2.parse(args)
     if action == "configure":
         # Done, nothing else to do

@@ -9,7 +9,7 @@
         "cloud",
         "network"
     ],
-    "interactive_failure": false,
+    "interactive": false,
     "local_apps": {
         "SPLUNK_ES_CONTENT_UPDATE": {
             "app_number": 3449,
@@ -20,6 +20,7 @@
     "local_base_container_name": "splunk_test_%d",
     "mock": false,
     "mode": "changes",
+    "no_interactive_failure": true,
     "num_containers": 10,
     "persist_security_content": false,
     "pr_number": null,
