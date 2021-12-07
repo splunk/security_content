@@ -10,7 +10,7 @@ tags:
   - Service Stop
   - Impact
   - Splunk Behavioral Analytics
-  - Endpoint
+  - Endpoint_Processes
 ---
 
 
@@ -23,7 +23,7 @@ The following analytics identifies the resizing of shadowstorage by ransomware m
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-06-21
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: dbc30554-d27e-11eb-9e5e-acde48001122
@@ -62,6 +62,7 @@ To successfully implement this search, you need to be ingesting logs with the pr
 * process_path
 * dest_user_id
 * process
+* cmd_line
 
 
 #### Kill Chain Phase
@@ -69,8 +70,14 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 
 #### Known False Positives
-network admin can resize the shadowstorage for valid purposes.
+System administrators may resize the shadowstorage for valid purposes. Filter as needed.
 
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow copy to perform offline password cracking. |
 
 
 

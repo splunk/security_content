@@ -4,7 +4,8 @@ version: 1
 date: '2020-11-06'
 author: Stanislav Miskovic, Splunk
 type: TTP
-datamodel: []
+datamodel:
+- Endpoint_Processes
 description: This detection identifies access to PowerSploit modules that discover
   and access network and distributed file system shares.
 search: '| from read_ssa_enriched_events()

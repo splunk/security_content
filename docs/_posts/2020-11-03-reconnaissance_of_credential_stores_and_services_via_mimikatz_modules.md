@@ -27,6 +27,7 @@ tags:
   - Network Trust Dependencies
   - Reconnaissance
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -39,7 +40,7 @@ This detection identifies reconnaissance of credential stores and use of CryptoA
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-03
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 5facee5b-79e4-47ab-b0e6-c625acc0554f

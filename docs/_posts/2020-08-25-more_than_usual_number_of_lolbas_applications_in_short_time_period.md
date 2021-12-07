@@ -14,6 +14,7 @@ tags:
   - Persistence
   - Privilege Escalation
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -26,7 +27,7 @@ Attacker activity may compromise executing several LOLBAS applications in conjun
 
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-08-25
 - **Author**: Ignacio Bermudez Corrales, Splunk
 - **ID**: 59c0dd70-169c-4900-9a1f-bfcf13302f93

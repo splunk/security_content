@@ -35,12 +35,12 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 
 | tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user 
 | `drop_dm_object_name(Authentication)` 
-| inputlookup append=t previously_seen_users_console_logins 
-| stats min(firstTime) as firstTime max(lastTime) as lastTime by user 
-| eval userStatus=if(firstTime >=relative_time(now(),"-24h@h"), "First Time Logging into AWS Console", "Previously Seen User") 
-|where userStatus="First Time Logging into AWS Console" 
-|  `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
+| join user type=outer [ inputlookup previously_seen_users_console_logins 
+| stats min(firstTime) as earliestseen by user] 
+| eval userStatus=if(earliestseen >= relative_time(now(), "-24h@h") OR isnull(earliestseen), "First Time Logging into AWS Console", "Previously Seen User") 
+| where userStatus="First Time Logging into AWS Console" 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
 | `detect_aws_console_login_by_new_user_filter`
 ```
 

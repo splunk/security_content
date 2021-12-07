@@ -10,7 +10,7 @@ tags:
   - File and Directory Permissions Modification
   - Defense Evasion
   - Splunk Behavioral Analytics
-  - Endpoint
+  - Endpoint_Processes
 ---
 
 
@@ -23,7 +23,7 @@ This analytic identifies suspicious modification of ACL permission to a files or
 
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-06-15
 - **Author**: Teoderick Contreras, Splunk
 - **ID**: 9ae9a48a-cdbe-11eb-875a-acde48001122
