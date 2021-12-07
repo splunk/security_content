@@ -6,8 +6,7 @@ author: Rod Soto
 type: TTP
 datamodel:
 - Endpoint
-description:
-	MimiPenguin is a tool that dumps login passwords from current linux destop users. This search detects execution of this tool.
+description: MimiPenguin is a tool that dumps login passwords from current linux destop users. This search detects execution of this tool.
 search: '| source="Syslog:Linux-Sysmon/Operational" CommandLine="strings -e /etc/apache2/apache2.conf" OR CommandLine="strings -e /etc/ssh/sshd_config" OR CommandLine="strings -e /etc/shadow"  | stats count by Computer parent_process process_current_directory user
  | `detect_mimipenguin_filter`'
 how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux. Need to install this add-on to parse fields correctly and execute detection search.
