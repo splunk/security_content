@@ -16,6 +16,7 @@ tags:
   - SMB/Windows Admin Shares
   - Lateral Movement
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -28,7 +29,7 @@ This detection identifies use of Mimikatz modules for discovery and access to ne
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: c97b6eb9-1d8b-4017-bbbb-2af7fc17bc3f

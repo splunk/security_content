@@ -13,6 +13,7 @@ tags:
   - Indirect Command Execution
   - Defense Evasion
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -25,7 +26,7 @@ This search looks for command-line arguments that use a `/c` parameter to execut
 
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-2-1
 - **Author**: Ignacio Bermudez Corrales, Splunk
 - **ID**: fc0edc95-ff2b-48b0-9f6f-63da3789fd23

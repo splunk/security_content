@@ -15,6 +15,7 @@ tags:
   - Defense Evasion
   - Privilege Escalation
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -27,7 +28,7 @@ This detection identifies access to PowerSploit modules that enable illegal mana
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 75760c11-7d48-4968-b828-013b299e8f6d
