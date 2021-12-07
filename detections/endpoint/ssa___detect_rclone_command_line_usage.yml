@@ -76,9 +76,7 @@ tags:
     role:
     - Child Process
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - dest_device_id
