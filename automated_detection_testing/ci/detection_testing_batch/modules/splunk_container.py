@@ -38,8 +38,10 @@ class SplunkContainer:
         splunkbase_password: Union[str, None] = None,
         splunk_ip: str = "127.0.0.1",
         interactive_failure: bool = False,
+        interactive:bool = False
     ):
         self.interactive_failure = interactive_failure
+        self.interactive = interactive
         self.synchronization_object = synchronization_object
         self.client = docker.client.from_env()
         self.full_docker_hub_path = full_docker_hub_path
@@ -94,7 +96,7 @@ class SplunkContainer:
             # elif app["location"] == "local":
             #    apps_to_install.append(app["container_path"])
         
-        print(apps_to_install)
+        
         return ",".join(apps_to_install), require_credentials
 
     def make_environment(
@@ -380,6 +382,7 @@ class SplunkContainer:
                     detection_to_test,
                     self.synchronization_object.attack_data_root_folder,
                     wait_on_failure=self.interactive_failure,
+                    wait_on_completion = self.interactive
                 )
                 self.synchronization_object.addResult(result)
 

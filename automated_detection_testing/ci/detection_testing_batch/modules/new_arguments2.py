@@ -187,10 +187,16 @@ def parse(args) -> tuple[str, dict]:
     run_parser.add_argument("-n", "--num_containers", required=False, type=int,
                             help="The number of Splunk containers to run or mock")
 
-    run_parser.add_argument("-i", "--interactive_failure", required=False,
+    run_parser.add_argument("-nif", "--no_interactive_failure", required=False,
                             action="store_true",
                             help="After a detection fails, pause and allow the user to log into "\
-                            "the Splunk server to interactively debug the failure.  Wait for them "\
+                            "the Splunk server to interactively debug the failure.  Wait for the user "\
+                            "to hit enter before removing the test data and moving on to the next test.")
+
+    run_parser.add_argument("-i", "--interactive", required=False,
+                            action="store_true",
+                            help="After a detection runs, pause and allow the user to log into "\
+                            "the Splunk server to debug the detection.  Wait for the user "\
                             "to hit enter before removing the test data and moving on to the next test.")
 
     args = parser.parse_args()
@@ -208,7 +214,7 @@ def parse(args) -> tuple[str, dict]:
             # set their value to something else, like None
 
             # Don't overwite booleans
-            if args.__dict__[key] is False and key in ["show_splunk_app_password", "mock", "interactive_failure"]:
+            if args.__dict__[key] is False and key in ["show_splunk_app_password", "mock", "no_interactive_failure", "interactive"]:
                 del args.__dict__[key]
             # Don't overwrite other values
             elif args.__dict__[key] is None and key in ["splunkbase_username", "branch", "commit_hash",

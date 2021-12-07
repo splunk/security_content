@@ -26,7 +26,12 @@ setup_schema = {
             "default": "latest"
         },
 
-        "interactive_failure": {
+        "no_interactive_failure": {
+            "type": "boolean",
+            "default": False
+        },
+
+        "interactive": {
             "type": "boolean",
             "default": False
         },

@@ -70,7 +70,7 @@ def ensure_security_content(branch: str, commit_hash: str, pr_number: Union[int,
               "We will not check out the repo again. Please be aware, this could cause issues if you're "
               "out of date. ******")
         github_service = GithubService(
-            branch, commit_hash, existing_directory=persist_security_content)
+            branch, commit_hash, persist_security_content=persist_security_content)
 
     else:
         if persist_security_content is True and not os.path.exists("security_content"):
@@ -160,11 +160,11 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
             print("Error downloading the Splunk Packaging Toolkit: [%s].\n\tQuitting..." %
                   (str(e)), file=sys.stderr)
             sys.exit(1)
-
+        print(os.getcwd())
         commands = ["rm -rf slim_packaging/slim_latest",
                     "mkdir slim_packaging/slim_latest",
                     "cd slim_packaging",
-                    "tar -zxf splunk-packaging-toolkit-latest.tar.gz -C slim_latest --strip-components=1",
+                    "tar -zxf ../splunk-packaging-toolkit-latest.tar.gz -C slim_latest --strip-components=1",
                     "cd slim_latest",
                     "virtualenv --python=/usr/bin/python2.7 --clear .venv",
                     ". ./.venv/bin/activate",
@@ -323,7 +323,10 @@ def main(args: list[str]):
             settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
         settings['commit_hash'] = github_service.commit_hash
     except Exception as e:
-        print("Failure checking out git repository:\n\t\n\tHash: [%s]\n\tBranch: [%s]\n\tPR: [%s]\n\tQuitting"%
+        print("\nFailure checking out git repository:"\
+              "\n\tHash:   [%s]"\
+              "\n\tBranch: [%s]"\
+              "\n\tPR:     [%s]\n\tQuitting"%
               (settings['commit_hash'],settings['branch'],settings['pr_number']),file=sys.stderr)
         sys.exit(1)
 
@@ -342,6 +345,8 @@ def main(args: list[str]):
         print("Error getting test files:\n%s"%(str(e)), file=sys.stderr)
         print("\tQuitting...", file=sys.stderr)
         sys.exit(1)
+
+    print("***This run will test [%d] detections!***"%(len(all_test_files)))
 
     #Set up the directory that will be used to store the local apps/apps we build
     local_volume_absolute_path = os.path.abspath(
@@ -420,7 +425,8 @@ def main(args: list[str]):
                                             splunkbase_username=settings['splunkbase_username'],
                                             splunkbase_password=settings['splunkbase_password'],
                                             reuse_image=settings['reuse_image'],
-                                            interactive_failure=settings['interactive_failure'])
+                                            interactive_failure=not settings['no_interactive_failure'],
+                                            interactive=settings['interactive'])
 
     result = cm.run_test()
     

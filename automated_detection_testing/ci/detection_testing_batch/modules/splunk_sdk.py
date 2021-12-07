@@ -141,7 +141,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
         return test_results
 
 
-def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:bool, search_string:str, detection_filename:str)->bool:
+def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str)->bool:
     
     try:
         service = client.connect(
@@ -155,10 +155,10 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
 
     #splunk_search = 'search index=test* | delete'
     if wait_on_delete:
-        print("\n\n\n****SEARCH FAILURE: Allowing time to debug search****")
+        print(wait_on_delete['message'])
         print("FILENAME : [%s]"%(detection_filename))
         print("SEARCH   :\n%s"%(search_string))
-        _ = input("****************Press ENTER to DELETE****************\n\n\n")
+        _ = input("****************Press ENTER to Complete Test and DELETE data****************\n\n\n")
     splunk_search = 'search index=main | delete'
     kwargs = {"exec_mode": "blocking",
               "dispatch.earliest_time": "-1d",

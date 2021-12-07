@@ -14,7 +14,8 @@ from os.path import relpath
 from tempfile import mkdtemp
 
 
-def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, test_file:str, attack_data_root_folder, wait_on_failure:bool=False)->dict:
+def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, 
+                           test_file:str, attack_data_root_folder, wait_on_failure:bool=False, wait_on_completion:bool=False)->dict:
     
     uuid_var = str(uuid.uuid4())
     result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, uuid_var, attack_data_root_folder)
@@ -28,9 +29,11 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
     
     #search failed if there was an error or the detection failed to produce the expected result
     if wait_on_failure and (result_test['detection_result']['error'] or not result_test['detection_result']['success']):
-        wait_on_delete = True
+        wait_on_delete = {'message':"\n\n\n****SEARCH FAILURE: Allowing time to debug search/data****"}
+    elif wait_on_completion:
+        wait_on_delete = {'message':"\n\n\n****SEARCH SUCCESS: Allowing time to examine search/data****"}
     else:
-        wait_on_delete = False
+        wait_on_delete = None
     
     splunk_sdk.delete_attack_data(splunk_ip, splunk_password, splunk_port, wait_on_delete, search_string, test_file)
    
@@ -142,3 +145,22 @@ def update_ESCU_app(container_name, splunk_password):
     print("Successfully updated the ESCU App!")
 
 
+def replay_attack_dataset(container_name, splunk_password, folder_name, index, sourcetype, source, out):
+    ansible_vars = {}
+    ansible_vars['folder_name'] = folder_name
+    ansible_vars['ansible_user'] = 'ansible'
+    ansible_vars['splunk_password'] = splunk_password
+    ansible_vars['out'] = out
+    ansible_vars['sourcetype'] = sourcetype
+    ansible_vars['source'] = source
+    ansible_vars['index'] = index
+    envvars = {"ANSIBLE_STDOUT_CALLBACK": "community.general.null"}
+    cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
+    
+    print("ABOUT TO RUN PLAYBOOK WITH SUPPRESSED OUTPUT")    
+    runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
+                                cmdline=cmdline,
+                                roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
+                                playbook=os.path.join(os.path.dirname(__file__), '../ansible/attack_replay.yml'),
+                                extravars=ansible_vars, envvars=envvars)
+    

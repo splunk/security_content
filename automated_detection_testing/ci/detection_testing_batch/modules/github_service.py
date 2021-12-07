@@ -22,14 +22,16 @@ SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
 class GithubService:
 
-    def __init__(self, security_content_branch: str, commit_hash: str, PR_number: int = None, existing_directory: bool = False):
+    def __init__(self, security_content_branch: str, commit_hash: str, PR_number: int = None, persist_security_content: bool = False):
 
         self.security_content_branch = security_content_branch
-        if existing_directory:
-            return
-        print("Checking out security_content!")
-        self.security_content_repo_obj = self.clone_project(
-            SECURITY_CONTENT_URL, f"security_content", f"develop")
+        if persist_security_content:
+            print("Getting handle on existing security_content repo!")
+            self.security_content_repo_obj = git.Repo("security_content")
+        else:
+            print("Checking out security_content repo!")            
+            self.security_content_repo_obj = self.clone_project(
+                SECURITY_CONTENT_URL, f"security_content", f"develop")
 
         if commit_hash is not None and PR_number is not None:
             print("Error - both the PR number [%d] and the commit hash [%s] were provided.  "
@@ -50,6 +52,7 @@ class GithubService:
         else:
             print("Checking out branch: [%s]..." %
                   (security_content_branch), end='')
+            sys.stdout.flush()
             self.security_content_repo_obj.git.checkout(
                 security_content_branch)
             commit_hash = self.security_content_repo_obj.head.object.hexsha

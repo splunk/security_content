@@ -38,7 +38,8 @@ class ContainerManager:
         splunkbase_username: Union[str, None] = None,
         splunkbase_password: Union[str, None] = None,
         reuse_image:bool = True,
-        interactive_failure:bool=False
+        interactive_failure:bool=False,
+        interactive:bool=False
 
     ):
         self.synchronization_object = test_driver.TestDriver(
@@ -74,7 +75,8 @@ class ContainerManager:
             splunkbase_password,
             files_to_copy_to_container,
             reuse_image,
-            interactive_failure
+            interactive_failure,
+            interactive
         )
         self.summary_thread = threading.Thread(target=self.queue_status_thread,args=())
 
@@ -142,7 +144,8 @@ class ContainerManager:
         splunkbase_password: Union[str, None] = None,
         files_to_copy_to_container: OrderedDict = OrderedDict(),
         reuse_image:bool = True,
-        interactive_failure:bool = True
+        interactive_failure:bool = False,
+        interactive:bool = False
     ) -> list[splunk_container.SplunkContainer]:
         #First make sure that the image exists and has been downloaded
         self.setup_image(reuse_image, full_docker_hub_name)
@@ -170,7 +173,8 @@ class ContainerManager:
                     self.mounts,
                     splunkbase_username,
                     splunkbase_password,
-                    interactive_failure=interactive_failure
+                    interactive_failure=interactive_failure,
+                    interactive=interactive
                 )
             )
 
@@ -209,7 +213,7 @@ class ContainerManager:
         password = "".join(password_list)
         return password
 
-    def queue_status_thread(self)->None:
+    def queue_status_thread(self, status_interval:int=60)->None:
         #This will run fo
         while True:
             if self.synchronization_object.checkContainerFailure():
@@ -223,7 +227,7 @@ class ContainerManager:
                 #There are no more tests to run, so we can return from this thread
                 print("return from queue status thread")
                 return None
-            time.sleep(10)
+            time.sleep(status_interval)
 
     def setup_image(self, reuse_images: bool, container_name: str) -> None:
         client = docker.client.from_env()
