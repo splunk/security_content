@@ -19,6 +19,7 @@ tags:
   - Execution
   - Lateral Movement
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -31,7 +32,7 @@ An attacker may use LOLBAS tools spawned from vulnerable applications not typica
 
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-05-20
 - **Author**: Peter Gael, Splunk; Ignacio Bermudez Corrales, Splunk
 - **ID**: cf090c78-bcc6-11eb-8529-0242ac130003

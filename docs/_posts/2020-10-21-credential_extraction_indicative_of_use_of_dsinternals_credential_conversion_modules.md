@@ -10,6 +10,7 @@ tags:
   - OS Credential Dumping
   - Credential Access
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -22,7 +23,7 @@ Credential extraction is often an illegal recovery of credential material from s
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-10-21
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 73e23834-c7ad-4860-bfd0-7d8ffe6527c2

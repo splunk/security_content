@@ -10,6 +10,7 @@ tags:
   - Gather Victim Host Information
   - Reconnaissance
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -22,7 +23,7 @@ This detection identifies use of Mimikatz modules for discovery of computers and
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-06
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 48664505-7d22-44ee-87d2-4c8a5bdc3d14

@@ -54,6 +54,7 @@ This search is to detect a execution of jscript using cscript process. Commonly 
 
 #### Associated Analytic Story
 * [FIN7](/stories/fin7)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

@@ -27,7 +27,7 @@ sidebar:
 | [F5 TMUI RCE CVE-2020-5902](/stories/f5_tmui_rce_cve-2020-5902/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [HAFNIUM Group](/stories/hafnium_group/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
 | [Ingress Tool Transfer](/stories/ingress_tool_transfer/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Command And Control](/tags/#command-and-control) |
-| [Lateral Movement](/stories/lateral_movement/) | [Kerberoasting](/tags/#kerberoasting) | [Credential Access](/tags/#credential-access) |
+| [Lateral Movement](/stories/lateral_movement/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | [Lateral Movement](/tags/#lateral-movement) |
 | [Malicious PowerShell](/stories/malicious_powershell/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | [Reconnaissance](/tags/#reconnaissance) |
 | [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
 | [Meterpreter](/stories/meterpreter/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) |
@@ -37,6 +37,7 @@ sidebar:
 | [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |
 | [ProxyShell](/stories/proxyshell/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
 | [SQL Injection](/stories/sql_injection/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
+| [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | [Defense Evasion](/tags/#defense-evasion) |
 | [Silver Sparrow](/stories/silver_sparrow/) | [Data Staged](/tags/#data-staged) | [Collection](/tags/#collection) |
 | [Spearphishing Attachments](/stories/spearphishing_attachments/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) |
 | [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
@@ -48,7 +49,7 @@ sidebar:
 | [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvcs/Regasm](/tags/#regsvcs/regasm) | [Defense Evasion](/tags/#defense-evasion) |
 | [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32) | [Defense Evasion](/tags/#defense-evasion) |
 | [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
-| [Suspicious WMI Use](/stories/suspicious_wmi_use/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | [Execution](/tags/#execution) |
+| [Suspicious WMI Use](/stories/suspicious_wmi_use/) | [XSL Script Processing](/tags/#xsl-script-processing) | [Defense Evasion](/tags/#defense-evasion) |
 | [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities/) | [Application Shimming](/tags/#application-shimming), [Event Triggered Execution](/tags/#event-triggered-execution) | [Privilege Escalation](/tags/#privilege-escalation) |
 | [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) |
 | [Trusted Developer Utilities Proxy Execution](/stories/trusted_developer_utilities_proxy_execution/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution) | [Defense Evasion](/tags/#defense-evasion) |

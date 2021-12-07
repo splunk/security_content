@@ -15,6 +15,7 @@ tags:
   - System Services
   - Execution
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -27,7 +28,7 @@ This detection identifies access to PowerSploit modules that enable illegal cont
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-11-09
 - **Author**: Stanislav Miskovic, Splunk
 - **ID**: 0e910e5b-309d-4bc3-8af2-0030c02aa353
