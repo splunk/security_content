@@ -16,7 +16,7 @@ references:
 - https://book.hacktricks.xyz/linux-unix/linux-privilege-escalation-checklist
 tags:
   analytic_story:
-  - Linux Post Exploitation
+  - Linux Post-Exploitation
   dataset:
   - https://github.com/splunk/attack_data/raw/master/datasets/suspicious_behaviour/linux_post_exploitation/LinuxEnumd.txt
   kill_chain_phases:

@@ -17,7 +17,7 @@ references:
 - https://attack.mitre.org/matrices/enterprise/linux/
 tags:
   analytic_story:
-  - Linux Post Exploitation
+  - Linux Post-Exploitation
   dataset:
   - https://github.com/splunk/attack_data/raw/master/datasets/suspicious_behaviour/linux_post_exploitation/linpeasdataset.txt
   kill_chain_phases:
