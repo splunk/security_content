@@ -1,9 +1,7 @@
-from dataclasses import dataclass
-from pydantic import BaseModel, validator
+import abc
+
+from contentctl.contentctl.domain.entities.enums.enums import SecurityContentType
 
 
-@dataclass
-class SecurityContentObject(BaseModel):
-    content: dict
-
-    
+class SecurityContentObject(abc.ABC):
+    type: SecurityContentType

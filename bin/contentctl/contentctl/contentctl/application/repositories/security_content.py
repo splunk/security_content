@@ -5,9 +5,9 @@ from contentctl.contentctl.domain.entities.security_content_object import Securi
 class SecurityContentRepository(abc.ABC):
 
     @abc.abstractmethod
-    def get(self, input_path: str) -> SecurityContentObject:
+    def get(str, path: str) -> SecurityContentObject:
         pass
 
     @abc.abstractmethod
-    def save(self,security_content_obj: SecurityContentObject) -> None:
+    def convert(self, security_content_obj: SecurityContentObject) -> None:
         pass
