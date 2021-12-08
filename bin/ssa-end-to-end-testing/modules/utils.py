@@ -3,6 +3,7 @@ import logging
 import os
 import fileinput
 import re
+import io
 
 from .data_manipulation import DataManipulation
 
@@ -104,32 +105,38 @@ def replace_ssa_macros(source, sink, spl):
     return spl
 
 
-def read_data(file_path):
-    data_manipulation = DataManipulation()
-    modified_file = data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
+def read_data(file_path, sourcetype):
     data = []
-    date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
-    count = len(open(modified_file).readlines())
+    if sourcetype == "WinEventLog:Security":
+        data_manipulation = DataManipulation()
+        modified_file = data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
+        date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
+        count = len(open(modified_file).readlines())
 
-    i = 0
-    file = fileinput.input(files=modified_file)
-    event = file[0]
-    start_position = 0
+        i = 0
+        file = fileinput.input(files=modified_file)
+        event = file[0]
+        start_position = 0
 
-    for i in range(1, count):
-        line = file[i]
-        i = i + 1
-        if re.match(date_rex, line):
-            data.append(event)
-            start_position = i
-            event = line
-        else:
-            event = event + line
+        for i in range(1, count):
+            line = file[i]
+            i = i + 1
+            if re.match(date_rex, line):
+                data.append(event)
+                start_position = i
+                event = line
+            else:
+                event = event + line
 
 
-    data.append(event)
-    fileinput.close()
+        data.append(event)
+        fileinput.close()
+    elif sourcetype == "xmlwineventlog":
+        f = io.open(file_path, "r", encoding="utf-8")
+        for line in fileinput.input(files=f):
+            data.append(line)
 
+        f.close()
     return data
 
 

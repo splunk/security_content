@@ -149,7 +149,7 @@ class SSADetectionTesting:
             self.test_results["msg"] = msg
             return self.test_results
 
-        data = read_data(source)
+        data = read_data(source, sourcetype)
         LOGGER.info("Sending (%d) events" % (len(data)))
 
         assert len(data) > 0, "No events to send, skip to next test."
