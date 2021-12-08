@@ -154,13 +154,11 @@ def replay_attack_dataset(container_name, splunk_password, folder_name, index, s
     ansible_vars['sourcetype'] = sourcetype
     ansible_vars['source'] = source
     ansible_vars['index'] = index
-    envvars = {"ANSIBLE_STDOUT_CALLBACK": "community.general.null"}
-    cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
     
-    print("ABOUT TO RUN PLAYBOOK WITH SUPPRESSED OUTPUT")    
+    cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
                                 cmdline=cmdline,
                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
                                 playbook=os.path.join(os.path.dirname(__file__), '../ansible/attack_replay.yml'),
-                                extravars=ansible_vars, envvars=envvars)
+                                extravars=ansible_vars)
     

@@ -289,6 +289,7 @@ def main(args: list[str]):
             docker.client.from_env()
         except Exception as e:
             print("Error, failed to get docker client.  Is Docker Installed and Running?\n\t%s" % (str(e)))
+            sys.exit(1)
         
         credentials_needed = False
         credential_error = False

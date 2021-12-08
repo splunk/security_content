@@ -153,6 +153,10 @@ setup_schema = {
                     }
             },
             "default": {
+                "ADD-ON_FOR_LINUX_SYSMON": {
+                    "app_number": 6176,
+                    "app_version": "1.0.3"
+                },
                 "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES": {
                     "app_number": 1876,
                     "app_version": "5.2.0"

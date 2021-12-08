@@ -92,8 +92,14 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     splunk_search = search + ' ' + pass_condition
     test_results = dict()
     
+    #These will always be present. By default, we will say that the
+    #test has failed AND there was an error (until they are set otherwise)
     test_results['search_string'] = splunk_search
+    test_results['detection_name'] = detection_name
+    test_results['detection_file'] = detection_file
     
+    test_results['success'] = False
+    test_results['error'] = True
 
     
     try:
@@ -118,19 +124,20 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     try:
         job = service.jobs.create(splunk_search, **kwargs)
     except Exception as e:
-        print("Unable to execute detection: " + str(e))
+        print("Unable to execute detection:\n%s"%(str(e)))
         test_results['error'] = True
         return test_results
 
     test_results['diskUsage'] = job['diskUsage']
     test_results['runDuration'] = job['runDuration']
-    test_results['detection_name'] = detection_name
-    test_results['detection_file'] = detection_file
     test_results['scanCount'] = job['scanCount']
     
-    
-    test_results['error'] = False #The search may have FAILED, but there was no error in the search
+    #If we get this far, then there was not an error
+    #The search may have FAILED, but there was no error in the search
+    test_results['error'] = False 
 
+
+    #Should this be 1 for a pass, or should it be greater than 0?
     if int(job['resultCount']) != 1:
         #print("Test failed for detection: " + detection_name)
         test_results['success'] = False

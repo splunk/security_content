@@ -221,11 +221,11 @@ class ContainerManager:
                 for container in self.containers:
                     container.stopContainer()
                 print("All containers stopped")
-                print("return from queue status thread")
+                
                 return None
             if self.synchronization_object.summarize() == False:
                 #There are no more tests to run, so we can return from this thread
-                print("return from queue status thread")
+                
                 return None
             time.sleep(status_interval)
 
