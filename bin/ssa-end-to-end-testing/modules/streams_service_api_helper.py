@@ -429,7 +429,7 @@ class DSPApi:
         return preview_id
 
 
-    def ingest_data(self, data):
+    def ingest_data(self, data, sourcetype):
         """
         Send events
 
@@ -443,9 +443,11 @@ class DSPApi:
         response
             response body in JSON format
         """
+        if sourcetype == "WinEventLog:Security":
+            sourcetype = "WinEventLog"
         data = [{
             "body": event,
-            "sourcetype": "WinEventLog"
+            "sourcetype": sourcetype
             } for event in data]
         response = requests.post(self.return_api_endpoint(INGEST_ENDPOINT), json=data, headers=request_headers(self.header_token))
         if response.status_code != HTTPStatus.OK:

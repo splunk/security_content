@@ -1,5 +1,6 @@
 import logging
 import os
+from re import S
 import time
 import sys
 import uuid
@@ -70,6 +71,7 @@ class SSADetectionTesting:
         test_id = str(uuid.uuid4())
         test_results = self.ssa_detection_test(test_obj["detection_obj"]["search"], file_path_attack_data,
                                                "SSA Smoke Test " + test_obj["test_obj"]["name"], test_id,
+                                               test_obj['test_obj']['tests'][0]['attack_data'][0]['source'],
                                                test_obj['test_obj']['tests'][0]['pass_condition'])
 
         return test_results
@@ -113,7 +115,7 @@ class SSADetectionTesting:
                 else:
                     LOGGER.warning("Found and deleted an old pipeline: %s", pipeline['name'])
 
-    def ssa_detection_test_main(self, spl, source, test_name, pass_condition, test_id):
+    def ssa_detection_test_main(self, spl, source, test_name, pass_condition, test_id, sourcetype):
         self.execution_passed = True
 
         self.wait_time(SLEEP_TIME_CREATE_INDEX)
@@ -152,7 +154,7 @@ class SSADetectionTesting:
 
         assert len(data) > 0, "No events to send, skip to next test."
 
-        data_uploaded = self.api.ingest_data(data)
+        data_uploaded = self.api.ingest_data(data, sourcetype)
         assert data_uploaded, "Failed to upload test data"
 
         self.wait_time(SLEEP_TIME_SEND_DATA)
@@ -212,10 +214,10 @@ class SSADetectionTesting:
         else:
             LOGGER.info("Testing successfully cleaned up")
 
-    def ssa_detection_test(self, spl, source, test_name, test_id, pass_condition='@count_gt(0)'):
+    def ssa_detection_test(self, spl, source, test_name, test_id, sourcetype, pass_condition='@count_gt(0)'):
         self.ssa_detection_test_init()
         try:
-            test_result = self.ssa_detection_test_main(spl, source, test_name, pass_condition, test_id)
+            test_result = self.ssa_detection_test_main(spl, source, test_name, pass_condition, test_id, sourcetype)
             self.ssa_detection_test_teardown()
             return test_result
         except AssertionError as e:
