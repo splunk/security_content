@@ -2,14 +2,14 @@ name: Domain Account Discovery with Wmic
 id: 383572e0-04c5-11ec-bdcc-acde48001122
 version: 1
 date: '2021-08-24'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This search is to detect a wmic command for enumerating user in active
-  directory. This technique was commonly used in pentesting, red-team and also by
-  some attacker to map all user in the targetted host. This search may also catch
-  this type of query made by network admin but not common in all the user in the network.
+description: This analytic looks for the execution of `wmic.exe` with command-line
+  arguments utilized to query for domain users. Red Teams and adversaries alike use
+  wmic.exe to enumerate domain users for situational awareness and Active Directory
+  Discovery.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name="wmic.exe"
   AND Processes.process = "*/NAMESPACE:\\\\root\\directory\\ldap*" AND Processes.process
@@ -22,9 +22,9 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: network admin may execute this command for listing users.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
-- https://jpcertcc.github.io/ToolAnalysisResultSheet/details/dsquery.htm
+- https://attack.mitre.org/techniques/T1087/002/
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -41,6 +41,7 @@ tags:
   message: an instance of process $process_name$ with commandline $process$ in $dest$
   mitre_attack_id:
   - T1087.002
+  - T1087
   observable:
   - name: user
     type: User

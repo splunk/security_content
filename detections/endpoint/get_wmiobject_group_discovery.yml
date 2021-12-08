@@ -30,12 +30,30 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.001/atomic_red_team/windows-sysmon.log
+  impact: 30
   kill_chain_phases:
   - Reconnaissance
+  message: System group discovery on $dest$ by $user$.
   mitre_attack_id:
+  - T1069
   - T1069.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -53,22 +71,5 @@ tags:
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 30
-  confidence: 50
   risk_score: 15
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Recon
-  message: System group discovery on $dest$ by $user$.
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

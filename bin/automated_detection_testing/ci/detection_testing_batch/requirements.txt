@@ -1,4 +1,4 @@
-ansible==2.9.20
+ansible==4.2.0
 ansible-runner==1.4.4
 attackcti==0.3.4.3
 boto3==1.11.0
@@ -7,6 +7,7 @@ Jinja2==3.0.0
 PyYAML==5.4
 requests==2.25.1
 six==1.16.0
+
 splunk-sdk==1.6.12
 splunk-packaging-toolkit==1.0.1
 #newest version of docker for managing the splunk containers

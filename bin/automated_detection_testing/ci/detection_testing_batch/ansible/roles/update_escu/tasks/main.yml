@@ -14,11 +14,19 @@
     group: splunk
   become: yes
 
+
 - name: restart containerized splunk
   ansible.builtin.shell: /opt/splunk/bin/splunk restart
   become: yes
-#- name: restart splunk
-#  service:
-#    name: splunkd
-#    state: restarted
-#  become: yes
+- name: restart splunk
+  service:
+    name: splunkd
+    state: restarted
+  become: yes
+
+- name: restart splunk
+  service:
+    name: splunkd
+    state: restarted
+  become: yes
+

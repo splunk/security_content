@@ -17,12 +17,24 @@ from pathlib import Path
 from os import path, walk
 
 
-def validate_schema(REPO_PATH, type, objects, verbose):
+def validate_schema(REPO_PATH, detection_type, objects, verbose):
+    #Default regex does NOT match ssa___*.yml files: "^(?!ssa___).*\.yml$"
+    #The following search will match ssa___*.yml files: "^ssa___.*\.yml$"
+    if detection_type.startswith("ba_"):
+        filename_regex = "^ssa___.*\.yml$"
+    else:
+        filename_regex = "^(?!ssa___).*\.yml$"
+        
+    
 
     error = False
     errors = []
 
-    schema_file = path.join(path.expanduser(REPO_PATH), 'spec/' + type + '.spec.json')
+    schema_file = path.join(path.expanduser(REPO_PATH), 'spec/' + detection_type + '.spec.json')
+    #remove the prefix if the detection type starts with ba_ so we can
+    #get the files from the proper folders and proceed correctly
+    if detection_type.startswith("ba_"):
+        detection_type = detection_type[3:]
 
     try:
         schema = json.loads(open(schema_file, 'rb').read())
@@ -30,11 +42,10 @@ def validate_schema(REPO_PATH, type, objects, verbose):
         print("ERROR: reading schema file {0}".format(schema_file))
 
     manifest_files = []
-    for root, dirs, files in walk(REPO_PATH + "/" + type):
+    for root, dirs, files in walk(REPO_PATH + "/" + detection_type):
         for file in files:
-            if file.endswith(".yml"):
+            if re.search(filename_regex, path.basename(file)) is not None:
                 manifest_files.append((path.join(root, file)))
-
     for manifest_file in manifest_files:
         if verbose:
             print("processing manifest {0}".format(manifest_file))
@@ -54,13 +65,13 @@ def validate_schema(REPO_PATH, type, objects, verbose):
             errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(schema_error.message), manifest_file))
             error = True
 
-        if type in objects:
-            objects[type].append(object)
+        if detection_type in objects:
+            objects[detection_type].append(object)
         else:
             arr = []
             arr.append(object)
-            objects[type] = arr
-
+            objects[detection_type] = arr
+    print("***END OF VALIDATE SCHEMA ***")
     return objects, error, errors
 
 
@@ -73,7 +84,7 @@ def validate_objects(REPO_PATH, objects, verbose):
     for lookup in objects['lookups']:
         errors = errors + validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
-    objects_array = objects['stories'] + objects['detections'] + objects['response_tasks'] + objects['responses']
+    objects_array = objects['stories'] + objects['detections'] 
     for object in objects_array:
         validation_errors, uuids = validate_standard_fields(object, uuids)
         errors = errors + validation_errors
@@ -244,7 +255,8 @@ def validate_tests(REPO_PATH, object):
 
 def main(REPO_PATH, verbose):
 
-    validation_objects = ['macros','lookups','stories','detections','response_tasks','responses','deployments', 'tests']
+    validation_objects = ['macros','lookups','stories','detections', 'ba_detections','deployments', 'tests']
+    
 
     objects = {}
     schema_error = False
@@ -272,8 +284,7 @@ def main(REPO_PATH, verbose):
 if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
-        Validates security manifest for correctness, adhering to spec and other common items.
-        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
+        Validates security manifest for correctness, adhering to spec and other common items.""")
     parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
     parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
     # parse them

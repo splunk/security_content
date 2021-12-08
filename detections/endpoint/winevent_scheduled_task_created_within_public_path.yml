@@ -47,6 +47,7 @@ tags:
   - Ransomware
   - Ryuk Ransomware
   - IcedID
+  - Lateral Movement
   automated_detection_testing: passed
   confidence: 100
   context:
@@ -63,6 +64,7 @@ tags:
     by the following command: $Command$'
   mitre_attack_id:
   - T1053.005
+  - T1053
   observable:
   - name: dest
     type: Endpoint

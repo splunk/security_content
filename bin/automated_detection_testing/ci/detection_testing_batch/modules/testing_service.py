@@ -1,4 +1,6 @@
+
 import re
+
 import ansible_runner
 import yaml
 import uuid
@@ -61,6 +63,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     #The ansible playbook wants the relative path, so we convert it as required
     folder_name = relpath(abs_folder_path, os.getcwd())
 
+
     for attack_data in test_file_obj['tests'][0]['attack_data']:
         url = attack_data['data']
         r = requests.get(url, allow_redirects=True)
@@ -68,6 +71,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
         with open(target_file, 'wb') as target:
             target.write(r.content)
         #print(target_file)
+
 
         # Update timestamps before replay
         if 'update_timestamp' in attack_data:
@@ -82,6 +86,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     result_test = {}
     test = test_file_obj['tests'][0]
     
+
     if 'baselines' in test:
         results_baselines = []
         for baseline_obj in test['baselines']:
@@ -107,17 +112,19 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
 
 
+
     result_detection['detection_name'] = test['name']
     result_detection['detection_file'] = test['file']
     result_test['detection_result'] = result_detection
     result_test['attack_data_directory'] = abs_folder_path
+
 
     return result_test
 
 
 def load_file(file_path):
     try:
-        
+
         with open(file_path, 'r', encoding="utf-8") as stream:
             try:
                 file = list(yaml.safe_load_all(stream))[0]
@@ -137,6 +144,7 @@ def update_ESCU_app(container_name, splunk_password):
     ansible_vars['security_content_path'] = 'security_content'
     
     cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
+
     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
                                 cmdline=cmdline,
                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
@@ -149,16 +157,18 @@ def replay_attack_dataset(container_name, splunk_password, folder_name, index, s
     ansible_vars = {}
     ansible_vars['folder_name'] = folder_name
     ansible_vars['ansible_user'] = 'ansible'
+
     ansible_vars['splunk_password'] = splunk_password
     ansible_vars['out'] = out
     ansible_vars['sourcetype'] = sourcetype
     ansible_vars['source'] = source
     ansible_vars['index'] = index
+
     
     cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
+
     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
                                 cmdline=cmdline,
                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
                                 playbook=os.path.join(os.path.dirname(__file__), '../ansible/attack_replay.yml'),
                                 extravars=ansible_vars)
-    

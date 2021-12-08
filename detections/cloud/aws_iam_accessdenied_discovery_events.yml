@@ -1,7 +1,7 @@
 name: AWS IAM AccessDenied Discovery Events
 id: 3e1f1568-9633-11eb-a69c-acde48001122
-version: 1
-date: '2021-04-05'
+version: 2
+date: '2021-11-12'
 author: Michael Haag, Splunk
 type: Anomaly
 datamodel: []
@@ -11,10 +11,9 @@ description: The following detection identifies excessive AccessDenied events wi
   is not available with the key stolen therefore these events will be generated.
 search: '`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
   | bucket _time span=1h | stats count as failures min(_time) as firstTime max(_time)
-  as lastTime, dc(eventName) as methods, dc(eventSource) as sources values(userIdentity.arn)
-  by src_ip, userIdentity.arn, _time | where failures >= 5 and methods >= 1 and sources
-  >= 1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `aws_iam_accessdenied_discovery_events_filter`'
+  as lastTime, dc(eventName) as methods, dc(eventSource) as sources by src_ip, userIdentity.arn,
+  _time | where failures >= 5 and methods >= 1 and sources >= 1 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `aws_iam_accessdenied_discovery_events_filter`'
 how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
   this data. The search requires AWS Cloudtrail logs.
 known_false_positives: It is possible to start this detection will need to be tuned

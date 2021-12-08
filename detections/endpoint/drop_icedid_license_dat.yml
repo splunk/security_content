@@ -16,7 +16,7 @@ search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFi
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+  Sysmon TA.
 known_false_positives: unknown
 references:
 - https://www.cisecurity.org/white-papers/security-primer-icedid/
@@ -35,6 +35,7 @@ tags:
   - Exploitation
   message: process $SourceImage$ create a file $TargetImage$ in host $Computer$
   mitre_attack_id:
+  - T1204
   - T1204.002
   observable:
   - name: Computer

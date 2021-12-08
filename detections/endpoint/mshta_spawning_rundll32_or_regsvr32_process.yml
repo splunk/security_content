@@ -1,6 +1,6 @@
 name: Mshta spawning Rundll32 OR Regsvr32 Process
 id: 4aa5d062-e893-11eb-9eb2-acde48001122
-version: 1
+version: 2
 date: '2021-07-19'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -12,14 +12,15 @@ description: This search is to detect a suspicious mshta.exe process that spawn 
   trickbot payload.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  = "mshta.exe"  (Processes.process_name=rundll32.exe OR Processes.process_name=regsvr32.exe)
-  by Processes.parent_process Processes.process_name Processes.process Processes.process_id
-  Processes.process_guid Processes.user Processes.dest | `drop_dm_object_name("Processes")`
-  | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `mshta_spawning_rundll32_or_regsvr32_process_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed mshta.exe may be used.
+  = "mshta.exe"  `process_rundll32` OR `process_regsvr32` by Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.process_guid
+  Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `mshta_spawning_rundll32_or_regsvr32_process_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: limitted. this anomaly behavior is not commonly seen in clean
   host.
 references:
@@ -28,6 +29,7 @@ tags:
   analytic_story:
   - Trickbot
   - IcedID
+  automated_detection_testing: passed
   confidence: 80
   context:
   - source:endpoint
@@ -40,6 +42,7 @@ tags:
   message: a mshta parent process $parent_process_name$ spawn child process $process_name$
     in host $dest$
   mitre_attack_id:
+  - T1218
   - T1218.005
   observable:
   - name: dest
@@ -56,10 +59,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - parent_process
-  - process_name
-  - process
-  - process_id
-  - process_guid
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint

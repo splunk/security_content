@@ -4,6 +4,7 @@ import splunklib.results as results
 import splunklib.client as client
 import splunklib.results as results
 import requests
+
 from typing import Union
 
 def enable_delete_for_admin(splunk_host, splunk_port, splunk_password):
@@ -42,6 +43,7 @@ def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
         
 
+
     # search and replace \\ with \\\
     # search = search.replace('\\','\\\\')
 
@@ -79,6 +81,7 @@ def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass
         return test_results
 
 
+
 def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str, search:str, pass_condition:str, detection_name:str, detection_file:str, earliest_time:str, latest_time:str)->dict:
     if search.startswith('|'):
         search = search
@@ -106,6 +109,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
         service = client.connect(
             host=splunk_host,
             port=splunk_port,
+
             username='admin',
             password=splunk_password
         )
@@ -114,6 +118,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
         test_results['error'] = True
         return test_results
 
+
     # search and replace \\ with \\\
     # search = search.replace('\\','\\\\')
 
@@ -121,9 +126,11 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
 
     print("SEARCH: %s"%(splunk_search))
 
+
     try:
         job = service.jobs.create(splunk_search, **kwargs)
     except Exception as e:
+
         print("Unable to execute detection:\n%s"%(str(e)))
         test_results['error'] = True
         return test_results
@@ -154,10 +161,12 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
         service = client.connect(
             host=splunk_host,
             port=splunk_port,
+
             username='admin',
             password=splunk_password
         )
     except Exception as e:
+
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
 
     #splunk_search = 'search index=test* | delete'
@@ -167,6 +176,7 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
         print("SEARCH   :\n%s"%(search_string))
         _ = input("****************Press ENTER to Complete Test and DELETE data****************\n\n\n")
     splunk_search = 'search index=main | delete'
+
     kwargs = {"exec_mode": "blocking",
               "dispatch.earliest_time": "-1d",
               "dispatch.latest_time": "now"}

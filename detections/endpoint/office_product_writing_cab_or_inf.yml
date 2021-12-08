@@ -36,12 +36,32 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
+  automated_detection_testing: passed
+  confidence: 100
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
+  cve:
+  - CVE-2021-40444
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_cabinf.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: An instance of $process_name$ was identified on $dest$ writing an inf or
+    cab file to this. This is not typical of $process_name$.
   mitre_attack_id:
+  - T1566
   - T1566.001
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -54,22 +74,5 @@ tags:
   - file_create_time
   - file_name
   - file_path
-  security_domain: endpoint
-  impact: 80
-  confidence: 100
   risk_score: 80
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: An instance of $process_name$ was identified on $dest$ writing an inf or
-    cab file to this. This is not typical of $process_name$.
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-  automated_detection_testing: passed
+  security_domain: endpoint

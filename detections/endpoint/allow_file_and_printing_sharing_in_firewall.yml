@@ -1,6 +1,6 @@
 name: Allow File And Printing Sharing In Firewall
 id: ce27646e-d411-11eb-8a00-acde48001122
-version: 1
+version: 2
 date: '2021-06-23'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -10,16 +10,17 @@ description: This search is to detect a suspicious modification of firewall to a
   file and printer sharing. This technique was seen in ransomware to be able to discover
   more machine connected to the compromised host to encrypt more files
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=netsh.exe
-  Processes.process= "*firewall*" Processes.process= "*group=\"File and Printer Sharing\"*"  Processes.process="*enable=Yes*"
+  as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process=
+  "*firewall*" Processes.process= "*group=\"File and Printer Sharing\"*"  Processes.process="*enable=Yes*"
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id Processes.parent_process_name
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `allow_file_and_printing_sharing_in_firewall_filter`'
+  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `allow_file_and_printing_sharing_in_firewall_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: network admin may modify this firewall feature that may cause
   this rule to be triggered.
 references:
@@ -35,6 +36,7 @@ tags:
   - Exploitation
   mitre_attack_id:
   - T1562.007
+  - T1562
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -43,10 +45,13 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
+  - Processes.parent_process_name
   - Processes.parent_process
+  - Processes.original_file_name
   - Processes.process_name
   - Processes.process
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
   - Processes.parent_process_id
-  - Processes.parent_process_name
   security_domain: endpoint

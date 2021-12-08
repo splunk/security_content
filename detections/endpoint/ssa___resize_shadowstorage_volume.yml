@@ -1,17 +1,13 @@
 name: Resize Shadowstorage Volume
 id: dbc30554-d27e-11eb-9e5e-acde48001122
-version: 1
-date: '2021-06-21'
+version: 3
+date: '2021-11-30'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
-- Endpoint
-description: The following analytics identifies the resizing of shadowstorage by ransomware
-  malware to avoid the shadow volumes being made again. this technique is an alternative
-  by ransomware attacker than deleting the shadowstorage which is known alert in defensive
-  team. one example of ransomware that use this technique is CLOP ransomware where
-  it drops a .bat file that will resize the shadowstorage to minimum size as much
-  as possible
+- Endpoint_Processes
+description: The following analytic identifies the resizing of shadowstorage using vssadmin.exe to avoid the shadow volumes being made again. This technique is typically found used by adversaries during a ransomware event 
+  and a precursor to deleting the shadowstorage. 
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,
   "_time"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),
   "string", null)), process_name=lower(ucast(map_get(input_event, "process_name"),
@@ -29,7 +25,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: network admin can resize the shadowstorage for valid purposes.
+known_false_positives: System administrators may resize the shadowstorage for valid purposes. Filter as needed.
 references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
@@ -37,12 +33,43 @@ tags:
   analytic_story:
   - Clop Ransomware
   - Ransomware
+  cis20:
+  - CIS 10
+  - CIS 13
+  confidence: 80
+  context:
+  - Source:Endpoint
+  - stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to create a shadow
+    copy to perform offline password cracking.
   mitre_attack_id:
   - T1489
+  nist:
+  - PR.DS
+  - PR.IP
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   product:
   - Splunk Behavioral Analytics
   required_fields:
@@ -53,4 +80,7 @@ tags:
   - process_path
   - dest_user_id
   - process
+  - cmd_line
+  risk_score: 64
+  risk_severity: high
   security_domain: endpoint

@@ -47,6 +47,7 @@ tags:
     to disk. This behavior is related to dumping credentials via Task Manager.
   mitre_attack_id:
   - T1003.001
+  - T1003
   nist:
   - DE.CM
   observable:

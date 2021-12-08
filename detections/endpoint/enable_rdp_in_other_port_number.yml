@@ -13,13 +13,13 @@ description: This search is to detect a modification to registry to enable rdp t
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
   as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path="*HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal
-  Server\\WinStations\\RDP-Tcp*" Registry.registry_key_name = "PortNumber" by Registry.dest
+  Server\\WinStations\\RDP-Tcp*" Registry.registry_value_name = "PortNumber" by Registry.dest
   Registry.user Registry.registry_value_name | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `enable_rdp_in_other_port_number_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+  Sysmon TA.
 known_false_positives: unknown
 references:
 - https://www.mvps.net/docs/how-to-secure-remote-desktop-rdp/

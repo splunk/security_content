@@ -35,10 +35,15 @@ references:
 tags:
   analytic_story:
   - Credential Dumping
+  automated_detection_testing: passed
   confidence: 100
   context:
   - Source:Endpoint
   - Stage:Defense Evasion
+  cve:
+  - CVE-2021-36934
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/serioussam/windows-powershell.log
   impact: 80
   kill_chain_phases:
   - Exploitation
@@ -46,6 +51,7 @@ tags:
     $ComputerName$ by user $user$.
   mitre_attack_id:
   - T1003.002
+  - T1003
   observable:
   - name: user
     type: User
@@ -68,6 +74,3 @@ tags:
   - EventCode
   risk_score: 80
   security_domain: endpoint
-  automated_detection_testing: passed
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.002/serioussam/windows-powershell.log

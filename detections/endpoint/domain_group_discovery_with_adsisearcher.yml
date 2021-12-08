@@ -24,12 +24,26 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  automated_detection_testing: passed
+  confidence: 60
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell.log
+  impact: 30
   kill_chain_phases:
   - Reconnaissance
+  message: Domain group discovery enumeration using PowerShell on $dest$ by $user$
   mitre_attack_id:
+  - T1069
   - T1069.002
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -40,18 +54,5 @@ tags:
   - Message
   - ComputerName
   - User
-  security_domain: endpoint
-  impact: 30
-  confidence: 60
   risk_score: 18
-  context:
-  - Source:Endpoint
-  - Stage:Discovery
-  - Stage:Recon
-  message: Domain group discovery enumeration using PowerShell on $dest$ by $user$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

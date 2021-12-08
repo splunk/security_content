@@ -2,15 +2,14 @@ name: Get ADUser with PowerShell
 id: 0b6ee3f4-04e3-11ec-a87d-acde48001122
 version: 1
 date: '2021-08-24'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Mauricio Velazco, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: This search is to detect a suspicious commandline that commonly uses
-  for enumerating users in active directory. This  technique can be a good indicator
-  to hunt further TTPs to the machine to check further anomalies. Since this is a
-  hunt query expect some noise from administrator or some IT within the network that
-  may use this command.
+description: This analytic looks for the execution of `powershell.exe` with command-line
+  arguments utilized to enumerate domain users. The `Get-AdUser' commandlet returns
+  a list of all domain users. Red Teams and adversaries alike may use this commandlet
+  to identify remote systems for situational awareness and Active Directory Discovery.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="cmd.exe"
   OR Processes.process_name="powershell*") AND Processes.process = "*Get-ADUser*"
@@ -22,9 +21,11 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: network admin may use this command.
+known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
-- https://jpcertcc.github.io/ToolAnalysisResultSheet/details/dsquery.htm
+- https://www.blackhillsinfosec.com/red-blue-purple/
+- https://attack.mitre.org/techniques/T1087/002/
+- https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-aduser?view=windowsserver2019-ps
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -41,6 +42,7 @@ tags:
   message: an instance of process $process_name$ with commandline $process$ in $dest$
   mitre_attack_id:
   - T1087.002
+  - T1087
   observable:
   - name: user
     type: User

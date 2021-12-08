@@ -1,0 +1,105 @@
+---
+title: "AWS SAML Access by Provider User and Principal"
+excerpt: "Valid Accounts"
+categories:
+  - Cloud
+last_modified_at: 2021-01-26
+toc: true
+toc_label: ""
+tags:
+  - Valid Accounts
+  - Defense Evasion
+  - Persistence
+  - Privilege Escalation
+  - Initial Access
+  - Splunk Security Analytics for AWS
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+---
+
+
+
+[Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
+
+#### Description
+
+This search provides specific SAML access from specific Service Provider, user and targeted principal at AWS. This search provides specific information to detect abnormal access or potential credential hijack or forgery, specially in federated environments using SAML protocol inside the perimeter or cloud provider.
+
+- **Type**: Anomaly
+- **Product**: Splunk Security Analytics for AWS, Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
+- **Datamodel**: 
+- **Last Updated**: 2021-01-26
+- **Author**: Rod Soto, Splunk
+- **ID**: bbe23980-6019-11eb-ae93-0242ac130002
+
+
+#### [ATT&CK](https://attack.mitre.org/)
+
+| ID          | Technique   | Tactic         |
+| ----------- | ----------- |--------------- |
+| [T1078](https://attack.mitre.org/techniques/T1078/) | Valid Accounts | Defense Evasion, Persistence, Privilege Escalation, Initial Access |
+
+#### Search
+
+```
+`cloudtrail` eventName=Assumerolewithsaml 
+| stats count min(_time) as firstTime max(_time) as lastTime by requestParameters.principalArn requestParameters.roleArn requestParameters.roleSessionName recipientAccountId responseElements.issuer sourceIPAddress userAgent 
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)` 
+|`aws_saml_access_by_provider_user_and_principal_filter`
+```
+
+#### Associated Analytic Story
+* [Cloud Federated Credential Abuse](/stories/cloud_federated_credential_abuse)
+
+
+#### How To Implement
+You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
+
+#### Required field
+* _time
+* eventName
+* requestParameters.principalArn
+* requestParameters.roleArn
+* requestParameters.roleSessionName
+* recipientAccountId
+* responseElements.issuer
+* sourceIPAddress
+* userAgent
+
+
+#### Kill Chain Phase
+
+
+#### Known False Positives
+Attacks using a Golden SAML or SAML assertion hijacks or forgeries are very difficult to detect as accessing cloud providers with these assertions looks exactly like normal access, however things such as source IP sourceIPAddress user, and principal targeted at receiving cloud provider along with endpoint credential access and abuse detection searches can provide the necessary context to detect these attacks.
+
+
+#### RBA
+
+| Risk Score  | Impact      | Confidence   | Message      |
+| ----------- | ----------- |--------------|--------------|
+| 64.0 | 80 | 80 | From IP address $sourceIPAddress$, user agent $userAgent$ has trigged an event $eventName$ for account ID $recipientAccountId$ |
+
+
+
+
+#### Reference
+
+* [https://us-cert.cisa.gov/ncas/alerts/aa21-008a](https://us-cert.cisa.gov/ncas/alerts/aa21-008a)
+* [https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html](https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html)
+* [https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf](https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf)
+* [https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps](https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps)
+
+
+
+#### Test Dataset
+Replay any dataset to Splunk Enterprise by using our [`replay.py`](https://github.com/splunk/attack_data#using-replaypy) tool or the [UI](https://github.com/splunk/attack_data#using-ui).
+Alternatively you can replay a dataset into a [Splunk Attack Range](https://github.com/splunk/attack_range#replay-dumps-into-attack-range-splunk-server)
+
+* [https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json](https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json)
+
+
+
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/cloud/aws_saml_access_by_provider_user_and_principal.yml) \| *version*: **1**

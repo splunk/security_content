@@ -1,4 +1,3 @@
-
 import csv
 import glob
 import logging
@@ -13,6 +12,7 @@ import git
 import yaml
 from git.objects import base
 
+
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 LOGGER = logging.getLogger(__name__)
@@ -21,6 +21,7 @@ SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 
 
 class GithubService:
+
 
     def __init__(self, security_content_branch: str, commit_hash: str, PR_number: int = None, persist_security_content: bool = False):
 
@@ -60,10 +61,13 @@ class GithubService:
 
         self.commit_hash = commit_hash
 
+
+
     def clone_project(self, url, project, branch):
         LOGGER.info(f"Clone Security Content Project")
         repo_obj = git.Repo.clone_from(url, project, branch=branch)
         return repo_obj
+
 
     def prune_detections(self,
                          detections_to_prune: list[str],
@@ -206,10 +210,12 @@ class GithubService:
         return filenames
 
     def get_changed_test_files(self, folders=['endpoint', 'cloud', 'network'],   types_to_test=["Anomaly", "Hunting", "TTP"], previously_successful_tests=[]) -> list[str]:
+
         branch1 = self.security_content_branch
         branch2 = 'develop'
         g = git.Git('security_content')
         changed_test_files = []
+
         changed_detection_files = []
         if branch1 != 'develop':
             if self.commit_hash is None:
@@ -217,6 +223,7 @@ class GithubService:
             else:
                 differ = g.diff('--name-status', branch2 +
                                 '...' + self.commit_hash)
+
             changed_files = differ.splitlines()
 
             for file_path in changed_files:
@@ -326,3 +333,4 @@ class GithubService:
         import time
         time.sleep(5)
         return files_to_test, files_not_to_test, error_files
+

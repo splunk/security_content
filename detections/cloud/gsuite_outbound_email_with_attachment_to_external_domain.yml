@@ -27,7 +27,7 @@ references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
 tags:
   analytic_story:
-  - DevSecOps
+  - Dev Sec Ops
   confidence: 30
   context:
   - Source:Endpoint
@@ -40,6 +40,7 @@ tags:
   message: suspicious email from $source.address$ to $destination{}.address$
   mitre_attack_id:
   - T1048.003
+  - T1048
   observable:
   - name: source.address
     type: User

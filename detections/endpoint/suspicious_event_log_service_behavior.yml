@@ -46,6 +46,7 @@ tags:
   - Actions on Objectives
   message: The Windows Event Log Service shutdown on $ComputerName$
   mitre_attack_id:
+  - T1070
   - T1070.001
   nist:
   - DE.DP

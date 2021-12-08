@@ -11,12 +11,12 @@ description: The following analytic identifies the use of `reg.exe` exporting Wi
   registry hives for offline credential access attacks. Typically found executed from
   a untrusted process or script. Upon execution, a file will be written to disk.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=reg.exe
-  (Processes.process=*save* OR Processes.process=*export*) AND (Processes.process="*\sam
-  *" OR Processes.process="*\system *" OR Processes.process="*\security *") by Processes.dest
-  Processes.user Processes.parent_process Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `extraction_of_registry_hives_filter`'
+  as lastTime from datamodel=Endpoint.Processes where `process_reg` (Processes.process=*save*
+  OR Processes.process=*export*) AND (Processes.process="*\sam *" OR Processes.process="*\system
+  *" OR Processes.process="*\security *") by Processes.dest Processes.user Processes.parent_process
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `extraction_of_registry_hives_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -44,6 +44,7 @@ tags:
     credentials executed on $dest$ by user $user$, with a parent process of $parent_process_id$
   mitre_attack_id:
   - T1003.002
+  - T1003
   observable:
   - name: user
     type: User
@@ -66,10 +67,14 @@ tags:
   - _time
   - Processes.dest
   - Processes.user
+  - Processes.parent_process_name
   - Processes.parent_process
+  - Processes.original_file_name
   - Processes.process_name
   - Processes.process
   - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
   - Processes.parent_process_id
   risk_score: 56
   security_domain: endpoint

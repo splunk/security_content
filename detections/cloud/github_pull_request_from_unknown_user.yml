@@ -10,7 +10,7 @@ search: '`github` check_suite.pull_requests{}.id=* | stats count by check_suite.
   repository.full_name check_suite.pull_requests{}.head.ref check_suite.head_commit.message
   | rename check_suite.head_commit.author.name as user repository.full_name as repository
   check_suite.pull_requests{}.head.ref as ref_head check_suite.head_commit.message
-  as commit_message | search NOT `github_known_users` | `security_content_ctime(firstTime)`
+  as commit_message | search NOT `github_known_users` | eval phase="code" | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `github_pull_request_from_unknown_user_filter`'
 how_to_implement: You must index GitHub logs. You can follow the url in reference
   to onboard GitHub logs.
@@ -33,6 +33,7 @@ tags:
   message: Vulnerabilities found in packages used by GitHub repository $repository$
   mitre_attack_id:
   - T1195.001
+  - T1195
   nist:
   - PR.DS
   - PR.AC

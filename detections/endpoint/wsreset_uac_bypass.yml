@@ -12,7 +12,7 @@ description: This search is to detect a suspicious modification of registry rela
   account Control.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*"
-  (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "DelegateExecute")
+  (Registry.registry_value_name = "(Default)" OR Registry.registry_value_name = "DelegateExecute")
   by Registry.registry_path Registry.registry_key_name Registry.registry_value_name
   Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `wsreset_uac_bypass_filter`'
@@ -43,6 +43,7 @@ tags:
     path $registry_value_name$ in $dest$
   mitre_attack_id:
   - T1548.002
+  - T1548
   observable:
   - name: dest
     type: Hostname
