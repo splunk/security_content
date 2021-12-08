@@ -4,7 +4,7 @@ version: 1
 date: '2021-03-29'
 author: Philip Royer, Splunk
 type: Response
-description": This playbook acts upon events where a file has been determined to be malicious (ie webshells being dropped on an end host). Before deleting the file, we run a "more" command on the file in question to extract its contents. We then run a delete on the file in question.
+description: This playbook acts upon events where a file has been determined to be malicious (ie webshells being dropped on an end host). Before deleting the file, we run a "more" command on the file in question to extract its contents. We then run a delete on the file in question.
 playbook: delete_detected_files
 how_to_implement: This playbook reads and then deletes files stored with artifact:*.cef.filePath from hosts stored in artifact:*.cef.destinationAddress. Windows Remote Management must be enabled on the remote computer.
 references: []
