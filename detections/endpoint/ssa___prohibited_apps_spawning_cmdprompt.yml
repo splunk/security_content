@@ -4,15 +4,11 @@ version: 2
 date: '2020-11-10'
 author: Ignacio Bermudez Corrales, Splunk
 type: Anomaly
-datamodel:
-- Endpoint_Processes
-description: The following analytic identifies parent processes, browsers, Windows
-  terminal applications, Office Products and Java spawning cmd.exe. By its very nature,
-  many applications spawn cmd.exe natively or built into macros. Much of this will
-  need to be tuned to further enhance the risk. During triage, review parallel process
-  execution and identify any file modifications that may have occurred. Capture any
-  artifacts and review further.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
+datamodel: 
+  - Endpoint_Processes
+description: 'The following analytic identifies parent processes, browsers, Windows terminal applications, Office Products and Java spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or built into macros. Much of this will need to be tuned to further enhance the risk.'
+search: '| from read_ssa_enriched_events()
+
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
   | eval process_name=ucast(map_get(input_event, "process_name"), "string", null),
   parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string",
@@ -82,6 +78,7 @@ tags:
   - _time
   - dest_device_id
   - dest_user_id
+  - cmd_line
   risk_score: 35
   risk_severity: low
   security_domain: endpoint
