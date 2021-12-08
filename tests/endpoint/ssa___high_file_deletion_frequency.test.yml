@@ -6,5 +6,5 @@ tests:
     description: Test for High File Deletion Frequency
     attack_data:
       - file_name: sysmon.log
-        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_tools/windows-security.log
+        data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/excessive_file_deletions/windows-sysmon.log
         source: xmlwineventlog
