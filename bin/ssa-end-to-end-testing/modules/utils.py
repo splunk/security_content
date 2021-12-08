@@ -107,7 +107,7 @@ def replace_ssa_macros(source, sink, spl):
 
 def read_data(file_path, sourcetype):
     data = []
-    if sourcetype == "WinEventLog:Security":
+    if sourcetype == "WinEventLog:Security" or sourcetype == "WinEventLog":
         data_manipulation = DataManipulation()
         modified_file = data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
         date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
