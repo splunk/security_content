@@ -451,14 +451,16 @@ jobs:
           with:
             name: ${{ matrix.manifest_filename}}.results
             path: |
-              automated_detection_testing/ci/detection_testing_batch/success.csv
-              automated_detection_testing/ci/detection_testing_batch/error.csv
-              automated_detection_testing/ci/detection_testing_batch/failure.csv
-              automated_detection_testing/ci/detection_testing_batch/combined.csv
-              automated_detection_testing/ci/detection_testing_batch/success.json
-              automated_detection_testing/ci/detection_testing_batch/error.json
-              automated_detection_testing/ci/detection_testing_batch/failure.json
-              automated_detection_testing/ci/detection_testing_batch/combined.json
+              automated_detection_testing/ci/detection_testing_batch/test_results/success.csv
+              automated_detection_testing/ci/detection_testing_batch/test_results/error.csv
+              automated_detection_testing/ci/detection_testing_batch/test_results/failure.csv
+              automated_detection_testing/ci/detection_testing_batch/test_results/combined.csv
+              automated_detection_testing/ci/detection_testing_batch/test_results/success.json
+              automated_detection_testing/ci/detection_testing_batch/test_results/error.json
+              automated_detection_testing/ci/detection_testing_batch/test_results/failure.json
+              automated_detection_testing/ci/detection_testing_batch/test_results/combined.json
+
+              automated_detection_testing/ci/detection_testing_batch/test_results/summary.json
           
   docker-detection-testing-execution-merge-results:
     runs-on: ubuntu-latest
@@ -541,7 +543,7 @@ jobs:
           run: |
             cd automated_detection_testing/ci/detection_testing_batch
             source .venv/bin/activate
-            python summarize_json.py --files results_*/combined.json --output_filename summary_test_results.json
+            python summarize_json.py --files results_*/summary.json --output_filename summary_test_results.json
             
             
         - name: Upload Summary Test Results JSON

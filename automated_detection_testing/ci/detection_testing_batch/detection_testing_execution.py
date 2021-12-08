@@ -67,8 +67,11 @@ def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> Non
 def ensure_security_content(branch: str, commit_hash: str, pr_number: Union[int, None], persist_security_content: bool) -> GithubService:
     if persist_security_content is True and os.path.exists("security_content"):
         print("****** You chose --persist_security_content and the security_content directory exists. "
-              "We will not check out the repo again. Please be aware, this could cause issues if you're "
-              "out of date. ******")
+              "We will not check out the repo again. Please be aware, this could cause issues if your "
+              "repo is out of date or if a previous build failed to download all required tools and "\
+              "libraries.  If this occurs, it is suggested to change the "\
+              "persist_security_content setting to false. ******")
+              
         github_service = GithubService(
             branch, commit_hash, persist_security_content=persist_security_content)
 

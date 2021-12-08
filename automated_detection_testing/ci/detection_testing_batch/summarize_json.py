@@ -8,7 +8,9 @@ import os.path
 from operator import itemgetter
 
 
-def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict)->tuple[bool,int,int,int]:
+def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict, 
+                      failure_manifest_filename = "detection_failure_manifest.json", 
+                      output_folder:str="")->tuple[bool,int,int,int,int]:
     success = True
     
     try:
@@ -47,7 +49,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
                  "FAIL_AND_ERROR":fail_and_error_count }
 
         data_sorted = sorted(data, key = lambda k: (-k['error'], k['success'], k['detection_file']))
-        with open(output_filename, "w") as jsonFile:
+        with open(os.path.join(output_folder,output_filename), "w") as jsonFile:
             json.dump({'summary':summary, 'baseline': baseline, 'results':data_sorted}, jsonFile, indent="    ")
         
         
@@ -62,7 +64,7 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
             failures_test_override = {"detections_list": fail_list, "interactive_failure":True, 
                                     "num_containers":1, "branch": baseline["branch"], "commit_hash":baseline["commit_hash"], 
                                     "mode":"selected", "show_splunk_app_password": True}
-            with open("detection_failure_manifest.json","w") as failures:
+            with open(os.path.join(output_folder,failure_manifest_filename),"w") as failures:
                 validate_args.validate_and_write(failures_test_override, failures)
     except Exception as e:
         print("There was an error generating [%s]: [%s]"%(output_filename, str(e)),file=sys.stderr)
@@ -71,39 +73,16 @@ def outputResultsJSON(output_filename:str, data:list[dict], baseline:OrderedDict
         #success = False
         #return success, False
 
-    return success, test_count, pass_count, fail_count
+    #note that total failures is fail_count, fail_and_error count is JUST errors (and every error is also a failure)
+    return success, test_count, pass_count, fail_count, fail_and_error_count
 
-
-
-parser = argparse.ArgumentParser(description="Results Merger")
-parser.add_argument('-f', '--files', type=argparse.FileType('r'), required=True, nargs='+', help="The json files you would like to combine into a single file")
-parser.add_argument('-o', '--output_filename', type=str, required=True, help="The name of the output file")
-args = parser.parse_args()
-
-all_data = OrderedDict()
-try:
-    print("We will summarize the files: %s"%(str([f.name for f in args.files])))
-    for f in args.files:
-        if not f.name.endswith('.json'):
-            print("Error: passed in file must end in .json - you passed in [%s].\n\tQuitting..."%(f.name))
-            sys.exit(1)
-        data = json.loads(f.read())
-        if 'baseline' in all_data:
-            #everything has the same baseline, only need to do it once
-            pass
-        else:
-            all_data['baseline'] = data['baseline']
-        if 'results' in all_data:
-            #this is a list of dictionaries, so add to it
-            all_data['results'].extend(data['results'])
-        else:
-            all_data['results'] = data['results']
-
-    test_pass, test_count, pass_count, fail_count = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
+def print_summary(test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
     print("Summary:"\
-          "\n\tTotal Tests: %d"\
-          "\n\tTotal Pass : %d"\
-          "\n\tTotal Fail : %d"%(test_count, pass_count, fail_count))
+            "\n\tTotal Tests: %d"\
+            "\n\tTotal Pass : %d"\
+            "\n\tTotal Fail : %d (%d of these were ERRORS)"%(test_count, pass_count, fail_count, error_count))
+
+def exit_with_status(test_pass:bool, test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
     if not test_pass:
         print("Result: FAIL")
         sys.exit(1)
@@ -111,11 +90,45 @@ try:
         print("Result: PASS!")
         sys.exit(0)
 
-    
-except Exception as e:
-    print("Error writing the summary file: [%s].\n\tQuitting..."%(str(e)))
-    sys.exit(1)
 
+def finish(test_pass:bool, test_count: int, pass_count:int, fail_count:int, error_count:int)->None:
+    print_summary(test_count, pass_count, fail_count,error_count)
+    exit_with_status(test_pass, test_count, pass_count, fail_count,error_count)
+
+def main():
+    parser = argparse.ArgumentParser(description="Results Merger")
+    parser.add_argument('-f', '--files', type=argparse.FileType('r'), required=True, nargs='+', help="The json files you would like to combine into a single file")
+    parser.add_argument('-o', '--output_filename', type=str, required=True, help="The name of the output file")
+    args = parser.parse_args()
+
+    all_data = OrderedDict()
+    try:
+        print("We will summarize the files: %s"%(str([f.name for f in args.files])))
+        for f in args.files:
+            if not f.name.endswith('.json'):
+                print("Error: passed in file must end in .json - you passed in [%s].\n\tQuitting..."%(f.name))
+                sys.exit(1)
+            data = json.loads(f.read())
+            if 'baseline' in all_data:
+                #everything has the same baseline, only need to do it once
+                pass
+            else:
+                all_data['baseline'] = data['baseline']
+            if 'results' in all_data:
+                #this is a list of dictionaries, so add to it
+                all_data['results'].extend(data['results'])
+            else:
+                all_data['results'] = data['results']
+
+        test_pass, test_count, pass_count, fail_count, error_count = outputResultsJSON(args.output_filename, all_data['results'], all_data['baseline'])
+        finish(test_pass, test_count, pass_count, fail_count, error_count)
+        
+    except Exception as e:
+        print("Error generating the summary file: [%s].\n\tQuitting..."%(str(e)))
+        sys.exit(1)
+
+if __name__=="__main__":
+    main()
 
 
     

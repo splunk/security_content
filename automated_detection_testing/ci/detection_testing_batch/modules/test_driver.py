@@ -5,6 +5,7 @@ import json
 import os
 import queue
 import shutil
+import summarize_json
 import tempfile
 import threading
 import time
@@ -168,21 +169,44 @@ class TestDriver:
         
 
     def outputResultsFiles(self, baseline:OrderedDict, fields:list[str]=['detection_name', 'detection_file','runDuration','diskUsage', 'search_string', 'error', 'success', 'scanCount', 'detection_error'])->bool:
-        res = self.outputResultsFile(fields,"success", self.successes, baseline)
-        res |= self.outputResultsFile(fields, "failure", self.failures, baseline)
-        res |= self.outputResultsFile(fields, "error", self.errors, baseline)
-        res |= self.outputResultsFile(fields, "combined", self.successes + self.failures + self.errors, baseline)
+        results_directory = "test_results"
+        try:
+            shutil.rmtree(results_directory,ignore_errors=True)
+            os.mkdir(results_directory)
+        except Exception as e:
+            print("There was an error removing the results directory [%s]: [%s].\n\t We will try to continue output anyway."%(results_directory, str(e)))
+
+
+        res = self.outputResultsFile(fields,os.path.join(results_directory, "success"), self.successes, baseline)
+        res |= self.outputResultsFile(fields, os.path.join(results_directory, "failure"), self.failures, baseline)
+        res |= self.outputResultsFile(fields, os.path.join(results_directory, "error"), self.errors, baseline)
+        combined_data = self.successes + self.failures + self.errors
+        res |= self.outputResultsFile(fields, os.path.join(results_directory, "combined"), combined_data, baseline)
+        
+        try:
+            success, test_count,pass_count,fail_count,error_count = summarize_json.outputResultsJSON("summary.json", combined_data, baseline, output_folder=results_directory)
+            summarize_json.print_summary(test_count, pass_count, fail_count, error_count)
+            res |= success
+        except Exception as e:
+            print("Failure writing the summary file: [%s]",file=sys.stderr)
+            res = False
+
         return res
 
     def finish(self, baseline:OrderedDict):
         self.cleanup()
-        self.outputResultsFiles(baseline)
+        success = True
+        if self.outputResultsFiles(baseline) == False:
+            print("There was an error generating one or more of the output files. "\
+                  "Check the logs for details.",file=sys.stderr)
+            success = False
+        
 
         if self.checkContainerFailure():
-            print("One or more containers crashed, so testing did not complete successfully. We wrote out the results we have")
+            print("One or more containers crashed, so testing did not complete successfully. We wrote out all the results that we could")
             return False
         else:
-            return True
+            return success
 
         
 
@@ -273,7 +297,9 @@ class TestDriver:
         
     def addResult(self, result:dict)->None:
         try:
-            if result['detection_result']['success'] is False:
+            if result['detection_result']['error'] is True:
+                self.addError(result['detection_result'])
+            elif result['detection_result']['success'] is False:
                 #This is actually a failure of the detection, not an error. Naming is confusiong
                 self.addFailure(result['detection_result'])
             elif result['detection_result']['success'] is True:
