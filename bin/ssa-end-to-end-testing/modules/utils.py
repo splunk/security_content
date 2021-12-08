@@ -132,11 +132,9 @@ def read_data(file_path, sourcetype):
         data.append(event)
         fileinput.close()
     elif sourcetype == "xmlwineventlog":
-        f = io.open(file_path, "r", encoding="utf-8")
-        for line in fileinput.input(files=f):
+        for line in fileinput.input(files=file_path):
             data.append(line)
 
-        f.close()
     return data
 
 
