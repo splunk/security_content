@@ -64,17 +64,12 @@ tags:
     role:
     - Target
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+  - Splunk Behavioral Analytics
   required_fields:
-  - EventCode
-  - TargetFilename
-  - Computer
-  - user
-  - Image
-  - ProcessID
-  - _time
+  - action
+  - process
+  - file_name
+  - file_path
   risk_score: 72
   security_domain: endpoint
 
