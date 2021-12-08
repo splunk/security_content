@@ -13,14 +13,15 @@ description: The following hunting analytic leverages Event ID 7045, `A new serv
  and obtain remote code execution. To achieve this goal, some tools like Metasploit, Cobalt Strike and Impacket,
  typically create a Windows Service with a random service name on the victim host. This hunting analytic may help
  defenders identify Windows Services installed as part of a lateral movement attack. The entropy threshold `ut_shannon > 3` 
- can be customized by users. The Service_File_Name field can be used to determine if the Windows Service has malicious intent or not. 
+ should be customized by users. The Service_File_Name field can be used to determine if the Windows Service has malicious intent or not. 
 search: ' `wineventlog_system` EventCode=7045  
 | lookup ut_shannon_lookup word as Service_Name
 | where ut_shannon > 3
 | table EventCode ComputerName Service_Name ut_shannon Service_Start_Type Service_Type Service_File_Name | `randomly_generated_windows_service_name_filter` '
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
-  from your endpoints.
+  from your endpoints. The Windows TA as well as the URL ToolBox application are also
+  required.
 known_false_positives: Legitimate applications may use random Windows Service names.
 references:
 - https://attack.mitre.org/techniques/T1543/003/ 

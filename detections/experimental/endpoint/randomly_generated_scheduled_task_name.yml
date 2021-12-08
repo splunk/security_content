@@ -13,13 +13,13 @@ description: The following hunting analytic leverages Event ID 4698, `A schedule
  and obtain remote code execution. To achieve this goal, tools like Impacket or Crapmapexec,
  typically create a Scheduled Task with a random task name on the victim host. This hunting analytic may help
  defenders identify Scheduled Tasks created as part of a lateral movement attack. The entropy threshold `ut_shannon > 3` 
- can be customized by users. The Command field can be used to determine if the task has malicious intent or not. 
+ should be customized by users. The Command field can be used to determine if the task has malicious intent or not. 
 search: ' `wineventlog_security` EventCode=4698 | xmlkv Message 
 | lookup ut_shannon_lookup word as Task_Name
 | where ut_shannon > 3
 | table  _time, dest, Task_Name, ut_shannon, Command, Author, Enabled, Hidden | `randomly_generated_scheduled_task_name_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
+  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well as the URL ToolBox application are also
   required.
 known_false_positives: Legitimate applications may use random Scheduled Task names.
 references:
