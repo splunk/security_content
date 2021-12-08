@@ -7,7 +7,7 @@ type: TTP
 datamodel:
 - Authentication
 description: This detection identifies potential Pass the Token or Pass the Hash credential
-  exploits. We detect the main side effect of these attacks, which is a transition
+  stealing. We detect the main side effect of these attacks, which is a transition
   from the dominant Kerberos logins to rare NTLM logins for a given user, as reported
   by an event-collecting device (i.e., a specific domain controller or an endpoint
   destination).
@@ -47,7 +47,8 @@ how_to_implement: You must be ingesting Windows Security logs from devices of in
 known_false_positives: Environments in which NTLM is used extremely rarely and for
   benign purposes (such as a rare use of SMB shares).
 references:
-- https://attack.mitre.org/techniques/T1550/002/
+  - https://attack.mitre.org/techniques/T1550/002/
+  - https://www.offensive-security.com/metasploit-unleashed/psexec-pass-hash/
 tags:
   analytic_story:
   - Active Directory Lateral Movement
