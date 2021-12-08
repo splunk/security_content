@@ -49,7 +49,7 @@ class SSADetectionTesting:
         for i in range(0, len(test_spls)):
             self.max_execution_time = MAX_EXECUTION_TIME_LIMIT
             test_id = str(uuid.uuid4())
-            test_result = self.ssa_detection_test(read_spl(file_path_spl, test_spls[i]), file_path_data, test_names[i], test_id)
+            test_result = self.ssa_detection_test(read_spl(file_path_spl, test_spls[i]), file_path_data, test_names[i], "WinEventLog", test_id)
             test_results.append(test_result.copy())
 
         passed = True
