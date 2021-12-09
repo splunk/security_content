@@ -1,0 +1,118 @@
+{
+    "create_time": "2021-10-07T15:52:23.940165+00:00",
+    "custom_function_id": "24c4ef5ecd259674a07cd3c747f4223f09b5dd8f",
+    "description": "Takes a provided list of indicator values to search for and finds all related containers. It will produce a list of the related container details.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "An indicator value to search on, such as a file hash or IP address. To search on all indicator values in the container, use \"*\".",
+            "input_type": "list",
+            "name": "value_list",
+            "placeholder": "*"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "The minimum number of similar indicator records that a container must have to be considered \"related.\"  If no match count provided, this will default to 1.",
+            "input_type": "item",
+            "name": "minimum_match_count",
+            "placeholder": "1-100"
+        },
+        {
+            "contains_type": [
+                "phantom container id"
+            ],
+            "description": "The container to run indicator analysis against. Supports container object or container_id. This container will also be excluded from the results for related_containers.",
+            "input_type": "item",
+            "name": "container",
+            "placeholder": "container:id"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional modifier to only consider related containers within a time window. Default is -30d.  Supports year (y), month (m), day (d), hour (h), or minute (m)  Custom function will always set the earliest container window based on the input container \"create_time\".",
+            "input_type": "item",
+            "name": "earliest_time",
+            "placeholder": "-30d"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional comma-separated list of statuses to filter on. Only containers that have statuses matching an item in this list will be included.",
+            "input_type": "item",
+            "name": "filter_status",
+            "placeholder": "open"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional comma-separated list of labels to filter on. Only containers that have labels matching an item in this list will be included.",
+            "input_type": "item",
+            "name": "filter_label",
+            "placeholder": "events"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional comma-separated list of severities to filter on. Only containers that have severities matching an item in this list will be included.",
+            "input_type": "item",
+            "name": "filter_severity",
+            "placeholder": "medium"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to filter containers that are in a case or not. Defaults to True (drop containers that are already in a case).",
+            "input_type": "item",
+            "name": "filter_in_case",
+            "placeholder": "True or False"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.container_id",
+            "description": "The unique id of the related container"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.container_indicator_match_count",
+            "description": "The number of indicators matched to the related container"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.container_status",
+            "description": "The status of the related container e.g. new, open, closed"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.container_type",
+            "description": "The type of the related container, e.g. default or case"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.container_name",
+            "description": "The name of the related container"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.in_case",
+            "description": "True or False if the related container is already included in a case"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.indicator_ids",
+            "description": "Indicator ID that matched"
+        },
+        {
+            "contains_type": [
+                "url"
+            ],
+            "data_path": "*.container_url",
+            "description": "Link to container"
+        }
+    ],
+    "platform_version": "5.0.1.66250",
+    "python_version": "3"
+}
