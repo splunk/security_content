@@ -32,7 +32,7 @@ tags:
   - SamSam Ransomware
   - Ryuk Ransomware
   - Hidden Cobra Malware
-  - Lateral Movement
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   cis20:
   - CIS 3

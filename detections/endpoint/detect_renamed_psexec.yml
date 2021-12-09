@@ -33,7 +33,7 @@ tags:
   - DHS Report TA18-074A
   - HAFNIUM Group
   - DarkSide Ransomware
-  - Lateral Movement
+  - Active Directory Lateral Movement
   automated_detection_testing: passed
   confidence: 90
   context:
