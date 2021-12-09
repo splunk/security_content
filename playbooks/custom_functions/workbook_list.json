@@ -1,0 +1,58 @@
+{
+    "create_time": "2021-02-01T20:09:54.597377+00:00",
+    "custom_function_id": "f6015f324c26982d963e40b33a344f558b0c168e",
+    "description": "Return a list of all the workbooks on this Phantom instance. This might be useful to display possible options for workbooks to add to this event.",
+    "draft_mode": false,
+    "inputs": [],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "*.id",
+            "description": "Unique workbook ID"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.name",
+            "description": "Workbook name"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "data_path": "*.description",
+            "description": "Workbook description"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.status",
+            "description": "Status of the workbook, e.g. published"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.is_default",
+            "description": "True or False if it is the default workbook"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.is_note_required",
+            "description": "True or False if a note is required to finish each task in the workbook"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.creator",
+            "description": "Unique ID of the user that created the workbook"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.create_time",
+            "description": "Timestamp when the workbook was created"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.modified_time",
+            "description": "Timestamp when the workbook was last modified"
+        }
+    ],
+    "platform_version": "4.10.0.40961",
+    "python_version": "3"
+}
