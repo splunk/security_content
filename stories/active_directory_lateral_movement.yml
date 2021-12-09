@@ -1,19 +1,20 @@
-name: Lateral Movement
+name: Active Directory Lateral Movement
 id: 399d65dc-1f08-499b-a259-aad9051f38ad
-version: 2
-date: '2021-11-23'
+version: 3
+date: '2021-12-09'
 author: David Dorsey, Mauricio Velazco Splunk
 description: Detect and investigate tactics, techniques, and procedures around how
-  attackers move laterally within the enterprise. Because lateral movement can expose
-  the adversary to detection, it should be an important focus for security analysts.
+  attackers move laterally within an Active Directory environment. Since lateral movement 
+  is often a necessary step in a breach, it is important for cyber defenders to deploy 
+  detection coverage.
 narrative: "Once attackers gain a foothold within an enterprise, they will seek to\
   \ expand their accesses and leverage techniques that facilitate lateral movement.\
   \ Attackers will often spend quite a bit of time and effort moving laterally. Because\
   \ lateral movement renders an attacker the most vulnerable to detection, it's an\
   \ excellent focus for detection and investigation.\\\nIndications of lateral movement\
-  \ can include the abuse of system utilities (such as `psexec.exe`), unauthorized\
-  \ use of remote desktop services, `file/admin$` shares, WMI, PowerShell, pass-the-hash,\
-  \ or the abuse of scheduled tasks. Organizations must be extra vigilant in detecting\
+  \ in an Active Directory network can include the abuse of system utilities (such as `psexec.exe`), unauthorized\
+  \ use of remote desktop services, `file/admin$` shares, WMI, PowerShell, Service Control Manager,\
+  \ the DCOM protocol, WinRM or the abuse of scheduled tasks. Organizations must be extra vigilant in detecting\
   \ lateral movement techniques and look for suspicious activity in and around high-value\
   \ strategic network assets, such as Active Directory, which are often considered\
   \ the primary target or \"crown jewels\" to a persistent threat actor.\\\nAn adversary\
@@ -32,9 +33,9 @@ narrative: "Once attackers gain a foothold within an enterprise, they will seek 
   \ for all processes to ensure that the attackers did not install unauthorized software."
 references:
 - https://www.fireeye.com/blog/executive-perspective/2015/08/malware_lateral_move.html
-- https://www.youtube.com/watch?v=hVTkkkM9XDg
+- http://www.irongeek.com/i.php?page=videos/derbycon7/t405-hunting-lateral-movement-for-fun-and-profit-mauricio-velazco
 tags:
-  analytic_story: Lateral Movement
+  analytic_story: Active Directory Lateral Movement
   category:
   - Adversary Tactics
   product:
