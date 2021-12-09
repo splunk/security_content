@@ -27,7 +27,7 @@ references:
 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/invoke-wmimethod?view=powershell-5.1
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   automated_detection_testing: passed
   confidence: 70
   context:
