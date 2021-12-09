@@ -53,7 +53,7 @@ The following analytc uses Windows Event Id 7045, `New Service Was Installed`, t
 
 #### Associated Analytic Story
 * [Clop Ransomware](/stories/clop_ransomware)
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

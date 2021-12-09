@@ -54,7 +54,7 @@ This search looks for specific authentication events from the Windows Security E
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement
