@@ -25,7 +25,7 @@ references:
 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enter-pssession?view=powershell-7.2
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   confidence: 50
   context:
   - Source:Endpoint

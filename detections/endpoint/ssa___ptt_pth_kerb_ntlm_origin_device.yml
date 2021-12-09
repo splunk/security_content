@@ -51,7 +51,7 @@ references:
   - https://www.offensive-security.com/metasploit-unleashed/psexec-pass-hash/
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   asset_type: Windows
   cis20:
   - CIS 16
