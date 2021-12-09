@@ -27,7 +27,7 @@ tags:
 
 #### Description
 
-The following analytic identifies `svchost.exe` spawning a LOLBAS execution process. When adversaries execute code on remote endpoints abusing the Task Scheduler and creating a malicious remote scheduled task, the executed command is spawned as a child processs of `svchost.exe`. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code. Looking for child processes of svchost.exe that are part of the LOLBAS project can help defenders identify lateral movement activity.
+The following analytic identifies `svchost.exe` spawning a LOLBAS execution process. When adversaries execute code on remote endpoints abusing the Task Scheduler and creating a malicious remote scheduled task, the executed command is spawned as a child process of `svchost.exe`. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code. Looking for child processes of svchost.exe that are part of the LOLBAS project can help defenders identify lateral movement activity.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -57,7 +57,7 @@ The following analytic identifies `svchost.exe` spawning a LOLBAS execution proc
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

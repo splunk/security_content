@@ -53,7 +53,7 @@ The following analytic identifies `Wsmprovhost.exe` spawning a LOLBAS execution 
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement
