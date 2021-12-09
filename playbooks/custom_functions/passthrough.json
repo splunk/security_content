@@ -1,0 +1,114 @@
+{
+    "create_time": "2021-04-16T19:17:01.589064+00:00",
+    "custom_function_id": "e1210d7e75e7046880321061008a70eda2159831",
+    "description": "Return the inputs as outputs. This is useful for publishing pieces of data for other blocks in the playbook to use.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_1",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_2",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_3",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_4",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_5",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_6",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_7",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_8",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_9",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_10",
+            "placeholder": ""
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.item",
+            "description": "The output item for each input"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.input_name",
+            "description": "The corresponding input name for each output"
+        }
+    ],
+    "platform_version": "4.10.3.51237",
+    "python_version": "3"
+}
