@@ -1,0 +1,42 @@
+{
+    "create_time": "2021-04-14T20:55:22.433977+00:00",
+    "custom_function_id": "b09e6a45f7ced6a7fd17b98264b078ec1996e27d",
+    "description": "Use a regular expression to split an input_string into multiple items.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "The input string to split.",
+            "input_type": "item",
+            "name": "input_string",
+            "placeholder": "string to split"
+        },
+        {
+            "contains_type": [],
+            "description": "The regular expression to use to split the string. Reserved regular expression characters should be escaped with a backslash, so '\\.' will match '.' and '\\\\\\\\' will match '\\'.",
+            "input_type": "item",
+            "name": "regex",
+            "placeholder": "[\\s.,;]+"
+        },
+        {
+            "contains_type": [],
+            "description": "Either True or False to indicate whether or not to remove whitespace before and after each item. Defaults to True",
+            "input_type": "item",
+            "name": "strip_whitespace",
+            "placeholder": "True"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.item",
+            "description": "A list of items created by splitting the input string."
+        }
+    ],
+    "platform_version": "4.10.3.51237",
+    "python_version": "3"
+}

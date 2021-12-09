@@ -1,0 +1,73 @@
+{
+    "create_time": "2021-08-27T14:42:51.824426+00:00",
+    "custom_function_id": "7e304fa9f4afcb82df42669646baa18fb0afb890",
+    "description": "Get indicator(s) by tags.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [],
+            "description": "Comma separated list of tags. Tags will be OR'd together: e.g. tag1 OR tag2 OR tag3. Tags do not support whitespace and whitespace will be automatically removed.",
+            "input_type": "item",
+            "name": "tags_or",
+            "placeholder": "tag1,tag2,...tagK"
+        },
+        {
+            "contains_type": [],
+            "description": "Comma separated list of tags. Tags will be AND'd together: e.g. tag1 AND tag2 AND tag3. Tags do not support whitespace and whitespace will be automatically removed.",
+            "input_type": "item",
+            "name": "tags_and",
+            "placeholder": "tag1,tag2,...tagK"
+        },
+        {
+            "contains_type": [],
+            "description": "Defaults to last_30_days\noptions:\ntoday\nyesterday\nthis_week\nthis_month\nlast_7_days\nlast_30_days\nlast_week\nlast_month",
+            "input_type": "item",
+            "name": "indicator_timerange",
+            "placeholder": "last_30_days"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to ensure the fetched indicator exists in the supplied container.",
+            "input_type": "item",
+            "name": "container",
+            "placeholder": "container:id"
+        },
+        {
+            "contains_type": [],
+            "description": "Comma separated list of tags to filter out. If the indicator's tags contain any of the values in this list, they will be omitted from the output.",
+            "input_type": "item",
+            "name": "tags_exclude",
+            "placeholder": "tag1, tag2"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.indicator_id",
+            "description": "A matching indicator id record"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.indicator_value",
+            "description": "A matching indicator value"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.indicator_tags",
+            "description": "List of tags associated with the indicator record"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.indicator_cef_type",
+            "description": "List of cef types associated with the indicator record"
+        }
+    ],
+    "platform_version": "4.10.6.61906",
+    "python_version": "3"
+}

@@ -1,0 +1,66 @@
+{
+    "create_time": "2021-08-20T19:37:15.192987+00:00",
+    "custom_function_id": "1df6dfb4792ebd6ffca642caf7056300a16ce635",
+    "description": "Change a timestamp by adding or subtracting minutes, hours, or days.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                ""
+            ],
+            "description": "The datetime to modify, which should be provided in a string format determined by input_format_string",
+            "input_type": "item",
+            "name": "input_datetime",
+            "placeholder": "2020-06-27T14:53:08.219016Z"
+        },
+        {
+            "contains_type": [],
+            "description": "The format string to use for the input according to the Python's datetime.strptime() formatting rules. If none is provided the default will be '%Y-%m-%dT%H:%M:%S.%fZ'. In addition to strptime() formats, the special format \"epoch\" can be used to accept unix epoch timestamps.",
+            "input_type": "item",
+            "name": "input_format_string",
+            "placeholder": "%Y-%m-%dT%H:%M:%S.%fZ"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "description": "Choose a unit to modify the date by, which must be either seconds, minutes, hours, or days. If none is provided the default will be 'minutes'",
+            "input_type": "item",
+            "name": "modification_unit",
+            "placeholder": "minutes"
+        },
+        {
+            "contains_type": [],
+            "description": "The number of seconds, minutes, hours, or days to add or subtract. Use a negative number such as -1.5 to subtract time. Defaults to zero.",
+            "input_type": "item",
+            "name": "amount_to_modify",
+            "placeholder": "0"
+        },
+        {
+            "contains_type": [],
+            "description": "The format string to use for the output according to the Python's datetime.strftime() formatting rules. If none is provided the default will be '%Y-%m-%dT%H:%M:%S.%fZ'.",
+            "input_type": "item",
+            "name": "output_format_string",
+            "placeholder": "%Y-%m-%dT%H:%M:%S.%fZ"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "datetime_string",
+            "description": "The output datetime as formatted by the given output_format_string using Python's datetime.strftime()"
+        },
+        {
+            "contains_type": [],
+            "data_path": "epoch_time",
+            "description": "An integer representing the output time as a number of seconds since January 1 1970 assuming a naive UTC timezone. This is easier to use for comparisons to other epoch timestamps."
+        },
+        {
+            "contains_type": [],
+            "data_path": "seconds_modified",
+            "description": "The number of seconds (positive or negative) by which the input was modified"
+        }
+    ],
+    "platform_version": "4.10.6.61906",
+    "python_version": "3"
+}
