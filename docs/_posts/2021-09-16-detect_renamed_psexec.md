@@ -57,7 +57,7 @@ The following analytic identifies renamed instances of `PsExec.exe` being utiliz
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 * [HAFNIUM Group](/stories/hafnium_group)
 * [DarkSide Ransomware](/stories/darkside_ransomware)
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

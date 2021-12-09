@@ -57,7 +57,7 @@ This search looks for events where `PsExec.exe` is run with the `accepteula` fla
 * [DHS Report TA18-074A](/stories/dhs_report_ta18-074a)
 * [HAFNIUM Group](/stories/hafnium_group)
 * [DarkSide Ransomware](/stories/darkside_ransomware)
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

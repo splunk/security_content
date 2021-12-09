@@ -55,7 +55,7 @@ This analytic looks for the execution of `sc.exe` with command-line arguments ut
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

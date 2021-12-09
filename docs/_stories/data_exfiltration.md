@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Endpoint_Processes
   - Network_Traffic
 ---
 
@@ -18,7 +19,7 @@ tags:
 The stealing of data by an adversary.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses), [Network_Traffic](https://docs.splunk.com/Documentation/CIM/latest/User/NetworkTraffic)
 - **Last Updated**: 2020-10-21
 - **Author**: Shannon Davis, Splunk
 - **ID**: 66b0fe0c-1351-11eb-adc1-0242ac120002
@@ -31,6 +32,7 @@ Exfiltration comes in many flavors.  Adversaries can collect data over encrypted
 
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
+| [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | TTP |
 | [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | TTP |
 | [Detect SNICat SNI Exfiltration](/network/detect_snicat_sni_exfiltration/) | [Exfiltration Over C2 Channel](/tags/#exfiltration-over-c2-channel) | TTP |
 | [Detect shared ec2 snapshot](/cloud/detect_shared_ec2_snapshot/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account) | TTP |
