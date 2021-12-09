@@ -19,7 +19,7 @@ tags:
 
 #### Description
 
-The following analytic identifies parent processes, browsers, Windows terminal applications, Office Products and Java spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or built into macros. Much of this will need to be tuned to further enhance the risk. During triage, review parallel process execution and identify any file modifications that may have occurred. Capture any artifacts and review further.
+The following analytic identifies parent processes, browsers, Windows terminal applications, Office Products and Java spawning cmd.exe. By its very nature, many applications spawn cmd.exe natively or built into macros. Much of this will need to be tuned to further enhance the risk.
 
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
@@ -39,8 +39,8 @@ The following analytic identifies parent processes, browsers, Windows terminal a
 
 ```
 
-| from read_ssa_enriched_events() 
-| where "Endpoint_Processes" IN(_datamodels) 
+| from read_ssa_enriched_events()
+
 | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)) 
 | eval process_name=ucast(map_get(input_event, "process_name"), "string", null), parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"),"string", null)), dest_user_id=ucast(map_get(input_event, "dest_user_id"), "string", null), dest_device_id=ucast(map_get(input_event, "dest_device_id"), "string", null), event_id=ucast(map_get(input_event,"event_id"), "string", null) 
 | where process_name="cmd.exe" 
@@ -63,6 +63,7 @@ In order to successfully implement this analytic, you will need endpoint process
 * _time
 * dest_device_id
 * dest_user_id
+* cmd_line
 
 
 #### Kill Chain Phase
