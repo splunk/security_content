@@ -11,6 +11,7 @@ sidebar:
 | Name        | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [Active Directory Discovery](/stories/active_directory_discovery/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
+| [Active Directory Lateral Movement](/stories/active_directory_lateral_movement/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | [Lateral Movement](/tags/#lateral-movement) |
 | [Active Directory Password Spraying](/stories/active_directory_password_spraying/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | [Credential Access](/tags/#credential-access) |
 | [BITS Jobs](/stories/bits_jobs/) | [BITS Jobs](/tags/#bits-jobs) | [Defense Evasion](/tags/#defense-evasion) |
 | [Baron Samedit CVE-2021-3156](/stories/baron_samedit_cve-2021-3156/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) |
@@ -27,7 +28,6 @@ sidebar:
 | [F5 TMUI RCE CVE-2020-5902](/stories/f5_tmui_rce_cve-2020-5902/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [HAFNIUM Group](/stories/hafnium_group/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
 | [Ingress Tool Transfer](/stories/ingress_tool_transfer/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Command And Control](/tags/#command-and-control) |
-| [Lateral Movement](/stories/lateral_movement/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | [Lateral Movement](/tags/#lateral-movement) |
 | [Malicious PowerShell](/stories/malicious_powershell/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | [Reconnaissance](/tags/#reconnaissance) |
 | [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
 | [Meterpreter](/stories/meterpreter/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) |
@@ -56,7 +56,7 @@ sidebar:
 | [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild/) | [Masquerading](/tags/#masquerading), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350/) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution) | [Execution](/tags/#execution) |
 | [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |
-| [Windows Discovery Techniques](/stories/windows_discovery_techniques/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Process Injection](/tags/#process-injection), [Hijack Execution Flow](/tags/#hijack-execution-flow) | [Persistence](/tags/#persistence) |
+| [Windows Discovery Techniques](/stories/windows_discovery_techniques/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
 | [Windows Log Manipulation](/stories/windows_log_manipulation/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Persistence Techniques](/stories/windows_persistence_techniques/) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) |
 | [Windows Privilege Escalation](/stories/windows_privilege_escalation/) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |

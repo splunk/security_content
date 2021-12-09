@@ -32,12 +32,12 @@ XMRig is a high performance, open source, cross platform RandomX, KawPow, Crypto
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
 | [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Masquerading](/tags/#masquerading), [OS Credential Dumping](/tags/#os-credential-dumping), [Active Scanning](/tags/#active-scanning) | TTP |
-| [Attempt To Delete Services](/endpoint/attempt_to_delete_services/) | [Service Stop](/tags/#service-stop) | TTP |
+| [Attempt To Delete Services](/endpoint/attempt_to_delete_services/) | [Service Stop](/tags/#service-stop), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
 | [Attempt To Disable Services](/endpoint/attempt_to_disable_services/) | [Service Stop](/tags/#service-stop) | TTP |
 | [Delete A Net User](/endpoint/delete_a_net_user/) | [Account Access Removal](/tags/#account-access-removal) | Anomaly |
 | [Deleting Of Net Users](/endpoint/deleting_of_net_users/) | [Account Access Removal](/tags/#account-access-removal) | TTP |
 | [Deny Permission using Cacls Utility](/endpoint/deny_permission_using_cacls_utility/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | TTP |
-| [Disable Net User Account](/endpoint/disable_net_user_account/) | [Service Stop](/tags/#service-stop) | TTP |
+| [Disable Net User Account](/endpoint/disable_net_user_account/) | [Service Stop](/tags/#service-stop), [Valid Accounts](/tags/#valid-accounts) | TTP |
 | [Disable Windows App Hotkeys](/endpoint/disable_windows_app_hotkeys/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Disabling Net User Account](/endpoint/disabling_net_user_account/) | [Account Access Removal](/tags/#account-access-removal) | TTP |
 | [Download Files Using Telegram](/endpoint/download_files_using_telegram/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
