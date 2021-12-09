@@ -9,12 +9,12 @@ header:
   actions:
     - label: "Download"
       url: "https://splunkbase.splunk.com/app/3449/"
-excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with **714** detections for Splunk."
+excerpt: "Get the latest **FREE** Enterprise Security Content Update (ESCU) App with **684** detections for Splunk."
 feature_row:
   - image_path: /static/feature_detection.png
     alt: "customizable"
     title: "Detections"
-    excerpt: "See all **714** Splunk Analytics built to find evil 😈."
+    excerpt: "See all **684** Splunk Analytics built to find evil 😈."
     url: "/detections"
     btn_class: "btn--primary"
     btn_label: "Explore"
