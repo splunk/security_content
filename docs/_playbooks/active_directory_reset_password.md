@@ -39,4 +39,4 @@ This playbook works on artifacts with artifact:*.cef.compromisedUserName which c
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/active_directory_reset_password.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/activedirectory_reset_password.yml) \| *version*: **1**
