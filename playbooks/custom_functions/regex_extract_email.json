@@ -1,0 +1,35 @@
+{
+    "create_time": "2021-04-13T21:08:20.394899+00:00",
+    "custom_function_id": "41fbb093035db6dff20778327e42682cd7a33f0c",
+    "description": "Provide a string with one or more email addresses in it to be extracted.\nCan be helpful with strings from the To or CC fields of an email: \"<other_email@domain.com>, 'Name' <e-mail@domain.com>\"",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "String containing email addresses",
+            "input_type": "item",
+            "name": "input_string",
+            "placeholder": ""
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "email"
+            ],
+            "data_path": "*.email_address",
+            "description": "Parsed email addresses"
+        },
+        {
+            "contains_type": [
+                "domain"
+            ],
+            "data_path": "*.domain",
+            "description": "Domain names of the parsed email addresses (everything after the \"@\")"
+        }
+    ],
+    "platform_version": "4.10.3.51237",
+    "python_version": "3"
+}
