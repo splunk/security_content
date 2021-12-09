@@ -26,7 +26,7 @@ references:
 - https://pentestlab.blog/2018/05/15/lateral-movement-winrm/
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   automated_detection_testing: passed
   confidence: 50
   context:
