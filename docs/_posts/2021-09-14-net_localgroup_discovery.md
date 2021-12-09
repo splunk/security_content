@@ -54,6 +54,7 @@ The following hunting analytic will identify the use of localgroup discovery usi
 
 #### Associated Analytic Story
 * [Active Directory Discovery](/stories/active_directory_discovery)
+* [Windows Discovery Techniques](/stories/windows_discovery_techniques)
 
 
 #### How To Implement
