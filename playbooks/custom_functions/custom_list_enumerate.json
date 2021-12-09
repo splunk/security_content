@@ -1,0 +1,71 @@
+{
+    "create_time": "2021-03-24T13:38:50.951017+00:00",
+    "custom_function_id": "b7a89f44958aee7bbdb3054d43c06df9a2026370",
+    "description": "Fetch a custom list and iterate through the rows, producing a dictionary output for each row with the row number and the value for each column.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [],
+            "description": "the name or ID of a custom list",
+            "input_type": "item",
+            "name": "custom_list",
+            "placeholder": "my_custom_list"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "*.row_num",
+            "description": ""
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.column_0",
+            "description": ""
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "data_path": "*.column_1",
+            "description": ""
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.column_2",
+            "description": ""
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.column_3",
+            "description": ""
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.column_4",
+            "description": ""
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.column_5",
+            "description": ""
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.column_6",
+            "description": ""
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.column_7",
+            "description": ""
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.column_8",
+            "description": ""
+        }
+    ],
+    "platform_version": "4.10.2.47587",
+    "python_version": "3"
+}
