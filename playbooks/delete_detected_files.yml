@@ -9,7 +9,7 @@ playbook: delete_detected_files
 how_to_implement: This playbook reads and then deletes files stored with artifact:*.cef.filePath from hosts stored in artifact:*.cef.destinationAddress. Windows Remote Management must be enabled on the remote computer.
 references: []
 app_list:
-- "WinRM"
+- "Windows Remote Management"
 tags:
   analytic_story:
   - Active Directory Lateral Movement
