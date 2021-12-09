@@ -1,0 +1,94 @@
+{
+    "create_time": "2021-09-17T17:19:24.149079+00:00",
+    "custom_function_id": "4581ae2a513db9be2faa490bfe585aa1defdc089",
+    "description": "List all playbooks matching the provided name, category, and tags. If no filters are provided, list all playbooks.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [],
+            "description": "Only return playbooks with the provided name.",
+            "input_type": "item",
+            "name": "name",
+            "placeholder": "Playbook Name"
+        },
+        {
+            "contains_type": [],
+            "description": "Only returns playbooks that match the provided category.",
+            "input_type": "item",
+            "name": "category",
+            "placeholder": "Playbook Category"
+        },
+        {
+            "contains_type": [],
+            "description": "Only return playbooks that contain ALL the provided tags. Multiple tags must be a comma-separated list.",
+            "input_type": "item",
+            "name": "tags",
+            "placeholder": "tag1,tag2,tag3"
+        },
+        {
+            "contains_type": [],
+            "description": "Only return playbooks that exist in this repo.",
+            "input_type": "item",
+            "name": "repo",
+            "placeholder": "local"
+        },
+        {
+            "contains_type": [],
+            "description": "Only return playbooks that match the provided type. Accepts 'automation', 'input' or 'data.'",
+            "input_type": "item",
+            "name": "playbook_type",
+            "placeholder": "automation"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                ""
+            ],
+            "data_path": "*.id",
+            "description": "Playbook ID:\ne.g. 1234"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.full_name",
+            "description": "Playbook full name with repo, e.g.:\nlocal/playbook_name"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.name",
+            "description": "Playbook Name:\ne.g. My Playbook"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.category",
+            "description": "Playbook category:\ne.g. Uncategorized"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.tags",
+            "description": "List of tags:\ne.g. [ tag1, tag2, tag3 ]"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.active",
+            "description": "Playbook automation status:\ne.g. True or False"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.disabled",
+            "description": "Playbook enabled / disabled status:\ne.g. True or False"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.playbook_type",
+            "description": "Playbook type: 'automation' or 'data'"
+        },
+        {
+            "contains_type": [],
+            "data_path": "*.input_spec",
+            "description": "If the playbook type is 'data,' this will be a list of dictionaries for the accepted inputs."
+        }
+    ],
+    "platform_version": "4.10.6.61906",
+    "python_version": "3"
+}

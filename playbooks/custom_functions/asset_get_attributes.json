@@ -1,0 +1,77 @@
+{
+    "create_time": "2021-08-24T13:51:40.605448+00:00",
+    "custom_function_id": "5ca49f921dfa723aff4e340671d610634f89e262",
+    "description": "Allows the retrieval of an attribute from an asset configuration for access in a playbook. This can be valuable in instances such as a dynamic note that references the Asset hostname. Must provide asset name or id.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                ""
+            ],
+            "description": "Asset numeric ID or asset name.",
+            "input_type": "item",
+            "name": "asset",
+            "placeholder": "splunk_es"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "id",
+            "description": "Unique asset id"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "data_path": "name",
+            "description": "Unique asset name"
+        },
+        {
+            "contains_type": [],
+            "data_path": "configuration",
+            "description": "Access individual configuration attributes by appending \".<keyname>\"\nExample: configuration.device"
+        },
+        {
+            "contains_type": [],
+            "data_path": "tags",
+            "description": "Asset tags"
+        },
+        {
+            "contains_type": [],
+            "data_path": "description",
+            "description": "Asset description"
+        },
+        {
+            "contains_type": [],
+            "data_path": "product_name",
+            "description": "Asset product_name"
+        },
+        {
+            "contains_type": [],
+            "data_path": "product_vendor",
+            "description": "Asset product_vendor"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "data_path": "product_version",
+            "description": "Asset product_version"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "data_path": "type",
+            "description": "Asset type"
+        },
+        {
+            "contains_type": [],
+            "data_path": "version",
+            "description": "Asset version"
+        }
+    ],
+    "platform_version": "4.10.6.61906",
+    "python_version": "3"
+}
