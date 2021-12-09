@@ -29,7 +29,7 @@ This playbook resets the password of a potentially compromised user account. Fir
 This playbook works on artifacts with artifact:*.cef.compromisedUserName which can be created as shown in the playbook &#34;recorded_future_handle_leaked_credentials&#34; - The prompt is hard-coded to use &#34;admin&#34; as the user, so change it to the correct user or role
 
 #### Playbooks
-![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/active_directory_reset_password.png)
+![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/activedirectory_reset_password.png)
 
 #### Required field
 * compromisedUserName
