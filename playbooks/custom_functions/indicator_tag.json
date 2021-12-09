@@ -1,0 +1,47 @@
+{
+    "create_time": "2021-10-29T21:39:29.397862+00:00",
+    "custom_function_id": "e7c38086f9c212dc5db9f6198f5e03be8158c2b2",
+    "description": "Tag an existing indicator record. Tags can be overwritten or appended.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "Specifies the indicator which the tag will be added to. Supports a string indicator value or an indicator id.",
+            "input_type": "item",
+            "name": "indicator",
+            "placeholder": "my_indicator"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "Comma separated list of tags. Tags should only contain characters Aa-Zz, 0-9, '-', and '_'.",
+            "input_type": "item",
+            "name": "tags",
+            "placeholder": "tag1,tag2,...,tagk"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional input. Either \"true\" or \"false\" with default as \"false\". If set to \"true\", existing tags on the indicator record will be replaced by the provided input. If set to \"false\", the new tags will be appended to the existing indicator tags.",
+            "input_type": "item",
+            "name": "overwrite",
+            "placeholder": "false"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "indicator_id",
+            "description": "The indicator id that was tagged."
+        },
+        {
+            "contains_type": [],
+            "data_path": "indicator_tags",
+            "description": "The new tags for the indicator"
+        }
+    ],
+    "platform_version": "5.0.1.66250",
+    "python_version": "3"
+}

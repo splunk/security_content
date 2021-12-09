@@ -1,0 +1,24 @@
+{
+    "create_time": "2021-03-24T13:43:27.570789+00:00",
+    "custom_function_id": "033ea99767cb63402a75971532c551c1be247075",
+    "description": "Load JSON string in a non-strict mode to allow unescaped control characters to be correctly escaped before passing them on to actions that require it.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [],
+            "description": "String in JSON format with possible unescaped control characters.",
+            "input_type": "item",
+            "name": "json_input",
+            "placeholder": ""
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "json_output",
+            "description": "JSON-serializable string with correctly escaped control characters."
+        }
+    ],
+    "platform_version": "4.10.2.47587",
+    "python_version": "3"
+}
