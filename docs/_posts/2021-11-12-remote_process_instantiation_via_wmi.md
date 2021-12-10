@@ -51,7 +51,7 @@ This analytic identifies wmic.exe being launched with parameters to spawn a proc
 #### Associated Analytic Story
 * [Ransomware](/stories/ransomware)
 * [Suspicious WMI Use](/stories/suspicious_wmi_use)
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

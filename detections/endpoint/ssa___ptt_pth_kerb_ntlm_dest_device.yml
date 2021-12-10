@@ -1,13 +1,13 @@
 name: Potential Pass the Token or Hash Observed at the Destination Device
 id: 82e76b80-5cdb-4899-9b43-85dbe777b36d
-version: 2
-date: '2021-11-05'
+version: 3
+date: '2021-11-30'
 author: Stanislav Miskovic, Splunk
 type: TTP
 datamodel:
 - Authentication
 description: This detection identifies potential Pass the Token or Pass the Hash credential
-  exploits. We detect the main side effect of these attacks, which is a transition
+  stealing. We detect the main side effect of these attacks, which is a transition
   from the dominant Kerberos logins to rare NTLM logins for a given user, as reported
   by a detination device.
 search: '| from read_ssa_enriched_events() | where "Authentication" IN(_datamodels)
@@ -45,10 +45,11 @@ how_to_implement: You must be ingesting Windows Security logs from endpoint devi
 known_false_positives: Environments in which NTLM is used extremely rarely and for
   benign purposes (such as a rare use of SMB shares).
 references:
-- https://attack.mitre.org/techniques/T1550/002/
+  - https://attack.mitre.org/techniques/T1550/002/
+  - https://www.offensive-security.com/metasploit-unleashed/psexec-pass-hash/
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   asset_type: Windows
   cis20:
   - CIS 16

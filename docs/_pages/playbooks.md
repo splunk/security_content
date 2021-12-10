@@ -10,6 +10,9 @@ sidebar:
 
 | Name    | Detections | Type        |
 | --------| ---------- | ----------- |
+| [Active Directory Reset password](/playbooks/active_directory_reset_password/)| None | Response |
+| [Crowdstrike Malware Triage](/playbooks/crowdstrike_malware_triage/)| None | Response |
+| [Delete Detected Files](/playbooks/delete_detected_files/)|[Executable File Written in Administrative SMB Share](/detections/TTP/executable_file_written_in_administrative_smb_share)| Response |
 | [Ransomware Investigate and Contain](/playbooks/ransomware_investigate_and_contain/)|[Conti Common Exec parameter](/detections/TTP/conti_common_exec_parameter)| Response |
 | [Risk Notable Block Indicators](/playbooks/risk_notable_block_indicators/)| None | Response |
 | [Risk Notable Enrich](/playbooks/risk_notable_enrich/)| None | Investigation |

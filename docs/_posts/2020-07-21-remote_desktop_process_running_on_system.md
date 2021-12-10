@@ -56,7 +56,7 @@ This search looks for the remote desktop process mstsc.exe running on systems up
 
 #### Associated Analytic Story
 * [Hidden Cobra Malware](/stories/hidden_cobra_malware)
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

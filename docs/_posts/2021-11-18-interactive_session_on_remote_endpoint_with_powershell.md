@@ -51,7 +51,7 @@ powershell` EventCode=4104 (Message="*Enter-PSSession*" AND Message="*-ComputerN
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

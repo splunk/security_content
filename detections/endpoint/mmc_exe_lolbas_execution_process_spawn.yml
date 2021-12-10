@@ -40,7 +40,7 @@ references:
 - https://lolbas-project.github.io/
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   automated_detection_testing: passed
   confidence: 60
   context:

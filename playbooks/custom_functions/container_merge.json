@@ -1,0 +1,41 @@
+{
+    "create_time": "2021-10-18T12:31:32.500833+00:00",
+    "custom_function_id": "83776ecf4dd52c71d8497cb500dd332780eb9c72",
+    "description": "An alternative to the add-to-case API call. This function will copy all artifacts, automation, notes and comments over from every container within the container_list into the target_container. The target_container will be upgraded to a case.\n\nThe notes will be copied over with references to the child containers from where they came. A note will be left in the child containers with a link to the target container. The child containers will be marked as evidence within the target container. \n\nAny notes left as a consequence of the merge process will be skipped in subsequent merges.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "phantom container id"
+            ],
+            "description": "The target container to copy the information over. Supports container dictionary or container id.",
+            "input_type": "item",
+            "name": "target_container",
+            "placeholder": "container:id"
+        },
+        {
+            "contains_type": [],
+            "description": "A list of container IDs to copy into the target container.",
+            "input_type": "list",
+            "name": "container_list",
+            "placeholder": "[1, 5, 10]"
+        },
+        {
+            "contains_type": [],
+            "description": "Name or ID of the workbook to add if the container does not have a workbook yet. If no workbook is provided, the system default workbook will be added.",
+            "input_type": "item",
+            "name": "workbook",
+            "placeholder": "My Workbook"
+        },
+        {
+            "contains_type": [],
+            "description": "True or False to close the child containers in the container_list after merge. Defaults to False.",
+            "input_type": "item",
+            "name": "close_containers",
+            "placeholder": "True or False"
+        }
+    ],
+    "outputs": [],
+    "platform_version": "5.0.1.66250",
+    "python_version": "3"
+}

@@ -23,7 +23,7 @@ tags:
 
 #### Description
 
-This detection identifies potential Pass the Token or Pass the Hash credential exploits. We detect the main side effect of these attacks, which is a transition from the dominant Kerberos logins to rare NTLM logins for a given user, as reported by an event-collecting device (i.e., a specific domain controller or an endpoint destination).
+This detection identifies potential Pass the Token or Pass the Hash credential stealing. We detect the main side effect of these attacks, which is a transition from the dominant Kerberos logins to rare NTLM logins for a given user, as reported by an event-collecting device (i.e., a specific domain controller or an endpoint destination).
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
@@ -48,8 +48,7 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 | from read_ssa_enriched_events() 
 | where "Authentication" IN(_datamodels)
 
-| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null)), dest_user_id=   ucast(map_get(input_event, "dest_user_id"), "string", null), origin_device_id=       ucast(map_get(input_event, "origin_device_id"), "string", null), signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string", null)), authentication_method=  lower(ucast(map_get(input_event, "authentication_method"), "string", null))
-
+| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null)), dest_user=      lower(ucast(map_get(input_event, "dest_user_primary_artifact"), "string", null)), dest_user_id=   ucast(map_get(input_event, "dest_user_id"), "string", null), origin_device_id=       ucast(map_get(input_event, "origin_device_id"), "string", null), signature_id=   lower(ucast(map_get(input_event, "signature_id"), "string", null)), authentication_method=  lower(ucast(map_get(input_event, "authentication_method"), "string", null)), event_id=ucast(map_get(input_event, "event_id"), "string", null) 
 | where signature_id = "4624" AND (authentication_method="ntlmssp" OR authentication_method="kerberos") AND dest_user_id != null AND origin_device_id != null
 
 | eval isKerberos=if(authentication_method == "kerberos", 1, 0), isNtlm=if(authentication_method == "ntlmssp", 1, 0), timeNTLM=if(isNtlm > 0, timestamp, null)
@@ -58,13 +57,13 @@ This detection identifies potential Pass the Token or Pass the Hash credential e
 
 | where NOT dest_user="-" AND totalKerberos > 0 AND totalNtlm > 0 AND endTime - startTime > 1800000 AND (totalKerberos > 10 * totalNtlm AND totalKerberos > 50)  AND (endTime - startTime) > 3 * (endNTLMTime - startNTLMTime)
 
-| eval start_time=startNTLMTime, end_time=endNTLMTime, entities=mvappend(dest_user_id, origin_device_id), body=create_map(["total_kerberos", totalKerberos, "total_ntlm", totalNtlm, "analysis_start_time", startTime, "analysis_end_time", endTime, "detection_start_time", startNTLMTime, "detection_end_time", endNTLMTime])
+| eval start_time=startNTLMTime, end_time=endNTLMTime, entities=mvappend(dest_user_id, origin_device_id), body=create_map(["event_id", event_id, "total_kerberos", totalKerberos, "total_ntlm", totalNtlm, "analysis_start_time", startTime, "analysis_end_time", endTime, "detection_start_time", startNTLMTime, "detection_end_time", endNTLMTime])
 
 | into write_ssa_detected_events();
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement
@@ -99,6 +98,7 @@ Environments in which NTLM is used extremely rarely and for benign purposes (suc
 #### Reference
 
 * [https://attack.mitre.org/techniques/T1550/002/](https://attack.mitre.org/techniques/T1550/002/)
+* [https://www.offensive-security.com/metasploit-unleashed/psexec-pass-hash/](https://www.offensive-security.com/metasploit-unleashed/psexec-pass-hash/)
 
 
 
