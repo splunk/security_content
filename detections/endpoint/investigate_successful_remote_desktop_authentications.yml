@@ -23,7 +23,7 @@ references: []
 tags:
   analytic_story:
   - Hidden Cobra Malware
-  - Lateral Movement
+  - Active Directory Lateral Movement
   - SamSam Ransomware
   product:
   - Splunk Phantom

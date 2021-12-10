@@ -1,0 +1,28 @@
+{
+    "create_time": "2021-04-28T18:59:13.280589+00:00",
+    "custom_function_id": "62a7fbbc463ca097bdb7c7f2cf84d5f7e071cbd8",
+    "description": "Convert the provided string to all uppercase characters.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "The string to convert to uppercase",
+            "input_type": "item",
+            "name": "input_string",
+            "placeholder": ""
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "uppercase_string",
+            "description": "The string after converting to upper case"
+        }
+    ],
+    "platform_version": "4.10.3.51237",
+    "python_version": "3"
+}

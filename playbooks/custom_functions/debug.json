@@ -1,0 +1,121 @@
+{
+    "create_time": "2021-04-28T19:54:35.225927+00:00",
+    "custom_function_id": "537aa035a6106bc6aeba14414631e2f17b7bc8bd",
+    "description": "Print debug messages with the type and value of 0-10 different inputs. This is useful for checking the values of input data or the outputs of other playbook blocks.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_1",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_2",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_3",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_4",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_5",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_6",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_7",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_8",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_9",
+            "placeholder": ""
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "",
+            "input_type": "list",
+            "name": "input_10",
+            "placeholder": ""
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "*.input_name",
+            "description": "The variable name used for this input, such as input_1 or input_7"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.value",
+            "description": "The string representation of the value of this input"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "data_path": "*.types",
+            "description": "The string representation of the type of this input, such as \"<type 'list'>\""
+        }
+    ],
+    "platform_version": "4.10.3.51237",
+    "python_version": "3"
+}

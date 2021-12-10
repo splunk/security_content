@@ -19,7 +19,7 @@ known_false_positives: Legitimate logon activity by authorized NTLM systems may 
 references: []
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

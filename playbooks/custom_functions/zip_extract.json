@@ -1,0 +1,60 @@
+{
+    "create_time": "2021-09-21T15:42:41.329482+00:00",
+    "custom_function_id": "88e76e61451c3d3d0b1d2537a8bf7f9b3bf5bc80",
+    "description": "Extract all files recursively from a .zip archive. Add the extracted files to the vault and return the vault IDs of the extracted files. Provide a password if needed to decrypt.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "phantom container id"
+            ],
+            "description": "The container that extracted files will be added to. Should be a container ID or a container dictionary.",
+            "input_type": "item",
+            "name": "container",
+            "placeholder": "container:id"
+        },
+        {
+            "contains_type": [],
+            "description": "The vault ID of the zip archive to be unzipped.",
+            "input_type": "item",
+            "name": "vault_id",
+            "placeholder": "artifact:*.cef.vaultId"
+        },
+        {
+            "contains_type": [],
+            "description": "The password to use for decryption of the zip archive if necessary.",
+            "input_type": "item",
+            "name": "password",
+            "placeholder": "infected"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "zip_file_info.name",
+            "description": "File name of the zip file in the vault"
+        },
+        {
+            "contains_type": [],
+            "data_path": "zip_file_info.user",
+            "description": "User who added the zip file to the vault"
+        },
+        {
+            "contains_type": [],
+            "data_path": "output_files.*.file_name",
+            "description": "The names of the files extracted from the zip archive."
+        },
+        {
+            "contains_type": [],
+            "data_path": "output_files.*.file_path",
+            "description": "The file paths of the files extracted from the zip archive."
+        },
+        {
+            "contains_type": [],
+            "data_path": "output_files.*.vault_id",
+            "description": "The vault IDs of the files extracted from the zip archive."
+        }
+    ],
+    "platform_version": "4.10.7.63984",
+    "python_version": "3"
+}

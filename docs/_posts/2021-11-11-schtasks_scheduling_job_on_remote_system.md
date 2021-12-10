@@ -57,7 +57,7 @@ This analytic looks for the execution of `schtasks.exe` with command-line argume
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [NOBELIUM Group](/stories/nobelium_group)
 
 

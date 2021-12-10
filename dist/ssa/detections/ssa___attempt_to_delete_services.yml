@@ -12,8 +12,9 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
 id: a0c8c292-d01a-11eb-aa18-acde48001122
-known_false_positives: unknown
-name: Attempt To delete Services
+known_false_positives: It is possible administrative scripts may start/stop/delete
+  services. Filter as needed.
+name: Attempt To Delete Services
 product:
 - Splunk Behavioral Analytics
 references:

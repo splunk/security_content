@@ -65,7 +65,7 @@ Upon triage, identify the task scheduled source. Was it schtasks.exe or was it v
 * [Ransomware](/stories/ransomware)
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [IcedID](/stories/icedid)
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

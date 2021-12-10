@@ -1,6 +1,6 @@
 author: Teoderick Contreras, Splunk
 datamodel:
-- Endpoint
+- Endpoint_Processes
 date: '2021-11-15'
 description: This analytic will detect the execution of sdelete.exe attempting to
   delete potentially important files that may related to adversary or insider threats

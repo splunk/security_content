@@ -23,7 +23,7 @@ tags:
 
 #### Description
 
-The following analytic identifies executable files (.exe or .dll) being written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents suspicious behavior as its commonly user by tools like like PsExec/PaExec and others to stage service binaries before creating and starting a Windows service on remote endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral movement and remote code execution. The Trickbot malware family also implements this behavior to try to infect other machines in the infected network.
+The following analytic identifies executable files (.exe or .dll) being written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents suspicious behavior as its commonly used by tools like like PsExec/PaExec and others to stage service binaries before creating and starting a Windows service on remote endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral movement and remote code execution. The Trickbot malware family also implements this behavior to try to infect other machines in the infected network.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -52,7 +52,7 @@ The following analytic identifies executable files (.exe or .dll) being written 
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 * [Trickbot](/stories/trickbot)
 
 
