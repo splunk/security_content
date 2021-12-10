@@ -1,7 +1,7 @@
 name: Windows Curl Upload to Remote Destination
 id: cc8d046a-543b-11ec-b864-acde48001122
-version: 1
-date: '2021-12-03'
+version: 2
+date: '2021-12-10'
 author: Michael Haag, Splunk
 type: TTP
 datamodel:
