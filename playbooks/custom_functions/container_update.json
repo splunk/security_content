@@ -1,0 +1,85 @@
+{
+    "create_time": "2021-07-19T18:11:14.706144+00:00",
+    "custom_function_id": "7272e46db8e97248abb1584c72c0734ff9e303dc",
+    "description": "Allows updating various attributes of a container in a single custom function. Any attributes of a container not listed can be updated via the input_json parameter. ",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "phantom container id"
+            ],
+            "description": "Supports a container id or container dictionary",
+            "input_type": "item",
+            "name": "container_input",
+            "placeholder": "container:id"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to change container name",
+            "input_type": "item",
+            "name": "name",
+            "placeholder": "My Container Name"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to change the container description",
+            "input_type": "item",
+            "name": "description",
+            "placeholder": "My Container Description"
+        },
+        {
+            "contains_type": [
+                "phantom container label"
+            ],
+            "description": "Optional parameter to change the container label",
+            "input_type": "item",
+            "name": "label",
+            "placeholder": "my_label"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to change the container owner. Accepts a username or role name or keyword \"current\" to set the currently running playbook user as the owner.",
+            "input_type": "item",
+            "name": "owner",
+            "placeholder": "admin"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to change the container sensitivity. ",
+            "input_type": "item",
+            "name": "sensitivity",
+            "placeholder": "amber"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to change the container severity.",
+            "input_type": "item",
+            "name": "severity",
+            "placeholder": "medium"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to change the container status.",
+            "input_type": "item",
+            "name": "status",
+            "placeholder": "open"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to change the container tags. Must be in the format of a comma separated list.",
+            "input_type": "item",
+            "name": "tags",
+            "placeholder": "tag1, tag2"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to modify any extra attributes of a container. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+            "input_type": "item",
+            "name": "input_json",
+            "placeholder": "{\"custom_fields\": {\"field_name\": \"field_value\"}}"
+        }
+    ],
+    "outputs": [],
+    "platform_version": "4.10.4.56260",
+    "python_version": "3"
+}

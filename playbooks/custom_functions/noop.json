@@ -1,0 +1,10 @@
+{
+    "create_time": "2021-04-28T19:53:21.159704+00:00",
+    "custom_function_id": "561cadef222a920bb91c236c6e9eb7604f537369",
+    "description": "Do nothing and return nothing. Use this if you want to do something in a custom function setup section or leave a placeholder block in a playbook. This does not sleep or wait and will return as soon as possible.",
+    "draft_mode": false,
+    "inputs": [],
+    "outputs": [],
+    "platform_version": "4.10.3.51237",
+    "python_version": "3"
+}

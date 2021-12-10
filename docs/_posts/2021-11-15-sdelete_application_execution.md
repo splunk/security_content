@@ -71,6 +71,7 @@ To successfully implement this search you need to be ingesting information on pr
 * process
 * process_id
 * process_path
+* cmd_line
 
 
 #### Kill Chain Phase
@@ -85,7 +86,7 @@ False positives should be limited, filter as needed.
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 42.0 | 60 | 70 | sdelete process $process_name$ executed on $dest$ attempting to permanently delete files. |
+| 42.0 | 60 | 70 | Sdelete process $process_name$ executed on $dest_device_id$ attempting to permanently delete files by $dest_user_id$. |
 
 
 
