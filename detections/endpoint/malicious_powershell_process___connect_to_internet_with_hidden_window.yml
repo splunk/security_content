@@ -29,15 +29,17 @@ how_to_implement: You must be ingesting data that records process activity from 
 known_false_positives: Legitimate process can have this combination of command-line
   options, but it's not common.
 references:
-- https://regexr.com/663rr
-- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
-- https://ss64.com/ps/powershell.html
-- https://twitter.com/M_haggis/status/1440758396534214658?s=20
+  - https://regexr.com/663rr
+  - https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
+  - https://ss64.com/ps/powershell.html
+  - https://twitter.com/M_haggis/status/1440758396534214658?s=20
+  - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 tags:
   analytic_story:
   - Malicious PowerShell
   - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
   - HAFNIUM Group
+  - Log4Shell CVE-2021-44228
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:
