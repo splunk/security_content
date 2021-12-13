@@ -7,6 +7,6 @@ tests:
   latest_time: 'now'
   attack_data:
   - file_name: linux-sysmon.log
-    data: UPDATE_DATASET_URL
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon_linux
