@@ -1,4 +1,4 @@
-
+import logging
 import json
 
 from contentctl.contentctl.domain.entities.security_content_object import SecurityContentObject
@@ -12,6 +12,7 @@ class FileSecurityContentRepository(SecurityContentRepository):
     def get(self, path: str) -> SecurityContentObject:
         yml_dict = YmlReader.load_file(path)
         detection = Detection.parse_obj(yml_dict)
+        logging.info("Read and parse object: " + detection.name)
         return detection
 
     def convert(self, security_content_obj: SecurityContentObject) -> None:
