@@ -55,7 +55,7 @@ tags:
   message: Java performed outbound connections to default ports of LDAP or RMI on $dest$
   observable:
   - name: dest
-  type: Hostname
-  role:
-  - Victim
+    type: Hostname
+    role:
+    - Victim
   
