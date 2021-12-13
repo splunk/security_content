@@ -29,6 +29,10 @@
     "splunk_app_password": null,
     "splunk_container_apps_directory": "/opt/splunk/etc/apps",
     "splunkbase_apps": {
+        "ADD-ON_FOR_LINUX_SYSMON": {
+            "app_number": 6176,
+            "app_version": "1.0.3"
+        },
         "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT": {
             "app_number": 2882,
             "app_version": "2.0.2"
@@ -64,10 +68,6 @@
         "SPLUNK_ADD_ON_FOR_ZEEK_AKA_BRO": {
             "app_number": 1617,
             "app_version": "4.0.0"
-        },
-        "SPLUNK_ANALYTIC_STORY_EXECUTION_APP": {
-            "app_number": 4971,
-            "app_version": "2.0.3"
         },
         "SPLUNK_APP_FOR_STREAM": {
             "app_number": 1809,

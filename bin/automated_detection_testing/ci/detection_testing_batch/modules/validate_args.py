@@ -173,11 +173,6 @@ setup_schema = {
                     "app_version": "1.3.2"
                 },
 
-                "SPLUNK_ANALYTIC_STORY_EXECUTION_APP": {
-                    "app_number": 4971,
-                    "app_version": "2.0.3"
-                },
-
                 "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT": {
                     "app_number": 2882,
                     "app_version": "2.0.2"
