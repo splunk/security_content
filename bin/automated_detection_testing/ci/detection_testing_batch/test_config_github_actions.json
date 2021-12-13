@@ -80,6 +80,10 @@
         "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
             "app_number": 2890,
             "app_version": "5.2.2"
+        },
+        "ADD_ON_FOR_LINUX_SYSMON": {
+            "app_number": 6176,
+            "app_version": "1.0.3"
         }
     },
     "splunkbase_password": null,
