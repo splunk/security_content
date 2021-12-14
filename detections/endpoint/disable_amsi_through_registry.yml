@@ -48,3 +48,6 @@ tags:
   - Registry.dest
   - Registry.registry_value_name
   security_domain: endpoint
+  CIM_version: 4.20.2
+  supported_tas:
+  - Splunk_TA_bit9-carbonblack

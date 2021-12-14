@@ -80,3 +80,7 @@ tags:
   - Filesystem.user
   risk_score: 63
   security_domain: network
+  CIM_version: 4.20.2
+  supported_tas:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR

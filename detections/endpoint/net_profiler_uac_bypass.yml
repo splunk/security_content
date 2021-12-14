@@ -62,3 +62,6 @@ tags:
   - Registry.dest
   risk_score: 63
   security_domain: endpoint
+  CIM_version: 4.20.2
+  supported_tas:
+  - Splunk_TA_bit9-carbonblack
