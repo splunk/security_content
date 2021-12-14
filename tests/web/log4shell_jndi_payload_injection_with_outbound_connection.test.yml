@@ -3,10 +3,14 @@ tests:
 - name: Log4Shell JNDI Payload Injection with Outbound Connection
   file: web/log4shell_jndi_payload_injection_with_outbound_connection.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-360d'
   latest_time: 'now'
   attack_data:
-  - file_name: UPDATE_FILE_NAME
-    data: UPDATE_DATASET_URL
-    source: UPDATE_SPLUNK_SOURCE
-    sourcetype: UPDATE_SPLUNK_SOURCETYPE
+  - file_name: nginx.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
+    source: nginx
+    sourcetype: nginx:plus:kv
+  - file_name: stream.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_network_logs/log4j_network_logs.log
+    source: stream:Splunk_IP
+    sourcetype: stream:ip
