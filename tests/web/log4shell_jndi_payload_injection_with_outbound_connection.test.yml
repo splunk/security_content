@@ -1,0 +1,12 @@
+name: Log4Shell JNDI Payload Injection with Outbound Connection Unit Test
+tests:
+- name: Log4Shell JNDI Payload Injection with Outbound Connection
+  file: web/log4shell_jndi_payload_injection_with_outbound_connection.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: UPDATE_FILE_NAME
+    data: UPDATE_DATASET_URL
+    source: UPDATE_SPLUNK_SOURCE
+    sourcetype: UPDATE_SPLUNK_SOURCETYPE
