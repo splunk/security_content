@@ -308,10 +308,10 @@ class GithubService:
                                   (len(pathlib.Path(x).parts) > 3 and pathlib.Path(x).parts[2] in folders) ]
        
         #Print out the skipped tests to the user
-        for missing in set(changed_test_files).intersection(all_changed_test_files):
+        for missing in set(changed_test_files).symmetric_difference(all_changed_test_files):
             print("Ignoring modified test [%s] not in set of selected folders: %s"%(missing,folders)) 
         
-        for missing in set(changed_detection_files).intersection(all_changed_detection_files):
+        for missing in set(changed_detection_files).symmetric_difference(all_changed_detection_files):
             print("Ignoring modified detecton [%s] not in set of selected folders: %s"%(missing,folders))
         
         # Convert the test files to the detection file equivalent. 
