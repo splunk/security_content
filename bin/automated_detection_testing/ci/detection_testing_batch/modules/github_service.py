@@ -324,9 +324,9 @@ class GithubService:
         #    converted_test_files.append(detection_filename)
         
         #check and throw an error if we somehow got experimental tests
-        experimental_tests = [x for x in changed_test_files if 'experimental' in x]
-        if len(experimental_tests) > 0:
-            raise(Exception("Error - expected no experimental detections, but found:\n\t%s]"%("\n\t".join(experimental_tests))))
+        #experimental_tests = [x for x in changed_test_files if 'experimental' in x]
+        #if len(experimental_tests) > 0:
+        #    raise(Exception("Error - expected no experimental detections, but found:\n\t%s]"%("\n\t".join(experimental_tests))))
 
         #Get the appropriate detection file paths for a modified test file
         for test_filepath in changed_test_files:
