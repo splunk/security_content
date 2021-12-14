@@ -11,7 +11,8 @@ description: A required step while exploiting the CVE-2021-44228-Log4j vulnerabi
   infrastrucutre. This is required as part of the JNDI lookup as well as for retrieving
   the second stage .class payload. The following analytic identifies the Java process
   reaching out to default ports used by the LDAP and RMI protocols. This behavior
-  could represent successfull exploitation.
+  could represent successfull exploitation. Note that adversaries can easily decide to use
+  arbitrary ports for these protocols and potentially bypass this detection. 
 search: ' `sysmon` EventCode=3  (process_name=java OR process_name=java.exe) (DestinationPort=389
   OR DestinationPort=1389 OR DestinationPort = 1099 ) | rename Computer as dest |  stats
   count min(_time) as firstTime max(_time) as lastTime by dest, process_name, DestinationPort
