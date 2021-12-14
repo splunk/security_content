@@ -9,5 +9,6 @@ tests:
   - file_name: stream_http_events.log
     data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_ldap/bro_conn.json
     sourcetype: bro:conn:json
+    source: /opt/malware/conn.log
 
     
