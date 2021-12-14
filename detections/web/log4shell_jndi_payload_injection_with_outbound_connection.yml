@@ -57,6 +57,8 @@ tags:
   # (impact * confidence)/100
   risk_score: 15
   context: 
+  - Source:Application Log
+  - Stage:Execution
   message: CVE-2021-44228 Log4Shell triggered for host $dest$
   observable:
   - name: user
