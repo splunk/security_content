@@ -7,11 +7,12 @@ import subprocess
 import sys
 from typing import Union
 from docker import types
-
+import datetime
 import git
 import yaml
 from git.objects import base
-
+from modules import testing_service
+import pathlib
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
@@ -62,6 +63,56 @@ class GithubService:
         self.commit_hash = commit_hash
 
 
+    def update_and_commit_passed_tests(self, results:list[dict])->bool:
+        
+        changed_file_paths = []
+        for result in results:
+            detection_obj_path = os.path.join("security_content","detections",result['detection_file'])
+            
+            test_obj_path = detection_obj_path.replace("detections", "tests", 1)
+            test_obj_path = test_obj_path.replace(".yml",".test.yml")
+
+            detection_obj = testing_service.load_file(detection_obj_path)
+            test_obj = testing_service.load_file(test_obj_path)
+            detection_obj['tags']['automated_detection_testing'] = 'passed'
+            #detection_obj['tags']['automated_detection_testing_date'] = datetime.datetime.today().strftime('%Y-%m-%d-%H:%M:%S')
+            
+            for o in test_obj['tests']:
+                if 'attack_data' in o:
+                    datasets = []
+                    for dataset in o['attack_data']:
+                        datasets.append(dataset['data'])
+                    detection_obj['tags']['dataset'] = datasets
+            with open(detection_obj_path, "w") as f:
+                yaml.dump(detection_obj, f, sort_keys=False, allow_unicode=True)
+            
+            changed_file_paths.append(detection_obj_path)
+        
+        relpaths = [pathlib.Path(*pathlib.Path(p).parts[1:]).as_posix() for p in changed_file_paths]
+        newpath = relpaths[0]+'.wow'
+        relpaths.append(newpath)
+        with open('security_content/' + newpath,'w') as d:
+                d.write("fake file")
+        print("status results:")
+        print(self.security_content_repo_obj.index.diff(self.security_content_repo_obj.head.commit))
+        
+        if len(relpaths) > 0:
+            print('there is at least one changed file')
+            print(relpaths)            
+            self.security_content_repo_obj.index.add(relpaths)
+            print("status results after add:")
+            print(self.security_content_repo_obj.index.diff(self.security_content_repo_obj.head.commit))
+
+            commit_message = "The following detections passed detection testing.  Their YAMLs have been updated and their datasets linked:\n - %s"%("\n - ".join(relpaths))
+            self.security_content_repo_obj.index.commit(commit_message)
+            return True
+        else:
+            return False
+                
+        
+
+        
+        return True
 
     def clone_project(self, url, project, branch):
         LOGGER.info(f"Clone Security Content Project")
@@ -214,9 +265,9 @@ class GithubService:
         branch1 = self.security_content_branch
         branch2 = 'develop'
         g = git.Git('security_content')
-        changed_test_files = []
+        all_changed_test_files = []
 
-        changed_detection_files = []
+        all_changed_detection_files = []
         if branch1 != 'develop':
             if self.commit_hash is None:
                 differ = g.diff('--name-status', branch2 + '...' + branch1)
@@ -230,11 +281,11 @@ class GithubService:
                 # added or changed test files
                 if file_path.startswith('A') or file_path.startswith('M'):
                     if 'tests' in file_path and os.path.basename(file_path).endswith('.test.yml'):
-                        changed_test_files.append(file_path)
+                        all_changed_test_files.append(file_path)
 
                     # changed detections
                     if 'detections' in file_path and os.path.basename(file_path).endswith('.yml'):
-                        changed_detection_files.append(file_path)
+                        all_changed_detection_files.append(file_path)
         else:
             print("Looking for changed detections by diffing [%s] against [%s].  They are the same branch, so none were returned." % (
                 branch1, branch2), file=sys.stderr)
@@ -242,11 +293,26 @@ class GithubService:
 
         
         # all files have the format A\tFILENAME or M\tFILENAME.  Get rid of those leading characters
-        changed_test_files = [os.path.join("security_content", name.split(
-            '\t')[1]) for name in changed_test_files if len(name.split('\t')) == 2]
-        changed_detection_files = [os.path.join("security_content", name.split(
-            '\t')[1]) for name in changed_detection_files if len(name.split('\t')) == 2]
+        all_changed_test_files = [os.path.join("security_content", name.split(
+            '\t')[1]) for name in all_changed_test_files if len(name.split('\t')) == 2]
 
+        all_changed_detection_files = [os.path.join("security_content", name.split(
+            '\t')[1]) for name in all_changed_detection_files if len(name.split('\t')) == 2]
+         
+
+        #Trim out any of the tests/detection  that are not in the selected folders, but at least print a notice
+        # to the user.
+        changed_test_files = [x for x in all_changed_test_files if len(pathlib.Path(x).parts) > 3 and 
+                             pathlib.Path(x).parts[2] in folders ]
+        changed_detection_files = [x for x in all_changed_detection_files if 
+                                  (len(pathlib.Path(x).parts) > 3 and pathlib.Path(x).parts[2] in folders) ]
+       
+        #Print out the skipped tests to the user
+        for missing in set(changed_test_files).intersection(all_changed_test_files):
+            print("Ignoring modified test [%s] not in set of selected folders: %s"%(missing,folders)) 
+        
+        for missing in set(changed_detection_files).intersection(all_changed_detection_files):
+            print("Ignoring modified detecton [%s] not in set of selected folders: %s"%(missing,folders))
         
         # Convert the test files to the detection file equivalent. 
         # Note that some of these tests may be baselines and their associated 

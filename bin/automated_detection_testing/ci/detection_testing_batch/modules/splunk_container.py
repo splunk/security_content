@@ -355,6 +355,10 @@ class SplunkContainer:
 
             # Try to get something from the queue
             detection_to_test = self.synchronization_object.getTest()
+
+            # Sleep for a small random time so that containers drift apart and don't synchronize their testing
+            time.sleep(random.randint(1, 30))
+            
             if detection_to_test is None:
                 try:
                     print(
@@ -404,5 +408,4 @@ class SplunkContainer:
                 )
             self.num_tests_completed += 1
 
-            # Sleep for a small random time so that containers drift apart and don't synchronize their testing
-            time.sleep(random.randint(1, 30))
+            
