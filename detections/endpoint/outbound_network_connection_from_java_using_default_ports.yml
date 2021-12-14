@@ -4,11 +4,10 @@ version: 1
 date: '2021-12-13'
 author: Mauricio Velazco, Splunk
 type: TTP
-datamodel:
-- Endpoint
+datamodel: []
 description: A required step while exploiting the CVE-2021-44228-Log4j vulnerability
   is that the victim server will perform outbound connections to attacker-controlled
-  infrastrucutre. This is required as part of the JNDI lookup as well as for retrieving
+  infrastructure. This is required as part of the JNDI lookup as well as for retrieving
   the second stage .class payload. The following analytic identifies the Java process
   reaching out to default ports used by the LDAP and RMI protocols. This behavior
   could represent successfull exploitation. Note that adversaries can easily decide to use
