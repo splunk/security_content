@@ -7,8 +7,7 @@ type: Anomaly
 datamodel:
 - Network_Traffic
 - Web
-description: 
-	UPDATE_DESCRIPTION
+description: UPDATE_DESCRIPTION
 	WHAT IS THIS?
 	WHAT DOES IT LOOK LIKE?
 	HOW DO YOU TRIAGE IT?
@@ -18,7 +17,7 @@ search: '| from datamodel Web.Web | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:
 how_to_implement: UPDATE_HOW_TO_IMPLEMENT
 known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
 references:
--  
+-  todo
 tags:
   analytic_story:
   - UPDATE_STORY_NAME
@@ -35,14 +34,26 @@ tags:
   required_fields:
   - _time
   security_domain: threat
-  impact: 
-  confidence: 
+  impact: 50
+  confidence: 30 
   # (impact * confidence)/100
-  risk_score: 
-  context:
-  message: 
+  risk_score: 15
+  context: 
+  message: CVE-2021-44228 Log4Shell triggered for host $dest$
   observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   nist:
-  -
+  - DE.CM
   cis20:
-  -
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  cve:
+  - CVE-2021-44228
