@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Malicious PowerShell
   - Ingress Tool Transfer
+  - Log4Shell CVE-2021-44228
   automated_detection_testing: passed
   confidence: 70
   context:
@@ -66,6 +67,8 @@ tags:
     type: Process
     role:
     - Child Process
+  cve:
+  - CVE-2021-44228
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
