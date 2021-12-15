@@ -1,5 +1,5 @@
 """
-Published in response to CVE-2021-44228, this playbook scans the endpoint for the presence of &quot;jndilookup.class&quot; in all .jar files. The presence of that string could indicate a log4j vulnerability.
+Published in response to CVE-2021-44228, this playbook scans the endpoint for the presence of &quot;jndilookup.class&quot; in all .jar, .jsp, and .jspx files. The presence of that string could indicate a log4j vulnerability.
 """
 
 
@@ -33,7 +33,7 @@ def run_traversal_script(action=None, success=None, container=None, results=None
     # build parameters list for 'run_traversal_script' call
     for playbook_input_ip_or_hostname_item in playbook_input_ip_or_hostname:
         parameters.append({
-            "script_str": "$ProgressPreference = 'SilentlyContinue'; Get-PSDrive -PSProvider FileSystem | foreach {(gci ($_.Root) -rec -force -include ('*.war', '*.jsp', '*.jspx', '*.jar') -ea 0 | foreach {select-string \"JndiLookup.class\" $_} | Select-Object -Property LineNumber, Path )} | ConvertTo-Json",
+            "script_str": "$ProgressPreference = 'SilentlyContinue'; Get-PSDrive -PSProvider FileSystem | foreach {(gci ($_.Root) -rec -force -include ('*.jsp', '*.jspx', '*.jar') -ea 0 | foreach {select-string \"JndiLookup.class\" $_} | Select-Object -Property LineNumber, Path )} | ConvertTo-Json",
             "ip_hostname": playbook_input_ip_or_hostname_item[0],
         })
 

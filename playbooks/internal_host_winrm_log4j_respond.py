@@ -56,7 +56,7 @@ def locate_files(action=None, success=None, container=None, results=None, handle
     # Iterate through the host dictionary and generation one search string that checks all filepaths per host.
     # This ensures that we are only connecting to each host once.
     for k,v in host_search.items():
-        script_str = f"Test-Path {','.join(v)} | ConvertTo-Json"
+        script_str = f"$ProgressPreference = 'SilentlyContinue'; Test-Path {','.join(v)} | ConvertTo-Json"
         parameters.append({
             "ip_hostname": k,
             "script_str": script_str
@@ -130,16 +130,21 @@ def generate_deletion_commands(action=None, success=None, container=None, result
     # Iterate through the paired host and locate files action result
     for hostname, action_result in zip(locate_files_parameter_ip_hostname, locate_files_result_item_1):
         
-        # Ensure at least one file was found for that host
-        if True in json.loads(action_result):
+        json_action_result = json.loads(action_result)
+        
+        if isinstance(json_action_result, bool):
+            json_action_result = [json_action_result]
             
+        # Ensure at least one file was found for that host
+        if any(json_action_result):
+        
             # Attach this host to list of deletion hosts
             generate_deletion_commands__host.append(hostname)
             
             # Begin building deletion powershell script and prompt message
-            deletion_string = "Remove-Item "
+            deletion_string = "$ProgressPreference = 'SilentlyContinue'; Remove-Item "
             generate_deletion_commands__prompt_content += f"### {hostname}\n\n"
-            for filepath, result in zip(host_dictionary[hostname], json.loads(action_result)):
+            for filepath, result in zip(host_dictionary[hostname], json_action_result):
                 if result == True:
                     generate_deletion_commands__prompt_content += f"- {filepath}\n"
                     deletion_string += f"{filepath},"
@@ -171,8 +176,8 @@ def deletion_confirmation(action=None, success=None, container=None, results=Non
 
     # set user and message variables for phantom.prompt call
 
-    user = "admin"
-    message = """SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n{0}"""
+    user = "Incident Commander"
+    message = """SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n&nbsp;\n{0}"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -324,8 +329,8 @@ def quarantine_prompt(action=None, success=None, container=None, results=None, h
 
     # set user and message variables for phantom.prompt call
 
-    user = "admin"
-    message = """Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n### Target Hosts\n{0}"""
+    user = "Incident Commander"
+    message = """Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n&nbsp;\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n&nbsp;\n### Target Hosts\n{0}"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -430,7 +435,7 @@ def block_outbound_traffic(action=None, success=None, container=None, results=No
     # build parameters list for 'block_outbound_traffic' call
     for dedup_hostnames_data_item in dedup_hostnames_data:
         parameters.append({
-            "script_str": "New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block",
+            "script_str": "$ProgressPreference = 'SilentlyContinue'; New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block",
             "ip_hostname": dedup_hostnames_data_item[0],
         })
 
@@ -465,7 +470,7 @@ def shutdown(action=None, success=None, container=None, results=None, handle=Non
     # build parameters list for 'shutdown' call
     for dedup_hostnames_data_item in dedup_hostnames_data:
         parameters.append({
-            "script_str": "shutdown /f",
+            "script_str": "$ProgressPreference = 'SilentlyContinue'; shutdown /f",
             "ip_hostname": dedup_hostnames_data_item[0],
         })
 
@@ -500,7 +505,7 @@ def block_and_shutdown(action=None, success=None, container=None, results=None, 
     # build parameters list for 'block_and_shutdown' call
     for dedup_hostnames_data_item in dedup_hostnames_data:
         parameters.append({
-            "script_str": "New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block; shutdown /f",
+            "script_str": "$ProgressPreference = 'SilentlyContinue'; New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block; shutdown /f",
             "ip_hostname": dedup_hostnames_data_item[0],
         })
 
