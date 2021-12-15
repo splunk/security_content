@@ -73,3 +73,5 @@ tags:
     type: Process
     role:
     - Child Process
+  cve:
+  - CVE-2021-44228

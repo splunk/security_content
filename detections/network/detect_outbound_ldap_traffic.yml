@@ -61,3 +61,5 @@ tags:
   risk_score: 56
   security_domain: network
   automated_detection_testing: passed
+  cve:
+  - CVE-2021-44228
