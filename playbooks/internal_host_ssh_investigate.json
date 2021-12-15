@@ -1,0 +1,498 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Use Cases",
+    "coa": {
+        "data": {
+            "description": "Investigate an internal unix host using SSH. This pushes a bash script to the endpoint and runs it, collecting generic information about the processes, user activity, and network activity. This includes the process list, login history, cron jobs, and open sockets. The results are zipped up in .csv files and added to the vault for an analyst to review.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_0_to_port_5",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_0_to_port_6",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_9",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_9_to_port_1",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_3_to_port_1",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_2_to_port_1",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "0da2cbd02719d0f1db566ed2b4c158466d774b17",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 500,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 500,
+                    "y": 520
+                },
+                "2": {
+                    "data": {
+                        "action": "list processes",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_processes_1",
+                        "id": "2",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [
+                            "ip_hostname"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "action",
+                    "x": 1080,
+                    "y": 120
+                },
+                "3": {
+                    "data": {
+                        "action": "list connections",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_connections_1",
+                        "id": "3",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [
+                            "ip_hostname"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "x": 800,
+                    "y": 120
+                },
+                "5": {
+                    "data": {
+                        "action": "list firewall rules",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_firewall_rules_1",
+                        "id": "5",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [
+                            "ip_hostname"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "action",
+                    "x": 160,
+                    "y": 120
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "write embedded bash script to vault",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "passthrough",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "write_embedded_bash_script_to_vault",
+                        "id": "6",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "passthrough": {
+                                "description": "Return the inputs as outputs. This is useful for publishing pieces of data for other blocks in the playbook to use.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_1",
+                                        "name": "input_1",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_2",
+                                        "name": "input_2",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_3",
+                                        "name": "input_3",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_4",
+                                        "name": "input_4",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_5",
+                                        "name": "input_5",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_6",
+                                        "name": "input_6",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_7",
+                                        "name": "input_7",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_8",
+                                        "name": "input_8",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_9",
+                                        "name": "input_9",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_10",
+                                        "name": "input_10",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "passthrough",
+                                "name": "passthrough"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "passthrough": {
+                                "input_1": null,
+                                "input_10": null,
+                                "input_2": null,
+                                "input_3": null,
+                                "input_4": null,
+                                "input_5": null,
+                                "input_6": null,
+                                "input_7": null,
+                                "input_8": null,
+                                "input_9": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "utility",
+                    "userCode": "\n    bash_script = r\"\"\"\n#!/bin/bash\n\n# This script is part of the Splunk SOAR playbook called internal_host_ssh_log4j_investigate. It gathers system information as part of a unix endpoint investigation. The output is a human-readable log and a set of .csv files\n\necho \"##############################################################\"\necho \"splunk_soar_internal_host_ssh_investigate.sh\"\necho \"##############################################################\"\necho \"\"\necho \"[+] Basic system configuration:\"\n\necho \"key,value\" > basic_system_configuration.csv\n\necho \"hostname: $(uname -n | tr -d \"\\n\")\"\necho \"hostname,$(uname -n | tr -d \"\\n\")\" >> basic_system_configuration.csv\n\necho \"current time: $(date +%F_%T)\"\necho \"current time,$(date +%F_%T)\" >> basic_system_configuration.csv\n\necho \"IP address: $(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\\n' ' ')\"\necho \"IP address,$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\\n' ' ')\" >> basic_system_configuration.csv\n\necho \"OS release: $(cat /etc/*release | sort -u | tr \"\\n\" \";\")\"\necho \"OS release,$(cat /etc/*release | sort -u | tr \"\\n\" \";\")\" >> basic_system_configuration.csv\n\necho \"OS issue: $(cat /etc/issue)\"\necho \"OS issue,$(cat /etc/issue)\" >> basic_system_configuration.csv\n\necho \"OS kernel: $(uname -a)\"\necho \"OS kernel,$(uname -a)\" >> basic_system_configuration.csv\n\necho \"\"\necho \"USER,PID,%CPU,%MEM,VSZ,RSS,TTY,STAT,START,TIME,COMMAND\" > process_list.csv\necho \"$(ps aux)\" >> process_list.csv\necho \"[+] Process list:\"\necho \"$(ps aux)\"\n\necho \"\"\necho \"UNIT,LOAD,ACTIVE,SUB,DESCRIPTION\" > service_list.csv\necho \"$(systemctl)\" >> service_list.csv\necho \"[+] Service list:\"\necho \"$(systemctl)\"\n\necho \"\"\necho \"$(ss -tunapl)\" > open_sockets.csv\necho \"[+] Open sockets:\"\necho \"$(ss -tunapl)\"\n\necho \"\"\necho \"cron_job\" > cron_jobs.csv\necho \"$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)\" >> cron_jobs.csv\necho \"[+] Cron jobs:\"\necho \"$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)\"\n\necho \"[+] Zip up the outputs ...\"\nhostname=$1\nzip $(hostname)_ssh_output.zip basic_system_configuration.csv process_list.csv service_list.csv open_sockets.csv cron_jobs.csv\n\"\"\"\n\n    file_name = 'splunk_soar_internal_host_ssh_investigate.sh'\n    file_path = '/opt/phantom/vault/tmp/{}'.format(file_name)\n    with open(file_path, 'w') as bash_script_file:\n        bash_script_file.write(bash_script)\n        \n    success, message, vault_id = phantom.vault_add(file_location=file_path, file_name=file_name)\n    parameters = [{'input_1': vault_id}]\n    \n",
+                    "x": 480,
+                    "y": 120
+                },
+                "7": {
+                    "data": {
+                        "action": "put file",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "upload bash script",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "upload_bash_script",
+                        "id": "7",
+                        "requiredParameters": [
+                            "vault_id",
+                            "ip_hostname",
+                            "file_destination"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "action",
+                    "x": 480,
+                    "y": 220
+                },
+                "8": {
+                    "data": {
+                        "action": "execute program",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run bash script",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_bash_script",
+                        "id": "8",
+                        "requiredParameters": [
+                            "ip_hostname"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "x": 480,
+                    "y": 320
+                },
+                "9": {
+                    "data": {
+                        "action": "get file",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get output zip file",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_output_zip_file",
+                        "id": "9",
+                        "requiredParameters": [
+                            "file_path",
+                            "ip_hostname"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "action",
+                    "x": 480,
+                    "y": 420
+                }
+            },
+            "notes": "TODO: last -a login history"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name",
+                    "ip"
+                ],
+                "description": "IP address or hostname of the internal host to investigate",
+                "name": "ip_or_hostname"
+            }
+        ],
+        "output_spec": null,
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-12-15T01:02:29.241695+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "unix",
+        "internal_host"
+    ]
+}

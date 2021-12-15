@@ -1,0 +1,64 @@
+name: Outbound Network Connection from Java Using Default Ports
+id: d2c14d28-5c47-11ec-9892-acde48001122
+version: 1
+date: '2021-12-13'
+author: Mauricio Velazco, Splunk
+type: TTP
+datamodel: []
+description: A required step while exploiting the CVE-2021-44228-Log4j vulnerability
+  is that the victim server will perform outbound connections to attacker-controlled
+  infrastructure. This is required as part of the JNDI lookup as well as for retrieving
+  the second stage .class payload. The following analytic identifies the Java process
+  reaching out to default ports used by the LDAP and RMI protocols. This behavior
+  could represent successfull exploitation. Note that adversaries can easily decide to use
+  arbitrary ports for these protocols and potentially bypass this detection. 
+search: ' `sysmon` EventCode=3  (process_name=java OR process_name=java.exe) (DestinationPort=389
+  OR DestinationPort=1389 OR DestinationPort = 1099 ) | rename Computer as dest |  stats
+  count min(_time) as firstTime max(_time) as lastTime by dest, process_name, DestinationPort
+  | `security_content_ctime(firstTime)` | `outbound_network_connection_from_java_using_default_ports_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node.
+known_false_positives: Legitimate Java applications may use perform outbound connections
+  to these ports. Filter as needed
+references:
+- https://www.lunasec.io/docs/blog/log4j-zero-day/
+- https://www.govcert.admin.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+tags:
+  analytic_story:
+  - Log4Shell CVE-2021-44228
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/linux-sysmon.log
+  kill_chain_phases:
+  - Exploitation
+  mitre_attack_id:
+  - T1190
+  cve:
+  - CVE-2021-44228
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - process_name
+  - EventID
+  - CommandLine
+  - Computer
+  - DestinationPort
+  - DestinationIp
+  security_domain: endpoint
+  impact: 90
+  confidence: 60
+  risk_score: 54
+  context:
+  - Source:Endpoint
+  - Stage:Execution
+  message: Java performed outbound connections to default ports of LDAP or RMI on
+    $dest$
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  automated_detection_testing: passed
