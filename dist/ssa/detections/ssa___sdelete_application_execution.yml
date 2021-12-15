@@ -20,8 +20,8 @@ product:
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
-risk_message: sdelete process $process_name$ executed on $dest$ attempting to permanently
-  delete files.
+risk_message: Sdelete process $process_name$ executed on $dest_device_id$ attempting
+  to permanently delete files by $dest_user_id$.
 search: '| from read_ssa_enriched_events() | eval timestamp=parse_long(ucast(map_get(input_event,"_time"),
   "string", null)), cmd_line=lower(ucast(map_get(input_event, "process"), "string",
   null)), process_name=lower(ucast(map_get(input_event, "process_name"), "string",
@@ -56,21 +56,25 @@ tags:
   impact: 60
   kill_chain_phases:
   - Exploitation
-  message: sdelete process $process_name$ executed on $dest$ attempting to permanently
-    delete files.
+  message: Sdelete process $process_name$ executed on $dest_device_id$ attempting
+    to permanently delete files by $dest_user_id$.
   mitre_attack_id:
   - T1485
   - T1070.004
   - T1070
   observable:
-  - name: dest
-    role:
-    - Victim
-    type: Endpoint
-  - name: user
+  - name: dest_user_id
     role:
     - Victim
     type: User
+  - name: dest_device_id
+    role:
+    - Victim
+    type: Hostname
+  - name: parent_process
+    role:
+    - Parent Process
+    type: Parent Process
   - name: process_name
     role:
     - Child Process
@@ -87,6 +91,7 @@ tags:
   - process
   - process_id
   - process_path
+  - cmd_line
   risk_score: 42
   risk_severity: medium
   security_domain: endpoint

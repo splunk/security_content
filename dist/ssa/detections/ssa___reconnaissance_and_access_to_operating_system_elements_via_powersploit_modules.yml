@@ -2,9 +2,13 @@ author: Stanislav Miskovic, Splunk
 datamodel:
 - Endpoint_Processes
 date: '2020-11-06'
-description: This detection identifies access to PowerSploit modules that discover
-  and access operating system elements, such as processes, services, registry locations,
-  security packages and files.
+deprecated: true
+description: 'WARNING, this detection has been marked deprecated by the Splunk Threat
+  Research team, this means that it will no longer be maintained or supported. If
+  you have any questions feel free to email us at: research@splunk.com. This detection
+  identifies access to PowerSploit modules that discover and access operating system
+  elements, such as processes, services, registry locations, security packages and
+  files.'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 id: c1d33ad9-1727-4f9f-a474-4adbe4fed68a

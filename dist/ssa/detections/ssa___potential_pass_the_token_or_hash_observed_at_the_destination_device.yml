@@ -1,9 +1,9 @@
 author: Stanislav Miskovic, Splunk
 datamodel:
 - Authentication
-date: '2021-11-05'
+date: '2021-11-30'
 description: This detection identifies potential Pass the Token or Pass the Hash credential
-  exploits. We detect the main side effect of these attacks, which is a transition
+  stealing. We detect the main side effect of these attacks, which is a transition
   from the dominant Kerberos logins to rare NTLM logins for a given user, as reported
   by a detination device.
 how_to_implement: You must be ingesting Windows Security logs from endpoint devices,
@@ -16,6 +16,7 @@ product:
 - Splunk Behavioral Analytics
 references:
 - https://attack.mitre.org/techniques/T1550/002/
+- https://www.offensive-security.com/metasploit-unleashed/psexec-pass-hash/
 risk_message: Potential lateral movement and credential stealing via Pass the Token
   or Pass the Hash techniques. Operation is performed via credentials of the account
   $dest_user_id$ and observed by the destination device $dest_device_id$
@@ -51,7 +52,7 @@ search: '| from read_ssa_enriched_events() | where "Authentication" IN(_datamode
   | into write_ssa_detected_events();'
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   asset_type: Windows
   cis20:
   - CIS 16
@@ -98,4 +99,4 @@ tags:
   risk_severity: low
   security_domain: endpoint
 type: TTP
-version: 2
+version: 3
