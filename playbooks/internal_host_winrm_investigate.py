@@ -1,5 +1,5 @@
 """
-Performs a general investigation on key aspects of a windows device using windows remote management. Important files related to the endpoint are generated, bundled into a zip, and copied to the container vault.
+Published in response to CVE-2021-44228, this playbook performs a general investigation on key aspects of a windows device using windows remote management. Important files related to the endpoint are generated, bundled into a zip, and copied to the container vault.
 """
 
 
