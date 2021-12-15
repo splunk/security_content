@@ -54,6 +54,8 @@ tags:
     type: User
     role:
     - Victim
+  cve:
+  - CVE-2021-44228
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

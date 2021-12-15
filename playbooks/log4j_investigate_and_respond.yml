@@ -2,7 +2,7 @@ name: Log4j Investigate And Respond
 id: fc0adc96-ff2b-48b0-9a6f-63da6783fd63
 version: 1
 date: '2021-12-14'
-author: Philip Royer, Splunk
+author: Phillip Royer, Splunk
 type: Response
 description: Published in response to CVE-2021-44228, this playbook and its sub-playbooks can be used to investigate and respond to attacks against hosts running vulnerable Java applications which use log4j.
 playbook: log4j_investigate_and_respond

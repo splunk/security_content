@@ -94,3 +94,5 @@ tags:
     type: Other
     role:
     - other
+  cve:
+  - CVE-2021-44228

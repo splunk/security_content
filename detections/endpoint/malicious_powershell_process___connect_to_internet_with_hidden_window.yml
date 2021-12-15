@@ -93,3 +93,5 @@ tags:
   - Processes.dest
   risk_score: 81
   security_domain: endpoint
+  cve:
+  - CVE-2021-44228
