@@ -126,7 +126,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Curl Download and Bash Execution](/detections/TTP/curl_download_and_bash_execution)
+* [Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/)
 
 
 
@@ -1376,7 +1376,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Wget Download and Bash Execution](/detections/TTP/wget_download_and_bash_execution)
+* [Wget Download and Bash Execution](/endpoint/wget_download_and_bash_execution/)
 
 
 
@@ -1783,7 +1783,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Linux Java Spawning Shell](/detections/TTP/linux_java_spawning_shell)
+* [Linux Java Spawning Shell](/endpoint/linux_java_spawning_shell/)
 
 
 
@@ -3169,7 +3169,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Java Class File download by Java User Agent](/detections/TTP/java_class_file_download_by_java_user_agent)
+* [Java Class File download by Java User Agent](/endpoint/java_class_file_download_by_java_user_agent/)
 
 
 
@@ -3956,7 +3956,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Outbound Network Connection from Java Using Default Ports](/detections/TTP/outbound_network_connection_from_java_using_default_ports)
+* [Outbound Network Connection from Java Using Default Ports](/endpoint/outbound_network_connection_from_java_using_default_ports/)
 
 
 
@@ -4578,7 +4578,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Log4Shell JNDI Payload Injection Attempt](/detections/Anomaly/log4shell_jndi_payload_injection_attempt)
+* [Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/)
 
 
 
@@ -5277,7 +5277,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Log4Shell JNDI Payload Injection with Outbound Connection](/detections/Anomaly/log4shell_jndi_payload_injection_with_outbound_connection)
+* [Log4Shell JNDI Payload Injection with Outbound Connection](/web/log4shell_jndi_payload_injection_with_outbound_connection/)
 
 
 
@@ -5757,7 +5757,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Detect Outbound LDAP Traffic](/detections/Hunting/detect_outbound_ldap_traffic)
+* [Detect Outbound LDAP Traffic](/network/detect_outbound_ldap_traffic/)
 
 
 
