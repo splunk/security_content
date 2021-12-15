@@ -13,11 +13,11 @@ description: This search looks for AWS CloudTrail events wherein a console login
   the last hour
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user | `drop_dm_object_name(Authentication)`
-  | inputlookup append=t previously_seen_users_console_logins | stats min(firstTime)
-  as firstTime max(lastTime) as lastTime by user | eval userStatus=if(firstTime >=relative_time(now(),"-24h@h"),
-  "First Time Logging into AWS Console", "Previously Seen User") |where userStatus="First
-  Time Logging into AWS Console" |  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `detect_aws_console_login_by_new_user_filter`'
+  | join user type=outer [ inputlookup previously_seen_users_console_logins | stats
+  min(firstTime) as earliestseen by user] | eval userStatus=if(earliestseen >= relative_time(now(),
+  "-24h@h") OR isnull(earliestseen), "First Time Logging into AWS Console", "Previously
+  Seen User") | where userStatus="First Time Logging into AWS Console" | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `detect_aws_console_login_by_new_user_filter`'
 how_to_implement: You must install and configure the Splunk Add-on for AWS (version
   5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
   to the Authentication data model for cloud use cases. Run the `Previously Seen Users

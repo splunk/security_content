@@ -58,7 +58,7 @@ tags:
   - _time
   risk_score: 5
   security_domain: endpoint
-  CIM_version: 4.20.2
+  cim_version: 4.20.2
   supported_tas:
   - Splunk_TA_cisco-ucs
   - Splunk_TA_citrix-netscaler

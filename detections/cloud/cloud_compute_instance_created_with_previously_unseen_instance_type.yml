@@ -69,7 +69,7 @@ tags:
   - All_Changes.user
   risk_score: 30
   security_domain: threat
-  CIM_version: 4.20.2
+  cim_version: 4.20.2
   supported_tas:
   - Splunk_TA_aws-kinesis-firehose
   tas_with_data:

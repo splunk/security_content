@@ -30,12 +30,14 @@ def fetch_ta_cim_mapping_report(file_name):
 
 
 def load_file(file_path):
-    with open(file_path, "r", encoding="utf-8") as stream:
+    
         try:
-            file = list(yaml.safe_load_all(stream))[0]
+            with open(file_path, "r", encoding="utf-8") as stream:
+                file = list(yaml.safe_load_all(stream))[0]
+                return file
         except yaml.YAMLError as exc:
             sys.exit("ERROR: reading {0}".format(file_path))
-    return file
+        
 
 
 def map_required_fields(cim_summary, datamodel, required_fields):
@@ -140,24 +142,24 @@ def main():
     detection_types = ["cloud", "endpoint", "network"]
 
     # clone security content repository
-    security_content_repo_obj = git.Repo.clone_from(
-        "https://"
-        + github_token
-        + ":x-oauth-basic@github.com/"
-        + security_content_repo,
-        "security_content",
-        branch=security_content_branch,
-    )
+    # security_content_repo_obj = git.Repo.clone_from(
+    #     "https://"
+    #     + github_token
+    #     + ":x-oauth-basic@github.com/"
+    #     + security_content_repo,
+    #     "security_content",
+    #     branch=security_content_branch,
+    # )
 
-    # clone ta cim field reports repository
-    ta_cim_field_reports_obj = git.Repo.clone_from(
-        "https://"
-        + github_token
-        + ":x-oauth-basic@github.com/"
-        + "splunk/ta-cim-field-reports",
-        "ta_cim_mapping_reports",
-        branch="feat/cim-field-mapping",
-    )
+    # # clone ta cim field reports repository
+    # ta_cim_field_reports_obj = git.Repo.clone_from(
+    #     "https://"
+    #     + github_token
+    #     + ":x-oauth-basic@github.com/"
+    #     + "splunk/ta-cim-field-reports",
+    #     "ta_cim_mapping_reports",
+    #     branch="feat/cim-field-mapping",
+    # )
 
     # iterate for every detection types
     detection_ta_mapping = {}
@@ -170,15 +172,26 @@ def main():
                 supported_ta_list = []
                 tas_with_data_list = []
                 detection_obj = load_file(filepath)
-                detection_name = detection_obj["name"]
                 source_type = (
                     detection_obj.get("tests")[0]
                     .get("attack_data")[0]
                     .get("sourcetype")
                 )
+                detection_file_name = (
+                    detection_obj.get("tests")[0]
+                    .get("file")
+                    .rsplit("/", 1)[1]
+                    .strip(".yml")
+                )
                 filepath = "security_content/detections/" + detection_obj.get("tests")[
                     0
                 ].get("file")
+                try:
+                    fo = open(filepath)
+                except FileNotFoundError:
+                    continue
+
+                
                 if is_valid_detection_file(filepath):
                     for ta_cim_mapping_file in os.listdir(
                         "./ta_cim_mapping_reports/ta_cim_mapping/cim_mapping_reports/latest/"
@@ -208,62 +221,62 @@ def main():
                                 tas_with_data_list.append(
                                     ta_cim_map.get("ta_name").get("name")
                                 )
-                            detection_ta_mapping[detection_name] = {}
+                            detection_ta_mapping[detection_file_name] = {}
 
                     if supported_ta_list:
                         keyname = "supported_tas"
                         print(filepath)
-                        enrich_detection_file(filepath, cim_version, "CIM_version")
+                        enrich_detection_file(filepath, cim_version, "cim_version")
                         enrich_detection_file(filepath, supported_ta_list, keyname)
-                        detection_ta_mapping[detection_name][
-                            "CIM_version"
+                        detection_ta_mapping[detection_file_name][
+                            "cim_version"
                         ] = cim_version
-                        detection_ta_mapping[detection_name][
+                        detection_ta_mapping[detection_file_name][
                             keyname
                         ] = supported_ta_list
 
                     if tas_with_data_list:
                         keyname = "tas_with_data"
                         enrich_detection_file(filepath, tas_with_data_list, keyname)
-                        detection_ta_mapping[detection_name][
+                        detection_ta_mapping[detection_file_name][
                             keyname
                         ] = tas_with_data_list
 
-                    security_content_repo_obj.index.add(
-                        [filepath.strip("security_content/")]
-                    )
+                    # security_content_repo_obj.index.add(
+                    #     [filepath.strip("security_content/")]
+                    # )
 
     print("done")
     with io.open(
-        r"./security_content_automation/detection_ta_mapping.yaml", "w", encoding="utf8"
+        r"./security_content_automation/detection_ta_mapping.yml", "w", encoding="utf8"
     ) as outfile:
         yaml.safe_dump(
             detection_ta_mapping, outfile, default_flow_style=False, allow_unicode=True
         )
 
-    security_content_repo_obj.index.commit(
-        "Updated detection files with supported TA list."
-    )
+    # security_content_repo_obj.index.commit(
+    #     "Updated detection files with supported TA list."
+    # )
 
-    epoch_time = str(int(time.time()))
-    branch_name = "security_content_automation_" + epoch_time
-    security_content_repo_obj.git.checkout("-b", branch_name)
+    # epoch_time = str(int(time.time()))
+    # branch_name = "security_content_automation_" + epoch_time
+    # security_content_repo_obj.git.checkout("-b", branch_name)
 
-    security_content_repo_obj.git.push("--set-upstream", "origin", branch_name)
-    repo = g.get_repo("kirtankhatana-crest/security_content")
+    # security_content_repo_obj.git.push("--set-upstream", "origin", branch_name)
+    # repo = g.get_repo("kirtankhatana-crest/security_content")
 
-    pr = repo.create_pull(
-        title="Enrich Detection PR " + branch_name,
-        body="This is a dummy PR",
-        head=branch_name,
-        base="develop",
-    )
+    # pr = repo.create_pull(
+    #     title="Enrich Detection PR " + branch_name,
+    #     body="This is a dummy PR",
+    #     head=branch_name,
+    #     base="develop",
+    # )
 
-    try:
-        shutil.rmtree("./security_content")
-        shutil.rmtree("./ta_cim_mapping_reports")
-    except OSError as e:
-        print("Error: %s - %s." % (e.filename, e.strerror))
+    # try:
+    #     shutil.rmtree("./security_content")
+    #     shutil.rmtree("./ta_cim_mapping_reports")
+    # except OSError as e:
+    #     print("Error: %s - %s." % (e.filename, e.strerror))
 
 
 if __name__ == "__main__":

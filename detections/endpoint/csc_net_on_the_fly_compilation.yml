@@ -35,13 +35,25 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  automated_detection_testing: passed
+  confidence: 50
+  context:
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
+  impact: 50
   kill_chain_phases:
   - Exploitation
+  message: csc.exe with commandline $process$ to compile .net code on $dest$ by $user$
   mitre_attack_id:
   - T1027.004
   - T1027
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -56,17 +68,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  security_domain: endpoint
-  impact: 50
-  confidence: 50
   risk_score: 25
-  context:
-  - Source:Endpoint
-  - Stage:Defense Evasion
-  message: csc.exe with commandline $process$ to compile .net code on $dest$ by $user$
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint
