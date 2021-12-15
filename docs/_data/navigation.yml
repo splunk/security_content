@@ -50,6 +50,8 @@ detections:
         url: /detections/email/
       - title: Endpoint
         url: /detections/endpoint/
+      - title: Endpoint_Filesystem
+        url: /detections/endpoint_filesystem/
       - title: Endpoint_Processes
         url: /detections/endpoint_processes/
       - title: Network_Resolution
