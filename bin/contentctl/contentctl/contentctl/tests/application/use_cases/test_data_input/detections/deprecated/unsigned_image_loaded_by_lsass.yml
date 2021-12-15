@@ -20,7 +20,7 @@ how_to_implement: This search needs Sysmon Logs with a sysmon configuration, whi
 known_false_positives: Other tools could load images into LSASS for legitimate reason.
   But enterprise tools should always use signed DLLs.
 references:
-- https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+- https://attack.mitre.org/techniques/T1003/001/
 tags:
   analytic_story:
   - Credential Dumping
@@ -51,7 +51,7 @@ tags:
     role:
     - Victim
   - name: parent_process_name
-    type: Parent Process
+    type: Process
     role:
     - Parent Process
   - name: process_name

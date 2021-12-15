@@ -33,9 +33,10 @@ class Generate:
     def execute(self, input_dto: GenerateInputDto) -> None:
         self.input_dto = input_dto
         detections = self.read_security_content_objects(SecurityContentType.detections)
+        stories = self.read_security_content_objects(SecurityContentType.stories)
 
     def read_security_content_objects(self, type: SecurityContentType) -> list:
         files = Utils.get_all_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
         security_content_objects = []
         for file in files:
-            security_content_objects.append(self.security_content_repository.get(file))
+            security_content_objects.append(self.security_content_repository.get(file, type))

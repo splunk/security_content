@@ -1,6 +1,8 @@
 import enum
 import uuid
 import string
+import re
+import requests
 
 from pydantic import BaseModel, validator, ValidationError
 from dataclasses import dataclass
@@ -76,8 +78,21 @@ class Detection(BaseModel, SecurityContentObject):
             raise ValueError('encoding error in ' + field.name + ': ' + values["name"])
         return v
 
+    @validator('references')
+    def references_check(cls, v, values):
+        for reference in v:
+            try:
+                get = requests.get(reference)
+                if not get.status_code == 200:
+                    raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+            except requests.exceptions.RequestException as e:
+                raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+
+        return v
+
     @validator('search')
     def search_validate(cls, v, values):
         # write search validator
         pass
 
+ 
