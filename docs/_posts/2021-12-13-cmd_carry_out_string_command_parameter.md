@@ -3,7 +3,7 @@ title: "CMD Carry Out String Command Parameter"
 excerpt: "Windows Command Shell, Command and Scripting Interpreter"
 categories:
   - Endpoint
-last_modified_at: 2021-10-21
+last_modified_at: 2021-12-13
 toc: true
 toc_label: ""
 tags:
@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-44228
   - Endpoint
 ---
 
@@ -23,13 +24,13 @@ tags:
 
 #### Description
 
-This search looks for command-line arguments where `cmd.exe /c` is used to execute a program. This technique is commonly seen in adversaries and malware to execute batch command using different shell like powershell or different process other than cmd.exe. This is a good hunting query for suspicious commandline made by a script or relative process execute it.
+The following analytic identifies command-line arguments where `cmd.exe /c` is used to execute a program. `cmd /c` is used to run commands in MS-DOS and terminate after command or process completion. This technique is commonly seen in adversaries and malware to execute batch command using different shell like PowerShell or different process other than `cmd.exe`. This is a good hunting query for suspicious command-line made by a script or relative process execute it.
 
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-10-21
-- **Author**: Teoderick Contreras, Splunk, Bhavin Patel, Splunk
+- **Last Updated**: 2021-12-13
+- **Author**: Teoderick Contreras, Bhavin Patel, Splunk
 - **ID**: 54a6ed00-3256-11ec-b031-acde48001122
 
 
@@ -54,10 +55,11 @@ This search looks for command-line arguments where `cmd.exe /c` is used to execu
 
 #### Associated Analytic Story
 * [IcedID](/stories/icedid)
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
 
 
 #### How To Implement
-To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 
 #### Required field
 * _time
@@ -77,15 +79,22 @@ To successfully implement this search, you need to be ingesting logs with the pr
 
 
 #### Known False Positives
-unknown
+False positives may be high based on legitimate scripted code in any environment. Filter as needed.
 
 
 #### RBA
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 30.0 | 60 | 50 | $process_name$ with commandline $process$ in $dest$ |
+| 30.0 | 60 | 50 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting spawn a new process. |
 
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 &lt;=2.14.1 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. In previous releases (&gt;2.10) this behavior can be mitigated by setting system property &#34;log4j2.formatMsgNoLookups&#34; to “true” or it can be mitigated in prior releases (&lt;2.10) by removing the JndiLookup class from the classpath (example: zip -q -d log4j-core-*.jar org/apache/logging/log4j/core/lookup/JndiLookup.class). | None |
 
 
 
@@ -103,4 +112,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/cmd_carry_out_string_command_parameter.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/cmd_carry_out_string_command_parameter.yml) \| *version*: **2**
