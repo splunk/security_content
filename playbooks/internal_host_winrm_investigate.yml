@@ -9,7 +9,7 @@ playbook: internal_host_winrm_investigate
 how_to_implement: The winrm asset requires Administrator access to gather certain files.
 references: []
 app_list:
-- "WinRM"
+- "Windows Remote Management"
 tags:
   platform_tags:
   - Response
