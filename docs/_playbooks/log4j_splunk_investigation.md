@@ -1,5 +1,5 @@
 ---
-title: "Log4j Splunk Investigate And Respond"
+title: "Log4j Splunk Investigation"
 last_modified_at: 2021-12-14
 toc: true
 toc_label: ""
