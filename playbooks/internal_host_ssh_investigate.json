@@ -84,7 +84,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "0da2cbd02719d0f1db566ed2b4c158466d774b17",
+            "hash": "0c53b7dc1019cb28feee7ade2b2d992cdc726c5e",
             "nodes": {
                 "0": {
                     "data": {
@@ -99,7 +99,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 500,
-                    "y": 0
+                    "y": -7.815970093361102e-14
                 },
                 "1": {
                     "data": {
@@ -146,7 +146,7 @@
                     "id": "2",
                     "type": "action",
                     "x": 1080,
-                    "y": 120
+                    "y": 119.99999999999994
                 },
                 "3": {
                     "data": {
@@ -176,7 +176,7 @@
                     "id": "3",
                     "type": "action",
                     "x": 800,
-                    "y": 120
+                    "y": 119.99999999999994
                 },
                 "5": {
                     "data": {
@@ -206,7 +206,7 @@
                     "id": "5",
                     "type": "action",
                     "x": 160,
-                    "y": 120
+                    "y": 119.99999999999994
                 },
                 "6": {
                     "data": {
@@ -373,9 +373,9 @@
                     "errors": {},
                     "id": "6",
                     "type": "utility",
-                    "userCode": "\n    bash_script = r\"\"\"\n#!/bin/bash\n\n# This script is part of the Splunk SOAR playbook called internal_host_ssh_log4j_investigate. It gathers system information as part of a unix endpoint investigation. The output is a human-readable log and a set of .csv files\n\necho \"##############################################################\"\necho \"splunk_soar_internal_host_ssh_investigate.sh\"\necho \"##############################################################\"\necho \"\"\necho \"[+] Basic system configuration:\"\n\necho \"key,value\" > basic_system_configuration.csv\n\necho \"hostname: $(uname -n | tr -d \"\\n\")\"\necho \"hostname,$(uname -n | tr -d \"\\n\")\" >> basic_system_configuration.csv\n\necho \"current time: $(date +%F_%T)\"\necho \"current time,$(date +%F_%T)\" >> basic_system_configuration.csv\n\necho \"IP address: $(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\\n' ' ')\"\necho \"IP address,$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\\n' ' ')\" >> basic_system_configuration.csv\n\necho \"OS release: $(cat /etc/*release | sort -u | tr \"\\n\" \";\")\"\necho \"OS release,$(cat /etc/*release | sort -u | tr \"\\n\" \";\")\" >> basic_system_configuration.csv\n\necho \"OS issue: $(cat /etc/issue)\"\necho \"OS issue,$(cat /etc/issue)\" >> basic_system_configuration.csv\n\necho \"OS kernel: $(uname -a)\"\necho \"OS kernel,$(uname -a)\" >> basic_system_configuration.csv\n\necho \"\"\necho \"USER,PID,%CPU,%MEM,VSZ,RSS,TTY,STAT,START,TIME,COMMAND\" > process_list.csv\necho \"$(ps aux)\" >> process_list.csv\necho \"[+] Process list:\"\necho \"$(ps aux)\"\n\necho \"\"\necho \"UNIT,LOAD,ACTIVE,SUB,DESCRIPTION\" > service_list.csv\necho \"$(systemctl)\" >> service_list.csv\necho \"[+] Service list:\"\necho \"$(systemctl)\"\n\necho \"\"\necho \"$(ss -tunapl)\" > open_sockets.csv\necho \"[+] Open sockets:\"\necho \"$(ss -tunapl)\"\n\necho \"\"\necho \"cron_job\" > cron_jobs.csv\necho \"$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)\" >> cron_jobs.csv\necho \"[+] Cron jobs:\"\necho \"$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)\"\n\necho \"[+] Zip up the outputs ...\"\nhostname=$1\nzip $(hostname)_ssh_output.zip basic_system_configuration.csv process_list.csv service_list.csv open_sockets.csv cron_jobs.csv\n\"\"\"\n\n    file_name = 'splunk_soar_internal_host_ssh_investigate.sh'\n    file_path = '/opt/phantom/vault/tmp/{}'.format(file_name)\n    with open(file_path, 'w') as bash_script_file:\n        bash_script_file.write(bash_script)\n        \n    success, message, vault_id = phantom.vault_add(file_location=file_path, file_name=file_name)\n    parameters = [{'input_1': vault_id}]\n    \n",
+                    "userCode": "\n    bash_script = r\"\"\"\n#!/bin/bash\n\n# This script is part of the Splunk SOAR playbook called internal_host_ssh_log4j_investigate. It gathers system information as part of a unix endpoint investigation. The output is a human-readable log and a set of .csv files\n\necho \"##############################################################\"\necho \"splunk_soar_internal_host_ssh_investigate.sh\"\necho \"##############################################################\"\necho \"\"\necho \"[+] Basic system configuration:\"\n\necho \"key,value\" > basic_system_configuration.csv\n\necho \"hostname: $(uname -n | tr -d \"\\n\")\"\necho \"hostname,$(uname -n | tr -d \"\\n\")\" >> basic_system_configuration.csv\n\necho \"current time: $(date +%F_%T)\"\necho \"current time,$(date +%F_%T)\" >> basic_system_configuration.csv\n\necho \"IP address: $(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\\n' ' ')\"\necho \"IP address,$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\\.){3}[0-9]*' | grep -Eo '([0-9]*\\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\\n' ' ')\" >> basic_system_configuration.csv\n\necho \"OS release: $(cat /etc/*release | sort -u | tr \"\\n\" \";\")\"\necho \"OS release,$(cat /etc/*release | sort -u | tr \"\\n\" \";\")\" >> basic_system_configuration.csv\n\necho \"OS issue: $(cat /etc/issue)\"\necho \"OS issue,$(cat /etc/issue)\" >> basic_system_configuration.csv\n\necho \"OS kernel: $(uname -a)\"\necho \"OS kernel,$(uname -a)\" >> basic_system_configuration.csv\n\necho \"\"\necho \"USER,PID,%CPU,%MEM,VSZ,RSS,TTY,STAT,START,TIME,COMMAND\" > process_list.csv\necho \"$(ps aux)\" >> process_list.csv\necho \"[+] Process list:\"\necho \"$(ps aux)\"\n\necho \"\"\necho \"UNIT,LOAD,ACTIVE,SUB,DESCRIPTION\" > service_list.csv\necho \"$(systemctl)\" >> service_list.csv\necho \"[+] Service list:\"\necho \"$(systemctl)\"\n\necho \"\"\necho \"$(last -a)\" > login_history.csv\necho \"[+] login history:\"\necho \"$(last -a)\"\n\necho \"\"\necho \"$(ss -tunapl)\" > open_sockets.csv\necho \"[+] Open sockets:\"\necho \"$(ss -tunapl)\"\n\necho \"\"\necho \"cron_job\" > cron_jobs.csv\necho \"$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)\" >> cron_jobs.csv\necho \"[+] Cron jobs:\"\necho \"$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)\"\n\necho \"[+] Zip up the outputs ...\"\nzip /tmp/$1_ssh_output.zip basic_system_configuration.csv process_list.csv service_list.csv login_history.csv open_sockets.csv cron_jobs.csv\n\"\"\"\n\n    file_name = 'splunk_soar_internal_host_ssh_investigate.sh'\n    file_path = '/opt/phantom/vault/tmp/{}'.format(file_name)\n    with open(file_path, 'w') as bash_script_file:\n        bash_script_file.write(bash_script)\n        \n    success, message, vault_id = phantom.vault_add(file_location=file_path, file_name=file_name)\n    parameters = [{'input_1': vault_id}]\n    \n",
                     "x": 480,
-                    "y": 120
+                    "y": 119.99999999999994
                 },
                 "7": {
                     "data": {
@@ -395,6 +395,11 @@
                         "functionId": 1,
                         "functionName": "upload_bash_script",
                         "id": "7",
+                        "parameters": {
+                            "file_destination": "/tmp/",
+                            "ip_hostname": "playbook_input:ip_or_hostname",
+                            "vault_id": "write_embedded_bash_script_to_vault:custom_function_result.data.*.item"
+                        },
                         "requiredParameters": [
                             "vault_id",
                             "ip_hostname",
@@ -406,7 +411,7 @@
                     "id": "7",
                     "type": "action",
                     "x": 480,
-                    "y": 220
+                    "y": 219.99999999999994
                 },
                 "8": {
                     "data": {
@@ -426,6 +431,10 @@
                         "functionId": 1,
                         "functionName": "run_bash_script",
                         "id": "8",
+                        "parameters": {
+                            "command": "bash /tmp/splunk_soar_internal_host_ssh_investigate.sh",
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
                         "requiredParameters": [
                             "ip_hostname"
                         ],
@@ -434,6 +443,7 @@
                     "errors": {},
                     "id": "8",
                     "type": "action",
+                    "userCode": "\n    # pass the ip_hostname as an argument so it can be used in the output zip file name\n    for parameter in parameters:\n        parameter['command'] = parameter['command'] + ' ' + parameter['ip_hostname']\n\n",
                     "x": 480,
                     "y": 320
                 },
@@ -455,6 +465,10 @@
                         "functionId": 1,
                         "functionName": "get_output_zip_file",
                         "id": "9",
+                        "parameters": {
+                            "file_path": "playbook_input:ip_or_hostname",
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
                         "requiredParameters": [
                             "file_path",
                             "ip_hostname"
@@ -464,6 +478,7 @@
                     "errors": {},
                     "id": "9",
                     "type": "action",
+                    "userCode": "\n    for parameter in parameters:\n        parameter['file_path'] = '/tmp/' + parameter['file_path'] + '_ssh_output.zip'\n\n",
                     "x": 480,
                     "y": 420
                 }
@@ -486,13 +501,14 @@
         "schema": "5.0.4",
         "version": "5.1.0.70187"
     },
-    "create_time": "2021-12-15T01:02:29.241695+00:00",
+    "create_time": "2021-12-15T02:52:45.727937+00:00",
     "draft_mode": false,
     "labels": [
         "*"
     ],
     "tags": [
         "unix",
-        "internal_host"
+        "internal_host",
+        "log4j"
     ]
 }

@@ -181,6 +181,11 @@ echo "[+] Service list:"
 echo "$(systemctl)"
 
 echo ""
+echo "$(last -a)" > login_history.csv
+echo "[+] login history:"
+echo "$(last -a)"
+
+echo ""
 echo "$(ss -tunapl)" > open_sockets.csv
 echo "[+] Open sockets:"
 echo "$(ss -tunapl)"
@@ -192,8 +197,7 @@ echo "[+] Cron jobs:"
 echo "$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)"
 
 echo "[+] Zip up the outputs ..."
-hostname=$1
-zip $(hostname)_ssh_output.zip basic_system_configuration.csv process_list.csv service_list.csv open_sockets.csv cron_jobs.csv
+zip /tmp/$1_ssh_output.zip basic_system_configuration.csv process_list.csv service_list.csv login_history.csv open_sockets.csv cron_jobs.csv
 """
 
     file_name = 'splunk_soar_internal_host_ssh_investigate.sh'
@@ -218,7 +222,20 @@ def upload_bash_script(action=None, success=None, container=None, results=None, 
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
+    write_embedded_bash_script_to_vault_data = phantom.collect2(container=container, datapath=["write_embedded_bash_script_to_vault:custom_function_result.data.*.item"])
+    playbook_input_ip_or_hostname = phantom.collect2(container=container, datapath=["playbook_input:ip_or_hostname"])
+
     parameters = []
+
+    # build parameters list for 'upload_bash_script' call
+    for write_embedded_bash_script_to_vault_data_item in write_embedded_bash_script_to_vault_data:
+        for playbook_input_ip_or_hostname_item in playbook_input_ip_or_hostname:
+            if write_embedded_bash_script_to_vault_data_item[0] is not None and playbook_input_ip_or_hostname_item[0] is not None:
+                parameters.append({
+                    "vault_id": write_embedded_bash_script_to_vault_data_item[0],
+                    "ip_hostname": playbook_input_ip_or_hostname_item[0],
+                    "file_destination": "/tmp/",
+                })
 
     ################################################################################
     ## Custom Code Start
@@ -240,13 +257,25 @@ def run_bash_script(action=None, success=None, container=None, results=None, han
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
+    playbook_input_ip_or_hostname = phantom.collect2(container=container, datapath=["playbook_input:ip_or_hostname"])
+
     parameters = []
+
+    # build parameters list for 'run_bash_script' call
+    for playbook_input_ip_or_hostname_item in playbook_input_ip_or_hostname:
+        if playbook_input_ip_or_hostname_item[0] is not None:
+            parameters.append({
+                "command": "bash /tmp/splunk_soar_internal_host_ssh_investigate.sh",
+                "ip_hostname": playbook_input_ip_or_hostname_item[0],
+            })
 
     ################################################################################
     ## Custom Code Start
     ################################################################################
 
-    # Write your custom code here...
+    # pass the ip_hostname as an argument so it can be used in the output zip file name
+    for parameter in parameters:
+        parameter['command'] = parameter['command'] + ' ' + parameter['ip_hostname']
 
     ################################################################################
     ## Custom Code End
@@ -262,13 +291,24 @@ def get_output_zip_file(action=None, success=None, container=None, results=None,
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
+    playbook_input_ip_or_hostname = phantom.collect2(container=container, datapath=["playbook_input:ip_or_hostname"])
+
     parameters = []
+
+    # build parameters list for 'get_output_zip_file' call
+    for playbook_input_ip_or_hostname_item in playbook_input_ip_or_hostname:
+        if playbook_input_ip_or_hostname_item[0] is not None:
+            parameters.append({
+                "file_path": playbook_input_ip_or_hostname_item[0],
+                "ip_hostname": playbook_input_ip_or_hostname_item[0],
+            })
 
     ################################################################################
     ## Custom Code Start
     ################################################################################
 
-    # Write your custom code here...
+    for parameter in parameters:
+        parameter['file_path'] = '/tmp/' + parameter['file_path'] + '_ssh_output.zip'
 
     ################################################################################
     ## Custom Code End
