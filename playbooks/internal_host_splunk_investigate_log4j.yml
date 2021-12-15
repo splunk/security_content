@@ -1,0 +1,23 @@
+name: Log4J Investigate And Respond
+id: fc0adc66-ff2b-48b0-9a6f-63da6783fd63
+version: 1
+date: '2021-12-14'
+author: Lou Stella, Splunk
+type: Investigation
+description: This input playbook is part of the 
+playbook: log4j_investigate_and_respond
+how_to_implement: This playbook reads and then deletes files stored with artifact:*.cef.filePath from hosts stored in artifact:*.cef.destinationAddress. Windows Remote Management must be enabled on the remote computer.
+references: 
+- https://www.splunk.com/en_us/blog/security/log-jammin-log4j-2-rce.html
+app_list:
+- "Splunk"
+tags:
+  analytic_story:
+  - Log4Shell CVE-2021-44228
+  platform_tags:
+  - Response
+  playbook_fields:
+  - hostName
+  - destinationAddress
+  product:
+  - Splunk SOAR

@@ -1,0 +1,33 @@
+name: Log4j Investigate And Respond
+id: fc0adc96-ff2b-48b0-9a6f-63da6783fd63
+version: 1
+date: '2021-12-14'
+author: Philip Royer, Splunk
+type: Response
+description: Published in response to CVE-2021-44228, this playbook and its sub-playbooks can be used to investigate and respond to attacks against hosts running vulnerable Java applications which use log4j.
+playbook: log4j_investigate_and_respond
+how_to_implement: This playbook reads and then deletes files stored with artifact:*.cef.filePath from hosts stored in artifact:*.cef.destinationAddress. Windows Remote Management must be enabled on the remote computer.
+references: 
+- https://www.splunk.com/en_us/blog/security/log-jammin-log4j-2-rce.html
+app_list:
+- ""
+tags:
+  analytic_story:
+  - Log4Shell CVE-2021-44228
+  detections:
+  - Curl Download and Bash Execution
+  - Wget Download and Bash Execution
+  - Linux Java Spawning Shell
+  - Windows Java Spawning Shell
+  - Java Class File download by Java User Agent
+  - Outbound Network Connection from Java Using Default Ports
+  - Log4Shell JNDI Payload Injection Attempt
+  - Log4Shell JNDI Payload Injection with Outbound Connection
+  - Detect Outbound LDAP Traffic
+  platform_tags:
+  - Response
+  playbook_fields:
+  - hostName
+  - destinationAddress
+  product:
+  - Splunk SOAR
