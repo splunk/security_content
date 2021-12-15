@@ -63,7 +63,7 @@ tags:
   - name: http_method
     type: Other
     role:
-    - other
+    - Other
   automated_detection_testing: passed
   cve:
   - CVE-2021-44228
