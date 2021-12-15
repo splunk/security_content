@@ -48,7 +48,7 @@ This search looks for AWS CloudTrail events wherein a console login event by a u
 | table firstTime lastTime user Country 
 | join user  type=outer [
 | inputlookup previously_seen_users_console_logins 
-| stats earliest(firstTime) AS earliestseen by user Country 
+| stats min(firstTime) AS earliestseen by user Country 
 | fields earliestseen user Country] 
 | eval userCountry=if(firstTime >= relative_time(now(), "-24h@h"), "New Country","Previously Seen Country") 
 | eval userStatus=if(earliestseen >= relative_time(now(),"-24h@h") OR isnull(earliestseen), "New User","Old User") 

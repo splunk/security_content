@@ -1,0 +1,80 @@
+{
+    "create_time": "2021-07-24T01:17:48.431013+00:00",
+    "custom_function_id": "1d358be9992079dad6d3313d465e65318930cf70",
+    "description": "Update an artifact with the specified attributes. All parameters are optional, except that cef_field and cef_value must both be provided if one is provided.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "phantom artifact id"
+            ],
+            "description": "ID of the artifact to update, which is required.",
+            "input_type": "item",
+            "name": "artifact_id",
+            "placeholder": "1234"
+        },
+        {
+            "contains_type": [],
+            "description": "Change the name of the artifact.",
+            "input_type": "item",
+            "name": "name",
+            "placeholder": "artifact"
+        },
+        {
+            "contains_type": [],
+            "description": "Change the label of the artifact.",
+            "input_type": "item",
+            "name": "label",
+            "placeholder": "events"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "description": "Change the severity of the artifact. Typically this is either \"High\", \"Medium\", or \"Low\".",
+            "input_type": "item",
+            "name": "severity",
+            "placeholder": "Medium"
+        },
+        {
+            "contains_type": [],
+            "description": "The name of the CEF field to populate in the artifact, such as \"destinationAddress\" or \"sourceDnsDomain\". Required only if cef_value is provided.",
+            "input_type": "item",
+            "name": "cef_field",
+            "placeholder": "destinationAddress"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "The value of the CEF field to populate in the artifact, such as the IP address, domain name, or file hash. Required only if cef_field is provided.",
+            "input_type": "item",
+            "name": "cef_value",
+            "placeholder": "192.0.2.192"
+        },
+        {
+            "contains_type": [],
+            "description": "The CEF data type of the data in cef_value. For example, this could be \"ip\", \"hash\", or \"domain\". Optional, but only operational if cef_field is provided.",
+            "input_type": "item",
+            "name": "cef_data_type",
+            "placeholder": "ip"
+        },
+        {
+            "contains_type": [],
+            "description": "A comma-separated list of tags to apply to the artifact, which is optional.",
+            "input_type": "item",
+            "name": "tags",
+            "placeholder": "tag1, tag2, tag3"
+        },
+        {
+            "contains_type": [],
+            "description": "Optional parameter to modify any extra attributes of the artifact. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+            "input_type": "item",
+            "name": "input_json",
+            "placeholder": "{\"source_data_identifier\": \"1234\", \"data\": \"5678\"}"
+        }
+    ],
+    "outputs": [],
+    "platform_version": "4.10.4.56260",
+    "python_version": "3"
+}

@@ -47,7 +47,7 @@ This search is to detect a suspicious modification of registry related to UAC by
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*" (Registry.registry_key_name = "(Default)" OR Registry.registry_key_name = "DelegateExecute") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command*" (Registry.registry_value_name = "(Default)" OR Registry.registry_value_name = "DelegateExecute") by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest 
 | `drop_dm_object_name(Registry)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 

@@ -58,7 +58,7 @@ This search looks for network traffic on TCP/3389, the default port used by remo
 * [SamSam Ransomware](/stories/samsam_ransomware)
 * [Ryuk Ransomware](/stories/ryuk_ransomware)
 * [Hidden Cobra Malware](/stories/hidden_cobra_malware)
-* [Lateral Movement](/stories/lateral_movement)
+* [Active Directory Lateral Movement](/stories/active_directory_lateral_movement)
 
 
 #### How To Implement

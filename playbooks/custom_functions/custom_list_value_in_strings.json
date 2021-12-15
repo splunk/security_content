@@ -1,0 +1,56 @@
+{
+    "create_time": "2021-09-20T17:42:46.572482+00:00",
+    "custom_function_id": "2ec78e71ee35dce744423a989e7efcaa0b17f51f",
+    "description": "Iterates through all items of a custom list to see if any list value (i.e. \"sample.com\") exists in the input you are comparing it to (i.e \"findme.sample.com\"). Returns a list of matches, a list of misses, a count of matches, and a count of misses.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                ""
+            ],
+            "description": "Name of the custom list. Every string in this list will be compared to see if it is a substring of any of the comparison_strings",
+            "input_type": "item",
+            "name": "custom_list",
+            "placeholder": "custom_list_name"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "String to use for comparison.",
+            "input_type": "list",
+            "name": "comparison_strings",
+            "placeholder": "comparison_strings"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "matches.*.match",
+            "description": "List of all items from the list that are substrings of any of the comparison strings"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "data_path": "match_count",
+            "description": "Number of matches"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "misses.*.miss",
+            "description": "List of all items from the list that are not substrings of any of the comparison strings"
+        },
+        {
+            "contains_type": [],
+            "data_path": "miss_count",
+            "description": "Number of misses"
+        }
+    ],
+    "platform_version": "4.10.7.63984",
+    "python_version": "3"
+}

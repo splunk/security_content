@@ -1,0 +1,51 @@
+{
+    "create_time": "2021-10-18T17:15:17.576903+00:00",
+    "custom_function_id": "a5663cbe44479126d9fdff5818c8500011abc53e",
+    "description": "Decode one or more strings encoded with base64. The input can be a single chunk of base64 or a list of strings separated by a delimiter.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "Y2FsYy5leGU=",
+            "input_type": "item",
+            "name": "input_string",
+            "placeholder": "base64 string to decode"
+        },
+        {
+            "contains_type": [
+                ""
+            ],
+            "description": "Defaults to False. If True, use the delimiter to split the input string and decode each of the components separately if it is base64.",
+            "input_type": "item",
+            "name": "split_input",
+            "placeholder": "True or False"
+        },
+        {
+            "contains_type": [],
+            "description": "The character to use as a delimiter if split_input is True. Defaults to a comma. The special option \"space\" can be used to split on a single space character (\" \").",
+            "input_type": "item",
+            "name": "delimiter",
+            "placeholder": ","
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.input_string",
+            "description": "Base64 string before being decoded"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.output_string",
+            "description": "Resulting string after decoding from base64"
+        }
+    ],
+    "platform_version": "5.0.1.66250",
+    "python_version": "3"
+}

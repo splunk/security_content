@@ -67,11 +67,11 @@ def main(args):
     ssa_detection_testing = SSADetectionTesting(env, tenant, token)
     if not fast:
         test_result_passed = ssa_detection_testing.test_dsp_pipeline()
+        # disabled for debugging
+        # if not test_result_passed:
+        #     sys.exit(1)
 
-        if not test_result_passed:
-            sys.exit(1)
-
-    # # test SSA detections
+    # test SSA detections
     test_results = []
     test_passed = True
     for test_file in test_files_ssa:

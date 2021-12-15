@@ -11,6 +11,7 @@ sidebar:
 | Name        | Technique   | Tactic       |
 | ----------- | ----------- |--------------|
 | [Active Directory Discovery](/stories/active_directory_discovery/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
+| [Active Directory Lateral Movement](/stories/active_directory_lateral_movement/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | [Lateral Movement](/tags/#lateral-movement) |
 | [Active Directory Password Spraying](/stories/active_directory_password_spraying/) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | [Credential Access](/tags/#credential-access) |
 | [BITS Jobs](/stories/bits_jobs/) | [BITS Jobs](/tags/#bits-jobs) | [Defense Evasion](/tags/#defense-evasion) |
 | [Baron Samedit CVE-2021-3156](/stories/baron_samedit_cve-2021-3156/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) |
@@ -27,7 +28,7 @@ sidebar:
 | [F5 TMUI RCE CVE-2020-5902](/stories/f5_tmui_rce_cve-2020-5902/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [HAFNIUM Group](/stories/hafnium_group/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
 | [Ingress Tool Transfer](/stories/ingress_tool_transfer/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | [Command And Control](/tags/#command-and-control) |
-| [Lateral Movement](/stories/lateral_movement/) | [Kerberoasting](/tags/#kerberoasting) | [Credential Access](/tags/#credential-access) |
+| [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [Malicious PowerShell](/stories/malicious_powershell/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | [Reconnaissance](/tags/#reconnaissance) |
 | [Masquerading - Rename System Utilities](/stories/masquerading_-_rename_system_utilities/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
 | [Meterpreter](/stories/meterpreter/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) |
@@ -37,6 +38,7 @@ sidebar:
 | [Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns](/stories/possible_backdoor_activity_associated_with_mudcarp_espionage_campaigns/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |
 | [ProxyShell](/stories/proxyshell/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | [Persistence](/tags/#persistence) |
 | [SQL Injection](/stories/sql_injection/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
+| [Signed Binary Proxy Execution InstallUtil](/stories/signed_binary_proxy_execution_installutil/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | [Defense Evasion](/tags/#defense-evasion) |
 | [Silver Sparrow](/stories/silver_sparrow/) | [Data Staged](/tags/#data-staged) | [Collection](/tags/#collection) |
 | [Spearphishing Attachments](/stories/spearphishing_attachments/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | [Initial Access](/tags/#initial-access) |
 | [Suspicious Command-Line Executions](/stories/suspicious_command-line_executions/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
@@ -48,14 +50,14 @@ sidebar:
 | [Suspicious Regsvcs Regasm Activity](/stories/suspicious_regsvcs_regasm_activity/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvcs/Regasm](/tags/#regsvcs/regasm) | [Defense Evasion](/tags/#defense-evasion) |
 | [Suspicious Regsvr32 Activity](/stories/suspicious_regsvr32_activity/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32) | [Defense Evasion](/tags/#defense-evasion) |
 | [Suspicious Rundll32 Activity](/stories/suspicious_rundll32_activity/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | [Defense Evasion](/tags/#defense-evasion) |
-| [Suspicious WMI Use](/stories/suspicious_wmi_use/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | [Execution](/tags/#execution) |
+| [Suspicious WMI Use](/stories/suspicious_wmi_use/) | [XSL Script Processing](/tags/#xsl-script-processing) | [Defense Evasion](/tags/#defense-evasion) |
 | [Suspicious Windows Registry Activities](/stories/suspicious_windows_registry_activities/) | [Application Shimming](/tags/#application-shimming), [Event Triggered Execution](/tags/#event-triggered-execution) | [Privilege Escalation](/tags/#privilege-escalation) |
 | [Suspicious Zoom Child Processes](/stories/suspicious_zoom_child_processes/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | [Privilege Escalation](/tags/#privilege-escalation) |
 | [Trusted Developer Utilities Proxy Execution](/stories/trusted_developer_utilities_proxy_execution/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution) | [Defense Evasion](/tags/#defense-evasion) |
 | [Trusted Developer Utilities Proxy Execution MSBuild](/stories/trusted_developer_utilities_proxy_execution_msbuild/) | [Masquerading](/tags/#masquerading), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows DNS SIGRed CVE-2020-1350](/stories/windows_dns_sigred_cve-2020-1350/) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution) | [Execution](/tags/#execution) |
 | [Windows Defense Evasion Tactics](/stories/windows_defense_evasion_tactics/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |
-| [Windows Discovery Techniques](/stories/windows_discovery_techniques/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Process Injection](/tags/#process-injection), [Hijack Execution Flow](/tags/#hijack-execution-flow) | [Persistence](/tags/#persistence) |
+| [Windows Discovery Techniques](/stories/windows_discovery_techniques/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
 | [Windows Log Manipulation](/stories/windows_log_manipulation/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Persistence Techniques](/stories/windows_persistence_techniques/) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) |
 | [Windows Privilege Escalation](/stories/windows_privilege_escalation/) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |

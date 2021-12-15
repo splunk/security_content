@@ -46,7 +46,7 @@ The search looks for modifications to registry keys that control the enforcement
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA* Registry.registry_value_name="DWORD (0x00000000)" by Registry.dest, Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_name Registry.action 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path=*HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\EnableLUA* Registry.registry_value_data="0x00000000" by Registry.dest, Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action 
 | `drop_dm_object_name(Registry)` 
 | `disabling_remote_user_account_control_filter`
 ```

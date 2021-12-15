@@ -147,7 +147,6 @@ jobs:
           source venv/bin/activate
           python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu
           python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
-          python3 contentctl.py --path . --verbose generate --product DevSecOps --output dist/devsecops
           python3 contentctl.py --path . --verbose generate --product SSA --output dist/ssa
 
       - name: Copy lookups .csv files
@@ -155,15 +154,12 @@ jobs:
           # clean up current lookups
           rm -rf dist/escu/lookups
           rm -rf dist/saaws/lookups
-          rm -rf dist/devsecops/lookups
           mkdir dist/escu/lookups
           mkdir dist/saaws/lookups
-          mkdir dist/devsecops/lookups
           #copy over lookups
           cd lookups
           cp -rv *.csv ../dist/escu/lookups
           cp -rv *.csv ../dist/saaws/lookups
-          cp -rv *.csv ../dist/devsecops/lookups
 
       #Tag is '' for non-tagged push and the tag name for a tagged release
       - name: Set tag
@@ -203,9 +199,6 @@ jobs:
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
             tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
 
-            # update build number and version for devsecops
-            tar -czf content-pack-build-devsecops.tar.gz dist/devsecops/*
-
             # update build number and version for ssa
             tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
 
@@ -216,7 +209,6 @@ jobs:
           path: |
             content-pack-build-escu.tar.gz
             content-pack-build-saaws.tar.gz
-            content-pack-build-devsecops.tar.gz
             content-pack-build-ssa.tar.gz
 
 
@@ -261,17 +253,14 @@ jobs:
           cd build
           tar -zxf content-pack-build-escu.tar.gz
           tar -zxf content-pack-build-saaws.tar.gz
-          tar -zxf content-pack-build-devsecops.tar.gz
           tar -zxf content-pack-build-ssa.tar.gz
 
           mv dist/escu      DA-ESS-ContentUpdate
           mv dist/saaws     DA-ESS_AmazonWebServices_Content
-          mv dist/devsecops dev_sec_ops_analytics
           mv dist/ssa       SSA_Content
 
           slim package -o upload DA-ESS-ContentUpdate
           slim package -o upload DA-ESS_AmazonWebServices_Content
-          slim package -o upload dev_sec_ops_analytics
           #slim package -o upload SSA_Content
 
           cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
@@ -279,9 +268,6 @@ jobs:
 
           cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
           sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz >> checksum.txt
-
-          cp upload/dev_sec_ops_analytics-*tar.gz dev_sec_ops_analytics-latest.tar.gz
-          sha256sum dev_sec_ops_analytics-latest.tar.gz >> checksum.txt
 
           #Do this copy so that we conform as much as possible, and have to make 
           #as few changes as possible, once we start generating this as a real,
@@ -305,7 +291,6 @@ jobs:
           path: |
             build/DA-ESS-ContentUpdate-latest.tar.gz
             build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
-            build/dev_sec_ops_analytics-latest.tar.gz
             build/SSA_Content-latest.tar.gz
             build/checksum.txt
 
@@ -350,7 +335,6 @@ jobs:
           #Better not to pass these arguments on the command line, if possible
           ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
           ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
-          ./appinspect.sh ../ dev_sec_ops_analytics-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
 
       - name: Create report artifact
         if: always()
