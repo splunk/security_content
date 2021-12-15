@@ -22,6 +22,18 @@ app_list: []
 tags:
   platform_tags:
   - Response
+  analytic_story:
+  - Log4Shell CVE-2021-44228
+  detections:
+  - Curl Download and Bash Execution
+  - Wget Download and Bash Execution
+  - Linux Java Spawning Shell
+  - Windows Java Spawning Shell
+  - Java Class File download by Java User Agent
+  - Outbound Network Connection from Java Using Default Ports
+  - Log4Shell JNDI Payload Injection Attempt
+  - Log4Shell JNDI Payload Injection with Outbound Connection
+  - Detect Outbound LDAP Traffic
   playbook_fields: []
   product:
   - Splunk SOAR
