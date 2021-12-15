@@ -1,7 +1,7 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Use Cases",
+    "category": "Threat Response",
     "coa": {
         "data": {
             "description": "Published in response to CVE-2021-44228, this playbook and its sub-playbooks can be used to investigate and  respond to attacks against hosts running vulnerable Java applications which use log4j.",
@@ -21,69 +21,116 @@
                     "targetPort": "19_in"
                 },
                 {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_20_to_port_21",
-                    "sourceNode": "20",
-                    "sourcePort": "20_out",
-                    "targetNode": "21",
-                    "targetPort": "21_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_20_to_port_22",
-                    "sourceNode": "20",
-                    "sourcePort": "20_out",
-                    "targetNode": "22",
-                    "targetPort": "22_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 1
-                        }
-                    ],
-                    "id": "port_20_to_port_23",
-                    "sourceNode": "20",
-                    "sourcePort": "20_out",
-                    "targetNode": "23",
-                    "targetPort": "23_in"
-                },
-                {
-                    "conditions": [
-                        {
-                            "index": 1
-                        }
-                    ],
-                    "id": "port_20_to_port_24",
-                    "sourceNode": "20",
-                    "sourcePort": "20_out",
-                    "targetNode": "24",
-                    "targetPort": "24_in"
-                },
-                {
-                    "id": "port_19_to_port_25",
+                    "id": "port_19_to_port_26",
                     "sourceNode": "19",
                     "sourcePort": "19_out",
-                    "targetNode": "25",
-                    "targetPort": "25_in"
+                    "targetNode": "26",
+                    "targetPort": "26_in"
                 },
                 {
-                    "id": "port_25_to_port_20",
-                    "sourceNode": "25",
-                    "sourcePort": "25_out",
+                    "id": "port_30_to_port_1",
+                    "sourceNode": "30",
+                    "sourcePort": "30_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_26_to_port_31",
+                    "sourceNode": "26",
+                    "sourcePort": "26_out",
+                    "targetNode": "31",
+                    "targetPort": "31_in"
+                },
+                {
+                    "id": "port_31_to_port_20",
+                    "sourceNode": "31",
+                    "sourcePort": "31_out",
                     "targetNode": "20",
                     "targetPort": "20_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_20_to_port_32",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "32",
+                    "targetPort": "32_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_20_to_port_33",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "33",
+                    "targetPort": "33_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_20_to_port_34",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "34",
+                    "targetPort": "34_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_20_to_port_35",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "35",
+                    "targetPort": "35_in"
+                },
+                {
+                    "id": "port_32_to_port_30",
+                    "sourceNode": "32",
+                    "sourcePort": "32_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "id": "port_33_to_port_30",
+                    "sourceNode": "33",
+                    "sourcePort": "33_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "id": "port_35_to_port_30",
+                    "sourceNode": "35",
+                    "sourcePort": "35_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "id": "port_34_to_port_30",
+                    "sourceNode": "34",
+                    "sourcePort": "34_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
                 }
             ],
-            "hash": "78e9b912032aa57c87befaa5f816a31d048407ed",
+            "hash": "3032f16dc2f5fabcbb60995a4ce913641ef73af7",
             "nodes": {
                 "0": {
                     "data": {
@@ -97,8 +144,8 @@
                     "errors": {},
                     "id": "0",
                     "type": "start",
-                    "x": 530,
-                    "y": -7.815970093361102e-14
+                    "x": 540,
+                    "y": 100
                 },
                 "1": {
                     "data": {
@@ -114,8 +161,8 @@
                     "id": "1",
                     "type": "end",
                     "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
-                    "x": 830,
-                    "y": -7.815970093361102e-14
+                    "x": 540,
+                    "y": 1120
                 },
                 "15": {
                     "data": {
@@ -282,16 +329,17 @@
                     "errors": {},
                     "id": "15",
                     "type": "utility",
-                    "userCode": "\n    # use custom code to read a custom list of potential log4j hosts and/or ip addresses\n    # and make a json to create an artifact for each one.\n    # the expected format of the custom list is:\n    #     hostname1 | unix\n    #     1.1.1.1   | windows\n    \n    # TODO remove this testing piece which deletes existing artifacts\n    container_artifact_data = phantom.collect2(container=container, datapath=[\"artifact:*.id\",\"artifact:*.id\"])\n    container_artifact_header_item_0 = [item[0] for item in container_artifact_data]\n    for artifact_id in container_artifact_header_item_0:\n        phantom.delete_artifact(artifact_id=artifact_id)\n    \n    \n    # TODO: bring in a test splunk notable and clean up the fields in that as well\n\n    custom_list_name = parameters[0]['input_1']\n    \n    success, message, rows = phantom.get_list(list_name=custom_list_name)\n    \n    # loop through the rows and create a list of artifact jsons to add\n    # the two columns are expected to be the ip_or_hostname and the operating system family\n    parameters = []\n    unix_hosts = []\n    windows_hosts = []\n    unknown_hosts = []\n    for row in rows:\n        if row[0]:\n            if row[1] != 'unix' and row[1] != 'windows':\n                os_family = 'unknown'\n            else:\n                os_family = row[1]\n            \n            parameters.append({'input_1': {'cef_data': {'deviceHostname': row[0], 'operatingSystemFamily': os_family}}})\n            \n\n",
-                    "x": 510,
-                    "y": 152
+                    "userCode": "\n    # use custom code to read a custom list of potential log4j hosts and/or ip addresses\n    # and make a json to create an artifact for each one.\n    # the expected format of the custom list is:\n    #     hostname1 | unix\n    #     1.1.1.1   | windows\n\n    custom_list_name = parameters[0]['input_1']\n    \n    success, message, rows = phantom.get_list(list_name=custom_list_name)\n    \n    # return early if the list is not found\n    if not success:\n        phantom.debug(\"Failed to find the custom list, so only existing artifacts will be used\")\n        phantom.custom_function(custom_function=\"community/passthrough\", parameters=[], name=\"enumerate_hosts\", callback=create_host_artifacts)\n        return\n    \n    # loop through the rows and create a list of artifact jsons to add\n    # the two columns are expected to be the ip_or_hostname and the operating system family\n    parameters = []\n    unix_hosts = []\n    windows_hosts = []\n    unknown_hosts = []\n    for row in rows:\n        if row[0]:\n            if row[1] != 'unix' and row[1] != 'windows':\n                os_family = 'unknown'\n            else:\n                os_family = row[1]\n            \n            artifact_dict = {\n                'cef_data': {\n                    'deviceHostname': row[0],\n                    'operatingSystemFamily': os_family},\n                'field_mapping': {\n                    'deviceHostname': ['host name', 'ip']}}\n            parameters.append({'input_1': artifact_dict})\n\n",
+                    "x": 520,
+                    "y": 220
                 },
                 "19": {
                     "data": {
                         "advanced": {
-                            "customName": "create artifacts",
+                            "customName": "create host artifacts",
                             "customNameId": 0,
-                            "join": []
+                            "join": [],
+                            "scope": "all"
                         },
                         "customFunction": {
                             "draftMode": false,
@@ -299,7 +347,7 @@
                             "repoName": "community"
                         },
                         "functionId": 9,
-                        "functionName": "create_artifacts",
+                        "functionName": "create_host_artifacts",
                         "id": "19",
                         "selectMore": false,
                         "type": "utility",
@@ -427,7 +475,7 @@
                                 "container": "container:id",
                                 "input_json": "enumerate_hosts:custom_function_result.data.*.item",
                                 "label": null,
-                                "name": "Potential log4j Host",
+                                "name": "potential log4j host",
                                 "run_automation": null,
                                 "severity": "high",
                                 "tags": null
@@ -437,9 +485,9 @@
                     "errors": {},
                     "id": "19",
                     "type": "utility",
-                    "userCode": "\n",
-                    "x": 510,
-                    "y": 304
+                    "userCode": "\n    # only operate on parameters with input_json, because thats where the data should be\n    parameters = [parameter for parameter in parameters if parameter['input_json']]\n    if parameters == []:\n        \n        # if there are no new artifacts and no existing artifacts with deviceHostname, then stop the playbook\n        relevant_artifacts = phantom.collect2(container=container, datapath=[\"artifact:*.cef.deviceHostname\"])\n        if relevant_artifacts == []:\n            phantom.comment(comment=\"No ip_or_hostname values to operate on; playbook discontinued\")\n            phantom.error(\"No ip_or_hostname values to operate on; playbook discontinued\")\n            phantom.discontinue()\n            \n",
+                    "x": 520,
+                    "y": 340
                 },
                 "20": {
                     "data": {
@@ -508,137 +556,75 @@
                     "errors": {},
                     "id": "20",
                     "type": "filter",
-                    "x": 570,
-                    "y": 625
+                    "x": 580,
+                    "y": 720
                 },
-                "21": {
+                "26": {
                     "data": {
                         "advanced": {
+                            "customName": "if hosts exist",
+                            "customNameId": 0,
+                            "description": "Only proceed if ip_or_hostname values exist in artifact deviceHostname fields. Without these potential log4j hosts, this playbook cannot do anything.",
                             "join": [],
                             "scope": "all"
                         },
-                        "functionId": 2,
-                        "functionName": "playbook_internal_host_ssh_investigate_2",
-                        "id": "21",
-                        "inputs": {
-                            "ip_or_hostname": {
-                                "datapaths": [
-                                    "filtered-data:os_filter:condition_1:artifact:*.cef.deviceHostname"
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.cef.deviceHostname",
+                                        "value": ""
+                                    }
                                 ],
-                                "deduplicate": true
+                                "conditionIndex": 0,
+                                "customName": "hosts_exist",
+                                "logic": "and"
                             }
-                        },
-                        "playbookName": "internal_host_ssh_investigate",
-                        "playbookRepo": 2,
-                        "playbookRepoName": "local",
-                        "playbookType": "data",
-                        "synchronous": true,
-                        "type": "playbook"
+                        ],
+                        "functionId": 2,
+                        "functionName": "if_hosts_exist",
+                        "id": "26",
+                        "type": "filter"
                     },
                     "errors": {},
-                    "id": "21",
-                    "type": "playbook",
-                    "x": 340,
-                    "y": 805
+                    "id": "26",
+                    "type": "filter",
+                    "x": 580,
+                    "y": 440
                 },
-                "22": {
-                    "data": {
-                        "advanced": {
-                            "join": [],
-                            "scope": "all"
-                        },
-                        "functionId": 2,
-                        "functionName": "playbook_internal_host_ssh_log4j_investigate_2",
-                        "id": "22",
-                        "inputs": {
-                            "ip_or_hostname": {
-                                "datapaths": [
-                                    "filtered-data:os_filter:condition_1:artifact:*.cef.deviceHostname"
-                                ],
-                                "deduplicate": true
-                            }
-                        },
-                        "playbookName": "internal_host_ssh_log4j_investigate",
-                        "playbookRepo": 2,
-                        "playbookRepoName": "local",
-                        "playbookType": "data",
-                        "synchronous": true,
-                        "type": "playbook"
-                    },
-                    "errors": {},
-                    "id": "22",
-                    "type": "playbook",
-                    "x": 0,
-                    "y": 805
-                },
-                "23": {
-                    "data": {
-                        "advanced": {
-                            "join": [],
-                            "scope": "all"
-                        },
-                        "functionId": 2,
-                        "functionName": "playbook_internal_host_winrm_investigate_2",
-                        "id": "23",
-                        "inputs": {
-                            "ip_or_hostname": {
-                                "datapaths": [
-                                    "filtered-data:os_filter:condition_2:artifact:*.cef.deviceHostname"
-                                ],
-                                "deduplicate": true
-                            }
-                        },
-                        "playbookName": "internal_host_winrm_investigate",
-                        "playbookRepo": 2,
-                        "playbookRepoName": "local",
-                        "playbookType": "data",
-                        "synchronous": true,
-                        "type": "playbook"
-                    },
-                    "errors": {},
-                    "id": "23",
-                    "type": "playbook",
-                    "x": 680,
-                    "y": 805
-                },
-                "24": {
-                    "data": {
-                        "advanced": {
-                            "join": [],
-                            "scope": "all"
-                        },
-                        "functionId": 2,
-                        "functionName": "playbook_internal_host_winrm_log4j_investigate_2",
-                        "id": "24",
-                        "inputs": {
-                            "ip_or_hostname": {
-                                "datapaths": [
-                                    "filtered-data:os_filter:condition_2:artifact:*.cef.deviceHostname"
-                                ],
-                                "deduplicate": true
-                            }
-                        },
-                        "playbookName": "internal_host_winrm_log4j_investigate",
-                        "playbookRepo": 2,
-                        "playbookRepoName": "local",
-                        "playbookType": "data",
-                        "synchronous": true,
-                        "type": "playbook"
-                    },
-                    "errors": {},
-                    "id": "24",
-                    "type": "playbook",
-                    "x": 1020,
-                    "y": 805
-                },
-                "25": {
+                "30": {
                     "data": {
                         "advanced": {
                             "join": []
                         },
                         "functionId": 1,
-                        "functionName": "playbook_internal_host_splunk_investigate_log4j_1",
-                        "id": "25",
+                        "functionName": "playbook_log4j_respond_1",
+                        "id": "30",
+                        "inputs": {},
+                        "playbookName": "log4j_respond",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "automation",
+                        "synchronous": false,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "30",
+                    "type": "playbook",
+                    "x": 520,
+                    "y": 1020
+                },
+                "31": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 2,
+                        "functionName": "playbook_internal_host_splunk_investigate_log4j_2",
+                        "id": "31",
                         "inputs": {
                             "ip_or_hostname": {
                                 "datapaths": [
@@ -648,20 +634,140 @@
                             }
                         },
                         "playbookName": "internal_host_splunk_investigate_log4j",
-                        "playbookRepo": 2,
-                        "playbookRepoName": "local",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
                         "playbookType": "data",
                         "synchronous": true,
                         "type": "playbook"
                     },
                     "errors": {},
-                    "id": "25",
+                    "id": "31",
                     "type": "playbook",
                     "x": 520,
-                    "y": 404.5
+                    "y": 600
+                },
+                "32": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_internal_host_ssh_log4j_investigate_1",
+                        "id": "32",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "filtered-data:os_filter:condition_1:artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_ssh_log4j_investigate",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "32",
+                    "type": "playbook",
+                    "x": 120,
+                    "y": 860
+                },
+                "33": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_internal_host_ssh_investigate_1",
+                        "id": "33",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "filtered-data:os_filter:condition_1:artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_ssh_investigate",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "33",
+                    "type": "playbook",
+                    "x": 380,
+                    "y": 880
+                },
+                "34": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_internal_host_winrm_log4j_investigate_1",
+                        "id": "34",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "filtered-data:os_filter:condition_2:artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_winrm_log4j_investigate",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "34",
+                    "type": "playbook",
+                    "x": 960,
+                    "y": 860
+                },
+                "35": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_internal_host_winrm_investigate_1",
+                        "id": "35",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "filtered-data:os_filter:condition_2:artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_winrm_investigate",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "35",
+                    "type": "playbook",
+                    "x": 680,
+                    "y": 880
                 }
             },
-            "notes": "TODO: bring in a test splunk notable and add a host from that to the custom list in enumerate_hosts\n\n\n* In the block called \"fetch_hosts_from_custom_list\", change the custom list name from \"log4j_hosts\" if needed \n* If the operating system family (\"windows\" or \"unix\") is not known, both ssh and winrm will be attempted\n* If ssh and/or winrm are not the preferred endpoint management methods, these playbooks could be ported to use Google's GRR, osquery,  CrowdStrike's RTR, Carbon Black's EDR API, or similar tools.\n\n* The artifact scope \"all\" is used throughout this playbook because the artifact list can be added to as the playbook progresses."
+            "notes": "* To use this playbook, create a custom list called \"log4j_hosts\" with a format like:\n\n| hostname1 | unix |\n| hostname2 | windows |\n\n* The first column should be an IP or hostname of a potentially affected log4j host, and the second should be the operating system family (either unix or windows). If the operating system is unknown it can be left blank.\n* In the block called \"fetch_hosts_from_custom_list\", change the custom list name from \"log4j_hosts\" if needed \n* If the operating system family (\"windows\" or \"unix\") is not known, both ssh and winrm will be attempted\n* If ssh and/or winrm are not the preferred endpoint management methods, these playbooks could be ported to use Google's GRR, osquery,  CrowdStrike's RTR, Carbon Black's EDR API, or similar tools.\n* The artifact scope \"all\" is used throughout this playbook because the artifact list can be added to as the playbook progresses.\n * If a sub-playbook needs to be changed it should be copied from the community repository to a local repository and the reference in the parent playbook should be changed to the new repository"
         },
         "input_spec": null,
         "output_spec": null,
@@ -670,10 +776,13 @@
         "schema": "5.0.4",
         "version": "5.1.0.70187"
     },
-    "create_time": "2021-12-14T20:29:14.791691+00:00",
+    "create_time": "2021-12-15T22:50:34.136664+00:00",
     "draft_mode": false,
     "labels": [
-        "*"
+        "events"
     ],
-    "tags": []
+    "tags": [
+        "log4j",
+        "investigate"
+    ]
 }
