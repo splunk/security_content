@@ -4,7 +4,7 @@ last_modified_at: 2021-12-14
 toc: true
 toc_label: ""
 tags:
-  - Investigate
+  - Investigation
   - Splunk SOAR
   - SSH
 ---
@@ -15,7 +15,7 @@ tags:
 
 Investigate an internal unix host using SSH. This pushes a bash script to the endpoint and runs it, collecting information specific to the December 2021 log4j vulnerability disclosure. This includes the java version installed on the host, any running java processes, and the results of a scan for the affected JndiLookup.class file or log4j .jar files.
 
-- **Type**: Investigate
+- **Type**: Investigation
 - **Product**: Splunk SOAR
 - **Apps**: [SSH](https://splunkbase.splunk.com/apps/#/search/SSH/product/soar)
 - **Last Updated**: 2021-12-14
