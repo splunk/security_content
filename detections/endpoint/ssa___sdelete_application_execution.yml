@@ -5,7 +5,7 @@ date: '2021-11-15'
 author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
-- Endpoint_Processes
+  - Endpoint_Processes
 description: This analytic will detect the execution of sdelete.exe attempting to delete potentially important files 
   that may related to adversary or insider threats to destroy evidence or information sabotage. Sdelete is a SysInternals utility
   meant to securely delete files on disk. This tool is commonly used to clear tracks and artifact on the targeted host.
@@ -36,15 +36,40 @@ how_to_implement: To successfully implement this search you need to be ingesting
   endpoint product.
 known_false_positives: False positives should be limited, filter as needed.
 references:
-  - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
-  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md 
+- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
 tags:
   analytic_story:
   - Information Sabotage
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/sdelete/security.log
+  impact: 60
+  risk_score: 42
   kill_chain_phases:
   - Exploitation
+  message: Sdelete process $process_name$ executed on $dest_device_id$ attempting to permanently
+    delete files by $dest_user_id$.
+  observable:
+  - name: dest_user_id
+    type: User
+    role:
+    - Victim
+  - name: dest_device_id
+    type: Hostname
+    role:
+    - Victim
+  - name: parent_process
+    type: Parent Process
+    role:
+    - Parent Process
+  - name: process_name
+    type: Process
+    role:
+    - Child Process
   mitre_attack_id:
   - T1485
   - T1070.004
@@ -61,27 +86,5 @@ tags:
   - process
   - process_id
   - process_path
+  - cmd_line
   security_domain: endpoint
-  impact: 60
-  confidence: 70
-  # (impact * confidence)/100
-  risk_score: 42
-  context:
-  - Source:Endpoint
-  - Stage:Execution 
-  message: sdelete process $process_name$ executed on $dest$ attempting to permanently delete files.
-  observable:
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
-  - name: user
-    type: User
-    role:
-    - Victim
-  - name: process_name
-    type: Process
-    role:
-    - Child Process
-    
-    
