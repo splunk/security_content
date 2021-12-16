@@ -293,7 +293,19 @@ This playbook acts upon events where a file has been determined to be malicious 
 
 
 
-* [Executable File Written in Administrative SMB Share](/detections/TTP/executable_file_written_in_administrative_smb_share)
+
+
+
+* [Executable File Written in Administrative SMB Share](/endpoint/executable_file_written_in_administrative_smb_share/)
+
+
+
+
+
+
+
+
+
 
 
 

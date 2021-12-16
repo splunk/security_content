@@ -1,0 +1,788 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Threat Response",
+    "coa": {
+        "data": {
+            "description": "Published in response to CVE-2021-44228, this playbook and its sub-playbooks can be used to investigate and  respond to attacks against hosts running vulnerable Java applications which use log4j.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_15",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "id": "port_15_to_port_19",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_19_to_port_26",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "26",
+                    "targetPort": "26_in"
+                },
+                {
+                    "id": "port_30_to_port_1",
+                    "sourceNode": "30",
+                    "sourcePort": "30_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_26_to_port_31",
+                    "sourceNode": "26",
+                    "sourcePort": "26_out",
+                    "targetNode": "31",
+                    "targetPort": "31_in"
+                },
+                {
+                    "id": "port_31_to_port_20",
+                    "sourceNode": "31",
+                    "sourcePort": "31_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_20_to_port_32",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "32",
+                    "targetPort": "32_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_20_to_port_33",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "33",
+                    "targetPort": "33_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_20_to_port_34",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "34",
+                    "targetPort": "34_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_20_to_port_35",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "35",
+                    "targetPort": "35_in"
+                },
+                {
+                    "id": "port_32_to_port_30",
+                    "sourceNode": "32",
+                    "sourcePort": "32_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "id": "port_33_to_port_30",
+                    "sourceNode": "33",
+                    "sourcePort": "33_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "id": "port_35_to_port_30",
+                    "sourceNode": "35",
+                    "sourcePort": "35_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                },
+                {
+                    "id": "port_34_to_port_30",
+                    "sourceNode": "34",
+                    "sourcePort": "34_out",
+                    "targetNode": "30",
+                    "targetPort": "30_in"
+                }
+            ],
+            "hash": "3032f16dc2f5fabcbb60995a4ce913641ef73af7",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 540,
+                    "y": 100
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 540,
+                    "y": 1120
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "enumerate hosts",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "passthrough",
+                            "repoName": "community"
+                        },
+                        "functionId": 5,
+                        "functionName": "enumerate_hosts",
+                        "id": "15",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "passthrough": {
+                                "description": "Return the inputs as outputs. This is useful for publishing pieces of data for other blocks in the playbook to use.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_1",
+                                        "name": "input_1",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_2",
+                                        "name": "input_2",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_3",
+                                        "name": "input_3",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_4",
+                                        "name": "input_4",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_5",
+                                        "name": "input_5",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_6",
+                                        "name": "input_6",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_7",
+                                        "name": "input_7",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_8",
+                                        "name": "input_8",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_9",
+                                        "name": "input_9",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_10",
+                                        "name": "input_10",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "passthrough",
+                                "name": "passthrough"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "passthrough": {
+                                "input_1": "log4j_hosts",
+                                "input_10": null,
+                                "input_2": "",
+                                "input_3": null,
+                                "input_4": null,
+                                "input_5": null,
+                                "input_6": null,
+                                "input_7": null,
+                                "input_8": null,
+                                "input_9": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "utility",
+                    "userCode": "\n    # use custom code to read a custom list of potential log4j hosts and/or ip addresses\n    # and make a json to create an artifact for each one.\n    # the expected format of the custom list is:\n    #     hostname1 | unix\n    #     1.1.1.1   | windows\n\n    custom_list_name = parameters[0]['input_1']\n    \n    success, message, rows = phantom.get_list(list_name=custom_list_name)\n    \n    # return early if the list is not found\n    if not success:\n        phantom.debug(\"Failed to find the custom list, so only existing artifacts will be used\")\n        phantom.custom_function(custom_function=\"community/passthrough\", parameters=[], name=\"enumerate_hosts\", callback=create_host_artifacts)\n        return\n    \n    # loop through the rows and create a list of artifact jsons to add\n    # the two columns are expected to be the ip_or_hostname and the operating system family\n    parameters = []\n    unix_hosts = []\n    windows_hosts = []\n    unknown_hosts = []\n    for row in rows:\n        if row[0]:\n            if row[1] != 'unix' and row[1] != 'windows':\n                os_family = 'unknown'\n            else:\n                os_family = row[1]\n            \n            artifact_dict = {\n                'cef_data': {\n                    'deviceHostname': row[0],\n                    'operatingSystemFamily': os_family},\n                'field_mapping': {\n                    'deviceHostname': ['host name', 'ip']}}\n            parameters.append({'input_1': artifact_dict})\n\n",
+                    "x": 520,
+                    "y": 220
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "create host artifacts",
+                            "customNameId": 0,
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "artifact_create",
+                            "repoName": "community"
+                        },
+                        "functionId": 9,
+                        "functionName": "create_host_artifacts",
+                        "id": "19",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "artifact_create": {
+                                "description": "Create a new artifact with the specified attributes.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "Container which the artifact will be added to.",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the new artifact, which is optional and defaults to \"artifact\".",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "artifact",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The label of the new artifact, which is optional and defaults to \"events\"",
+                                        "inputType": "item",
+                                        "label": "label",
+                                        "name": "label",
+                                        "placeholder": "events",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            ""
+                                        ],
+                                        "description": "The severity of the new artifact, which is optional and defaults to \"Medium\". Typically this is either \"High\", \"Medium\", or \"Low\".",
+                                        "inputType": "item",
+                                        "label": "severity",
+                                        "name": "severity",
+                                        "placeholder": "Medium",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The name of the CEF field to populate in the artifact, such as \"destinationAddress\" or \"sourceDnsDomain\". Required only if cef_value is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_field",
+                                        "name": "cef_field",
+                                        "placeholder": "destinationAddress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "The value of the CEF field to populate in the artifact, such as the IP address, domain name, or file hash. Required only if cef_field is provided.",
+                                        "inputType": "item",
+                                        "label": "cef_value",
+                                        "name": "cef_value",
+                                        "placeholder": "192.0.2.192",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The CEF data type of the data in cef_value. For example, this could be \"ip\", \"hash\", or \"domain\". Optional.",
+                                        "inputType": "item",
+                                        "label": "cef_data_type",
+                                        "name": "cef_data_type",
+                                        "placeholder": "ip",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "A comma-separated list of tags to apply to the created artifact, which is optional.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1, tag2, tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Either \"true\" or \"false\", depending on whether or not the new artifact should trigger the execution of any playbooks that are set to active on the label of the container the artifact will be added to. Optional and defaults to \"false\".",
+                                        "inputType": "item",
+                                        "label": "run_automation",
+                                        "name": "run_automation",
+                                        "placeholder": "false",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to modify any extra attributes of the artifact. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+                                        "inputType": "item",
+                                        "label": "input_json",
+                                        "name": "input_json",
+                                        "placeholder": "{\"source_data_identifier\": \"1234\", \"data\": \"5678\"}",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "artifact_create",
+                                "name": "artifact_create"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "artifact_create": {
+                                "cef_data_type": null,
+                                "cef_field": null,
+                                "cef_value": null,
+                                "container": "container:id",
+                                "input_json": "enumerate_hosts:custom_function_result.data.*.item",
+                                "label": null,
+                                "name": "potential log4j host",
+                                "run_automation": null,
+                                "severity": "high",
+                                "tags": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "utility",
+                    "userCode": "\n    # only operate on parameters with input_json, because thats where the data should be\n    parameters = [parameter for parameter in parameters if parameter['input_json']]\n    if parameters == []:\n        \n        # if there are no new artifacts and no existing artifacts with deviceHostname, then stop the playbook\n        relevant_artifacts = phantom.collect2(container=container, datapath=[\"artifact:*.cef.deviceHostname\"])\n        if relevant_artifacts == []:\n            phantom.comment(comment=\"No ip_or_hostname values to operate on; playbook discontinued\")\n            phantom.error(\"No ip_or_hostname values to operate on; playbook discontinued\")\n            phantom.discontinue()\n            \n",
+                    "x": 520,
+                    "y": 340
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "customName": "os filter",
+                            "customNameId": 0,
+                            "description": "The operatingSystemFamily should be either unix, windows, or unknown. If it is unknown, both sets of playbooks should be called.",
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "artifact:*.cef.operatingSystemFamily",
+                                        "value": "unix"
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "artifact:*.cef.operatingSystemFamily",
+                                        "value": "unknown"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "unix_or_unknown",
+                                "logic": "or"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "artifact:*.cef.operatingSystemFamily",
+                                        "value": "windows"
+                                    },
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "artifact:*.cef.operatingSystemFamily",
+                                        "value": "unknown"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "windows_or_unknown",
+                                "logic": "or"
+                            }
+                        ],
+                        "customDatapaths": {
+                            "artifacts": {
+                                "artifact:*.cef.operatingSystemFamily": {
+                                    "contains": [],
+                                    "isCustomDatapath": true,
+                                    "label": "artifact:*.cef.operatingSystemFamily",
+                                    "value": "artifact:*.cef.operatingSystemFamily"
+                                }
+                            }
+                        },
+                        "functionId": 1,
+                        "functionName": "os_filter",
+                        "id": "20",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "filter",
+                    "x": 580,
+                    "y": 720
+                },
+                "26": {
+                    "data": {
+                        "advanced": {
+                            "customName": "if hosts exist",
+                            "customNameId": 0,
+                            "description": "Only proceed if ip_or_hostname values exist in artifact deviceHostname fields. Without these potential log4j hosts, this playbook cannot do anything.",
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "artifact:*.cef.deviceHostname",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "hosts_exist",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "if_hosts_exist",
+                        "id": "26",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "26",
+                    "type": "filter",
+                    "x": 580,
+                    "y": 440
+                },
+                "30": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_log4j_respond_1",
+                        "id": "30",
+                        "inputs": {},
+                        "playbookName": "log4j_respond",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "automation",
+                        "synchronous": false,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "30",
+                    "type": "playbook",
+                    "x": 520,
+                    "y": 1020
+                },
+                "31": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 2,
+                        "functionName": "playbook_internal_host_splunk_investigate_log4j_2",
+                        "id": "31",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_splunk_investigate_log4j",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "31",
+                    "type": "playbook",
+                    "x": 520,
+                    "y": 600
+                },
+                "32": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_internal_host_ssh_log4j_investigate_1",
+                        "id": "32",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "filtered-data:os_filter:condition_1:artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_ssh_log4j_investigate",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "32",
+                    "type": "playbook",
+                    "x": 120,
+                    "y": 860
+                },
+                "33": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_internal_host_ssh_investigate_1",
+                        "id": "33",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "filtered-data:os_filter:condition_1:artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_ssh_investigate",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "33",
+                    "type": "playbook",
+                    "x": 380,
+                    "y": 880
+                },
+                "34": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_internal_host_winrm_log4j_investigate_1",
+                        "id": "34",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "filtered-data:os_filter:condition_2:artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_winrm_log4j_investigate",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "34",
+                    "type": "playbook",
+                    "x": 960,
+                    "y": 860
+                },
+                "35": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "scope": "all"
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_internal_host_winrm_investigate_1",
+                        "id": "35",
+                        "inputs": {
+                            "ip_or_hostname": {
+                                "datapaths": [
+                                    "filtered-data:os_filter:condition_2:artifact:*.cef.deviceHostname"
+                                ],
+                                "deduplicate": true
+                            }
+                        },
+                        "playbookName": "internal_host_winrm_investigate",
+                        "playbookRepo": 1,
+                        "playbookRepoName": "community",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "35",
+                    "type": "playbook",
+                    "x": 680,
+                    "y": 880
+                }
+            },
+            "notes": "* To use this playbook, create a custom list called \"log4j_hosts\" with a format like:\n\n| hostname1 | unix |\n| hostname2 | windows |\n\n* The first column should be an IP or hostname of a potentially affected log4j host, and the second should be the operating system family (either unix or windows). If the operating system is unknown it can be left blank.\n* In the block called \"fetch_hosts_from_custom_list\", change the custom list name from \"log4j_hosts\" if needed \n* If the operating system family (\"windows\" or \"unix\") is not known, both ssh and winrm will be attempted\n* If ssh and/or winrm are not the preferred endpoint management methods, these playbooks could be ported to use Google's GRR, osquery,  CrowdStrike's RTR, Carbon Black's EDR API, or similar tools.\n* The artifact scope \"all\" is used throughout this playbook because the artifact list can be added to as the playbook progresses.\n * If a sub-playbook needs to be changed it should be copied from the community repository to a local repository and the reference in the parent playbook should be changed to the new repository"
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-12-15T22:50:34.136664+00:00",
+    "draft_mode": false,
+    "labels": [
+        "events"
+    ],
+    "tags": [
+        "log4j",
+        "investigate"
+    ]
+}

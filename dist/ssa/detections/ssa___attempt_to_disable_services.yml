@@ -1,7 +1,7 @@
 author: Teoderick Contreras, Splunk
 datamodel:
 - Endpoint_Processes
-date: '2021-11-30'
+date: '2021-11-24'
 description: The following analytic identifies Windows Service Control, `sc.exe`,
   attempting to disable a service. This is typically identified in parallel with other
   instances of service enumeration of attempts to stop a service and then disable
@@ -10,7 +10,7 @@ description: The following analytic identifies Windows Service Control, `sc.exe`
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+  Sysmon TA.
 id: afb31de4-d023-11eb-98d5-acde48001122
 known_false_positives: It is possible administrative scripts may start/stop/delete
   services. Filter as needed.
