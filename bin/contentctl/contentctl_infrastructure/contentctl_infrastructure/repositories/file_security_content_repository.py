@@ -5,6 +5,7 @@ from contentctl.contentctl.domain.entities.security_content_object import Securi
 from contentctl.contentctl.application.repositories.security_content import SecurityContentRepository
 from contentctl_infrastructure.contentctl_infrastructure.repositories.yml_reader import YmlReader
 from contentctl.contentctl.domain.entities.detection import Detection
+from contentctl.contentctl.domain.entities.story import Story
 from contentctl.contentctl.domain.entities.enums.enums import SecurityContentType
 
 
@@ -15,8 +16,11 @@ class FileSecurityContentRepository(SecurityContentRepository):
         if type == SecurityContentType.detections:
             yml_dict["tags"]["name"] = yml_dict["name"]
             detection = Detection.parse_obj(yml_dict)
-            logging.info("Read and parse object: " + detection.name)
             return detection
+        elif type == SecurityContentType.stories:
+            yml_dict["tags"]["name"] = yml_dict["name"]
+            story = Story.parse_obj(yml_dict)
+            return story
 
     def convert(self, security_content_obj: SecurityContentObject) -> None:
         pass
