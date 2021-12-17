@@ -175,15 +175,42 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
         print("FILENAME : [%s]"%(detection_filename))
         print("SEARCH   :\n%s"%(search_string))
         _ = input("****************Press ENTER to Complete Test and DELETE data****************\n\n\n")
-    splunk_search = 'search index=main | delete'
+    
+    data_exists = True
+    already_enabled_delete = False
+    while data_exists:
+        splunk_search = 'search index=main | delete'
 
-    kwargs = {"exec_mode": "blocking",
-              "dispatch.earliest_time": "-1d",
-              "dispatch.latest_time": "now"}
+        kwargs = {"dispatch.earliest_time": "-1d",
+                "dispatch.latest_time": "now"}
+        try:
+            
+            job = service.jobs.oneshot(splunk_search, **kwargs)
+            reader = results.ResultsReader(job)
+            error_in_results = False
+            for result in reader:
+                if hasattr(result,"message") and hasattr(result,"type") and ("You have insufficient privileges to delete events" in result.message or result.type == "FATAL"):
+                    print("Delete is not enabled for admin: [%s] - enabling delete and trying to delete again..."%(result.message), file=sys.stderr)
+                    if already_enabled_delete is True:
+                        print("We already enabled delete, but the setting did not take effect.")
+                        raise(Exception("Enabling delete command failed to take effect"))
+                    if enable_delete_for_admin(splunk_host, splunk_port,splunk_password) != True:
+                        raise(Exception("Failure enabling delete for admin. We cannot continue"))
+                    # We enabled delete, so now we will try to delete again
+                    already_enabled_delete = True
+                    break
+                else:
+                    #This is not one of the error messages, do nothing
+                    pass
 
-    try:
-        job = service.jobs.create(splunk_search, **kwargs)
-    except Exception as e:
-        raise(Exception("Unable to execute search: " + str(e)))
+            #No need to issue Delete command again, we will now break out of the loop
+            if error_in_results is False:
+                data_exists = False
+
+            #Otherwise, we will loop again
+
+        except Exception as e:
+            raise(Exception("Unable to delete data from a run: " + str(e)))
+        
     
     return True

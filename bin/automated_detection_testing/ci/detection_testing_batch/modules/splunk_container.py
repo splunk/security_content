@@ -16,11 +16,13 @@ import time
 import timeit
 from typing import Union
 import threading
+import wrapt_timeout_decorator
+import sys
 
 SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
 SPLUNK_START_ARGS = "--accept-license"
 
-
+MAX_CONTAINER_START_TIME_SECONDS = 360
 class SplunkContainer:
     def __init__(
         self,
@@ -67,6 +69,7 @@ class SplunkContainer:
         self.container_start_time = -1
         self.test_start_time = -1
         self.num_tests_completed = 0
+
 
     def prepare_apps_path(
         self,
@@ -274,42 +277,38 @@ class SplunkContainer:
 
     def wait_for_splunk_ready(
         self,
-        max_seconds: int = 300,
-        seconds_between_attempts: int = 5,
+        seconds_between_attempts: int = 10,
     ) -> bool:
         
         # The smarter version of this will try to hit one of the pages,
         # probably the login page, and when that is available it means that
         # splunk is fully started and ready to go.  Until then, we just
         # use a simple sleep
-        splunk_ready_url = "http://%s:%d" % (self.splunk_ip, self.web_port)
-        start = timeit.default_timer()
+        
+        
         while True:
             try:
-                # Splunk container will not have proper ssl certificate
-                response = requests.get(
-                    splunk_ready_url, timeout=seconds_between_attempts, verify=False)
-                response.raise_for_status()
-                return True
+                service = splunk_sdk.client.connect(host=self.splunk_ip, port=self.management_port, username='admin', password=self.container_password)
+                if service.restart_required:
+                    #The sleep below will wait
+                    pass
+                else:
+                    return True
+              
             except Exception as e:
-                elapsed = timeit.default_timer() - start
-                
-                if elapsed > max_seconds:
-                    self.stopContainer()
-                    raise (
-                        Exception(
-                            "Container [%s] took longer than maximum start time of [%d].\n\tStopping container..."
-                            % (self.container_name, max_seconds)
-                        )
-                    )
+                # There is a good chance the server is restarting, so the SDK connection failed.
+                # Or, we tried to check restart_required while the server was restarting.  In the
+                # calling function, we have a timeout, so it's okay if this function could get 
+                # stuck in an infinite loop (the caller will generate a timeout error)
+                pass
                     
             time.sleep(seconds_between_attempts)
 
-    def run_container(self) -> None:
-        print("Starting the container [%s]" % (self.container_name))
-        self.container_start_time = timeit.default_timer()
-        self.container.start()
+    
+    @wrapt_timeout_decorator.timeout(MAX_CONTAINER_START_TIME_SECONDS, timeout_exception=RuntimeError)
+    def setup_container(self):
 
+        self.container.start()
         # By default, first copy the index file then the datamodel file
         for file_description, file_dict in self.files_to_copy_to_container.items():
             self.extract_tar_file_to_container(
@@ -317,35 +316,34 @@ class SplunkContainer:
             )
 
         print("Finished copying files to [%s]" % (self.container_name))
+        self.wait_for_splunk_ready()
+        
 
-        try:
-            while not splunk_sdk.enable_delete_for_admin(self.splunk_ip, self.management_port, self.container_password):
-                time.sleep(10)
-        except Exception as e:
-            print(
-                "Failure enabling DELETE for container [%s]: [%s].\n\tQuitting..."
-                % (self.container_name, str(e))
-            )
-
-        # Wait for all of the threads to join here
-        print(
-            "Container [%s] setup complete and waiting for other containers to be ready..."
-            % (self.container_name)
-        )
-
-        self.synchronization_object.start_barrier.wait()
+    def run_container(self) -> None:
+        print("Starting the container [%s]" % (self.container_name))
+        self.container_start_time = timeit.default_timer()
+    
+        container_start_time = timeit.default_timer()
         
         try:
-            self.wait_for_splunk_ready()
+            self.setup_container()
         except Exception as e:
-            print("Error starting docker container: [%s]"%(str(e)))
+            print("There was an exception starting the container [%s]: [%s].  Shutting down container"%(self.container_name,str(e)),file=sys.stdout)
+            self.stopContainer()
+            elapsed_rounded = round(timeit.default_timer() - container_start_time)
+            time_string = (datetime.timedelta(seconds=elapsed_rounded))
+            print("Container [%s] FAILED in [%s]"%(self.container_name, time_string))
             return None
-        #input("CONTAINTER WANTS TO START.... WAIT FOR INPUT FROM USER")
+
+
+        #GTive some info about how long the container took to start up
+        elapsed_rounded = round(timeit.default_timer() - container_start_time)
+        time_string = (datetime.timedelta(seconds=elapsed_rounded))
+        print("Container [%s] took [%s] to start"%(self.container_name, time_string))
 
 
         # Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1, 30))
-        
         self.test_start_time = timeit.default_timer()
         while True:
             if self.synchronization_object.checkContainerFailure():

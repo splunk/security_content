@@ -313,7 +313,7 @@ class GithubService:
         
         for missing in set(changed_detection_files).symmetric_difference(all_changed_detection_files):
             print("Ignoring modified detecton [%s] not in set of selected folders: %s"%(missing,folders))
-        
+                
         # Convert the test files to the detection file equivalent. 
         # Note that some of these tests may be baselines and their associated 
         # detection could be in experimental or not in the experimental folder
@@ -323,11 +323,7 @@ class GithubService:
         #        *pathlib.Path(test_filepath).parts[-2:])).replace("tests", "detections", 1)
         #    converted_test_files.append(detection_filename)
         
-        #check and throw an error if we somehow got experimental tests
-        #experimental_tests = [x for x in changed_test_files if 'experimental' in x]
-        #if len(experimental_tests) > 0:
-        #    raise(Exception("Error - expected no experimental detections, but found:\n\t%s]"%("\n\t".join(experimental_tests))))
-
+        
         #Get the appropriate detection file paths for a modified test file
         for test_filepath in changed_test_files:
             folder_and_filename =  str(pathlib.Path(*pathlib.Path(test_filepath).parts[-2:]))
@@ -350,10 +346,6 @@ class GithubService:
             if name not in changed_detection_files:
                 changed_detection_files.append(name)
         
-        #check and throw an error if we somehow got experimental detections
-        experimental_detections = [x for x in changed_detection_files if 'experimental' in x]
-        if len(experimental_detections) > 0:
-            raise(Exception("Error - expected no experimental detections, but found:\n\t%s"%('\n\t'.join(experimental_detections))))
 
         return self.prune_detections(changed_detection_files,   types_to_test, previously_successful_tests)
 

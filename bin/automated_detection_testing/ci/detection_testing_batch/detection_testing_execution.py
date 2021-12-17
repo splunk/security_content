@@ -335,6 +335,9 @@ def main(args: list[str]):
               (settings['commit_hash'],settings['branch'],settings['pr_number']),file=sys.stderr)
         sys.exit(1)
 
+    #passes = [{'search_string': '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name ="7z.exe" OR Processes.process_name = "7za.exe" OR Processes.original_file_name = "7z.exe" OR Processes.original_file_name =  "7za.exe") AND (Processes.process="*\\\\C$\\\\*" OR Processes.process="*\\\\Admin$\\\\*" OR Processes.process="*\\\\IPC$\\\\*") by Processes.original_file_name Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.parent_process_id Processes.process_id  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `7zip_commandline_to_smb_share_path_filter` | stats count | where count > 0', 'detection_name': '7zip CommandLine To SMB Share Path', 'detection_file': 'endpoint/7zip_commandline_to_smb_share_path.yml', 'success': True, 'error': False, 'diskUsage': '286720', 'runDuration': '0.922', 'scanCount': '4897'}]
+    #github_service.update_and_commit_passed_tests(passes)
+    #sys.exit(0)
     # Make a backup of this config containing the hash and stripped credentials.
     # This makes the test perfectly reproducible.
     validate_args.validate_and_write(
@@ -435,6 +438,9 @@ def main(args: list[str]):
 
     result = cm.run_test()
     
+    github_service.update_and_commit_passed_tests(cm.synchronization_object.successes)
+    
+
     #Return code indicates whether testing succeeded and all tests were run.
     #It does NOT indicate that all tests passed!
     if result is True:
