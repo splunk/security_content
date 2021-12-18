@@ -3,7 +3,6 @@ import copy
 import csv
 import json
 import os
-from posixpath import basename
 import queue
 import random
 import secrets
@@ -15,22 +14,23 @@ import threading
 import time
 from collections import OrderedDict
 from datetime import datetime, timedelta
+from posixpath import basename
 from tempfile import mkdtemp
 from timeit import default_timer as timer
 from typing import Union
+from urllib.parse import urlparse
 
 import docker
+import requests
 import requests.packages.urllib3
 from docker.client import DockerClient
 from requests import get
-from modules import new_arguments2
-from modules.validate_args import validate_and_write
-from modules import container_manager
 
 import modules.new_arguments2
-from modules import aws_service, testing_service, validate_args
+from modules import (aws_service, container_manager, new_arguments2,
+                     testing_service, validate_args)
 from modules.github_service import GithubService
-from modules.validate_args import validate
+from modules.validate_args import validate, validate_and_write
 
 SPLUNK_CONTAINER_APPS_DIR = "/opt/splunk/etc/apps"
 index_file_local_path = "indexes.conf.tar"
@@ -45,23 +45,53 @@ datamodel_file_container_path = os.path.join(
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
 
 
+def download_file_from_http(url:str, target:str)->None:
+    #Will just overwrite an existing file
+    file_to_download = requests.get(url, stream=True)
+    with open(target, "wb") as output:
+        for piece in file_to_download.iter_content(chunk_size=(1024*1024)):
+            output.write(piece)
+    
+
 def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> None:
     for key, item in apps.items():
-        source_path = os.path.abspath(os.path.expanduser(item['local_path']))
-        base_name = os.path.basename(source_path)
-        dest_path = os.path.join(target_directory, base_name)
+        
+        #local apps can either have a local_path or an http_path
+        if 'local_path' in item:
+            source_path = os.path.abspath(os.path.expanduser(item['local_path']))
+            base_name = os.path.basename(source_path)
+            dest_path = os.path.join(target_directory, base_name)
+            try:
+                shutil.copy(source_path, dest_path)
+                item['local_path'] = dest_path
+            except shutil.SameFileError as e:
+                # Same file, not a real error.  The copy just doesn't happen
+                print("err:%s" % (str(e)))
+                pass
+            except Exception as e:
+                print("Error copying ESCU Package [%s] to [%s]: [%s].\n\tQuitting..." % (
+                    source_path, dest_path, str(e)), file=sys.stderr)
+                sys.exit(1)
 
-        try:
-            shutil.copy(source_path, dest_path)
-            item['local_path'] = dest_path
-        except shutil.SameFileError as e:
-            # Same file, not a real error.  The copy just doesn't happen
-            print("err:%s" % (str(e)))
-            pass
-        except Exception as e:
-            print("Error copying ESCU Package [%s] to [%s]: [%s].\n\tQuitting..." % (
-                source_path, dest_path, str(e)), file=sys.stderr)
-            sys.exit(1)
+        # These apps are URLs that will be passed.  The apps will be downloaded and installed by the container
+        # # Get the file from an http source
+        # elif 'http_path' in item:
+        #     http_path = item['http_path']
+        #     try:
+        #         url_parse_obj = urlparse(http_path)
+        #         path_after_host = url_parse_obj[2].rstrip('/') #removes / at the end, if applicable
+        #         base_name = path_after_host.rpartition('/')[-1] #just get the file name
+        #         dest_path = os.path.join(target_directory, base_name) #write the whole path
+        #         download_file_from_http(http_path, dest_path)
+        #         #we need to updat the local path because this is used to copy it into the container later
+        #         item['local_path'] = dest_path
+        #     except Exception as e:
+        #         print("Error trying to download %s @ %s: [%s].  This app is required.\n\tQuitting..."%(key, http_path, str(e)),file=sys.stderr)
+        #         sys.exit(1)
+        # else:
+        #     print("Error - trying to install a local app that does not have 'local_path' or 'http_path'.\n\tQuitting...")
+        #     sys.exit(1)
+
 
 
 def ensure_security_content(branch: str, commit_hash: str, pr_number: Union[int, None], persist_security_content: bool) -> GithubService:
@@ -105,13 +135,13 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
     if persist_security_content is False:
         commands = ["python3 -m venv .venv",
                     ". ./.venv/bin/activate",
-                    "python3 -m pip install wheel",
-                    "python3 -m pip install -r requirements.txt",
-                    "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
+                    "python -m pip install wheel",
+                    "python -m pip install -r requirements.txt",
+                    "python contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
                     "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
     else:
         commands = [". ./.venv/bin/activate",
-                    "python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
+                    "python contentctl.py --path . --verbose generate --product ESCU --output dist/escu",
                     "tar -czf DA-ESS-ContentUpdate.spl -C dist/escu ."]
     ret = subprocess.run("; ".join(commands),
                          shell=True, capture_output=True)
@@ -171,10 +201,10 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
                     "cd slim_latest",
                     "virtualenv --python=/usr/bin/python2.7 --clear .venv",
                     ". ./.venv/bin/activate",
-                    "python3 -m pip install --upgrade pip",
-                    "python2 -m pip install wheel",
-                    "python2 -m pip install semantic_version",
-                    "python2 -m pip install .",
+                    "python -m pip install --upgrade pip",
+                    "python -m pip install wheel",
+                    "python -m pip install semantic_version",
+                    "python -m pip install .",
                     "cp -R ../../dist/escu DA-ESS-ContentUpdate",
                     "slim package -o upload DA-ESS-ContentUpdate",
                     "cp upload/DA-ESS-ContentUpdate*.tar.gz %s" % (output_file_path_from_slim_latest)]

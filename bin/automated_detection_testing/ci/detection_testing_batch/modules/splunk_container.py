@@ -82,9 +82,16 @@ class SplunkContainer:
         require_credentials = False
 
         for app_name, app_info in self.local_apps.items():
-            app_file_name = os.path.basename(app_info['local_path'])
-            app_file_container_path = os.path.join("/tmp/apps", app_file_name)
-            apps_to_install.append(app_file_container_path)
+            
+            if 'local_path' in app_info:
+                app_file_name = os.path.basename(app_info['local_path'])
+                app_file_container_path = os.path.join("/tmp/apps", app_file_name)
+                apps_to_install.append(app_file_container_path)
+            elif 'http_path' in app_info:
+                apps_to_install.append(app_info['http_path'])
+            else:
+                print("Error, the app %s: %s has no http_path or local_path.\n\tQuitting..."%(app_name,app_info), file=sys.stderr)
+                sys.exit(1)
 
         for app_name, app_info in self.splunkbase_apps.items():
 
@@ -99,7 +106,9 @@ class SplunkContainer:
             # elif app["location"] == "local":
             #    apps_to_install.append(app["container_path"])
         
-        
+        #for printing out all the app paths we will install
+        #for num, name in zip(range(len(apps_to_install)),apps_to_install):
+        #    print("%d: %s"%(num,name))
         return ",".join(apps_to_install), require_credentials
 
     def make_environment(
@@ -116,6 +125,7 @@ class SplunkContainer:
         splunk_apps_url, require_credentials = self.prepare_apps_path(
             local_apps, splunkbase_apps, splunkbase_username, splunkbase_password
         )
+        
         if require_credentials:
             env["SPLUNKBASE_USERNAME"] = splunkbase_username
             env["SPLUNKBASE_PASSWORD"] = splunkbase_password

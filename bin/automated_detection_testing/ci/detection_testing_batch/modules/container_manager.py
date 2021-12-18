@@ -125,6 +125,8 @@ class ContainerManager:
 
     def run_containers(self) -> None:
         for container in self.containers:
+            #give a little time between container startup
+            time.sleep(15)
             container.thread.start()
         
     
