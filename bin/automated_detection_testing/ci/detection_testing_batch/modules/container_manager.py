@@ -29,6 +29,7 @@ class ContainerManager:
         splunkbase_apps:OrderedDict,
         branch:str,
         commit_hash:str,
+        summarization_reproduce_failure_config:dict,
         files_to_copy_to_container: OrderedDict = OrderedDict(),
         web_port_start: int = 8000,
         management_port_start: int = 8089,
@@ -43,7 +44,7 @@ class ContainerManager:
 
     ):
         self.synchronization_object = test_driver.TestDriver(
-            test_list, num_containers)
+            test_list, num_containers, summarization_reproduce_failure_config)
 
         self.mounts = self.create_mounts(mounts)
         self.local_apps = local_apps
@@ -55,7 +56,7 @@ class ContainerManager:
             self.container_password = container_password
         
         print("\n\n***********************")
-        print("Log into your Splunk Container(s) after they boot at at http://127.0.0.1:[%d-%d]"%(web_port_start, web_port_start + num_containers - 1))
+        print("Log into your [%d] Splunk Container(s) after they boot at http://127.0.0.1:[%d-%d]"%(num_containers, web_port_start, web_port_start + num_containers - 1))
         print("\tSplunk App Username: [%s]"%("admin"))
         print("\tSplunk App Password: ", end='')
         if show_container_password:

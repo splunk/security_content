@@ -370,8 +370,11 @@ def main(args: list[str]):
     #sys.exit(0)
     # Make a backup of this config containing the hash and stripped credentials.
     # This makes the test perfectly reproducible.
-    validate_args.validate_and_write(
-        settings, output_file=None, strip_credentials=True)
+    reproduce_test_config, _ = validate_args.validate_and_write(settings, output_file=None, strip_credentials=True)
+    if reproduce_test_config == None:
+        print("Error - there was an error writing out the file to reproduce the test.  This should not happen, as all "\
+              "settings should have been validated by this point.\n\tQuitting...",file=sys.stderr)
+        sys.exit(1)
 
     try:
         all_test_files = github_service.get_test_files(settings['mode'],
@@ -454,6 +457,7 @@ def main(args: list[str]):
                                             settings['splunkbase_apps'],
                                             settings['branch'],
                                             settings['commit_hash'],
+                                            reproduce_test_config,
                                             files_to_copy_to_container=files_to_copy_to_container,
                                             web_port_start=8000,
                                             management_port_start=8089,
@@ -468,7 +472,7 @@ def main(args: list[str]):
 
     result = cm.run_test()
     
-    github_service.update_and_commit_passed_tests(cm.synchronization_object.successes)
+    #github_service.update_and_commit_passed_tests(cm.synchronization_object.successes)
     
 
     #Return code indicates whether testing succeeded and all tests were run.

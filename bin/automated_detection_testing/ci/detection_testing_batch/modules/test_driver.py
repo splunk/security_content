@@ -12,9 +12,9 @@ import time
 import timeit
 from typing import Union
 import sys
-
+import copy
 class TestDriver:
-    def __init__(self, tests:list[str], num_containers:int):
+    def __init__(self, tests:list[str], num_containers:int, summarization_reproduce_failure_config:dict):
         #Create the queue and enque all of the tests
         self.testing_queue = queue.Queue()
         for test in tests:
@@ -35,8 +35,12 @@ class TestDriver:
         #Just make a random folder to store attack data that we donwload
         self.attack_data_root_folder = tempfile.mkdtemp(prefix="attack_data_", dir=os.getcwd())
         print("Attack data for this run will be stored at: [%s]"%(self.attack_data_root_folder))
+        
+        #Not used right now, but we will keep it around for a bit in case we want to use it again
         self.start_barrier = threading.Barrier(num_containers)
 
+        #The config that will be used for writing out the error config reproduction fiel
+        self.summarization_reproduce_failure_config = copy.deepcopy(summarization_reproduce_failure_config)
 
     def checkContainerFailure(self)->bool:
         
@@ -184,11 +188,14 @@ class TestDriver:
         res |= self.outputResultsFile(fields, os.path.join(results_directory, "combined"), combined_data, baseline)
         
         try:
-            success, test_count,pass_count,fail_count,error_count = summarize_json.outputResultsJSON("summary.json", combined_data, baseline, output_folder=results_directory)
+            success, test_count,pass_count,fail_count,error_count = \
+                summarize_json.outputResultsJSON("summary.json", combined_data, 
+                                                 baseline, output_folder=results_directory, 
+                                                 summarization_reproduce_failure_config=self.summarization_reproduce_failure_config)
             summarize_json.print_summary(test_count, pass_count, fail_count, error_count)
             res |= success
         except Exception as e:
-            print("Failure writing the summary file: [%s]",file=sys.stderr)
+            print("Failure writing the summary file: [%s]"%str(e),file=sys.stderr)
             res = False
 
         return res
