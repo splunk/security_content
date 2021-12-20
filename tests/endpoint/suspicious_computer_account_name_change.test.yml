@@ -7,7 +7,7 @@ tests:
   latest_time: 'now'
   attack_data:
   - file_name: windows-security.log
-    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/sAMAccountName_spoofing/windows-security.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/samaccountname_spoofing/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
     update_timestamp: True
