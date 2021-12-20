@@ -199,10 +199,7 @@ class SplunkContainer:
                 # print("Failed copy of [%s] file to CONTAINER:[%s]...we will try again"%(localFilePath, containerName))
                 time.sleep(10)
                 successful_copy = False
-        print(
-            "Successfully copied [%s] to [%s] on [%s]"
-            % (local_file_path, container_file_path, self.container_name)
-        )
+        #print("Successfully copied [%s] to [%s] on [%s]"% (local_file_path, container_file_path, self.container_name))
         return successful_copy
 
     def stopContainer(self,timeout=10) -> bool:

@@ -1,18 +1,22 @@
-from collections import OrderedDict
+import copy
 import csv
 import datetime
 import json
 import os
 import queue
 import shutil
-import summarize_json
+import sys
 import tempfile
 import threading
 import time
 import timeit
+from collections import OrderedDict
 from typing import Union
-import sys
-import copy
+
+import psutil
+import summarize_json
+
+
 class TestDriver:
     def __init__(self, tests:list[str], num_containers:int, summarization_reproduce_failure_config:dict):
         #Create the queue and enque all of the tests
@@ -41,6 +45,13 @@ class TestDriver:
 
         #The config that will be used for writing out the error config reproduction fiel
         self.summarization_reproduce_failure_config = copy.deepcopy(summarization_reproduce_failure_config)
+
+
+        #According to the docs:
+        # Warning the first time this function is called with interval = 0.0 or None it will return a meaningless 0.0 value which you are supposed to ignore.
+        # We call this exactly once here to prime for future calls and throw away the result
+        cpu_info = psutil.cpu_times_percent(percpu=False)
+            
 
     def checkContainerFailure(self)->bool:
         
@@ -225,17 +236,40 @@ class TestDriver:
             print("Successfully removed all attack data")
         finally:
             self.lock.release()
+
+    def get_system_stats(self)->str:
+        
+
+        cpu_info = psutil.cpu_times_percent(percpu=False)
+        print(cpu_info)
+        cpu_info_string = "Total CPU Usage: %d%% (%d CPUs)"%(100 - cpu_info.idle, psutil.cpu_count(logical=False))
+        
+        bytes_per_GB = 1024 * 1024 * 1024
+        memory_info = psutil.virtual_memory()
+        memory_info_string = "Total Memory Usage: %0.1fGB USED / %0.1fGB TOTAL"%(memory_info.used / bytes_per_GB, memory_info.total / bytes_per_GB)
+        
+        disk_usage_info = psutil.disk_usage('/')
+        disk_usage_info_string = "Total Disk Usage: %0.1fGB USED / %0.1fGB TOTAL"%(disk_usage_info.free / bytes_per_GB, disk_usage_info.total / bytes_per_GB)
+
+        return "System Information:\n\t%s\n\t%s\n\t%s"%(cpu_info_string, memory_info_string, disk_usage_info_string)
+
+
     def summarize(self)->bool:
         
         if self.checkContainerFailure() == True:
             print("Error running containers... shutting down", file=sys.stderr)
             return False
         
+
         
+
         self.lock.acquire()
         
         try:
         
+            #Get a summary of some system stats
+            system_stats=self.get_system_stats()
+            
             current_time = timeit.default_timer()
             
             
@@ -243,7 +277,7 @@ class TestDriver:
             if self.testing_queue.qsize() == self.total_number_of_tests:
                 #Testing has not started yet. We are setting up containers
                 print("***********PROGRESS UPDATE***********\n"\
-                      "\tWaiting for container setup: %s\n"%(datetime.timedelta(seconds=current_time - self.start_time)))
+                      "\tWaiting for container setup: %s\n\t%s\n"%(datetime.timedelta(seconds=current_time - self.start_time),system_stats))
             else:
                 
                 if self.container_ready_time is None:
@@ -280,14 +314,16 @@ class TestDriver:
                 "\tTests completed            : %d\n"\
                 "\t\tSuccess : %d\n"\
                 "\t\tFailure : %d\n"\
-                "\t\tError   : %d"%(datetime.timedelta(seconds=total_execution_time_seconds), 
+                "\t\tError   : %d\n"\
+                "\t%s\n"%(datetime.timedelta(seconds=total_execution_time_seconds), 
                                     estimated_completion_time_seconds, 
                                     remaining_tests, 
                                     testsCurrentlyRunning,
                                     numberOfCompletedTests, 
                                     len(self.successes), 
                                     len(self.failures), 
-                                    len(self.errors)))
+                                    len(self.errors),
+                                    system_stats))
     
         except Exception as e:
             print("Error in printing execution summary: [%s]"%(str(e)))
