@@ -1,0 +1,10 @@
+name: Ssa Hiding Files And Directories With Attrib exe Unit Test
+tests:
+  - name: Ssa Hiding Files And Directories With Attrib exe
+    file: endpoint/ssa_hiding_files_and_directories_with_attrib_exe.yml
+    pass_condition: '@count_gt(0)'
+    description: Test detection of attrib Application execution
+    attack_data:
+    - file_name: security.log
+      data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/attrib_hidden/security.log
+      source: WinEventLog:Security
