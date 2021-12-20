@@ -44,9 +44,7 @@ tags:
   - T1222.001
   - T1222
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   security_domain: endpoint
@@ -74,6 +72,8 @@ tags:
     - Attacker
     - Parent Process
   nist:
-  - DE.CM
+  - PR.AC
+  - PR.IP
   cis20:
-  - CIS 8
+  - CIS 14
+  - CIS 16

@@ -40,9 +40,7 @@ tags:
   - T1070.004
   - T1070
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+  - Splunk Behavioral Analytics
   required_fields:
   - _time
   - Processes.dest
@@ -85,7 +83,9 @@ tags:
     role:
     - Child Process
   nist:
-  - CIS 4
-  - CIS 16
+  - PR.AC
+  - PR.IP
   cis20:
-  - DE.CM
+  - CIS 14
+  - CIS 16
+  
