@@ -345,9 +345,9 @@ setup_schema = {
             "type": "array",
             "items": {
                 "type": "string",
-                "enum": ["endpoint", "cloud", "network","web"]
+                "enum": ["endpoint", "cloud", "network","web","experimental"]
             },
-            "default": ["endpoint", "cloud", "network"]
+            "default": ["endpoint", "cloud", "network","web"]
         },
 
         "types": {
