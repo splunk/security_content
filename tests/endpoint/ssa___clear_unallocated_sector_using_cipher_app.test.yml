@@ -1,4 +1,4 @@
-name: Clear Unallocated Sector Using Cipher App Unit Test
+name: Clear Unallocated Sector Using Cipher - SSA Unit test
 tests:
   - name: Clear Unallocated Sector Using Cipher App
     file: endpoint/ssa___clear_unallocated_sector_using_cipher_app.yml

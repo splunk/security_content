@@ -1,4 +1,4 @@
-name: Hiding Files And Directories With Attrib exe Unit Test
+name: Hiding Files And Directories With Attrib exe - SSA Unit test
 tests:
   - name: Hiding Files And Directories With Attrib exe
     file: endpoint/ssa___hiding_files_and_directories_with_attrib_exe.yml
