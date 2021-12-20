@@ -113,7 +113,7 @@
     "mode": "changes",
     "no_interactive_failure": true,
     "num_containers": 10,
-    "persist_security_content": true,
+    "persist_security_content": false,
     "pr_number": null,
     "reuse_image": true,
     "show_splunk_app_password": false,

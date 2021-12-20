@@ -94,7 +94,7 @@ def copy_local_apps_to_directory(apps: dict[str, dict], target_directory) -> Non
 
 
 
-def ensure_security_content(branch: str, commit_hash: str, pr_number: Union[int, None], persist_security_content: bool) -> GithubService:
+def ensure_security_content(branch: str, commit_hash: str, pr_number: Union[int, None], persist_security_content: bool) -> tuple[GithubService, bool]:
     if persist_security_content is True and os.path.exists("security_content"):
         print("****** You chose --persist_security_content and the security_content directory exists. "
               "We will not check out the repo again. Please be aware, this could cause issues if your "
@@ -109,6 +109,7 @@ def ensure_security_content(branch: str, commit_hash: str, pr_number: Union[int,
         if persist_security_content is True and not os.path.exists("security_content"):
             print("Error - you chose --persist_security_content but the security_content directory does not exist!"
                   "  We will check it out for you.")
+            persist_security_content = False
 
         elif os.path.exists("security_content/"):
             print("Deleting the security_content directory")
@@ -125,7 +126,7 @@ def ensure_security_content(branch: str, commit_hash: str, pr_number: Union[int,
         else:
             github_service = GithubService(branch, commit_hash)
 
-    return github_service
+    return github_service, persist_security_content
 
 
 def generate_escu_app(persist_security_content: bool = False) -> str:
@@ -354,7 +355,8 @@ def main(args: list[str]):
 
     # Check out security content if required
     try:
-        github_service = ensure_security_content(
+        #Make sure we fix up the persist_securiy_content argument if it is passed in error (we say it exists but it doesn't)
+        github_service, settings['persist_security_content'] = ensure_security_content(
             settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
         settings['commit_hash'] = github_service.commit_hash
     except Exception as e:
