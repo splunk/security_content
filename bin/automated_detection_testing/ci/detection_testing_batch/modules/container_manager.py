@@ -150,7 +150,9 @@ class ContainerManager:
         interactive_failure:bool = False,
         interactive:bool = False
     ) -> list[splunk_container.SplunkContainer]:
-        #First make sure that the image exists and has been downloaded
+        #First make sure that the image exists and has been downloaded.
+        #Note that this is intentionally not part of the time to start
+        #since it can take a long time on a slow connection!
         self.setup_image(reuse_image, full_docker_hub_name)
 
         new_containers = []

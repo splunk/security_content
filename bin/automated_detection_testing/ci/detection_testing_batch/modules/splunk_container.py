@@ -22,7 +22,8 @@ import sys
 SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
 SPLUNK_START_ARGS = "--accept-license"
 
-MAX_CONTAINER_START_TIME_SECONDS = 360
+#Give ten minutes to start - this is probably enough time
+MAX_CONTAINER_START_TIME_SECONDS = 60*10
 class SplunkContainer:
     def __init__(
         self,
@@ -277,7 +278,7 @@ class SplunkContainer:
         summary_str = "Summary for %s\n\t"\
                       "Total Time          : [%s]\n\t"\
                       "Container Start Time: [%s]\n\t"\
-                      "Test Execution Time : [%s]" % (
+                      "Test Execution Time : [%s]\n" % (
                           self.container_name, total_time_string, setup_time_string, testing_time_string)
 
         return summary_str
@@ -325,9 +326,34 @@ class SplunkContainer:
         print("Finished copying files to [%s]" % (self.container_name))
         self.wait_for_splunk_ready()
         
+    def successfully_finish_tests(self)->None:
+        try:
+            if self.num_tests_completed == 0:
+                print("Container [%s] did not find any tests and will not start.\n"\
+                      "This does not mean there was an error!"%(self.container_name))
+            else:
+                print("Container [%s] has finished running [%d] detections, time to stop the container."
+                      % (self.container_name, self.num_tests_completed))
+            
+            
+            # remove the container
+            self.removeContainer()
+        except Exception as e:
+            print(
+                "Error stopping or removing the container: [%s]" % (str(e)))
+
+        return None
+    
 
     def run_container(self) -> None:
         print("Starting the container [%s]" % (self.container_name))
+        
+        # Try to get something from the queue. Check this early on
+        # before launching the container because it can save us a lot of time!
+        detection_to_test = self.synchronization_object.getTest()
+        if detection_to_test is None:
+            return self.successfully_finish_tests()
+
         self.container_start_time = timeit.default_timer()
     
         container_start_time = timeit.default_timer()
@@ -352,33 +378,17 @@ class SplunkContainer:
         # Sleep for a small random time so that containers drift apart and don't synchronize their testing
         time.sleep(random.randint(1, 30))
         self.test_start_time = timeit.default_timer()
-        while True:
+        while detection_to_test is not None:
             if self.synchronization_object.checkContainerFailure():
                 self.container.stop()
                 print("Container [%s] successfully stopped early due to failure" % (self.container_name))
                 return None
 
-            # Try to get something from the queue
-            detection_to_test = self.synchronization_object.getTest()
 
             # Sleep for a small random time so that containers drift apart and don't synchronize their testing
             time.sleep(random.randint(1, 30))
             
-            if detection_to_test is None:
-                try:
-                    print(
-                        "Container [%s] has finished running detections, time to stop the container."
-                        % (self.container_name)
-                    )
-                    
-                    # remove the container
-                    self.removeContainer()
-                except Exception as e:
-                    print(
-                        "Error stopping or removing the container: [%s]" % (str(e)))
-
-                return None
-
+             
             # There is a detection to test
             print("Container [%s]--->[%s]" %
                   (self.container_name, detection_to_test))
@@ -412,5 +422,11 @@ class SplunkContainer:
 
                 )
             self.num_tests_completed += 1
+
+            # Try to get something from the queue
+            detection_to_test = self.synchronization_object.getTest()
+            
+        #We failed to get a test from the queue, so we must be done gracefully!  Quit
+        return self.successfully_finish_tests()
 
             

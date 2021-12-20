@@ -74,6 +74,21 @@ class TestDriver:
         finally:
             self.lock.release()
         
+    def checkIfTestsRemain(self):
+        failure = self.checkContainerFailure()
+        if failure:
+            #Just return None, don't continue testing if a container crashed
+            #Indicate there are no tests remaining
+            return False
+        
+        try:
+            #This call isn't reliable according to documentation, but can save us some time.
+            #Err on the side of caution
+            return not self.testing_queue.empty()
+        except Exception as e:
+            print("Error determinging if testing queue was empty.  Return False and try to get something.",file=sys.stderr)
+            return True
+        
 
     def getTest(self)-> Union[str,None]:
         
@@ -88,7 +103,6 @@ class TestDriver:
         try:
             return self.testing_queue.get(block=False)
         except Exception as e:
-            print("Testing queue empty!")
             return None
         
     def addSuccess(self, result:dict)->None:
@@ -239,17 +253,14 @@ class TestDriver:
 
     def get_system_stats(self)->str:
         
-
-        cpu_info = psutil.cpu_times_percent(percpu=False)
-        print(cpu_info)
-        cpu_info_string = "Total CPU Usage: %d%% (%d CPUs)"%(100 - cpu_info.idle, psutil.cpu_count(logical=False))
-        
         bytes_per_GB = 1024 * 1024 * 1024
+        cpu_info = psutil.cpu_times_percent(percpu=False)
         memory_info = psutil.virtual_memory()
-        memory_info_string = "Total Memory Usage: %0.1fGB USED / %0.1fGB TOTAL"%(memory_info.used / bytes_per_GB, memory_info.total / bytes_per_GB)
-        
         disk_usage_info = psutil.disk_usage('/')
-        disk_usage_info_string = "Total Disk Usage: %0.1fGB USED / %0.1fGB TOTAL"%(disk_usage_info.free / bytes_per_GB, disk_usage_info.total / bytes_per_GB)
+
+        cpu_info_string =        "Total CPU Usage   : %d%% (%d CPUs)"%(100 - cpu_info.idle, psutil.cpu_count(logical=False))
+        memory_info_string =     "Total Memory Usage: %0.1fGB USED / %0.1fGB TOTAL"%(memory_info.used / bytes_per_GB, memory_info.total / bytes_per_GB)
+        disk_usage_info_string = "Total Disk Usage  : %0.1fGB USED / %0.1fGB TOTAL"%(disk_usage_info.free / bytes_per_GB, disk_usage_info.total / bytes_per_GB)
 
         return "System Information:\n\t%s\n\t%s\n\t%s"%(cpu_info_string, memory_info_string, disk_usage_info_string)
 
