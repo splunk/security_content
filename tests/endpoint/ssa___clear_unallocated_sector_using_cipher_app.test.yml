@@ -1,6 +1,6 @@
-name: Saa Clear Unallocated Sector Using Cipher App Unit Test
+name: Clear Unallocated Sector Using Cipher App Unit Test
 tests:
-  - name: Saa Clear Unallocated Sector Using Cipher App
+  - name: Clear Unallocated Sector Using Cipher App
     file: endpoint/ssa___clear_unallocated_sector_using_cipher_app.yml
     pass_condition: '@count_gt(0)'
     description: Test detection of Cipher Application execution
