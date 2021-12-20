@@ -53,5 +53,9 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Privilege Escalation
-  message: 
+  message: A computer account $Old_Account_Name$ was renamed with a suspicious computer name
   observable:
+  - name: ComputerName
+    type: Endpoint
+    role:
+    - Victim
