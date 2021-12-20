@@ -450,30 +450,37 @@ def main(args: list[str]):
         "local_file_path": datamodel_file_local_path, "container_file_path": datamodel_file_container_path}
 
     
+    try:
+        cm = container_manager.ContainerManager(all_test_files,
+                                                FULL_DOCKER_HUB_CONTAINER_NAME,
+                                                settings['local_base_container_name'],
+                                                settings['num_containers'],
+                                                settings['local_apps'],
+                                                settings['splunkbase_apps'],
+                                                settings['branch'],
+                                                settings['commit_hash'],
+                                                reproduce_test_config,
+                                                files_to_copy_to_container=files_to_copy_to_container,
+                                                web_port_start=8000,
+                                                management_port_start=8089,
+                                                mounts=mounts,
+                                                show_container_password=settings['show_splunk_app_password'],
+                                                container_password=settings['splunk_app_password'],
+                                                splunkbase_username=settings['splunkbase_username'],
+                                                splunkbase_password=settings['splunkbase_password'],
+                                                reuse_image=settings['reuse_image'],
+                                                interactive_failure=not settings['no_interactive_failure'],
+                                                interactive=settings['interactive'])
+    except Exception as e:
+        print("Error - unrecoverable error trying to set up the containers: [%s].\n\tQuitting..."%(str(e)),file=sys.stderr)
+        sys.exit(1)
 
-    cm = container_manager.ContainerManager(all_test_files,
-                                            FULL_DOCKER_HUB_CONTAINER_NAME,
-                                            settings['local_base_container_name'],
-                                            settings['num_containers'],
-                                            settings['local_apps'],
-                                            settings['splunkbase_apps'],
-                                            settings['branch'],
-                                            settings['commit_hash'],
-                                            reproduce_test_config,
-                                            files_to_copy_to_container=files_to_copy_to_container,
-                                            web_port_start=8000,
-                                            management_port_start=8089,
-                                            mounts=mounts,
-                                            show_container_password=settings['show_splunk_app_password'],
-                                            container_password=settings['splunk_app_password'],
-                                            splunkbase_username=settings['splunkbase_username'],
-                                            splunkbase_password=settings['splunkbase_password'],
-                                            reuse_image=settings['reuse_image'],
-                                            interactive_failure=not settings['no_interactive_failure'],
-                                            interactive=settings['interactive'])
+    try:
+        result = cm.run_test()
+    except Exception as e:
+        print("Error - there was an error running the tests: [%s]\n\tQuitting..."%(str(e)),file=sys.stderr)
+        sys.exit(1)
 
-    result = cm.run_test()
-    
     #github_service.update_and_commit_passed_tests(cm.synchronization_object.successes)
     
 
