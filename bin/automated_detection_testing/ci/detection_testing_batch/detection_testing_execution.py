@@ -194,13 +194,13 @@ def generate_escu_app(persist_security_content: bool = False) -> str:
             print("Error downloading the Splunk Packaging Toolkit: [%s].\n\tQuitting..." %
                   (str(e)), file=sys.stderr)
             sys.exit(1)
-        print(os.getcwd())
+        
         commands = ["rm -rf slim_packaging/slim_latest",
                     "mkdir slim_packaging/slim_latest",
                     "cd slim_packaging",
                     "tar -zxf ../splunk-packaging-toolkit-latest.tar.gz -C slim_latest --strip-components=1",
                     "cd slim_latest",
-                    "virtualenv --python=/usr/bin/python2.7 --clear .venv",
+                    "python3 -m venv .venv",
                     ". ./.venv/bin/activate",
                     "python -m pip install --upgrade pip",
                     "python -m pip install wheel",
