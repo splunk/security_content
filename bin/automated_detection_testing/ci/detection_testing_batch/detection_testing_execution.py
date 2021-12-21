@@ -360,11 +360,11 @@ def main(args: list[str]):
             settings['branch'], settings['commit_hash'], settings['pr_number'], settings['persist_security_content'])
         settings['commit_hash'] = github_service.commit_hash
     except Exception as e:
-        print("\nFailure checking out git repository:"\
-              "\n\tHash:   [%s]"\
-              "\n\tBranch: [%s]"\
-              "\n\tPR:     [%s]\n\tQuitting"%
-              (settings['commit_hash'],settings['branch'],settings['pr_number']),file=sys.stderr)
+        print("\nFailure checking out git repository: [%s]"\
+              "\n\tCommit Hash: [%s]"\
+              "\n\tBranch     : [%s]"\
+              "\n\tPR         : [%s]\n\tQuitting..."%
+              (str(e),settings['commit_hash'],settings['branch'],settings['pr_number']),file=sys.stderr)
         sys.exit(1)
 
     #passes = [{'search_string': '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name ="7z.exe" OR Processes.process_name = "7za.exe" OR Processes.original_file_name = "7z.exe" OR Processes.original_file_name =  "7za.exe") AND (Processes.process="*\\\\C$\\\\*" OR Processes.process="*\\\\Admin$\\\\*" OR Processes.process="*\\\\IPC$\\\\*") by Processes.original_file_name Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.parent_process_id Processes.process_id  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `7zip_commandline_to_smb_share_path_filter` | stats count | where count > 0', 'detection_name': '7zip CommandLine To SMB Share Path', 'detection_file': 'endpoint/7zip_commandline_to_smb_share_path.yml', 'success': True, 'error': False, 'diskUsage': '286720', 'runDuration': '0.922', 'scanCount': '4897'}]

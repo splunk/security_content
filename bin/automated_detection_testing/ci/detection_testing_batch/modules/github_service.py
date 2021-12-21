@@ -35,23 +35,39 @@ class GithubService:
             self.security_content_repo_obj = self.clone_project(
                 SECURITY_CONTENT_URL, f"security_content", f"develop")
 
+        #Ensure that the branch name is valid   
+        #Get all the branch names, prefixed with "origin/"
+        branch_names = [branch.name for branch in self.security_content_repo_obj.remote().refs]
+
+        if "origin/%s"%(security_content_branch) not in branch_names:
+            raise(Exception("Branch name [%s] not found in valid branches.  Try running \n"\
+                           "'git branch -a' to examine [%d] branches"%(security_content_branch, len(branch_names))))
+
+
         if commit_hash is not None and PR_number is not None:
-            print("Error - both the PR number [%d] and the commit hash [%s] were provided.  "
-                  "Only 0 or 1 can be passed.\n\tQuitting..." % (PR_number, commit_hash))
-            sys.exit()
+            raise(Exception("Error - both the PR number [%d] and the commit hash [%s] were provided.  "
+                  "Only 0 or 1 can be passed." % (PR_number, commit_hash)))
+            
 
         elif PR_number:
-            ret = subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
-                            "refs/pull/%d/head:%s" % (PR_number, security_content_branch)])
-            if ret != 0:
-                raise(Exception("Error checking out repository"))
+            ret = subprocess.run(["git", "-C", "security_content/", "fetch", "origin",
+                            "refs/pull/%d/head:%s" % (PR_number, security_content_branch)], capture_output=True)
+            #ret = subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
+            #                "refs/pull/%d/head:%s" % (PR_number, security_content_branch)])
+            
+            
+            if ret.returncode != 0:
+                raise(Exception("Error checking out repository: [%s]"%(ret.stdout.decode("utf-8") + "\n" + ret.stderr.decode("utf-8"))))
+            
 
         # No checking to see if the hash is to a commit inside of the branch - the user
-        # has to do that by hand
+        # has to do that by hand.
         if commit_hash is not None:
             print("Checking out commit hash: [%s]" % (commit_hash))
             self.security_content_repo_obj.git.checkout(commit_hash)
         else:
+            #Even if we have fetched a PR, we still MUST check out the branch to
+            # be able to do anything with it. Otherwise we won't have the files
             print("Checking out branch: [%s]..." %
                   (security_content_branch), end='')
             sys.stdout.flush()
