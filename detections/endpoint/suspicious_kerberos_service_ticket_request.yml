@@ -15,9 +15,9 @@ description: As part of the sAMAccountName Spoofing (CVE-2021-42278) and Domain 
   where the Account_Name requesting the ticket matches the Service_Name field. This
   behavior could represent an exploitation attempt of CVE-2021-42278 and CVE-2021-42287
   for privilege escalation.
-search: ' `wineventlog_security` EventCode=4769 | eval isSuspicious = if(lower(Service_Name) = lower(mvindex(split(Account_Name,"@"),0)+"$"),1,0) 
-  | where isSuspicious = 1
-  | table _time, Client_Address, Account_Name, Service_Name, Failure_Code, isSuspicious 
+search: ' `wineventlog_security` EventCode=4769 | eval isSuspicious = if(lower(Service_Name)
+  = lower(mvindex(split(Account_Name,"@"),0)+"$"),1,0) | where isSuspicious = 1 |
+  table _time, Client_Address, Account_Name, Service_Name, Failure_Code, isSuspicious
   | `suspicious_kerberos_service_ticket_request_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
