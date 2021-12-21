@@ -264,7 +264,7 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
         mock_settings = copy.deepcopy(settings)
         # This may be able to support as many as 2 for GitHub Actions...
         # we will have to determine in testing.
-        mock_settings['num_containers'] = 2
+        mock_settings['num_containers'] = 1
 
         # Must be selected since we are passing in a list of detections
         mock_settings['mode'] = 'selected'
@@ -384,6 +384,15 @@ def main(args: list[str]):
                                                     settings['types'],
                                                     settings['detections_list'],
                                                     settings['detections_file'])
+        
+        #We randomly shuffle this because there are likely patterns in searches.  For example,
+        #cloud/endpoint/network likely have different impacts on the system.  By shuffling,
+        #we spread out this load on a single computer, but also spread it in case
+        #we are running on GitHub Actions against multiple machines.  Hopefully, this
+        #will reduce that chnaces the some machines run and complete quickly while
+        #others take a long time.
+        random.shuffle(all_test_files)        
+
     except Exception as e:
         print("Error getting test files:\n%s"%(str(e)), file=sys.stderr)
         print("\tQuitting...", file=sys.stderr)
