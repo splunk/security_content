@@ -264,7 +264,7 @@ def finish_mock(settings: dict, detections: list[str], output_file_template: str
         mock_settings = copy.deepcopy(settings)
         # This may be able to support as many as 2 for GitHub Actions...
         # we will have to determine in testing.
-        mock_settings['num_containers'] = 1
+        mock_settings['num_containers'] = 2
 
         # Must be selected since we are passing in a list of detections
         mock_settings['mode'] = 'selected'
