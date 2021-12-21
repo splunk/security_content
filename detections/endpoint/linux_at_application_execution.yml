@@ -1,0 +1,70 @@
+name: Linux At Application Execution
+id: bf0a378e-5f3c-11ec-a6de-acde48001122
+version: 1
+date: '2021-12-17'
+author: Teoderick Contreras, Splunk
+type: Anomaly
+datamodel:
+- Endpoint
+description: The following analytic identifies a suspicious process creation of At application.
+  This process can be used by malware, adversaries and red teamers to create persistence entry to the targeted or compromised host with their
+  malicious code. This anomaly detection can be a good indicator to investigate the event before and after this process execution, when it was executed and what 
+  schedule task it will execute.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes where  Processes.process_name = at OR Processes.parent_process_name = at
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `linux_at_application_execution_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name, parent process, and command-line executions from your
+  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
+  Sysmon TA. 
+known_false_positives: Administrator or network operator can use this application for automation purposes. filter is needed 
+references:
+- https://attack.mitre.org/techniques/T1053/001/
+- https://www.linkedin.com/pulse/getting-attacker-ip-address-from-malicious-linux-job-craig-rowland/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/sysmon_linux.log
+  kill_chain_phases:
+  - Privilege Escalation
+  mitre_attack_id:
+  - T1053.001
+  - T1053
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest 
+  - Processes.user 
+  - Processes.parent_process_name 
+  - Processes.process_name 
+  - Processes.process 
+  - Processes.process_id 
+  - Processes.parent_process_id
+  security_domain: endpoint
+  impact: 30
+  confidence: 30 
+  # (impact * confidence)/100
+  risk_score: 9
+  context:
+  - source:endpoint
+  - stage:Privilege Escalation Persistence
+  message: at application was executed in $dest$
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  nist:
+  - DE.CM
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
