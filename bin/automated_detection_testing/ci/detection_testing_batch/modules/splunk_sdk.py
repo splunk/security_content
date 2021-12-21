@@ -1,3 +1,4 @@
+from os import error
 import sys
 from time import sleep
 import splunklib.results as results
@@ -114,8 +115,10 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
             password=splunk_password
         )
     except Exception as e:
-        print("Unable to connect to Splunk instance: " + str(e),file=sys.stderr)
+        error_message = "Unable to connect to Splunk instance: %s"%(str(e))
+        print(error_message,file=sys.stderr)
         test_results['error'] = True
+        test_results['detection_error'] = error_message
         return test_results
 
 
@@ -130,9 +133,11 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
     try:
         job = service.jobs.create(splunk_search, **kwargs)
     except Exception as e:
-
-        print("Unable to execute detection:\n%s"%(str(e)))
+        
+        error_message = "Unable to execute detection: %s"%(str(e))
+        print(error_message,file=sys.stderr)
         test_results['error'] = True
+        test_results['detection_error'] = error_message
         return test_results
 
     test_results['diskUsage'] = job['diskUsage']

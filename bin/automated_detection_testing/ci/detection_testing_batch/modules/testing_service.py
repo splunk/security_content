@@ -109,6 +109,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
     if result_detection['error']:
         print("There was an error running the search: %s"%(result_detection['search_string']))
+        
 
 
 
