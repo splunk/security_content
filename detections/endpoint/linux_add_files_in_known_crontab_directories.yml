@@ -6,25 +6,26 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: The following analytic identifies a suspicious file creation in known cron table directories.
-  This event is commonly abuse by malware, adversaries and red teamers to persist on the target or compromised host. 
-  crontab or cronjob is like a schedule task in windows environment where you can create an executable or script on the known crontab directories to 
-  run it base on its schedule. This Anomaly query is a good indicator to look further what file is added and who added the file if to consider it legitimate file.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_path IN ("*/etc/cron*", "*/var/spool/cron/*") 
-  by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid Filesystem.file_path
-  | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(lastTime)` 
-  | `security_content_ctime(firstTime)`
-  | `linux_add_files_in_known_crontab_directories_filter`'
+description: The following analytic identifies a suspicious file creation in known
+  cron table directories. This event is commonly abuse by malware, adversaries and
+  red teamers to persist on the target or compromised host. crontab or cronjob is
+  like a schedule task in windows environment where you can create an executable or
+  script on the known crontab directories to run it base on its schedule. This Anomaly
+  query is a good indicator to look further what file is added and who added the file
+  if to consider it legitimate file.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/cron*",
+  "*/var/spool/cron/*") by Filesystem.dest Filesystem.file_create_time Filesystem.file_name
+  Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `linux_add_files_in_known_crontab_directories_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the file name, file path, and process_guid executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: administrator or network operator can create file in crontab folders for automation purposes. filter is needed 
+  logs with the file name, file path, and process_guid executions from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: administrator or network operator can create file in crontab
+  folders for automation purposes. filter is needed
 references:
--  https://www.sandflysecurity.com/blog/detecting-cronrat-malware-on-linux-instantly/
--  https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/
+- https://www.sandflysecurity.com/blog/detecting-cronrat-malware-on-linux-instantly/
+- https://www.cyberciti.biz/faq/how-do-i-add-jobs-to-cron-under-linux-or-unix-oses/
 tags:
   analytic_story:
   - Linux Privilege Escalation
@@ -42,15 +43,14 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Filesystem.dest 
-  - Filesystem.file_create_time 
-  - Filesystem.file_name 
-  - Filesystem.process_guid 
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.process_guid
   - Filesystem.file_path
   security_domain: endpoint
   impact: 50
-  confidence: 50 
-  # (impact * confidence)/100
+  confidence: 50
   risk_score: 25
   context:
   - source:endpoint
@@ -67,3 +67,4 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  automated_detection_testing: passed
