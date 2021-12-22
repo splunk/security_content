@@ -98,8 +98,19 @@
                  "SPLUNK_COMMON_INFORMATION_MODEL": {
                      "app_number": 1621,
                      "app_version": "5.0.0"
+                 },
+                 "SPLUNK_ADD_ON_FOR_NGINX" : {
+                    "app_number": 3258,
+                    "app_version": "3.1.0"
+                 },
+                 "SPLUNK_SECURITY_ESSENTIALS": {
+                    "app_number": 3435,
+                    "app_version": "3.4.0"
+                 },
+                 "TA_FOR_ZEEK": {
+                    "app_number": 5466,
+                    "app_version": "1.0.5"
                  }
-            
     },
     "splunkbase_password": null,
     "splunkbase_username": null,
