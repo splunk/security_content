@@ -1,7 +1,7 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Use Cases",
+    "category": "Threat Response",
     "coa": {
         "data": {
             "description": "Published in response to CVE-2021-44228, this playbook accepts a list of hosts and filenames to remediate on the endpoint. If filenames are provided, the endpoints will be searched and then the user can approve deletion. Then the user is prompted to quarantine the endpoint.",
@@ -218,7 +218,7 @@
                     "targetPort": "32_in"
                 }
             ],
-            "hash": "b66aad637ff2a4e0d549f8b7d1b646cb01dbdff4",
+            "hash": "a88fc0fd29ee20bd765f76240ad874b0b64198bf",
             "nodes": {
                 "0": {
                     "data": {
@@ -233,7 +233,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 530,
-                    "y": -1.2789769243681803e-13
+                    "y": -3.836930773104541e-13
                 },
                 "1": {
                     "data": {
@@ -278,7 +278,7 @@
                     "errors": {},
                     "id": "10",
                     "type": "code",
-                    "userCode": "    \n    generate_deletion_commands__prompt_content = \"\"\n    generate_deletion_commands__host = []\n    generate_deletion_commands__deletion_command = []\n    \n    # Retrieve previously saved key\n    host_dictionary = json.loads(phantom.get_run_data(key=\"host_dictionary\"))\n    \n    # Iterate through the paired host and locate files action result\n    for hostname, action_result in zip(locate_files_parameter_ip_hostname, locate_files_result_item_1):\n        \n        # Ensure at least one file was found for that host\n        if True in json.loads(action_result):\n            \n            # Attach this host to list of deletion hosts\n            generate_deletion_commands__host.append(hostname)\n            \n            # Begin building deletion powershell script and prompt message\n            deletion_string = \"Remove-Item \"\n            generate_deletion_commands__prompt_content += f\"### {hostname}\\n\\n\"\n            for filepath, result in zip(host_dictionary[hostname], json.loads(action_result)):\n                if result == True:\n                    generate_deletion_commands__prompt_content += f\"- {filepath}\\n\"\n                    deletion_string += f\"{filepath},\"\n                    \n            # Remove trailing comma and attach one deletion command\n            deletion_string = deletion_string.rstrip(',')\n            deletion_string += ' | Write-Output \"Files Deleted\"'\n            generate_deletion_commands__deletion_command.append(deletion_string)\n\n",
+                    "userCode": "    \n    generate_deletion_commands__prompt_content = \"\"\n    generate_deletion_commands__host = []\n    generate_deletion_commands__deletion_command = []\n    \n    # Retrieve previously saved key\n    host_dictionary = json.loads(phantom.get_run_data(key=\"host_dictionary\"))\n    \n    # Iterate through the paired host and locate files action result\n    for hostname, action_result in zip(locate_files_parameter_ip_hostname, locate_files_result_item_1):\n        \n        json_action_result = json.loads(action_result)\n        \n        if isinstance(json_action_result, bool):\n            json_action_result = [json_action_result]\n            \n        # Ensure at least one file was found for that host\n        if any(json_action_result):\n        \n            # Attach this host to list of deletion hosts\n            generate_deletion_commands__host.append(hostname)\n            \n            # Begin building deletion powershell script and prompt message\n            deletion_string = \"$ProgressPreference = 'SilentlyContinue'; Remove-Item \"\n            generate_deletion_commands__prompt_content += f\"### {hostname}\\n\\n\"\n            for filepath, result in zip(host_dictionary[hostname], json_action_result):\n                if result == True:\n                    generate_deletion_commands__prompt_content += f\"- {filepath}\\n\"\n                    deletion_string += f\"{filepath},\"\n                    \n            # Remove trailing comma and attach one deletion command\n            deletion_string = deletion_string.rstrip(',')\n            deletion_string += ' | Write-Output \"Files Deleted\"'\n            generate_deletion_commands__deletion_command.append(deletion_string)\n\n",
                     "x": 330,
                     "y": 686
                 },
@@ -291,11 +291,11 @@
                             "join": [],
                             "note": "Prompt the user to confirm deletion"
                         },
-                        "approver": "admin",
+                        "approver": "Incident Commander",
                         "functionId": 3,
                         "functionName": "deletion_confirmation",
                         "id": "12",
-                        "message": "SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n{0}",
+                        "message": "SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n&nbsp;\n{0}",
                         "parameters": [
                             "generate_deletion_commands:custom_function:prompt_content"
                         ],
@@ -495,11 +495,11 @@
                             ],
                             "note": "Offer the user options to quarantine the affected endpoints"
                         },
-                        "approver": "admin",
+                        "approver": "Incident Commander",
                         "functionId": 2,
                         "functionName": "quarantine_prompt",
                         "id": "20",
-                        "message": "Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n### Target Hosts\n{0}",
+                        "message": "Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n&nbsp;\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n&nbsp;\n### Target Hosts\n{0}",
                         "parameters": [
                             "format_host_list_prompt:formatted_data"
                         ],
@@ -650,7 +650,7 @@
                         "id": "24",
                         "parameters": {
                             "ip_hostname": "dedup_hostnames:custom_function_result.data.*.item",
-                            "script_str": "New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block"
+                            "script_str": "$ProgressPreference = 'SilentlyContinue'; New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block"
                         },
                         "requiredParameters": [],
                         "type": "action"
@@ -683,7 +683,7 @@
                         "id": "25",
                         "parameters": {
                             "ip_hostname": "dedup_hostnames:custom_function_result.data.*.item",
-                            "script_str": "shutdown /f"
+                            "script_str": "$ProgressPreference = 'SilentlyContinue'; shutdown /f"
                         },
                         "requiredParameters": [],
                         "type": "action"
@@ -715,7 +715,7 @@
                         "id": "26",
                         "parameters": {
                             "ip_hostname": "dedup_hostnames:custom_function_result.data.*.item",
-                            "script_str": "New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block; shutdown /f"
+                            "script_str": "$ProgressPreference = 'SilentlyContinue'; New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block; shutdown /f"
                         },
                         "requiredParameters": [],
                         "type": "action"
@@ -958,7 +958,7 @@
                     "errors": {},
                     "id": "4",
                     "type": "action",
-                    "userCode": "\n    parameters = []\n    host_search = {}\n    \n    # Treat ip_or_hostname and filePath as a paired unit and iterate through them,\n    # then create a dictionary for each host with a list of its filepaths\n    for playbook_input_filepath_item, playbook_input_ip_or_hostname_item in zip(playbook_input_filepath, playbook_input_ip_or_hostname):\n        if playbook_input_ip_or_hostname_item[0] in host_search.keys():\n            host_search[playbook_input_ip_or_hostname_item[0]].append(playbook_input_filepath_item[0])\n        else:\n            host_search[playbook_input_ip_or_hostname_item[0]] = [playbook_input_filepath_item[0]]\n    \n    # Iterate through the host dictionary and generation one search string that checks all filepaths per host.\n    # This ensures that we are only connecting to each host once.\n    for k,v in host_search.items():\n        script_str = f\"Test-Path {','.join(v)} | ConvertTo-Json\"\n        parameters.append({\n            \"ip_hostname\": k,\n            \"script_str\": script_str\n        })\n    \n    # Save the host_search dictionary into temporary data to access downstream.\n    # This makes it easier to compare the results of locate files with the filepaths and hosts\n    phantom.save_run_data(value=json.dumps(host_search), key=\"host_dictionary\")\n    \n",
+                    "userCode": "\n    parameters = []\n    host_search = {}\n    \n    # Treat ip_or_hostname and filePath as a paired unit and iterate through them,\n    # then create a dictionary for each host with a list of its filepaths\n    for playbook_input_filepath_item, playbook_input_ip_or_hostname_item in zip(playbook_input_filepath, playbook_input_ip_or_hostname):\n        if playbook_input_ip_or_hostname_item[0] in host_search.keys():\n            host_search[playbook_input_ip_or_hostname_item[0]].append(playbook_input_filepath_item[0])\n        else:\n            host_search[playbook_input_ip_or_hostname_item[0]] = [playbook_input_filepath_item[0]]\n    \n    # Iterate through the host dictionary and generation one search string that checks all filepaths per host.\n    # This ensures that we are only connecting to each host once.\n    for k,v in host_search.items():\n        script_str = f\"$ProgressPreference = 'SilentlyContinue'; Test-Path {','.join(v)} | ConvertTo-Json\"\n        parameters.append({\n            \"ip_hostname\": k,\n            \"script_str\": script_str\n        })\n    \n    # Save the host_search dictionary into temporary data to access downstream.\n    # This makes it easier to compare the results of locate files with the filepaths and hosts\n    phantom.save_run_data(value=json.dumps(host_search), key=\"host_dictionary\")\n    \n",
                     "x": 420,
                     "y": 328
                 },
@@ -1015,7 +1015,7 @@
                     "y": 506
                 }
             },
-            "notes": ""
+            "notes": "This playbook uses the following Apps:\n - Windows Remote Management (run_script) [asset name = winrm] - Used to query for files, delete files, block network access, and shutdown host.\n\nDeployment Notes:\n- Playbook should receive a list of IPs and/or Hostnames. An optional list of file paths should be provided. \n- If multiple file paths are provided per host, there must be multiples of the hostname to ensure both inputs are of equal length.\n- Ensure Splunk SOAR has administrator access to the target windows hosts in order to perform all of the actions\n- Search and delete functionality, along with quarantine functionality can be adapted to similar actions from EDR vendors"
         },
         "input_spec": [
             {
@@ -1040,7 +1040,7 @@
         "schema": "5.0.4",
         "version": "5.1.0.70187"
     },
-    "create_time": "2021-12-15T00:26:33.188209+00:00",
+    "create_time": "2021-12-15T20:17:50.689218+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -1048,6 +1048,7 @@
     "tags": [
         "internal_host",
         "windows",
-        "log4j"
+        "log4j",
+        "respond"
     ]
 }

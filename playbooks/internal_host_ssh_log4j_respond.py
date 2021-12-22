@@ -171,8 +171,8 @@ def deletion_confirmation(action=None, success=None, container=None, results=Non
 
     # set user and message variables for phantom.prompt call
 
-    user = "admin"
-    message = """SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n{0}"""
+    user = "Incident Commander"
+    message = """SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n&nbsp;\n{0}"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -325,8 +325,8 @@ def quarantine_prompt(action=None, success=None, container=None, results=None, h
 
     # set user and message variables for phantom.prompt call
 
-    user = "admin"
-    message = """Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n### Target Hosts\n{0}"""
+    user = "Incident Commander"
+    message = """Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n&nbsp;\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n&nbsp;\n### Target Hosts\n{0}"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -406,7 +406,7 @@ def quarantine_decision(action=None, success=None, container=None, results=None,
 
     # call connected blocks if condition 3 matched
     if found_match_3:
-        join_block_and_shutdown(action=action, success=success, container=container, results=results, handle=handle)
+        block_and_shutdown(action=action, success=success, container=container, results=results, handle=handle)
         return
 
     # check for 'else' condition 4
@@ -482,28 +482,7 @@ def shutdown(action=None, success=None, container=None, results=None, handle=Non
     ## Custom Code End
     ################################################################################
 
-    phantom.act("execute program", parameters=parameters, name="shutdown", assets=["ssh"], callback=shutdown_callback)
-
-    return
-
-
-def shutdown_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("shutdown_callback() called")
-
-    
-    join_block_and_shutdown(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
-    join_format_custom_note(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
-
-
-    return
-
-
-def join_block_and_shutdown(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("join_block_and_shutdown() called")
-
-    if phantom.completed(action_names=["quarantine_prompt", "shutdown"]):
-        # call connected block "block_and_shutdown"
-        block_and_shutdown(container=container, handle=handle)
+    phantom.act("execute program", parameters=parameters, name="shutdown", assets=["ssh"], callback=join_format_custom_note)
 
     return
 
@@ -562,7 +541,7 @@ def summary_note(action=None, success=None, container=None, results=None, handle
     ## Custom Code End
     ################################################################################
 
-    phantom.add_note(container=container, content=format_custom_note__output, note_format="markdown", note_type="general", title="WinRm Log4j Response")
+    phantom.add_note(container=container, content=format_custom_note__output, note_format="markdown", note_type="general", title="SSH Log4j Response")
 
     return
 
