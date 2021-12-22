@@ -254,7 +254,7 @@ setup_schema = {
             #     },
             #     "SPLUNK_ADD_ON_FOR_AMAZON_WEB_SERVICES": {
             #         "app_number": 1876,
-            #         "app_version": "5.2.0"
+            #         "app_version": "5.2.1"
             #     },
 
             #     "SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365":
@@ -275,12 +275,12 @@ setup_schema = {
 
             #     "PYTHON_FOR_SCIENTIC_COMPUTING_LINUX_64_BIT": {
             #         "app_number": 2882,
-            #         "app_version": "2.0.2"
+            #         "app_version": "3.0.1"
             #     },
 
             #     "SPLUNK_MACHINE_LEARNING_TOOLKIT": {
             #         "app_number": 2890,
-            #         "app_version": "5.2.2"
+            #         "app_version": "5.3.0"
             #     },
 
             #     "SPLUNK_APP_FOR_STREAM": {
@@ -301,7 +301,7 @@ setup_schema = {
             #     },
             #     "SPLUNK_ADD_ON_FOR_UNIX_AND_LINUX": {
             #         "app_number": 833,
-            #         "app_version": "8.3.1"
+            #         "app_version": "8.4.0"
             #     },
             #     "SPLUNK_ADD_ON_FOR_SYSMON": {
             #         "app_number": 5709,
@@ -310,7 +310,7 @@ setup_schema = {
             #     # According to https://docs.splunk.com/Documentation/ES/6.6.2/Install/Datamodels, these are included in ES. Don't install separately.
             #     "SPLUNK_COMMON_INFORMATION_MODEL": {
             #         "app_number": 1621,
-            #         "app_version": "4.20.2"
+            #         "app_version": "5.0.0"
             #     }
             # }
         },

@@ -131,7 +131,8 @@ class SplunkContainer:
             env["SPLUNKBASE_USERNAME"] = splunkbase_username
             env["SPLUNKBASE_PASSWORD"] = splunkbase_password
         env["SPLUNK_APPS_URL"] = splunk_apps_url
-
+        
+        
         return env
 
     def make_ports(self, *ports: tuple[str, int]) -> dict[str, int]:

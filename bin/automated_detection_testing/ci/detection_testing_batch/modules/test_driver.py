@@ -124,7 +124,7 @@ class TestDriver:
 
     def addError(self, detection:dict)->None:
         #Make sure that even errors have all of the required fields.
-        for required_field in ['search_string', 'diskUsage','runDuration', 'detection_name', 'scanCount']:
+        for required_field in ['search_string', 'diskUsage','runDuration', 'detection_name', 'scanCount', 'detection_error']:
             if required_field not in detection:
                 detection[required_field] = ""
         if  'error' not in detection:
