@@ -23,6 +23,8 @@ class DetectionTags(BaseModel):
     required_fields: list
     risk_score: int
     security_domain: str
+    detections: list = None
+    deployments: list = None
 
 
     @validator('cis20')

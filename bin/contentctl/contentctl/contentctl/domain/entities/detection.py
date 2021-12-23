@@ -12,6 +12,7 @@ from contentctl.contentctl.domain.entities.security_content_object import Securi
 from contentctl.contentctl.domain.entities.enums.enums import AnalyticsType
 from contentctl.contentctl.domain.entities.enums.enums import DataModel
 from contentctl.contentctl.domain.entities.detection_tags import DetectionTags
+from contentctl.contentctl.domain.entities.deployment import Deployment
 
 class Detection(BaseModel, SecurityContentObject):
     name: str
@@ -27,6 +28,12 @@ class Detection(BaseModel, SecurityContentObject):
     known_false_positives: str
     references: list
     tags: DetectionTags
+    deployment: Deployment = None
+    annotations: dict = None
+    risk: list = None
+    playbooks: list = None
+    baselines: list = None
+
 
     @validator('name')
     def name_max_length(cls, v):
@@ -93,6 +100,6 @@ class Detection(BaseModel, SecurityContentObject):
     @validator('search')
     def search_validate(cls, v, values):
         # write search validator
-        pass
+        return v
 
  

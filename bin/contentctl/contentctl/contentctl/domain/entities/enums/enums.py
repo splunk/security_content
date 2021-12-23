@@ -30,3 +30,8 @@ class SecurityContentType(enum.Enum):
     macros = 4
     lookups = 5
     deployments = 6
+
+class SecurityContentProduct(enum.Enum):
+    ESCU = 1
+    SSA = 2
+    SAAWS = 3

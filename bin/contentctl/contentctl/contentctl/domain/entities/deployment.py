@@ -1,24 +1,33 @@
-import string
+
 import uuid
-import requests
+import string
 
 from pydantic import BaseModel, validator, ValidationError
 from datetime import datetime
 
 from contentctl.contentctl.domain.entities.security_content_object import SecurityContentObject
-from contentctl.contentctl.domain.entities.story_tags import StoryTags
+from contentctl.contentctl.domain.entities.deployment_scheduling import DeploymentScheduling
+from contentctl.contentctl.domain.entities.deployment_email import DeploymentEmail
+from contentctl.contentctl.domain.entities.deployment_notable import DeploymentNotable
+from contentctl.contentctl.domain.entities.deployment_rba import DeploymentRBA
+from contentctl.contentctl.domain.entities.deployment_slack import DeploymentSlack
+from contentctl.contentctl.domain.entities.deployment_phantom import DeploymentPhantom
 
-class Story(BaseModel, SecurityContentObject):
+class Deployment(BaseModel, SecurityContentObject):
     name: str
     id: str
-    version: int
     date: str
     author: str
     description: str
-    narrative: str
-    references: list
-    tags: StoryTags
+    scheduling: DeploymentScheduling = None
+    email: DeploymentEmail = None
+    notable: DeploymentNotable = None
+    rba: DeploymentRBA = None
+    slack: DeploymentSlack = None
+    phantom: DeploymentPhantom = None
+    tags: dict
     
+
     @validator('name')
     def name_invalid_chars(cls, v):
         invalidChars = set(string.punctuation.replace("-", ""))
@@ -42,22 +51,10 @@ class Story(BaseModel, SecurityContentObject):
             raise ValueError('date is not in format YYYY-MM-DD: ' + values["name"])
         return v
 
-    @validator('description', 'narrative')
+    @validator('description')
     def encode_error(cls, v, values, field):
         try:
             v.encode('ascii')
         except UnicodeEncodeError:
             raise ValueError('encoding error in ' + field.name + ': ' + values["name"])
-        return v
-
-    @validator('references')
-    def references_check(cls, v, values):
-        for reference in v:
-            try:
-                get = requests.get(reference)
-                if not get.status_code == 200:
-                    raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-            except requests.exceptions.RequestException as e:
-                raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-
         return v
