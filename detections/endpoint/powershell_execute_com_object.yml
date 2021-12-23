@@ -58,3 +58,63 @@ tags:
   - _time
   risk_score: 5
   security_domain: endpoint
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_cisco-ucs
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_nix
+  - Splunk_TA_nginx
+  - Splunk_TA_microsoft-iis
+  - Splunk_TA_microsoft-sqlserver
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_remedy
+  - Splunk_TA_bluecoat-proxysg
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_jboss
+  - Splunk_TA_websense-cg
+  - Splunk_TA_ossec
+  - Splunk_TA_bromium
+  - Splunk_TA_nagios-core
+  - Splunk_TA_isc-bind
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_snow
+  - Splunk_TA_squid
+  - Splunk_TA_apache
+  - Splunk_TA_imperva-waf
+  - Splunk_TA_juniper
+  - Splunk_TA_cisco-esa
+  - Splunk_TA_microsoft_sysmon
+  - Splunk_TA_cisco-ise
+  - splunk_ta_o365
+  - Splunk_TA_f5-bigip
+  - Splunk_TA_symantec-ep
+  - Splunk_TA_google-cloudplatform
+  - Splunk_TA_sophos
+  - Splunk_TA_mcafee_epo_syslog
+  - Splunk_TA_haproxy
+  - Splunk_TA_tomcat
+  - Splunk_TA_jmx
+  - Splunk_TA_cyberark
+  - Splunk_TA_symantec-dlp
+  - Splunk_TA_ibm-was
+  - Splunk_TA_microsoft-hyperv
+  - Splunk_TA_windows
+  - Splunk_TA_stream_wire_data
+  - Splunk_TA_mcafee-wg
+  - Splunk_TA_isc-dhcp
+  - Splunk_TA_websense-dlp
+  - Splunk_TA_box
+  - Splunk_TA_microsoft-scom
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_rsa-dlp
+  - Splunk_TA_cisco-wsa
+  - Splunk_TA_mysql
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+  - Splunk_TA_cyberark_epm
+  - Splunk_TA_linux
+  - Splunk_TA_oracle
+  tas_with_data:
+  - Splunk_TA_windows

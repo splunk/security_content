@@ -90,3 +90,18 @@ tags:
   - All_Changes.command
   risk_score: 18
   security_domain: threat
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_citrix-netscaler
+  - Splunk_TA_rsa-securid
+  - Splunk_TA_aws-kinesis-firehose
+  - Splunk_TA_rsa_securid_cas
+  - Splunk_TA_juniper
+  - splunk_ta_o365
+  - Splunk_TA_cyberark
+  - Splunk_TA_box
+  - Splunk_TA_cisco-asa
+  - Splunk_TA_infoblox
+  - Splunk_TA_salesforce
+  tas_with_data:
+  - Splunk_TA_aws-kinesis-firehose

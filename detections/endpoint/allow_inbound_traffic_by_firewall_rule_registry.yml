@@ -65,3 +65,6 @@ tags:
   - Registry.user
   risk_score: 3
   security_domain: endpoint
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_bit9-carbonblack
