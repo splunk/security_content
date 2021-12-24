@@ -67,3 +67,6 @@ tags:
   - Processes.dest
   risk_score: 35
   security_domain: endpoint
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_bit9-carbonblack

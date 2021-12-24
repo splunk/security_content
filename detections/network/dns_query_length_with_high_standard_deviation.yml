@@ -66,3 +66,8 @@ tags:
   - DNS.query
   risk_score: 56
   security_domain: network
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_isc-bind
+  - Splunk_TA_CrowdStrike_FDR
+  - Splunk_TA_infoblox
