@@ -1,21 +1,15 @@
-# 1. Take github token, branch_name from user to raise a PR for enriched detection of security_content repo
-# 2. Iterate through each detection file
-# 3. For each detection iterate through ta_cim_mapping report
-# 4. map detection file and ta_cim_mapping reports and finalise the TA required for particular detection
-# 5. Add the list of TA's in detection file
-# 6. Create a new branch and raise an MR for it
-
-import os
-import git
-import sys
-import shutil
-import yaml
-import json
-import time
 import argparse
-import logging
 import io
+import json
+import logging
+import os
 import re
+import shutil
+import sys
+import time
+
+import git
+import yaml
 from github import Github
 
 
@@ -75,14 +69,7 @@ def map_required_fields(cim_summary, datamodel, required_fields):
 
 
 def is_valid_detection_file(filepath) -> bool:
-    """
-    check if detection file have valid analytic type and have valid
-    data-model name.
-    :param detection_test_path: detection test path i.e. security_content/tests/cloud
-    :param test_file: detection test file name
-    :param detection_products: detection tag product list for which detection test will filterised
-    :return: boolean
-    """
+
     detection_analytic_type = ["ttp", "anomaly"]
     detection_with_valid_analytic_type = False
     detection_with_valid_datamodel = False
@@ -98,7 +85,6 @@ def is_valid_detection_file(filepath) -> bool:
 
 
 def enrich_detection_file(file, ta_list, keyname):
-    # file_path = 'security_content/detections/' + test['detection_result']['detection_file']
     detection_obj = load_file(file)
     detection_obj["tags"][keyname] = ta_list
 
@@ -108,37 +94,16 @@ def enrich_detection_file(file, ta_list, keyname):
 
 def main():
 
-    parser = argparse.ArgumentParser(
-        description="Enrich detections with relevant TA names"
-    )
-    parser.add_argument(
-        "-scr",
-        "--security_content_repo",
-        required=False,
-        default="kirtankhatana-crest/security_content",
-        help="specify the url of the security content repository",
-    )
-    parser.add_argument(
-        "-scb",
-        "--security_content_branch",
-        required=False,
-        default="develop",
-        help="specify the security content branch",
-    )
-    parser.add_argument(
-        "-gt",
-        "--github_token",
-        required=False,
-        default=os.environ.get("GIT_TOKEN"),
-        help="specify the github token for the PR",
-    )
+    security_content_repo = "splunk/security_content"
+    security_content_branch = "develop"
 
-    args = parser.parse_args()
-    security_content_repo = args.security_content_repo
-    security_content_branch = args.security_content_branch
-    github_token = args.github_token
+    ta_cim_field_reports_repo = "splunk/ta-cim-field-reports"
+    ta_cim_field_reports_branch = "main"
+    github_token = os.environ.get("GIT_TOKEN")
     g = Github(github_token)
     detection_types = ["cloud", "endpoint", "network"]
+    cim_report_path = "ta_cim_mapping_reports/ta_cim_mapping/cim_mapping_reports/latest/"
+    detection_ta_mapping = {}
 
     # clone security content repository
     security_content_repo_obj = git.Repo.clone_from(
@@ -155,17 +120,15 @@ def main():
         "https://"
         + github_token
         + ":x-oauth-basic@github.com/"
-        + "splunk/ta-cim-field-reports",
+        + ta_cim_field_reports_repo,
         "ta_cim_mapping_reports",
-        branch="main",
+        branch=ta_cim_field_reports_branch,
     )
 
     # iterate for every detection types
-    detection_ta_mapping = {}
     for detection_type in detection_types:
 
         for subdir, _, files in os.walk(f"security_content/tests/{detection_type}"):
-            print(subdir)
             
             for file in files:
                 filepath = subdir + os.sep + file
@@ -185,18 +148,16 @@ def main():
                 filepath = "security_content/detections/" + detection_obj.get("tests")[
                     0
                 ].get("file")
-                try:
-                    fo = open(filepath)
-                except FileNotFoundError:
+                if not os.path.isfile(filepath):
                     continue
 
                 if is_valid_detection_file(filepath):
                     for ta_cim_mapping_file in os.listdir(
-                        "./ta_cim_mapping_reports/ta_cim_mapping/cim_mapping_reports/latest/"
+                        cim_report_path
                     ):
 
                         ta_cim_map = fetch_ta_cim_mapping_report(
-                            "./ta_cim_mapping_reports/ta_cim_mapping/cim_mapping_reports/latest/"
+                            cim_report_path
                             + ta_cim_mapping_file
                         )
 
@@ -225,7 +186,6 @@ def main():
 
                     if supported_ta_list:
                         keyname = "supported_tas"
-                        print(filepath)
                         enrich_detection_file(filepath, cim_version, "cim_version")
                         enrich_detection_file(filepath, supported_ta_list, keyname)
                         detection_ta_mapping[detection_file_name][
@@ -246,14 +206,15 @@ def main():
                         [filepath.strip("security_content/")]
                     )
 
-    print("done")
     with io.open(
-        r"./security_content_automation/detection_ta_mapping.yml", "w", encoding="utf8"
+        r"./security_content/security_content_automation/detection_ta_mapping.yml", "w", encoding="utf8"
     ) as outfile:
         yaml.safe_dump(
             detection_ta_mapping, outfile, default_flow_style=False, allow_unicode=True
         )
-
+    security_content_repo_obj.index.add(
+                        ["security_content_automation/detection_ta_mapping.yml"]
+                    )
     security_content_repo_obj.index.commit(
         "Updated detection files with supported TA list."
     )
@@ -263,11 +224,11 @@ def main():
     security_content_repo_obj.git.checkout("-b", branch_name)
 
     security_content_repo_obj.git.push("--set-upstream", "origin", branch_name)
-    repo = g.get_repo("kirtankhatana-crest/security_content")
+    repo = g.get_repo("splunk/security_content")
 
     pr = repo.create_pull(
         title="Enrich Detection PR " + branch_name,
-        body="This is a dummy PR",
+        body="Enriched the detections with supported TAs",
         head=branch_name,
         base="develop",
     )
