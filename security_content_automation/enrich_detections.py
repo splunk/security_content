@@ -1,4 +1,4 @@
-import argparse
+import base64
 import io
 import json
 import logging
@@ -99,10 +99,17 @@ def main():
 
     ta_cim_field_reports_repo = "splunk/ta-cim-field-reports"
     ta_cim_field_reports_branch = "main"
-    github_token = os.environ.get("GIT_TOKEN")
+
+    # Decoding GIT_TOKEN from base64
+    git_token_base64_bytes = os.environ.get("GIT_TOKEN").encode('ascii')
+    git_token_bytes = base64.b64decode(git_token_base64_bytes)
+    github_token = git_token_bytes.decode('ascii') 
+    
     g = Github(github_token)
     detection_types = ["cloud", "endpoint", "network"]
-    cim_report_path = "ta_cim_mapping_reports/ta_cim_mapping/cim_mapping_reports/latest/"
+    cim_report_path = (
+        "ta_cim_mapping_reports/ta_cim_mapping/cim_mapping_reports/latest/"
+    )
     detection_ta_mapping = {}
 
     # clone security content repository
@@ -129,7 +136,7 @@ def main():
     for detection_type in detection_types:
 
         for subdir, _, files in os.walk(f"security_content/tests/{detection_type}"):
-            
+
             for file in files:
                 filepath = subdir + os.sep + file
                 supported_ta_list = []
@@ -152,13 +159,10 @@ def main():
                     continue
 
                 if is_valid_detection_file(filepath):
-                    for ta_cim_mapping_file in os.listdir(
-                        cim_report_path
-                    ):
+                    for ta_cim_mapping_file in os.listdir(cim_report_path):
 
                         ta_cim_map = fetch_ta_cim_mapping_report(
-                            cim_report_path
-                            + ta_cim_mapping_file
+                            cim_report_path + ta_cim_mapping_file
                         )
 
                         detection_obj = load_file(filepath)
@@ -178,7 +182,11 @@ def main():
                             ta_sourcetype = ta_cim_map["sourcetypes"]
                             for source_type in source_types:
 
-                                if source_type in ta_sourcetype and ta_cim_map.get("ta_name").get("name") not in tas_with_data_list:
+                                if (
+                                    source_type in ta_sourcetype
+                                    and ta_cim_map.get("ta_name").get("name")
+                                    not in tas_with_data_list
+                                ):
                                     tas_with_data_list.append(
                                         ta_cim_map.get("ta_name").get("name")
                                     )
@@ -207,14 +215,16 @@ def main():
                     )
 
     with io.open(
-        r"./security_content/security_content_automation/detection_ta_mapping.yml", "w", encoding="utf8"
+        r"./security_content/security_content_automation/detection_ta_mapping.yml",
+        "w",
+        encoding="utf8",
     ) as outfile:
         yaml.safe_dump(
             detection_ta_mapping, outfile, default_flow_style=False, allow_unicode=True
         )
     security_content_repo_obj.index.add(
-                        ["security_content_automation/detection_ta_mapping.yml"]
-                    )
+        ["security_content_automation/detection_ta_mapping.yml"]
+    )
     security_content_repo_obj.index.commit(
         "Updated detection files with supported TA list."
     )
