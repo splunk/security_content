@@ -97,7 +97,7 @@ A complete use case, specifically built to detect, investigate, and respond to a
 * [dashboards/](dashboards/): JSON definitions of Mission Control dashboards, to be used as a response task. Currently not used.
 * [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
 * [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
-* [security_content_automation/](security_content_automation/): It contains scripts for enriching detection with relevant supported TAs and also contains script for publishing github release assets to [Pre-QA artifactory](https://repo.splunk.com/artifactory/Solutions/DA/Pre-QA/) on every tag release.
+* [security_content_automation/](security_content_automation/): It contains script for enriching detection with relevant supported TAs and also contains script for publishing release build to [Pre-QA artifactory](https://repo.splunk.com/artifactory/Solutions/DA/Pre-QA/) on every tag release.
 
 
 
