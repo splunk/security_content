@@ -82,3 +82,7 @@ tags:
   - Processes.process_hash
   risk_score: 49
   security_domain: endpoint
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_bit9-carbonblack
+  - Splunk_TA_CrowdStrike_FDR

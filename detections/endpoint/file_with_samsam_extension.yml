@@ -69,3 +69,12 @@ tags:
   - Filesystem.file_name
   risk_score: 90
   security_domain: endpoint
+  cim_version: 5.0.0
+  supported_tas:
+  - Splunk_TA_nix
+  - Splunk_TA_bit9-carbonblack
+  - splunk_ta_o365
+  - Splunk_TA_sophos
+  - Splunk_TA_cyberark
+  - Splunk_TA_windows
+  - Splunk_TA_CrowdStrike_FDR
