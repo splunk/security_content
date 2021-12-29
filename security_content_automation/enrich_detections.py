@@ -19,7 +19,7 @@ def fetch_ta_cim_mapping_report(file_name):
             cim_field_report = json.load(file_content)
             return cim_field_report
     except Exception as error:
-        error_message = f"Unexpected error occurred while reading file. Error: {error}"
+        error_message = "Unexpected error occurred while reading file."
         logging.error(error_message)
 
 
