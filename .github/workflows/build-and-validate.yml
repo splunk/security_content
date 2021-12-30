@@ -466,7 +466,7 @@ jobs:
 
       - name: Enrich detections with TAs
         env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
         run: |
           source venv/bin/activate
           python3 -m pip install security_content_automation/requirements.txt

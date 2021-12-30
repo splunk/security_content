@@ -100,11 +100,11 @@ def main():
     ta_cim_field_reports_repo = "splunk/ta-cim-field-reports"
     ta_cim_field_reports_branch = "main"
 
-    # Decoding GIT_TOKEN from base64
-    git_token_base64_bytes = os.environ.get("GIT_TOKEN").encode('ascii')
+    # Decodin GITHUB_ACCESS_TOKEN from base64
+    git_token_base64_bytes = os.environ.get("GITHUB_ACCESS_TOKEN").encode('ascii')
     git_token_bytes = base64.b64decode(git_token_base64_bytes)
     github_token = git_token_bytes.decode('ascii') 
-    
+
     g = Github(github_token)
     detection_types = ["cloud", "endpoint", "network"]
     cim_report_path = (
@@ -247,7 +247,8 @@ def main():
         shutil.rmtree("./security_content")
         shutil.rmtree("./ta_cim_mapping_reports")
     except OSError as e:
-        print("Error: %s - %s." % (e.filename, e.strerror))
+        error_message = "Unexpected error occurred while deleting files."
+        logging.error(error_message)
 
 
 if __name__ == "__main__":
