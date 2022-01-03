@@ -23,7 +23,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA. 
 known_false_positives: Administrator or network operator can use this commandline for automation purposes. filter is needed 
 references:
--  https://attack.mitre.org/techniques/T1543/003/
+- https://attack.mitre.org/techniques/T1543/003/
 tags:
   analytic_story:
   - Linux Privilege Escalation
