@@ -21,7 +21,7 @@ tags:
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk and **NOT supported**!
+We have not been able to test, simulate or build datasets for it, use at your own risk and **NOT** supported!
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
