@@ -13,7 +13,9 @@ import uuid
 from datetime import date
 from os import path
 import sys
-
+import glob
+import json
+import code
 
 
 def detection_wizard(security_content_path,type,TEMPLATE_PATH):
@@ -392,6 +394,114 @@ def story_wizard(security_content_path,type, TEMPLATE_PATH):
         f.write(output)
     print("contentctl wrote a example story to: {0}".format(output_path))
 
+def create_playbook_choice_list(security_content_path, VERBOSE):
+    playbook_choices = []
+    processed_playbooks = []
+    playbook_files = sorted(glob.glob(security_content_path + '/playbooks/*'))
+    for playbook_file in playbook_files:
+        if VERBOSE:
+            print("processing playbook file: {0}".format(playbook_file))
+        playbook_file_name = playbook_file.split('/')[-1]
+        playbook_name = playbook_file_name.split('.')[0]
+        playbook_choice = {'name': playbook_name}
+        if playbook_choice not in playbook_choices:
+            json_path = playbook_file.split('.')[0] + '.json'
+            py_path = playbook_file.split('.')[0] + '.py'
+            yaml_path = playbook_file.split('.')[0] + '.yml'
+            # only present the choice of converting to a .yml if there is a .json and a .py but no .yml
+            if json_path in playbook_files and py_path in playbook_files and not yaml_path in playbook_files:
+                playbook_choices.append(playbook_choice)
+        if VERBOSE:
+            print("playbook choices are:\n{}".format(playbook_choices))
+    return playbook_choices
+
+def extract_playbook_fields(playbook_json):
+    print(playbook_json['coa']['input_spec'])
+
+def playbook_wizard(security_content_path, type, TEMPLATE_PATH, VERBOSE):
+
+    playbook_file_name_question = [
+        # the playbook file name should be all lower case with underscores, and in verb format such as suspicious_email_investigate_and_respond
+        {
+            'type': 'list',
+            'message': 'Select a playbook from the list. The playbook must be created in SOAR first and the .json and .py must be exported to the security_content/playbooks directory before generating a .yml. Only playbooks with a .json and .py but without a .yml will be listed below:',
+            'name': 'playbook_file_name',
+            'choices': create_playbook_choice_list(security_content_path, VERBOSE)
+        }
+    ]
+    answers = prompt(playbook_file_name_question)
+    # attempt to create the playbook pretty name but give the user a chance to correct it
+    default_playbook_name = answers['playbook_file_name'].replace('_', ' ').title()
+
+    remaining_questions = [
+        # the playbook name should be title case with proper capitalization, such as "zScaler ZPA Handle Unblock Request"
+        {
+            'type': 'input',
+            'message': 'enter pretty-printed playbook name',
+            'name': 'playbook_name',
+            'default': default_playbook_name,
+        },
+        {
+            'type': 'input',
+            'message': 'enter author name',
+            'name': 'playbook_author',
+        },
+        {
+            'type': 'list',
+            'message': 'select a category',
+            'name': 'category',
+            'choices': [
+                {
+                    'name': 'Use Cases'
+                },
+                {
+                    'name': 'Threat Response'
+                }
+            ]
+        }
+    ]
+
+    remaining_answers = prompt(remaining_questions)
+    answers.update(remaining_answers)
+    print(answers)
+    j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
+                     trim_blocks=True)    
+
+    template = j2_env.get_template('playbook.j2')
+
+    playbook_name = answers['playbook_name']
+    playbook_file_name = answers['playbook_file_name']
+
+    # fetch necessary fields from playbook json
+    with open(security_content_path + '/playbooks/' + playbook_file_name + '.json') as playbook_json_file:
+        playbook_json_raw = playbook_json_file.read()
+        playbook_json = json.loads(playbook_json_raw)
+        playbook_fields = extract_playbook_fields(playbook_json)
+        code.interact(local=locals())
+
+    references = []
+    products = ['Splunk SOAR']
+    
+    output_path = path.join(security_content_path, 'playbooks/' + playbook_file_name + '.yml')
+    output = template.render(
+        name=answers['playbook_name'],
+        playbook_file_name=playbook_file_name,
+        uuid=uuid.uuid4(),
+        date=date.today().strftime('%Y-%m-%d'),
+        author=answers['playbook_author'],
+        playbook_type=playbook_type,
+        description='UPDATE_DESCRIPTION',
+        how_to_implement=how_to_implement,
+        references=references,
+        app_list=app_list,
+        category=answers['category'],
+        platform_tags=platform_tags,
+        playbook_fields=playbook_fields,
+        products=products
+    )
+    with open(output_path, 'w', encoding="utf-8") as f:
+        f.write(output)
+    print("contentctl wrote a example story to: {0}".format(output_path))
 def create_example(security_content_path,type, TEMPLATE_PATH):
     getpass.getuser()
     j2_env = Environment(loader=FileSystemLoader(TEMPLATE_PATH), # nosemgrep
@@ -448,7 +558,7 @@ def create_example(security_content_path,type, TEMPLATE_PATH):
 
 def new(security_content_path, VERBOSE, type, example_only):
 
-    valid_content_objects = ['detection','story']
+    valid_content_objects = ['detection', 'story', 'playbook']
     if type not in valid_content_objects:
         print("ERROR: content type: {0} is not valid, please use: {1}".format(type, str(valid_content_objects)))
         sys.exit(1)
@@ -463,5 +573,7 @@ def new(security_content_path, VERBOSE, type, example_only):
         detection_wizard(security_content_path, type, TEMPLATE_PATH)
     elif type == 'story':
         story_wizard(security_content_path, type, TEMPLATE_PATH)
+    elif type == 'playbook':
+        playbook_wizard(security_content_path, type, TEMPLATE_PATH, VERBOSE)
 
     print("WARNING do not forget to replace the UPDATE_* values with the correct information on the files!\ncompleted..")
