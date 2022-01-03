@@ -3,7 +3,7 @@ tests:
 - name: Linux File Creation In Init Boot Directory
   file: endpoint/linux_file_creation_in_init_boot_directory.yml
   pass_condition: '| stats count | where count > 0'
-  earliest_time: '-24h'
+  earliest_time: '-30d'
   latest_time: 'now'
   attack_data:
   - file_name: sysmon_linux.log
