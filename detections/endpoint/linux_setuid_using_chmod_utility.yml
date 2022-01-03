@@ -24,7 +24,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   Sysmon TA. 
 known_false_positives: administrator or network operator can execute this command. filter is needed 
 references:
--  https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
+- https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
 tags:
   analytic_story:
   - Linux Privilege Escalation
