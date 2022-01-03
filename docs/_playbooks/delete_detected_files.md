@@ -723,6 +723,9 @@ This playbook acts upon events where a file has been determined to be malicious 
 
 
 
+
+
+
 #### How To Implement
 This playbook reads and then deletes files stored with artifact:*.cef.filePath from hosts stored in artifact:*.cef.destinationAddress. Windows Remote Management must be enabled on the remote computer.
 
