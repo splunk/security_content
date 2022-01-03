@@ -13,7 +13,7 @@ tags:
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been table to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
+We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
