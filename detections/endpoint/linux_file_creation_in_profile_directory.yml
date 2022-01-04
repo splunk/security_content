@@ -7,10 +7,10 @@ type: Anomaly
 datamodel:
 - Endpoint
 description: This analytic looks for suspicious file creation in /etc/profile.d directory
-  to automatically execute scripts by shell upon boot of machine. This technique is
-  commonly abused by adversaries, malware and red teamers as persistence mechanism
+  to automatically execute scripts by shell upon boot up of a linux machine. This technique is
+  commonly abused by adversaries, malware and red teamers as a persistence mechanism
   to the targeted or compromised host. This Anomaly detection is a good indicator
-  that someone wants to run code after boot up which can be done also by the administrator
+  that someone wants to run a code after boot up which can be done also by the administrator
   or network operator for automation purposes.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/profile.d/*")
