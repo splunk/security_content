@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: DynamicWrapperX is an ActiveX component that can be used in a script
   to call Windows API functions, but it requires the dynwrapx.dll to be installed
-  and registered. With that, registering or loading dynwrapx.dll to a host highly
+  and registered. With that, registering or loading dynwrapx.dll to a host is highly
   suspicious. In most instances when it is used maliciously, the best way to triage 
   is to review parallel processes and pivot on the process_guid. Review the registry 
   for any suspicious modifications meant to load dynwrapx.dll. Identify any suspicious 
