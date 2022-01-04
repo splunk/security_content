@@ -6,12 +6,12 @@ author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious dxdiag.exe process commandline
-  can collect system info of the target host. This technique was seen in remcos, adversaries
-  and other malware to collect information as part of recon or collection phase of
-  attack. Even this behavior is rarely seen in a corporate network this commandline
-  can be used by network administrator to audit host machine specification. Better
-  to check what it did after it pipes out the result to a file for further processing.
+description: This analytic is to a suspicious dxdiag.exe process command-line execution. 
+  Dxdiag is used to collect the system info of the target host. This technique was seen used by Remcos RATS, 
+  various actors, and other malware to collect information as part of the recon or collection phase of an attack. 
+  This behavior should be rarely seen in a corporate network, but this command line can be used by a network 
+  administrator to audit host machine specifications. Thus in some rare cases, this detection will contain 
+  false positives in its results. To triage further, analyze what commands were passed after it pipes out the result to a file for further processing.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_dxdiag` AND Processes.process
   = "* /t *" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process

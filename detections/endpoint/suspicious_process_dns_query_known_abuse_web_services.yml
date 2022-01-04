@@ -6,13 +6,11 @@ author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
 - Endpoint
-description: This analytic is to detect a suspicious process having a dns query on
-  known abuse text paste web services, or VoIP, instant messaging and digital distribution
-  platform to download some files. This technique is abused by adversaries, malware
-  attacker and red team to download a malicious file on the target host. This is a
-  good TTP indicator for possible initial access technique. Noise and false positive
-  can be seen if the following instant messaging is allowed or common application
-  in corporate network.
+description: This analytic is to Detects a suspicious process making a DNS query via known abuse text paste web services, or VoIP, instant messaging, 
+  and digital distribution platform to use to download external files. 
+  This technique is abused by adversaries, malware actors, and red teams to download a malicious file on the target host. 
+  This is a good TTP indicator for possible initial access techniques. 
+  A user will experience false positives if the following instant messaging is allowed or common applications like telegram, discord are allowed in the corporate network.
 search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*telegram*",
   "*t.me*") process_name IN ("cmd.exe", "*powershell*", "pwsh.exe", "wscript.exe",
   "cscript.exe") | stats count min(_time) as firstTime max(_time) as lastTime by Image
