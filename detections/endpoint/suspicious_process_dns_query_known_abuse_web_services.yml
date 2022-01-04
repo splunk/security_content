@@ -18,11 +18,8 @@ search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*", "*discord*", "*telegr
   "cscript.exe") | stats count min(_time) as firstTime max(_time) as lastTime by Image
   QueryName QueryStatus process_name QueryResults Computer | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `suspicious_process_dns_query_known_abuse_web_services_filter`'
-how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driver
-  loaded. Please tune your sysmon config such that your DriverLoad event for 
-  SolarWinds.Orion.Core.BusinessLayer.dll is captured by Sysmon. Additionally, you need 
-  sysmon logs for Event ID 22, DNS Query. We suggest you run this detection at least 
-  once a day over the last 14 days.
+how_to_implement: This detection relies on sysmon logs with the Event ID Event ID 22, 
+  DNS Query. We suggest you run this detection at least once a day over the last 14 days.
 known_false_positives: Noise and false positive can be seen if the following instant
   messaging is allowed to use within corporate network. In this case, afilter is needed.
 references:
