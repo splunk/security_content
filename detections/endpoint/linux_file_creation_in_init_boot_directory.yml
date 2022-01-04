@@ -11,7 +11,7 @@ description: This analytic looks for suspicious file creation on init system dir
   Even this even is really need to be monitor administrator or network operator can still add script files or binary files as part of a task or automation. filter is needed.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
   where Filesystem.file_path IN ("*/etc/init.d/*", "*/etc/rc.d/*", "*/sbin/init.d/*", "*/etc/rc.local*") 
-  by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid Filesystem.file_path
+  by Filesystem.dest Filesystem.file_name Filesystem.process_guid Filesystem.file_path
   | `drop_dm_object_name(Filesystem)`
   | `security_content_ctime(lastTime)` 
   | `security_content_ctime(firstTime)`
