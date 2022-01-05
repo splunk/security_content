@@ -42,6 +42,10 @@ datamodel_file_container_path = os.path.join(
     SPLUNK_CONTAINER_APPS_DIR, "Splunk_SA_CIM")
 
 
+authorizations_file_local_path = "authorize.conf.tar"
+authorizations_file_container_path = "/opt/splunk/etc/system/local"
+
+
 MAX_RECOMMENDED_CONTAINERS_BEFORE_WARNING = 2
 
 
@@ -399,6 +403,7 @@ def main(args: list[str]):
         sys.exit(1)
 
     print("***This run will test [%d] detections!***"%(len(all_test_files)))
+    
 
     #Set up the directory that will be used to store the local apps/apps we build
     local_volume_absolute_path = os.path.abspath(
@@ -457,6 +462,9 @@ def main(args: list[str]):
         "local_file_path": index_file_local_path, "container_file_path": index_file_container_path}
     files_to_copy_to_container["DATAMODELS"] = {
         "local_file_path": datamodel_file_local_path, "container_file_path": datamodel_file_container_path}
+    files_to_copy_to_container["AUTHORIZATIONS"] = {
+        "local_file_path": authorizations_file_local_path, "container_file_path": authorizations_file_container_path}
+    
 
     
     try:

@@ -1,7 +1,7 @@
 
 import re
 
-import ansible_runner
+#import ansible_runner
 import yaml
 import uuid
 import sys
@@ -10,17 +10,20 @@ import time
 import requests
 from modules.DataManipulation import DataManipulation
 from modules import splunk_sdk
-
+import timeit
 from typing import Union
 from os.path import relpath
 from tempfile import mkdtemp
-
+import datetime
 
 def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:str, splunk_port:int, 
                            test_file:str, attack_data_root_folder, wait_on_failure:bool=False, wait_on_completion:bool=False)->dict:
     
+    one_test_start = timeit.default_timer()
     uuid_var = str(uuid.uuid4())
     result_test = test_detection(splunk_ip, splunk_port, container_name, splunk_password, test_file, uuid_var, attack_data_root_folder)
+    one_test_stop = timeit.default_timer()
+    
     if result_test is None:
         #We failed so early in the process that we could not produce any meaningful result
         raise(Exception("Test execution Error"))    
@@ -29,11 +32,15 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
     # delete test data
     search_string = result_test['detection_result']['search_string']
     
+    #get pretty time info
+    elapsed_search_time_string = str(datetime.timedelta(seconds=round(one_test_stop - one_test_start)))
+
     #search failed if there was an error or the detection failed to produce the expected result
+    #print("Elapsed search time: %s"%(elapsed_search_time_string))
     if wait_on_failure and (result_test['detection_result']['error'] or not result_test['detection_result']['success']):
-        wait_on_delete = {'message':"\n\n\n****SEARCH FAILURE: Allowing time to debug search/data****"}
+        wait_on_delete = {'message':"\n\n\n****SEARCH FAILURE : Allowing time to debug search/data****"}
     elif wait_on_completion:
-        wait_on_delete = {'message':"\n\n\n****SEARCH SUCCESS: Allowing time to examine search/data****"}
+        wait_on_delete = {'message':"\n\n\n****SEARCH SUCCESS : Allowing time to examine search/data****"}
     else:
         wait_on_delete = None
     
@@ -42,6 +49,20 @@ def test_detection_wrapper(container_name:str, splunk_ip:str, splunk_password:st
 
     return result_test    
 
+
+import splunklib.client as client
+def get_service(splunk_ip:str, splunk_port:int, splunk_password:str):
+
+    try:
+        service = client.connect(
+            host=splunk_ip,
+            port=splunk_port,
+            username='admin',
+            password=splunk_password
+        )
+    except Exception as e:
+        raise(Exception("Unable to connect to Splunk instance: " + str(e)))
+    return service
 
 def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_password:str, test_file:str, uuid_var, attack_data_root_folder)->Union[dict,None]:
     
@@ -64,6 +85,9 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     folder_name = relpath(abs_folder_path, os.getcwd())
 
 
+    
+
+
     for attack_data in test_file_obj['tests'][0]['attack_data']:
         url = attack_data['data']
         r = requests.get(url, allow_redirects=True)
@@ -78,10 +102,32 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
             if attack_data['update_timestamp'] == True:
                 data_manipulation = DataManipulation()
                 data_manipulation.manipulate_timestamp(target_file, attack_data['sourcetype'], attack_data['source'])
-        replay_attack_dataset(container_name, splunk_password, folder_name, "main", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
-    
+        #replay_attack_dataset(container_name, splunk_password, folder_name, "test0", attack_data['sourcetype'], attack_data['source'], attack_data['file_name'])
+        import http.client
+        try:
+            service = get_service(splunk_ip, splunk_port, splunk_password)
+            test_index = service.indexes["main"]
+            
+            with open(target_file, 'rb') as target:
+                test_index.submit(target.read(), sourcetype=attack_data['sourcetype'], source=attack_data['source'])
+        
+        except http.client.HTTPException as e:
+            print("caught the offending exception!")
+            sys.exit(1)
+        except Exception as e:
+            print("did not catch the offending exception")
+            sys.exit(1)
+
+
+        if not splunk_sdk.wait_for_indexing_to_complete(splunk_ip, splunk_port, splunk_password, attack_data['sourcetype'], "main"):
+            raise Exception("There was an error waiting for indexing to complete.")
+        
     #Allow some time for the data to be ingested and processed
-    time.sleep(30)
+    #print("begin sleep 30")
+    #time.sleep(60)
+
+    
+    #print("end sleep 30")
     
     result_test = {}
     test = test_file_obj['tests'][0]
@@ -104,7 +150,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
 
     detection_file_name = test['file']
     detection = load_file(os.path.join(os.path.dirname(__file__), '../security_content/detections', detection_file_name))
-    print("Making test_detection_search request to: [%s:%d]"%(splunk_ip, splunk_port))
+    #print("Making test_detection_search request to: [%s:%d]"%(splunk_ip, splunk_port))
     
     result_detection = splunk_sdk.test_detection_search(splunk_ip, splunk_port, splunk_password, detection['search'], test['pass_condition'], detection['name'], test['file'], test['earliest_time'], test['latest_time'])
     if result_detection['error']:
@@ -136,40 +182,40 @@ def load_file(file_path):
     return file
 
 
-def update_ESCU_app(container_name, splunk_password):
-    print("Update ESCU App. This can take some time")
+# def update_ESCU_app(container_name, splunk_password):
+#     print("Update ESCU App. This can take some time")
 
-    ansible_vars = {}
-    ansible_vars['ansible_user'] = 'ansible_user'
-    ansible_vars['splunk_password'] = splunk_password
-    ansible_vars['security_content_path'] = 'security_content'
+#     ansible_vars = {}
+#     ansible_vars['ansible_user'] = 'ansible_user'
+#     ansible_vars['splunk_password'] = splunk_password
+#     ansible_vars['security_content_path'] = 'security_content'
     
-    cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
+#     cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
 
-    runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
-                                cmdline=cmdline,
-                                roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
-                                playbook=os.path.join(os.path.dirname(__file__), '../ansible/update_escu.yml'),
-                                extravars=ansible_vars)
-    print("Successfully updated the ESCU App!")
+#     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
+#                                 cmdline=cmdline,
+#                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
+#                                 playbook=os.path.join(os.path.dirname(__file__), '../ansible/update_escu.yml'),
+#                                 extravars=ansible_vars)
+#     print("Successfully updated the ESCU App!")
 
 
-def replay_attack_dataset(container_name, splunk_password, folder_name, index, sourcetype, source, out):
-    ansible_vars = {}
-    ansible_vars['folder_name'] = folder_name
-    ansible_vars['ansible_user'] = 'ansible'
+# def replay_attack_dataset(container_name, splunk_password, folder_name, index, sourcetype, source, out):
+#     ansible_vars = {}
+#     ansible_vars['folder_name'] = folder_name
+#     ansible_vars['ansible_user'] = 'ansible'
 
-    ansible_vars['splunk_password'] = splunk_password
-    ansible_vars['out'] = out
-    ansible_vars['sourcetype'] = sourcetype
-    ansible_vars['source'] = source
-    ansible_vars['index'] = index
+#     ansible_vars['splunk_password'] = splunk_password
+#     ansible_vars['out'] = out
+#     ansible_vars['sourcetype'] = sourcetype
+#     ansible_vars['source'] = source
+#     ansible_vars['index'] = index
 
     
-    cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
+#     cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
 
-    runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
-                                cmdline=cmdline,
-                                roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
-                                playbook=os.path.join(os.path.dirname(__file__), '../ansible/attack_replay.yml'),
-                                extravars=ansible_vars)
+#     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
+#                                 cmdline=cmdline,
+#                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
+#                                 playbook=os.path.join(os.path.dirname(__file__), '../ansible/attack_replay.yml'),
+#                                 extravars=ansible_vars)

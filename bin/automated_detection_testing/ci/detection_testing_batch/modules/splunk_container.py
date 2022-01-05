@@ -18,7 +18,7 @@ from typing import Union
 import threading
 import wrapt_timeout_decorator
 import sys
-
+import traceback
 SPLUNKBASE_URL = "https://splunkbase.splunk.com/app/%d/release/%s/download"
 SPLUNK_START_ARGS = "--accept-license"
 
@@ -198,7 +198,7 @@ class SplunkContainer:
                     )
                     successful_copy = True
             except Exception as e:
-                # print("Failed copy of [%s] file to CONTAINER:[%s]...we will try again"%(localFilePath, containerName))
+                #print("Failed copy of [%s] file to [%s] on CONTAINER [%s]: [%s]\n...we will try again"%(local_file_path, container_file_path, self.container_name, str(e)))
                 time.sleep(10)
                 successful_copy = False
         #print("Successfully copied [%s] to [%s] on [%s]"% (local_file_path, container_file_path, self.container_name))
@@ -374,6 +374,7 @@ class SplunkContainer:
         elapsed_rounded = round(timeit.default_timer() - container_start_time)
         time_string = (datetime.timedelta(seconds=elapsed_rounded))
         print("Container [%s] took [%s] to start"%(self.container_name, time_string))
+        self.synchronization_object.start_barrier.wait()
 
 
         # Sleep for a small random time so that containers drift apart and don't synchronize their testing
@@ -387,10 +388,11 @@ class SplunkContainer:
 
 
             # Sleep for a small random time so that containers drift apart and don't synchronize their testing
-            time.sleep(random.randint(1, 30))
+            #time.sleep(random.randint(1, 30))
             
              
             # There is a detection to test
+            
             print("Container [%s]--->[%s]" %
                   (self.container_name, detection_to_test))
             try:
@@ -408,12 +410,16 @@ class SplunkContainer:
 
                 # Remove the data from the test that we just ran.  We MUST do this when running on CI because otherwise, we will download
                 # a massive amount of data over the course of a long path and will run out of space on the relatively small CI runner drive
-                shutil.rmtree(result["attack_data_directory"])
+                shutil.rmtree(result["attack_data_directory"],ignore_errors=True)
             except Exception as e:
                 print(
                     "Warning - uncaught error in detection test for [%s] - this should not happen: [%s]"
                     % (detection_to_test, str(e))
                 )
+                
+                traceback.print_exc()
+                import pdb
+                pdb.set_trace()
                 # Fill in all the "Empty" fields with default values. Otherwise, we will not be able to 
                 # process the result correctly.  
                 self.synchronization_object.addError(

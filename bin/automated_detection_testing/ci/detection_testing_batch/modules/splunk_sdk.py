@@ -5,10 +5,12 @@ import splunklib.results as results
 import splunklib.client as client
 import splunklib.results as results
 import requests
-
+import time
+import timeit
+import datetime
 from typing import Union
 
-def enable_delete_for_admin(splunk_host, splunk_port, splunk_password):
+def enable_delete_for_admin(splunk_host:str, splunk_port:int, splunk_password:str)->bool:
     try:
         service = client.connect(
             host=splunk_host,
@@ -20,6 +22,29 @@ def enable_delete_for_admin(splunk_host, splunk_port, splunk_password):
         raise(Exception("Unable to connect to Splunk instance: " + str(e)))
         
 
+    #write the following contents to /opt/splunk/etc/system/local/authorize.conf
+    "[role_admin]"\
+    "delete_by_keyword = enabled"\
+    "grantableRoles = admin"\
+    "importRoles = can_delete;user;power_user"\
+    "srchIndexesAllowed = *;_*;main"\
+    "srchIndexesDefault = main"\
+    "srchMaxTime = 8640000"
+
+    #Run the following search, equivalent to running ./splunk reload auth, to get the settings to take effect
+    
+    update_changed_auth_search = "| rest splunk_server=* /services/authentication/providers/services/_reload"
+
+
+    try:
+        job = service.jobs.create(update_changed_auth_search)
+    except Exception as e:
+        error_message = "Unable to enable delete: %s"%(str(e))
+        return False
+    
+    input("Waiting for you to check that delete has been enabled with: %s"%(update_changed_auth_search))
+    return True
+    '''
     # search and replace \\ with \\\
     # search = search.replace('\\','\\\\')
     role = service.roles['admin']
@@ -28,7 +53,61 @@ def enable_delete_for_admin(splunk_host, splunk_port, splunk_password):
     except Exception as e:
         print("Error - failed trying to grant 'can_delete' privs to admin: [%s]"%(str(e)))
         return False
+    '''
     return True
+
+
+
+
+def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=5):
+    
+    startTime = timeit.default_timer()
+    previous_count = -1
+    time.sleep(check_interval_seconds)
+    while True:
+        #print("waiting for search...")
+        try:
+            service = client.connect(
+                host=splunk_host,
+                port=splunk_port,
+                username='admin',
+                password=splunk_password
+            )
+        except Exception as e:
+            raise(Exception("Unable to connect to Splunk instance: " + str(e)))
+
+        search = '''search index="%s" sourcetype="%s" | stats count'''%(index,sourcetype)
+        kwargs = {"exec_mode":"blocking"}
+        try:
+            search_result = service.jobs.create(search, **kwargs)
+        except Exception as e:
+            print("Error while waiting for indexing of data to complete: %s"%(str(e)))
+            #return False
+        
+        #This returns the count in string form, not as an int. For example:
+        #OrderedDict([('count', '59630')])
+        try:
+            for result in results.ResultsReader(search_result.results()):
+                count = int(result['count'])
+                #print("count is %d, previous count is %d"%(count,previous_count))
+                if previous_count == -1:
+                    if count == 0:
+                        pass
+                    else:
+                        previous_count = count
+                else:
+                    if count == previous_count:
+                        #After waiting for the check interval, we return the same number of results.  The indexing must be complete 
+                        stopTime = timeit.default_timer()
+                        #print("Indexing completed after: %s "%(datetime.timedelta(seconds=stopTime-startTime)))
+                        return True
+                    else:
+                        previous_count = count
+    
+        except Exception as e:
+            print("Error trying to get the count while waiting for indexing to complete: %s"%(str(e)))
+            #return False
+        time.sleep(check_interval_seconds)
 
 
 
@@ -127,7 +206,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
 
    
 
-    print("SEARCH: %s"%(splunk_search))
+    #print("SEARCH: %s"%(splunk_search))
 
 
     try:
@@ -192,6 +271,8 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
             
             job = service.jobs.oneshot(splunk_search, **kwargs)
             reader = results.ResultsReader(job)
+            data_exists = False
+            '''
             error_in_results = False
             for result in reader:
                 if hasattr(result,"message") and hasattr(result,"type") and ("You have insufficient privileges to delete events" in result.message or result.type == "FATAL"):
@@ -207,15 +288,17 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
                 else:
                     #This is not one of the error messages, do nothing
                     pass
-
+            '''
             #No need to issue Delete command again, we will now break out of the loop
-            if error_in_results is False:
-                data_exists = False
+            #if error_in_results is False:
+            #    data_exists = False
 
             #Otherwise, we will loop again
 
         except Exception as e:
-            raise(Exception("Unable to delete data from a run: " + str(e)))
+            print("Trouble deleting data from a run.... we will try again")
+            time.sleep(5)
+            #raise(Exception("Unable to delete data from a run: " + str(e)))
         
     
     return True

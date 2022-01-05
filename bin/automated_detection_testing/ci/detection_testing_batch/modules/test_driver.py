@@ -106,7 +106,7 @@ class TestDriver:
             return None
         
     def addSuccess(self, result:dict)->None:
-        print("Test PASSED for detection: [%s --> %s"%(result['detection_name'], result['detection_file']))
+        print("Test PASSED: [%s --> %s]"%(result['detection_name'], result['detection_file']))
         self.lock.acquire()
         try:
             self.successes.append(result)
@@ -115,26 +115,26 @@ class TestDriver:
         
 
     def addFailure(self, result:dict)->None:
-        print("Test FAILED for detection: [%s --> %s"%(result['detection_name'], result['detection_file']))
+        print("Test FAILED: [%s --> %s"%(result['detection_name'], result['detection_file']))
         self.lock.acquire()
         try:
             self.failures.append(result)
         finally:
             self.lock.release()
 
-    def addError(self, detection:dict)->None:
+    def addError(self, result:dict)->None:
         #Make sure that even errors have all of the required fields.
-        for required_field in ['search_string', 'diskUsage','runDuration', 'detection_name', 'scanCount', 'detection_error']:
-            if required_field not in detection:
-                detection[required_field] = ""
-        if  'error' not in detection:
-            detection['error'] = True
-        if  'success' not in detection:
-            detection['success'] = False
-
+        for required_field in ['search_string', 'diskUsage','runDuration', 'detection_name', 'scanCount', 'detection_error', 'detection_file']:
+            if required_field not in result:
+                result[required_field] = ""
+        if  'error' not in result:
+            result['error'] = True
+        if  'success' not in result:
+            result['success'] = False
+        print("Test ERROR: [%s --> %s"%(result['detection_name'], result['detection_file']))
         self.lock.acquire()
         try:
-            self.errors.append(detection)
+            self.errors.append(result)
         finally:
             self.lock.release()
     
@@ -259,13 +259,13 @@ class TestDriver:
         disk_usage_info = psutil.disk_usage('/')
 
         cpu_info_string =        "Total CPU Usage   : %d%% (%d CPUs)"%(100 - cpu_info.idle, psutil.cpu_count(logical=False))
-        memory_info_string =     "Total Memory Usage: %0.1fGB USED / %0.1fGB TOTAL"%(memory_info.used / bytes_per_GB, memory_info.total / bytes_per_GB)
+        memory_info_string =     "Total Memory Usage: %0.1fGB USED / %0.1fGB TOTAL"%((memory_info.total - memory_info.available) / bytes_per_GB, memory_info.total / bytes_per_GB)
         disk_usage_info_string = "Total Disk Usage  : %0.1fGB USED / %0.1fGB TOTAL"%(disk_usage_info.free / bytes_per_GB, disk_usage_info.total / bytes_per_GB)
-
+        
         return "System Information:\n\t%s\n\t%s\n\t%s"%(cpu_info_string, memory_info_string, disk_usage_info_string)
 
 
-    def summarize(self)->bool:
+    def summarize(self,testing_currently_active:bool=False)->bool:
         
         if self.checkContainerFailure() == True:
             print("Error running containers... shutting down", file=sys.stderr)
@@ -285,7 +285,7 @@ class TestDriver:
             
             
 
-            if self.testing_queue.qsize() == self.total_number_of_tests:
+            if not testing_currently_active:
                 #Testing has not started yet. We are setting up containers
                 print("***********PROGRESS UPDATE***********\n"\
                       "\tWaiting for container setup: %s\n\t%s\n"%(datetime.timedelta(seconds=current_time - self.start_time),system_stats))
@@ -295,47 +295,45 @@ class TestDriver:
                     #This is the first status update since container setup has completed.  Get the current time.
                     #This makes our remaining time estimates better since that estimate should not involve
                     #the container setup time  
+                    print("SETTING THE CONTAINER READY TIME!")
+                    
                     self.container_ready_time = current_time
 
                 numberOfCompletedTests = len(self.successes) + len(self.failures) + len(self.errors)
                 remaining_tests = self.testing_queue.qsize()         
                 testsCurrentlyRunning = self.total_number_of_tests - remaining_tests - numberOfCompletedTests
-                total_execution_time_seconds = current_time - self.start_time
+                total_execution_time_seconds = round(current_time - self.start_time)
 
                 test_execution_time_seconds = current_time - self.container_ready_time
                 
                 
                 if numberOfCompletedTests == 0 or test_execution_time_seconds == 0:
                     estimated_seconds_to_finish_all_tests = "UNKNOWN"
-                    estimated_completion_time_seconds = "UNKNOWN"
+                    estimated_completion_time_string = "UNKNOWN"
+                    average_time_per_test_string = "UNKNOWN"
                 else:
                     average_time_per_test = test_execution_time_seconds / numberOfCompletedTests
+                    average_time_per_test_string = datetime.timedelta(seconds=round(test_execution_time_seconds/numberOfCompletedTests))
                     #divide testsCurrentlyRunning by 2.0 because, on average, each running test will be 50% completed
-                    estimated_seconds_to_finish_all_tests = average_time_per_test * (remaining_tests + testsCurrentlyRunning/2.0)
-                    estimated_completion_time_seconds = datetime.timedelta(seconds=estimated_seconds_to_finish_all_tests)
+                    estimated_seconds_to_finish_all_tests = round(average_time_per_test * (remaining_tests + testsCurrentlyRunning/2.0))
+                    estimated_completion_time_string = datetime.timedelta(seconds=estimated_seconds_to_finish_all_tests)
                     
                 
 
             
-                print("***********PROGRESS UPDATE***********\n"\
-                "\tElapsed Time               : %s\n"\
-                "\tEstimated Remaining Time   : %s\n"\
-                "\tTests to run               : %d\n"\
-                "\tTests currently running    : %d\n"\
-                "\tTests completed            : %d\n"\
-                "\t\tSuccess : %d\n"\
-                "\t\tFailure : %d\n"\
-                "\t\tError   : %d\n"\
-                "\t%s\n"%(datetime.timedelta(seconds=total_execution_time_seconds), 
-                                    estimated_completion_time_seconds, 
-                                    remaining_tests, 
-                                    testsCurrentlyRunning,
-                                    numberOfCompletedTests, 
-                                    len(self.successes), 
-                                    len(self.failures), 
-                                    len(self.errors),
-                                    system_stats))
-    
+                print(f"***********PROGRESS UPDATE***********\n"\
+                f"\tElapsed Time               : {datetime.timedelta(seconds=total_execution_time_seconds)}\n"\
+                f"\tTest Execution Time        : {datetime.timedelta(seconds=round(test_execution_time_seconds))}\n"\
+                f"\tEstimated Remaining Time   : {estimated_completion_time_string}\n"\
+                f"\tTests to run               : {remaining_tests}\n"\
+                f"\tAverage Time Per Test      : {average_time_per_test_string}\n",
+                f"\tTests currently running    : {testsCurrentlyRunning}\n"\
+                f"\tTests completed            : {numberOfCompletedTests}\n"\
+                f"\t\tSuccess : {len(self.successes)}\n"\
+                f"\t\tFailure : {len(self.failures)}\n"\
+                f"\t\tError   : {len(self.errors)}\n"\
+                f"\t{system_stats}\n")
+
         except Exception as e:
             print("Error in printing execution summary: [%s]"%(str(e)))
         finally:

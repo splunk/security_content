@@ -228,7 +228,13 @@ class ContainerManager:
                 print("All containers stopped")
                 
                 return None
-            if self.synchronization_object.summarize() == False:
+
+            at_least_one_container_has_started_running_tests = False
+            for container in self.containers:
+                if container.test_start_time != -1:
+                    at_least_one_container_has_started_running_tests = True
+                    break
+            if self.synchronization_object.summarize(testing_currently_active = at_least_one_container_has_started_running_tests) == False:
                 #There are no more tests to run, so we can return from this thread
                 
                 return None
