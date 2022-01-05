@@ -6,22 +6,24 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic looks for a commandline that change the file owner to root using chown utility tool. 
-  This technique is commonly abuse by adversaries, malware author and red teamers to escalate privilege to the targeted or compromised host by 
-  changing the owner of their malicious file to root. This event is not so common in corporate network except from the administrator doing normal task that needs 
+description: This analytic looks for a commandline that change the file owner to root
+  using chown utility tool. This technique is commonly abuse by adversaries, malware
+  author and red teamers to escalate privilege to the targeted or compromised host
+  by changing the owner of their malicious file to root. This event is not so common
+  in corporate network except from the administrator doing normal task that needs
   high privilege.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where 
-  (Processes.process_name = chown OR Processes.process = "*chown *") AND Processes.process = "* root *"
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `linux_change_file_owner_to_root_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = chown
+  OR Processes.process = "*chown *") AND Processes.process = "* root *" by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id Processes.process_guid | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_change_file_owner_to_root_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: administrator or network operator can execute this command. filter is needed 
+  Sysmon TA.
+known_false_positives: administrator or network operator can execute this command.
+  filter is needed
 references:
 - https://unix.stackexchange.com/questions/101073/how-to-change-permissions-from-root-user-to-all-users
 - https://askubuntu.com/questions/617850/changing-from-user-to-superuser
@@ -42,18 +44,17 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process_name 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_id 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
   impact: 80
-  confidence: 80 
-  # (impact * confidence)/100
-  risk_score: 64 
+  confidence: 80
+  risk_score: 64
   context:
   - source:endpoint
   - stage:Privilege Escalation Persistence
@@ -69,3 +70,4 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  automated_detection_testing: passed
