@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic is to looks for file creation of sudoers.tmp file cause by editong /etc/sudoers using visudo in linux platform. 
+description: This analytic is to looks for file creation of sudoers.tmp file cause by editing /etc/sudoers using visudo in linux platform. 
   This technique may abuse by adversaries, malware author and red teamers to gain elevated privilege to targeted or compromised host. 
   /etc/sudoers file controls who can run what commands as what users on what machines and can also control special things such as whether you need a password for particular commands. 
   The file is composed of aliases (basically variables) and user specifications (which control who can run what).
