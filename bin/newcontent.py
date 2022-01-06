@@ -417,6 +417,8 @@ def create_playbook_choice_list(security_content_path, VERBOSE):
 
 def extract_playbook_fields(playbook_json):
     print(playbook_json['coa']['input_spec'])
+    playbook_metadata = {}
+    return playbook_metadata
 
 def playbook_wizard(security_content_path, type, TEMPLATE_PATH, VERBOSE):
 
@@ -476,7 +478,7 @@ def playbook_wizard(security_content_path, type, TEMPLATE_PATH, VERBOSE):
     with open(security_content_path + '/playbooks/' + playbook_file_name + '.json') as playbook_json_file:
         playbook_json_raw = playbook_json_file.read()
         playbook_json = json.loads(playbook_json_raw)
-        playbook_fields = extract_playbook_fields(playbook_json)
+        playbook_metadata = extract_playbook_metadata(playbook_json)
         code.interact(local=locals())
 
     references = []
@@ -489,14 +491,14 @@ def playbook_wizard(security_content_path, type, TEMPLATE_PATH, VERBOSE):
         uuid=uuid.uuid4(),
         date=date.today().strftime('%Y-%m-%d'),
         author=answers['playbook_author'],
-        playbook_type=playbook_type,
+        playbook_type=playbook_metadata["playbook_type"],
         description='UPDATE_DESCRIPTION',
-        how_to_implement=how_to_implement,
+        how_to_implement=playbook_metadata["notes"],
         references=references,
-        app_list=app_list,
+        app_list=playbook_metadata["app_list"],
         category=answers['category'],
-        platform_tags=platform_tags,
-        playbook_fields=playbook_fields,
+        platform_tags=playbook_metadata["tags"],
+        playbook_fields=playbook_metadata["playbook_fields"],
         products=products
     )
     with open(output_path, 'w', encoding="utf-8") as f:
