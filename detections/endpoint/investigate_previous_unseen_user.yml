@@ -11,7 +11,7 @@ description: This search returns previous unseen user, which didn't log in for 3
 search: '| tstats count `security_content_summariesonly` earliest(_time) as first_login
   latest(_time) as last_login values(Authentication.dest) AS Authentication.dest values(Authentication.app)
   AS Authentication.app values(Authentication.action) AS Authentication.action from
-  datamodel=Authentication where Authentication.action=success by _time, Authentication.user
+  datamodel=Authentication.Authentication where Authentication.action=success by _time, Authentication.user
   | bucket _time span=30d | stats count min(first_login) as first_login max(last_login)
   as last_login values(Authentication.dest) AS Authentication.dest by Authentication.user
   | where count=1 | where first_login >= relative_time(now(), "-30d") | `security_content_ctime(first_login)`

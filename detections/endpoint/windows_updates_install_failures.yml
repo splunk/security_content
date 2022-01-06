@@ -9,7 +9,7 @@ description: This search is intended to give you a feel for how often Windows up
   fail to install in your environment. Fluctuations in these numbers will allow you
   to determine when you should be concerned.
 search: '| tstats `security_content_summariesonly` dc(Updates.dest) as count FROM
-  datamodel=Updates where Updates.vendor_product="Microsoft Windows" AND Updates.status=failure
+  datamodel=Updates.Updates where Updates.vendor_product="Microsoft Windows" AND Updates.status=failure
   by _time span=1d'
 how_to_implement: You must be ingesting your Windows Update Logs
 known_false_positives: none
