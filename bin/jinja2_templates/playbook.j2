@@ -1,0 +1,25 @@
+name: {{name}}
+playbook: {{playbook_file_name}}
+id: {{uuid}}
+version: 1
+date: '{{date}}'
+author: {{author}}
+type: {{playbook_type}}
+description: {{description}}
+references:
+{% for reference in references -%}
+ - {{reference}}
+{% endfor -%}
+tags:
+  platform_tags:
+  {% for platform_tag in platform_tags -%}
+  - {{platform_tag}}
+  {% endfor -%}
+  playbook_fields:
+  {% for playbook_field in playbook_fields -%}
+  - {{playbook_field}}
+  {% endfor -%}
+  product:
+  {% for product in products -%}
+  - {{product}}
+  {% endfor -%}
