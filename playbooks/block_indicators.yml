@@ -16,8 +16,8 @@ tags:
   platform_tags:
   - Response
   playbook_fields:
-  - DestinationDnsDomain
-  - DestinationAddress
-  - FileHash
+  - destinationDnsDomain
+  - destinationAddress
+  - fileHash
   product:
   - Splunk SOAR
