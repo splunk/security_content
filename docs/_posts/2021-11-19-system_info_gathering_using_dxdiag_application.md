@@ -21,7 +21,7 @@ tags:
 
 #### Description
 
-This analytic is to detect a suspicious dxdiag.exe process commandline can collect system info of the target host. This technique was seen in remcos, adversaries and other malware to collect information as part of recon or collection phase of attack. Even this behavior is rarely seen in a corporate network this commandline can be used by network administrator to audit host machine specification. Better to check what it did after it pipes out the result to a file for further processing.
+This analytic is to detect a suspicious dxdiag.exe process command-line execution. Dxdiag is used to collect the system info of the target host. This technique has been used by Remcos RATS, various actors, and other malware to collect information as part of the recon or collection phase of an attack. This behavior should rarely be seen in a corporate network, but this command line can be used by a network administrator to audit host machine specifications. Thus in some rare cases, this detection will contain false positives in its results. To triage further, analyze what commands were passed after it pipes out the result to a file for further processing.
 
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -75,7 +75,7 @@ To successfully implement this search you need to be ingesting information on pr
 
 
 #### Known False Positives
-this commandline can be used by network administrator to audit host machine specification.filter is needed.
+This commandline can be used by a network administrator to audit host machine specifications. Thus, a filter is needed.
 
 
 #### RBA

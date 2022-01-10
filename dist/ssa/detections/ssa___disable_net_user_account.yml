@@ -1,7 +1,7 @@
 author: Teoderick Contreras, Splunk
 datamodel:
 - Endpoint_Processes
-date: '2021-12-01'
+date: '2021-11-30'
 description: This analytic will identify a suspicious command-line that disables a
   user account using the native `net.exe` or `net1.exe` utility to Windows. This technique
   may used by the adversaries to interrupt availability of accounts and continue the
@@ -54,6 +54,7 @@ tags:
     on endpoint $dest_device_id$ by user $dest_user_id$ attempting to disable accounts.
   mitre_attack_id:
   - T1489
+  - T1078
   nist:
   - PR.AC
   - PR.IP
