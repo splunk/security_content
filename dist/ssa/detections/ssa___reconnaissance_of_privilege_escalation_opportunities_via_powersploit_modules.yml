@@ -2,8 +2,11 @@ author: Stanislav Miskovic, Splunk
 datamodel:
 - Endpoint_Processes
 date: '2020-11-05'
-description: This detection identifies use of PowerSploit modules for assessment of
-  privilege escalation opportunities.
+deprecated: true
+description: 'WARNING, this detection has been marked deprecated by the Splunk Threat
+  Research team, this means that it will no longer be maintained or supported. If
+  you have any questions feel free to email us at: research@splunk.com. This detection
+  identifies use of PowerSploit modules for assessment of privilege escalation opportunities.'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 id: b9b4492c-2af8-449b-beb4-b1b78d963321

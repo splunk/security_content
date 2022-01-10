@@ -10,12 +10,18 @@ description: A required step while exploiting the CVE-2021-44228-Log4j vulnerabi
   infrastructure. This is required as part of the JNDI lookup as well as for retrieving
   the second stage .class payload. The following analytic identifies the Java process
   reaching out to default ports used by the LDAP and RMI protocols. This behavior
-  could represent successfull exploitation. Note that adversaries can easily decide to use
-  arbitrary ports for these protocols and potentially bypass this detection. 
-search: ' `sysmon` EventCode=3  (process_name=java OR process_name=java.exe) (DestinationPort=389
-  OR DestinationPort=1389 OR DestinationPort = 1099 ) | rename Computer as dest |  stats
-  count min(_time) as firstTime max(_time) as lastTime by dest, process_name, DestinationPort
-  | `security_content_ctime(firstTime)` | `outbound_network_connection_from_java_using_default_ports_filter`'
+  could represent successfull exploitation. Note that adversaries can easily decide
+  to use arbitrary ports for these protocols and potentially bypass this detection.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where (Processes.process_name="java.exe" OR Processes.process_name=javaw.exe OR
+  Processes.process_name=javaw.exe) by _time Processes.process_guid Processes.process_name
+  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  |  `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | join  process_guid [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Ports
+  where (Ports.dest_port= 389 OR Ports.dest_port= 636 OR Ports.dest_port = 1389 OR
+  Ports.dest_port = 1099 ) by Ports.process_guid Ports.dest Ports.dest_port| `drop_dm_object_name(Ports)`
+  |  rename  dest as connection_to_CNC] | table _time dest parent_process_name process_name
+  process_path process connection_to_CNC dest_port | `outbound_network_connection_from_java_using_default_ports_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node.
@@ -27,38 +33,41 @@ references:
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/linux-sysmon.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1190
+  automated_detection_testing: passed
+  confidence: 60
+  context:
+  - Source:Endpoint
+  - Stage:Execution
   cve:
   - CVE-2021-44228
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log
+  impact: 90
+  kill_chain_phases:
+  - Exploitation
+  message: Java performed outbound connections to default ports of LDAP or RMI on
+    $dest$
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - process_name
-  - EventID
-  - CommandLine
-  - Computer
-  - DestinationPort
-  - DestinationIp
-  security_domain: endpoint
-  impact: 90
-  confidence: 60
+  - Processes.process_guid
+  - Processes.process_name
+  - Processes.dest
+  - Processes.process_path
+  - Processes.process
+  - Processes.parent_process_name
+  - Ports.process_guid
+  - Ports.dest
+  - Ports.dest_port
   risk_score: 54
-  context:
-  - Source:Endpoint
-  - Stage:Execution
-  message: Java performed outbound connections to default ports of LDAP or RMI on
-    $dest$
-  observable:
-  - name: dest
-    type: Hostname
-    role:
-    - Victim
-  automated_detection_testing: passed
+  security_domain: endpoint

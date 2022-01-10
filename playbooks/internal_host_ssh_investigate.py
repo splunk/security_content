@@ -1,5 +1,5 @@
 """
-Investigate an internal unix host using SSH. This pushes a bash script to the endpoint and runs it, collecting generic information about the processes, user activity, and network activity. This includes the process list, login history, cron jobs, and open sockets. The results are zipped up in .csv files and added to the vault for an analyst to review.
+Published in response to CVE-2021-44228, this playbook investigates an internal unix host using SSH. This pushes a bash script to the endpoint and runs it, collecting generic information about the processes, user activity, and network activity. This includes the process list, login history, cron jobs, and open sockets. The results are zipped up in .csv files and added to the vault for an analyst to review.
 """
 
 
@@ -140,7 +140,9 @@ def write_embedded_bash_script_to_vault(action=None, success=None, container=Non
     bash_script = r"""
 #!/bin/bash
 
-# This script is part of the Splunk SOAR playbook called internal_host_ssh_log4j_investigate. It gathers system information as part of a unix endpoint investigation. The output is a human-readable log and a set of .csv files
+# This script is part of the Splunk SOAR playbook called internal_host_ssh_log4j_investigate. It gathers 
+# system information as part of a unix endpoint investigation. The output is a human-readable log and a 
+# set of .csv files to be copied back to SOAR
 
 echo "##############################################################"
 echo "splunk_soar_internal_host_ssh_investigate.sh"
@@ -148,52 +150,58 @@ echo "##############################################################"
 echo ""
 echo "[+] Basic system configuration:"
 
-echo "key,value" > basic_system_configuration.csv
+echo "key,value" > /tmp/basic_system_configuration.csv
 
 echo "hostname: $(uname -n | tr -d "\n")"
-echo "hostname,$(uname -n | tr -d "\n")" >> basic_system_configuration.csv
+echo "hostname,$(uname -n | tr -d "\n")" >> /tmp/basic_system_configuration.csv
 
 echo "current time: $(date +%F_%T)"
-echo "current time,$(date +%F_%T)" >> basic_system_configuration.csv
+echo "current time,$(date +%F_%T)" >> /tmp/basic_system_configuration.csv
 
 echo "IP address: $(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\n' ' ')"
-echo "IP address,$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\n' ' ')" >> basic_system_configuration.csv
+echo "IP address,$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | tr '\n' ' ')" >> /tmp/basic_system_configuration.csv
 
 echo "OS release: $(cat /etc/*release | sort -u | tr "\n" ";")"
-echo "OS release,$(cat /etc/*release | sort -u | tr "\n" ";")" >> basic_system_configuration.csv
+echo "OS release,$(cat /etc/*release | sort -u | tr "\n" ";")" >> /tmp/basic_system_configuration.csv
 
 echo "OS issue: $(cat /etc/issue)"
-echo "OS issue,$(cat /etc/issue)" >> basic_system_configuration.csv
+echo "OS issue,$(cat /etc/issue)" >> /tmp/basic_system_configuration.csv
 
 echo "OS kernel: $(uname -a)"
-echo "OS kernel,$(uname -a)" >> basic_system_configuration.csv
+echo "OS kernel,$(uname -a)" >> /tmp/basic_system_configuration.csv
 
 echo ""
-echo "USER,PID,%CPU,%MEM,VSZ,RSS,TTY,STAT,START,TIME,COMMAND" > process_list.csv
-echo "$(ps aux)" >> process_list.csv
+echo "USER,PID,%CPU,%MEM,VSZ,RSS,TTY,STAT,START,TIME,COMMAND" > /tmp/process_list.csv
+echo "$(ps aux)" >> /tmp/process_list.csv
 echo "[+] Process list:"
 echo "$(ps aux)"
 
 echo ""
-echo "UNIT,LOAD,ACTIVE,SUB,DESCRIPTION" > service_list.csv
-echo "$(systemctl)" >> service_list.csv
+echo "UNIT,LOAD,ACTIVE,SUB,DESCRIPTION" > /tmp/service_list.csv
+echo "$(systemctl)" >> /tmp/service_list.csv
 echo "[+] Service list:"
 echo "$(systemctl)"
 
 echo ""
-echo "$(ss -tunapl)" > open_sockets.csv
+echo "$(last -a)" > /tmp/login_history.csv
+echo "[+] login history:"
+echo "$(last -a)"
+
+echo ""
+echo "$(ss -tunapl)" > /tmp/open_sockets.csv
 echo "[+] Open sockets:"
 echo "$(ss -tunapl)"
 
 echo ""
-echo "cron_job" > cron_jobs.csv
-echo "$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)" >> cron_jobs.csv
+echo "cron_job" > /tmp/cron_jobs.csv
+echo "$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)" >> /tmp/cron_jobs.csv
 echo "[+] Cron jobs:"
 echo "$(for user in $(cut -f1 -d: /etc/passwd); do crontab -u $user -l 2>/dev/null | grep -v '^#'; done)"
 
+echo ""
 echo "[+] Zip up the outputs ..."
-hostname=$1
-zip $(hostname)_ssh_output.zip basic_system_configuration.csv process_list.csv service_list.csv open_sockets.csv cron_jobs.csv
+zip -j /tmp/$1_ssh_output.zip /tmp/basic_system_configuration.csv /tmp/process_list.csv /tmp/service_list.csv /tmp/login_history.csv /tmp/open_sockets.csv /tmp/cron_jobs.csv
+echo "wrote zip file to /tmp/$1_ssh_output.zip; next we will copy it back to SOAR"
 """
 
     file_name = 'splunk_soar_internal_host_ssh_investigate.sh'
@@ -218,7 +226,20 @@ def upload_bash_script(action=None, success=None, container=None, results=None, 
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
+    write_embedded_bash_script_to_vault_data = phantom.collect2(container=container, datapath=["write_embedded_bash_script_to_vault:custom_function_result.data.*.item"])
+    playbook_input_ip_or_hostname = phantom.collect2(container=container, datapath=["playbook_input:ip_or_hostname"])
+
     parameters = []
+
+    # build parameters list for 'upload_bash_script' call
+    for write_embedded_bash_script_to_vault_data_item in write_embedded_bash_script_to_vault_data:
+        for playbook_input_ip_or_hostname_item in playbook_input_ip_or_hostname:
+            if write_embedded_bash_script_to_vault_data_item[0] is not None and playbook_input_ip_or_hostname_item[0] is not None:
+                parameters.append({
+                    "vault_id": write_embedded_bash_script_to_vault_data_item[0],
+                    "ip_hostname": playbook_input_ip_or_hostname_item[0],
+                    "file_destination": "/tmp/",
+                })
 
     ################################################################################
     ## Custom Code Start
@@ -240,13 +261,25 @@ def run_bash_script(action=None, success=None, container=None, results=None, han
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
+    playbook_input_ip_or_hostname = phantom.collect2(container=container, datapath=["playbook_input:ip_or_hostname"])
+
     parameters = []
+
+    # build parameters list for 'run_bash_script' call
+    for playbook_input_ip_or_hostname_item in playbook_input_ip_or_hostname:
+        if playbook_input_ip_or_hostname_item[0] is not None:
+            parameters.append({
+                "command": "bash /tmp/splunk_soar_internal_host_ssh_investigate.sh",
+                "ip_hostname": playbook_input_ip_or_hostname_item[0],
+            })
 
     ################################################################################
     ## Custom Code Start
     ################################################################################
 
-    # Write your custom code here...
+    # pass the ip_hostname as an argument so it can be used in the output zip file name
+    for parameter in parameters:
+        parameter['command'] = parameter['command'] + ' ' + parameter['ip_hostname']
 
     ################################################################################
     ## Custom Code End
@@ -262,13 +295,24 @@ def get_output_zip_file(action=None, success=None, container=None, results=None,
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
+    playbook_input_ip_or_hostname = phantom.collect2(container=container, datapath=["playbook_input:ip_or_hostname"])
+
     parameters = []
+
+    # build parameters list for 'get_output_zip_file' call
+    for playbook_input_ip_or_hostname_item in playbook_input_ip_or_hostname:
+        if playbook_input_ip_or_hostname_item[0] is not None:
+            parameters.append({
+                "file_path": playbook_input_ip_or_hostname_item[0],
+                "ip_hostname": playbook_input_ip_or_hostname_item[0],
+            })
 
     ################################################################################
     ## Custom Code Start
     ################################################################################
 
-    # Write your custom code here...
+    for parameter in parameters:
+        parameter['file_path'] = '/tmp/' + parameter['file_path'] + '_ssh_output.zip'
 
     ################################################################################
     ## Custom Code End
