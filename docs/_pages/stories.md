@@ -117,3 +117,4 @@ sidebar:
 | [Windows Privilege Escalation](windows_privilege_escalation) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |
 | [Windows Service Abuse](windows_service_abuse) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
 | [XMRig](xmrig) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
+| [sAMAccountName Spoofing and Domain Controller Impersonation](samaccountname_spoofing_and_domain_controller_impersonation) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | [Defense Evasion](/tags/#defense-evasion) |
