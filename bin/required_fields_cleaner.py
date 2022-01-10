@@ -297,7 +297,11 @@ def clean_folder(directory:str, defined_datamodels:dict):
             required_fields_from_yaml = set(parsed['tags']['required_fields'])
             fields_to_update = update_required_fields_for_yaml(filename, parsed["search"], set(parsed["tags"]["required_fields"]), set(parsed["datamodel"]), defined_datamodels, required_fields_from_yaml)
             if fields_to_update != {}:
-                parsed.update(fields_to_update)
+                if 'datamodel' in fields_to_update:
+                    parsed['datamodel'] = fields_to_update['datamodel']
+                if 'tags' in fields_to_update and 'required_fields' in fields_to_update['tags']:
+                    parsed['tags']['required_fields'] = fields_to_update['tags']['required_fields']
+                
                 required_updates += 1
                 with open(filename, 'w') as updated_cfg:
                     yaml.safe_dump(parsed, updated_cfg)
