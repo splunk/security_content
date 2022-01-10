@@ -1,10 +1,10 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Use Cases",
+    "category": "Threat Response",
     "coa": {
         "data": {
-            "description": "Performs a general investigation on key aspects of a windows device using windows remote management. Important files related to the endpoint are generated, bundled into a zip, and copied to the container vault.",
+            "description": "Published in response to CVE-2021-44228, this playbook performs a general investigation on key aspects of a windows device using windows remote management. Important files related to the endpoint are generated, bundled into a zip, and copied to the container vault.",
             "edges": [
                 {
                     "id": "port_6_to_port_1",
@@ -91,8 +91,8 @@
                     "errors": {},
                     "id": "0",
                     "type": "start",
-                    "x": 20,
-                    "y": -1.1368683772161603e-13
+                    "x": 19.999999999999986,
+                    "y": -2.3803181647963356e-13
                 },
                 "1": {
                     "data": {
@@ -108,7 +108,7 @@
                     "id": "1",
                     "type": "end",
                     "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
-                    "x": 20,
+                    "x": 19.999999999999986,
                     "y": 1360
                 },
                 "10": {
@@ -293,7 +293,7 @@
                     "id": "6",
                     "type": "action",
                     "userCode": "\n    parameters = []\n\n    # build parameters list for 'remove_data_capture_files' call\n    for playbook_input_ip_or_hostname_item, formatted_part in zip(playbook_input_ip_or_hostname, format_file_removal__as_list):\n        parameters.append({\n            \"script_str\": formatted_part,\n            \"ip_hostname\": playbook_input_ip_or_hostname_item[0],\n        })\n\n",
-                    "x": -9.947598300641403e-14,
+                    "x": -1.2789769243681803e-13,
                     "y": 1200
                 },
                 "7": {
@@ -348,7 +348,7 @@
                     "id": "8",
                     "type": "action",
                     "x": -5.684341886080802e-14,
-                    "y": 99.99999999999994
+                    "y": 99.99999999999989
                 },
                 "9": {
                     "data": {
@@ -383,7 +383,7 @@
                     "y": 240
                 }
             },
-            "notes": ""
+            "notes": "This playbook uses the following Apps:\n - Windows Remote Management (list_processes, list_connections, list_sessions, run_script, get_file) [asset name = winrm] - Used to collect details on a windows host\n\nDeployment Notes:\n- Playbook should receive a list of IPs and/or Hostnames\n- Ensure Splunk SOAR has access to the target windows hosts using the credentials in the configured winrm asset\n- Many of the collection queries can be adapted to query EDR vendors using their app"
         },
         "input_spec": [
             {
@@ -401,13 +401,15 @@
         "schema": "5.0.4",
         "version": "5.1.0.70187"
     },
-    "create_time": "2021-12-15T00:19:14.002156+00:00",
+    "create_time": "2021-12-15T21:16:58.966416+00:00",
     "draft_mode": false,
     "labels": [
         "*"
     ],
     "tags": [
         "windows",
-        "internal_host"
+        "internal_host",
+        "investigate",
+        "log4j"
     ]
 }

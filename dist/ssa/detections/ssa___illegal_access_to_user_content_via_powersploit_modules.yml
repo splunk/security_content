@@ -2,9 +2,13 @@ author: Stanislav Miskovic, Splunk
 datamodel:
 - Endpoint_Processes
 date: '2020-11-09'
-description: This detection identifies access to PowerSploit modules that enable illegaly
-  access user content, such as key logging, audio recording, screenshots, tapping
-  into http and RDP sessions, etc.
+deprecated: true
+description: 'WARNING, this detection has been marked deprecated by the Splunk Threat
+  Research team, this means that it will no longer be maintained or supported. If
+  you have any questions feel free to email us at: research@splunk.com. This detection
+  identifies access to PowerSploit modules that enable illegaly access user content,
+  such as key logging, audio recording, screenshots, tapping into http and RDP sessions,
+  etc.'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 id: 01fc7d91-eb0c-478e-8633-e4fa4904463a
