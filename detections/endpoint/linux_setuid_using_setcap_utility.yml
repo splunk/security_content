@@ -62,7 +62,7 @@ tags:
   - Source:Endpoint
   - Stage:Privilege Escalation
   - Stage:Persistence
-  message: a commandline $process$ that may set suid or sgid on $dest$
+  message: A commandline $process$ that may set suid or sgid on $dest$
   observable:
   - name: dest
     type: Hostname
