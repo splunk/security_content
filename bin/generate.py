@@ -105,10 +105,18 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
     yaml.Dumper.ignore_aliases = lambda *args : True
 
     # wiping old detections for SSA
-    shutil.rmtree(OUTPUT_PATH + '/detections/*', ignore_errors=True)
+    shutil.rmtree(OUTPUT_PATH + '/srs/*', ignore_errors=True)
+    shutil.rmtree(OUTPUT_PATH + '/complex/*', ignore_errors=True)
 
     for d in detections:
-        manifest_file = OUTPUT_PATH + '/detections/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
+        # check if the search contains "stats", "first_time_event", or "adaptive_threshold" which would make it a complex pipeline
+        pattern = re.compile('stats|first_time_event|adaptive_threshold')
+
+        if re.findall("stats|first_time_event|adaptive_threshold", d['search']):
+            manifest_file = OUTPUT_PATH + '/complex/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
+            print(d['name'])
+        else:
+            manifest_file = OUTPUT_PATH + '/srs/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
 
         # remove unused fields
         del d['risk']
@@ -127,7 +135,7 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
         with open(manifest_file, 'w') as file:
             documents = yaml.dump(d, file, sort_keys=True)
 
-    return OUTPUT_PATH + '/detections/'
+    return True
 
 def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_PATH):
     '''
