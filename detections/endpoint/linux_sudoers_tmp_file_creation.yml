@@ -20,10 +20,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `linux_sudoers_tmp_file_creation_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 known_false_positives: administrator or network operator can execute this command.
-  filter is needed
+  Please update the filter macros to remove false positives.
 references:
 - https://forum.ubuntuusers.de/topic/sudo-visudo-gibt-etc-sudoers-tmp/
 tags:
@@ -53,9 +52,10 @@ tags:
   confidence: 90
   risk_score: 72
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
-  message: a file $file_name$ is created in $file_path$ on $dest$
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  message: A file $file_name$ is created in $file_path$ on $dest$
   observable:
   - name: dest
     type: Hostname

@@ -20,10 +20,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_change_file_owner_to_root_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: administrator or network operator can execute this command.
-  filter is needed
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
 references:
 - https://unix.stackexchange.com/questions/101073/how-to-change-permissions-from-root-user-to-all-users
 - https://askubuntu.com/questions/617850/changing-from-user-to-superuser
@@ -56,9 +55,10 @@ tags:
   confidence: 80
   risk_score: 64
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
-  message: a commandline $process$ that may change ownership to root on $dest$
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  message: A commandline $process$ that may change ownership to root on $dest$
   observable:
   - name: dest
     type: Hostname

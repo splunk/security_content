@@ -18,9 +18,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `linux_insert_kernel_module_using_insmod_utility_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: administrator or network operator can execute this command. filter is needed 
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives. 
 references:
 - https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/kernel-module-driver-configuration/Working_with_Kernel_Modules/
 - https://security.stackexchange.com/questions/175953/how-to-load-a-malicious-lkm-at-startup
@@ -55,9 +54,10 @@ tags:
   # (impact * confidence)/100
   risk_score: 64 
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
-  message: a commandline $process$ that may install kernel module on $dest$
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  message: A commandline $process$ that may install kernel module on $dest$
   observable:
   - name: dest
     type: Hostname
