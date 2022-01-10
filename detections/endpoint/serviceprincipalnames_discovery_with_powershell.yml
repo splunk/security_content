@@ -1,11 +1,6 @@
-name: ServicePrincipalNames Discovery with PowerShell
-id: 13243068-2d38-11ec-8908-acde48001122
-version: 1
-date: '2021-10-14'
 author: Michael Haag, Splunk
-type: TTP
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-10-14'
 description: 'The following analytic identifies `powershell.exe` usage, using Script
   Block Logging EventCode 4104, related to querying the domain for Service Principle
   Names. typically, this is a precursor activity related to kerberoasting or the silver
@@ -23,14 +18,12 @@ description: 'The following analytic identifies `powershell.exe` usage, using Sc
   class in PowerShell is the equivelant of using setspn.exe. \
 
   During triage, review parallel processes for further suspicious activity.'
-search: '`powershell` EventCode=4104 Message="*KerberosRequestorSecurityToken*" |
-  stats count min(_time) as firstTime max(_time) as lastTime by Message OpCode ComputerName
-  User EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `serviceprincipalnames_discovery_with_powershell_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+id: 13243068-2d38-11ec-8908-acde48001122
 known_false_positives: False positives should be limited, however filter as needed.
+name: ServicePrincipalNames Discovery with PowerShell
 references:
 - https://docs.microsoft.com/en-us/windows/win32/ad/service-principal-names
 - https://docs.microsoft.com/en-us/dotnet/api/system.identitymodel.tokens.kerberosrequestorsecuritytoken?view=netframework-4.8
@@ -46,6 +39,10 @@ references:
 - https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63
 - https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
+search: '`powershell` EventCode=4104 Message="*KerberosRequestorSecurityToken*" |
+  stats count min(_time) as firstTime max(_time) as lastTime by Message OpCode ComputerName
+  User EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `serviceprincipalnames_discovery_with_powershell_filter`'
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -65,37 +62,28 @@ tags:
   - T1558.003
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: parent_process_name
-    type: Parent Process
     role:
     - Parent Process
+    type: Parent Process
   - name: process_name
-    type: Process
     role:
     - Child Process
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
-  - Processes.original_file_name
-  - Processes.process_name
-  - Processes.process
-  - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
   risk_score: 80
   security_domain: endpoint
+type: TTP
+version: 1

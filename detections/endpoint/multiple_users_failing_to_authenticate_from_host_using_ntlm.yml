@@ -1,11 +1,6 @@
-name: Multiple Users Failing To Authenticate From Host Using NTLM
-id: 7ed272a4-9c77-11eb-af22-acde48001122
-version: 1
-date: '2021-04-13'
 author: Mauricio Velazco, Splunk
-type: Anomaly
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-04-13'
 description: 'The following analytic identifies one source endpoint failing to authenticate
   with multiple valid users using the NTLM protocol. This behavior could represent
   an adversary performing a Password Spraying attack against an Active Directory environment
@@ -26,24 +21,26 @@ description: 'The following analytic identifies one source endpoint failing to a
 
   The analytics returned fields allow analysts to investigate the event further by
   providing fields like source workstation name and attempted user accounts.'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Domain Controller events. The Advanced Security Audit policy setting `Audit Credential
+  Validation` within `Account Logon` needs to be enabled.
+id: 7ed272a4-9c77-11eb-af22-acde48001122
+known_false_positives: A host failing to authenticate with multiple valid domain users
+  is not a common behavior for legitimate systems. Possible false positive scenarios
+  include but are not limited to vulnerability scanners and missconfigured systems.
+  If this detection triggers on a host other than a Domain Controller, the behavior
+  could represent a password spraying attack against the host's local accounts.
+name: Multiple Users Failing To Authenticate From Host Using NTLM
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-credential-validation
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776
 search: ' `wineventlog_security` EventCode=4776 Logon_Account!="*$" 0xC000006A action=failure
   | bucket span=2m _time | stats dc(Logon_Account) AS unique_accounts values(Logon_Account)
   as tried_accounts by _time, Source_Workstation | eventstats avg(unique_accounts)
   as comp_avg , stdev(unique_accounts) as comp_std by Source_Workstation | eval upperBound=(comp_avg+comp_std*3)
   | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
   | search isOutlier=1 | `multiple_users_failing_to_authenticate_from_host_using_ntlm_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Domain Controller events. The Advanced Security Audit policy setting `Audit Credential
-  Validation` within `Account Logon` needs to be enabled.
-known_false_positives: A host failing to authenticate with multiple valid domain users
-  is not a common behavior for legitimate systems. Possible false positive scenarios
-  include but are not limited to vulnerability scanners and missconfigured systems.
-  If this detection triggers on a host other than a Domain Controller, the behavior
-  could represent a password spraying attack against the host's local accounts.
-references:
-- https://attack.mitre.org/techniques/T1110/003/
-- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-credential-validation
-- https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4776
 tags:
   analytic_story:
   - Active Directory Password Spraying
@@ -64,9 +61,9 @@ tags:
   - T1110
   observable:
   - name: Source_Workstation
-    type: Endpoint
     role:
     - Victim
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -79,3 +76,5 @@ tags:
   - Source_Workstation
   risk_score: 49
   security_domain: endpoint
+type: Anomaly
+version: 1

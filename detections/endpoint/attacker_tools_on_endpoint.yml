@@ -1,13 +1,20 @@
-name: Attacker Tools On Endpoint
-id: a51bfe1a-94f0-48cc-b4e4-16a110145893
-version: 2
-date: '2021-11-04'
 author: Bhavin Patel, Splunk
-type: TTP
 datamodel:
 - Endpoint
+date: '2021-11-04'
 description: This search looks for execution of commonly used attacker tools on an
   endpoint.
+how_to_implement: To successfully implement this search, you must be ingesting data
+  that records process activity from your hosts to populate the endpoint data model
+  in the processes node. This is typically populated via endpoint detection-and-response
+  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
+  used for this search is usually generated via logs that report process tracking
+  in your Windows audit settings.
+id: a51bfe1a-94f0-48cc-b4e4-16a110145893
+known_false_positives: Some administrator activity can be potentially triggered, please
+  add those users to the filter macro.
+name: Attacker Tools On Endpoint
+references: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process) as process values(Processes.parent_process)
   as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown
@@ -15,15 +22,6 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `drop_dm_object_name(Processes)` | lookup attacker_tools attacker_tool_names AS
   process_name OUTPUT description | search description !=false| `attacker_tools_on_endpoint_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-  in the processes node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is usually generated via logs that report process tracking
-  in your Windows audit settings.
-known_false_positives: Some administrator activity can be potentially triggered, please
-  add those users to the filter macro.
-references: []
 tags:
   analytic_story:
   - Monitor for Unauthorized Software
@@ -59,30 +57,33 @@ tags:
   - PR.DS
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: parent_process
-    type: Parent Process
     role:
     - Parent Process
+    type: Parent Process
   - name: process_name
-    type: Process
     role:
     - Child Process
     - Attacker
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
   - Processes.dest
-  - Processes.user
-  - Processes.process_name
   - Processes.parent_process
+  - Processes.process
+  - Processes.process_name
+  - Processes.user
   risk_score: 64
   security_domain: endpoint
+type: TTP
+version: 2

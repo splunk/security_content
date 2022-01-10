@@ -1,11 +1,7 @@
-name: Office Product Spawning MSHTA
-id: 6078fa20-a6d2-11eb-b662-acde48001122
-version: 2
-date: '2021-04-26'
 author: Michael Haag, Splunk
-type: TTP
 datamodel:
 - Endpoint
+date: '2021-04-26'
 description: The following detection identifies the latest behavior utilized by different
   malware families (including TA551, IcedID). This detection identifies any Windows
   Office Product spawning `mshta.exe`. In malicious instances, the command-line of
@@ -16,6 +12,16 @@ description: The following detection identifies the latest behavior utilized by 
   any artifacts on disk. The Office Product, or `mshta.exe` will have reached out
   to a remote destination, capture and block the IPs or domain. Review additional
   parallel processes for further activity.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+id: 6078fa20-a6d2-11eb-b662-acde48001122
+known_false_positives: No false positives known. Filter as needed.
+name: Office Product Spawning MSHTA
+references:
+- https://redcanary.com/threat-detection-report/threats/TA551/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe") `process_mshta`
@@ -23,14 +29,6 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `office_product_spawning_mshta_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-known_false_positives: No false positives known. Filter as needed.
-references:
-- https://redcanary.com/threat-detection-report/threats/TA551/
 tags:
   analytic_story:
   - Spearphishing Attachments
@@ -52,29 +50,29 @@ tags:
   - T1566.001
   observable:
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: process_name
-    type: process_name
     role:
     - Attacker
+    type: process_name
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
   - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name
+  - Processes.parent_process
+  - Processes.parent_process_id
+  - Processes.parent_process_name
   - Processes.process
   - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
+  - Processes.process_name
+  - Processes.user
+  - _time
   risk_score: 63
   security_domain: endpoint
+type: TTP
+version: 2

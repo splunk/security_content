@@ -1,27 +1,24 @@
-name: GetAdGroup with PowerShell Script Block
-id: e4c73d68-794b-468d-b4d0-dac1772bbae7
-version: 1
-date: '2021-08-25'
 author: Mauricio Velazco, Splunk
-type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-08-25'
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-AdGroup` commandlet. The `Get-AdGroup` commandlet
   is used to return a list of all domain groups. Red Teams and adversaries may leverage
   this commandlet to enumerate domain groups for situational awareness and Active
   Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*Get-ADGroup*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
-  | `getadgroup_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+id: e4c73d68-794b-468d-b4d0-dac1772bbae7
 known_false_positives: Administrators or power users may use this PowerShell commandlet
   for troubleshooting.
+name: GetAdGroup with PowerShell Script Block
 references:
 - https://attack.mitre.org/techniques/T1069/002/
 - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
+search: '`powershell` EventCode=4104 (Message = "*Get-ADGroup*") | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `getadgroup_with_powershell_script_block_filter`'
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -42,9 +39,9 @@ tags:
   - T1069.002
   observable:
   - name: dest
-    type: Endpoint
     role:
     - Victim
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -57,3 +54,5 @@ tags:
   - User
   risk_score: 15
   security_domain: endpoint
+type: Hunting
+version: 1

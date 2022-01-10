@@ -1,32 +1,30 @@
-name: Detect Renamed PSExec
-id: 683e6196-b8e8-11eb-9a79-acde48001122
-version: 3
-date: '2021-09-16'
 author: Michael Haag, Splunk
-type: Hunting
 datamodel:
 - Endpoint
+date: '2021-09-16'
 description: The following analytic identifies renamed instances of `PsExec.exe` being
   utilized on an endpoint. Most instances, it is highly probable to capture `Psexec.exe`
   or other SysInternal utility usage with the command-line argument of `-accepteula`.
   During triage, validate this is the legitimate version of `PsExec` by reviewing
   the PE metadata. In addition, review parallel processes for further suspicious behavior.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+id: 683e6196-b8e8-11eb-9a79-acde48001122
+known_false_positives: Limited false positives should be present. It is possible some
+  third party applications may use older versions of PsExec, filter as needed.
+name: Detect Renamed PSExec
+references:
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
+- https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_psexec` by Processes.dest
   Processes.user Processes.parent_process_name Processes.process_name Processes.process
   Processes.process_id Processes.parent_process_id Processes.original_file_name |
   `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_renamed_psexec_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-known_false_positives: Limited false positives should be present. It is possible some
-  third party applications may use older versions of PsExec, filter as needed.
-references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
-- https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
 tags:
   analytic_story:
   - SamSam Ransomware
@@ -53,37 +51,36 @@ tags:
   - T1569.002
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: parent_process_name
-    type: Parent Process
     role:
     - Parent Process
+    type: Parent Process
   - name: process_name
-    type: Process
     role:
     - Child Process
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
   - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name
+  - Processes.parent_process_id
+  - Processes.parent_process_name
   - Processes.process
   - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
+  - Processes.process_name
+  - Processes.user
+  - _time
   risk_score: 27
   security_domain: endpoint
+type: Hunting
+version: 3

@@ -1,26 +1,23 @@
-name: Plain HTTP POST Exfiltrated Data
-id: e2b36208-a364-11eb-8909-acde48001122
-version: 1
-date: '2021-04-22'
 author: Teoderick Contreras, Splunk
-type: TTP
-datamodel:
-- Network_Traffic
+datamodel: []
+date: '2021-04-22'
 description: This search is to detect potential plain HTTP POST method data exfiltration.
   This network traffic is commonly used by trickbot, trojanspy, keylogger or APT adversary
   where arguments or commands are sent in plain text to the remote C2 server using
   HTTP POST method as part of data exfiltration.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the stream HTTP logs or network logs that catch network traffic. Make
+  sure that the http-request-body, payload, or request field is enabled.
+id: e2b36208-a364-11eb-8909-acde48001122
+known_false_positives: unknown
+name: Plain HTTP POST Exfiltrated Data
+references:
+- https://blog.talosintelligence.com/2020/03/trickbot-primer.html
 search: '`stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*",
   "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*") |stats values(form_data)
   as http_request_body min(_time) as firstTime max(_time) as lastTime count by http_method
   http_user_agent uri_path url bytes_in bytes_out | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `plain_http_post_exfiltrated_data_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the stream HTTP logs or network logs that catch network traffic. Make
-  sure that the http-request-body, payload, or request field is enabled.
-known_false_positives: unknown
-references:
-- https://blog.talosintelligence.com/2020/03/trickbot-primer.html
 tags:
   analytic_story:
   - Command and Control
@@ -42,13 +39,13 @@ tags:
   - T1048
   observable:
   - name: uri_path
+    role:
+    - Attacker
     type: UriPath
-    role:
-    - Attacker
   - name: form_data
-    type: formdata
     role:
     - Attacker
+    type: formdata
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -63,3 +60,5 @@ tags:
   - bytes_out
   risk_score: 63
   security_domain: network
+type: TTP
+version: 1

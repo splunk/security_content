@@ -1,26 +1,23 @@
-name: GetLocalUser with PowerShell Script Block
-id: 2e891cbe-0426-11ec-9c9c-acde48001122
-version: 1
-date: '2021-08-23'
 author: Mauricio Velazco, Splunk
-type: Hunting
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-08-23'
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-LocalUser` commandlet. The `Get-LocalUser`
   commandlet is used to return a list of all local users. Red Teams and adversaries
   may leverage this commandlet to enumerate users for situational awareness and Active
   Directory Discovery.
-search: '`powershell` EventCode=4104 (Message = "*Get-LocalUser*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
-  | `getlocaluser_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+id: 2e891cbe-0426-11ec-9c9c-acde48001122
 known_false_positives: Administrators or power users may use this PowerShell commandlet
   for troubleshooting.
+name: GetLocalUser with PowerShell Script Block
 references:
 - https://attack.mitre.org/techniques/T1087/001/
+search: '`powershell` EventCode=4104 (Message = "*Get-LocalUser*") | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `getlocaluser_with_powershell_script_block_filter`'
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -40,9 +37,9 @@ tags:
   - T1087.001
   observable:
   - name: dest
-    type: Endpoint
     role:
     - Victim
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -51,3 +48,5 @@ tags:
   - _time
   risk_score: 15
   security_domain: endpoint
+type: Hunting
+version: 1

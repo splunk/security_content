@@ -1,11 +1,7 @@
-name: Windows InstallUtil Uninstall Option
-id: cfa7b9ac-43f0-11ec-9b48-acde48001122
-version: 1
-date: '2021-11-12'
 author: Michael Haag, Splunk
-type: TTP
 datamodel:
 - Endpoint
+date: '2021-11-12'
 description: 'The following analytic identifies the Windows InstallUtil.exe binary.
   This will execute code while bypassing application control using the `/u` (uninstall)
   switch. \
@@ -24,23 +20,25 @@ description: 'The following analytic identifies the Windows InstallUtil.exe bina
 
   During triage review resulting network connections, file modifications, and parallel
   processes. Capture any artifacts and review further.'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+id: cfa7b9ac-43f0-11ec-9b48-acde48001122
+known_false_positives: Limited false positives should be present. Filter as needed
+  by parent process or application.
+name: Windows InstallUtil Uninstall Option
+references:
+- https://evi1cg.me/archives/AppLocker_Bypass_Techniques.html#menu_index_12
+- https://github.com/api0cradle/UltimateAppLockerByPassList/blob/master/md/Installutil.exe.md
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_installutil` Processes.process
   IN ("*/u*", "*uninstall*") by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.original_file_name Processes.process Processes.process_id
   Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_installutil_uninstall_option_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-known_false_positives: Limited false positives should be present. Filter as needed
-  by parent process or application.
-references:
-- https://evi1cg.me/archives/AppLocker_Bypass_Techniques.html#menu_index_12
-- https://github.com/api0cradle/UltimateAppLockerByPassList/blob/master/md/Installutil.exe.md
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
 tags:
   analytic_story:
   - Signed Binary Proxy Execution InstallUtil
@@ -62,37 +60,36 @@ tags:
   - T1218
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   - name: parent_process_name
-    type: Parent Process
     role:
     - Parent Process
+    type: Parent Process
   - name: process_name
-    type: Process
     role:
     - Child Process
+    type: Process
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - _time
   - Processes.dest
-  - Processes.user
-  - Processes.parent_process_name
-  - Processes.parent_process
   - Processes.original_file_name
-  - Processes.process_name
+  - Processes.parent_process_id
+  - Processes.parent_process_name
   - Processes.process
   - Processes.process_id
-  - Processes.parent_process_path
-  - Processes.process_path
-  - Processes.parent_process_id
+  - Processes.process_name
+  - Processes.user
+  - _time
   risk_score: 80
   security_domain: endpoint
+type: TTP
+version: 1

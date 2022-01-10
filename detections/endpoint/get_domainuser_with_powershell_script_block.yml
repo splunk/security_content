@@ -1,25 +1,22 @@
-name: Get DomainUser with PowerShell Script Block
-id: 61994268-04f4-11ec-865c-acde48001122
-version: 1
-date: '2021-08-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
-type: TTP
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-08-24'
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainUser` commandlet. `GetDomainUser` is
   part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
   Red Teams and adversaries alike may use PowerView to enumerate domain users for
   situational awareness and Active Directory Discovery.
-search: '`powershell` EventCode=4104 Message = "*Get-DomainUser*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `get_domainuser_with_powershell_script_block_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+id: 61994268-04f4-11ec-865c-acde48001122
 known_false_positives: Administrators or power users may use this command for troubleshooting.
+name: Get DomainUser with PowerShell Script Block
 references:
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainUser/
+search: '`powershell` EventCode=4104 Message = "*Get-DomainUser*" | stats count min(_time)
+  as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `get_domainuser_with_powershell_script_block_filter`'
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -39,13 +36,13 @@ tags:
   - T1087
   observable:
   - name: ComputerName
+    role:
+    - Victim
     type: Hostname
-    role:
-    - Victim
   - name: User
-    type: User
     role:
     - Victim
+    type: User
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -58,3 +55,5 @@ tags:
   - User
   risk_score: 25
   security_domain: endpoint
+type: TTP
+version: 1

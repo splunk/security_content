@@ -1,28 +1,25 @@
-name: Remote Process Instantiation via DCOM and PowerShell Script Block
-id: fa1c3040-4680-11ec-a618-3e22fbd008af
-version: 1
-date: '2021-11-15'
 author: Mauricio Velazco, Splunk
-type: TTP
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-11-15'
 description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of PowerShell with arguments utilized to start a process
   on a remote endpoint by abusing the DCOM protocol. Specifically, this search looks
   for the abuse of ShellExecute and ExecuteShellCommand. Red Teams and adversaries
   alike may abuse DCOM for lateral movement and remote code execution.
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
+  can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+id: fa1c3040-4680-11ec-a618-3e22fbd008af
+known_false_positives: Administrators may leverage DCOM to start a process on remote
+  systems, but this activity is usually limited to a small set of hosts or users.
+name: Remote Process Instantiation via DCOM and PowerShell Script Block
+references:
+- https://attack.mitre.org/techniques/T1021/003/
+- https://www.cybereason.com/blog/dcom-lateral-movement-techniques
 search: '`powershell` EventCode=4104 (Message="*Document.Application.ShellExecute*"
   OR Message="*Document.ActiveView.ExecuteShellCommand*") | stats count min(_time)
   as firstTime max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
   | `remote_process_instantiation_via_dcom_and_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
-  can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators may leverage DCOM to start a process on remote
-  systems, but this activity is usually limited to a small set of hosts or users.
-references:
-- https://attack.mitre.org/techniques/T1021/003/
-- https://www.cybereason.com/blog/dcom-lateral-movement-techniques
 tags:
   analytic_story:
   - Active Directory Lateral Movement
@@ -43,9 +40,9 @@ tags:
   - T1021.003
   observable:
   - name: ComputerName
-    type: Endpoint
     role:
     - Victim
+    type: Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -58,3 +55,5 @@ tags:
   - User
   risk_score: 63
   security_domain: endpoint
+type: TTP
+version: 1

@@ -1,26 +1,23 @@
-name: Allow Inbound Traffic In Firewall Rule
-id: a5d85486-b89c-11eb-8267-acde48001122
-version: 1
-date: '2021-05-19'
 author: Teoderick Contreras, Splunk
-type: TTP
-datamodel:
-- Endpoint
+datamodel: []
+date: '2021-05-19'
 description: The following analytic identifies suspicious PowerShell command to allow
   inbound traffic inbound to a specific local port within the public profile. This
   technique was seen in some attacker want to have a remote access to a machine by
   allowing the traffic in firewall rule.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the powershell logs  from your endpoints. make sure you enable needed
+  registry to monitor this event.
+id: a5d85486-b89c-11eb-8267-acde48001122
+known_false_positives: administrator may allow inbound traffic in certain network
+  or machine.
+name: Allow Inbound Traffic In Firewall Rule
+references:
+- https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
 search: '`powershell` EventCode=4104 Message = "*firewall*" Message = "*Inbound*"
   Message = "*Allow*"  Message = "*-LocalPort*" | stats count min(_time) as firstTime
   max(_time) as lastTime by EventCode Message ComputerName User | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `allow_inbound_traffic_in_firewall_rule_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the powershell logs  from your endpoints. make sure you enable needed
-  registry to monitor this event.
-known_false_positives: administrator may allow inbound traffic in certain network
-  or machine.
-references:
-- https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
 tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
@@ -41,13 +38,13 @@ tags:
   - T1021
   observable:
   - name: user
+    role:
+    - Victim
     type: User
-    role:
-    - Victim
   - name: ComputerName
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -60,3 +57,5 @@ tags:
   - User
   risk_score: 3
   security_domain: endpoint
+type: TTP
+version: 1
