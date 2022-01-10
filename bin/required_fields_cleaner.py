@@ -125,11 +125,12 @@ def get_tokens(search:str):
     return set(re.findall(KEY_VALUE_PATTERN, quoted_text_removed))
 
 
-def update_required_fields_for_yaml(filename:str, search:str, required_fields:set, datamodels_from_datamodel_field:set, defined_datamodels:dict)->dict:
+def update_required_fields_for_yaml(filename:str, search:str, required_fields:set, datamodels_from_datamodel_field:set, defined_datamodels:dict, required_fields_from_yaml:set[str])->dict:
+    
     datamodels_from_search = get_datamodels(search,filename)
     #print(f"Datamodels found in {filename}: {datamodels}")
     yaml_fields_to_update = {}
-    yaml_update_required = False
+    
   
                 
     
@@ -145,11 +146,11 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
     
    
 
-    return {}
+    
     datamodels_no_submodel = [d[0] for d in datamodels_from_search]
     disjoint_members = datamodels_from_datamodel_field.symmetric_difference(datamodels_no_submodel)
     if len(disjoint_members) != 0:
-        yaml_update_required = True
+        yaml_fields_to_update['datamodel'] = sorted(datamodels_no_submodel)
     '''
     for model in datamodels_from_datamodel_field:
         if model not in datamodels_from_search:
@@ -167,6 +168,7 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
     '''
 
     toks = get_tokens(search)
+    
     #print(defined_datamodels)
     #print(toks)
     #dictPrint(defined_datamodels)
@@ -195,7 +197,7 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
         else:
             toks_without_datamodels.add((model,submodel))
     
-
+    
     #dictPrint(datamodels_in_use.keys())
     #dictPrint(toks_without_datamodels)
 
@@ -209,16 +211,38 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
             dm = datamodels_in_use[model]
             #dictPrint(dm)
             if submodel in dm and fieldname in dm[submodel]:
-                fully_qualified_field_dicts[f"{model}.{submodel}.{fieldname}"] = dm[submodel][fieldname]
+                fully_qualified_field_dicts[f"{submodel}.{fieldname}"] = dm[submodel][fieldname]
                 found=True
                 break
-        #If we got here, then we didn't find the fieldname in any of the models! This is bad.
-        if found == False and False:
-            print(f"Failed to find {submodel}.{fieldname} in the datamodles {datamodels_in_use.keys()} for {filename}")
+        #If we got here, then we didn't find the fieldname in any of the models! This is bad. All these fields should probably be quoted... and there is some cleaning that needs to take place here...
+        #if found == False and len(datamodels_in_use) > 0:
+        if found == False:
+            # TODO
+            pass
+            #print(f"Failed to find {submodel}.{fieldname} in the datamodels {datamodels_in_use.keys()} for {filename}")
 
-        
+
+    non_datamodel_required_fields_from_yaml = [f for f in required_fields if "." not in f]        
+    new_required_fields = list(fully_qualified_field_dicts.keys())
+    for field in non_datamodel_required_fields_from_yaml:
+        if field in search:
+            new_required_fields.append(field)
+    new_required_fields.sort()
+    symdiff = required_fields_from_yaml.symmetric_difference(set(new_required_fields))
+    if len(symdiff) != 0:
+        yaml_fields_to_update['tags']= {'required_fields': new_required_fields}
+    
+    #print(f"{filename}")
+    #print(f"Old   %d: {sorted(list(required_fields_from_yaml))}"%len(required_fields_from_yaml))
+    #print(f"New   %d: {sorted(list(fully_qualified_field_dicts.keys()))}"%len(fully_qualified_field_dicts.keys()))
+    #print(f"Diff  %d: {symdiff}"%(len(symdiff)))
+    #print(f"Final %d: {new_required_fields}"%(len(new_required_fields)))
+    #input("*************\n")
+
+    
 
 
+    return yaml_fields_to_update
     if yaml_update_required and False:
         '''
         print(f"\nMismatch between datamodel(s) used in search and declared datamodel(s)\n"\
@@ -269,8 +293,9 @@ def clean_folder(directory:str, defined_datamodels:dict):
                 continue
             
             required_fields_from_yaml = set(parsed['tags']['required_fields'])
-            fields_to_update = update_required_fields_for_yaml(filename, parsed["search"], set(parsed["tags"]["required_fields"]), set(parsed["datamodel"]), defined_datamodels)
+            fields_to_update = update_required_fields_for_yaml(filename, parsed["search"], set(parsed["tags"]["required_fields"]), set(parsed["datamodel"]), defined_datamodels, required_fields_from_yaml)
             #print(fields_to_update)
+            #input("wait")
 
 
 
@@ -278,9 +303,10 @@ def clean_folder(directory:str, defined_datamodels:dict):
             print(e)
     
     
+    print(f"{directory}")
     print("Errors:%d %s"%(len(error_files), "\n\t".join(error_files)))
     print(f"The number of failures   : {failure_count}")
-    print(f"The total number of files: {len(files)}")
+    print(f"The total number of files: {len(files)}\n")
     return        
 
 
