@@ -24,10 +24,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(lastTime)` | `linux_service_restarted_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and commandline executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 known_false_positives: Administrator or network operator can use this commandline
-  for automation purposes. Filter is needed.
+  for automation purposes. Please update the filter macros to remove false positives.
 references:
 - https://attack.mitre.org/techniques/T1543/003/
 tags:
@@ -59,9 +58,10 @@ tags:
   confidence: 50
   risk_score: 25
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
-  message: a commandline $process$ that may create or start a service on $dest$
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  message: A commandline $process$ that may create or start a service on $dest$
   observable:
   - name: dest
     type: Hostname
