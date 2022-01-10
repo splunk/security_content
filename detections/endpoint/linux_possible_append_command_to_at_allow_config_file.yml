@@ -31,7 +31,7 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/sysmon_linux.log
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.001/at_execution/sysmon_linux.log
   kill_chain_phases:
   - Privilege Escalation
   mitre_attack_id:
