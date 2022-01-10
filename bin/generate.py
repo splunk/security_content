@@ -111,34 +111,38 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
     os.makedirs(OUTPUT_PATH + '/srs/')
 
     for d in detections:
-        # check if the search contains "stats", "first_time_event", or "adaptive_threshold" which would make it a complex pipeline
-        pattern = re.compile('stats|first_time_event|adaptive_threshold')
-
-        if re.findall("stats|first_time_event|adaptive_threshold", d['search']):
-            # it is a complex pipeline
-            manifest_file = OUTPUT_PATH + '/complex/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
+        # skip deprecated
+        if 'deprecated' in d and d['deprecated']:
+            continue
         else:
-            # it is a simple pipeline can be placed on SRS (Simple Rule Service)
-            manifest_file = OUTPUT_PATH + '/srs/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
+            # check if the search contains "stats", "first_time_event", or "adaptive_threshold" which would make it a complex pipeline
+            pattern = re.compile('stats|first_time_event|adaptive_threshold')
 
-        # remove unused fields
-        del d['risk']
-        del d['deployment']
-        del d['mappings']
-        del d['savedsearch_annotations']
+            if re.findall("stats|first_time_event|adaptive_threshold", d['search']):
+                # it is a complex pipeline
+                manifest_file = OUTPUT_PATH + '/complex/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
+            else:
+                # it is a simple pipeline can be placed on SRS (Simple Rule Service)
+                manifest_file = OUTPUT_PATH + '/srs/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
 
-        # add detection test
-        test_file = 'ssa___' + d['name'].lower().replace(" ", "_") + '.test.yml'
-        for file in glob.glob('tests/*/*'):
-            if test_file == file.split("/")[-1]:
-                with open(file, 'r') as file:
-                    test_yaml = yaml.safe_load(file)
-                    d['test'] = test_yaml
+            # remove unused fields
+            del d['risk']
+            del d['deployment']
+            del d['mappings']
+            del d['savedsearch_annotations']
 
-        with open(manifest_file, 'w') as file:
-            documents = yaml.dump(d, file, sort_keys=True)
+            # add detection test
+            test_file = 'ssa___' + d['name'].lower().replace(" ", "_") + '.test.yml'
+            for file in glob.glob('tests/*/*'):
+                if test_file == file.split("/")[-1]:
+                    with open(file, 'r') as file:
+                        test_yaml = yaml.safe_load(file)
+                        d['test'] = test_yaml
 
-    return True
+            with open(manifest_file, 'w') as file:
+                documents = yaml.dump(d, file, sort_keys=True)
+
+    return OUTPUT_PATH
 
 def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_PATH):
     '''
