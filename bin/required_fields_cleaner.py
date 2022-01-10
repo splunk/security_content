@@ -269,6 +269,8 @@ def clean_folder(directory:str, defined_datamodels:dict):
     files = [file for file in files if not os.path.basename(file).startswith("ssa___")]
     #print(f"Processing folder {directory} with {len(files)} files")
     failure_count = 0
+    required_updates = 0
+    no_updates = 0
     error_files = []
     for filename in files:
         try:
@@ -294,8 +296,20 @@ def clean_folder(directory:str, defined_datamodels:dict):
             
             required_fields_from_yaml = set(parsed['tags']['required_fields'])
             fields_to_update = update_required_fields_for_yaml(filename, parsed["search"], set(parsed["tags"]["required_fields"]), set(parsed["datamodel"]), defined_datamodels, required_fields_from_yaml)
+            if fields_to_update != {}:
+                parsed.update(fields_to_update)
+                required_updates += 1
+                with open(filename, 'w') as updated_cfg:
+                    yaml.safe_dump(parsed, updated_cfg)
+                    
+            else:
+                no_updates += 1
             #print(fields_to_update)
             #input("wait")
+
+            
+            
+
 
 
 
@@ -305,8 +319,9 @@ def clean_folder(directory:str, defined_datamodels:dict):
     
     print(f"{directory}")
     print("Errors:%d %s"%(len(error_files), "\n\t".join(error_files)))
-    print(f"The number of failures   : {failure_count}")
-    print(f"The total number of files: {len(files)}\n")
+    print(f"The number of failures     : {failure_count}")
+    print(f"The total number of files  : {len(files)}\n")
+    print(f"The total number of updates: {required_updates}\n")
     return        
 
 
