@@ -4,7 +4,7 @@ last_modified_at: 2021-12-14
 toc: true
 toc_label: ""
 tags:
-  - Investigate
+  - Investigation
   - Splunk SOAR
   - Windows Remote Management
 ---
@@ -15,7 +15,7 @@ tags:
 
 Published in response to CVE-2021-44228, this playbook accepts a list of hosts and filenames to remediate on the endpoint. If filenames are provided, the endpoints will be searched and then the user can approve deletion. Then the user is prompted to quarantine the endpoint.
 
-- **Type**: Investigate
+- **Type**: Investigation
 - **Product**: Splunk SOAR
 - **Apps**: [Windows Remote Management](https://splunkbase.splunk.com/apps/#/search/Windows Remote Management/product/soar)
 - **Last Updated**: 2021-12-14

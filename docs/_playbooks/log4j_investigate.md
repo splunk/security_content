@@ -1,5 +1,5 @@
 ---
-title: "Log4j Investigate and Respond"
+title: "Log4j Investigate"
 last_modified_at: 2021-12-14
 toc: true
 toc_label: ""
@@ -126,7 +126,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Curl Download and Bash Execution](/detections/TTP/curl_download_and_bash_execution)
+* [Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/)
 
 
 
@@ -1376,13 +1376,13 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Wget Download and Bash Execution](/detections/TTP/wget_download_and_bash_execution)
 
 
 
 
 
 
+* [Wget Download and Bash Execution](/endpoint/wget_download_and_bash_execution/)
 
 
 
@@ -1783,13 +1783,13 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Linux Java Spawning Shell](/detections/TTP/linux_java_spawning_shell)
 
 
 
 
 
 
+* [Linux Java Spawning Shell](/endpoint/linux_java_spawning_shell/)
 
 
 
@@ -3169,7 +3169,6 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Java Class File download by Java User Agent](/detections/TTP/java_class_file_download_by_java_user_agent)
 
 
 
@@ -3182,6 +3181,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
+* [Java Class File download by Java User Agent](/endpoint/java_class_file_download_by_java_user_agent/)
 
 
 
@@ -3956,7 +3956,6 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Outbound Network Connection from Java Using Default Ports](/detections/TTP/outbound_network_connection_from_java_using_default_ports)
 
 
 
@@ -3972,6 +3971,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
+* [Outbound Network Connection from Java Using Default Ports](/endpoint/outbound_network_connection_from_java_using_default_ports/)
 
 
 
@@ -4578,7 +4578,6 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Log4Shell JNDI Payload Injection Attempt](/detections/Anomaly/log4shell_jndi_payload_injection_attempt)
 
 
 
@@ -4597,6 +4596,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
+* [Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/)
 
 
 
@@ -5277,7 +5277,6 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Log4Shell JNDI Payload Injection with Outbound Connection](/detections/Anomaly/log4shell_jndi_payload_injection_with_outbound_connection)
 
 
 
@@ -5299,6 +5298,7 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
+* [Log4Shell JNDI Payload Injection with Outbound Connection](/web/log4shell_jndi_payload_injection_with_outbound_connection/)
 
 
 
@@ -5757,7 +5757,34 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 
-* [Detect Outbound LDAP Traffic](/detections/Hunting/detect_outbound_ldap_traffic)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* [Detect Outbound LDAP Traffic](/network/detect_outbound_ldap_traffic/)
+
+
+
 
 
 
@@ -6306,13 +6333,11 @@ Published in response to CVE-2021-44228, this playbook and its sub-playbooks can
 
 
 #### How To Implement
-To start this playbook, create a custom list called &#34;log4j_hosts&#34; with a format as shown below
-| hostname1 | unix | | hostname2 | windows |
-The first column should be an IP or hostname of a potentially affected log4j host, and the second should be the operating system family (either unix or windows). If the operating system is unknown it can be left blank. In the block called &#34;fetch_hosts_from_custom_list&#34;, change the custom list name from &#34;log4j_hosts&#34; if needed. If the operating system family (&#34;windows&#34; or &#34;unix&#34;) is not known, both ssh and winrm will be attempted. If ssh and/or winrm are not the preferred endpoint management methods, these playbooks could be ported to use Google&#39;s GRR, osquery,  CrowdStrike&#39;s RTR, Carbon Black&#39;s EDR API, or similar tools. The artifact scope &#34;all&#34; is used throughout this playbook because the artifact list can be added to as the playbook progresses.
+To start this playbook, create a custom list called &#34;log4j_hosts&#34; with a format in which the first column should be an IP or hostname of a potentially affected log4j host, the second should be the operating system family (either unix or windows). If the operating system is unknown it can be left blank. In the block called &#34;fetch_hosts_from_custom_list&#34;, change the custom list name from &#34;log4j_hosts&#34; if needed. If the operating system family (&#34;windows&#34; or &#34;unix&#34;) is not known, both ssh and winrm will be attempted. If ssh and/or winrm are not the preferred endpoint management methods, these playbooks could be ported to use Google&#39;s GRR, osquery,  CrowdStrike&#39;s RTR, Carbon Black&#39;s EDR API, or similar tools. The artifact scope &#34;all&#34; is used throughout this playbook because the artifact list can be added to as the playbook progresses.
 
 
 #### Playbooks
-![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/log4j_investigate_and_respond.png)
+![](https://raw.githubusercontent.com/splunk/security_content/develop/playbooks/log4j_investigate.png)
 
 #### Required field
 
@@ -6327,4 +6352,4 @@ The first column should be an IP or hostname of a potentially affected log4j hos
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/log4j_investigate_and_respond.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/playbooks/log4j_investigate.yml) \| *version*: **2**
