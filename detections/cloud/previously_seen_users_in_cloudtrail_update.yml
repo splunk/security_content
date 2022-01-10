@@ -9,7 +9,7 @@ datamodel:
 description: This search looks for CloudTrail events where a user logs into the console,
   then updates the baseline of the latest and earliest times, City, Region, and Country
   we have encountered this user in our dataset, grouped by user, within the last hour.
-search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication.BAD_FIELD_NAME
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication.Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
   | iplocation Authentication.src | rename Authentication.user as user Authentication.src
   as src | table user src City Region Country firstTime lastTime | inputlookup append=t
