@@ -105,17 +105,20 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
     yaml.Dumper.ignore_aliases = lambda *args : True
 
     # wiping old detections for SSA
-    shutil.rmtree(OUTPUT_PATH + '/srs/*', ignore_errors=True)
-    shutil.rmtree(OUTPUT_PATH + '/complex/*', ignore_errors=True)
+    shutil.rmtree(OUTPUT_PATH + '/srs/', ignore_errors=True)
+    shutil.rmtree(OUTPUT_PATH + '/complex/', ignore_errors=True)
+    os.makedirs(OUTPUT_PATH + '/complex/')
+    os.makedirs(OUTPUT_PATH + '/srs/')
 
     for d in detections:
         # check if the search contains "stats", "first_time_event", or "adaptive_threshold" which would make it a complex pipeline
         pattern = re.compile('stats|first_time_event|adaptive_threshold')
 
         if re.findall("stats|first_time_event|adaptive_threshold", d['search']):
+            # it is a complex pipeline
             manifest_file = OUTPUT_PATH + '/complex/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
-            print(d['name'])
         else:
+            # it is a simple pipeline can be placed on SRS (Simple Rule Service)
             manifest_file = OUTPUT_PATH + '/srs/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
 
         # remove unused fields
