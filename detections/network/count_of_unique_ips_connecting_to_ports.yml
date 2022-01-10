@@ -9,7 +9,7 @@ datamodel:
 description: The search counts the number of times a connection was observed to each
   destination port, and the number of unique source IPs connecting to them.
 search: '| tstats `security_content_summariesonly` count dc(All_Traffic.src) as numberOfUniqueHosts
-  from datamodel=Network_Traffic by All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
+  from datamodel=Network_Traffic.All_Traffic by All_Traffic.dest_port | `drop_dm_object_name("All_Traffic")`
   | sort - count'
 how_to_implement: To successfully implement this search, you must be ingesting network
   traffic, and populating the Network_Traffic data model.

@@ -10,7 +10,7 @@ description: This search builds a table of the first and last times seen for eve
   user role and command combination. This is broadly defined as any event that runs
   or creates something. This table is then cached.
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where All_Changes.user_type=AssumedRole AND All_Changes.status=success
+  from datamodel=Change.All_Changes where All_Changes.user_type=AssumedRole AND All_Changes.status=success
   by All_Changes.user, All_Changes.command | `drop_dm_object_name("All_Changes")`
   | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data = if(globalFirstTime
   <= relative_time(now(), "-7d@d"), 1, 0) | table user, command, firstTimeSeen, lastTimeSeen,

@@ -8,7 +8,7 @@ datamodel:
 - Network_Traffic
 description: This search counts the numbers of times the system has generated remote
   desktop traffic.
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Traffic.All_Traffic
   where All_Traffic.dest_port=3389 by All_Traffic.src | `drop_dm_object_name("All_Traffic")`
   | sort - count'
 how_to_implement: To successfully implement this search, you must ingest network traffic

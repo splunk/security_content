@@ -11,7 +11,7 @@ description: This search looks for cloud compute events where a compute instance
   `firstTime` we've seen this region in our dataset grouped by the region for the
   last 30 days
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where All_Changes.action=created by All_Changes.vendor_region
+  from datamodel=Change.All_Changes where All_Changes.action=created by All_Changes.vendor_region
   | `drop_dm_object_name("All_Changes")` | eventstats min(firstTimeSeen) as globalFirstTime
   | eval enough_data = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0)
   | outputlookup previously_seen_cloud_regions'

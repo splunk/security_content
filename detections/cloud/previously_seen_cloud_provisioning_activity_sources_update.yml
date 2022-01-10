@@ -13,7 +13,7 @@ description: This returns the first and last times seen for every IP address (al
   filters out locations that have not been seen within the specified time window.
   This updated table is then cached.
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created)
+  from datamodel=Change.All_Changes where (All_Changes.action=started OR All_Changes.action=created)
   All_Changes.status=success by All_Changes.src | `drop_dm_object_name("All_Changes")`
   | iplocation src | where isnotnull(Country) | table src, firstTimeSeen, lastTimeSeen,
   City, Country, Region | inputlookup previously_seen_cloud_provisioning_activity_sources

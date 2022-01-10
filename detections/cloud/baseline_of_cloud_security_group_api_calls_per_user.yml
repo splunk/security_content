@@ -10,7 +10,7 @@ description: This search is used to build a Machine Learning Toolkit (MLTK) mode
   for how many API calls for security groups are performed by each user. By default,
   the search uses the last 90 days of data to build the model and the model is rebuilt
   weekly.
-search: '| tstats count as security_group_api_calls from datamodel=Change where All_Changes.object_category=firewall
+search: '| tstats count as security_group_api_calls from datamodel=Change.All_Changes where All_Changes.object_category=firewall
   All_Changes.status=success by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")`
   | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval
   DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek

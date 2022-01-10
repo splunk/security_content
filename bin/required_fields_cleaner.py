@@ -5,6 +5,8 @@ import glob
 import os
 import re
 import json
+import pprint
+
 
 #find datamodel=SOMETHING, allowing for whitespace on either side of =
 DATAMODEL_PATTERN = r"datamodel\s*=?\s*\S*"
@@ -13,7 +15,7 @@ QUOTATIONS_PATTERN = r'''(["'])(?:(?=(\\?))\2.)*?\1'''
 KEY_VALUE_PATTERN = r"[a-zA-Z0-9_]*\.[a-zA-Z0-9_]*"
 
 def dictPrint(d):
-    import pprint
+    
     printer = pprint.PrettyPrinter(indent=3)
     printer.pprint(d)
 
@@ -65,9 +67,10 @@ def load_datamodels_from_directory(datamodels_directory:str)->dict:
         for submodel in json_datamodel['objects']:
             model_fields[submodel['objectName']] = parse_datamodel(model_name, submodel)
         
-        print("All datamodels parsed")
+        
         all_models[model_name] = model_fields
-    
+    print(f"All {len(datamodel_filenames)} datamodels parsed")
+
     '''
     dups = [{"field_name": element, "number_of_occurences":count} for element, count in collections.Counter(all_fields).items() if count > 1]
     if len(dups) != 0:
@@ -92,7 +95,7 @@ def load_datamodels_from_directory(datamodels_directory:str)->dict:
     return all_models
 
 
-def get_datamodels(search:str)->set[str]:
+def get_datamodels(search:str, filename:str)->list[tuple[str,str]]:
     #print(search)
     matches = re.findall(DATAMODEL_PATTERN, search)
 
@@ -102,11 +105,20 @@ def get_datamodels(search:str)->set[str]:
     
     models_and_submodels = [model.replace(" ","=").split("=")[1].strip() for model in matches]
 
-    #If we only care about the top level
-    models_only = [model.split(".")[0].strip() for model in models_and_submodels]
 
-    
-    return set(models_only)
+    results = []
+    for model_and_submodel in models_and_submodels:
+        if model_and_submodel.count(".") != 1:
+            print(f"datamodel {model_and_submodel} is not in model.submodel format in {filename}")
+        else:
+            m,s = model_and_submodel.split(".")
+            results.append((m,s))
+       
+            
+    #If we only care about the top level
+    #models_only = [model.split(".")[0].strip() for model in models_and_submodels]
+
+    return results
 
 def get_tokens(search:str):
     quoted_text_removed = re.sub(QUOTATIONS_PATTERN, "", search)
@@ -114,24 +126,28 @@ def get_tokens(search:str):
 
 
 def update_required_fields_for_yaml(filename:str, search:str, required_fields:set, datamodels_from_datamodel_field:set, defined_datamodels:dict)->dict:
-    datamodels_from_search = get_datamodels(search)
+    datamodels_from_search = get_datamodels(search,filename)
     #print(f"Datamodels found in {filename}: {datamodels}")
     yaml_fields_to_update = {}
     yaml_update_required = False
-    if len(datamodels_from_search) > 0:
-        for model in datamodels_from_search:
-            if model.count(".") > 1:
-                print(f"{filename} contains Datamodel '{model}'.\nDatamodel MUST be in format Model or Model.Submodel", file=sys.stderr)
-                sys.exit(1)
+  
+                
     
 
-        
+    #Now, ensure all the datamodels that we read from the file exist in the defiend datamodels
+    for model, submodel in datamodels_from_search:
+        if model not in defined_datamodels :
+            print(f"Error in {filename} - Failed to find model {model} in {defined_datamodels.keys()}")
+            #sys.exit(1)
+        elif submodel not in defined_datamodels[model]:
+            print(f"Error in {filename} - Failed to find submodel {submodel} in {defined_datamodels[model].keys()}")
+            sys.exit(1)
     
    
 
-
-
-    disjoint_members = datamodels_from_datamodel_field.symmetric_difference(datamodels_from_search)
+    return {}
+    datamodels_no_submodel = [d[0] for d in datamodels_from_search]
+    disjoint_members = datamodels_from_datamodel_field.symmetric_difference(datamodels_no_submodel)
     if len(disjoint_members) != 0:
         yaml_update_required = True
     '''
@@ -197,13 +213,13 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
                 found=True
                 break
         #If we got here, then we didn't find the fieldname in any of the models! This is bad.
-        if found == False:
+        if found == False and False:
             print(f"Failed to find {submodel}.{fieldname} in the datamodles {datamodels_in_use.keys()} for {filename}")
 
         
 
 
-    if yaml_update_required:
+    if yaml_update_required and False:
         '''
         print(f"\nMismatch between datamodel(s) used in search and declared datamodel(s)\n"\
               f"\tFilename                        : {filename}\n"\
@@ -225,6 +241,7 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
 
 def clean_folder(directory:str, defined_datamodels:dict):
     files = glob.glob(os.path.join(directory,"*"))
+    files.sort()
     files = [file for file in files if not os.path.basename(file).startswith("ssa___")]
     #print(f"Processing folder {directory} with {len(files)} files")
     failure_count = 0

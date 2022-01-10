@@ -12,7 +12,7 @@ description: This search is used to build a Machine Learning Toolkit (MLTK) mode
   model created by this search is then used in the corresponding detection search,
   which identifies subsequent outliers in the number of instances created in a small
   time window.
-search: '| tstats count as instances_launched from datamodel=Change where (All_Changes.action=created)
+search: '| tstats count as instances_launched from datamodel=Change.All_Changes where (All_Changes.action=created)
   AND All_Changes.status=success AND All_Changes.object_category=instance by _time
   span=1h | makecontinuous span=1h _time | eval instances_launched=coalesce(instances_launched,
   (random()%2)*0.0000000001) | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4

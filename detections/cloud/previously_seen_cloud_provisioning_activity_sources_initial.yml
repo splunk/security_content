@@ -11,7 +11,7 @@ description: This search builds a table of the first and last times seen for eve
   activity. This is broadly defined as any event that runs or creates something. This
   table is then cached.
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created)
+  from datamodel=Change.All_Changes where (All_Changes.action=started OR All_Changes.action=created)
   All_Changes.status=success by All_Changes.src | `drop_dm_object_name("All_Changes")`
   | iplocation src | where isnotnull(Country) | eventstats min(firstTimeSeen) as globalFirstTime
   | eval enough_data = if(globalFirstTime <= relative_time(now(), "-7d@d"), 1, 0)

@@ -9,7 +9,7 @@ datamodel:
 description: This search builds a table of previously seen cloud compute instance
   types
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where All_Changes.action=created by All_Changes.Instance_Changes.instance_type
+  from datamodel=Change.All_Changes where All_Changes.action=created by All_Changes.Instance_Changes.instance_type
   | `drop_dm_object_name("All_Changes.Instance_Changes")` | where instance_type !=
   "unknown" | eventstats min(firstTimeSeen) as globalFirstTime | eval enough_data
   = if(globalFirstTime <= relative_time(now(), "-14d@d"), 1, 0) | outputlookup previously_seen_cloud_compute_instance_types'

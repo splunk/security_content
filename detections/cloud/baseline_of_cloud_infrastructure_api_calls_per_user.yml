@@ -12,7 +12,7 @@ description: This search is used to build a Machine Learning Toolkit (MLTK) mode
   created by this search is then used in the corresponding detection search, which
   identifies subsequent outliers in the number of instances created in a small time
   window.
-search: '| tstats count as api_calls from datamodel=Change where All_Changes.user!=unknown
+search: '| tstats count as api_calls from datamodel=Change.All_Changes where All_Changes.user!=unknown
   All_Changes.status=success by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")`
   | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval
   DayOfWeek=strftime(_time, "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek

@@ -9,7 +9,7 @@ datamodel:
 description: This search updates the table of the first and last times seen for every
   user role and command combination.
 search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSeen
-  from datamodel=Change where All_Changes.user_type=AssumedRole AND All_Changes.status=success
+  from datamodel=Change.All_Changes where All_Changes.user_type=AssumedRole AND All_Changes.status=success
   by All_Changes.user, All_Changes.command | `drop_dm_object_name("All_Changes")`
   | table user, command, firstTimeSeen, lastTimeSeen | inputlookup previously_seen_cloud_api_calls_per_user_role
   append=t | stats min(firstTimeSeen) as firstTimeSeen, max(lastTimeSeen) as lastTimeSeen

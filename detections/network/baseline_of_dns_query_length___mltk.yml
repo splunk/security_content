@@ -11,7 +11,7 @@ description: This search is used to build a Machine Learning Toolkit (MLTK) mode
   in the environment. By default, the search uses the last 30 days of data to build
   the model. The model created by this search is then used in the corresponding detection
   search, which uses it to identify outliers in the length of the DNS query.
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution.DNS
   by DNS.query DNS.record_type | search DNS.record_type=* | `drop_dm_object_name("DNS")`
   | eval query_length = len(query) | fit DensityFunction query_length by record_type
   into dns_query_pdfmodel'
