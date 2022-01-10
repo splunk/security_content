@@ -28,7 +28,7 @@ feature_row:
   - image_path: /static/feature_playbooks.png
     alt: "100% free"
     title: "Playbooks"
-    excerpt: "See all **23** sets of steps 🐾 to automatically response to a threat."
+    excerpt: "See all **26** sets of steps 🐾 to automatically response to a threat."
     url: "/playbooks"
     btn_class: "btn--primary"
     btn_label: "Explore"
