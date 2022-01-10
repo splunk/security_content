@@ -2,8 +2,12 @@ author: Stanislav Miskovic, Splunk
 datamodel:
 - Endpoint_Processes
 date: '2020-11-05'
-description: This detection identifies use of Mimikatz modules for discovery of accounts
-  and groups and access to them.
+deprecated: true
+description: 'WARNING, this detection has been marked deprecated by the Splunk Threat
+  Research team, this means that it will no longer be maintained or supported. If
+  you have any questions feel free to email us at: research@splunk.com. This detection
+  identifies use of Mimikatz modules for discovery of accounts and groups and access
+  to them.'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 id: 1bce67aa-3fc4-4886-9089-67f0bfebbef6

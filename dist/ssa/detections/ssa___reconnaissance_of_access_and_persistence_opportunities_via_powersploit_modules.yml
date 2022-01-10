@@ -2,11 +2,15 @@ author: Stanislav Miskovic, Splunk
 datamodel:
 - Endpoint_Processes
 date: '2020-11-05'
-description: This detection identifies use of PowerSploit modules that discover opportunities
-  for malicious access and persistence. Some examples include access to admin accounts,
-  weak access control policies, landing paths for dropping malicious software or data
-  to exfiltrate, registry locations to land autorun parameters, task scheduling opportunities,
-  as well as services and system files that can be compromised.
+deprecated: true
+description: 'WARNING, this detection has been marked deprecated by the Splunk Threat
+  Research team, this means that it will no longer be maintained or supported. If
+  you have any questions feel free to email us at: research@splunk.com. This detection
+  identifies use of PowerSploit modules that discover opportunities for malicious
+  access and persistence. Some examples include access to admin accounts, weak access
+  control policies, landing paths for dropping malicious software or data to exfiltrate,
+  registry locations to land autorun parameters, task scheduling opportunities, as
+  well as services and system files that can be compromised.'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 id: 3d8bd7f3-1061-4ac7-9225-6764cc0684d7
