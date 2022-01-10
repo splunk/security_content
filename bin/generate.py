@@ -40,6 +40,13 @@ def process_deprecated(file,file_path):
         file['description'] = DESCRIPTION_ANNOTATION + file['description']
     return file
 
+def process_experimental(file,file_path):
+    DESCRIPTION_ANNOTATION = "WARNING, this is a experimental detection, Splunk Threat Research has not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is NOT supported. If you have any questions feel free to email us at: research@splunk.com. "
+    if 'experimental' in file_path:
+        file['experimental'] = True
+        file['experimental'] = DESCRIPTION_ANNOTATION + file['description']
+    return file
+
 def load_file(file_path):
     with open(file_path, 'r', encoding="utf-8") as stream:
         try:
@@ -47,6 +54,7 @@ def load_file(file_path):
 
             # mark any files that have been deprecated
             file = process_deprecated(file,file_path)
+            file = process_experimental(file,file_path)
 
         except yaml.YAMLError as exc:
             print(exc)
@@ -112,11 +120,11 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
 
     for d in detections:
         # skip deprecated
-        if 'deprecated' in d and d['deprecated']:
+        if ('deprecated' in d and d['deprecated']) or ('experimental' in d and d['experimental']):
             continue
         else:
             # check if the search contains "stats", "first_time_event", or "adaptive_threshold" which would make it a complex pipeline
-            pattern = re.compile('stats|first_time_event|adaptive_threshold')
+            pattern = re.compile('stats|first_time_event|adaptive_threshold|conditional_anomaly')
 
             if re.findall("stats|first_time_event|adaptive_threshold", d['search']):
                 # it is a complex pipeline
