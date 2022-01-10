@@ -25,10 +25,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `linux_setuid_using_setcap_utility_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: administrator or network operator can execute this command.
-  filter is needed
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
 references:
 - https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
 tags:
@@ -60,8 +59,9 @@ tags:
   confidence: 70
   risk_score: 49
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
   message: a commandline $process$ that may set suid or sgid on $dest$
   observable:
   - name: dest
