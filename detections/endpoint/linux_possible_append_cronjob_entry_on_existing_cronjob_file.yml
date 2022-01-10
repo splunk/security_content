@@ -10,8 +10,7 @@ description: This analytic looks for possible suspicious commandline that may us
   for persistence or privilege escalation. This technique is commonly abused by malware, adversaries and red teamers to automatically execute their code 
   within a existing or sometimes in normal cronjob script file. 
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes 
-  where Processes.process = "*echo*" Processes.process = "*&gt;&gt;*" 
-  AND Processes.process IN("*/etc/cron*", "*/var/spool/cron/*", "*/etc/anacrontab*")
+  where Processes.process = "*echo*" AND Processes.process IN("*/etc/cron*", "*/var/spool/cron/*", "*/etc/anacrontab*")
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
