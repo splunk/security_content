@@ -5,9 +5,7 @@ date: '2020-11-10'
 description: The following analytic identifies parent processes, browsers, Windows
   terminal applications, Office Products and Java spawning cmd.exe. By its very nature,
   many applications spawn cmd.exe natively or built into macros. Much of this will
-  need to be tuned to further enhance the risk. During triage, review parallel process
-  execution and identify any file modifications that may have occurred. Capture any
-  artifacts and review further.
+  need to be tuned to further enhance the risk.
 how_to_implement: In order to successfully implement this analytic, you will need
   endpoint process data from a EDR product or Sysmon. This search has been modified
   to process raw sysmon data from attack_range's nxlogs on DSP.
@@ -22,7 +20,8 @@ references:
 risk_message: An instance of $parent_process_name$ spawning $process_name$ was identified
   on endpoint $dest_device_id$ by user $dest_user_id$, producing a suspicious event
   that warrants investigating.
-search: '| from read_ssa_enriched_events() | where "Endpoint_Processes" IN(_datamodels)
+search: '| from read_ssa_enriched_events()
+
   | eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))
   | eval process_name=ucast(map_get(input_event, "process_name"), "string", null),
   parent_process=lower(ucast(map_get(input_event, "parent_process_name"), "string",
@@ -85,6 +84,7 @@ tags:
   - _time
   - dest_device_id
   - dest_user_id
+  - cmd_line
   risk_score: 35
   risk_severity: medium
   security_domain: endpoint

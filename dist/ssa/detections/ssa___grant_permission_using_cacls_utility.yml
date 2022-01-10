@@ -1,18 +1,18 @@
 author: Teoderick Contreras, Splunk
 datamodel:
 - Endpoint_Processes
-date: '2021-06-14'
-description: This analytic identifies potential adversaries that modify the security
-  permission of a specific file or directory. This technique is commonly seen in APT
-  tradecraft, ransomware and coinminer scripts to evade detections and restrict access
-  to their component files.
+date: '2021-11-30'
+description: The following analytic identifies the use of `cacls.exe`, `icacls.exe`
+  or `xcacls.exe` placing the grant permission on a file or directory. Adversaries
+  perform this behavior to allow components of their files to run, however it allows
+  responders to review or gaining access to adversary files on disk.
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed icacls.exe may be used.
 id: c6da561a-cd29-11eb-ae65-acde48001122
-known_false_positives: network administrator may use this windows utility but this
-  is not a common practice.
+known_false_positives: System administrators may use cacls utilities but this is not
+  a common practice. Filter as needed.
 name: Grant Permission Using Cacls Utility
 product:
 - Splunk Behavioral Analytics
@@ -73,6 +73,7 @@ tags:
   - process_path
   - dest_user_id
   - process
+  - cmd_line
   risk_score: 35
   risk_severity: medium
   security_domain: endpoint
@@ -88,4 +89,4 @@ test:
     name: Grant Permission Using Cacls Utility
     pass_condition: '@count_gt(0)'
 type: TTP
-version: 2
+version: 3

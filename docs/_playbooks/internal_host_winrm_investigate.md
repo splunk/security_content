@@ -4,7 +4,7 @@ last_modified_at: 2021-12-14
 toc: true
 toc_label: ""
 tags:
-  - Investigate
+  - Investigation
   - Splunk SOAR
   - Windows Remote Management
 ---
@@ -15,7 +15,7 @@ tags:
 
 Performs a general investigation on key aspects of a windows device using windows remote management. Important files related to the endpoint are generated, bundled into a zip, and copied to the container vault.
 
-- **Type**: Investigate
+- **Type**: Investigation
 - **Product**: Splunk SOAR
 - **Apps**: [Windows Remote Management](https://splunkbase.splunk.com/apps/#/search/Windows Remote Management/product/soar)
 - **Last Updated**: 2021-12-14

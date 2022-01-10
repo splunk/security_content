@@ -23,7 +23,7 @@ tags:
 
 #### Description
 
-This analytic is to detect a suspicious process having a dns query on known abuse text paste web services, or VoIP, instant messaging and digital distribution platform to download some files. This technique is abused by adversaries, malware attacker and red team to download a malicious file on the target host. This is a good TTP indicator for possible initial access technique. Noise and false positive can be seen if the following instant messaging is allowed or common application in corporate network.
+This analytic detects a suspicious process making a DNS query via known, abused text-paste web services, VoIP, instant messaging, and digital distribution platforms used to download external files. This technique is abused by adversaries, malware actors, and red teams to download a malicious file on the target host. This is a good TTP indicator for possible initial access techniques. A user will experience false positives if the following instant messaging is allowed or common applications like telegram or discord are allowed in the corporate network.
 
 - **Type**: TTP
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
@@ -56,7 +56,7 @@ This analytic is to detect a suspicious process having a dns query on known abus
 
 
 #### How To Implement
-his detection relies on sysmon logs with the Event ID 7, Driver loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query. We suggest to run this detection at least once a day over the last 14 days.
+This detection relies on sysmon logs with the Event ID 22, DNS Query. We suggest you run this detection at least once a day over the last 14 days.
 
 #### Required field
 * _time
@@ -73,7 +73,7 @@ his detection relies on sysmon logs with the Event ID 7, Driver loaded. Please t
 
 
 #### Known False Positives
-Noise and false positive can be seen if the following instant messaging is allowed to use within corporate network. filter is needed.
+Noise and false positive can be seen if the following instant messaging is allowed to use within corporate network. In this case, a filter is needed.
 
 
 #### RBA

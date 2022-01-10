@@ -44,7 +44,7 @@ def get_notable_history(action=None, success=None, container=None, results=None,
 
     phantom.format(container=container, template=template, parameters=parameters, name="get_notable_history")
 
-    run_query_1(container=container)
+    run_get_notable_history(container=container)
 
     return
 
@@ -52,7 +52,7 @@ def get_notable_history(action=None, success=None, container=None, results=None,
 def get_process_info(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("get_process_info() called")
 
-    template = """%%\n`security_content_summariesonly` count values(Processes.process)\n  as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n  by Processes.user Processes.parent_process_name Processes.process_name Processes.dest\n  | `drop_dm_object_name(\"Processes\")` | search  process_name= \"*java*\" | search\n  dest = {0} | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`\n%%"""
+    template = """%%\n`security_content_summariesonly` count values(Processes.process)\n  as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n where earliest=-7d by Processes.user Processes.parent_process_name Processes.process_name Processes.dest\n  | `drop_dm_object_name(\"Processes\")` | search  process_name= \"*java*\" | search\n  dest = {0} | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`\n%%"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -71,7 +71,7 @@ def get_process_info(action=None, success=None, container=None, results=None, ha
 
     phantom.format(container=container, template=template, parameters=parameters, name="get_process_info")
 
-    run_query_2(container=container)
+    run_get_process_info(container=container)
 
     return
 
@@ -79,7 +79,7 @@ def get_process_info(action=None, success=None, container=None, results=None, ha
 def get_children_of_java(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("get_children_of_java() called")
 
-    template = """%%\n`security_content_summariesonly` count values(Processes.process)\n  as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n  by Processes.user Processes.parent_process_name Processes.process_name Processes.dest\n  | `drop_dm_object_name(\"Processes\")` | search  parent_process_name= \"*java*\" | search dest = {0} |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`\n%%"""
+    template = """%%\n`security_content_summariesonly` count values(Processes.process)\n  as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes\n  where earliest=-7d by Processes.user Processes.parent_process_name Processes.process_name Processes.dest\n  | `drop_dm_object_name(\"Processes\")` | search  parent_process_name= \"*java*\" | search dest = {0} |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`\n%%"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -98,7 +98,7 @@ def get_children_of_java(action=None, success=None, container=None, results=None
 
     phantom.format(container=container, template=template, parameters=parameters, name="get_children_of_java")
 
-    run_query_3(container=container)
+    run_get_children_of_java(container=container)
 
     return
 
@@ -125,13 +125,13 @@ def es_assets(action=None, success=None, container=None, results=None, handle=No
 
     phantom.format(container=container, template=template, parameters=parameters, name="es_assets")
 
-    run_query_4(container=container)
+    fetch_es_assets(container=container)
 
     return
 
 
-def run_query_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("run_query_1() called")
+def run_get_notable_history(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("run_get_notable_history() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -161,13 +161,13 @@ def run_query_1(action=None, success=None, container=None, results=None, handle=
     ## Custom Code End
     ################################################################################
 
-    phantom.act("run query", parameters=parameters, name="run_query_1", assets=["splunk"])
+    phantom.act("run query", parameters=parameters, name="run_get_notable_history", assets=["splunk"])
 
     return
 
 
-def run_query_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("run_query_2() called")
+def run_get_process_info(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("run_get_process_info() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -190,20 +190,20 @@ def run_query_2(action=None, success=None, container=None, results=None, handle=
     for formatted_item in get_process_info__as_list:
         parameters.append({
             "query": formatted_item,
-            "command": "tstats",
+            "command": "| tstats",
         })
     
     ################################################################################
     ## Custom Code End
     ################################################################################
 
-    phantom.act("run query", parameters=parameters, name="run_query_2", assets=["splunk"])
+    phantom.act("run query", parameters=parameters, name="run_get_process_info", assets=["splunk"])
 
     return
 
 
-def run_query_3(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("run_query_3() called")
+def run_get_children_of_java(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("run_get_children_of_java() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -227,20 +227,20 @@ def run_query_3(action=None, success=None, container=None, results=None, handle=
     for formatted_item in get_children_of_java__as_list:
         parameters.append({
             "query": formatted_item,
-            "command": "tstats",
+            "command": "| tstats",
         })
     
     ################################################################################
     ## Custom Code End
     ################################################################################
 
-    phantom.act("run query", parameters=parameters, name="run_query_3", assets=["splunk"])
+    phantom.act("run query", parameters=parameters, name="run_get_children_of_java", assets=["splunk"])
 
     return
 
 
-def run_query_4(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("run_query_4() called")
+def fetch_es_assets(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("fetch_es_assets() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -270,7 +270,7 @@ def run_query_4(action=None, success=None, container=None, results=None, handle=
     ## Custom Code End
     ################################################################################
 
-    phantom.act("run query", parameters=parameters, name="run_query_4", assets=["splunk"])
+    phantom.act("run query", parameters=parameters, name="fetch_es_assets", assets=["splunk"])
 
     return
 
