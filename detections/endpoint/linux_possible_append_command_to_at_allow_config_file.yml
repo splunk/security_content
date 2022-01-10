@@ -12,8 +12,7 @@ description: This analytic looks for suspicious commandline that may use to appe
   create a user or add the compromised username to that config file to execute at to schedule it malicious code. This anomaly detection 
   can be a good indicator to investigate further the entry in created config file and who created it to verify if it is a false positive.   
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes 
-  where Processes.process = "*echo*" Processes.process = "*&gt;&gt;*" 
-  AND Processes.process IN("*/etc/at.allow", "*/etc/at.deny")
+  where Processes.process = "*echo*" AND Processes.process IN("*/etc/at.allow", "*/etc/at.deny")
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
