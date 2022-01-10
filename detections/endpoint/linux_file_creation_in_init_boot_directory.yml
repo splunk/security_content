@@ -20,8 +20,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the file name, file path, and process_guid executions from your endpoints.
   If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase
-known_false_positives: administrator or network operator can create file in this folders
-  for automation purposes. filter is needed
+known_false_positives: Administrator or network operator can create file in this folders
+  for automation purposes. Please update the filter macros to remove false positives. 
 references:
 - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
 tags:
