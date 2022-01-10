@@ -52,8 +52,9 @@ tags:
   confidence: 80
   risk_score: 56
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
   message: A file $file_name$ is created in $file_path$ on $dest$
   observable:
   - name: dest
