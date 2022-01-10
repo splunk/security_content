@@ -2,8 +2,12 @@ author: Stanislav Miskovic, Splunk
 datamodel:
 - Endpoint_Processes
 date: '2020-11-05'
-description: This detection identifies access to PowerSploit modules that discover
-  accounts, groups and policies that can be accessed or taken over.
+deprecated: true
+description: 'WARNING, this detection has been marked deprecated by the Splunk Threat
+  Research team, this means that it will no longer be maintained or supported. If
+  you have any questions feel free to email us at: research@splunk.com. This detection
+  identifies access to PowerSploit modules that discover accounts, groups and policies
+  that can be accessed or taken over.'
 how_to_implement: You must be ingesting Windows Security logs from devices of interest,
   including the event ID 4688 with enabled command line logging.
 id: 63422f8e-766c-468f-8133-2ba6795e263b

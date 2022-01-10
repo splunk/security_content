@@ -1,18 +1,11 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Use Cases",
+    "category": "Threat Response",
     "coa": {
         "data": {
             "description": "Published in response to CVE-2021-44228, this playbook accepts a list of hosts and filenames to remediate on the endpoint. If filenames are provided, the endpoints will be searched and then the user can approve deletion. Then the user is prompted to quarantine the endpoint.",
             "edges": [
-                {
-                    "id": "port_25_to_port_26",
-                    "sourceNode": "25",
-                    "sourcePort": "25_out",
-                    "targetNode": "26",
-                    "targetPort": "26_in"
-                },
                 {
                     "conditions": [
                         {
@@ -225,7 +218,7 @@
                     "targetPort": "9_in"
                 }
             ],
-            "hash": "2a0cfc5974aa54de43e828455cf51d6e6b67031a",
+            "hash": "9a556cf16898c397fac9fa7ecce677e29ea0ad8a",
             "nodes": {
                 "0": {
                     "data": {
@@ -239,8 +232,8 @@
                     "errors": {},
                     "id": "0",
                     "type": "start",
-                    "x": 370,
-                    "y": -8.526512829121202e-14
+                    "x": 530,
+                    "y": 0
                 },
                 "1": {
                     "data": {
@@ -256,8 +249,8 @@
                     "id": "1",
                     "type": "end",
                     "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
-                    "x": 450,
-                    "y": 2845
+                    "x": 530,
+                    "y": 2730
                 },
                 "10": {
                     "data": {
@@ -286,8 +279,8 @@
                     "id": "10",
                     "type": "code",
                     "userCode": "    \n    generate_deletion_commands__prompt_content = \"\"\n    generate_deletion_commands__host = []\n    generate_deletion_commands__deletion_command = []\n    \n    # Retrieve previously saved key\n    host_dictionary = json.loads(phantom.get_run_data(key=\"host_dictionary\"))\n    # Iterate through the paired host and locate files action result\n    for hostname, action_result in zip(locate_files_parameter_ip_hostname, locate_files_result_item_1):\n\n        # Ensure at least one file was found for that host\n        if \"true\" in action_result.split(' '):\n            \n            # Attach this host to list of deletion hosts\n            generate_deletion_commands__host.append(hostname)\n            \n            # Begin building deletion powershell script and prompt message\n            deletion_string = f'''for i in '''\n            generate_deletion_commands__prompt_content += f\"### {hostname}\\n\\n\"\n            for filepath, result in zip(host_dictionary[hostname], action_result.split(' ')):\n                if result == \"true\":\n                    generate_deletion_commands__prompt_content += f\"- {filepath}\\n\"\n                    deletion_string += f'\"{filepath}\" '\n                    \n            # Remove trailing comma and attach one deletion command\n            deletion_string = deletion_string.rstrip(',')\n            deletion_string += '; do rm -v $i; done;'\n            generate_deletion_commands__deletion_command.append(deletion_string)\n\n",
-                    "x": 260,
-                    "y": 691
+                    "x": 330,
+                    "y": 703
                 },
                 "12": {
                     "data": {
@@ -298,11 +291,11 @@
                             "join": [],
                             "note": "Prompt the user to confirm deletion"
                         },
-                        "approver": "admin",
+                        "approver": "Incident Commander",
                         "functionId": 3,
                         "functionName": "deletion_confirmation",
                         "id": "12",
-                        "message": "SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n{0}",
+                        "message": "SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n&nbsp;\n{0}",
                         "parameters": [
                             "generate_deletion_commands:custom_function:prompt_content"
                         ],
@@ -319,8 +312,8 @@
                     "errors": {},
                     "id": "12",
                     "type": "prompt",
-                    "x": 340,
-                    "y": 889
+                    "x": 410,
+                    "y": 911
                 },
                 "13": {
                     "data": {
@@ -371,8 +364,8 @@
                     "errors": {},
                     "id": "13",
                     "type": "decision",
-                    "x": 340,
-                    "y": 1069
+                    "x": 410,
+                    "y": 1091
                 },
                 "14": {
                     "data": {
@@ -407,8 +400,8 @@
                     "id": "14",
                     "type": "action",
                     "userCode": "\n    parameters = []\n    for del_cmd, host in zip(generate_deletion_commands__deletion_command, generate_deletion_commands__host):\n        parameters.append({\n            \"command\": del_cmd,\n            \"ip_hostname\": host,\n        })\n        \n",
-                    "x": 170,
-                    "y": 1249
+                    "x": 230,
+                    "y": 1271
                 },
                 "15": {
                     "data": {
@@ -459,8 +452,8 @@
                     "errors": {},
                     "id": "15",
                     "type": "decision",
-                    "x": 430,
-                    "y": 150
+                    "x": 590,
+                    "y": 154
                 },
                 "17": {
                     "data": {
@@ -488,8 +481,8 @@
                     "errors": {},
                     "id": "17",
                     "type": "format",
-                    "x": 360,
-                    "y": 1580
+                    "x": 510,
+                    "y": 1614
                 },
                 "20": {
                     "data": {
@@ -504,11 +497,11 @@
                             ],
                             "note": "Offer the user options to quarantine the affected endpoints"
                         },
-                        "approver": "admin",
+                        "approver": "Incident Commander",
                         "functionId": 2,
                         "functionName": "quarantine_prompt",
                         "id": "20",
-                        "message": "Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n### Target Hosts\n{0}",
+                        "message": "Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n&nbsp;\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n&nbsp;\n### Target Hosts\n{0}",
                         "parameters": [
                             "format_host_list_prompt:formatted_data"
                         ],
@@ -534,8 +527,8 @@
                     "errors": {},
                     "id": "20",
                     "type": "prompt",
-                    "x": 440,
-                    "y": 1761
+                    "x": 590,
+                    "y": 1803
                 },
                 "23": {
                     "data": {
@@ -634,8 +627,8 @@
                     "errors": {},
                     "id": "23",
                     "type": "decision",
-                    "x": 440,
-                    "y": 1941
+                    "x": 590,
+                    "y": 1983
                 },
                 "24": {
                     "data": {
@@ -669,8 +662,8 @@
                     "errors": {},
                     "id": "24",
                     "type": "action",
-                    "x": 520,
-                    "y": 2302
+                    "x": 680,
+                    "y": 2163
                 },
                 "25": {
                     "data": {
@@ -705,7 +698,7 @@
                     "id": "25",
                     "type": "action",
                     "x": 0,
-                    "y": 2121
+                    "y": 2163
                 },
                 "26": {
                     "data": {
@@ -738,8 +731,8 @@
                     "errors": {},
                     "id": "26",
                     "type": "action",
-                    "x": 180,
-                    "y": 2317.5
+                    "x": 340,
+                    "y": 2180.5
                 },
                 "27": {
                     "data": {
@@ -845,7 +838,7 @@
                                 "content": "format_custom_note:custom_function:output",
                                 "note_format": "markdown",
                                 "note_type": "general",
-                                "title": "WinRm Log4j Response"
+                                "title": "SSH Log4j Response"
                             }
                         }
                     },
@@ -853,8 +846,8 @@
                     "id": "27",
                     "type": "utility",
                     "userCode": "\n\n",
-                    "x": 430,
-                    "y": 2664
+                    "x": 510,
+                    "y": 2541
                 },
                 "28": {
                     "data": {
@@ -909,8 +902,8 @@
                     "errors": {},
                     "id": "28",
                     "type": "utility",
-                    "x": 360,
-                    "y": 1430
+                    "x": 510,
+                    "y": 1460
                 },
                 "32": {
                     "data": {
@@ -940,8 +933,8 @@
                     "id": "32",
                     "type": "code",
                     "userCode": "    format_custom_note__output = \"\"\n    playbook_summary = phantom.get_summary()\n    if 'result' in playbook_summary.keys() and playbook_summary['result']:\n        for result_item in playbook_summary['result']:\n            format_custom_note__output += f\"#### Action - {result_item['name']}: {result_item['message']}\\n\"\n            # Generate app run summary for each action\n            if 'app_runs' in result_item.keys() and result_item['app_runs']:\n                for app_run_item in result_item['app_runs']:\n                    format_custom_note__output += f\"- app_run_id: {app_run_item['app_run_id']}\\n\"\n                    for k,v in app_run_item['parameter'].items():\n                        if k != 'context':\n                            format_custom_note__output += f\"  - {k}: {v}\\n\"\n                    format_custom_note__output += f\"- summary: {app_run_item['summary']}\\n\"\n            format_custom_note__output += \"\\n\"\n\n",
-                    "x": 430,
-                    "y": 2483
+                    "x": 510,
+                    "y": 2352
                 },
                 "4": {
                     "data": {
@@ -976,8 +969,8 @@
                     "id": "4",
                     "type": "action",
                     "userCode": "\n    parameters = []\n    host_search = {}\n    \n    # Treat ip_or_hostname and filePath as a paired unit and iterate through them,\n    # then create a dictionary for each host with a list of its filepaths\n    for playbook_input_filepath_item, playbook_input_ip_or_hostname_item in zip(playbook_input_filepath, playbook_input_ip_or_hostname):\n        if playbook_input_ip_or_hostname_item[0] in host_search.keys():\n            host_search[playbook_input_ip_or_hostname_item[0]].append(playbook_input_filepath_item[0])\n        else:\n            host_search[playbook_input_ip_or_hostname_item[0]] = [playbook_input_filepath_item[0]]\n    \n    # Iterate through the host dictionary and generation one search string that checks all filepaths per host.\n    # This ensures that we are only connecting to each host once.\n    for k,v in host_search.items():\n        script_str = f'''RESULT=\"\"; for i in \"{'\" \"'.join(v)}\"; do if [ -f \"$i\" ]; then RESULT=\"${{RESULT}} true\"; else RESULT=\"${{RESULT}} false\"; fi; done; echo $RESULT'''\n        parameters.append({\n            \"ip_hostname\": k,\n            \"command\": script_str\n        })\n    \n    # Save the host_search dictionary into temporary data to access downstream.\n    # This makes it easier to compare the results of locate files with the filepaths and hosts\n    phantom.save_run_data(value=json.dumps(host_search), key=\"host_dictionary\")\n    \n",
-                    "x": 260,
-                    "y": 330
+                    "x": 420,
+                    "y": 334
                 },
                 "9": {
                     "data": {
@@ -1028,11 +1021,11 @@
                     "errors": {},
                     "id": "9",
                     "type": "decision",
-                    "x": 340,
-                    "y": 511
+                    "x": 500,
+                    "y": 523
                 }
             },
-            "notes": ""
+            "notes": "This playbook uses the following Apps:\n - SSH (execute program) [asset name = ssh] - respond on the host\nDeployment Notes:\n - The ssh asset may require sudo access depending on permissions on the file system\n - The prompts are assigned to Incident Commanders, but can be changed if needed"
         },
         "input_spec": [
             {
@@ -1057,7 +1050,7 @@
         "schema": "5.0.4",
         "version": "5.1.0.70187"
     },
-    "create_time": "2021-12-15T00:28:06.769849+00:00",
+    "create_time": "2021-12-15T22:19:47.085179+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -1065,6 +1058,7 @@
     "tags": [
         "unix",
         "internal_host",
-        "log4j"
+        "log4j",
+        "respond"
     ]
 }

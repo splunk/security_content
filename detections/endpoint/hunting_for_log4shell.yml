@@ -74,32 +74,20 @@ tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
   asset_type: Web Server
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/log4shell-nginx.log
-  kill_chain_phases:
-  - Exploitation
-  mitre_attack_id:
-  - T1190
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  required_fields:
-  - _time
-  - Web.http_method
-  - Web.url
-  - Web.url_length
-  - Web.src
-  - Web.dest
-  - Web.http_user_agent
-  - _raw
-  security_domain: network
-  impact: 80
+  automated_detection_testing: passed
   confidence: 50
-  risk_score: 40
   context:
   - Source:network
+  cve:
+  - CVE-2021-44228
+  dataset:
+  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/log4shell-nginx.log
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
   message: Hunting for Log4Shell exploitation has occurred.
+  mitre_attack_id:
+  - T1190
   observable:
   - name: dest
     type: Hostname
@@ -113,6 +101,18 @@ tags:
     type: Other
     role:
     - other
-  cve:
-  - CVE-2021-44228
-  automated_detection_testing: passed
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - Web.http_user_agent
+  - _raw
+  risk_score: 40
+  security_domain: network

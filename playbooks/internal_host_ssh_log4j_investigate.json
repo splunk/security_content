@@ -1,10 +1,10 @@
 {
     "blockly": false,
     "blockly_xml": "<xml></xml>",
-    "category": "Use Cases",
+    "category": "Threat Response",
     "coa": {
         "data": {
-            "description": "Investigate an internal unix host using SSH. This pushes a bash script to the endpoint and runs it, collecting information specific to the December 2021 log4j vulnerability disclosure. This includes the java version installed on the host, any running java processes, and the results of a scan for the affected JndiLookup.class file or log4j .jar files. ",
+            "description": "Published in response to CVE-2021-44228, \n this playbook investigates an internal unix host using SSH. This pushes a bash script to the endpoint and runs it, collecting information specific to the December 2021 log4j vulnerability disclosure. This includes the java version installed on the host, any running java processes, and the results of a scan for the affected JndiLookup.class file or log4j .jar files.",
             "edges": [
                 {
                     "id": "port_0_to_port_5",
@@ -42,7 +42,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "f0f51d60c1f03e0566b642644ddb96be1979fb2e",
+            "hash": "836df07909a97930becce0ff97153dcc05232fc6",
             "nodes": {
                 "0": {
                     "data": {
@@ -56,8 +56,8 @@
                     "errors": {},
                     "id": "0",
                     "type": "start",
-                    "x": 1000,
-                    "y": 419.99999999999966
+                    "x": 19.999999999999986,
+                    "y": -1.5987211554602254e-13
                 },
                 "1": {
                     "data": {
@@ -73,13 +73,13 @@
                     "id": "1",
                     "type": "end",
                     "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
-                    "x": 1000,
-                    "y": 1000
+                    "x": 19.999999999999986,
+                    "y": 756
                 },
                 "5": {
                     "data": {
                         "advanced": {
-                            "customName": "write embedded bash script to vault",
+                            "customName": "add embedded bash script to vault",
                             "customNameId": 0,
                             "join": []
                         },
@@ -89,7 +89,7 @@
                             "repoName": "community"
                         },
                         "functionId": 3,
-                        "functionName": "write_embedded_bash_script_to_vault",
+                        "functionName": "add_embedded_bash_script_to_vault",
                         "id": "5",
                         "selectMore": false,
                         "type": "utility",
@@ -241,9 +241,9 @@
                     "errors": {},
                     "id": "5",
                     "type": "utility",
-                    "userCode": "\n    bash_script = r\"\"\"\n#!/bin/bash\n  \n# This script is part of the Splunk SOAR playbook called internal_host_ssh_log4j_investigate. It shows\n# the installed java version, lists any running java processes, performs a search for the JndiLookup.class\n# file in any .jar files found on disk, and searches any .war files for a log4j jar.\n\necho \"##############################################################\"\necho \"splunk_soar_internal_host_ssh_log4j_investigate.sh\"\necho \"##############################################################\"\necho \"\"\n\necho \"java environment configuration\" > java_environment.csv\necho \"[+] Checking Java version:\"\necho \"$(java -version)\"\necho \"java version:\" >> java_environment.csv\njava -version 2>> java_environment.csv\n\necho \"\"\necho \"[+] Checking running Java processes with ps:\"\necho \"$(ps aux | grep java)\"\necho \"ps java processes:\" >> java_environment.csv\necho \"$(ps aux | grep java)\" >> java_environment.csv\n\necho \"\"\necho \"[+] Checking running Java processes with jps:\"\necho \"$(jps -v)\"\necho \"jps java processes:\" >> java_environment.csv\necho \"$(jps -v)\" >> java_environment.csv\n\necho \"[+] Search .jar files for JndiLookup.class files ...\"\necho \"jar_file\" > jars_with_jndi.csv\nfind / 2>/dev/null -name '*.jar' -type f -print0 | xargs -0 grep JndiLookup.class | awk '{print $3}' | while read -r file\ndo\n    if [ -f \"$file\" ]; then\n        echo \"JndiLookup.class found in .jar file: $file\"\n        echo \"$file\" >> jars_with_jndi.csv\n    fi\ndone\n\necho \"\"\necho \"[+] Search .war files for log4j .jar files ...\"\necho \"war_file,jar_size,jar_time_modified,jar_file\" > wars_with_jars.csv\nfind / 2>/dev/null -name '*.war' -type f -print0 | xargs -0 grep log4j | awk '{print $3}' | while read -r war_file\ndo\n    if [ -f \"$war_file\" ]; then\n        unzip -l \"$war_file\" | grep log4j | awk '{print $1\",\" $2\" \"$3\",\"$4}' | while read -r jar_file\n        do\n            echo \".war file $war_file was found containing the file $jar_file\"\n            echo \"$war_file,$jar_file\" >> wars_with_jars.csv\n        done\n    fi\ndone\n\necho \"[+] Zip up the outputs ...\"\nhostname=$1\nzip $(hostname)_ssh_log4j_output.zip java_environment.csv jars_with_jndi.csv wars_with_jars.csv\n\"\"\"\n    \n    file_name = 'splunk_soar_internal_host_ssh_log4j_investigate.sh'\n    file_path = '/opt/phantom/vault/tmp/{}'.format(file_name)\n    with open(file_path, 'w') as bash_script_file:\n        bash_script_file.write(bash_script)\n        \n    success, message, vault_id = phantom.vault_add(file_location=file_path, file_name=file_name)\n    parameters = [{'input_1': vault_id}]\n\n",
-                    "x": 980,
-                    "y": 524.5
+                    "userCode": "\n    bash_script = r\"\"\"\n#!/bin/bash\n  \n# This script is part of the Splunk SOAR playbook called internal_host_ssh_log4j_investigate. It shows\n# the installed java version, lists any running java processes, performs a search for the JndiLookup.class\n# file in any .jar files found on disk, and searches any .war files for a log4j jar. The output is a human-readable\n# log and a set of .csv files to be copied back to SOAR\n\necho \"##############################################################\"\necho \"splunk_soar_internal_host_ssh_log4j_investigate.sh\"\necho \"##############################################################\"\necho \"\"\n\necho \"java environment configuration\" > /tmp/java_environment.csv\necho \"[+] Checking Java version:\"\necho \"$(java -version)\"\necho \"java version:\" >> /tmp/java_environment.csv\njava -version 2>> /tmp/java_environment.csv\n\necho \"\"\necho \"[+] Checking running Java processes with ps:\"\necho \"$(ps aux | grep java)\"\necho \"ps java processes:\" >> /tmp/java_environment.csv\necho \"$(ps aux | grep java)\" >> /tmp/java_environment.csv\n\necho \"\"\necho \"[+] Checking running Java processes with jps:\"\necho \"$(jps -v)\"\necho \"jps java processes:\" >> /tmp/java_environment.csv\necho \"$(jps -v)\" >> /tmp/java_environment.csv\n\necho \"[+] Search .jar files for JndiLookup.class files ...\"\necho \"jar_files\" > /tmp/jars_with_jndi.csv\nfind / 2>/dev/null -name '*.jar' -type f -print0 | xargs -0 grep JndiLookup.class | awk '{print $3}' | while read -r file\ndo\n    if [ -f \"$file\" ]; then\n        echo \"JndiLookup.class found in .jar file: $file\"\n        echo \"$file\" >> /tmp/jars_with_jndi.csv\n    fi\ndone\n\necho \"\"\necho \"[+] Search .war files for log4j .jar files ...\"\necho \"war_file,jar_size,jar_time_modified,jar_file\" > /tmp/wars_with_jars.csv\nfind / 2>/dev/null -name '*.war' -type f -print0 | xargs -0 grep log4j | awk '{print $3}' | while read -r war_file\ndo\n    if [ -f \"$war_file\" ]; then\n        unzip -l \"$war_file\" | grep log4j | awk '{print $1\",\" $2\" \"$3\",\"$4}' | while read -r jar_file\n        do\n            echo \".war file $war_file was found containing the file $jar_file\"\n            echo \"$war_file,$jar_file\" >> /tmp/wars_with_jars.csv\n        done\n    fi\ndone\n\necho \"[+] Zip up the outputs ...\"\nzip -j /tmp/$1_ssh_log4j_output.zip /tmp/java_environment.csv /tmp/jars_with_jndi.csv /tmp/wars_with_jars.csv\necho \"wrote zip file to /tmp/$1_ssh_log4j_output.zip; next we will copy it back to SOAR\"\n\"\"\"\n    \n    file_name = 'splunk_soar_internal_host_ssh_log4j_investigate.sh'\n    file_path = '/opt/phantom/vault/tmp/{}'.format(file_name)\n    with open(file_path, 'w') as bash_script_file:\n        bash_script_file.write(bash_script)\n        \n    success, message, vault_id = phantom.vault_add(file_location=file_path, file_name=file_name)\n    parameters = [{'input_1': vault_id}]\n\n",
+                    "x": -1.4210854715202004e-14,
+                    "y": 147.99999999999991
                 },
                 "6": {
                     "data": {
@@ -276,8 +276,8 @@
                     "id": "6",
                     "type": "action",
                     "userCode": "\n    # append the ip_hostname as an argument so it can be used in the output zip file name\n    for parameter in parameters:\n        parameter['command'] = parameter['command'] + ' ' + parameter['ip_hostname']\n\n",
-                    "x": 980,
-                    "y": 740
+                    "x": 0,
+                    "y": 460
                 },
                 "7": {
                     "data": {
@@ -300,7 +300,7 @@
                         "parameters": {
                             "file_destination": "/tmp/",
                             "ip_hostname": "playbook_input:ip_or_hostname",
-                            "vault_id": "write_embedded_bash_script_to_vault:custom_function_result.data.*.item"
+                            "vault_id": "add_embedded_bash_script_to_vault:custom_function_result.data.*.item"
                         },
                         "requiredParameters": [
                             "vault_id",
@@ -312,8 +312,8 @@
                     "errors": {},
                     "id": "7",
                     "type": "action",
-                    "x": 980,
-                    "y": 640
+                    "x": 0,
+                    "y": 312
                 },
                 "8": {
                     "data": {
@@ -346,12 +346,12 @@
                     "errors": {},
                     "id": "8",
                     "type": "action",
-                    "userCode": "\n    import re\n    for parameter in parameters:\n        parameter['file_path'] = '/tmp/' + parameter['file_path'] + '_ssh_log4j_output.zip'\n\n",
-                    "x": 980,
-                    "y": 864.5
+                    "userCode": "\n    for parameter in parameters:\n        parameter['file_path'] = '/tmp/' + parameter['file_path'] + '_ssh_log4j_output.zip'\n\n",
+                    "x": 0,
+                    "y": 608
                 }
             },
-            "notes": ""
+            "notes": "This playbook uses the following Apps:\n - SSH (execute program,  get file, put file) [asset name = ssh] - investigate behavior on the host\nDeployment Notes:\n - The ssh asset may require sudo access depending on permissions on the file system\n - The command line argument to the script is the ip_or_hostname, which will be used to name the zip file as output\n - To add a new data collection, pipe the output to a file and include it in the zip command"
         },
         "input_spec": [
             {
@@ -369,7 +369,7 @@
         "schema": "5.0.4",
         "version": "5.1.0.70187"
     },
-    "create_time": "2021-12-15T00:25:26.575505+00:00",
+    "create_time": "2021-12-15T21:17:41.411838+00:00",
     "draft_mode": false,
     "labels": [
         "*"
@@ -377,6 +377,7 @@
     "tags": [
         "internal_host",
         "unix",
-        "log4j"
+        "log4j",
+        "investigate"
     ]
 }

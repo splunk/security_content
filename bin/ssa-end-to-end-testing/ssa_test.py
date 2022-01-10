@@ -55,7 +55,7 @@ def _exit(code, passed, skipped, failed):
 def get_pipeline_input(data):
     return '| from read_text("%s") ' \
            '| select from_json_object(value) as input_event ' \
-           '| eval timestamp=parse_long(ucast(map_get(input_event, "_time"), "string", null))' % data
+           '| eval _datamodels=ucast(map_get(input_event, "_datamodels"), "collection<string>", []),body={}' % data
 
 
 def extract_pipeline(search, data, pass_condition):

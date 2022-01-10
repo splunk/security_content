@@ -23,7 +23,7 @@ tags:
 
 #### Description
 
-This analytic will detect a suspicious process contains a commandline parameter related to web browser credential dumper. This technique was used by Remcos RAT malware where it use the techique of Nirsoft webbrowserpassview.exe application to dump web browser credentials. Remcos use the &#34;/stext&#34; commandline to dump the credential in text format. This Hunting query is good indicator to look further for possible remcos infection within the network or possible compromised host. Since the detections is only base on the parameter command and the possible path where it will drop the text credential information, It may catch normal tools that having same command and behavior.
+This analytic will detect if a suspicious process contains a commandline parameter related to a web browser credential dumper. This technique is used by Remcos RAT malware which uses the Nirsoft webbrowserpassview.exe application to dump web browser credentials. Remcos uses the &#34;/stext&#34; command line to dump the credentials in text format. This Hunting query is a good indicator of hosts suffering from possible Remcos RAT infection. Since the hunting query is based on the parameter command and the possible path where it will save the text credential information, it may catch normal tools that are using the same command and behavior.
 
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud

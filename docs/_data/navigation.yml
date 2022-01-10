@@ -85,6 +85,8 @@ stories:
         url: /stories/cloud_security/
       - title: Malware
         url: /stories/malware/
+      - title: Privilege Escalation
+        url: /stories/privilege_escalation/
       - title: Vulnerability
         url: /stories/vulnerability/
 playbooks:

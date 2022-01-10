@@ -1,19 +1,19 @@
 author: Teoderick Contreras, Splunk
 datamodel:
 - Endpoint_Processes
-date: '2021-06-15'
+date: '2021-11-30'
 description: This analytic identifies suspicious modification of ACL permission to
   a files or folder to make it available to everyone or to a specific user. This technique
   may be used by the adversary to evade ACLs or protected files access. This changes
   is commonly configured by the file or directory owner with appropriate permission.
-  This behavior is a good indicator if this command seen on a machine utilized by
+  This behavior raises suspicion if this command is seen on an endpoint utilized by
   an account with no permission to do so.
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances where renamed cacls.exe may be used.
 id: 9ae9a48a-cdbe-11eb-875a-acde48001122
-known_false_positives: network administrator may use this windows utility. filter
+known_false_positives: System administrators may use this windows utility. filter
   is needed.
 name: Modify ACLs Permission Of Files Or Folders
 product:
@@ -76,6 +76,7 @@ tags:
   - process_path
   - dest_user_id
   - process
+  - cmd_line
   risk_score: 35
   risk_severity: medium
   security_domain: endpoint
@@ -92,4 +93,4 @@ test:
     name: Modify ACLs Permission Of Files Or Folders
     pass_condition: '@count_gt(0)'
 type: Anomaly
-version: 1
+version: 2
