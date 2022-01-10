@@ -6,23 +6,25 @@ author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: This analytic looks for commands to create user accounts on the linux platform. 
-  This technique is commonly abuse by adversaries, malware author and red teamers to persist on the targeted or compromised host by creating new user 
-  with an elevated privilege. This Hunting query may catch normal creation of user by administrator so filter is needed.
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes where 
-  Processes.process_name IN ("useradd", "adduser") OR Processes.process IN ("*useradd *", "*adduser *")
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `linux_add_user_account_filter`'
+description: This analytic looks for commands to create user accounts on the linux
+  platform. This technique is commonly abuse by adversaries, malware author and red
+  teamers to persist on the targeted or compromised host by creating new user with
+  an elevated privilege. This Hunting query may catch normal creation of user by administrator
+  so filter is needed.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
+  where Processes.process_name IN ("useradd", "adduser") OR Processes.process IN ("*useradd
+  *", "*adduser *") by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `linux_add_user_account_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: administrator or network operator can execute this command. filter is needed 
+  Sysmon TA.
+known_false_positives: administrator or network operator can execute this command.
+  filter is needed
 references:
--  https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/
+- https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/
 tags:
   analytic_story:
   - Linux Privilege Escalation
@@ -40,18 +42,17 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process_name 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_id 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
   impact: 50
-  confidence: 50 
-  # (impact * confidence)/100
-  risk_score: 25 
+  confidence: 50
+  risk_score: 25
   context:
   - source:endpoint
   - stage:Privilege Escalation Persistence
@@ -67,3 +68,4 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  automated_detection_testing: passed
