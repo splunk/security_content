@@ -22,9 +22,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_sudo_or_su_execution_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node.
-known_false_positives: administrator or network operator can execute this command.
-  filter is needed
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://attack.mitre.org/techniques/T1548/003/
 tags:
@@ -56,9 +55,10 @@ tags:
   confidence: 30
   risk_score: 9
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
-  message: a commandline $process$ that execute sudo or su in $dest$
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  message: A commandline $process$ that execute sudo or su in $dest$
   observable:
   - name: dest
     type: Hostname

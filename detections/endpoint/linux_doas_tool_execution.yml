@@ -21,10 +21,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `linux_doas_tool_execution_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: administrator or network operator can execute this command.
-  filter is needed
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
 references:
 - https://wiki.gentoo.org/wiki/Doas
 - https://www.makeuseof.com/how-to-install-and-use-doas/
@@ -57,9 +56,10 @@ tags:
   confidence: 70
   risk_score: 49
   context:
-  - source:endpoint
-  - stage:Privilege Escalation Persistence
-  message: a doas $process_name$ with commandline $process$ was executed on $dest$
+  - Source:Endpoint
+  - Stage:Privilege Escalation
+  - Stage:Persistence
+  message: A doas $process_name$ with commandline $process$ was executed on $dest$
   observable:
   - name: dest
     type: Hostname
