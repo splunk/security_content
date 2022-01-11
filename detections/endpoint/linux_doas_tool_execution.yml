@@ -6,22 +6,25 @@ author: Teoderick Contreras, Splunk
 type: Anomaly
 datamodel:
 - Endpoint
-description: This analytic is to detect the doas tool execution in linux host platform. This utility tool allow standard users to perform 
-  tasks as root, the same way sudo does. This tool is developed as a minimalistic alternative to sudo application. This tool can be abused 
-  advesaries, attacker or malware to gain elevated privileges to the targeted or compromised host. On the other hand this can also be executed by 
-  administrator for a certain task that needs admin rights. In this case filter is needed. 
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name = "doas" 
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: This analytic is to detect the doas tool execution in linux host platform.
+  This utility tool allow standard users to perform tasks as root, the same way sudo
+  does. This tool is developed as a minimalistic alternative to sudo application.
+  This tool can be abused advesaries, attacker or malware to gain elevated privileges
+  to the targeted or compromised host. On the other hand this can also be executed
+  by administrator for a certain task that needs admin rights. In this case filter
+  is needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "doas"
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_doas_tool_execution_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. 
-known_false_positives: administrator or network operator can execute this command. filter is needed
+  Sysmon TA.
+known_false_positives: administrator or network operator can execute this command.
+  filter is needed
 references:
 - https://wiki.gentoo.org/wiki/Doas
 - https://www.makeuseof.com/how-to-install-and-use-doas/
@@ -42,17 +45,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process_name 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_id 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
   impact: 70
-  confidence: 70 
-  # (impact * confidence)/100
+  confidence: 70
   risk_score: 49
   context:
   - source:endpoint
@@ -69,3 +71,4 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  automated_detection_testing: passed
