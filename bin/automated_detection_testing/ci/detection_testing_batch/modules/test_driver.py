@@ -105,8 +105,8 @@ class TestDriver:
         except Exception as e:
             return None
         
-    def addSuccess(self, result:dict)->None:
-        print("Test PASSED: [%s --> %s]"%(result['detection_name'], result['detection_file']))
+    def addSuccess(self, result:dict, duration_string:str)->None:
+        print("Test PASSED: [%s --> %s] in %s"%(result['detection_name'], result['detection_file'], duration_string))
         self.lock.acquire()
         try:
             self.successes.append(result)
@@ -114,15 +114,15 @@ class TestDriver:
             self.lock.release()
         
 
-    def addFailure(self, result:dict)->None:
-        print("Test FAILED: [%s --> %s"%(result['detection_name'], result['detection_file']))
+    def addFailure(self, result:dict, duration_string:str)->None:
+        print("Test FAILED: [%s --> %s] in %s"%(result['detection_name'], result['detection_file'], duration_string))
         self.lock.acquire()
         try:
             self.failures.append(result)
         finally:
             self.lock.release()
 
-    def addError(self, result:dict)->None:
+    def addError(self, result:dict, duration_string:str)->None:
         #Make sure that even errors have all of the required fields.
         for required_field in ['search_string', 'diskUsage','runDuration', 'detection_name', 'scanCount', 'detection_error', 'detection_file']:
             if required_field not in result:
@@ -131,7 +131,7 @@ class TestDriver:
             result['error'] = True
         if  'success' not in result:
             result['success'] = False
-        print("Test ERROR: [%s --> %s"%(result['detection_name'], result['detection_file']))
+        print("Test ERROR: [%s --> %s] in %s"%(result['detection_name'], result['detection_file'], duration_string))
         self.lock.acquire()
         try:
             self.errors.append(result)
@@ -258,9 +258,12 @@ class TestDriver:
         memory_info = psutil.virtual_memory()
         disk_usage_info = psutil.disk_usage('/')
 
+        #macOS is really weird about disk usage.... so to get free space we use TOTAL-FREE = USED instead of just USED
+        corrected_used_space = disk_usage_info.total - disk_usage_info.free
+
         cpu_info_string =        "Total CPU Usage   : %d%% (%d CPUs)"%(100 - cpu_info.idle, psutil.cpu_count(logical=False))
         memory_info_string =     "Total Memory Usage: %0.1fGB USED / %0.1fGB TOTAL"%((memory_info.total - memory_info.available) / bytes_per_GB, memory_info.total / bytes_per_GB)
-        disk_usage_info_string = "Total Disk Usage  : %0.1fGB USED / %0.1fGB TOTAL"%(disk_usage_info.free / bytes_per_GB, disk_usage_info.total / bytes_per_GB)
+        disk_usage_info_string = "Total Disk Usage  : %0.1fGB USED / %0.1fGB TOTAL"%(corrected_used_space / bytes_per_GB, disk_usage_info.total / bytes_per_GB)
         
         return "System Information:\n\t%s\n\t%s\n\t%s"%(cpu_info_string, memory_info_string, disk_usage_info_string)
 
@@ -347,15 +350,15 @@ class TestDriver:
                 
         
         
-    def addResult(self, result:dict)->None:
+    def addResult(self, result:dict, duration_string:str)->None:
         try:
             if result['detection_result']['error'] is True:
-                self.addError(result['detection_result'])
+                self.addError(result['detection_result'], duration_string = duration_string)
             elif result['detection_result']['success'] is False:
                 #This is actually a failure of the detection, not an error. Naming is confusiong
-                self.addFailure(result['detection_result'])
+                self.addFailure(result['detection_result'], duration_string = duration_string)
             elif result['detection_result']['success'] is True:
-                self.addSuccess(result['detection_result'])
+                self.addSuccess(result['detection_result'], duration_string = duration_string)
         except Exception as e:
             #Neither a success or a failure, so add the object to the failures queue
             print('"There was an error adding the result: [%s]'%(str(e)))

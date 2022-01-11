@@ -238,7 +238,7 @@ class SplunkContainer:
         except Exception as e:
             print("Could not remove Docker Container [%s]" % (
                 self.container_name))
-            raise (Exception("CONTAINER REMOVE ERROR"))
+            raise (Exception(f"CONTAINER REMOVE ERROR: {str(e)}"))
 
     def get_container_summary(self) -> str:
         current_time = timeit.default_timer()
@@ -386,7 +386,7 @@ class SplunkContainer:
                 print("Container [%s] successfully stopped early due to failure" % (self.container_name))
                 return None
 
-
+            current_test_start_time = timeit.default_timer()
             # Sleep for a small random time so that containers drift apart and don't synchronize their testing
             #time.sleep(random.randint(1, 30))
             
@@ -406,7 +406,9 @@ class SplunkContainer:
                     wait_on_failure=self.interactive_failure,
                     wait_on_completion = self.interactive
                 )
-                self.synchronization_object.addResult(result)
+                
+                
+                self.synchronization_object.addResult(result, duration_string =  datetime.timedelta(seconds=round(timeit.default_timer() - current_test_start_time)))
 
                 # Remove the data from the test that we just ran.  We MUST do this when running on CI because otherwise, we will download
                 # a massive amount of data over the course of a long path and will run out of space on the relatively small CI runner drive
@@ -418,13 +420,13 @@ class SplunkContainer:
                 )
                 
                 traceback.print_exc()
-                import pdb
-                pdb.set_trace()
+                #import pdb
+                #pdb.set_trace()
                 # Fill in all the "Empty" fields with default values. Otherwise, we will not be able to 
                 # process the result correctly.  
                 self.synchronization_object.addError(
                     {"detection_file": detection_to_test,
-                        "detection_error": str(e)}
+                        "detection_error": str(e)}, duration_string = datetime.timedelta(seconds=round(timeit.default_timer() - current_test_start_time))
 
 
                 )

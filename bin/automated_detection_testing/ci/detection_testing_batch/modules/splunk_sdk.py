@@ -1,7 +1,6 @@
 from os import error
 import sys
 from time import sleep
-import splunklib.results as results
 import splunklib.client as client
 import splunklib.results as results
 import requests
@@ -59,11 +58,73 @@ def enable_delete_for_admin(splunk_host:str, splunk_port:int, splunk_password:st
 
 
 
-def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=5):
+def get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index:str, sourcetype:Union[str,None]=None )->int:
+
+    try:
+        service = client.connect(
+            host=splunk_host,
+            port=splunk_port,
+            username='admin',
+            password=splunk_password
+        )
+    except Exception as e:
+        raise(Exception("Unable to connect to Splunk instance: " + str(e)))
+
+    if sourcetype is not None:
+        search = '''search index="%s" sourcetype="%s" | stats count'''%(index,sourcetype)
+    else:
+        search = '''search index="%s" | stats count'''%(index)
+    kwargs = {"exec_mode":"blocking"}
+    try:
+        search_result = service.jobs.create(search, **kwargs)
+  
+        #This returns the count in string form, not as an int. For example:
+        #OrderedDict([('count', '59630')])
+        search_results = list(results.ResultsReader(search_result.results()))
+        if len(search_results) != 1:
+            raise Exception(f"Expected the get_number_of_indexed_events search to only return 1 count, but got {len(search_results)} instead.")
+        
+        count = int(search_results[0]['count'])
+        return count    
+
+    except Exception as e:
+        raise Exception("Error trying to get the count while waiting for indexing to complete: %s"%(str(e)))
+        
+    
+
+
+def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=5)->bool:
     
     startTime = timeit.default_timer()
     previous_count = -1
     time.sleep(check_interval_seconds)
+    while True:
+        new_count = get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index, sourcetype=sourcetype)
+        #print(f"Previous Count [{previous_count}] New Count [{new_count}]")
+        if previous_count == -1:
+            previous_count = new_count
+        else:
+            if new_count == previous_count:
+                stopTime = timeit.default_timer()
+                return True
+            else:
+                previous_count = new_count
+        
+        #If new_count is really low, then the server is taking some extra time to index the data.
+        # So sleep for longer to make sure that we give time to complete (or at least process more
+        # events so we don't return from this function prematurely) 
+        if new_count < 2:
+            time.sleep(check_interval_seconds*3)
+        else:
+            time.sleep(check_interval_seconds)
+        
+
+'''
+def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sourcetype:str, index:str, check_interval_seconds:int=10):
+    
+    startTime = timeit.default_timer()
+    previous_count = -1
+    time.sleep(check_interval_seconds/2)
     while True:
         #print("waiting for search...")
         try:
@@ -76,7 +137,7 @@ def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sou
         except Exception as e:
             raise(Exception("Unable to connect to Splunk instance: " + str(e)))
 
-        search = '''search index="%s" sourcetype="%s" | stats count'''%(index,sourcetype)
+        search = 'search index="%s" sourcetype="%s" | stats count'%(index,sourcetype)
         kwargs = {"exec_mode":"blocking"}
         try:
             search_result = service.jobs.create(search, **kwargs)
@@ -89,7 +150,7 @@ def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sou
         try:
             for result in results.ResultsReader(search_result.results()):
                 count = int(result['count'])
-                #print("count is %d, previous count is %d"%(count,previous_count))
+                print("count is %d, previous count is %d"%(count,previous_count))
                 if previous_count == -1:
                     if count == 0:
                         pass
@@ -108,7 +169,7 @@ def wait_for_indexing_to_complete(splunk_host, splunk_port, splunk_password, sou
             print("Error trying to get the count while waiting for indexing to complete: %s"%(str(e)))
             #return False
         time.sleep(check_interval_seconds)
-
+'''
 
 
 def test_baseline_search(splunk_host, splunk_port, splunk_password, search, pass_condition, baseline_name, baseline_file, earliest_time, latest_time)->dict:
@@ -239,7 +300,7 @@ def test_detection_search(splunk_host:str, splunk_port:int, splunk_password:str,
         return test_results
 
 
-def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str)->bool:
+def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wait_on_delete:Union[dict,None], search_string:str, detection_filename:str, index:str="main")->bool:
     
     try:
         service = client.connect(
@@ -261,17 +322,22 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
         _ = input("****************Press ENTER to Complete Test and DELETE data****************\n\n\n")
     
     data_exists = True
-    already_enabled_delete = False
-    while data_exists:
-        splunk_search = 'search index=main | delete'
 
-        kwargs = {"dispatch.earliest_time": "-1d",
+
+
+    while (get_number_of_indexed_events(splunk_host, splunk_port, splunk_password, index=index) != 0) :
+        splunk_search = f'search index={index} | delete'
+
+        kwargs = {
+                "exec_mode": "blocking",
+                "dispatch.earliest_time": "-1d",
                 "dispatch.latest_time": "now"}
         try:
             
-            job = service.jobs.oneshot(splunk_search, **kwargs)
+            job = service.jobs.create(splunk_search, **kwargs)
             reader = results.ResultsReader(job)
-            data_exists = False
+
+            
             '''
             error_in_results = False
             for result in reader:
@@ -296,7 +362,7 @@ def delete_attack_data(splunk_host:str, splunk_password:str, splunk_port:int, wa
             #Otherwise, we will loop again
 
         except Exception as e:
-            print("Trouble deleting data from a run.... we will try again")
+            print(f"Trouble deleting data from a run.... we will try again: {str(e)}")
             time.sleep(5)
             #raise(Exception("Unable to delete data from a run: " + str(e)))
         

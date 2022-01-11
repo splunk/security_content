@@ -106,6 +106,7 @@ class ContainerManager:
         for container in self.containers:
             container.thread.join()
             print(container.get_container_summary())
+        print("Waiting for next summary thread printout to finish...")
         self.summary_thread.join()
         print("All containers completed testing!")
         
