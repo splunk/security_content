@@ -20,5 +20,4 @@ alert_action:
   rba:
     enabled: 'true'
 tags:
-  type: 'TTP'
-  product: ESCU
+  type: TTP

@@ -5,12 +5,23 @@ from dataclasses import dataclass
 
 from contentctl.contentctl.domain.entities.enums.enums import SecurityContentType
 from contentctl.contentctl.domain.entities.detection import Detection
-from contentctl.contentctl.application.use_cases.utils.utils import Utils
+from contentctl.contentctl.application.builder.basic_builder import BasicBuilder
+from contentctl.contentctl.application.builder.detection_builder import DetectionBuilder
+from contentctl.contentctl.application.builder.story_builder import StoryBuilder
+from contentctl.contentctl.application.builder.baseline_builder import BaselineBuilder
+from contentctl.contentctl.application.builder.investigation_builder import InvestigationBuilder
+from contentctl.contentctl.application.builder.director import Director
 
 @dataclass(frozen=True)
 class GenerateInputDto:
     input_path: str
     output_path: str
+    basic_builder: BasicBuilder
+    detection_builder: DetectionBuilder
+    story_builder: StoryBuilder
+    baseline_builder: BaselineBuilder
+    investigation_builder: InvestigationBuilder
+    director: Director
 
 
 @dataclass(frozen=True)
@@ -25,21 +36,14 @@ class GenerateOutputBoundary(abc.ABC):
 
 
 class Generate:
-    
-    def test():
+    input_dto: GenerateInputDto
+
+    def __init__(self, output_boundary: GenerateOutputBoundary) -> None:
+        self.output_boundary = output_boundary
+
+    def execute(self, input_dto: GenerateInputDto) -> None:
+        self.input_dto = input_dto
+
+
+    def read_security_content_objects(self, type: SecurityContentType) -> list:
         pass
-
-    # def __init__(self, output_boundary: GenerateOutputBoundary, security_content_repo: SecurityContentRepository) -> None:
-    #     self.output_boundary = output_boundary
-    #     self.security_content_repository = security_content_repo
-
-    # def execute(self, input_dto: GenerateInputDto) -> None:
-    #     self.input_dto = input_dto
-    #     detections = self.read_security_content_objects(SecurityContentType.detections)
-    #     stories = self.read_security_content_objects(SecurityContentType.stories)
-
-    # def read_security_content_objects(self, type: SecurityContentType) -> list:
-    #     files = Utils.get_all_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
-    #     security_content_objects = []
-    #     for file in files:
-    #         security_content_objects.append(self.security_content_repository.get(file, type))

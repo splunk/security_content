@@ -1,13 +1,15 @@
 import abc
 
 from contentctl.contentctl.domain.entities.enums.enums import SecurityContentProduct
+from contentctl.contentctl.domain.entities.security_content_object import SecurityContentObject
+from contentctl.contentctl.domain.entities.enums.enums import SecurityContentType
 
 # https://refactoring.guru/design-patterns/builder
 
 class DetectionBuilder(abc.ABC):
 
     @abc.abstractmethod
-    def addDeployment(self, deployments: list, product: SecurityContentProduct) -> None:
+    def addDeployment(self, deployments: list) -> None:
         pass
 
     @abc.abstractmethod
@@ -16,6 +18,10 @@ class DetectionBuilder(abc.ABC):
 
     @abc.abstractmethod
     def addNesFields(self) -> None:
+        pass
+
+    @abc.abstractmethod
+    def addMappings(self) -> None:
         pass
 
     @abc.abstractmethod
@@ -28,4 +34,16 @@ class DetectionBuilder(abc.ABC):
 
     @abc.abstractmethod
     def addBaseline(self, baselines: list) -> None:
+        pass
+
+    @abc.abstractmethod
+    def setObject(self, path: str, type: SecurityContentType) -> None:
+        pass
+
+    @abc.abstractmethod
+    def reset(self) -> None:
+        pass
+
+    @abc.abstractmethod
+    def getObject(self) -> SecurityContentObject:
         pass

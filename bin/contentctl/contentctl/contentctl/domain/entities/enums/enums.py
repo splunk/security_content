@@ -5,9 +5,7 @@ class AnalyticsType(enum.Enum):
     TTP = 1
     anomaly = 2
     hunting = 3
-    baseline = 4
-    investigation = 5
-    correlation = 6
+    correlation = 4
 
 class DataModel(enum.Enum):
     Endpoint = 1
@@ -25,11 +23,13 @@ class DataModel(enum.Enum):
 
 class SecurityContentType(enum.Enum):
     detections = 1
-    stories = 2
-    playbooks = 3
-    macros = 4
-    lookups = 5
-    deployments = 6
+    baselines = 2
+    stories = 3
+    playbooks = 4
+    macros = 5
+    lookups = 6
+    deployments = 7
+    investigations = 8
 
 class SecurityContentProduct(enum.Enum):
     ESCU = 1

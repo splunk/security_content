@@ -22,7 +22,7 @@ def test_read_deployment():
 def test_read_lookup():
     security_content_builder = SecurityContentBasicBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/lookup/previously_seen_aws_regions.yml'), SecurityContentType.lookups)
+        'test_data/lookups/previously_seen_aws_regions.yml'), SecurityContentType.lookups)
     lookup = security_content_builder.getObject()    
 
     assert lookup.name == "previously_seen_aws_regions"

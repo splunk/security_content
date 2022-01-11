@@ -8,7 +8,7 @@ class Lookup(BaseModel, SecurityContentObject):
     name: str
     description: str
     collection: str = None
-    fields_list: list = None
+    fields_list: str = None
     filename: str = None
     default_match: str = None
     match_type: str = None

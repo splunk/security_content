@@ -1,7 +1,6 @@
 
 
 from contentctl.contentctl.application.builder.detection_builder import DetectionBuilder
-from contentctl.contentctl.application.builder.basic_builder import BasicBuilder
 from contentctl_infrastructure.contentctl_infrastructure.builder.yml_reader import YmlReader
 from contentctl.contentctl.domain.entities.detection import Detection
 from contentctl.contentctl.domain.entities.story import Story
@@ -9,21 +8,22 @@ from contentctl.contentctl.domain.entities.deployment import Deployment
 from contentctl.contentctl.domain.entities.macro import Macro
 from contentctl.contentctl.domain.entities.lookup import Lookup
 from contentctl.contentctl.domain.entities.enums.enums import SecurityContentType
+from contentctl.contentctl.domain.entities.enums.enums import AnalyticsType
 from contentctl.contentctl.domain.entities.enums.enums import SecurityContentProduct
 from contentctl.contentctl.domain.entities.security_content_object import SecurityContentObject
 
 
-class SecurityContentDetectionBuilder(DetectionBuilder, BasicBuilder):
+class SecurityContentDetectionBuilder(DetectionBuilder):
     security_content_obj : SecurityContentObject
     
-    def setObject(self, path: str, type: SecurityContentType) -> None:
+    def setObject(self, path: str, type: AnalyticsType) -> None:
         yml_dict = YmlReader.load_file(path)
         if type == SecurityContentType.detections:
             yml_dict["tags"]["name"] = yml_dict["name"]
             self.security_content_obj = Detection.parse_obj(yml_dict)
 
 
-    def addDeployment(self, deployments: list, product: SecurityContentProduct) -> None:
+    def addDeployment(self, deployments: list) -> None:
         matched_deployments = []
 
         for d in deployments:
@@ -87,6 +87,19 @@ class SecurityContentDetectionBuilder(DetectionBuilder, BasicBuilder):
                 nes_fields_matches.append(nes_field)
         
         self.security_content_obj.deployment.notable.nes_fields = nes_fields_matches
+
+
+    def addMappings(self) -> None:
+        keys = ['mitre_attack', 'kill_chain_phases', 'cis20', 'nist']
+        mappings = {}
+        for key in keys:
+            if key == 'mitre_attack':
+                if hasattr(self.security_content_obj.tags, 'mitre_attack_id'): 
+                    mappings[key] = self.security_content_obj.tags.mitre_attack_id
+            else:
+                if hasattr(self.security_content_obj.tags, key):
+                    mappings[key] = self.security_content_obj.tags.__getattribute__(key)
+        self.security_content_obj.mappings = mappings
 
 
     def addAnnotations(self) -> None:

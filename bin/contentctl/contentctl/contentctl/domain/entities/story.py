@@ -18,6 +18,12 @@ class Story(BaseModel, SecurityContentObject):
     narrative: str
     references: list
     tags: StoryTags
+    detection_names: list = None
+    investigation_names: list = None
+    baseline_names: list = None
+    author_company: str = None
+    author_name: str = None
+    
     
     @validator('name')
     def name_invalid_chars(cls, v):

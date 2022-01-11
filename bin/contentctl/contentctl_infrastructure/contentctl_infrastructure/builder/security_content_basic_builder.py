@@ -7,6 +7,8 @@ from contentctl.contentctl.domain.entities.deployment import Deployment
 from contentctl.contentctl.domain.entities.macro import Macro
 from contentctl.contentctl.domain.entities.lookup import Lookup
 from contentctl.contentctl.domain.entities.playbook import Playbook
+from contentctl.contentctl.domain.entities.baseline import Baseline
+from contentctl.contentctl.domain.entities.investigation import Investigation
 
 
 class SecurityContentBasicBuilder(BasicBuilder):
@@ -16,9 +18,10 @@ class SecurityContentBasicBuilder(BasicBuilder):
     def setObject(self, path: str, type: SecurityContentType) -> None:
         yml_dict = YmlReader.load_file(path)
         if type == SecurityContentType.deployments:
-            alert_action_dict = yml_dict["alert_action"]
-            for key in alert_action_dict.keys():
-                yml_dict[key] = yml_dict["alert_action"][key]
+            if "alert_action" in yml_dict:
+                alert_action_dict = yml_dict["alert_action"]
+                for key in alert_action_dict.keys():
+                    yml_dict[key] = yml_dict["alert_action"][key]
             self.security_content_obj = Deployment.parse_obj(yml_dict)
         elif type == SecurityContentType.playbooks:
             self.security_content_obj = Playbook.parse_obj(yml_dict)

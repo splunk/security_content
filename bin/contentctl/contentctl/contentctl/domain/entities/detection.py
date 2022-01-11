@@ -28,11 +28,13 @@ class Detection(BaseModel, SecurityContentObject):
     known_false_positives: str
     references: list
     tags: DetectionTags
+    deprecated: bool
     deployment: Deployment = None
     annotations: dict = None
     risk: list = None
     playbooks: list = None
     baselines: list = None
+    mappings: dict = None
 
 
     @validator('name')

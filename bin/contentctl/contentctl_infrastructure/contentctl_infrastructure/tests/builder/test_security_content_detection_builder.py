@@ -6,6 +6,8 @@ from contentctl_infrastructure.contentctl_infrastructure.builder.security_conten
 from contentctl_infrastructure.contentctl_infrastructure.builder.security_content_basic_builder import SecurityContentBasicBuilder
 from contentctl.contentctl.domain.entities.enums.enums import SecurityContentType
 from contentctl_infrastructure.contentctl_infrastructure.builder.yml_reader import YmlReader
+from contentctl_infrastructure.contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
+from contentctl_infrastructure.contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 
 
 def test_read_detection():
@@ -27,7 +29,7 @@ def test_add_deployment_to_detection():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'), SecurityContentType.detections)
-    security_content_builder.addDeployment([deployment], SecurityContentProduct.ESCU)
+    security_content_builder.addDeployment([deployment])
     detection = security_content_builder.getObject()
 
     assert detection.deployment.name == "ESCU Default Configuration TTP"  
@@ -42,7 +44,7 @@ def test_detection_nes_field_enrichment():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'), SecurityContentType.detections)
-    security_content_builder.addDeployment([deployment], SecurityContentProduct.ESCU)
+    security_content_builder.addDeployment([deployment])
     security_content_builder.addNesFields()
     detection = security_content_builder.getObject()
 
@@ -58,7 +60,7 @@ def test_detection_annotation_enrichment():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
         'test_data/detection/valid.yml'), SecurityContentType.detections)
-    security_content_builder.addDeployment([deployment], SecurityContentProduct.ESCU)
+    security_content_builder.addDeployment([deployment])
     security_content_builder.addAnnotations()
     detection = security_content_builder.getObject()
 
@@ -75,6 +77,21 @@ def test_detection_annotation_enrichment():
         'impact': 90, 'confidence': 100}
     
     assert detection.annotations == valid_annotations
+
+
+def test_detection_add_mappings():
+    security_content_builder = SecurityContentDetectionBuilder()
+    security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
+        'test_data/detection/valid.yml'), SecurityContentType.detections)
+    security_content_builder.addMappings()
+    detection = security_content_builder.getObject() 
+
+    valid_mappings = {'mitre_attack': ['T1003.002', 'T1003'], 
+        'kill_chain_phases': ['Actions on Objectives'], 
+        'cis20': ['CIS 3', 'CIS 5', 'CIS 16'], 
+        'nist': ['DE.CM']}
+
+    assert detection.mappings == valid_mappings
 
 
 def test_detection_add_rba():
@@ -109,11 +126,8 @@ def test_detection_add_playbooks():
 
 def test_detection_enrich_baseline():
 
-    # create own object for baseline with own Builder
-
-    baseline_builder = SecurityContentDetectionBuilder()
-    baseline_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/baseline.yml'), SecurityContentType.detections)
+    baseline_builder = SecurityContentBaselineBuilder()
+    baseline_builder.setObject(os.path.join(os.path.dirname(__file__), 'test_data/baseline/baseline.yml'), SecurityContentType.baselines)
     baseline = baseline_builder.getObject()
 
     security_content_builder = SecurityContentDetectionBuilder()

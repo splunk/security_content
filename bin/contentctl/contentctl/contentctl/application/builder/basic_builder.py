@@ -18,3 +18,5 @@ class BasicBuilder(abc.ABC):
     @abc.abstractmethod
     def getObject(self) -> SecurityContentObject:
         pass
+
+    
