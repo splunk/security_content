@@ -36,7 +36,7 @@ tags:
   - DHS Report TA18-074A
   - HAFNIUM Group
   - DarkSide Ransomware
-  - Lateral Movement
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   automated_detection_testing: passed
   cis20:

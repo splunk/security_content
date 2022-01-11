@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Endpoint_Processes
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -17,7 +18,7 @@ tags:
 Quickly identify systems running new or unusual processes in your environment that could be indicators of suspicious activity. Processes run from unusual locations, those with conspicuously long command lines, and rare executables are all examples of activities that may warrant deeper investigation.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-02-04
 - **Author**: Bhavin Patel, Splunk
 - **ID**: f4368e3f-d59f-4192-84f6-748ac5a3ddb6
@@ -33,14 +34,9 @@ In the event an unusual process is identified, it is imperative to better unders
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
 | [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Masquerading](/tags/#masquerading), [OS Credential Dumping](/tags/#os-credential-dumping), [Active Scanning](/tags/#active-scanning) | TTP |
-| [Credential Extraction indicative of FGDump and CacheDump with s option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_s_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction indicative of FGDump and CacheDump with v option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction indicative of use of Mimikatz modules](/endpoint/credential_extraction_indicative_of_use_of_mimikatz_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction native Microsoft debuggers peek into the kernel](/endpoint/credential_extraction_native_microsoft_debuggers_peek_into_the_kernel/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction native Microsoft debuggers via z command line option](/endpoint/credential_extraction_native_microsoft_debuggers_via_z_command_line_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Detect Rare Executables](/endpoint/detect_rare_executables/) |  | Anomaly |
 | [Detect processes used for System Network Configuration Discovery](/endpoint/detect_processes_used_for_system_network_configuration_discovery/) | [System Network Configuration Discovery](/tags/#system-network-configuration-discovery) | TTP |
-| [First time seen command line argument](/endpoint/first_time_seen_command_line_argument/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Regsvr32](/tags/#regsvr32), [Indirect Command Execution](/tags/#indirect-command-execution) | Anomaly |
+| [First time seen command line argument](/endpoint/first_time_seen_command_line_argument/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Indirect Command Execution](/tags/#indirect-command-execution) | Anomaly |
 | [More than usual number of LOLBAS applications in short time period](/endpoint/more_than_usual_number_of_lolbas_applications_in_short_time_period/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task/Job](/tags/#scheduled-task/job) | Anomaly |
 | [Rare Parent-Child Process Relationship](/endpoint/rare_parent-child_process_relationship/) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task/Job](/tags/#scheduled-task/job), [Software Deployment Tools](/tags/#software-deployment-tools) | Anomaly |
 | [RunDLL Loading DLL By Ordinal](/endpoint/rundll_loading_dll_by_ordinal/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | TTP |

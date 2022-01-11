@@ -12,6 +12,7 @@ tags:
   - Steal or Forge Kerberos Tickets
   - Credential Access
   - Splunk Behavioral Analytics
+  - Certificates
 ---
 
 
@@ -24,7 +25,7 @@ This search detects a potential kerberoasting attack via service principal name 
 
 - **Type**: TTP
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Certificates](https://docs.splunk.com/Documentation/CIM/latest/User/Certificates)
 - **Last Updated**: 2020-10-21
 - **Author**: Xiao Lin, Splunk
 - **ID**: dabdd6d7-3e10-42be-8711-4e124f7a3850
@@ -47,7 +48,8 @@ This search detects a potential kerberoasting attack via service principal name 
 | where EventCode="4769" AND TicketOptions="0x40810000" AND TicketEncryptionType="0x17" 
 | first_time_event input_columns=["EventCode","TicketOptions","TicketEncryptionType","ServiceName","ServiceID"] 
 | where first_time_EventCode_TicketOptions_TicketEncryptionType_ServiceName_ServiceID 
-| eval start_time=_time, end_time=_time, body=create_map(["event_id", event_id, "EventCode", EventCode, "ServiceName", ServiceName, "TicketOptions", TicketOptions, "TicketEncryptionType", TicketEncryptionType]), entities = mvappend( ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null))
+| eval start_time=_time, end_time=_time 
+| eval body=create_map(["event_id", event_id, "EventCode", EventCode, "ServiceName", ServiceName, "TicketOptions", TicketOptions, "TicketEncryptionType", TicketEncryptionType]), entities = mvappend(ucast(map_get(input_event, "dest_user_id"), "string", null), ucast(map_get(input_event, "dest_device_id"), "string", null)) 
 | select start_time, end_time, entities, body 
 | into write_ssa_detected_events();
 ```

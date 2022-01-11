@@ -38,18 +38,22 @@ detections:
         url: /detections/privilege_escalation/
       - title: Reconnaissance
         url: /detections/reconnaissance/
-      - title: Resource Development
-        url: /detections/resource_development/
   - title: "Datamodel"
     children:
       - title: Authentication
         url: /detections/authentication/
+      - title: Certificates
+        url: /detections/certificates/
       - title: Change
         url: /detections/change/
       - title: Email
         url: /detections/email/
       - title: Endpoint
         url: /detections/endpoint/
+      - title: Endpoint_Filesystem
+        url: /detections/endpoint_filesystem/
+      - title: Endpoint_Processes
+        url: /detections/endpoint_processes/
       - title: Network_Resolution
         url: /detections/network_resolution/
       - title: Network_Sessions
@@ -81,6 +85,8 @@ stories:
         url: /stories/cloud_security/
       - title: Malware
         url: /stories/malware/
+      - title: Privilege Escalation
+        url: /stories/privilege_escalation/
       - title: Vulnerability
         url: /stories/vulnerability/
 playbooks:

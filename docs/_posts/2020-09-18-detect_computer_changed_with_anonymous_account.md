@@ -15,6 +15,8 @@ tags:
   - CVE-2020-1472
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -98,4 +100,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/detect_computer_changed_with_anonymous_account.yml) \| *version*: **1**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/detect_computer_changed_with_anonymous_account.yml) \| *version*: **1**

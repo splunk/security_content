@@ -41,7 +41,7 @@ This search is to detect a suspicious wmic.exe process or renamed wmic process t
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*os get*" Processes.process="*/format:*" Processes.process = "*.xsl*" by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process_id Processes.process Processes.dest Processes.user 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process = "*os get*" Processes.process="*/format:*" Processes.process = "*.xsl*" by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process_id Processes.process Processes.dest Processes.user 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -50,6 +50,7 @@ This search is to detect a suspicious wmic.exe process or renamed wmic process t
 
 #### Associated Analytic Story
 * [FIN7](/stories/fin7)
+* [Suspicious WMI Use](/stories/suspicious_wmi_use)
 
 
 #### How To Implement
@@ -78,7 +79,7 @@ unknown
 
 | Risk Score  | Impact      | Confidence   | Message      |
 | ----------- | ----------- |--------------|--------------|
-| 49.0 | 70 | 70 | Process name $process_name$ with commandline $process$ to execute jscript in $dest$ |
+| 49.0 | 70 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ utilizing wmic to load a XSL script. |
 
 
 
@@ -87,6 +88,8 @@ unknown
 
 * [https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html](https://www.fireeye.com/blog/threat-research/2018/08/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation.html)
 * [https://attack.mitre.org/groups/G0046/](https://attack.mitre.org/groups/G0046/)
+* [https://web.archive.org/web/20190814201250/https://subt0x11.blogspot.com/2018/04/wmicexe-whitelisting-bypass-hacking.html](https://web.archive.org/web/20190814201250/https://subt0x11.blogspot.com/2018/04/wmicexe-whitelisting-bypass-hacking.html)
+* [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md#atomic-test-3---wmic-bypass-using-local-xsl-file](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1220/T1220.md#atomic-test-3---wmic-bypass-using-local-xsl-file)
 
 
 

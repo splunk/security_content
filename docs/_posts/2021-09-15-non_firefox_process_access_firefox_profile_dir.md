@@ -53,6 +53,7 @@ This search is to detect an anomaly event of non-firefox process accessing the f
 
 #### Associated Analytic Story
 * [FIN7](/stories/fin7)
+* [Remcos](/stories/remcos)
 
 
 #### How To Implement

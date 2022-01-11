@@ -45,9 +45,9 @@ this detection was designed to identifies suspicious spawned process of known MS
 
 ```
 
-| tstats `security_content_summariesonly` count values(Processes.process) min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe") `process_rundll32`  by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.user Processes.dest 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe") AND `process_rundll32` by Processes.parent_process Processes.process_name Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest 
 | `drop_dm_object_name("Processes")` 
-| `security_content_ctime(firstTime)`
+| `security_content_ctime(firstTime)` 
 |`security_content_ctime(lastTime)` 
 | `office_application_spawn_rundll32_process_filter`
 ```

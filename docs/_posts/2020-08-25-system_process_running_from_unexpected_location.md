@@ -10,6 +10,7 @@ tags:
   - Masquerading
   - Defense Evasion
   - Splunk Behavioral Analytics
+  - Endpoint_Processes
 ---
 
 
@@ -22,7 +23,7 @@ An attacker tries might try to use different version of a system command without
 
 - **Type**: Anomaly
 - **Product**: Splunk Behavioral Analytics
-- **Datamodel**: 
+- **Datamodel**: [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2020-08-25
 - **Author**: Ignacio Bermudez Corrales, Splunk
 - **ID**: 28179107-099a-464a-94d3-08301e6c055f

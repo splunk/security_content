@@ -28,7 +28,7 @@ references: []
 tags:
   analytic_story:
   - Hidden Cobra Malware
-  - Lateral Movement
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   cis20:
   - CIS 3

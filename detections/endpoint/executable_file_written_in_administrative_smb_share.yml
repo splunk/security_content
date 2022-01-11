@@ -8,7 +8,7 @@ datamodel:
 - Endpoint
 description: The following analytic identifies executable files (.exe or .dll) being
   written to Windows administrative SMB shares (Admin$, IPC$, C$). This represents
-  suspicious behavior as its commonly user by tools like like PsExec/PaExec and others
+  suspicious behavior as its commonly used by tools like like PsExec/PaExec and others
   to stage service binaries before creating and starting a Windows service on remote
   endpoints. Red Teams and adversaries alike may abuse administrative shares for lateral
   movement and remote code execution. The Trickbot malware family also implements
@@ -31,7 +31,7 @@ references:
 - https://blog.whitehat.eu/2019/05/incident-trickbot-ryuk-2.html
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   - Trickbot
   automated_detection_testing: passed
   confidence: 100

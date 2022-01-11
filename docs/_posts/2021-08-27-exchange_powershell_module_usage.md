@@ -17,7 +17,7 @@ tags:
 ---
 
 ### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
-We have not been able to test, simulate or build datasets for it, use at your own risk!
+We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -96,6 +96,7 @@ Administrators or power users may use this PowerShell commandlet for troubleshoo
 * [https://docs.microsoft.com/en-us/powershell/module/exchange/new-managementroleassignment?view=exchange-ps](https://docs.microsoft.com/en-us/powershell/module/exchange/new-managementroleassignment?view=exchange-ps)
 * [https://blog.orange.tw/2021/08/proxyshell-a-new-attack-surface-on-ms-exchange-part-3.html](https://blog.orange.tw/2021/08/proxyshell-a-new-attack-surface-on-ms-exchange-part-3.html)
 * [https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell](https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell)
+* [https://thedfirreport.com/2021/11/15/exchange-exploit-leads-to-domain-wide-ransomware/](https://thedfirreport.com/2021/11/15/exchange-exploit-leads-to-domain-wide-ransomware/)
 
 
 

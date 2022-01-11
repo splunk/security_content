@@ -8,6 +8,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   - Endpoint
+  - Endpoint_Processes
 ---
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -17,7 +18,7 @@ tags:
 Cobalt Strike is threat emulation software. Red teams and penetration testers use Cobalt Strike to demonstrate the risk of a breach and evaluate mature security programs. Most recently, Cobalt Strike has become the choice tool by threat groups due to its ease of use and extensibility.
 
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
-- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
+- **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint), [Endpoint_Processes](https://docs.splunk.com/Documentation/CIM/latest/User/EndpointProcesses)
 - **Last Updated**: 2021-02-16
 - **Author**: Michael Haag, Splunk
 - **ID**: bcfd17e8-5461-400a-80a2-3b7d1459220c
@@ -40,6 +41,7 @@ While investigating a detection related to this Analytic Story, keep in mind the
 | Name        | Technique   | Type         |
 | ----------- | ----------- |--------------|
 | [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Anomaly |
+| [Anomalous usage of Archive Tools](/endpoint/anomalous_usage_of_archive_tools/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Anomaly |
 | [CMD Echo Pipe - Escalation](/endpoint/cmd_echo_pipe_-_escalation/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell), [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [Cobalt Strike Named Pipes](/endpoint/cobalt_strike_named_pipes/) | [Process Injection](/tags/#process-injection) | TTP |
 | [DLLHost with no Command Line Arguments with Network](/endpoint/dllhost_with_no_command_line_arguments_with_network/) | [Process Injection](/tags/#process-injection) | TTP |

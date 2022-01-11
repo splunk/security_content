@@ -51,7 +51,7 @@ This search detects a potential kerberoasting attack via service principal name 
 ```
 
 #### Associated Analytic Story
-* [Lateral Movement](/stories/lateral_movement)
+* [Windows Privilege Escalation](/stories/windows_privilege_escalation)
 
 
 #### How To Implement
@@ -68,7 +68,7 @@ You must be ingesting endpoint data that tracks process activity, and include th
 
 
 #### Kill Chain Phase
-* Actions on Objectives
+* Privilege Escalation
 
 
 #### Known False Positives

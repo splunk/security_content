@@ -1,0 +1,415 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Threat Response",
+    "coa": {
+        "data": {
+            "description": "Published in response to CVE-2021-44228, this playbook performs a general investigation on key aspects of a windows device using windows remote management. Important files related to the endpoint are generated, bundled into a zip, and copied to the container vault.",
+            "edges": [
+                {
+                    "id": "port_6_to_port_1",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_0_to_port_8",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_9",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_9_to_port_10",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_10_to_port_7",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_4",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_5_to_port_12",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_12_to_port_6",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_11_to_port_5",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_4_to_port_11",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                }
+            ],
+            "hash": "36b13ec7d9928057516702e1b9a2a3b6aaf1b7f0",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 19.999999999999986,
+                    "y": -2.3803181647963356e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 19.999999999999986,
+                    "y": 1360
+                },
+                "10": {
+                    "data": {
+                        "action": "list sessions",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "list sessions",
+                            "customNameId": 0,
+                            "description": "List active sessions",
+                            "join": [],
+                            "note": "List active sessions"
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_sessions",
+                        "id": "10",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "action",
+                    "x": -5.684341886080802e-14,
+                    "y": 380
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format zip",
+                            "customNameId": 0,
+                            "description": "Format a dynamic string where the ZIP is located.",
+                            "join": [],
+                            "note": "Format a dynamic string where the ZIP is located."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_zip",
+                        "id": "11",
+                        "parameters": [
+                            "playbook_input:ip_or_hostname"
+                        ],
+                        "template": "%%\n.\\{0}-SOARFetch.zip\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "format",
+                    "x": -5.684341886080802e-14,
+                    "y": 780
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format file removal",
+                            "customNameId": 0,
+                            "description": "Format dynamic string for file removal",
+                            "join": [],
+                            "note": "Format dynamic string for file removal"
+                        },
+                        "functionId": 3,
+                        "functionName": "format_file_removal",
+                        "id": "12",
+                        "parameters": [
+                            "playbook_input:ip_or_hostname"
+                        ],
+                        "template": "%%\nRemove-Item -Path .\\{0}-SOARFetch*\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "format",
+                    "x": -2.842170943040401e-14,
+                    "y": 1060
+                },
+                "4": {
+                    "data": {
+                        "action": "run script",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run data collect script",
+                            "customNameId": 0,
+                            "description": "Enumerates autoruns, installed programs, listening network connections, running processes, registered services, scheduled tasks, local users, and local groups. It then exports to CSV. Finally, all information is exported to zip.",
+                            "join": [],
+                            "note": "Enumerates autoruns, installed programs, listening network connections, running processes, registered services, scheduled tasks, local users, and local groups. It then exports to CSV. Finally, all information is exported to zip."
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "run_data_collect_script",
+                        "id": "4",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname",
+                            "script_str": "format_data_collect_script:formatted_data.*"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "action",
+                    "userCode": "\n    parameters = []\n\n    # build parameters list for 'run_data_collect_script' call\n    for playbook_input_ip_or_hostname_item, formatted_part in zip(playbook_input_ip_or_hostname, format_data_collect_script__as_list):\n            parameters.append({\n                \"script_str\": formatted_part,\n                \"ip_hostname\": playbook_input_ip_or_hostname_item[0],\n            })\n\n\n",
+                    "x": -2.842170943040401e-14,
+                    "y": 640
+                },
+                "5": {
+                    "data": {
+                        "action": "get file",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get zip",
+                            "customNameId": 0,
+                            "description": "Fetches the zip created by the data capture script and uploads to vault.",
+                            "join": [],
+                            "note": "Fetches the zip created by the data capture script and uploads to vault."
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_zip",
+                        "id": "5",
+                        "parameters": {
+                            "file_path": "format_zip:formatted_data.*",
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [
+                            "file_path"
+                        ],
+                        "tab": "byConnector",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "action",
+                    "userCode": "    parameters = []\n\n    # build parameters list for 'get_zip' call\n    for playbook_input_ip_or_hostname_item, formatted_part in zip(playbook_input_ip_or_hostname, format_zip__as_list):\n        parameters.append({\n            \"ip_hostname\": playbook_input_ip_or_hostname_item[0],\n            \"file_path\": formatted_part,\n        })\n\n",
+                    "x": -2.842170943040401e-14,
+                    "y": 920
+                },
+                "6": {
+                    "data": {
+                        "action": "run script",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "remove data capture files",
+                            "customNameId": 0,
+                            "description": "Removes the temporary files created by the data collection script",
+                            "join": [],
+                            "note": "Removes the temporary files created by the data collection script"
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "remove_data_capture_files",
+                        "id": "6",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname",
+                            "script_str": "format_file_removal:formatted_data.*"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "action",
+                    "userCode": "\n    parameters = []\n\n    # build parameters list for 'remove_data_capture_files' call\n    for playbook_input_ip_or_hostname_item, formatted_part in zip(playbook_input_ip_or_hostname, format_file_removal__as_list):\n        parameters.append({\n            \"script_str\": formatted_part,\n            \"ip_hostname\": playbook_input_ip_or_hostname_item[0],\n        })\n\n",
+                    "x": -1.2789769243681803e-13,
+                    "y": 1200
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format data collect script",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "format_data_collect_script",
+                        "id": "7",
+                        "parameters": [
+                            "playbook_input:ip_or_hostname"
+                        ],
+                        "template": "%%\n$ProgressPreference = 'SilentlyContinue'; Get-CimInstance -ClassName Win32_StartupCommand | Export-Csv -Path .\\{0}-SOARFetch-Autorun.csv -NoType; Get-ItemProperty HKLM:\\Software\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*  | Export-Csv -Path .\\{0}-SOARFetch-InstalledPrograms.csv -NoType; Get-NetTCPConnection -State Listen | Export-Csv -Path .\\{0}-SOARFetch-NetworkConnections.csv -NoType; Get-Process -IncludeUserName | Export-Csv -Path .\\{0}-SOARFetch-Processes.csv -NoType; Get-Service  | Export-Csv -Path .\\{0}-SOARFetch-Services.csv -NoType; Get-ScheduledTask  | Export-Csv -Path .\\{0}-SOARFetch-ScheduledTasks.csv -NoType; Get-LocalUser | Export-Csv -Path .\\{0}-SOARFetch-Users.csv -NoType; Get-LocalGroup | Export-Csv -Path .\\{0}-SOARFetch-Groups.csv -NoType; Compress-Archive -Path .\\{0}-SOARFetch* .\\{0}-SOARFetch.zip; \n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "x": 1.4210854715202004e-14,
+                    "y": 520
+                },
+                "8": {
+                    "data": {
+                        "action": "list processes",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "list processes",
+                            "customNameId": 0,
+                            "description": "List running processes",
+                            "join": [],
+                            "note": "List running processes"
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_processes",
+                        "id": "8",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "x": -5.684341886080802e-14,
+                    "y": 99.99999999999989
+                },
+                "9": {
+                    "data": {
+                        "action": "list connections",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "list connections",
+                            "customNameId": 0,
+                            "description": "List current connections",
+                            "join": [],
+                            "note": "List current connections"
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_connections",
+                        "id": "9",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "action",
+                    "x": -5.684341886080802e-14,
+                    "y": 240
+                }
+            },
+            "notes": "This playbook uses the following Apps:\n - Windows Remote Management (list_processes, list_connections, list_sessions, run_script, get_file) [asset name = winrm] - Used to collect details on a windows host\n\nDeployment Notes:\n- Playbook should receive a list of IPs and/or Hostnames\n- Ensure Splunk SOAR has access to the target windows hosts using the credentials in the configured winrm asset\n- Many of the collection queries can be adapted to query EDR vendors using their app"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name",
+                    "ip"
+                ],
+                "description": "IP address or hostname of the internal host to investigate",
+                "name": "ip_or_hostname"
+            }
+        ],
+        "output_spec": null,
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-12-15T21:16:58.966416+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "windows",
+        "internal_host",
+        "investigate",
+        "log4j"
+    ]
+}

@@ -14,6 +14,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
+  - CVE-2021-44228
   - Endpoint
 ---
 
@@ -55,6 +56,7 @@ The following analytic identifies the use of PowerShell downloading a file using
 #### Associated Analytic Story
 * [Malicious PowerShell](/stories/malicious_powershell)
 * [Ingress Tool Transfer](/stories/ingress_tool_transfer)
+* [Log4Shell CVE-2021-44228](/stories/log4shell_cve-2021-44228)
 
 
 #### How To Implement
@@ -89,6 +91,13 @@ False positives may be present and filtering will need to occur by parent proces
 | ----------- | ----------- |--------------|--------------|
 | 56.0 | 80 | 70 | An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$. This behavior identifies the use of DownloadFile within PowerShell. |
 
+
+
+#### CVE
+
+| ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
+| ----------- | ----------- | -------------- |
+| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.12.1 and 2.13.0 through 2.15.0 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0, this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
 
 
 

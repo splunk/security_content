@@ -42,6 +42,7 @@ sidebar:
 | [Account Discovery With Net App](/endpoint/account_discovery_with_net_app/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery) | TTP |
 | [Active Setup Registry Autostart](/endpoint/active_setup_registry_autostart/) | [Active Setup](/tags/#active-setup), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
 | [Add DefaultUser And Password In Registry](/endpoint/add_defaultuser_and_password_in_registry/) | [Credentials in Registry](/tags/#credentials-in-registry), [Unsecured Credentials](/tags/#unsecured-credentials) | Anomaly |
+| [Add or Set Windows Defender Exclusion](/endpoint/add_or_set_windows_defender_exclusion/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [AdsiSearcher Account Discovery](/endpoint/adsisearcher_account_discovery/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery) | TTP |
 | [Allow File And Printing Sharing In Firewall](/endpoint/allow_file_and_printing_sharing_in_firewall/) | [Disable or Modify Cloud Firewall](/tags/#disable-or-modify-cloud-firewall), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Allow Inbound Traffic By Firewall Rule Registry](/endpoint/allow_inbound_traffic_by_firewall_rule_registry/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | TTP |
@@ -51,19 +52,18 @@ sidebar:
 | [Amazon EKS Kubernetes Pod scan detection](/cloud/amazon_eks_kubernetes_pod_scan_detection/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | Hunting |
 | [Amazon EKS Kubernetes cluster scan detection](/cloud/amazon_eks_kubernetes_cluster_scan_detection/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | Hunting |
 | [Anomalous usage of 7zip](/endpoint/anomalous_usage_of_7zip/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Anomaly |
+| [Anomalous usage of Archive Tools](/endpoint/anomalous_usage_of_archive_tools/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Anomaly |
 | [Any Powershell DownloadFile](/endpoint/any_powershell_downloadfile/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 | [Any Powershell DownloadString](/endpoint/any_powershell_downloadstring/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
-| [Applying Stolen Credentials via Mimikatz modules](/endpoint/applying_stolen_credentials_via_mimikatz_modules/) | [Process Injection](/tags/#process-injection), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation), [Access Token Manipulation](/tags/#access-token-manipulation), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Compromise Client Software Binary](/tags/#compromise-client-software-binary), [Modify Authentication Process](/tags/#modify-authentication-process), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets) | TTP |
-| [Applying Stolen Credentials via PowerSploit modules](/endpoint/applying_stolen_credentials_via_powersploit_modules/) | [Process Injection](/tags/#process-injection), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation), [Access Token Manipulation](/tags/#access-token-manipulation), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism), [Compromise Client Software Binary](/tags/#compromise-client-software-binary), [Credentials from Password Stores](/tags/#credentials-from-password-stores), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets) | TTP |
-| [Assessment of Credential Strength via DSInternals modules](/endpoint/assessment_of_credential_strength_via_dsinternals_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation), [Account Discovery](/tags/#account-discovery), [Password Policy Discovery](/tags/#password-policy-discovery), [Unsecured Credentials](/tags/#unsecured-credentials), [Credentials from Password Stores](/tags/#credentials-from-password-stores) | TTP |
 | [Attacker Tools On Endpoint](/endpoint/attacker_tools_on_endpoint/) | [Match Legitimate Name or Location](/tags/#match-legitimate-name-or-location), [Masquerading](/tags/#masquerading), [OS Credential Dumping](/tags/#os-credential-dumping), [Active Scanning](/tags/#active-scanning) | TTP |
 | [Attempt To Add Certificate To Untrusted Store](/endpoint/attempt_to_add_certificate_to_untrusted_store/) | [Install Root Certificate](/tags/#install-root-certificate), [Subvert Trust Controls](/tags/#subvert-trust-controls) | TTP |
+| [Attempt To Delete Services](/endpoint/attempt_to_delete_services/) | [Service Stop](/tags/#service-stop), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
 | [Attempt To Disable Services](/endpoint/attempt_to_disable_services/) | [Service Stop](/tags/#service-stop) | TTP |
 | [Attempt To Stop Security Service](/endpoint/attempt_to_stop_security_service/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
-| [Attempt To delete Services](/endpoint/attempt_to_delete_services/) | [Service Stop](/tags/#service-stop) | TTP |
 | [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Attempted Credential Dump From Registry via Reg exe](/endpoint/attempted_credential_dump_from_registry_via_reg_exe/) | [OS Credential Dumping](/tags/#os-credential-dumping), [Security Account Manager](/tags/#security-account-manager) | TTP |
 | [Auto Admin Logon Registry Entry](/endpoint/auto_admin_logon_registry_entry/) | [Credentials in Registry](/tags/#credentials-in-registry), [Unsecured Credentials](/tags/#unsecured-credentials) | TTP |
+| [BCDEdit Failure Recovery Modification](/endpoint/bcdedit_failure_recovery_modification/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [BCDEdit Failure Recovery Modification](/endpoint/bcdedit_failure_recovery_modification/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [BITS Job Persistence](/endpoint/bits_job_persistence/) | [BITS Jobs](/tags/#bits-jobs) | TTP |
 | [BITSAdmin Download File](/endpoint/bitsadmin_download_file/) | [BITS Jobs](/tags/#bits-jobs), [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
@@ -73,6 +73,7 @@ sidebar:
 | [CMD Carry Out String Command Parameter](/endpoint/cmd_carry_out_string_command_parameter/) | [Windows Command Shell](/tags/#windows-command-shell), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | Hunting |
 | [CMD Echo Pipe - Escalation](/endpoint/cmd_echo_pipe_-_escalation/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell), [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [CMLUA Or CMSTPLUA UAC Bypass](/endpoint/cmlua_or_cmstplua_uac_bypass/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [CMSTP](/tags/#cmstp) | TTP |
+| [CSC Net On The Fly Compilation](/endpoint/csc_net_on_the_fly_compilation/) | [Compile After Delivery](/tags/#compile-after-delivery), [Obfuscated Files or Information](/tags/#obfuscated-files-or-information) | Hunting |
 | [CertUtil Download With URLCache and Split Arguments](/endpoint/certutil_download_with_urlcache_and_split_arguments/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [CertUtil Download With VerifyCtl and Split Arguments](/endpoint/certutil_download_with_verifyctl_and_split_arguments/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [CertUtil With Decode Argument](/endpoint/certutil_with_decode_argument/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | TTP |
@@ -106,7 +107,6 @@ sidebar:
 | [Correlation by User and Risk](/cloud/correlation_by_user_and_risk/) | [Malicious Image](/tags/#malicious-image), [User Execution](/tags/#user-execution) | Correlation |
 | [Create Remote Thread In Shell Application](/endpoint/create_remote_thread_in_shell_application/) | [Process Injection](/tags/#process-injection) | TTP |
 | [Create Remote Thread into LSASS](/endpoint/create_remote_thread_into_lsass/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Create Service In Suspicious File Path](/endpoint/create_service_in_suspicious_file_path/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | TTP |
 | [Create local admin accounts using net exe](/endpoint/create_local_admin_accounts_using_net_exe/) | [Local Account](/tags/#local-account), [Create Account](/tags/#create-account) | TTP |
 | [Create or delete windows shares using net exe](/endpoint/create_or_delete_windows_shares_using_net_exe/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Network Share Connection Removal](/tags/#network-share-connection-removal) | TTP |
 | [Creation of Shadow Copy](/endpoint/creation_of_shadow_copy/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
@@ -114,27 +114,19 @@ sidebar:
 | [Creation of lsass Dump with Taskmgr](/endpoint/creation_of_lsass_dump_with_taskmgr/) | [LSASS Memory](/tags/#lsass-memory), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Dumping via Copy Command from Shadow Copy](/endpoint/credential_dumping_via_copy_command_from_shadow_copy/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Credential Dumping via Symlink to Shadow Copy](/endpoint/credential_dumping_via_symlink_to_shadow_copy/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction indicative of FGDump and CacheDump with s option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_s_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction indicative of FGDump and CacheDump with v option](/endpoint/credential_extraction_indicative_of_fgdump_and_cachedump_with_v_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction indicative of Lazagne command line options](/endpoint/credential_extraction_indicative_of_lazagne_command_line_options/) | [OS Credential Dumping](/tags/#os-credential-dumping), [Credentials from Password Stores](/tags/#credentials-from-password-stores) | TTP |
-| [Credential Extraction indicative of use of DSInternals credential conversion modules](/endpoint/credential_extraction_indicative_of_use_of_dsinternals_credential_conversion_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction indicative of use of DSInternals modules](/endpoint/credential_extraction_indicative_of_use_of_dsinternals_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction indicative of use of Mimikatz modules](/endpoint/credential_extraction_indicative_of_use_of_mimikatz_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction indicative of use of PowerSploit modules](/endpoint/credential_extraction_indicative_of_use_of_powersploit_modules/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction native Microsoft debuggers peek into the kernel](/endpoint/credential_extraction_native_microsoft_debuggers_peek_into_the_kernel/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction native Microsoft debuggers via z command line option](/endpoint/credential_extraction_native_microsoft_debuggers_via_z_command_line_option/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
-| [Credential Extraction via Get-ADDBAccount module present in PowerSploit and DSInternals](/endpoint/credential_extraction_via_get-addbaccount_module_present_in_powersploit_and_dsinternals/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
+| [Curl Download and Bash Execution](/endpoint/curl_download_and_bash_execution/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [DLLHost with no Command Line Arguments with Network](/endpoint/dllhost_with_no_command_line_arguments_with_network/) | [Process Injection](/tags/#process-injection) | TTP |
+| [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | TTP |
 | [DNS Exfiltration Using Nslookup App](/endpoint/dns_exfiltration_using_nslookup_app/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | TTP |
 | [DNS Query Length Outliers - MLTK](/network/dns_query_length_outliers_-_mltk/) | [DNS](/tags/#dns), [Application Layer Protocol](/tags/#application-layer-protocol) | Anomaly |
 | [DNS Query Length With High Standard Deviation](/network/dns_query_length_with_high_standard_deviation/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | Anomaly |
 | [DSQuery Domain Discovery](/endpoint/dsquery_domain_discovery/) | [Domain Trust Discovery](/tags/#domain-trust-discovery) | TTP |
-| [Delete A Net User](/endpoint/delete_a_net_user/) | [Service Stop](/tags/#service-stop) | Anomaly |
+| [Delete A Net User](/endpoint/delete_a_net_user/) | [Account Access Removal](/tags/#account-access-removal) | Anomaly |
 | [Delete ShadowCopy With PowerShell](/endpoint/delete_shadowcopy_with_powershell/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Deleting Of Net Users](/endpoint/deleting_of_net_users/) | [Account Access Removal](/tags/#account-access-removal) | TTP |
 | [Deleting Shadow Copies](/endpoint/deleting_shadow_copies/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Deny Permission using Cacls Utility](/endpoint/deny_permission_using_cacls_utility/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | TTP |
-| [Detect ARP Poisoning](/network/detect_arp_poisoning/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Man-in-the-Middle](/tags/#man-in-the-middle), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
+| [Detect ARP Poisoning](/network/detect_arp_poisoning/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Adversary-in-the-Middle](/tags/#adversary-in-the-middle), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
 | [Detect AWS Console Login by New User]() | None | Hunting |
 | [Detect AWS Console Login by User from New City](/cloud/detect_aws_console_login_by_user_from_new_city/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | Hunting |
 | [Detect AWS Console Login by User from New Country](/cloud/detect_aws_console_login_by_user_from_new_country/) | [Unused/Unsupported Cloud Regions](/tags/#unused/unsupported-cloud-regions) | Hunting |
@@ -159,7 +151,7 @@ sidebar:
 | [Detect HTML Help Spawn Child Process](/endpoint/detect_html_help_spawn_child_process/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Compiled HTML File](/tags/#compiled-html-file) | TTP |
 | [Detect HTML Help URL in Command Line](/endpoint/detect_html_help_url_in_command_line/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Compiled HTML File](/tags/#compiled-html-file) | TTP |
 | [Detect HTML Help Using InfoTech Storage Handlers](/endpoint/detect_html_help_using_infotech_storage_handlers/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Compiled HTML File](/tags/#compiled-html-file) | TTP |
-| [Detect IPv6 Network Infrastructure Threats](/network/detect_ipv6_network_infrastructure_threats/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Man-in-the-Middle](/tags/#man-in-the-middle), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
+| [Detect IPv6 Network Infrastructure Threats](/network/detect_ipv6_network_infrastructure_threats/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Adversary-in-the-Middle](/tags/#adversary-in-the-middle), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
 | [Detect Kerberoasting](/endpoint/detect_kerberoasting/) | [Kerberoasting](/tags/#kerberoasting), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets) | TTP |
 | [Detect Large Outbound ICMP Packets](/network/detect_large_outbound_icmp_packets/) | [Non-Application Layer Protocol](/tags/#non-application-layer-protocol) | TTP |
 | [Detect MSHTA Url in Command Line](/endpoint/detect_mshta_url_in_command_line/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
@@ -170,14 +162,15 @@ sidebar:
 | [Detect New Open GCP Storage Buckets](/cloud/detect_new_open_gcp_storage_buckets/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | TTP |
 | [Detect New Open S3 Buckets over AWS CLI](/cloud/detect_new_open_s3_buckets_over_aws_cli/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | TTP |
 | [Detect New Open S3 buckets](/cloud/detect_new_open_s3_buckets/) | [Data from Cloud Storage Object](/tags/#data-from-cloud-storage-object) | TTP |
+| [Detect Outbound LDAP Traffic](/network/detect_outbound_ldap_traffic/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | Hunting |
 | [Detect Outbound SMB Traffic](/network/detect_outbound_smb_traffic/) | [File Transfer Protocols](/tags/#file-transfer-protocols), [Application Layer Protocol](/tags/#application-layer-protocol) | TTP |
 | [Detect Outlook exe writing a zip file](/endpoint/detect_outlook_exe_writing_a_zip_file/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
-| [Detect Pass the Hash](/endpoint/detect_pass_the_hash/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
 | [Detect Path Interception By Creation Of program exe](/endpoint/detect_path_interception_by_creation_of_program_exe/) | [Path Interception by Unquoted Path](/tags/#path-interception-by-unquoted-path), [Hijack Execution Flow](/tags/#hijack-execution-flow) | TTP |
-| [Detect Port Security Violation](/network/detect_port_security_violation/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Man-in-the-Middle](/tags/#man-in-the-middle), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
+| [Detect Port Security Violation](/network/detect_port_security_violation/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Adversary-in-the-Middle](/tags/#adversary-in-the-middle), [ARP Cache Poisoning](/tags/#arp-cache-poisoning) | TTP |
 | [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Windows Command Shell](/tags/#windows-command-shell) | Hunting |
 | [Detect Prohibited Applications Spawning cmd exe](/endpoint/detect_prohibited_applications_spawning_cmd_exe/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | Anomaly |
 | [Detect PsExec With accepteula Flag](/endpoint/detect_psexec_with_accepteula_flag/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
+| [Detect RClone Command-Line Usage](/endpoint/detect_rclone_command-line_usage/) | [Automated Exfiltration](/tags/#automated-exfiltration) | TTP |
 | [Detect RClone Command-Line Usage](/endpoint/detect_rclone_command-line_usage/) | [Automated Exfiltration](/tags/#automated-exfiltration) | TTP |
 | [Detect Rare Executables]() | None | Anomaly |
 | [Detect Regasm Spawning a Process](/endpoint/detect_regasm_spawning_a_process/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvcs/Regasm](/tags/#regsvcs/regasm) | TTP |
@@ -191,7 +184,7 @@ sidebar:
 | [Detect Renamed PSExec](/endpoint/detect_renamed_psexec/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | Hunting |
 | [Detect Renamed RClone](/endpoint/detect_renamed_rclone/) | [Automated Exfiltration](/tags/#automated-exfiltration) | Hunting |
 | [Detect Renamed WinRAR](/endpoint/detect_renamed_winrar/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Hunting |
-| [Detect Rogue DHCP Server](/network/detect_rogue_dhcp_server/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Man-in-the-Middle](/tags/#man-in-the-middle) | TTP |
+| [Detect Rogue DHCP Server](/network/detect_rogue_dhcp_server/) | [Hardware Additions](/tags/#hardware-additions), [Network Denial of Service](/tags/#network-denial-of-service), [Adversary-in-the-Middle](/tags/#adversary-in-the-middle) | TTP |
 | [Detect Rundll32 Application Control Bypass - advpack](/endpoint/detect_rundll32_application_control_bypass_-_advpack/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | TTP |
 | [Detect Rundll32 Application Control Bypass - setupapi](/endpoint/detect_rundll32_application_control_bypass_-_setupapi/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | TTP |
 | [Detect Rundll32 Application Control Bypass - syssetup](/endpoint/detect_rundll32_application_control_bypass_-_syssetup/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | TTP |
@@ -230,7 +223,7 @@ sidebar:
 | [Disable Defender Submit Samples Consent Feature](/endpoint/disable_defender_submit_samples_consent_feature/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Disable ETW Through Registry](/endpoint/disable_etw_through_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Disable Logs Using WevtUtil](/endpoint/disable_logs_using_wevtutil/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
-| [Disable Net User Account](/endpoint/disable_net_user_account/) | [Service Stop](/tags/#service-stop) | TTP |
+| [Disable Net User Account](/endpoint/disable_net_user_account/) | [Service Stop](/tags/#service-stop), [Valid Accounts](/tags/#valid-accounts) | TTP |
 | [Disable Registry Tool](/endpoint/disable_registry_tool/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Disable Schedule Task](/endpoint/disable_schedule_task/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Disable Security Logs Using MiniNt Registry](/endpoint/disable_security_logs_using_minint_registry/) | [Modify Registry](/tags/#modify-registry) | TTP |
@@ -278,6 +271,7 @@ sidebar:
 | [Excel Spawning Windows Script Host](/endpoint/excel_spawning_windows_script_host/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Excessive Attempt To Disable Services](/endpoint/excessive_attempt_to_disable_services/) | [Service Stop](/tags/#service-stop) | Anomaly |
 | [Excessive DNS Failures](/network/excessive_dns_failures/) | [DNS](/tags/#dns), [Application Layer Protocol](/tags/#application-layer-protocol) | Anomaly |
+| [Excessive Number of Office Files Copied](/endpoint/excessive_number_of_office_files_copied/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol) | Anomaly |
 | [Excessive Service Stop Attempt](/endpoint/excessive_service_stop_attempt/) | [Service Stop](/tags/#service-stop) | Anomaly |
 | [Excessive Usage Of Cacls App](/endpoint/excessive_usage_of_cacls_app/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | Anomaly |
 | [Excessive Usage Of Net App](/endpoint/excessive_usage_of_net_app/) | [Account Access Removal](/tags/#account-access-removal) | Anomaly |
@@ -289,15 +283,18 @@ sidebar:
 | [Excessive number of taskhost processes](/endpoint/excessive_number_of_taskhost_processes/) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | Anomaly |
 | [Exchange PowerShell Abuse via SSRF](/endpoint/exchange_powershell_abuse_via_ssrf/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 | [Exchange PowerShell Module Usage](/endpoint/exchange_powershell_module_usage/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
+| [Executable File Written in Administrative SMB Share](/endpoint/executable_file_written_in_administrative_smb_share/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
 | [Executables Or Script Creation In Suspicious Path](/endpoint/executables_or_script_creation_in_suspicious_path/) | [Masquerading](/tags/#masquerading) | TTP |
 | [Execute Javascript With Jscript COM CLSID](/endpoint/execute_javascript_with_jscript_com_clsid/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Visual Basic](/tags/#visual-basic) | TTP |
 | [Execution of File with Multiple Extensions](/endpoint/execution_of_file_with_multiple_extensions/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
 | [Extraction of Registry Hives](/endpoint/extraction_of_registry_hives/) | [Security Account Manager](/tags/#security-account-manager), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [File with Samsam Extension]() | None | TTP |
+| [Firewall Allowed Program Enable](/endpoint/firewall_allowed_program_enable/) | [Disable or Modify System Firewall](/tags/#disable-or-modify-system-firewall), [Impair Defenses](/tags/#impair-defenses) | Anomaly |
 | [First Time Seen Child Process of Zoom](/endpoint/first_time_seen_child_process_of_zoom/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation) | Anomaly |
 | [First Time Seen Running Windows Service](/endpoint/first_time_seen_running_windows_service/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | Anomaly |
-| [First time seen command line argument](/endpoint/first_time_seen_command_line_argument/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Regsvr32](/tags/#regsvr32), [Indirect Command Execution](/tags/#indirect-command-execution) | Anomaly |
+| [First time seen command line argument](/endpoint/first_time_seen_command_line_argument/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Indirect Command Execution](/tags/#indirect-command-execution) | Anomaly |
 | [FodHelper UAC Bypass](/endpoint/fodhelper_uac_bypass/) | [Modify Registry](/tags/#modify-registry), [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
+| [Fsutil Zeroing File](/endpoint/fsutil_zeroing_file/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
 | [Fsutil Zeroing File](/endpoint/fsutil_zeroing_file/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
 | [GCP Detect gcploit framework](/cloud/gcp_detect_gcploit_framework/) | [Valid Accounts](/tags/#valid-accounts) | TTP |
 | [GCP Kubernetes cluster pod scan detection](/cloud/gcp_kubernetes_cluster_pod_scan_detection/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | Hunting |
@@ -358,22 +355,18 @@ sidebar:
 | [Hide User Account From Sign-In Screen](/endpoint/hide_user_account_from_sign-in_screen/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Hiding Files And Directories With Attrib exe](/endpoint/hiding_files_and_directories_with_attrib_exe/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification), [Windows File and Directory Permissions Modification](/tags/#windows-file-and-directory-permissions-modification) | TTP |
 | [High File Deletion Frequency](/endpoint/high_file_deletion_frequency/) | [Data Destruction](/tags/#data-destruction) | Anomaly |
+| [High File Deletion Frequency](/endpoint/high_file_deletion_frequency/) | [Data Destruction](/tags/#data-destruction) | Anomaly |
+| [High Frequency Copy Of Files In Network Share](/endpoint/high_frequency_copy_of_files_in_network_share/) | [Transfer Data to Cloud Account](/tags/#transfer-data-to-cloud-account) | Anomaly |
 | [High Number of Login Failures from a single source](/cloud/high_number_of_login_failures_from_a_single_source/) | [Password Guessing](/tags/#password-guessing), [Brute Force](/tags/#brute-force) | Anomaly |
 | [High Process Termination Frequency](/endpoint/high_process_termination_frequency/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Anomaly |
 | [Hosts receiving high volume of network traffic from email server](/network/hosts_receiving_high_volume_of_network_traffic_from_email_server/) | [Remote Email Collection](/tags/#remote-email-collection), [Email Collection](/tags/#email-collection) | Anomaly |
+| [Hunting for Log4Shell](/endpoint/hunting_for_log4shell/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | Hunting |
 | [ICACLS Grant Command](/endpoint/icacls_grant_command/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | TTP |
 | [Icacls Deny Command](/endpoint/icacls_deny_command/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | TTP |
 | [IcedID Exfiltrated Archived File Creation](/endpoint/icedid_exfiltrated_archived_file_creation/) | [Archive via Utility](/tags/#archive-via-utility), [Archive Collected Data](/tags/#archive-collected-data) | Hunting |
-| [Illegal Access To User Content via PowerSploit modules](/endpoint/illegal_access_to_user_content_via_powersploit_modules/) | [Remote Services](/tags/#remote-services), [Screen Capture](/tags/#screen-capture), [Audio Capture](/tags/#audio-capture), [Remote Service Session Hijacking](/tags/#remote-service-session-hijacking) | TTP |
-| [Illegal Account Creation via PowerSploit modules](/endpoint/illegal_account_creation_via_powersploit_modules/) | [Establish Accounts](/tags/#establish-accounts) | TTP |
-| [Illegal Deletion of Logs via Mimikatz modules](/endpoint/illegal_deletion_of_logs_via_mimikatz_modules/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
-| [Illegal Enabling or Disabling of Accounts via DSInternals modules](/endpoint/illegal_enabling_or_disabling_of_accounts_via_dsinternals_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | TTP |
-| [Illegal Management of Active Directory Elements and Policies via DSInternals modules](/endpoint/illegal_management_of_active_directory_elements_and_policies_via_dsinternals_modules/) | [Account Manipulation](/tags/#account-manipulation), [Rogue Domain Controller](/tags/#rogue-domain-controller), [Domain Policy Modification](/tags/#domain-policy-modification) | TTP |
-| [Illegal Management of Computers and Active Directory Elements via PowerSploit modules](/endpoint/illegal_management_of_computers_and_active_directory_elements_via_powersploit_modules/) | [Account Manipulation](/tags/#account-manipulation), [Rogue Domain Controller](/tags/#rogue-domain-controller), [Domain Policy Modification](/tags/#domain-policy-modification) | TTP |
-| [Illegal Privilege Elevation and Persistence via PowerSploit modules](/endpoint/illegal_privilege_elevation_and_persistence_via_powersploit_modules/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Access Token Manipulation](/tags/#access-token-manipulation), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
-| [Illegal Privilege Elevation via Mimikatz modules](/endpoint/illegal_privilege_elevation_via_mimikatz_modules/) | [Access Token Manipulation](/tags/#access-token-manipulation), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
-| [Illegal Service and Process Control via Mimikatz modules](/endpoint/illegal_service_and_process_control_via_mimikatz_modules/) | [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services) | TTP |
-| [Illegal Service and Process Control via PowerSploit modules](/endpoint/illegal_service_and_process_control_via_powersploit_modules/) | [Process Injection](/tags/#process-injection), [Native API](/tags/#native-api), [System Services](/tags/#system-services) | TTP |
+| [Impacket Lateral Movement Commandline Parameters](/endpoint/impacket_lateral_movement_commandline_parameters/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares), [Distributed Component Object Model](/tags/#distributed-component-object-model), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Windows Service](/tags/#windows-service) | TTP |
+| [Interactive Session on Remote Endpoint with PowerShell](/endpoint/interactive_session_on_remote_endpoint_with_powershell/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
+| [Java Class File download by Java User Agent](/endpoint/java_class_file_download_by_java_user_agent/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 | [Jscript Execution Using Cscript App](/endpoint/jscript_execution_using_cscript_app/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [JavaScript](/tags/#javascript) | TTP |
 | [Kerberoasting spn request with RC4 encryption](/endpoint/kerberoasting_spn_request_with_rc4_encryption/) | [Kerberoasting](/tags/#kerberoasting), [Steal or Forge Kerberos Tickets](/tags/#steal-or-forge-kerberos-tickets) | TTP |
 | [Known Services Killed by Ransomware](/endpoint/known_services_killed_by_ransomware/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
@@ -382,8 +375,12 @@ sidebar:
 | [Kubernetes Nginx Ingress RFI](/cloud/kubernetes_nginx_ingress_rfi/) | [Exploitation for Credential Access](/tags/#exploitation-for-credential-access) | TTP |
 | [Kubernetes Scanner Image Pulling](/cloud/kubernetes_scanner_image_pulling/) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | TTP |
 | [Large Volume of DNS ANY Queries](/network/large_volume_of_dns_any_queries/) | [Network Denial of Service](/tags/#network-denial-of-service), [Reflection Amplification](/tags/#reflection-amplification) | Anomaly |
+| [Linux Java Spawning Shell](/endpoint/linux_java_spawning_shell/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
+| [Loading Of Dynwrapx Module](/endpoint/loading_of_dynwrapx_module/) | [Process Injection](/tags/#process-injection), [Dynamic-link Library Injection](/tags/#dynamic-link-library-injection) | TTP |
 | [Local Account Discovery With Wmic](/endpoint/local_account_discovery_with_wmic/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account) | Hunting |
 | [Local Account Discovery with Net](/endpoint/local_account_discovery_with_net/) | [Account Discovery](/tags/#account-discovery), [Local Account](/tags/#local-account) | Hunting |
+| [Log4Shell JNDI Payload Injection Attempt](/web/log4shell_jndi_payload_injection_attempt/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | Anomaly |
+| [Log4Shell JNDI Payload Injection with Outbound Connection](/web/log4shell_jndi_payload_injection_with_outbound_connection/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | Anomaly |
 | [Logon Script Event Trigger Execution](/endpoint/logon_script_event_trigger_execution/) | [Boot or Logon Initialization Scripts](/tags/#boot-or-logon-initialization-scripts), [Logon Script (Windows)](/tags/#logon-script-(windows)) | TTP |
 | [MS Scripting Process Loading Ldap Module](/endpoint/ms_scripting_process_loading_ldap_module/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [JavaScript](/tags/#javascript) | Anomaly |
 | [MS Scripting Process Loading WMI Module](/endpoint/ms_scripting_process_loading_wmi_module/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [JavaScript](/tags/#javascript) | Anomaly |
@@ -397,6 +394,7 @@ sidebar:
 | [Malicious PowerShell Process - Execution Policy Bypass](/endpoint/malicious_powershell_process_-_execution_policy_bypass/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 | [Malicious PowerShell Process With Obfuscation Techniques](/endpoint/malicious_powershell_process_with_obfuscation_techniques/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 | [Malicious Powershell Executed As A Service](/endpoint/malicious_powershell_executed_as_a_service/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | TTP |
+| [Mmc LOLBAS Execution Process Spawn](/endpoint/mmc_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model) | TTP |
 | [Modification Of Wallpaper](/endpoint/modification_of_wallpaper/) | [Defacement](/tags/#defacement) | TTP |
 | [Modify ACL permission To Files Or Folder](/endpoint/modify_acl_permission_to_files_or_folder/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | TTP |
 | [Modify ACLs Permission Of Files Or Folders](/endpoint/modify_acls_permission_of_files_or_folders/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | Anomaly |
@@ -422,6 +420,7 @@ sidebar:
 | [Network Connection Discovery With Arp](/endpoint/network_connection_discovery_with_arp/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery) | Hunting |
 | [Network Connection Discovery With Net](/endpoint/network_connection_discovery_with_net/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery) | Hunting |
 | [Network Connection Discovery With Netstat](/endpoint/network_connection_discovery_with_netstat/) | [System Network Connections Discovery](/tags/#system-network-connections-discovery) | Hunting |
+| [Network Discovery Using Route Windows App](/endpoint/network_discovery_using_route_windows_app/) | [System Network Configuration Discovery](/tags/#system-network-configuration-discovery), [Internet Connection Discovery](/tags/#internet-connection-discovery) | Hunting |
 | [New container uploaded to AWS ECR](/cloud/new_container_uploaded_to_aws_ecr/) | [Implant Internal Image](/tags/#implant-internal-image) | Hunting |
 | [Nishang PowershellTCPOneLine](/endpoint/nishang_powershelltcponeline/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 | [No Windows Updates in a time frame]() | None | Hunting |
@@ -456,6 +455,7 @@ sidebar:
 | [Okta Account Lockout Events](/application/okta_account_lockout_events/) | [Valid Accounts](/tags/#valid-accounts), [Default Accounts](/tags/#default-accounts) | Anomaly |
 | [Okta Failed SSO Attempts](/application/okta_failed_sso_attempts/) | [Valid Accounts](/tags/#valid-accounts), [Default Accounts](/tags/#default-accounts) | Anomaly |
 | [Okta User Logins From Multiple Cities](/application/okta_user_logins_from_multiple_cities/) | [Valid Accounts](/tags/#valid-accounts), [Default Accounts](/tags/#default-accounts) | Anomaly |
+| [Outbound Network Connection from Java Using Default Ports](/endpoint/outbound_network_connection_from_java_using_default_ports/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 | [Overwriting Accessibility Binaries](/endpoint/overwriting_accessibility_binaries/) | [Event Triggered Execution](/tags/#event-triggered-execution), [Accessibility Features](/tags/#accessibility-features) | TTP |
 | [Password Policy Discovery with Net](/endpoint/password_policy_discovery_with_net/) | [Password Policy Discovery](/tags/#password-policy-discovery) | Hunting |
 | [Permission Modification using Takeown App](/endpoint/permission_modification_using_takeown_app/) | [File and Directory Permissions Modification](/tags/#file-and-directory-permissions-modification) | TTP |
@@ -463,6 +463,8 @@ sidebar:
 | [PetitPotam Suspicious Kerberos TGT Request](/endpoint/petitpotam_suspicious_kerberos_tgt_request/) | [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [Phishing Email Detection by Machine Learning Method - SSA](/application/phishing_email_detection_by_machine_learning_method_-_ssa/) | [Phishing](/tags/#phishing) | Anomaly |
 | [Plain HTTP POST Exfiltrated Data](/network/plain_http_post_exfiltrated_data/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | TTP |
+| [Possible Browser Pass View Parameter](/endpoint/possible_browser_pass_view_parameter/) | [Credentials from Web Browsers](/tags/#credentials-from-web-browsers), [Credentials from Password Stores](/tags/#credentials-from-password-stores) | Hunting |
+| [Possible Lateral Movement PowerShell Spawn](/endpoint/possible_lateral_movement_powershell_spawn/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model), [Windows Remote Management](/tags/#windows-remote-management), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Scheduled Task](/tags/#scheduled-task), [Windows Service](/tags/#windows-service), [PowerShell](/tags/#powershell) | TTP |
 | [Potential Pass the Token or Hash Observed at the Destination Device](/endpoint/potential_pass_the_token_or_hash_observed_at_the_destination_device/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
 | [Potential Pass the Token or Hash Observed by an Event Collecting Device](/endpoint/potential_pass_the_token_or_hash_observed_by_an_event_collecting_device/) | [Use Alternate Authentication Material](/tags/#use-alternate-authentication-material), [Pass the Hash](/tags/#pass-the-hash) | TTP |
 | [PowerShell 4104 Hunting](/endpoint/powershell_4104_hunting/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | Hunting |
@@ -480,11 +482,11 @@ sidebar:
 | [Powershell Processing Stream Of Data](/endpoint/powershell_processing_stream_of_data/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
 | [Powershell Remote Thread To Known Windows Process](/endpoint/powershell_remote_thread_to_known_windows_process/) | [Process Injection](/tags/#process-injection) | TTP |
 | [Powershell Using memory As Backing Store](/endpoint/powershell_using_memory_as_backing_store/) | [Deobfuscate/Decode Files or Information](/tags/#deobfuscate/decode-files-or-information) | TTP |
+| [Powershell Windows Defender Exclusion Commands](/endpoint/powershell_windows_defender_exclusion_commands/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Prevent Automatic Repair Mode using Bcdedit](/endpoint/prevent_automatic_repair_mode_using_bcdedit/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [Print Processor Registry Autostart](/endpoint/print_processor_registry_autostart/) | [Print Processors](/tags/#print-processors), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
 | [Print Spooler Adding A Printer Driver](/endpoint/print_spooler_adding_a_printer_driver/) | [Print Processors](/tags/#print-processors), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
 | [Print Spooler Failed to Load a Plug-in](/endpoint/print_spooler_failed_to_load_a_plug-in/) | [Print Processors](/tags/#print-processors), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
-| [Probing Access with Stolen Credentials via PowerSploit modules](/endpoint/probing_access_with_stolen_credentials_via_powersploit_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | TTP |
 | [Process Creating LNK file in Suspicious Location](/endpoint/process_creating_lnk_file_in_suspicious_location/) | [Phishing](/tags/#phishing), [Spearphishing Link](/tags/#spearphishing-link) | TTP |
 | [Process Deleting Its Process File Path](/endpoint/process_deleting_its_process_file_path/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
 | [Process Execution via WMI](/endpoint/process_execution_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
@@ -495,37 +497,32 @@ sidebar:
 | [Prohibited Network Traffic Allowed](/network/prohibited_network_traffic_allowed/) | [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | TTP |
 | [Protocol or Port Mismatch](/network/protocol_or_port_mismatch/) | [Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol](/tags/#exfiltration-over-unencrypted/obfuscated-non-c2-protocol), [Exfiltration Over Alternative Protocol](/tags/#exfiltration-over-alternative-protocol) | Anomaly |
 | [Protocols passing authentication in cleartext]() | None | TTP |
+| [Randomly Generated Scheduled Task Name](/endpoint/randomly_generated_scheduled_task_name/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task) | Hunting |
+| [Randomly Generated Windows Service Name](/endpoint/randomly_generated_windows_service_name/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | Hunting |
 | [Ransomware Notes bulk creation](/endpoint/ransomware_notes_bulk_creation/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Anomaly |
 | [Rare Parent-Child Process Relationship](/endpoint/rare_parent-child_process_relationship/) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [Scheduled Task/Job](/tags/#scheduled-task/job), [Software Deployment Tools](/tags/#software-deployment-tools) | Anomaly |
 | [Recon AVProduct Through Pwh or WMI](/endpoint/recon_avproduct_through_pwh_or_wmi/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | TTP |
 | [Recon Using WMI Class](/endpoint/recon_using_wmi_class/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | TTP |
-| [Reconnaissance and Access to Accounts Groups and Policies via PowerSploit modules](/endpoint/reconnaissance_and_access_to_accounts_groups_and_policies_via_powersploit_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Discovery](/tags/#account-discovery), [Domain Policy Modification](/tags/#domain-policy-modification) | TTP |
-| [Reconnaissance and Access to Accounts and Groups via Mimikatz modules](/endpoint/reconnaissance_and_access_to_accounts_and_groups_via_mimikatz_modules/) | [Valid Accounts](/tags/#valid-accounts), [Account Discovery](/tags/#account-discovery), [Domain Policy Modification](/tags/#domain-policy-modification) | TTP |
-| [Reconnaissance and Access to Active Directoty Infrastructure via PowerSploit modules](/endpoint/reconnaissance_and_access_to_active_directoty_infrastructure_via_powersploit_modules/) | [Trusted Relationship](/tags/#trusted-relationship), [Domain Trust Discovery](/tags/#domain-trust-discovery), [Gather Victim Network Information](/tags/#gather-victim-network-information), [Gather Victim Org Information](/tags/#gather-victim-org-information), [Active Scanning](/tags/#active-scanning) | TTP |
-| [Reconnaissance and Access to Computers and Domains via PowerSploit modules](/endpoint/reconnaissance_and_access_to_computers_and_domains_via_powersploit_modules/) | [Gather Victim Host Information](/tags/#gather-victim-host-information), [Gather Victim Network Information](/tags/#gather-victim-network-information), [Account Discovery](/tags/#account-discovery) | TTP |
-| [Reconnaissance and Access to Computers via Mimikatz modules](/endpoint/reconnaissance_and_access_to_computers_via_mimikatz_modules/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | TTP |
-| [Reconnaissance and Access to Operating System Elements via PowerSploit modules](/endpoint/reconnaissance_and_access_to_operating_system_elements_via_powersploit_modules/) | [Process Discovery](/tags/#process-discovery), [File and Directory Discovery](/tags/#file-and-directory-discovery), [Software](/tags/#software), [Network Service Scanning](/tags/#network-service-scanning), [Query Registry](/tags/#query-registry), [System Service Discovery](/tags/#system-service-discovery), [Windows Management Instrumentation](/tags/#windows-management-instrumentation), [Gather Victim Host Information](/tags/#gather-victim-host-information), [Software Discovery](/tags/#software-discovery) | TTP |
-| [Reconnaissance and Access to Processes and Services via Mimikatz modules](/endpoint/reconnaissance_and_access_to_processes_and_services_via_mimikatz_modules/) | [System Service Discovery](/tags/#system-service-discovery), [Network Service Scanning](/tags/#network-service-scanning), [Process Discovery](/tags/#process-discovery) | TTP |
-| [Reconnaissance and Access to Shared Resources via Mimikatz modules](/endpoint/reconnaissance_and_access_to_shared_resources_via_mimikatz_modules/) | [Remote Services](/tags/#remote-services), [Data from Network Shared Drive](/tags/#data-from-network-shared-drive), [Network Share Discovery](/tags/#network-share-discovery), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Reconnaissance and Access to Shared Resources via PowerSploit modules](/endpoint/reconnaissance_and_access_to_shared_resources_via_powersploit_modules/) | [Remote Services](/tags/#remote-services), [Data from Network Shared Drive](/tags/#data-from-network-shared-drive), [Network Share Discovery](/tags/#network-share-discovery), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Reconnaissance of Access and Persistence Opportunities via PowerSploit modules](/endpoint/reconnaissance_of_access_and_persistence_opportunities_via_powersploit_modules/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution), [Hijack Execution Flow](/tags/#hijack-execution-flow) | TTP |
-| [Reconnaissance of Connectivity via PowerSploit modules](/endpoint/reconnaissance_of_connectivity_via_powersploit_modules/) | [Remote Services](/tags/#remote-services), [Data from Network Shared Drive](/tags/#data-from-network-shared-drive), [Network Share Discovery](/tags/#network-share-discovery), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
-| [Reconnaissance of Credential Stores and Services via Mimikatz modules](/endpoint/reconnaissance_of_credential_stores_and_services_via_mimikatz_modules/) | [Account Manipulation](/tags/#account-manipulation), [Domain Properties](/tags/#domain-properties), [Valid Accounts](/tags/#valid-accounts), [Credentials](/tags/#credentials), [Gather Victim Network Information](/tags/#gather-victim-network-information), [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Gather Victim Identity Information](/tags/#gather-victim-identity-information), [Network Trust Dependencies](/tags/#network-trust-dependencies) | TTP |
-| [Reconnaissance of Defensive Tools via PowerSploit modules](/endpoint/reconnaissance_of_defensive_tools_via_powersploit_modules/) | [Software](/tags/#software), [Vulnerability Scanning](/tags/#vulnerability-scanning), [Gather Victim Host Information](/tags/#gather-victim-host-information), [Active Scanning](/tags/#active-scanning) | TTP |
-| [Reconnaissance of Privilege Escalation Opportunities via PowerSploit modules](/endpoint/reconnaissance_of_privilege_escalation_opportunities_via_powersploit_modules/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | TTP |
-| [Reconnaissance of Process or Service Hijacking Opportunities via Mimikatz modules](/endpoint/reconnaissance_of_process_or_service_hijacking_opportunities_via_mimikatz_modules/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Process Injection](/tags/#process-injection), [Hijack Execution Flow](/tags/#hijack-execution-flow) | TTP |
 | [Recursive Delete of Directory In Batch CMD](/endpoint/recursive_delete_of_directory_in_batch_cmd/) | [File Deletion](/tags/#file-deletion), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
 | [Reg exe Manipulating Windows Services Registry Keys](/endpoint/reg_exe_manipulating_windows_services_registry_keys/) | [Services Registry Permissions Weakness](/tags/#services-registry-permissions-weakness), [Hijack Execution Flow](/tags/#hijack-execution-flow) | TTP |
 | [Registry Keys Used For Persistence](/endpoint/registry_keys_used_for_persistence/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
 | [Registry Keys Used For Privilege Escalation](/endpoint/registry_keys_used_for_privilege_escalation/) | [Image File Execution Options Injection](/tags/#image-file-execution-options-injection), [Event Triggered Execution](/tags/#event-triggered-execution) | TTP |
 | [Registry Keys for Creating SHIM Databases](/endpoint/registry_keys_for_creating_shim_databases/) | [Application Shimming](/tags/#application-shimming), [Event Triggered Execution](/tags/#event-triggered-execution) | TTP |
-| [Regsvr32 Silent Param Dll Loading](/endpoint/regsvr32_silent_param_dll_loading/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32) | TTP |
+| [Regsvr32 Silent and Install Param Dll Loading](/endpoint/regsvr32_silent_and_install_param_dll_loading/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32) | Anomaly |
+| [Regsvr32 with Known Silent Switch Cmdline](/endpoint/regsvr32_with_known_silent_switch_cmdline/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32) | Anomaly |
 | [Remcos RAT File Creation in Remcos Folder](/endpoint/remcos_rat_file_creation_in_remcos_folder/) | [Screen Capture](/tags/#screen-capture) | TTP |
 | [Remcos client registry install entry](/endpoint/remcos_client_registry_install_entry/) | [Modify Registry](/tags/#modify-registry) | TTP |
 | [Remote Desktop Network Bruteforce](/network/remote_desktop_network_bruteforce/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | TTP |
 | [Remote Desktop Network Traffic](/network/remote_desktop_network_traffic/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | Anomaly |
 | [Remote Desktop Process Running On System](/endpoint/remote_desktop_process_running_on_system/) | [Remote Desktop Protocol](/tags/#remote-desktop-protocol), [Remote Services](/tags/#remote-services) | Hunting |
+| [Remote Process Instantiation via DCOM and PowerShell](/endpoint/remote_process_instantiation_via_dcom_and_powershell/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model) | TTP |
+| [Remote Process Instantiation via DCOM and PowerShell Script Block](/endpoint/remote_process_instantiation_via_dcom_and_powershell_script_block/) | [Remote Services](/tags/#remote-services), [Distributed Component Object Model](/tags/#distributed-component-object-model) | TTP |
 | [Remote Process Instantiation via WMI](/endpoint/remote_process_instantiation_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
+| [Remote Process Instantiation via WMI and PowerShell](/endpoint/remote_process_instantiation_via_wmi_and_powershell/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
+| [Remote Process Instantiation via WMI and PowerShell Script Block](/endpoint/remote_process_instantiation_via_wmi_and_powershell_script_block/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
+| [Remote Process Instantiation via WinRM and PowerShell](/endpoint/remote_process_instantiation_via_winrm_and_powershell/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
+| [Remote Process Instantiation via WinRM and PowerShell Script Block](/endpoint/remote_process_instantiation_via_winrm_and_powershell_script_block/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
+| [Remote Process Instantiation via WinRM and Winrs](/endpoint/remote_process_instantiation_via_winrm_and_winrs/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
 | [Remote System Discovery with Adsisearcher](/endpoint/remote_system_discovery_with_adsisearcher/) | [Remote System Discovery](/tags/#remote-system-discovery) | TTP |
 | [Remote System Discovery with Dsquery](/endpoint/remote_system_discovery_with_dsquery/) | [Remote System Discovery](/tags/#remote-system-discovery) | Hunting |
 | [Remote System Discovery with Net](/endpoint/remote_system_discovery_with_net/) | [Remote System Discovery](/tags/#remote-system-discovery) | Hunting |
@@ -536,6 +533,7 @@ sidebar:
 | [Revil Common Exec Parameter](/endpoint/revil_common_exec_parameter/) | [User Execution](/tags/#user-execution) | TTP |
 | [Revil Registry Entry](/endpoint/revil_registry_entry/) | [Modify Registry](/tags/#modify-registry) | TTP |
 | [RunDLL Loading DLL By Ordinal](/endpoint/rundll_loading_dll_by_ordinal/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | TTP |
+| [Runas Execution in CommandLine](/endpoint/runas_execution_in_commandline/) | [Access Token Manipulation](/tags/#access-token-manipulation), [Token Impersonation/Theft](/tags/#token-impersonation/theft) | Hunting |
 | [Rundll32 Control RunDLL Hunt](/endpoint/rundll32_control_rundll_hunt/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | Hunting |
 | [Rundll32 Control RunDLL World Writable Directory](/endpoint/rundll32_control_rundll_world_writable_directory/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | TTP |
 | [Rundll32 Create Remote Thread To A Process](/endpoint/rundll32_create_remote_thread_to_a_process/) | [Process Injection](/tags/#process-injection) | TTP |
@@ -557,7 +555,9 @@ sidebar:
 | [SchCache Change By App Connect And Create ADSI Object](/endpoint/schcache_change_by_app_connect_and_create_adsi_object/) | [Domain Account](/tags/#domain-account), [Account Discovery](/tags/#account-discovery) | Anomaly |
 | [Schedule Task with HTTP Command Arguments](/endpoint/schedule_task_with_http_command_arguments/) | [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
 | [Schedule Task with Rundll32 Command Trigger](/endpoint/schedule_task_with_rundll32_command_trigger/) | [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
+| [Scheduled Task Creation on Remote Endpoint using At](/endpoint/scheduled_task_creation_on_remote_endpoint_using_at/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [At (Windows)](/tags/#at-(windows)) | TTP |
 | [Scheduled Task Deleted Or Created via CMD](/endpoint/scheduled_task_deleted_or_created_via_cmd/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
+| [Scheduled Task Initiation on Remote Endpoint](/endpoint/scheduled_task_initiation_on_remote_endpoint/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task) | TTP |
 | [Schtasks Run Task On Demand](/endpoint/schtasks_run_task_on_demand/) | [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
 | [Schtasks scheduling job on remote system](/endpoint/schtasks_scheduling_job_on_remote_system/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
 | [Schtasks used for forcing a reboot](/endpoint/schtasks_used_for_forcing_a_reboot/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
@@ -565,17 +565,17 @@ sidebar:
 | [Script Execution via WMI](/endpoint/script_execution_via_wmi/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
 | [Sdclt UAC Bypass](/endpoint/sdclt_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
 | [Sdelete Application Execution](/endpoint/sdelete_application_execution/) | [Data Destruction](/tags/#data-destruction), [File Deletion](/tags/#file-deletion), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
+| [Sdelete Application Execution](/endpoint/sdelete_application_execution/) | [Data Destruction](/tags/#data-destruction), [File Deletion](/tags/#file-deletion), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | Anomaly |
 | [SearchProtocolHost with no Command Line with Network](/endpoint/searchprotocolhost_with_no_command_line_with_network/) | [Process Injection](/tags/#process-injection) | TTP |
 | [SecretDumps Offline NTDS Dumping Tool](/endpoint/secretdumps_offline_ntds_dumping_tool/) | [NTDS](/tags/#ntds), [OS Credential Dumping](/tags/#os-credential-dumping) | TTP |
 | [ServicePrincipalNames Discovery with PowerShell](/endpoint/serviceprincipalnames_discovery_with_powershell/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
 | [ServicePrincipalNames Discovery with SetSPN](/endpoint/serviceprincipalnames_discovery_with_setspn/) | [Kerberoasting](/tags/#kerberoasting) | TTP |
 | [Services Escalate Exe](/endpoint/services_escalate_exe/) | [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
+| [Services LOLBAS Execution Process Spawn](/endpoint/services_lolbas_execution_process_spawn/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
 | [Set Default PowerShell Execution Policy To Unrestricted or Bypass](/endpoint/set_default_powershell_execution_policy_to_unrestricted_or_bypass/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter), [PowerShell](/tags/#powershell) | TTP |
-| [Setting Credentials via DSInternals modules](/endpoint/setting_credentials_via_dsinternals_modules/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | TTP |
-| [Setting Credentials via Mimikatz modules](/endpoint/setting_credentials_via_mimikatz_modules/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | TTP |
-| [Setting Credentials via PowerSploit modules](/endpoint/setting_credentials_via_powersploit_modules/) | [Exploitation for Privilege Escalation](/tags/#exploitation-for-privilege-escalation), [Valid Accounts](/tags/#valid-accounts), [Account Manipulation](/tags/#account-manipulation) | TTP |
 | [Shim Database File Creation](/endpoint/shim_database_file_creation/) | [Application Shimming](/tags/#application-shimming), [Event Triggered Execution](/tags/#event-triggered-execution) | TTP |
 | [Shim Database Installation With Suspicious Parameters](/endpoint/shim_database_installation_with_suspicious_parameters/) | [Application Shimming](/tags/#application-shimming), [Event Triggered Execution](/tags/#event-triggered-execution) | TTP |
+| [Short Lived Scheduled Task](/endpoint/short_lived_scheduled_task/) | [Scheduled Task](/tags/#scheduled-task) | TTP |
 | [Short Lived Windows Accounts](/endpoint/short_lived_windows_accounts/) | [Local Account](/tags/#local-account), [Create Account](/tags/#create-account) | TTP |
 | [SilentCleanup UAC Bypass](/endpoint/silentcleanup_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
 | [Single Letter Process On Endpoint](/endpoint/single_letter_process_on_endpoint/) | [User Execution](/tags/#user-execution), [Malicious File](/tags/#malicious-file) | TTP |
@@ -589,6 +589,7 @@ sidebar:
 | [Start Up During Safe Mode Boot](/endpoint/start_up_during_safe_mode_boot/) | [Registry Run Keys / Startup Folder](/tags/#registry-run-keys-/-startup-folder), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | TTP |
 | [Sunburst Correlation DLL and Network Event](/endpoint/sunburst_correlation_dll_and_network_event/) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution) | TTP |
 | [Supernova Webshell](/web/supernova_webshell/) | [Web Shell](/tags/#web-shell) | TTP |
+| [Suspicious Computer Account Name Change](/endpoint/suspicious_computer_account_name_change/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | TTP |
 | [Suspicious Copy on System32](/endpoint/suspicious_copy_on_system32/) | [Rename System Utilities](/tags/#rename-system-utilities), [Masquerading](/tags/#masquerading) | TTP |
 | [Suspicious Curl Network Connection](/endpoint/suspicious_curl_network_connection/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Suspicious DLLHost no Command Line Arguments](/endpoint/suspicious_dllhost_no_command_line_arguments/) | [Process Injection](/tags/#process-injection) | TTP |
@@ -596,14 +597,15 @@ sidebar:
 | [Suspicious Email Attachment Extensions](/application/suspicious_email_attachment_extensions/) | [Spearphishing Attachment](/tags/#spearphishing-attachment), [Phishing](/tags/#phishing) | Anomaly |
 | [Suspicious Event Log Service Behavior](/endpoint/suspicious_event_log_service_behavior/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
 | [Suspicious GPUpdate no Command Line Arguments](/endpoint/suspicious_gpupdate_no_command_line_arguments/) | [Process Injection](/tags/#process-injection) | TTP |
-| [Suspicious IcedID Regsvr32 Cmdline](/endpoint/suspicious_icedid_regsvr32_cmdline/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32) | TTP |
 | [Suspicious IcedID Rundll32 Cmdline](/endpoint/suspicious_icedid_rundll32_cmdline/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Rundll32](/tags/#rundll32) | TTP |
 | [Suspicious Image Creation In Appdata Folder](/endpoint/suspicious_image_creation_in_appdata_folder/) | [Screen Capture](/tags/#screen-capture) | TTP |
 | [Suspicious Java Classes]() | None | Anomaly |
+| [Suspicious Kerberos Service Ticket Request](/endpoint/suspicious_kerberos_service_ticket_request/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | TTP |
 | [Suspicious MSBuild Rename](/endpoint/suspicious_msbuild_rename/) | [Masquerading](/tags/#masquerading), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities), [MSBuild](/tags/#msbuild) | TTP |
 | [Suspicious MSBuild Spawn](/endpoint/suspicious_msbuild_spawn/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [MSBuild](/tags/#msbuild) | TTP |
 | [Suspicious PlistBuddy Usage](/endpoint/suspicious_plistbuddy_usage/) | [Launch Agent](/tags/#launch-agent), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [Suspicious PlistBuddy Usage via OSquery](/endpoint/suspicious_plistbuddy_usage_via_osquery/) | [Launch Agent](/tags/#launch-agent), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
+| [Suspicious Process DNS Query Known Abuse Web Services](/endpoint/suspicious_process_dns_query_known_abuse_web_services/) | [Visual Basic](/tags/#visual-basic), [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | TTP |
 | [Suspicious Process File Path](/endpoint/suspicious_process_file_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [Suspicious Reg exe Process](/endpoint/suspicious_reg_exe_process/) | [Modify Registry](/tags/#modify-registry) | TTP |
 | [Suspicious Regsvr32 Register Suspicious Path](/endpoint/suspicious_regsvr32_register_suspicious_path/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Regsvr32](/tags/#regsvr32) | TTP |
@@ -615,6 +617,7 @@ sidebar:
 | [Suspicious SQLite3 LSQuarantine Behavior](/endpoint/suspicious_sqlite3_lsquarantine_behavior/) | [Data Staged](/tags/#data-staged) | TTP |
 | [Suspicious Scheduled Task from Public Directory](/endpoint/suspicious_scheduled_task_from_public_directory/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | Anomaly |
 | [Suspicious SearchProtocolHost no Command Line Arguments](/endpoint/suspicious_searchprotocolhost_no_command_line_arguments/) | [Process Injection](/tags/#process-injection) | TTP |
+| [Suspicious Ticket Granting Ticket Request](/endpoint/suspicious_ticket_granting_ticket_request/) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | Hunting |
 | [Suspicious WAV file in Appdata Folder](/endpoint/suspicious_wav_file_in_appdata_folder/) | [Screen Capture](/tags/#screen-capture) | TTP |
 | [Suspicious microsoft workflow compiler rename](/endpoint/suspicious_microsoft_workflow_compiler_rename/) | [Masquerading](/tags/#masquerading), [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution), [Rename System Utilities](/tags/#rename-system-utilities) | Hunting |
 | [Suspicious microsoft workflow compiler usage](/endpoint/suspicious_microsoft_workflow_compiler_usage/) | [Trusted Developer Utilities Proxy Execution](/tags/#trusted-developer-utilities-proxy-execution) | TTP |
@@ -623,6 +626,8 @@ sidebar:
 | [Suspicious mshta spawn](/endpoint/suspicious_mshta_spawn/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [Mshta](/tags/#mshta) | TTP |
 | [Suspicious wevtutil Usage](/endpoint/suspicious_wevtutil_usage/) | [Clear Windows Event Logs](/tags/#clear-windows-event-logs), [Indicator Removal on Host](/tags/#indicator-removal-on-host) | TTP |
 | [Suspicious writes to windows Recycle Bin](/endpoint/suspicious_writes_to_windows_recycle_bin/) | [Masquerading](/tags/#masquerading) | TTP |
+| [Svchost LOLBAS Execution Process Spawn](/endpoint/svchost_lolbas_execution_process_spawn/) | [Scheduled Task/Job](/tags/#scheduled-task/job), [Scheduled Task](/tags/#scheduled-task) | TTP |
+| [System Info Gathering Using Dxdiag Application](/endpoint/system_info_gathering_using_dxdiag_application/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | Hunting |
 | [System Information Discovery Detection](/endpoint/system_information_discovery_detection/) | [System Information Discovery](/tags/#system-information-discovery) | TTP |
 | [System Process Running from Unexpected Location](/endpoint/system_process_running_from_unexpected_location/) | [Masquerading](/tags/#masquerading) | Anomaly |
 | [System Processes Run From Unexpected Locations](/endpoint/system_processes_run_from_unexpected_locations/) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | TTP |
@@ -638,6 +643,8 @@ sidebar:
 | [Uninstall App Using MsiExec](/endpoint/uninstall_app_using_msiexec/) | [Msiexec](/tags/#msiexec), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
 | [Unload Sysmon Filter Driver](/endpoint/unload_sysmon_filter_driver/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Unloading AMSI via Reflection](/endpoint/unloading_amsi_via_reflection/) | [Impair Defenses](/tags/#impair-defenses) | TTP |
+| [Unusual Number of Computer Service Tickets Requested](/endpoint/unusual_number_of_computer_service_tickets_requested/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
+| [Unusual Number of Remote Endpoint Authentication Events](/endpoint/unusual_number_of_remote_endpoint_authentication_events/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
 | [Unusually Long Command Line]() | None | Anomaly |
 | [Unusually Long Command Line]() | None | Anomaly |
 | [Unusually Long Command Line - MLTK]() | None | Anomaly |
@@ -648,10 +655,12 @@ sidebar:
 | [Verclsid CLSID Execution](/endpoint/verclsid_clsid_execution/) | [Verclsid](/tags/#verclsid), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | Hunting |
 | [W3WP Spawning Shell](/endpoint/w3wp_spawning_shell/) | [Server Software Component](/tags/#server-software-component), [Web Shell](/tags/#web-shell) | TTP |
 | [WBAdmin Delete System Backups](/endpoint/wbadmin_delete_system_backups/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
+| [WBAdmin Delete System Backups](/endpoint/wbadmin_delete_system_backups/) | [Inhibit System Recovery](/tags/#inhibit-system-recovery) | TTP |
 | [WMI Permanent Event Subscription](/endpoint/wmi_permanent_event_subscription/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
 | [WMI Permanent Event Subscription - Sysmon](/endpoint/wmi_permanent_event_subscription_-_sysmon/) | [Windows Management Instrumentation Event Subscription](/tags/#windows-management-instrumentation-event-subscription), [Event Triggered Execution](/tags/#event-triggered-execution) | TTP |
 | [WMI Recon Running Process Or Services](/endpoint/wmi_recon_running_process_or_services/) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | TTP |
 | [WMI Temporary Event Subscription](/endpoint/wmi_temporary_event_subscription/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
+| [WMIC XSL Execution via URL](/endpoint/wmic_xsl_execution_via_url/) | [XSL Script Processing](/tags/#xsl-script-processing) | TTP |
 | [WSReset UAC Bypass](/endpoint/wsreset_uac_bypass/) | [Bypass User Account Control](/tags/#bypass-user-account-control), [Abuse Elevation Control Mechanism](/tags/#abuse-elevation-control-mechanism) | TTP |
 | [Wbemprox COM Object Execution](/endpoint/wbemprox_com_object_execution/) | [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution), [CMSTP](/tags/#cmstp) | TTP |
 | [Web Servers Executing Suspicious Processes](/application/web_servers_executing_suspicious_processes/) | [System Information Discovery](/tags/#system-information-discovery) | TTP |
@@ -660,6 +669,7 @@ sidebar:
 | [Wermgr Process Spawned CMD Or Powershell Process](/endpoint/wermgr_process_spawned_cmd_or_powershell_process/) | [Command and Scripting Interpreter](/tags/#command-and-scripting-interpreter) | TTP |
 | [WevtUtil Usage To Clear Logs](/endpoint/wevtutil_usage_to_clear_logs/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
 | [Wevtutil Usage To Disable Logs](/endpoint/wevtutil_usage_to_disable_logs/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Wget Download and Bash Execution](/endpoint/wget_download_and_bash_execution/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [WinEvent Scheduled Task Created Within Public Path](/endpoint/winevent_scheduled_task_created_within_public_path/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
 | [WinEvent Scheduled Task Created to Spawn Shell](/endpoint/winevent_scheduled_task_created_to_spawn_shell/) | [Scheduled Task](/tags/#scheduled-task), [Scheduled Task/Job](/tags/#scheduled-task/job) | TTP |
 | [WinEvent Windows Task Scheduler Event Action Started](/endpoint/winevent_windows_task_scheduler_event_action_started/) | [Scheduled Task](/tags/#scheduled-task) | Hunting |
@@ -667,17 +677,31 @@ sidebar:
 | [Windows AdFind Exe](/endpoint/windows_adfind_exe/) | [Remote System Discovery](/tags/#remote-system-discovery) | TTP |
 | [Windows Curl Download to Suspicious Path](/endpoint/windows_curl_download_to_suspicious_path/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
 | [Windows Curl Upload to Remote Destination](/endpoint/windows_curl_upload_to_remote_destination/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Windows Curl Upload to Remote Destination](/endpoint/windows_curl_upload_to_remote_destination/) | [Ingress Tool Transfer](/tags/#ingress-tool-transfer) | TTP |
+| [Windows Defender Exclusion Registry Entry](/endpoint/windows_defender_exclusion_registry_entry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
 | [Windows DisableAntiSpyware Registry](/endpoint/windows_disableantispyware_registry/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | TTP |
+| [Windows DiskCryptor Usage](/endpoint/windows_diskcryptor_usage/) | [Data Encrypted for Impact](/tags/#data-encrypted-for-impact) | Hunting |
 | [Windows Event Log Cleared](/endpoint/windows_event_log_cleared/) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | TTP |
+| [Windows InstallUtil Credential Theft](/endpoint/windows_installutil_credential_theft/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
+| [Windows InstallUtil Remote Network Connection](/endpoint/windows_installutil_remote_network_connection/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
+| [Windows InstallUtil URL in Command Line](/endpoint/windows_installutil_url_in_command_line/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
+| [Windows InstallUtil Uninstall Option](/endpoint/windows_installutil_uninstall_option/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
+| [Windows InstallUtil Uninstall Option with Network](/endpoint/windows_installutil_uninstall_option_with_network/) | [InstallUtil](/tags/#installutil), [Signed Binary Proxy Execution](/tags/#signed-binary-proxy-execution) | TTP |
+| [Windows Java Spawning Shells](/endpoint/windows_java_spawning_shells/) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | TTP |
 | [Windows Security Account Manager Stopped](/endpoint/windows_security_account_manager_stopped/) | [Service Stop](/tags/#service-stop) | TTP |
+| [Windows Service Created With Suspicious Service Path](/endpoint/windows_service_created_with_suspicious_service_path/) | [System Services](/tags/#system-services), [Service Execution](/tags/#service-execution) | TTP |
+| [Windows Service Created Within Public Path](/endpoint/windows_service_created_within_public_path/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
+| [Windows Service Creation on Remote Endpoint](/endpoint/windows_service_creation_on_remote_endpoint/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
+| [Windows Service Initiation on Remote Endpoint](/endpoint/windows_service_initiation_on_remote_endpoint/) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Windows Service](/tags/#windows-service) | TTP |
 | [Winhlp32 Spawning a Process](/endpoint/winhlp32_spawning_a_process/) | [Process Injection](/tags/#process-injection) | TTP |
 | [Winword Spawning Cmd](/endpoint/winword_spawning_cmd/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Winword Spawning PowerShell](/endpoint/winword_spawning_powershell/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Winword Spawning Windows Script Host](/endpoint/winword_spawning_windows_script_host/) | [Phishing](/tags/#phishing), [Spearphishing Attachment](/tags/#spearphishing-attachment) | TTP |
 | [Wmic Group Discovery](/endpoint/wmic_group_discovery/) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | Hunting |
 | [Wmic NonInteractive App Uninstallation](/endpoint/wmic_noninteractive_app_uninstallation/) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | Hunting |
-| [Write Executable in SMB Share](/endpoint/write_executable_in_smb_share/) | [Remote Services](/tags/#remote-services), [SMB/Windows Admin Shares](/tags/#smb/windows-admin-shares) | TTP |
+| [Wmiprsve LOLBAS Execution Process Spawn](/endpoint/wmiprsve_lolbas_execution_process_spawn/) | [Windows Management Instrumentation](/tags/#windows-management-instrumentation) | TTP |
 | [Wscript Or Cscript Suspicious Child Process](/endpoint/wscript_or_cscript_suspicious_child_process/) | [Process Injection](/tags/#process-injection), [Create or Modify System Process](/tags/#create-or-modify-system-process), [Parent PID Spoofing](/tags/#parent-pid-spoofing), [Access Token Manipulation](/tags/#access-token-manipulation) | TTP |
+| [Wsmprovhost LOLBAS Execution Process Spawn](/endpoint/wsmprovhost_lolbas_execution_process_spawn/) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | TTP |
 | [XMRIG Driver Loaded](/endpoint/xmrig_driver_loaded/) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | TTP |
 | [XSL Script Execution With WMIC](/endpoint/xsl_script_execution_with_wmic/) | [XSL Script Processing](/tags/#xsl-script-processing) | TTP |
 | [aws detect attach to role policy](/cloud/aws_detect_attach_to_role_policy/) | [Valid Accounts](/tags/#valid-accounts) | Hunting |
