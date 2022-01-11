@@ -6,18 +6,23 @@ author: Teoderick Contreras, Splunk
 type: Hunting
 datamodel:
 - Endpoint
-description: This analytic is to look for possible elevation control access using a common known process in linux platform to change the attribute and file ownership.
-  This technique is commonly abused by adversaries, malware author and red teamers to gain persistence or privilege escalation on the target or compromised host. 
-  Tis common process is used to modify file attribute, file ownership or SUID. This tools can be used in legitimate purposes so filter is needed. 
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where 
-  Processes.process_name IN ("chmod", "chown", "fchmod", "fchmodat", "fchown", "fchownat", "fremovexattr", "fsetxattr", "lchown", "lremovexattr", "lsetxattr", "removexattr", "setuid", "setgid", "setreuid", "setregid") 
-  OR Processes.process IN ("*chmod *", "*chown *", "*fchmod *", "*fchmodat *", "*fchown *", "*fchownat *", "*fremovexattr *", "*fsetxattr *", "*lchown *", 
-  "*lremovexattr *", "*lsetxattr *", "*removexattr *", "*setuid *", "*setgid *", "*setreuid *", "*setregid *", "*setcap *")
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `linux_common_process_for_elevation_control_filter`'
+description: This analytic is to look for possible elevation control access using
+  a common known process in linux platform to change the attribute and file ownership.
+  This technique is commonly abused by adversaries, malware author and red teamers
+  to gain persistence or privilege escalation on the target or compromised host. Tis
+  common process is used to modify file attribute, file ownership or SUID. This tools
+  can be used in legitimate purposes so filter is needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("chmod",
+  "chown", "fchmod", "fchmodat", "fchown", "fchownat", "fremovexattr", "fsetxattr",
+  "lchown", "lremovexattr", "lsetxattr", "removexattr", "setuid", "setgid", "setreuid",
+  "setregid") OR Processes.process IN ("*chmod *", "*chown *", "*fchmod *", "*fchmodat
+  *", "*fchown *", "*fchownat *", "*fremovexattr *", "*fsetxattr *", "*lchown *",
+  "*lremovexattr *", "*lsetxattr *", "*removexattr *", "*setuid *", "*setgid *", "*setreuid
+  *", "*setregid *", "*setcap *") by Processes.dest Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `linux_common_process_for_elevation_control_filter`'
 how_to_implement: UPDATE_HOW_TO_IMPLEMENT
 known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
 references:
@@ -42,17 +47,16 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Processes.dest 
-  - Processes.user 
-  - Processes.parent_process_name 
-  - Processes.process_name 
-  - Processes.process 
-  - Processes.process_id 
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
   - Processes.parent_process_id
   security_domain: endpoint
   impact: 30
-  confidence: 30 
-  # (impact * confidence)/100
+  confidence: 30
   risk_score: 9
   context:
   - source:endpoint
@@ -69,3 +73,4 @@ tags:
   - CIS 3
   - CIS 5
   - CIS 16
+  automated_detection_testing: passed
