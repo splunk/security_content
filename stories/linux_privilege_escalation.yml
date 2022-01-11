@@ -1,0 +1,27 @@
+name: Linux Privilege Escalation
+id: b9879c24-670a-44c0-895e-98cdb7d0e848
+version: 1
+date: '2021-12-17'
+author: Teoderick Contreras, Splunk
+description: Monitor for and investigate activities that may be associated with a
+  Linux privilege-escalation attack, including unusual processes running on endpoints,
+  schedule task, services, setuid, root execution and more.
+narrative: 'Privilege escalation is a "land-and-expand" technique, wherein an adversary
+  gains an initial foothold on a host and then exploits its weaknesses to increase
+  his privileges. The motivation is simple: certain actions on a Linux machine--such
+  as installing software--may require higher-level privileges than those the attacker
+  initially acquired. By increasing his privilege level, the attacker can gain the
+  control required to carry out his malicious ends. This Analytic Story provides searches
+  to detect and investigate behaviors that attackers may use to elevate their privileges
+  in your environment.'
+references:
+- https://attack.mitre.org/tactics/TA0004/
+tags:
+  analytic_story: Linux Privilege Escalation
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
