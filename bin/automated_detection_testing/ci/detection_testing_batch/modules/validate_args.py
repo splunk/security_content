@@ -245,7 +245,12 @@ setup_schema = {
                     }
             },
             
-             "default": {},
+             "default": {
+                     "SPLUNK_ADD_ON_FOR_SYSMON": {
+                     "app_number": 5709,
+                     "app_version": "1.0.1"
+                }
+             },
  
             # "default": {
             #     "ADD-ON_FOR_LINUX_SYSMON": {

@@ -8,7 +8,7 @@
         "endpoint",
         "cloud",
         "network",
-	"web"
+        "web"
     ],
     "interactive": false,
     "local_apps": {
@@ -119,7 +119,12 @@
     "show_splunk_app_password": false,
     "splunk_app_password": null,
     "splunk_container_apps_directory": "/opt/splunk/etc/apps",
-    "splunkbase_apps": {},
+    "splunkbase_apps": {
+        "SPLUNK_ADD_ON_FOR_SYSMON": {
+            "app_number": 5709,
+            "app_version": "1.0.1"
+        }
+    },
     "splunkbase_password": null,
     "splunkbase_username": null,
     "types": [

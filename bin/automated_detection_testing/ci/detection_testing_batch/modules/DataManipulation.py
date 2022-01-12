@@ -61,26 +61,6 @@ class DataManipulation:
 
         os.remove(original_backup_file)
 
-
-    
-        '''
-        #Order to make this threadsafe, we need to use fileinput.FileInput.
-        #We cannot use fileinput.fileinput because 
-        #"The instance will be used as global state for the functions of this module, and is also returned to use during iteration."
-        #from: https://docs.python.org/2/library/fileinput.html#fileinput.input
-        
-        
-        for line in fileinput.FileInput(path, inplace=True):
-            d = json.loads(line)
-            original_time = datetime.strptime(d["CreationTime"],"%Y-%m-%dT%H:%M:%S")
-            new_time = (difference + original_time)
-
-            original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S")
-            new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S")
-            print (line.replace(original_time, new_time),end ='')
-        '''
-
-
     def manipulate_timestamp_windows_event_log_raw(self, file_path):
         path =  os.path.join(os.path.dirname(__file__), '../' + file_path)
         path =  path.replace('modules/../','')
@@ -174,28 +154,3 @@ class DataManipulation:
 
 
         os.remove(original_backup_file)
-
-
-        '''
-        #Order to make this threadsafe, we need to use fileinput.FileInput.
-        #We cannot use fileinput.fileinput because 
-        #"The instance will be used as global state for the functions of this module, and is also returned to use during iteration."
-        #from: https://docs.python.org/2/library/fileinput.html#fileinput.input
-        for line in fileinput.FileInput(path, inplace=True):
-            try:
-                d = json.loads(line)
-                original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%S.%fZ")
-                new_time = (difference + original_time)
-
-                original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-                new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-                print (line.replace(original_time, new_time),end ='')
-            except ValueError:
-                d = json.loads(line)
-                original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%SZ")
-                new_time = (difference + original_time)
-
-                original_time = original_time.strftime("%Y-%m-%dT%H:%M:%SZ")
-                new_time = new_time.strftime("%Y-%m-%dT%H:%M:%SZ")
-                print (line.replace(original_time, new_time),end ='')
-        '''
