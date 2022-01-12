@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 from datetime import timedelta
-import fileinput
+#import fileinput
 import os
 import re
 import io
@@ -10,7 +10,8 @@ class DataManipulation:
 
     def manipulate_timestamp(self, file_path, sourcetype, source):
 
-        print('Updating timestamps in attack_data before replaying')
+
+        #print('Updating timestamps in attack_data before replaying')
 
         if sourcetype == 'aws:cloudtrail':
             self.manipulate_timestamp_cloudtrail(file_path)
@@ -39,15 +40,26 @@ class DataManipulation:
         difference = now - latest_event
         f.close()
 
-        for line in fileinput.input(path, inplace=True):
-            d = json.loads(line)
-            original_time = datetime.strptime(d["CreationTime"],"%Y-%m-%dT%H:%M:%S")
-            new_time = (difference + original_time)
+        #Mimic the behavior of fileinput but in a threadsafe way
+        #Rename the file, which fileinput does for inplace.
+        #Note that path will now be the new file
+        original_backup_file = f"{path}.bak"    
+        os.rename(path, original_backup_file)
+        
+        with open(original_backup_file, "r") as original_file:
+            with open(path, "w") as new_file:
+                for line in original_file:
+                    d = json.loads(line)
+                    original_time = datetime.strptime(d["CreationTime"],"%Y-%m-%dT%H:%M:%S")
+                    new_time = (difference + original_time)
 
-            original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S")
-            new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S")
-            print (line.replace(original_time, new_time),end ='')
+                    original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S")
+                    new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S")
+                    #There is no end character appended, no need for end=''
+                    new_file.write(line.replace(original_time, new_time))
 
+
+        os.remove(original_backup_file)
 
     def manipulate_timestamp_windows_event_log_raw(self, file_path):
         path =  os.path.join(os.path.dirname(__file__), '../' + file_path)
@@ -112,20 +124,33 @@ class DataManipulation:
         difference = now - latest_event
         f.close()
 
-        for line in fileinput.input(path, inplace=True):
-            try:
-                d = json.loads(line)
-                original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%S.%fZ")
-                new_time = (difference + original_time)
 
-                original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-                new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-                print (line.replace(original_time, new_time),end ='')
-            except ValueError:
-                d = json.loads(line)
-                original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%SZ")
-                new_time = (difference + original_time)
 
-                original_time = original_time.strftime("%Y-%m-%dT%H:%M:%SZ")
-                new_time = new_time.strftime("%Y-%m-%dT%H:%M:%SZ")
-                print (line.replace(original_time, new_time),end ='')
+        #Mimic the behavior of fileinput but in a threadsafe way
+        #Rename the file, which fileinput does for inplace.
+        #Note that path will now be the new file
+        original_backup_file = f"{path}.bak"    
+        os.rename(path, original_backup_file)
+        
+        with open(original_backup_file, "r") as original_file:
+            with open(path, "w") as new_file:
+                for line in original_file:
+                    try:
+                        d = json.loads(line)
+                        original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%S.%fZ")
+                        new_time = (difference + original_time)
+
+                        original_time = original_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+                        new_time = new_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+                        new_file.write(line.replace(original_time, new_time))
+                    except ValueError:
+                        d = json.loads(line)
+                        original_time = datetime.strptime(d["eventTime"],"%Y-%m-%dT%H:%M:%SZ")
+                        new_time = (difference + original_time)
+
+                        original_time = original_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+                        new_time = new_time.strftime("%Y-%m-%dT%H:%M:%SZ")
+                        new_file.write(line.replace(original_time, new_time))
+
+
+        os.remove(original_backup_file)
