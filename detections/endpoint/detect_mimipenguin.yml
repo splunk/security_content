@@ -31,7 +31,7 @@ tags:
   - T1552
   observable:
       - name: Computer
-        type: Hostname
+        type: Endpoint 
         role:
         - Victim
   product:
@@ -43,6 +43,6 @@ tags:
   - user
   - Computer
   - parent_process
-  - process_current_directory 
+  - process_current_directory
   risk_score: 35
   security_domain: endpoint

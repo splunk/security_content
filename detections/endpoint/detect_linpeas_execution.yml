@@ -54,5 +54,5 @@ tags:
   message: LinPEAS post exploitation tool detected
   observable:
     - name: Computer
-    - Type: Hostname
+    - Type: Endpoint 
     - role: Victim

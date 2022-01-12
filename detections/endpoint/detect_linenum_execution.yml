@@ -38,7 +38,7 @@ tags:
   - T1033
   observable:
     - name: Computer
-      type: Hostname
+      type: Endpoint 
       role:
       - Victim
   product:
@@ -50,6 +50,6 @@ tags:
   - CommandLine
   - user
   - process_exec
-  - process_current_directory 
+  - process_current_directory
   risk_score: 45
   security_domain: endpoint
