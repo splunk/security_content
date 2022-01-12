@@ -24,7 +24,7 @@ SECURITY_CONTENT_URL = "https://github.com/splunk/security_content"
 class GithubService:
 
 
-    def __init__(self, security_content_branch: str, commit_hash: str, PR_number: int = None, persist_security_content: bool = False):
+    def __init__(self, security_content_branch: str, commit_hash: Union[str,None], PR_number: int = None, persist_security_content: bool = False):
 
         self.security_content_branch = security_content_branch
         if persist_security_content:
@@ -44,12 +44,15 @@ class GithubService:
                            "'git branch -a' to examine [%d] branches"%(security_content_branch, len(branch_names))))
 
 
-        if commit_hash is not None and PR_number is not None:
-            raise(Exception("Error - both the PR number [%d] and the commit hash [%s] were provided.  "
-                  "Only 0 or 1 can be passed." % (PR_number, commit_hash)))
+        if commit_hash is not None and PR_number is not None: 
+            print(f"\n************\nWARNING - both the PR_number {PR_number} and the commit_hash {commit_hash} were provided. "
+                  f"You should only pass neither or one of these.  We will ASSUME you want to use the PR_number, not the commit_hash. " 
+                  f"Removing the commit_hash...\n************\n")
+            commit_hash = None
+            
             
 
-        elif PR_number:
+        if PR_number:
             ret = subprocess.run(["git", "-C", "security_content/", "fetch", "origin",
                             "refs/pull/%d/head:%s" % (PR_number, security_content_branch)], capture_output=True)
             #ret = subprocess.call(["git", "-C", "security_content/", "fetch", "origin",
