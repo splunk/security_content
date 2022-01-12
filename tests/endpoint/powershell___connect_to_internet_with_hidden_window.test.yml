@@ -1,7 +1,7 @@
-name: Malicious PowerShell Process - Connect To Internet With Hidden Window Unit Test
+name: PowerShell - Connect To Internet With Hidden Window Unit Test
 tests:
-- name: Malicious PowerShell Process - Connect To Internet With Hidden Window
-  file: endpoint/malicious_powershell_process___connect_to_internet_with_hidden_window.yml
+- name: PowerShell - Connect To Internet With Hidden Window
+  file: endpoint/powershell___connect_to_internet_with_hidden_window.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
