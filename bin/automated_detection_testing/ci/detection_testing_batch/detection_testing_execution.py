@@ -508,8 +508,6 @@ def main(args: list[str]):
         sys.exit(0)
     else:
         print("Test Execution Failed - review the logs for more details")
-        print("IN THE FUTURE, THIS WILL RETURN NONZERO CAUSING THE WORKFLOW TO FAIL!")
-        sys.exit(0)
         sys.exit(1)
 
 
