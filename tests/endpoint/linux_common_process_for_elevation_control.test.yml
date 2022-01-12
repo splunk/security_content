@@ -1,0 +1,12 @@
+name: Linux Common Process For Elevation Control Unit Test
+tests:
+- name: Linux Common Process For Elevation Control
+  file: endpoint/linux_common_process_for_elevation_control.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: sysmon_linux.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.001/chmod_uid/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
