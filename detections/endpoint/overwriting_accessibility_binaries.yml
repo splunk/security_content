@@ -60,10 +60,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Filesystem.dest
-  - Filesystem.file_name
-  - Filesystem.file_path
-  - Filesystem.user
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.user
   - _time
   risk_score: 72
   security_domain: endpoint

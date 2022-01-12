@@ -56,12 +56,12 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Web.dest
-  - Web.http_method
-  - Web.http_user_agent
-  - Web.src
-  - Web.url
-  - Web.url_length
+  - Web.Web.dest
+  - Web.Web.http_method
+  - Web.Web.http_user_agent
+  - Web.Web.src
+  - Web.Web.url
+  - Web.Web.url_length
   risk_score: 40
   security_domain: network
 type: TTP

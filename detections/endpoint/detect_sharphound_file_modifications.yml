@@ -73,11 +73,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Filesystem.dest
-  - Filesystem.file_create_time
-  - Filesystem.file_name
-  - Filesystem.file_path
-  - Filesystem.process_id
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_create_time
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.process_id
   - _time
   - dest
   - file_create_time

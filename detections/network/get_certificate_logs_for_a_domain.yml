@@ -24,8 +24,8 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - All_Certificates.dest
-  - All_Certificates.src
+  - Certificates.All_Certificates.dest
+  - Certificates.All_Certificates.src
   - _time
   security_domain: network
 type: Investigation

@@ -21,9 +21,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Updates.dest
-  - Updates.status
-  - Updates.vendor_product
+  - Updates.Updates.dest
+  - Updates.Updates.status
+  - Updates.Updates.vendor_product
   - _time
   security_domain: endpoint
 type: Baseline

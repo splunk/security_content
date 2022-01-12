@@ -78,11 +78,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Processes.dest
-  - Processes.parent_process
-  - Processes.process
-  - Processes.process_name
-  - Processes.user
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   risk_score: 64
   security_domain: endpoint
 type: TTP

@@ -73,17 +73,17 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Processes.dest
-  - Processes.process_guid
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.user
-  - Registry.dest
-  - Registry.process_guid
-  - Registry.registry_key_name
-  - Registry.registry_path
-  - Registry.registry_value_name
-  - Registry.user
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
+  - Endpoint.Registry.dest
+  - Endpoint.Registry.process_guid
+  - Endpoint.Registry.registry_key_name
+  - Endpoint.Registry.registry_path
+  - Endpoint.Registry.registry_value_name
+  - Endpoint.Registry.user
   - _time
   - dest
   - process_name

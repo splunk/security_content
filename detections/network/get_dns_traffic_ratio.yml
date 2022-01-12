@@ -30,11 +30,11 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - All_Traffic.bytes_in
-  - All_Traffic.bytes_out
-  - All_Traffic.dest
-  - All_Traffic.dest_port
-  - All_Traffic.src
+  - Network_Traffic.All_Traffic.bytes_in
+  - Network_Traffic.All_Traffic.bytes_out
+  - Network_Traffic.All_Traffic.dest
+  - Network_Traffic.All_Traffic.dest_port
+  - Network_Traffic.All_Traffic.src
   security_domain: network
 type: Investigation
 version: 1

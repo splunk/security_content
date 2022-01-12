@@ -20,10 +20,10 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Web.http_method
-  - Web.http_user_agent
-  - Web.src
-  - Web.url
+  - Web.Web.http_method
+  - Web.Web.http_user_agent
+  - Web.Web.src
+  - Web.Web.url
   security_domain: network
 type: Investigation
 version: 1

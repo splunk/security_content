@@ -60,8 +60,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - DNS.message_type
-  - DNS.query
+  - Network_Resolution.DNS.message_type
+  - Network_Resolution.DNS.query
   risk_score: 56
   security_domain: network
 type: Anomaly

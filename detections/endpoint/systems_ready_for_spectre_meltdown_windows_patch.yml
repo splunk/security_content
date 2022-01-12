@@ -31,13 +31,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Change_Analysis.All_Changes.command
+  - Change_Analysis.All_Changes.dest
+  - Change_Analysis.All_Changes.object
+  - Change_Analysis.All_Changes.object_category
+  - Change_Analysis.All_Changes.object_path
+  - Change_Analysis.All_Changes.user
   - _time
-  - All_Changes.object_category
-  - All_Changes.object_path
-  - All_Changes.dest
-  - All_Changes.command
-  - All_Changes.user
-  - All_Changes.object
   security_domain: endpoint
 type: Baseline
 version: 1

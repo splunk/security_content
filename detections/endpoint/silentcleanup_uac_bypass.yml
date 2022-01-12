@@ -1,28 +1,26 @@
-name: SilentCleanup UAC Bypass
-id: 56d7cfcc-da63-11eb-92d4-acde48001122
-version: 1
-date: '2021-07-01'
 author: Teoderick Contreras, Splunk
-type: TTP
 datamodel:
 - Endpoint
+date: '2021-07-01'
 description: This search is to detect a suspicious modification of registry that may
   related to UAC bypassed. This registry will be trigger once the attacker abuse the
   silentcleanup task schedule to gain high privilege execution that will bypass User
   control account.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+id: 56d7cfcc-da63-11eb-92d4-acde48001122
+known_false_positives: unknown
+name: SilentCleanup UAC Bypass
+references:
+- https://github.com/hfiref0x/UACME
+- https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\windir"
   Registry.registry_value_name = "*.exe*" by Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `silentcleanup_uac_bypass_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: unknown
-references:
-- https://github.com/hfiref0x/UACME
-- https://www.intezer.com/blog/malware-analysis/klingon-rat-holding-on-for-dear-life/
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -45,18 +43,20 @@ tags:
   - T1548
   observable:
   - name: dest
-    type: Hostname
     role:
     - Victim
+    type: Hostname
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Registry.dest
+  - Endpoint.Registry.registry_key_name
+  - Endpoint.Registry.registry_path
+  - Endpoint.Registry.registry_value_name
   - _time
-  - Registry.registry_path
-  - Registry.registry_key_name
-  - Registry.registry_value_name
-  - Registry.dest
   risk_score: 63
   security_domain: endpoint
+type: TTP
+version: 1

@@ -22,10 +22,10 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - All_Sessions.signature
-  - All_Sessions.src_ip
-  - All_Sessions.src_mac
-  - All_Sessions.user
+  - Network_Sessions.All_Sessions.signature
+  - Network_Sessions.All_Sessions.src_ip
+  - Network_Sessions.All_Sessions.src_mac
+  - Network_Sessions.All_Sessions.user
   - _time
   security_domain: network
 type: Investigation

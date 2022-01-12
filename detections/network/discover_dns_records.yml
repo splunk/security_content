@@ -34,10 +34,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - DNS.answer
-  - DNS.message_type
-  - DNS.query
-  - DNS.record_type
+  - Network_Resolution.DNS.answer
+  - Network_Resolution.DNS.message_type
+  - Network_Resolution.DNS.query
+  - Network_Resolution.DNS.record_type
   security_domain: network
 type: Baseline
 version: 1

@@ -61,13 +61,13 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Registry.action
+  - Endpoint.Registry.dest
+  - Endpoint.Registry.registry_key_name
+  - Endpoint.Registry.registry_path
+  - Endpoint.Registry.registry_value_name
+  - Endpoint.Registry.user
   - _time
-  - Registry.action
-  - Registry.registry_path
-  - Registry.dest
-  - Registry.registry_key_name
-  - Registry.user
-  - Registry.registry_value_name
   risk_score: 64
   security_domain: endpoint
 type: TTP

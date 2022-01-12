@@ -70,15 +70,15 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Processes.dest
-  - Processes.parent_process
-  - Processes.parent_process_id
-  - Processes.process
-  - Processes.process_hash
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process_path
-  - Processes.user
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process
+  - Endpoint.Processes.parent_process_id
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_hash
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.process_path
+  - Endpoint.Processes.user
   - _time
   risk_score: 49
   security_domain: endpoint

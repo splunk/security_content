@@ -22,8 +22,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - All_Traffic.dest
-  - All_Traffic.dest_port
+  - Network_Traffic.All_Traffic.dest
+  - Network_Traffic.All_Traffic.dest_port
   security_domain: network
 type: Baseline
 version: 1

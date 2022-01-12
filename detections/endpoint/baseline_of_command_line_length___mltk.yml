@@ -43,11 +43,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
-  - Processes.user
-  - Processes.dest
-  - Processes.process_name
-  - Processes.process
   security_domain: endpoint
 type: Baseline
 version: 1

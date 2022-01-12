@@ -54,11 +54,11 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Registry.dest
-  - Registry.registry_path
-  - Registry.registry_value_data
-  - Registry.registry_value_name
-  - Registry.user
+  - Endpoint.Registry.dest
+  - Endpoint.Registry.registry_path
+  - Endpoint.Registry.registry_value_data
+  - Endpoint.Registry.registry_value_name
+  - Endpoint.Registry.user
   - _time
   risk_score: 49
   security_domain: endpoint

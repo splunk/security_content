@@ -60,9 +60,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - All_Changes.action
-  - All_Changes.object_id
-  - All_Changes.user
+  - Change.All_Changes.action
+  - Change.All_Changes.object_id
+  - Change.All_Changes.user
   - _time
   risk_score: 36
   security_domain: threat

@@ -23,10 +23,10 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Filesystem.action
-  - Filesystem.dest
-  - Filesystem.file_name
-  - Filesystem.file_path
+  - Endpoint.Filesystem.action
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
   - _time
   security_domain: endpoint
 type: Investigation

@@ -51,11 +51,11 @@ tags:
   product:
   - Splunk Phantom
   required_fields:
-  - Processes.dest
-  - Processes.parent_process_name
-  - Processes.process
-  - Processes.process_name
-  - Processes.user
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_name
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.user
   - _time
   security_domain: endpoint
 type: Investigation

@@ -30,7 +30,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - All_Changes.action
+  - Change.All_Changes.action
   - _time
   security_domain: network
 type: Baseline

@@ -62,16 +62,16 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Filesystem.dest
-  - Filesystem.file_create_time
-  - Filesystem.file_name
-  - Filesystem.file_path
-  - Filesystem.process_guid
-  - Processes.dest
-  - Processes.process
-  - Processes.process_guid
-  - Processes.process_id
-  - Processes.process_name
+  - Endpoint.Filesystem.dest
+  - Endpoint.Filesystem.file_create_time
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.process_guid
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_guid
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
   - _time
   - dest
   risk_score: 64

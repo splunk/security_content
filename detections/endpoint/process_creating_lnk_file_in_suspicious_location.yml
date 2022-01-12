@@ -68,17 +68,17 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Filesystem.file_hash
-  - Filesystem.file_name
-  - Filesystem.file_path
-  - Filesystem.process_guid
-  - Filesystem.user
-  - Processes.dest
-  - Processes.parent_process_guid
-  - Processes.process
-  - Processes.process_id
-  - Processes.process_name
-  - Processes.process_path
+  - Endpoint.Filesystem.file_hash
+  - Endpoint.Filesystem.file_name
+  - Endpoint.Filesystem.file_path
+  - Endpoint.Filesystem.process_guid
+  - Endpoint.Filesystem.user
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.parent_process_guid
+  - Endpoint.Processes.process
+  - Endpoint.Processes.process_id
+  - Endpoint.Processes.process_name
+  - Endpoint.Processes.process_path
   - _time
   risk_score: 63
   security_domain: network

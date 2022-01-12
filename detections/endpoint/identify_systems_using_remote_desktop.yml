@@ -21,8 +21,8 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - Processes.dest
-  - Processes.process_name
+  - Endpoint.Processes.dest
+  - Endpoint.Processes.process_name
   security_domain: endpoint
 type: Baseline
 version: 1
