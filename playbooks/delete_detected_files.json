@@ -1,0 +1,1753 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Use Cases",
+    "misc": {
+        "apps_list": [
+            "Windows Remote Management"
+        ]
+    },
+    "coa": {
+        "data": {
+            "clean": true,
+            "code_block": "",
+            "description": "This playbook acts upon events where a file has been determined to be malicious (ie webshells being dropped on an end host).\n\nBefore deleting the file, we run a \"more' command on the file in question to extract its contents.\n\nWe then run a delete on the file in question.",
+            "joint": {
+                "cells": [
+                    {
+                        "0": "S",
+                        "1": "T",
+                        "2": "A",
+                        "3": "R",
+                        "4": "T",
+                        "active": false,
+                        "angle": 0,
+                        "attrs": {
+                            ".background": {
+                                "fill": "#000000",
+                                "stroke": "#5C6773"
+                            },
+                            ".color-band": {
+                                "fill": "#3C444D"
+                            },
+                            ".outPorts>.port-out": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".outPorts>.port-out>.port-body": {
+                                "port": {
+                                    "id": "out",
+                                    "type": "out"
+                                }
+                            },
+                            ".title": {
+                                "ref-x": 33,
+                                "ref-y": 8,
+                                "text": "START"
+                            },
+                            "g.delete": {
+                                "display": "none"
+                            },
+                            "g.error": {
+                                "opacity": 0
+                            },
+                            "g.icon image": {
+                                "ref-x": 13,
+                                "xlink:href": "/inc/coa/img/block_icon_start.svg"
+                            },
+                            "g.notes": {
+                                "display": "block"
+                            }
+                        },
+                        "block_code": "def on_start(container):\n    phantom.debug('on_start() called')\n    \n    # call 'Format_More_Command' block\n    Format_More_Command(container=container)\n\n    return",
+                        "callback_code": "# read-only block view not available",
+                        "callback_start": 1,
+                        "callsback": false,
+                        "connected_to_start": true,
+                        "connection_name": "",
+                        "connection_type": "",
+                        "custom_callback": "",
+                        "custom_code": "",
+                        "custom_join": "",
+                        "custom_name": "",
+                        "description": "",
+                        "has_custom": false,
+                        "has_custom_block": false,
+                        "has_custom_callback": false,
+                        "has_custom_join": false,
+                        "id": "24590087-c155-454c-96eb-dc4101bb8d6a",
+                        "inPorts": [],
+                        "join_code": "# read-only block view not available",
+                        "join_optional": [],
+                        "join_start": 1,
+                        "line_end": 20,
+                        "line_start": 12,
+                        "name": "",
+                        "notes": "",
+                        "number": 0,
+                        "order": 1,
+                        "outPorts": [
+                            "out"
+                        ],
+                        "ports": {
+                            "groups": {
+                                "in": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "left"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "left"
+                                    }
+                                },
+                                "out": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "right"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "right"
+                                    }
+                                }
+                            }
+                        },
+                        "position": {
+                            "x": 140,
+                            "y": 100
+                        },
+                        "previous_function": "",
+                        "previous_name": "",
+                        "show_number": true,
+                        "size": {
+                            "height": 54,
+                            "width": 80
+                        },
+                        "status": "",
+                        "title": "START",
+                        "type": "coa.StartEnd",
+                        "warn": false,
+                        "z": 1
+                    },
+                    {
+                        "0": "E",
+                        "1": "N",
+                        "2": "D",
+                        "active": false,
+                        "angle": 0,
+                        "attrs": {
+                            ".background": {
+                                "fill": "#000000",
+                                "stroke": "#5C6773"
+                            },
+                            ".color-band": {
+                                "fill": "#3C444D"
+                            },
+                            ".inPorts>.port-in": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".inPorts>.port-in>.port-body": {
+                                "port": {
+                                    "id": "in",
+                                    "type": "in"
+                                }
+                            },
+                            ".title": {
+                                "text": "END"
+                            },
+                            "g.delete": {
+                                "display": "none"
+                            },
+                            "g.error": {
+                                "opacity": 0
+                            },
+                            "g.icon image": {
+                                "xlink:href": "/inc/coa/img/block_icon_end.svg"
+                            },
+                            "g.notes": {
+                                "display": "block"
+                            }
+                        },
+                        "block_code": "def on_finish(container, summary):\n    phantom.debug('on_finish() called')\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n    return",
+                        "callback_code": "# read-only block view not available",
+                        "callback_start": 1,
+                        "callsback": false,
+                        "connected_to_start": true,
+                        "connection_name": "Delete File",
+                        "connection_type": "action",
+                        "custom_callback": "",
+                        "custom_code": "",
+                        "custom_join": "",
+                        "custom_name": "",
+                        "description": "",
+                        "has_custom": false,
+                        "has_custom_block": false,
+                        "has_custom_callback": false,
+                        "has_custom_join": false,
+                        "id": "6f772cae-68c2-4ed8-bbc8-08760b957c48",
+                        "inPorts": [
+                            "in"
+                        ],
+                        "join_code": "# read-only block view not available",
+                        "join_optional": [],
+                        "join_start": 1,
+                        "line_end": 121,
+                        "line_start": 108,
+                        "name": "",
+                        "notes": "",
+                        "number": 0,
+                        "order": 6,
+                        "outPorts": [],
+                        "ports": {
+                            "groups": {
+                                "in": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "left"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "left"
+                                    }
+                                },
+                                "out": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "right"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "right"
+                                    }
+                                }
+                            }
+                        },
+                        "position": {
+                            "x": 780,
+                            "y": 240
+                        },
+                        "previous_function": "",
+                        "previous_name": "",
+                        "show_number": true,
+                        "size": {
+                            "height": 54,
+                            "width": 80
+                        },
+                        "status": "",
+                        "title": "END",
+                        "type": "coa.StartEnd",
+                        "warn": false,
+                        "z": 2
+                    },
+                    {
+                        "attrs": {
+                            ".connection": {
+                                "stroke": "#818D99",
+                                "stroke-width": 2
+                            },
+                            ".marker-target": {
+                                "d": "M 10 0 L 0 5 L 10 10 z",
+                                "fill": "#818D99",
+                                "stroke": "#818D99"
+                            }
+                        },
+                        "connector": {
+                            "args": {
+                                "radius": 5
+                            },
+                            "name": "rounded"
+                        },
+                        "endDirections": [
+                            "left"
+                        ],
+                        "id": "66a4a7da-80d6-4281-b710-85069b36df80",
+                        "router": {
+                            "name": "metro"
+                        },
+                        "source": {
+                            "id": "24590087-c155-454c-96eb-dc4101bb8d6a",
+                            "selector": "> g:nth-child(1) > g:nth-child(2) > g:nth-child(1) > circle:nth-child(1)"
+                        },
+                        "startDirections": [
+                            "right"
+                        ],
+                        "target": {
+                            "id": "794cd262-ac73-4818-b672-6a903fd3a12c",
+                            "selector": ".port-body[type=\"input\"]"
+                        },
+                        "type": "link",
+                        "z": 25
+                    },
+                    {
+                        "active": false,
+                        "angle": 0,
+                        "attrs": {
+                            ".background": {
+                                "fill": "#000000",
+                                "stroke": "#5C6773"
+                            },
+                            ".color-band": {
+                                "fill": "#3C444D"
+                            },
+                            ".format": {
+                                "text": "Format More Command"
+                            },
+                            ".inPorts>.port-in": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".inPorts>.port-in>.port-body": {
+                                "port": {
+                                    "id": "in",
+                                    "type": "in"
+                                }
+                            },
+                            ".message": {
+                                "opacity": 0,
+                                "text": "Configuring now"
+                            },
+                            ".outPorts>.port-out-1": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".outPorts>.port-out-1>.port-body": {
+                                "port": {
+                                    "id": "out-1",
+                                    "type": "out"
+                                }
+                            },
+                            ".title": {
+                                "text": "format"
+                            },
+                            "g.code image": {
+                                "opacity": 1
+                            },
+                            "g.delete": {
+                                "display": "none"
+                            },
+                            "g.error": {
+                                "opacity": 0
+                            },
+                            "g.error image": {
+                                "xlink:href": "/inc/coa/img/block_icon_warn.svg"
+                            },
+                            "g.notes": {
+                                "display": "block"
+                            },
+                            "g.notes image": {
+                                "opacity": 1,
+                                "xlink:href": "/inc/coa/img/block_icon_note_dark_on.svg"
+                            }
+                        },
+                        "block_code": "def Format_More_Command(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):\n    phantom.debug('Format_More_Command() called')\n    \n    template = \"\"\"more \\\"{0}\\\"\"\"\"\n\n    # parameter list for template variable replacement\n    parameters = [\n        \"artifact:*.cef.filePath\",\n    ]\n\n    phantom.format(container=container, template=template, parameters=parameters, name=\"Format_More_Command\")\n\n    Gather_File_Contents(container=container)\n\n    return",
+                        "callback_code": "",
+                        "callback_start": 1,
+                        "callsback": false,
+                        "connected_to_start": true,
+                        "connection_name": "",
+                        "connection_type": "",
+                        "custom_callback": "",
+                        "custom_code": "",
+                        "custom_join": "",
+                        "custom_name": "Format More Command",
+                        "description": "",
+                        "format": "format",
+                        "has_custom": false,
+                        "has_custom_block": false,
+                        "has_custom_callback": false,
+                        "has_custom_join": false,
+                        "id": "794cd262-ac73-4818-b672-6a903fd3a12c",
+                        "inPorts": [
+                            "in"
+                        ],
+                        "join_code": "",
+                        "join_optional": [],
+                        "join_start": 1,
+                        "line_end": 52,
+                        "line_start": 36,
+                        "message": "Configuring now",
+                        "name": "format",
+                        "notes": "This format block creates the \"more' command string that we will use in the next action.",
+                        "number": 2,
+                        "order": 3,
+                        "outPorts": [
+                            "out-1"
+                        ],
+                        "parameters": [
+                            {
+                                "position": 0,
+                                "type": "",
+                                "value": "artifact:*.cef.filePath"
+                            }
+                        ],
+                        "ports": {
+                            "groups": {
+                                "in": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "left"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "left"
+                                    }
+                                },
+                                "out": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "right"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "right"
+                                    }
+                                }
+                            }
+                        },
+                        "position": {
+                            "x": 280,
+                            "y": 80
+                        },
+                        "previous_function": "",
+                        "previous_name": "Format_More_Command",
+                        "show_number": true,
+                        "size": {
+                            "height": 100,
+                            "width": 180
+                        },
+                        "state": "format",
+                        "status": "",
+                        "template": "more \"{0}\"",
+                        "title": "format",
+                        "type": "coa.Format",
+                        "warn": false,
+                        "z": 47
+                    },
+                    {
+                        "attrs": {
+                            ".connection": {
+                                "stroke": "#818D99",
+                                "stroke-width": 2
+                            },
+                            ".marker-target": {
+                                "d": "M 10 0 L 0 5 L 10 10 z",
+                                "fill": "#818D99",
+                                "stroke": "#818D99"
+                            }
+                        },
+                        "connector": {
+                            "args": {
+                                "radius": 5
+                            },
+                            "name": "rounded"
+                        },
+                        "endDirections": [
+                            "left"
+                        ],
+                        "id": "fa7b08ba-ee23-402f-8368-ec2efc0f5810",
+                        "router": {
+                            "name": "metro"
+                        },
+                        "source": {
+                            "id": "794cd262-ac73-4818-b672-6a903fd3a12c",
+                            "selector": "> g:nth-child(1) > g:nth-child(2) > g:nth-child(1) > circle:nth-child(1)"
+                        },
+                        "startDirections": [
+                            "right"
+                        ],
+                        "target": {
+                            "id": "afb1ebec-e216-4641-a044-dddc0b4744df",
+                            "selector": ".port-body[type=\"input\"]"
+                        },
+                        "type": "link",
+                        "z": 52
+                    },
+                    {
+                        "attrs": {
+                            ".connection": {
+                                "stroke": "#818D99",
+                                "stroke-width": 2
+                            },
+                            ".marker-target": {
+                                "d": "M 10 0 L 0 5 L 10 10 z",
+                                "fill": "#818D99",
+                                "stroke": "#818D99"
+                            }
+                        },
+                        "connector": {
+                            "args": {
+                                "radius": 5
+                            },
+                            "name": "rounded"
+                        },
+                        "endDirections": [
+                            "left"
+                        ],
+                        "id": "563ca714-e754-4aae-82a5-67253232ff71",
+                        "router": {
+                            "name": "metro"
+                        },
+                        "source": {
+                            "id": "afb1ebec-e216-4641-a044-dddc0b4744df",
+                            "selector": "> g:nth-child(1) > g:nth-child(2) > g:nth-child(1) > circle:nth-child(1)"
+                        },
+                        "startDirections": [
+                            "right"
+                        ],
+                        "target": {
+                            "id": "4730da9d-d17c-4b72-8f68-7d88d7e9e86c",
+                            "selector": "> g:nth-child(1) > g:nth-child(1) > g:nth-child(1) > circle:nth-child(1)"
+                        },
+                        "type": "link",
+                        "z": 55
+                    },
+                    {
+                        "action": "run command",
+                        "action_type": "generic",
+                        "active": false,
+                        "active_keys": {},
+                        "active_values": {
+                            "arguments": "",
+                            "async": "",
+                            "command": "Format_More_Command:formatted_data",
+                            "command_id": "",
+                            "ip_hostname": "artifact:*.cef.destinationAddress",
+                            "parser": "",
+                            "shell_id": ""
+                        },
+                        "angle": 0,
+                        "app": "Windows Remote Management",
+                        "appid": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "approver": "",
+                        "assets": [
+                            {
+                                "action": "run command",
+                                "actions": [
+                                    "delete file",
+                                    "copy file",
+                                    "upload file",
+                                    "get file",
+                                    "delete policy",
+                                    "block file path",
+                                    "list policies",
+                                    "restart system",
+                                    "shutdown system",
+                                    "activate partition",
+                                    "deactivate partition",
+                                    "list sessions",
+                                    "logoff user",
+                                    "add firewall rule",
+                                    "block ip",
+                                    "delete firewall rule",
+                                    "list firewall rules",
+                                    "list connections",
+                                    "terminate process",
+                                    "list processes",
+                                    "run script",
+                                    "run command",
+                                    "test connectivity"
+                                ],
+                                "active": true,
+                                "app_name": "Windows Remote Management",
+                                "app_version": "2.0.0",
+                                "appid": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                                "asset_name": "winrm",
+                                "config_type": "asset",
+                                "count": 0,
+                                "fields": {
+                                    "arguments": "",
+                                    "async": "",
+                                    "command": "Format_More_Command:formatted_data",
+                                    "command_id": "",
+                                    "ip_hostname": "artifact:*.cef.destinationAddress",
+                                    "parser": "",
+                                    "shell_id": ""
+                                },
+                                "has_app": true,
+                                "id": 17,
+                                "loaded": false,
+                                "missing": false,
+                                "name": "winrm",
+                                "output": [
+                                    {
+                                        "data_path": "action_result.status",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "success",
+                                            "failed"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.parameter.arguments",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "/all"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.parameter.async",
+                                        "data_type": "boolean",
+                                        "example_values": [
+                                            true,
+                                            false
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.parameter.command",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "ipconfig"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "winrm command id"
+                                        ],
+                                        "data_path": "action_result.parameter.command_id",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "1AAA1111-1A11-11A1-1111-1A1AAA1A11A1"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "ip",
+                                            "host name"
+                                        ],
+                                        "data_path": "action_result.parameter.ip_hostname",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "8.8.8.8"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "vault id"
+                                        ],
+                                        "data_path": "action_result.parameter.parser",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "8afa5c86de9ea94ecfe5b4c0837d2543d0b20b56"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "winrm shell id"
+                                        ],
+                                        "data_path": "action_result.parameter.shell_id",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "1AAA1111-1A11-11A1-1111-1A1AAA1A11A1"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.data.*.status_code",
+                                        "data_type": "numeric",
+                                        "example_values": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.data.*.std_err",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "Error message"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.data.*.std_out",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "Successful output"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "winrm command id"
+                                        ],
+                                        "data_path": "action_result.summary.command_id",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "1AAA1111-1A11-11A1-1111-1A1AAA1A11A1"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "winrm shell id"
+                                        ],
+                                        "data_path": "action_result.summary.shell_id",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "1AAA1111-1A11-11A1-1111-1A1AAA1A11A1"
+                                        ]
+                                    },
+                                    {
+                                        "column_name": "Message",
+                                        "column_order": 0,
+                                        "data_path": "action_result.message",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "Successfully ran command"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "summary.total_objects",
+                                        "data_type": "numeric",
+                                        "example_values": [
+                                            1
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "summary.total_objects_successful",
+                                        "data_type": "numeric",
+                                        "example_values": [
+                                            1
+                                        ]
+                                    }
+                                ],
+                                "parameters": {
+                                    "arguments": {
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "The arguments for the command",
+                                        "key": "arguments",
+                                        "order": 2,
+                                        "required": false
+                                    },
+                                    "async": {
+                                        "data_type": "boolean",
+                                        "default": false,
+                                        "description": "Start the command, but don't wait for output",
+                                        "key": "async",
+                                        "order": 4,
+                                        "required": false
+                                    },
+                                    "command": {
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "The command to be run",
+                                        "key": "command",
+                                        "order": 1,
+                                        "required": false
+                                    },
+                                    "command_id": {
+                                        "contains": [
+                                            "winrm command id"
+                                        ],
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "Command ID of async command (Provide with shell_id)",
+                                        "key": "command_id",
+                                        "order": 5,
+                                        "primary": true,
+                                        "required": false
+                                    },
+                                    "ip_hostname": {
+                                        "contains": [
+                                            "ip",
+                                            "host name"
+                                        ],
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "IP/Hostname",
+                                        "key": "ip_hostname",
+                                        "order": 0,
+                                        "primary": true,
+                                        "required": false
+                                    },
+                                    "parser": {
+                                        "contains": [
+                                            "vault id"
+                                        ],
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "The vault ID of a custom parser to use for output",
+                                        "key": "parser",
+                                        "order": 3,
+                                        "primary": true,
+                                        "required": false
+                                    },
+                                    "shell_id": {
+                                        "contains": [
+                                            "winrm shell id"
+                                        ],
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "Shell ID of async command (Provide with command_id)",
+                                        "key": "shell_id",
+                                        "order": 6,
+                                        "primary": true,
+                                        "required": false
+                                    }
+                                },
+                                "product_name": "Windows Remote Management",
+                                "product_vendor": "Microsoft",
+                                "targets": "17",
+                                "type": "endpoint"
+                            }
+                        ],
+                        "attrs": {
+                            ".action": {
+                                "text": "Gather File Contents"
+                            },
+                            ".background": {
+                                "fill": "#000000",
+                                "stroke": "#5C6773"
+                            },
+                            ".color-band": {
+                                "fill": "#3C444D"
+                            },
+                            ".inPorts>.port-in": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".inPorts>.port-in>.port-body": {
+                                "port": {
+                                    "id": "in",
+                                    "type": "in"
+                                }
+                            },
+                            ".message": {
+                                "opacity": 0,
+                                "ref-x": 5,
+                                "ref-y": 105,
+                                "text": "Configuring now"
+                            },
+                            ".outPorts>.port-out": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".outPorts>.port-out>.port-body": {
+                                "port": {
+                                    "id": "out",
+                                    "type": "out"
+                                }
+                            },
+                            ".title": {
+                                "text": "Generic"
+                            },
+                            "g.delete": {
+                                "display": "none"
+                            },
+                            "g.error": {
+                                "opacity": 0
+                            },
+                            "g.icon image": {
+                                "xlink:href": "/inc/coa/img/block_icon_generic.svg"
+                            },
+                            "g.notes": {
+                                "display": "block"
+                            },
+                            "g.notes image": {
+                                "opacity": 1,
+                                "xlink:href": "/inc/coa/img/block_icon_note_dark_on.svg"
+                            }
+                        },
+                        "block_code": "def Gather_File_Contents(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):\n    phantom.debug('Gather_File_Contents() called')\n\n    # collect data for 'Gather_File_Contents' call\n    container_data = phantom.collect2(container=container, datapath=['artifact:*.cef.destinationAddress', 'artifact:*.id'])\n    formatted_data_1 = phantom.get_format_data(name='Format_More_Command')\n\n    parameters = []\n    \n    # build parameters list for 'Gather_File_Contents' call\n    for container_item in container_data:\n        parameters.append({\n            'ip_hostname': container_item[0],\n            'command': formatted_data_1,\n            'arguments': \"\",\n            'parser': \"\",\n            'async': \"\",\n            'command_id': \"\",\n            'shell_id': \"\",\n            # context (artifact id) is added to associate results with the artifact\n            'context': {'artifact_id': container_item[1]},\n        })\n\n    phantom.act(action=\"run command\", parameters=parameters, assets=['winrm'], callback=Format_Del_Command, name=\"Gather_File_Contents\")\n\n    return",
+                        "callback_code": "",
+                        "callback_start": 1,
+                        "callsback": true,
+                        "color": "",
+                        "connected_to_start": true,
+                        "connection_name": "",
+                        "connection_type": "",
+                        "custom_callback": "",
+                        "custom_code": "",
+                        "custom_join": "",
+                        "custom_name": "Gather File Contents",
+                        "delay": 0,
+                        "description": "",
+                        "has_custom": false,
+                        "has_custom_block": false,
+                        "has_custom_callback": false,
+                        "has_custom_join": false,
+                        "id": "afb1ebec-e216-4641-a044-dddc0b4744df",
+                        "inPorts": [
+                            "in"
+                        ],
+                        "join_code": "",
+                        "join_optional": [],
+                        "join_start": 1,
+                        "line_end": 79,
+                        "line_start": 52,
+                        "message": "Configuring now",
+                        "name": "run command",
+                        "notes": "This action runs the \"more\" command on the affected host to extract its contents prior to deletion.",
+                        "number": 3,
+                        "order": 4,
+                        "outPorts": [
+                            "out"
+                        ],
+                        "ports": {
+                            "groups": {
+                                "in": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "left"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "left"
+                                    }
+                                },
+                                "out": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "right"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "right"
+                                    }
+                                }
+                            }
+                        },
+                        "position": {
+                            "x": 520,
+                            "y": 80
+                        },
+                        "previous_function": "",
+                        "previous_name": "Gather_File_Contents",
+                        "required_params": {},
+                        "reviewer": "",
+                        "show_number": true,
+                        "size": {
+                            "height": 100,
+                            "width": 180
+                        },
+                        "state": "app_action_assets",
+                        "status": "",
+                        "title": "Generic",
+                        "type": "coa.Action",
+                        "warn": "",
+                        "z": 60
+                    },
+                    {
+                        "active": false,
+                        "angle": 0,
+                        "attrs": {
+                            ".background": {
+                                "fill": "#000000",
+                                "stroke": "#5C6773"
+                            },
+                            ".color-band": {
+                                "fill": "#3C444D"
+                            },
+                            ".format": {
+                                "text": "Format Del Command"
+                            },
+                            ".inPorts>.port-in": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".inPorts>.port-in>.port-body": {
+                                "port": {
+                                    "id": "in",
+                                    "type": "in"
+                                }
+                            },
+                            ".message": {
+                                "opacity": 0,
+                                "text": "Configuring now"
+                            },
+                            ".outPorts>.port-out-1": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".outPorts>.port-out-1>.port-body": {
+                                "port": {
+                                    "id": "out-1",
+                                    "type": "out"
+                                }
+                            },
+                            ".title": {
+                                "text": "format"
+                            },
+                            "g.code image": {
+                                "opacity": 1
+                            },
+                            "g.delete": {
+                                "display": "none"
+                            },
+                            "g.error": {
+                                "opacity": 0
+                            },
+                            "g.error image": {
+                                "xlink:href": "/inc/coa/img/block_icon_warn.svg"
+                            },
+                            "g.notes": {
+                                "display": "block"
+                            },
+                            "g.notes image": {
+                                "opacity": 1,
+                                "xlink:href": "/inc/coa/img/block_icon_note_dark_on.svg"
+                            }
+                        },
+                        "block_code": "def Format_Del_Command(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):\n    phantom.debug('Format_Del_Command() called')\n    \n    template = \"\"\"del \\\"{0}\\\"\"\"\"\n\n    # parameter list for template variable replacement\n    parameters = [\n        \"artifact:*.cef.filePath\",\n    ]\n\n    phantom.format(container=container, template=template, parameters=parameters, name=\"Format_Del_Command\")\n\n    Delete_File(container=container)\n\n    return",
+                        "callback_code": "",
+                        "callback_start": 1,
+                        "callsback": false,
+                        "connected_to_start": true,
+                        "connection_name": "Gather File Contents",
+                        "connection_type": "action",
+                        "custom_callback": "",
+                        "custom_code": "",
+                        "custom_join": "",
+                        "custom_name": "Format Del Command",
+                        "description": "",
+                        "format": "format",
+                        "has_custom": false,
+                        "has_custom_block": false,
+                        "has_custom_callback": false,
+                        "has_custom_join": false,
+                        "id": "4730da9d-d17c-4b72-8f68-7d88d7e9e86c",
+                        "inPorts": [
+                            "in"
+                        ],
+                        "join_code": "",
+                        "join_optional": [],
+                        "join_start": 1,
+                        "line_end": 36,
+                        "line_start": 20,
+                        "message": "Configuring now",
+                        "name": "format",
+                        "notes": "This format block creates the \"delete\" command that is used in the next action.",
+                        "number": 1,
+                        "order": 2,
+                        "outPorts": [
+                            "out-1"
+                        ],
+                        "parameters": [
+                            {
+                                "position": 0,
+                                "type": "",
+                                "value": "artifact:*.cef.filePath"
+                            }
+                        ],
+                        "ports": {
+                            "groups": {
+                                "in": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "left"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "left"
+                                    }
+                                },
+                                "out": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "right"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "right"
+                                    }
+                                }
+                            }
+                        },
+                        "position": {
+                            "x": 280,
+                            "y": 220
+                        },
+                        "previous_function": "",
+                        "previous_name": "Format_Del_Command",
+                        "show_number": true,
+                        "size": {
+                            "height": 100,
+                            "width": 180
+                        },
+                        "state": "format",
+                        "status": "",
+                        "template": "del \"{0}\"",
+                        "title": "format",
+                        "type": "coa.Format",
+                        "warn": false,
+                        "z": 62
+                    },
+                    {
+                        "attrs": {
+                            ".connection": {
+                                "stroke": "#818D99",
+                                "stroke-width": 2
+                            },
+                            ".marker-target": {
+                                "d": "M 10 0 L 0 5 L 10 10 z",
+                                "fill": "#818D99",
+                                "stroke": "#818D99"
+                            }
+                        },
+                        "connector": {
+                            "args": {
+                                "radius": 5
+                            },
+                            "name": "rounded"
+                        },
+                        "endDirections": [
+                            "left"
+                        ],
+                        "id": "d5e76117-0d88-4a98-a50e-2325be10049b",
+                        "router": {
+                            "name": "metro"
+                        },
+                        "source": {
+                            "id": "4730da9d-d17c-4b72-8f68-7d88d7e9e86c",
+                            "selector": "> g:nth-child(1) > g:nth-child(2) > g:nth-child(1) > circle:nth-child(1)"
+                        },
+                        "startDirections": [
+                            "right"
+                        ],
+                        "target": {
+                            "id": "b0c7bb11-8a3e-445c-b7c6-7f969a50bee7",
+                            "selector": ".port-body[type=\"input\"]"
+                        },
+                        "type": "link",
+                        "z": 63
+                    },
+                    {
+                        "attrs": {
+                            ".connection": {
+                                "stroke": "#818D99",
+                                "stroke-width": 2
+                            },
+                            ".marker-target": {
+                                "d": "M 10 0 L 0 5 L 10 10 z",
+                                "fill": "#818D99",
+                                "stroke": "#818D99"
+                            }
+                        },
+                        "connector": {
+                            "args": {
+                                "radius": 5
+                            },
+                            "name": "rounded"
+                        },
+                        "endDirections": [
+                            "left"
+                        ],
+                        "id": "d91bf3ef-f6ad-4841-be3a-229e9ca4f2d3",
+                        "router": {
+                            "name": "metro"
+                        },
+                        "source": {
+                            "id": "b0c7bb11-8a3e-445c-b7c6-7f969a50bee7",
+                            "selector": "> g:nth-child(1) > g:nth-child(2) > g:nth-child(1) > circle:nth-child(1)"
+                        },
+                        "startDirections": [
+                            "right"
+                        ],
+                        "target": {
+                            "id": "6f772cae-68c2-4ed8-bbc8-08760b957c48",
+                            "selector": "> g:nth-child(1) > g:nth-child(1) > g:nth-child(1) > circle:nth-child(1)"
+                        },
+                        "type": "link",
+                        "z": 65
+                    },
+                    {
+                        "action": "run command",
+                        "action_type": "generic",
+                        "active": false,
+                        "active_keys": {},
+                        "active_values": {
+                            "arguments": "",
+                            "async": "",
+                            "command": "Format_Del_Command:formatted_data",
+                            "command_id": "",
+                            "ip_hostname": "artifact:*.cef.destinationAddress",
+                            "parser": "",
+                            "shell_id": ""
+                        },
+                        "angle": 0,
+                        "app": "Windows Remote Management",
+                        "appid": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "approver": "",
+                        "assets": [
+                            {
+                                "action": "run command",
+                                "actions": [
+                                    "delete file",
+                                    "copy file",
+                                    "upload file",
+                                    "get file",
+                                    "delete policy",
+                                    "block file path",
+                                    "list policies",
+                                    "restart system",
+                                    "shutdown system",
+                                    "activate partition",
+                                    "deactivate partition",
+                                    "list sessions",
+                                    "logoff user",
+                                    "add firewall rule",
+                                    "block ip",
+                                    "delete firewall rule",
+                                    "list firewall rules",
+                                    "list connections",
+                                    "terminate process",
+                                    "list processes",
+                                    "run script",
+                                    "run command",
+                                    "test connectivity"
+                                ],
+                                "active": true,
+                                "app_name": "Windows Remote Management",
+                                "app_version": "2.0.0",
+                                "appid": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                                "asset_name": "winrm",
+                                "config_type": "asset",
+                                "count": 0,
+                                "fields": {
+                                    "arguments": "",
+                                    "async": "",
+                                    "command": "Format_Del_Command:formatted_data",
+                                    "command_id": "",
+                                    "ip_hostname": "artifact:*.cef.destinationAddress",
+                                    "parser": "",
+                                    "shell_id": ""
+                                },
+                                "has_app": true,
+                                "id": 17,
+                                "loaded": false,
+                                "missing": false,
+                                "name": "winrm",
+                                "output": [
+                                    {
+                                        "data_path": "action_result.status",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "success",
+                                            "failed"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.parameter.arguments",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "/all"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.parameter.async",
+                                        "data_type": "boolean",
+                                        "example_values": [
+                                            true,
+                                            false
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.parameter.command",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "ipconfig"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "winrm command id"
+                                        ],
+                                        "data_path": "action_result.parameter.command_id",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "1AAA1111-1A11-11A1-1111-1A1AAA1A11A1"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "ip",
+                                            "host name"
+                                        ],
+                                        "data_path": "action_result.parameter.ip_hostname",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "8.8.8.8"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "vault id"
+                                        ],
+                                        "data_path": "action_result.parameter.parser",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "8afa5c86de9ea94ecfe5b4c0837d2543d0b20b56"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "winrm shell id"
+                                        ],
+                                        "data_path": "action_result.parameter.shell_id",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "1AAA1111-1A11-11A1-1111-1A1AAA1A11A1"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.data.*.status_code",
+                                        "data_type": "numeric",
+                                        "example_values": [
+                                            0
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.data.*.std_err",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "Error message"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "action_result.data.*.std_out",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "Successful output"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "winrm command id"
+                                        ],
+                                        "data_path": "action_result.summary.command_id",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "1AAA1111-1A11-11A1-1111-1A1AAA1A11A1"
+                                        ]
+                                    },
+                                    {
+                                        "contains": [
+                                            "winrm shell id"
+                                        ],
+                                        "data_path": "action_result.summary.shell_id",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "1AAA1111-1A11-11A1-1111-1A1AAA1A11A1"
+                                        ]
+                                    },
+                                    {
+                                        "column_name": "Message",
+                                        "column_order": 0,
+                                        "data_path": "action_result.message",
+                                        "data_type": "string",
+                                        "example_values": [
+                                            "Successfully ran command"
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "summary.total_objects",
+                                        "data_type": "numeric",
+                                        "example_values": [
+                                            1
+                                        ]
+                                    },
+                                    {
+                                        "data_path": "summary.total_objects_successful",
+                                        "data_type": "numeric",
+                                        "example_values": [
+                                            1
+                                        ]
+                                    }
+                                ],
+                                "parameters": {
+                                    "arguments": {
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "The arguments for the command",
+                                        "key": "arguments",
+                                        "order": 2,
+                                        "required": false
+                                    },
+                                    "async": {
+                                        "data_type": "boolean",
+                                        "default": false,
+                                        "description": "Start the command, but don't wait for output",
+                                        "key": "async",
+                                        "order": 4,
+                                        "required": false
+                                    },
+                                    "command": {
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "The command to be run",
+                                        "key": "command",
+                                        "order": 1,
+                                        "required": false
+                                    },
+                                    "command_id": {
+                                        "contains": [
+                                            "winrm command id"
+                                        ],
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "Command ID of async command (Provide with shell_id)",
+                                        "key": "command_id",
+                                        "order": 5,
+                                        "primary": true,
+                                        "required": false
+                                    },
+                                    "ip_hostname": {
+                                        "contains": [
+                                            "ip",
+                                            "host name"
+                                        ],
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "IP/Hostname",
+                                        "key": "ip_hostname",
+                                        "order": 0,
+                                        "primary": true,
+                                        "required": false
+                                    },
+                                    "parser": {
+                                        "contains": [
+                                            "vault id"
+                                        ],
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "The vault ID of a custom parser to use for output",
+                                        "key": "parser",
+                                        "order": 3,
+                                        "primary": true,
+                                        "required": false
+                                    },
+                                    "shell_id": {
+                                        "contains": [
+                                            "winrm shell id"
+                                        ],
+                                        "data_type": "string",
+                                        "default": null,
+                                        "description": "Shell ID of async command (Provide with command_id)",
+                                        "key": "shell_id",
+                                        "order": 6,
+                                        "primary": true,
+                                        "required": false
+                                    }
+                                },
+                                "product_name": "Windows Remote Management",
+                                "product_vendor": "Microsoft",
+                                "targets": "17",
+                                "type": "endpoint"
+                            }
+                        ],
+                        "attrs": {
+                            ".action": {
+                                "text": "Delete File"
+                            },
+                            ".background": {
+                                "fill": "#000000",
+                                "stroke": "#5C6773"
+                            },
+                            ".color-band": {
+                                "fill": "#3C444D"
+                            },
+                            ".inPorts>.port-in": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".inPorts>.port-in>.port-body": {
+                                "port": {
+                                    "id": "in",
+                                    "type": "in"
+                                }
+                            },
+                            ".message": {
+                                "opacity": 0,
+                                "ref-x": 5,
+                                "ref-y": 105,
+                                "text": "Configuring now"
+                            },
+                            ".outPorts>.port-out": {
+                                "ref": ".background",
+                                "ref-x": 0.5
+                            },
+                            ".outPorts>.port-out>.port-body": {
+                                "port": {
+                                    "id": "out",
+                                    "type": "out"
+                                }
+                            },
+                            ".title": {
+                                "text": "Generic"
+                            },
+                            "g.delete": {
+                                "display": "none"
+                            },
+                            "g.error": {
+                                "opacity": 0
+                            },
+                            "g.icon image": {
+                                "xlink:href": "/inc/coa/img/block_icon_generic.svg"
+                            },
+                            "g.notes": {
+                                "display": "block"
+                            },
+                            "g.notes image": {
+                                "opacity": 1,
+                                "xlink:href": "/inc/coa/img/block_icon_note_dark_on.svg"
+                            }
+                        },
+                        "block_code": "def Delete_File(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):\n    phantom.debug('Delete_File() called')\n        \n    #phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))\n    \n    # collect data for 'Delete_File' call\n    container_data = phantom.collect2(container=container, datapath=['artifact:*.cef.destinationAddress', 'artifact:*.id'])\n    formatted_data_1 = phantom.get_format_data(name='Format_Del_Command')\n\n    parameters = []\n    \n    # build parameters list for 'Delete_File' call\n    for container_item in container_data:\n        parameters.append({\n            'ip_hostname': container_item[0],\n            'command': formatted_data_1,\n            'arguments': \"\",\n            'parser': \"\",\n            'async': \"\",\n            'command_id': \"\",\n            'shell_id': \"\",\n            # context (artifact id) is added to associate results with the artifact\n            'context': {'artifact_id': container_item[1]},\n        })\n\n    phantom.act(action=\"run command\", parameters=parameters, assets=['winrm'], name=\"Delete_File\")\n\n    return",
+                        "callback_code": "",
+                        "callback_start": 1,
+                        "callsback": true,
+                        "color": "",
+                        "connected_to_start": true,
+                        "connection_name": "Gather File Contents",
+                        "connection_type": "action",
+                        "custom_callback": "",
+                        "custom_code": "",
+                        "custom_join": "",
+                        "custom_name": "Delete File",
+                        "delay": 0,
+                        "description": "",
+                        "has_custom": false,
+                        "has_custom_block": false,
+                        "has_custom_callback": false,
+                        "has_custom_join": false,
+                        "id": "b0c7bb11-8a3e-445c-b7c6-7f969a50bee7",
+                        "inPorts": [
+                            "in"
+                        ],
+                        "join_code": "",
+                        "join_optional": [],
+                        "join_start": 1,
+                        "line_end": 108,
+                        "line_start": 79,
+                        "message": "Configuring now",
+                        "name": "run command",
+                        "notes": "This action runs the \"delete\" command on the affected host and file.",
+                        "number": 4,
+                        "order": 5,
+                        "outPorts": [
+                            "out"
+                        ],
+                        "ports": {
+                            "groups": {
+                                "in": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "left"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "left"
+                                    }
+                                },
+                                "out": {
+                                    "attrs": {
+                                        ".port-body": {
+                                            "fill": "#fff",
+                                            "magnet": true,
+                                            "r": 10,
+                                            "stroke": "#000"
+                                        },
+                                        ".port-label": {
+                                            "fill": "#000"
+                                        }
+                                    },
+                                    "label": {
+                                        "position": {
+                                            "args": {
+                                                "y": 10
+                                            },
+                                            "name": "right"
+                                        }
+                                    },
+                                    "position": {
+                                        "name": "right"
+                                    }
+                                }
+                            }
+                        },
+                        "position": {
+                            "x": 520,
+                            "y": 220
+                        },
+                        "previous_function": "",
+                        "previous_name": "Delete_File",
+                        "required_params": {},
+                        "reviewer": "",
+                        "show_number": true,
+                        "size": {
+                            "height": 100,
+                            "width": 180
+                        },
+                        "state": "app_action_assets",
+                        "status": "",
+                        "title": "Generic",
+                        "type": "coa.Action",
+                        "warn": "",
+                        "z": 66
+                    }
+                ]
+            },
+            "notes": "Windows Remote Management must be enabled on the remote computer."
+        },
+        "python_version": "3",
+        "schema": 4,
+        "version": "4.10.2.47587"
+    },
+    "create_time": "2021-03-29T17:15:25.016193+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": []
+}

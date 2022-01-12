@@ -29,7 +29,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-scheduledjob?redirectedfrom=MSDN
 tags:
   analytic_story:
-  - Lateral Movement
+  - Active Directory Lateral Movement
   automated_detection_testing: passed
   confidence: 60
   context:

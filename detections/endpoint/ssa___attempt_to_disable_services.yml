@@ -1,7 +1,7 @@
 name: Attempt To Disable Services
 id: afb31de4-d023-11eb-98d5-acde48001122
 version: 3
-date: '2021-11-30'
+date: '2021-11-24'
 author: Teoderick Contreras, Splunk
 type: TTP
 datamodel:
@@ -27,7 +27,7 @@ search: '| from read_ssa_enriched_events() | eval _datamodels=ucast(map_get(inpu
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed sc.exe may be used.
+  Sysmon TA.
 known_false_positives: It is possible administrative scripts may start/stop/delete
   services. Filter as needed.
 references:

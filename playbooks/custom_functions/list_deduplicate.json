@@ -1,0 +1,28 @@
+{
+    "create_time": "2021-04-28T19:54:24.181595+00:00",
+    "custom_function_id": "5afb07e68d980dda3bf45c8852bfa744e0e5d4b2",
+    "description": "Remove non-unique items from a list.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "A list of items to deduplicate",
+            "input_type": "list",
+            "name": "input_list",
+            "placeholder": ""
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.item",
+            "description": "A deduplicated list with all the unique items in input_list"
+        }
+    ],
+    "platform_version": "4.10.3.51237",
+    "python_version": "3"
+}

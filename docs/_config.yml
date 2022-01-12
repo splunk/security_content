@@ -31,6 +31,8 @@ minimal_mistakes_skin: "contrast" #default, neon, dark are also options
 
 # Build settings
 markdown: kramdown
+highlighter: rouge
+
 remote_theme: mmistakes/minimal-mistakes
 # Outputting
 permalink: /:categories/:title/

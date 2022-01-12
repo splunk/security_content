@@ -16,6 +16,7 @@ sidebar:
 | [AWS Security Hub Alerts]() | None | None |
 | [AWS User Monitoring](aws_user_monitoring) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Discovery](/tags/#discovery) |
 | [Active Directory Discovery](active_directory_discovery) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
+| [Active Directory Lateral Movement](active_directory_lateral_movement) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | [Lateral Movement](/tags/#lateral-movement) |
 | [Active Directory Password Spraying](active_directory_password_spraying) | [Password Spraying](/tags/#password-spraying), [Brute Force](/tags/#brute-force) | [Credential Access](/tags/#credential-access) |
 | [Apache Struts Vulnerability](apache_struts_vulnerability) | [System Information Discovery](/tags/#system-information-discovery) | [Discovery](/tags/#discovery) |
 | [Asset Tracking]() | None | None |
@@ -56,7 +57,7 @@ sidebar:
 | [JBoss Vulnerability](jboss_vulnerability) | [System Information Discovery](/tags/#system-information-discovery) | [Discovery](/tags/#discovery) |
 | [Kubernetes Scanning Activity](kubernetes_scanning_activity) | [Cloud Service Discovery](/tags/#cloud-service-discovery) | [Discovery](/tags/#discovery) |
 | [Kubernetes Sensitive Object Access Activity]() | None | None |
-| [Lateral Movement](lateral_movement) | [Remote Services](/tags/#remote-services), [Windows Remote Management](/tags/#windows-remote-management) | [Lateral Movement](/tags/#lateral-movement) |
+| [Log4Shell CVE-2021-44228](log4shell_cve-2021-44228) | [Exploit Public-Facing Application](/tags/#exploit-public-facing-application) | [Initial Access](/tags/#initial-access) |
 | [Malicious PowerShell](malicious_powershell) | [Gather Victim Host Information](/tags/#gather-victim-host-information) | [Reconnaissance](/tags/#reconnaissance) |
 | [Masquerading - Rename System Utilities](masquerading_-_rename_system_utilities) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
 | [Meterpreter](meterpreter) | [System Owner/User Discovery](/tags/#system-owner/user-discovery) | [Discovery](/tags/#discovery) |
@@ -109,10 +110,11 @@ sidebar:
 | [Use of Cleartext Protocols]() | None | None |
 | [Windows DNS SIGRed CVE-2020-1350](windows_dns_sigred_cve-2020-1350) | [Exploitation for Client Execution](/tags/#exploitation-for-client-execution) | [Execution](/tags/#execution) |
 | [Windows Defense Evasion Tactics](windows_defense_evasion_tactics) | [Disable or Modify Tools](/tags/#disable-or-modify-tools), [Impair Defenses](/tags/#impair-defenses) | [Defense Evasion](/tags/#defense-evasion) |
-| [Windows Discovery Techniques](windows_discovery_techniques) | [Create or Modify System Process](/tags/#create-or-modify-system-process), [Process Injection](/tags/#process-injection), [Hijack Execution Flow](/tags/#hijack-execution-flow) | [Persistence](/tags/#persistence) |
+| [Windows Discovery Techniques](windows_discovery_techniques) | [Permission Groups Discovery](/tags/#permission-groups-discovery), [Local Groups](/tags/#local-groups) | [Discovery](/tags/#discovery) |
 | [Windows File Extension and Association Abuse](windows_file_extension_and_association_abuse) | [Masquerading](/tags/#masquerading), [Rename System Utilities](/tags/#rename-system-utilities) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Log Manipulation](windows_log_manipulation) | [Indicator Removal on Host](/tags/#indicator-removal-on-host), [Clear Windows Event Logs](/tags/#clear-windows-event-logs) | [Defense Evasion](/tags/#defense-evasion) |
 | [Windows Persistence Techniques](windows_persistence_techniques) | [Scheduled Task](/tags/#scheduled-task) | [Execution](/tags/#execution) |
 | [Windows Privilege Escalation](windows_privilege_escalation) | [Time Providers](/tags/#time-providers), [Boot or Logon Autostart Execution](/tags/#boot-or-logon-autostart-execution) | [Persistence](/tags/#persistence) |
 | [Windows Service Abuse](windows_service_abuse) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
 | [XMRig](xmrig) | [Windows Service](/tags/#windows-service), [Create or Modify System Process](/tags/#create-or-modify-system-process) | [Persistence](/tags/#persistence) |
+| [sAMAccountName Spoofing and Domain Controller Impersonation](samaccountname_spoofing_and_domain_controller_impersonation) | [Valid Accounts](/tags/#valid-accounts), [Domain Accounts](/tags/#domain-accounts) | [Defense Evasion](/tags/#defense-evasion) |
