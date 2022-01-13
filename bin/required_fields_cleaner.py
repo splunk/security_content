@@ -211,7 +211,7 @@ def update_required_fields_for_yaml(filename:str, search:str, required_fields:se
             dm = datamodels_in_use[model]
             #dictPrint(dm)
             if submodel in dm and fieldname in dm[submodel]:
-                fully_qualified_field_dicts[f"{submodel}.{fieldname}"] = dm[submodel][fieldname]
+                fully_qualified_field_dicts[f"{model}.{submodel}.{fieldname}"] = dm[submodel][fieldname]
                 found=True
                 break
         #If we got here, then we didn't find the fieldname in any of the models! This is bad. All these fields should probably be quoted... and there is some cleaning that needs to take place here...
