@@ -1,0 +1,12 @@
+name: Linux Possible Append Command To Profile Config File Unit Test
+tests:
+- name: Linux Possible Append Command To Profile Config File
+  file: endpoint/linux_possible_append_command_to_profile_config_file.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: sysmon_linux.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon_linux
