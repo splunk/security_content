@@ -27,7 +27,7 @@ from docker.client import DockerClient
 from requests import get
 
 import modules.new_arguments2
-from modules import (aws_service, container_manager, new_arguments2,
+from modules import (container_manager, new_arguments2,
                      testing_service, validate_args)
 from modules.github_service import GithubService
 from modules.validate_args import validate, validate_and_write
