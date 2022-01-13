@@ -81,7 +81,7 @@ def test_detection(splunk_ip:str, splunk_port:int, container_name:str, splunk_pa
     
 
     abs_folder_path = mkdtemp(prefix="DATA_", dir=attack_data_root_folder)
-    #The ansible playbook wants the relative path, so we convert it as required
+    #We want the relative path, so we convert it as required
     folder_name = relpath(abs_folder_path, os.getcwd())
 
 
@@ -182,40 +182,4 @@ def load_file(file_path):
     return file
 
 
-# def update_ESCU_app(container_name, splunk_password):
-#     print("Update ESCU App. This can take some time")
 
-#     ansible_vars = {}
-#     ansible_vars['ansible_user'] = 'ansible_user'
-#     ansible_vars['splunk_password'] = splunk_password
-#     ansible_vars['security_content_path'] = 'security_content'
-    
-#     cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
-
-#     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
-#                                 cmdline=cmdline,
-#                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
-#                                 playbook=os.path.join(os.path.dirname(__file__), '../ansible/update_escu.yml'),
-#                                 extravars=ansible_vars)
-#     print("Successfully updated the ESCU App!")
-
-
-# def replay_attack_dataset(container_name, splunk_password, folder_name, index, sourcetype, source, out):
-#     ansible_vars = {}
-#     ansible_vars['folder_name'] = folder_name
-#     ansible_vars['ansible_user'] = 'ansible'
-
-#     ansible_vars['splunk_password'] = splunk_password
-#     ansible_vars['out'] = out
-#     ansible_vars['sourcetype'] = sourcetype
-#     ansible_vars['source'] = source
-#     ansible_vars['index'] = index
-
-    
-#     cmdline = "--connection docker -i %s, -u %s" % (container_name, ansible_vars['ansible_user'])
-
-#     runner = ansible_runner.run(private_data_dir=os.path.join(os.path.dirname(__file__), '../'),
-#                                 cmdline=cmdline,
-#                                 roles_path=os.path.join(os.path.dirname(__file__), '../ansible/roles'),
-#                                 playbook=os.path.join(os.path.dirname(__file__), '../ansible/attack_replay.yml'),
-#                                 extravars=ansible_vars)
