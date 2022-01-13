@@ -146,20 +146,16 @@ jobs:
         run: |
           source venv/bin/activate
           python3 contentctl.py --path . --verbose generate --product ESCU --output dist/escu
-          python3 contentctl.py --path . --verbose generate --product SAAWS --output dist/saaws
           python3 contentctl.py --path . --verbose generate --product SSA --output dist/ssa
 
       - name: Copy lookups .csv files
         run: |
           # clean up current lookups
           rm -rf dist/escu/lookups
-          rm -rf dist/saaws/lookups
           mkdir dist/escu/lookups
-          mkdir dist/saaws/lookups
           #copy over lookups
           cd lookups
           cp -rv *.csv ../dist/escu/lookups
-          cp -rv *.csv ../dist/saaws/lookups
 
       #Tag is '' for non-tagged push and the tag name for a tagged release
       - name: Set tag
@@ -192,13 +188,6 @@ jobs:
             sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/escu/default/content-version.conf
             tar -czf content-pack-build-escu.tar.gz dist/escu/*
 
-            # update build number and version for saaws
-            sed -i "s/build = .*$/build = ${{ github.run_number }}/g" dist/saaws/default/app.conf
-            sed -i "s/^version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/app.conf
-            sed -i "s/\"version\": .*$/\"version\": \"$CONTENT_VERSION\"/g" dist/saaws/app.manifest
-            sed -i "s/version = .*$/version = $CONTENT_VERSION/g" dist/saaws/default/content-version.conf
-            tar -czf content-pack-build-saaws.tar.gz dist/saaws/*
-
             # update build number and version for ssa
             tar -czf content-pack-build-ssa.tar.gz dist/ssa/*
 
@@ -208,7 +197,6 @@ jobs:
           name: content-pack-build
           path: |
             content-pack-build-escu.tar.gz
-            content-pack-build-saaws.tar.gz
             content-pack-build-ssa.tar.gz
 
 
@@ -252,22 +240,15 @@ jobs:
           source slim-latest/venv/bin/activate
           cd build
           tar -zxf content-pack-build-escu.tar.gz
-          tar -zxf content-pack-build-saaws.tar.gz
           tar -zxf content-pack-build-ssa.tar.gz
 
           mv dist/escu      DA-ESS-ContentUpdate
-          mv dist/saaws     DA-ESS_AmazonWebServices_Content
           mv dist/ssa       SSA_Content
 
           slim package -o upload DA-ESS-ContentUpdate
-          slim package -o upload DA-ESS_AmazonWebServices_Content
-          #slim package -o upload SSA_Content
 
           cp upload/DA-ESS-ContentUpdate-*.tar.gz DA-ESS-ContentUpdate-latest.tar.gz
           sha256sum DA-ESS-ContentUpdate-latest.tar.gz > checksum.txt
-
-          cp upload/DA-ESS_AmazonWebServices_Content-*tar.gz DA-ESS_AmazonWebServices_Content-latest.tar.gz
-          sha256sum DA-ESS_AmazonWebServices_Content-latest.tar.gz >> checksum.txt
 
           #Do this copy so that we conform as much as possible, and have to make 
           #as few changes as possible, once we start generating this as a real,
@@ -290,7 +271,6 @@ jobs:
           name: content-latest
           path: |
             build/DA-ESS-ContentUpdate-latest.tar.gz
-            build/DA-ESS_AmazonWebServices_Content-latest.tar.gz
             build/SSA_Content-latest.tar.gz
             build/checksum.txt
 
@@ -330,7 +310,7 @@ jobs:
 
 
 
-      - name: Submit ESCU, SAAWS, dev_sec_ops_analytics, and SSA Packages to AppInspect API
+      - name: Submit ESCU to AppInspect API
         env:
           APPINSPECT_USERNAME: ${{ secrets.AppInspectUsername }}
           APPINSPECT_PASSWORD: ${{ secrets.AppInspectPassword }}
@@ -339,7 +319,6 @@ jobs:
           #Enclose in quotes in case there are any special characters in the username/password
           #Better not to pass these arguments on the command line, if possible
           ./appinspect.sh ../ DA-ESS-ContentUpdate-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
-          ./appinspect.sh ../ DA-ESS_AmazonWebServices_Content-latest.tar.gz "$APPINSPECT_USERNAME" "$APPINSPECT_PASSWORD"
 
       - name: Create report artifact
         if: always()
@@ -439,8 +418,6 @@ jobs:
         run: |
           mkdir latest-escu
           tar -zxf DA-ESS-ContentUpdate-latest.tar.gz -C latest-escu --strip-components=1
-          mkdir latest-saaws
-          tar -zxf DA-ESS_AmazonWebServices_Content-latest.tar.gz -C latest-saaws --strip-components=1
           mkdir latest-ssa
           tar -zxf SSA_Content-latest.tar.gz -C latest-ssa --strip-components=1
       - name: Install Python Dependencies
@@ -484,7 +461,6 @@ jobs:
           rm -rf dist
           mkdir dist
           mv latest-escu dist/escu
-          mv latest-saaws dist/saaws
           mv latest-ssa dist/ssa
           # configure git to prep for commit
           git config user.email "research@splunk.com"
@@ -527,7 +503,6 @@ jobs:
       - name: Rename the content-update appropriately
         run: |
           cp DA-ESS-ContentUpdate-latest.tar.gz DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
-          cp DA-ESS_AmazonWebServices_Content-latest.tar.gz DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
           cp SSA_Content-latest.tar.gz SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
 
           #No checksum on the reports
@@ -542,7 +517,6 @@ jobs:
         with:
           files: |
             DA-ESS-ContentUpdate-${{ steps.vars.outputs.tag }}.tar.gz
-            DA-ESS_AmazonWebServices_Content-${{ steps.vars.outputs.tag }}.tar.gz
             SSA_Content-${{ steps.vars.outputs.tag }}.tar.gz
             report-${{ steps.vars.outputs.tag }}.tar.gz
             checksum-${{ steps.vars.outputs.tag }}.txt
