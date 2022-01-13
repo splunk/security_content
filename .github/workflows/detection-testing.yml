@@ -75,7 +75,7 @@ jobs:
             echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
             echo "github.event.pull_request.head.ref : [${{ github.event.pull_request.head.ref }}]"
 
-            ls -lahr prior_config
+            
             
             if [[ ${{ steps.vars.outputs.branch }} == develop ]]; then
               echo "Running a nightly test on all detections"
