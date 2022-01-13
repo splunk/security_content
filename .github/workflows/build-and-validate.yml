@@ -152,7 +152,6 @@ jobs:
         run: |
           # clean up current lookups
           rm -rf dist/escu/lookups
-          #rm -rf dist/saaws/lookups
           mkdir dist/escu/lookups
           #copy over lookups
           cd lookups
@@ -241,11 +240,9 @@ jobs:
           source slim-latest/venv/bin/activate
           cd build
           tar -zxf content-pack-build-escu.tar.gz
-          #tar -zxf content-pack-build-saaws.tar.gz
           tar -zxf content-pack-build-ssa.tar.gz
 
           mv dist/escu      DA-ESS-ContentUpdate
-          #mv dist/saaws     DA-ESS_AmazonWebServices_Content
           mv dist/ssa       SSA_Content
 
           slim package -o upload DA-ESS-ContentUpdate
