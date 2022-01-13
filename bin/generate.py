@@ -361,7 +361,7 @@ def add_annotations(detection):
     if 'risk_score' in detection['tags']:
         if detection['tags']['risk_score'] >= 80:
             detection['tags']['risk_severity'] = 'high'
-        elif(50>= detection['tags']['risk_score'] <=79):
+        elif( detection['tags']['risk_score'] >= 50 and detection['tags']['risk_score'] <= 79):
             detection['tags']['risk_severity'] = 'medium'
         else:
             detection['tags']['risk_severity'] = 'low'
