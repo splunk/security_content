@@ -57,7 +57,7 @@ tags:
   risk_score: 25
   context:
   - Source:Endpoint
-  - stage:Privilege Escalation
+  - Stage:Privilege Escalation
   - Stage:Persistence
   message: a commandline $process$ executed on $dest$
   observable:
