@@ -24,7 +24,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   occurring correctly. Ensure EDR product is mapping OS Linux to the datamodel properly.
   Add any additional java process names for your environment to the analytic as needed.
 known_false_positives: Filtering may be required on internal developer build systems
-  or classify assets as web facing and restrict the analytic based on that.
+  or classify assets as web facing and restrict the analytic based on asset type.
 references:
 - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/
 - https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
