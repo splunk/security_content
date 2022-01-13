@@ -55,7 +55,7 @@ tags:
   # (impact * confidence)/100
   risk_score: 49
   context:
-  - source:endpoint
+  - Source:Endpoint
   - stage:Privilege Escalation Persistence
   - stage:Persistence
   message: a commandline $process$ that may modify profile files in $dest$
