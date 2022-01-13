@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, reopened]
   schedule:
-    - cron: "44 4 * * *"
+    - cron: "44 * * * *"
 jobs:
 
   validate-tag-if-present:
@@ -74,12 +74,13 @@ jobs:
             echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
             echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
             echo "github.event.pull_request.head.ref : [${{ github.event.pull_request.head.ref }}]"
-
+            echo "github.event_name                  : [${{ github.event_name }}]"
             
             
-            if [[ ${{ steps.vars.outputs.branch }} == develop ]]; then
-              echo "Running a nightly test on all detections"
-              python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --mode all --mock --config_file test_config_github_actions.json  
+            if [[ ${{ github.event_name }} == schedule ]]; then
+              # Note that scheduled actions ONLY run on the default branch, so it won't run on all other branches!
+              echo "Running a nightly test on all detections OR a commit was made directly to develop"
+              python detection_testing_execution.py run --branch develop --mode all --mock --config_file test_config_github_actions.json  
             elif [[ ! -z "${{  github.event.pull_request.head.ref }}" &&  ! -z "${{ github.event.pull_request.number }}" ]]; then
               echo "Pull request from source branch [${{ github.event.pull_request.head.ref }}] for PR number [${{ github.event.issue.number }}]"
               python detection_testing_execution.py run --branch ${{ github.event.pull_request.head.ref }} --pr_number ${{ github.event.pull_request.number }}  --mode changes --mock --config_file test_config_github_actions.json  
