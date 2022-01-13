@@ -74,7 +74,7 @@ jobs:
             echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
             echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
             echo "github.event.pull_request.head.ref : [${{ github.event.pull_request.head.ref }}]"
-            echo "github.event_name                : [${{ github.event_name }}]"
+            echo "github.event_name                  : [${{ github.event_name }}]"
             
             
             if [[ ${{ github.event_name }} == schedule ]]; then
