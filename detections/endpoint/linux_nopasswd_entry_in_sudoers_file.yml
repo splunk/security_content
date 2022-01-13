@@ -23,8 +23,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: administrator or network operator can execute this command.
-  filter is needed
+known_false_positives: administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://askubuntu.com/questions/334318/sudoers-file-enable-nopasswd-for-user-all-commands
 - https://help.ubuntu.com/community/Sudoers
