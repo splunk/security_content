@@ -1,5 +1,5 @@
+psutil==5.8.0
 attackcti==0.3.4.3
-
 GitPython==3.1.14
 Jinja2==3.0.0
 PyYAML==5.4
