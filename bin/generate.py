@@ -40,6 +40,13 @@ def process_deprecated(file,file_path):
         file['description'] = DESCRIPTION_ANNOTATION + file['description']
     return file
 
+def process_experimental(file,file_path):
+    DESCRIPTION_ANNOTATION = "WARNING, this is a experimental detection, Splunk Threat Research has not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is NOT supported. If you have any questions feel free to email us at: research@splunk.com. "
+    if 'experimental' in file_path:
+        file['experimental'] = True
+        file['experimental'] = DESCRIPTION_ANNOTATION + file['description']
+    return file
+
 def load_file(file_path):
     with open(file_path, 'r', encoding="utf-8") as stream:
         try:
@@ -47,6 +54,7 @@ def load_file(file_path):
 
             # mark any files that have been deprecated
             file = process_deprecated(file,file_path)
+            file = process_experimental(file,file_path)
 
         except yaml.YAMLError as exc:
             print(exc)
@@ -105,29 +113,44 @@ def generate_ssa_yaml(detections, TEMPLATE_PATH, OUTPUT_PATH):
     yaml.Dumper.ignore_aliases = lambda *args : True
 
     # wiping old detections for SSA
-    shutil.rmtree(OUTPUT_PATH + '/detections/*', ignore_errors=True)
+    shutil.rmtree(OUTPUT_PATH + '/srs/', ignore_errors=True)
+    shutil.rmtree(OUTPUT_PATH + '/complex/', ignore_errors=True)
+    os.makedirs(OUTPUT_PATH + '/complex/')
+    os.makedirs(OUTPUT_PATH + '/srs/')
 
     for d in detections:
-        manifest_file = OUTPUT_PATH + '/detections/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
+        # skip deprecated
+        if ('deprecated' in d and d['deprecated']) or ('experimental' in d and d['experimental']):
+            continue
+        else:
+            # check if the search contains "stats", "first_time_event", or "adaptive_threshold" which would make it a complex pipeline
+            pattern = re.compile('stats|first_time_event|adaptive_threshold|conditional_anomaly')
 
-        # remove unused fields
-        del d['risk']
-        del d['deployment']
-        del d['mappings']
-        del d['savedsearch_annotations']
+            if re.findall("stats|first_time_event|adaptive_threshold", d['search']):
+                # it is a complex pipeline
+                manifest_file = OUTPUT_PATH + '/complex/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
+            else:
+                # it is a simple pipeline can be placed on SRS (Simple Rule Service)
+                manifest_file = OUTPUT_PATH + '/srs/ssa___' + d['name'].lower().replace(" ", "_") + '.yml'
 
-        # add detection test
-        test_file = 'ssa___' + d['name'].lower().replace(" ", "_") + '.test.yml'
-        for file in glob.glob('tests/*/*'):
-            if test_file == file.split("/")[-1]:
-                with open(file, 'r') as file:
-                    test_yaml = yaml.safe_load(file)
-                    d['test'] = test_yaml
+            # remove unused fields
+            del d['risk']
+            del d['deployment']
+            del d['mappings']
+            del d['savedsearch_annotations']
 
-        with open(manifest_file, 'w') as file:
-            documents = yaml.dump(d, file, sort_keys=True)
+            # add detection test
+            test_file = 'ssa___' + d['name'].lower().replace(" ", "_") + '.test.yml'
+            for file in glob.glob('tests/*/*'):
+                if test_file == file.split("/")[-1]:
+                    with open(file, 'r') as file:
+                        test_yaml = yaml.safe_load(file)
+                        d['test'] = test_yaml
 
-    return OUTPUT_PATH + '/detections/'
+            with open(manifest_file, 'w') as file:
+                documents = yaml.dump(d, file, sort_keys=True)
+
+    return OUTPUT_PATH
 
 def generate_savedsearches_conf(detections, deployments, TEMPLATE_PATH, OUTPUT_PATH):
     '''
