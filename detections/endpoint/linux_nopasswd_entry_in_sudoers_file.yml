@@ -21,9 +21,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `linux_nopasswd_entry_in_sudoers_file_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: administrator or network operator can execute this command. Please update the filter macros to remove false positives.
+  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
+  Splunkbase.
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://askubuntu.com/questions/334318/sudoers-file-enable-nopasswd-for-user-all-commands
 - https://help.ubuntu.com/community/Sudoers
