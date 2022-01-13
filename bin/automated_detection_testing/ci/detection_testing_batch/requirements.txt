@@ -1,7 +1,5 @@
-ansible==4.2.0
-ansible-runner==1.4.4
+psutil==5.8.0
 attackcti==0.3.4.3
-boto3==1.11.0
 GitPython==3.1.14
 Jinja2==3.0.0
 PyYAML==5.4
