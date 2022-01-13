@@ -15,8 +15,7 @@ description: The following detection identifies rundll32.exe with `control_rundl
   broad by not including .cpl. The paths are specified, add more as needed. During
   triage, review parallel processes to identify any further suspicious behavior.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=rundll32.exe
-  OR Processes.original_file_name=RUNDLL32.EXE) Processes.process=*Control_RunDLL*
+  as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*Control_RunDLL*
   AND Processes.process IN ("*\\appdata\\*", "*\\windows\\temp\\*", "*\\programdata\\*")  by
   Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name
@@ -30,11 +29,12 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: This may be tuned, or a new one related, by adding .cpl to
   command-line. However, it's important to look for both. Tune/filter as needed.
 references:
-- https://strontic.github.io/xcyclopedia/library/rundll32.exe-111474C61232202B5B588D2B512CBB25.html
-- https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
-- https://attack.mitre.org/techniques/T1218/011/
-- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml
+  - https://strontic.github.io/xcyclopedia/library/rundll32.exe-111474C61232202B5B588D2B512CBB25.html
+  - https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
+  - https://attack.mitre.org/techniques/T1218/011/
+  - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml
+  - https://redcanary.com/blog/intelligence-insights-december-2021/
 tags:
   analytic_story:
   - Suspicious Rundll32 Activity
