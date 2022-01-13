@@ -57,7 +57,7 @@ tags:
   confidence: 80
   risk_score: 64
   context:
-  - source:endpoint
+  - Source:Endpoint
   - stage:Privilege Escalation
   - Stage:Persistence
   message: a commandline $process$ executed on $dest$
