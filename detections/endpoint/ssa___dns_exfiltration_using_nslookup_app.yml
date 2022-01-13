@@ -85,4 +85,5 @@ tags:
   - process
   - cmd_line
   risk_score: 72
+  risk_severity: medium
   security_domain: endpoint

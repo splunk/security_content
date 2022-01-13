@@ -76,4 +76,5 @@ tags:
   - Processes.parent_process_name
   - Processes.parent_process
   risk_score: 42
+  risk_severity: medium
   security_domain: endpoint
