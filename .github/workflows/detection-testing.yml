@@ -74,10 +74,10 @@ jobs:
             echo "github.event.pull_request.number   : [${{ github.event.pull_request.number }}]"
             echo "steps.vars.outputs.branch          : [${{ steps.vars.outputs.branch }}]"
             echo "github.event.pull_request.head.ref : [${{ github.event.pull_request.head.ref }}]"
-            echo "github.event.action                : [${{ github.event.action }}]"
+            echo "github.event_name                : [${{ github.event_name }}]"
             
             
-            if [[ ${{ github.event.action }} == schedule ]]; then
+            if [[ ${{ github.event_name }} == schedule ]]; then
               # Note that scheduled actions ONLY run on the default branch, so it won't run on all other branches!
               echo "Running a nightly test on all detections OR a commit was made directly to develop"
               python detection_testing_execution.py run --branch develop --mode all --mock --config_file test_config_github_actions.json  
