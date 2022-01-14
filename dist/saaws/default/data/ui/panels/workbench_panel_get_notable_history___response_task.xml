@@ -1,9 +1,0 @@
-<panel>
-  <table>
-    <search>
-      <query>| search `notable` | search dest=$dest$ | table _time, dest, rule_name, owner, priority, severity, status_description</query>
-    </search>
-    <option name="drilldown">cell</option>
-    <option name="wrap">false</option>
-  </table>
-</panel>
