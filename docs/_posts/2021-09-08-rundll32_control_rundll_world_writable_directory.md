@@ -46,7 +46,7 @@ The following detection identifies rundll32.exe with `control_rundll` within the
 
 ```
 
-| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=rundll32.exe OR Processes.original_file_name=RUNDLL32.EXE) Processes.process=*Control_RunDLL* AND Processes.process IN ("*\\appdata\\*", "*\\windows\\temp\\*", "*\\programdata\\*")  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name 
+| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*Control_RunDLL* AND Processes.process IN ("*\\appdata\\*", "*\\windows\\temp\\*", "*\\programdata\\*")  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name 
 | `drop_dm_object_name(Processes)` 
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)` 
@@ -106,6 +106,7 @@ This may be tuned, or a new one related, by adding .cpl to command-line. However
 * [https://attack.mitre.org/techniques/T1218/011/](https://attack.mitre.org/techniques/T1218/011/)
 * [https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444](https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444)
 * [https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.002/T1218.002.yaml)
+* [https://redcanary.com/blog/intelligence-insights-december-2021/](https://redcanary.com/blog/intelligence-insights-december-2021/)
 
 
 

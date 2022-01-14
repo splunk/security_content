@@ -1,9 +1,9 @@
 ---
-title: "Malicious PowerShell Process - Connect To Internet With Hidden Window"
+title: "PowerShell - Connect To Internet With Hidden Window"
 excerpt: "PowerShell, Command and Scripting Interpreter"
 categories:
   - Endpoint
-last_modified_at: 2021-10-05
+last_modified_at: 2022-01-12
 toc: true
 toc_label: ""
 tags:
@@ -29,7 +29,7 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 - **Type**: Hunting
 - **Product**: Splunk Enterprise, Splunk Enterprise Security, Splunk Cloud
 - **Datamodel**: [Endpoint](https://docs.splunk.com/Documentation/CIM/latest/User/Endpoint)
-- **Last Updated**: 2021-10-05
+- **Last Updated**: 2022-01-12
 - **Author**: David Dorsey, Michael Haag Splunk
 - **ID**: ee18ed37-0802-4268-9435-b3b91aaa18db
 
@@ -55,7 +55,7 @@ The following hunting analytic identifies PowerShell commands utilizing the Wind
 |–
 |—
 |―]w(in*d*o*w*s*t*y*l*e*)*\s+[^-]") 
-| `malicious_powershell_process___connect_to_internet_with_hidden_window_filter`
+| `powershell___connect_to_internet_with_hidden_window_filter`
 ```
 
 #### Associated Analytic Story
@@ -98,7 +98,7 @@ Legitimate process can have this combination of command-line options, but it&#39
 
 | ID          | Summary | [CVSS](https://nvd.nist.gov/vuln-metrics/cvss) |
 | ----------- | ----------- | -------------- |
-| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.12.1 and 2.13.0 through 2.15.0 JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0, this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
+| [CVE-2021-44228](https://nvd.nist.gov/vuln/detail/CVE-2021-44228) | Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects. | 9.3 |
 
 
 
@@ -120,4 +120,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/malicious_powershell_process_-_connect_to_internet_with_hidden_window.yml) \| *version*: **7**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/powershell_-_connect_to_internet_with_hidden_window.yml) \| *version*: **8**
