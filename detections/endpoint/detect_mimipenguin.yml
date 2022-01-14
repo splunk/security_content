@@ -6,11 +6,16 @@ author: Rod Soto
 type: TTP
 datamodel:
 - Endpoint
-description: MimiPenguin is a tool that dumps login passwords from current linux destop users. This search detects execution of this tool.
-search: ' `sysmon_linux` CommandLine="strings -e /etc/apache2/apache2.conf" OR CommandLine="strings -e /etc/ssh/sshd_config" OR CommandLine="strings -e /etc/shadow"  | stats count by Computer parent_process process_current_directory user
- CommandLine | `detect_mimipenguin_filter`'
-how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux. Need to install this add-on to parse fields correctly and execute detection search.
-known_false_positives: Some of these commands may be executed by sysadmin however not in the proximity and frequency, specially if querying for tools are that knonwn not to be installed at target system.
+description: MimiPenguin is a tool that dumps login passwords from current linux destop
+  users. This search detects execution of this tool.
+search: ' `sysmon_linux` CommandLine="strings -e /etc/apache2/apache2.conf" OR CommandLine="strings
+  -e /etc/ssh/sshd_config" OR CommandLine="strings -e /etc/shadow"  | stats count
+  by Computer parent_process process_current_directory user CommandLine | `detect_mimipenguin_filter`'
+how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux.
+  Need to install this add-on to parse fields correctly and execute detection search.
+known_false_positives: Some of these commands may be executed by sysadmin however
+  not in the proximity and frequency, specially if querying for tools are that knonwn
+  not to be installed at target system.
 references:
 - https://github.com/huntergregal/mimipenguin
 - https://attack.mitre.org/matrices/enterprise/linux/
@@ -19,8 +24,8 @@ tags:
   - Linux Post-Exploitation
   confidence: 70
   context:
-      - Source: endpoint
-      - Stage: discovery
+  - Source: endpoint
+  - Stage: discovery
   dataset:
   - https://github.com/splunk/attack_data/raw/master/datasets/suspicious_behaviour/linux_post_exploitation/mimipenguin.txt
   impact: 50
@@ -30,10 +35,10 @@ tags:
   mitre_attack_id:
   - T1552
   observable:
-      - name: Computer
-        type: Endpoint
-        role:
-        - Victim
+  - name: Computer
+    type: Endpoint
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -46,3 +51,4 @@ tags:
   - process_current_directory
   risk_score: 35
   security_domain: endpoint
+  automated_detection_testing: passed
