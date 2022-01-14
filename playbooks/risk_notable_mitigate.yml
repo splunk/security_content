@@ -6,10 +6,10 @@ author: Kelby Shelton, Splunk
 type: Response
 description: This playbook checks for the presence of the Risk Response workbook and updates tasks or leaves generic notes. The risk_notable_verdict playbooks recommends this playbook as a second phase of the investigation. Additionally, this playbook can be used in ad-hoc investigations or incorporated into custom workbooks.
 playbook: risk_notable_mitigate
+how_to_implement: tbd
 references:
 - https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
-app_list: 
-  "None"
+app_list: []
 tags:
   labels:
   - risk_notable

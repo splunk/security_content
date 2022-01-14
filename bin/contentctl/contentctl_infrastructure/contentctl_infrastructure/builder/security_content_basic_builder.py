@@ -1,3 +1,6 @@
+import sys
+
+from pydantic import ValidationError
 
 from contentctl.contentctl.application.builder.basic_builder import BasicBuilder
 from contentctl.contentctl.domain.entities.security_content_object import SecurityContentObject
@@ -22,15 +25,34 @@ class SecurityContentBasicBuilder(BasicBuilder):
                 alert_action_dict = yml_dict["alert_action"]
                 for key in alert_action_dict.keys():
                     yml_dict[key] = yml_dict["alert_action"][key]
-            self.security_content_obj = Deployment.parse_obj(yml_dict)
+            try:
+                self.security_content_obj = Deployment.parse_obj(yml_dict)
+            except ValidationError as e:
+                print('Validation Error for file ' + path)
+                print(e)
+                sys.exit(1)
         elif type == SecurityContentType.playbooks:
-            self.security_content_obj = Playbook.parse_obj(yml_dict)
+            try:
+                self.security_content_obj = Playbook.parse_obj(yml_dict)
+            except ValidationError as e:
+                print('Validation Error for file ' + path)
+                print(e)
+                sys.exit(1)
         elif type == SecurityContentType.macros:
-            self.security_content_obj = Macro.parse_obj(yml_dict)
+            try:
+                self.security_content_obj = Macro.parse_obj(yml_dict)
+            except ValidationError as e:
+                print('Validation Error for file ' + path)
+                print(e)
+                sys.exit(1)
         elif type == SecurityContentType.lookups:
-            self.security_content_obj = Lookup.parse_obj(yml_dict)
-
-        
+            try:
+                self.security_content_obj = Lookup.parse_obj(yml_dict)
+            except ValidationError as e:
+                print('Validation Error for file ' + path)
+                print(e)
+                sys.exit(1)
+    
     def reset(self) -> None:
         self.security_content_obj = None
 

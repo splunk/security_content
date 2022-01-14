@@ -22,4 +22,4 @@ class Playbook(BaseModel, SecurityContentObject):
     references: list
     app_list: list
     tags: PlaybookTag
-    
+

@@ -41,3 +41,6 @@ class Director(abc.ABC):
     def constructInvestigation(self, builder: InvestigationBuilder, path: str) -> None:
         pass
     
+    @abc.abstractmethod
+    def constructObjects(self, builder: BasicBuilder, path: str) -> None:
+        pass

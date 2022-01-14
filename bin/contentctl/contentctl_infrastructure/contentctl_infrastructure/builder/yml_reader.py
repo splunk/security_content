@@ -20,6 +20,8 @@ class YmlReader():
             print(exc)
             sys.exit(1)
 
+        yml_obj['file_path'] = file_path
+
         if 'deprecated' in file_path:
             yml_obj['deprecated'] = True
         else:

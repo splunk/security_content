@@ -1,4 +1,6 @@
+import sys
 
+from pydantic import ValidationError
 
 from contentctl.contentctl.application.builder.baseline_builder import BaselineBuilder
 from contentctl_infrastructure.contentctl_infrastructure.builder.yml_reader import YmlReader
@@ -10,12 +12,15 @@ from contentctl.contentctl.domain.entities.enums.enums import SecurityContentPro
 class SecurityContentBaselineBuilder(BaselineBuilder):
     baseline : Baseline
 
-    def setObject(self, path: str, type: SecurityContentType) -> None:
+    def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
-        if type == SecurityContentType.baselines:
-            yml_dict["tags"]["name"] = yml_dict["name"]
+        yml_dict["tags"]["name"] = yml_dict["name"]
+        try:
             self.baseline = Baseline.parse_obj(yml_dict)
-
+        except ValidationError as e:
+            print('Validation Error for file ' + path)
+            print(e)
+            sys.exit(1)
 
     def addDeployment(self, deployments: list) -> None:
         matched_deployments = []

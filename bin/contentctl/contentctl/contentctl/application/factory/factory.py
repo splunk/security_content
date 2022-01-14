@@ -102,6 +102,3 @@ class Factory():
                          self.output_dto.detections, self.output_dto.baselines, self.output_dto.investigations)
                     self.output_dto.stories.append(self.input_dto.story_builder.getObject())
 
-
-     def getObjects(self) -> FactoryOutputDto:
-          return self.output_dto

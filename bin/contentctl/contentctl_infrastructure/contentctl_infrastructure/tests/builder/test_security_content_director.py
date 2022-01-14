@@ -7,6 +7,7 @@ from contentctl_infrastructure.contentctl_infrastructure.builder.security_conten
 from contentctl.contentctl.domain.entities.enums.enums import SecurityContentProduct
 from contentctl_infrastructure.contentctl_infrastructure.builder.security_content_investigation_builder import SecurityContentInvestigationBuilder
 from contentctl_infrastructure.contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
+from contentctl_infrastructure.contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 
 
 def test_construct_deployments():
@@ -185,3 +186,14 @@ def test_construct_stories():
     assert story.investigation_names == ["ESCU - Get Parent Process Info - Response Task"]
     assert story.author_company == "Splunk"
     assert story.author_name == "Bhavin Patel"    
+
+
+def test_construct_objects():
+    director = SecurityContentDirector()
+
+    object_builder = SecurityContentObjectBuilder()
+    director.constructObjects(object_builder,os.path.join(os.path.dirname(__file__), 
+        'test_data/detection/valid.yml'))
+    obj = object_builder.getObject()
+
+    assert obj['name'] == "Attempted Credential Dump From Registry via Reg exe"

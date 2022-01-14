@@ -1,4 +1,7 @@
 import re
+import sys
+
+from pydantic import ValidationError
 
 from contentctl.contentctl.application.builder.story_builder import StoryBuilder
 from contentctl.contentctl.domain.entities.story import Story
@@ -9,10 +12,14 @@ from contentctl_infrastructure.contentctl_infrastructure.builder.yml_reader impo
 class SecurityContentStoryBuilder(StoryBuilder):
     story: Story
 
-    def setObject(self, path: str, type: SecurityContentType) -> None:
+    def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
-        if type == SecurityContentType.stories:
+        try:
             self.story = Story.parse_obj(yml_dict)
+        except ValidationError as e:
+            print('Validation Error for file ' + path)
+            print(e)
+            sys.exit(1)
 
     def reset(self) -> None:
         self.story = None

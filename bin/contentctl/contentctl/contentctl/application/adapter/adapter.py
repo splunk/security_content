@@ -25,3 +25,7 @@ class Adapter(abc.ABC):
     @abc.abstractmethod
     def writeMacros(self, macros: list, output_folder: str) -> None:
         pass
+
+    @abc.abstractmethod
+    def writeObjects(self, objects: list, output_folder: str) -> None:
+        pass

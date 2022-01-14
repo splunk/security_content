@@ -11,7 +11,7 @@ from contentctl_infrastructure.contentctl_infrastructure.builder.security_conten
 def test_read_story():
     story_builder = SecurityContentStoryBuilder()
     story_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/story/ransomware_darkside.yml'), SecurityContentType.stories)
+        'test_data/story/ransomware_darkside.yml'))
     story = story_builder.getObject()
 
     assert story.name == "DarkSide Ransomware"
@@ -21,12 +21,12 @@ def test_read_story():
 def test_add_detections():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     detection = security_content_builder.getObject()
 
     story_builder = SecurityContentStoryBuilder()
     story_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/story/ransomware_darkside.yml'), SecurityContentType.stories)
+        'test_data/story/ransomware_darkside.yml'))
     story_builder.addDetections([detection])
     story = story_builder.getObject()
 
@@ -36,12 +36,12 @@ def test_add_detections():
 def test_add_baselines():
     baseline_builder = SecurityContentBaselineBuilder()
     baseline_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/baseline/baseline2.yml'), SecurityContentType.baselines)
+        'test_data/baseline/baseline2.yml'))
     baseline = baseline_builder.getObject()
 
     story_builder = SecurityContentStoryBuilder()
     story_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/story/ransomware_darkside.yml'), SecurityContentType.stories)
+        'test_data/story/ransomware_darkside.yml'))
     story_builder.addBaselines([baseline])
     story = story_builder.getObject()
 
@@ -51,12 +51,12 @@ def test_add_baselines():
 def test_add_investigations():
     investigation_builder = SecurityContentInvestigationBuilder()
     investigation_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/investigation/investigation.yml'), SecurityContentType.investigations)
+        'test_data/investigation/investigation.yml'))
     investigation = investigation_builder.getObject()
 
     story_builder = SecurityContentStoryBuilder()
     story_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/story/ransomware_darkside.yml'), SecurityContentType.stories)
+        'test_data/story/ransomware_darkside.yml'))
     story_builder.addInvestigations([investigation])
     story = story_builder.getObject()
 
@@ -66,7 +66,7 @@ def test_add_investigations():
 def test_parse_authorr():
     story_builder = SecurityContentStoryBuilder()
     story_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/story/ransomware_darkside.yml'), SecurityContentType.stories)
+        'test_data/story/ransomware_darkside.yml'))
     story_builder.addAuthorCompanyName()
     story = story_builder.getObject()
 

@@ -1,4 +1,7 @@
 import re
+import sys
+
+from pydantic import ValidationError
 
 from contentctl.contentctl.application.builder.investigation_builder import InvestigationBuilder
 from contentctl.contentctl.domain.entities.investigation import Investigation
@@ -10,10 +13,14 @@ class SecurityContentInvestigationBuilder(InvestigationBuilder):
     investigation: Investigation
 
 
-    def setObject(self, path: str, type: SecurityContentType) -> None:
+    def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
-        self.investigation = Investigation.parse_obj(yml_dict)
-
+        try:
+            self.investigation = Investigation.parse_obj(yml_dict)
+        except ValidationError as e:
+            print('Validation Error for file ' + path)
+            print(e)
+            sys.exit(1)
 
     def reset(self) -> None:
         self.investigation = None

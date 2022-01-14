@@ -91,3 +91,7 @@ class ObjToConfAdapter(Adapter):
         ConfWriter.writeConfFile('macros.j2', 
             os.path.join(output_folder, 'default/macros.conf'), 
             macros)
+
+
+    def writeObjects(self, objects: list, output_folder: str) -> None:
+        pass

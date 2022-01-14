@@ -13,7 +13,7 @@ from contentctl_infrastructure.contentctl_infrastructure.builder.security_conten
 def test_read_detection():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     detection = security_content_builder.getObject()
     
     assert detection.name == "Attempted Credential Dump From Registry via Reg exe"
@@ -28,7 +28,7 @@ def test_add_deployment_to_detection():
 
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     security_content_builder.addDeployment([deployment])
     detection = security_content_builder.getObject()
 
@@ -43,7 +43,7 @@ def test_detection_nes_field_enrichment():
 
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     security_content_builder.addDeployment([deployment])
     security_content_builder.addNesFields()
     detection = security_content_builder.getObject()
@@ -59,7 +59,7 @@ def test_detection_annotation_enrichment():
 
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     security_content_builder.addDeployment([deployment])
     security_content_builder.addAnnotations()
     detection = security_content_builder.getObject()
@@ -82,7 +82,7 @@ def test_detection_annotation_enrichment():
 def test_detection_add_mappings():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     security_content_builder.addMappings()
     detection = security_content_builder.getObject() 
 
@@ -97,7 +97,7 @@ def test_detection_add_mappings():
 def test_detection_add_rba():
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     security_content_builder.addRBA()
     detection = security_content_builder.getObject()
 
@@ -117,7 +117,7 @@ def test_detection_add_playbooks():
 
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     security_content_builder.addPlaybook([playbook])
     detection = security_content_builder.getObject()
 
@@ -127,12 +127,12 @@ def test_detection_add_playbooks():
 def test_detection_enrich_baseline():
 
     baseline_builder = SecurityContentBaselineBuilder()
-    baseline_builder.setObject(os.path.join(os.path.dirname(__file__), 'test_data/baseline/baseline.yml'), SecurityContentType.baselines)
+    baseline_builder.setObject(os.path.join(os.path.dirname(__file__), 'test_data/baseline/baseline.yml'))
     baseline = baseline_builder.getObject()
 
     security_content_builder = SecurityContentDetectionBuilder()
     security_content_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/detection/valid.yml'), SecurityContentType.detections)
+        'test_data/detection/valid.yml'))
     security_content_builder.addBaseline([baseline])
     detection = security_content_builder.getObject()
 

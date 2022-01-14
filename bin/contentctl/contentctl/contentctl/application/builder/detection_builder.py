@@ -37,7 +37,7 @@ class DetectionBuilder(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def setObject(self, path: str, type: SecurityContentType) -> None:
+    def setObject(self, path: str) -> None:
         pass
 
     @abc.abstractmethod

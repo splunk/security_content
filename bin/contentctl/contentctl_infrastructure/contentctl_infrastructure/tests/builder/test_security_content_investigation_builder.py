@@ -7,7 +7,7 @@ from contentctl.contentctl.domain.entities.enums.enums import SecurityContentTyp
 def test_read_investigation():
     investigation_builder = SecurityContentInvestigationBuilder()
     investigation_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/investigation/investigation.yml'), SecurityContentType.investigations)
+        'test_data/investigation/investigation.yml'))
     investigation = investigation_builder.getObject()
 
     assert investigation.name == "Get Parent Process Info"
@@ -16,7 +16,7 @@ def test_read_investigation():
 def test_add_inputs():
     investigation_builder = SecurityContentInvestigationBuilder()
     investigation_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/investigation/investigation.yml'), SecurityContentType.investigations)
+        'test_data/investigation/investigation.yml'))
     investigation_builder.addInputs()
     investigation = investigation_builder.getObject()
 
@@ -26,7 +26,7 @@ def test_add_inputs():
 def test_add_lowercase_name():
     investigation_builder = SecurityContentInvestigationBuilder()
     investigation_builder.setObject(os.path.join(os.path.dirname(__file__), 
-        'test_data/investigation/investigation.yml'), SecurityContentType.investigations)
+        'test_data/investigation/investigation.yml'))
     investigation_builder.addLowercaseName()
     investigation = investigation_builder.getObject()
 

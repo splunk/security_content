@@ -1,4 +1,6 @@
+import sys
 
+from pydantic import ValidationError
 
 from contentctl.contentctl.application.builder.detection_builder import DetectionBuilder
 from contentctl_infrastructure.contentctl_infrastructure.builder.yml_reader import YmlReader
@@ -16,12 +18,15 @@ from contentctl.contentctl.domain.entities.security_content_object import Securi
 class SecurityContentDetectionBuilder(DetectionBuilder):
     security_content_obj : SecurityContentObject
     
-    def setObject(self, path: str, type: AnalyticsType) -> None:
+    def setObject(self, path: str) -> None:
         yml_dict = YmlReader.load_file(path)
-        if type == SecurityContentType.detections:
-            yml_dict["tags"]["name"] = yml_dict["name"]
+        yml_dict["tags"]["name"] = yml_dict["name"]
+        try:
             self.security_content_obj = Detection.parse_obj(yml_dict)
-
+        except ValidationError as e:
+            print('Validation Error for file ' + path)
+            print(e)
+            sys.exit(1)
 
     def addDeployment(self, deployments: list) -> None:
         matched_deployments = []
@@ -120,9 +125,10 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
     def addPlaybook(self, playbooks: list) -> None:
         matched_playbooks = []
         for playbook in playbooks:
-            for detection in playbook.tags.detections:
-                if detection == self.security_content_obj.name:
-                    matched_playbooks.append(playbook)
+            if playbook.tags.detections:
+                for detection in playbook.tags.detections:
+                    if detection == self.security_content_obj.name:
+                        matched_playbooks.append(playbook)
 
         self.security_content_obj.playbooks = matched_playbooks
 
