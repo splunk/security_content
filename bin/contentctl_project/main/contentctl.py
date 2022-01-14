@@ -101,7 +101,9 @@ def main(args):
     # generate_parser.add_argument("-p", "--product", required=False, type=str, default="ESCU",
     #                              help="Type of package to create, choose between `ESCU`, `DevSecOps`, `SAAWS`, or `SSA`. Defaults to `ESCU`")
     # generate_parser.set_defaults(func=generate)
-
+    
+    content_changer_parser.add_argument("-p", "--path", required=True, 
+                                        help="path to the Splunk Security Content")
     content_changer_parser.add_argument("-o", "--output_path", required=True, type=str,
                                       help="Path where to store the changed secrity content objects")
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
