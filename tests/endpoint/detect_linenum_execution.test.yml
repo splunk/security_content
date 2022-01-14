@@ -1,7 +1,7 @@
 name: Detect LinEnum execution unit Test
 tests:
 - name: Detect LinEnum execution
-  file: endpoint/detect_linenum_execution.test.yml
+  file: endpoint/detect_linenum_execution.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'
