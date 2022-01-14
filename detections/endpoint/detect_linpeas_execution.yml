@@ -10,7 +10,7 @@ description: Linux local Privilege Escalation Awesome Script (linPEAS) is a scri
 search: ' `sysmon_linux` CommandLine!=null parent_process_exec=sudo OR parent_process_exec=bash OR CommandLine="cve-list" | stats count by Computer CommandLine user parent_process_exec process_path
  | `detect_linpeas_execution_filter`'
 how_to_implement: This detection search is based on Splunk add-on for Microsoft Sysmon-Linux. Need to install this add-on to parse fields correctly and execute detection search.
-known_false_positives: UPDATE_KNOWN_FALSE_POSITIVES
+known_false_positives: This search may produce false positives as it will display many sudo executed processess however, the cve-list within the command line it is a clear indicator, operator is searching for local vulnerabilites. 
 references:
 - https://book.hacktricks.xyz/linux-unix/linux-privilege-escalation-checklist
 - https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS
