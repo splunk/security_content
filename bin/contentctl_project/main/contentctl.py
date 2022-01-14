@@ -2,11 +2,11 @@ import sys
 import argparse
 import os
 
-from contentctl.contentctl.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
-from contentctl.contentctl.application.factory.object_factory import ObjectFactoryInputDto
-from contentctl_infrastructure.contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
-from contentctl_infrastructure.contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
-from contentctl_infrastructure.contentctl_infrastructure.adapter.obj_to_yml_adapter import ObjToYmlAdapter
+from contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
+from contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
+from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
+from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
+from contentctl_infrastructure.adapter.obj_to_yml_adapter import ObjToYmlAdapter
 
 
 def init(args):
@@ -105,7 +105,7 @@ def main(args):
     content_changer_parser.add_argument("-o", "--output_path", required=True, type=str,
                                       help="Path where to store the changed secrity content objects")
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
-                                      help="Define a change funtion defined in bin/contentctl/contentctl/contentctl/application/use_cases/content_changer.py")
+                                      help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
     content_changer_parser.set_defaults(func=content_changer)
 
     # # parse them
