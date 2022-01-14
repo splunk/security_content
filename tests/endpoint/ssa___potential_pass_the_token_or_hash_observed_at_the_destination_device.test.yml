@@ -1,7 +1,7 @@
 name: Potential Pass the Token or Hash Observed at the Destination Device - SSA Unit test
 tests:
   - name: Potential Pass the Token or Hash Observed at the Destination Device 
-    file: endpoint/ssa___ptt_pth_kerb_ntlm_dest_device.yml
+    file: endpoint/ssa___potential_pass_the_token_or_hash_observed_at_the_destination_device.yml
     pass_condition: '@count_gt(0)'
     description: Test Pass the Hash or Pass the Token Detection Observed by a Destination Device
     attack_data:
