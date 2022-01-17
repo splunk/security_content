@@ -12,6 +12,8 @@ tags:
   - Splunk Cloud
 ---
 
+### ⚠️ WARNING THIS IS A EXPERIMENTAL DETECTION
+We have not been able to test, simulate, or build datasets for this detection. Use at your own risk. This analytic is **NOT** supported.
 
 
 [Try in Splunk Security Cloud](https://www.splunk.com/en_us/cyber-security.html){: .btn .btn--success}
@@ -89,4 +91,4 @@ Alternatively you can replay a dataset into a [Splunk Attack Range](https://gith
 
 
 
-[*source*](https://github.com/splunk/security_content/tree/develop/detections/endpoint/unusually_long_command_line.yml) \| *version*: **5**
+[*source*](https://github.com/splunk/security_content/tree/develop/detections/experimental/endpoint/unusually_long_command_line.yml) \| *version*: **5**
