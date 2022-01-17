@@ -9,15 +9,15 @@ class DetectionTags(BaseModel):
     analytic_story: list
     asset_type: str
     automated_detection_testing: str = None
-    cis20: list
+    cis20: list = None
     confidence: str
     context: list
     dataset: list = None
     impact: int
     kill_chain_phases: list
     message: str
-    mitre_attack_id: list
-    nist: list
+    mitre_attack_id: list = None
+    nist: list = None
     observable: list
     product: list
     required_fields: list

@@ -10,9 +10,9 @@ from contentctl_infrastructure.builder.yml_reader import YmlReader
 def test_content_changer_author_uppercase():
 
     input_path = os.path.join(os.path.dirname(__file__), 
-        'test_data_input/detections/endpoint')
+        'data_content_changer')
     output_path = os.path.join(os.path.dirname(__file__), 
-        'test_data_output/detections')
+        'data_content_changer_ref')
 
     factory_input_dto = ObjectFactoryInputDto(
         input_path,
@@ -21,7 +21,6 @@ def test_content_changer_author_uppercase():
     )
 
     input_dto = ContentChangerInputDto(
-        output_path,
         ObjToYmlAdapter(),
         factory_input_dto,
         'example_converter_func'

@@ -43,3 +43,14 @@ tags:
   - client.geographicalContext.state
   - user
   security_domain: access
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  message: tbd
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim

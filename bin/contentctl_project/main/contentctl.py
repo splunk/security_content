@@ -60,7 +60,6 @@ def content_changer(args) -> None:
     )
 
     input_dto = ContentChangerInputDto(
-        os.path.abspath(args.output_path),
         ObjToYmlAdapter(),
         factory_input_dto,
         args.change_function
@@ -104,8 +103,6 @@ def main(args):
     
     content_changer_parser.add_argument("-p", "--path", required=True, 
                                         help="path to the Splunk Security Content")
-    content_changer_parser.add_argument("-o", "--output_path", required=True, type=str,
-                                      help="Path where to store the changed secrity content objects")
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
                                       help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
     content_changer_parser.set_defaults(func=content_changer)

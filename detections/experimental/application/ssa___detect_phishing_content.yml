@@ -58,3 +58,6 @@ tags:
   - Splunk Behavioral Analytics
   risk_severity: low
   security_domain: mail server
+  confidence: 50
+  impact: 50
+  risk_score: 25

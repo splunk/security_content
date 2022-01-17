@@ -27,5 +27,5 @@ class Adapter(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def writeObjects(self, objects: list, output_folder: str) -> None:
+    def writeObjects(self, objects: list) -> None:
         pass

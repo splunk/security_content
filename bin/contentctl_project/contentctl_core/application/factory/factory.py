@@ -63,7 +63,7 @@ class Factory():
      def createSecurityContent(self, type: SecurityContentType) -> list:
           objects = []
           if type == SecurityContentType.deployments:
-               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name), str(self.input_dto.product)))
+               files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name), str(self.input_dto.product.name)))
           else:
                files = Utils.get_all_yml_files_from_directory(os.path.join(self.input_dto.input_path, str(type.name)))
           

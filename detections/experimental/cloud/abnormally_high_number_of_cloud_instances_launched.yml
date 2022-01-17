@@ -60,3 +60,13 @@ tags:
   risk_object_type: user
   risk_score: 40
   security_domain: Cloud
+  confidence: 50
+  impact: 50
+  context:
+  - Unknown
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  message: tbd

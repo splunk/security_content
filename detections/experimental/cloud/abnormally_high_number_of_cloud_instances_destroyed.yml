@@ -59,3 +59,17 @@ tags:
   risk_object_type: user
   risk_score: 10
   security_domain: Cloud
+  confidence: 50
+  impact: 50
+  context:
+  - Unknown
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  message: tbd

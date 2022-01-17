@@ -68,3 +68,13 @@ tags:
   risk_object_type: system
   risk_score: 20
   security_domain: network
+  confidence: 50
+  impact: 50
+  context:
+  - Unknown
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  message: tbd

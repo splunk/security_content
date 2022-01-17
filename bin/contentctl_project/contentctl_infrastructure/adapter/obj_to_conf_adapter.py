@@ -93,5 +93,5 @@ class ObjToConfAdapter(Adapter):
             macros)
 
 
-    def writeObjects(self, objects: list, output_folder: str) -> None:
+    def writeObjects(self, objects: list) -> None:
         pass

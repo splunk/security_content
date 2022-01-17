@@ -27,20 +27,19 @@ class ObjToYmlAdapter(Adapter):
     def writeMacros(self, macros: list, output_folder: str) -> None:
         pass
 
-    def writeObjects(self, objects: list, output_folder: str) -> None:
+    def writeObjects(self, objects: list) -> None:
         for object in objects:
-            file_name = self.convertNameToFileName(object)
-            file_path = os.path.join(output_folder, file_name)
+            file_path = object['file_path']
             object.pop('file_path')
             object.pop('deprecated')
             YmlWriter.writeYmlFile(file_path, object)
 
-    def convertNameToFileName(self, obj: dict):
-        file_name = obj['name'] \
-            .replace(' ', '_') \
-            .replace('-','_') \
-            .replace('.','_') \
-            .replace('/','_') \
-            .lower()
-        file_name = file_name + '.yml'
-        return file_name
+    # def convertNameToFileName(self, obj: dict):
+    #     file_name = obj['name'] \
+    #         .replace(' ', '_') \
+    #         .replace('-','_') \
+    #         .replace('.','_') \
+    #         .replace('/','_') \
+    #         .lower()
+    #     file_name = file_name + '.yml'
+    #     return file_name

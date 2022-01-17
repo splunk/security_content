@@ -13,9 +13,9 @@ from contentctl_infrastructure.builder.security_content_investigation_builder im
 from contentctl_infrastructure.builder.security_content_baseline_builder import SecurityContentBaselineBuilder
 
 
-@pytest.mark.skip(reason="need to fix the security objects first")
+#@pytest.mark.skip(reason="need to fix the security objects first")
 def test_factory_ESCU():
-    input_path = os.path.join(os.path.dirname(__file__), '../../../../../../..')
+    input_path = os.path.join(os.path.dirname(__file__), '../../../../../..')
 
     input_dto = FactoryInputDto(
         input_path,

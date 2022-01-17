@@ -45,3 +45,14 @@ tags:
   - parameters.target_calendar_id
   - parameters.event_title
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  observable:
+  - name: dest
+    type: Other
+    role:
+    - Other
+  message: tbd

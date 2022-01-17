@@ -35,3 +35,14 @@ tags:
   - verb
   - requestURI
   security_domain: threat
+  confidence: 50
+  impact: 50
+  risk_score: 25
+  context:
+  - Unknown
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  message: tbd
