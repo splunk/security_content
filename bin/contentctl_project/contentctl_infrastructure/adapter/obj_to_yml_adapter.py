@@ -41,14 +41,14 @@ class ObjToYmlAdapter(Adapter):
                 file_path = object['file_path']
                 object.pop('file_path')
                 object.pop('deprecated')
-                YmlWriter.writeYmlFile(os.path.join(security_content_folder, 'investigations', file_name))
+                YmlWriter.writeYmlFile(os.path.join(security_content_folder, 'investigations', file_name), object)
                 os.remove(file_path)
             elif object['type'] == 'Baseline':
                 file_name = self.convertNameToFileName(object)
                 file_path = object['file_path']
                 object.pop('file_path')
                 object.pop('deprecated')
-                YmlWriter.writeYmlFile(os.path.join(security_content_folder, 'baselines', file_name))
+                YmlWriter.writeYmlFile(os.path.join(security_content_folder, 'baselines', file_name), object)
                 os.remove(file_path) 
 
 
