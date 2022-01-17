@@ -23,7 +23,7 @@ class ContentChanger:
         converter_func = getattr(self, input_dto.converter_func_name)
         converter_func(objects)
 
-        input_dto.adapter.writeObjects(objects)
+        input_dto.adapter.writeObjectsInPlace(objects)
 
 
     # Define Converter Functions here

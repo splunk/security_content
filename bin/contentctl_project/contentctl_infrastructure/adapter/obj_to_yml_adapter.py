@@ -34,12 +34,30 @@ class ObjToYmlAdapter(Adapter):
             object.pop('deprecated')
             YmlWriter.writeYmlFile(file_path, object)
 
-    # def convertNameToFileName(self, obj: dict):
-    #     file_name = obj['name'] \
-    #         .replace(' ', '_') \
-    #         .replace('-','_') \
-    #         .replace('.','_') \
-    #         .replace('/','_') \
-    #         .lower()
-    #     file_name = file_name + '.yml'
-    #     return file_name
+    def writeObjects(self, objects: list, security_content_folder: str) -> None:
+        for object in objects:
+            if object['type'] == 'Investigation':
+                file_name = self.convertNameToFileName(object)
+                file_path = object['file_path']
+                object.pop('file_path')
+                object.pop('deprecated')
+                YmlWriter.writeYmlFile(os.path.join(security_content_folder, 'investigations', file_name))
+                os.remove(file_path)
+            elif object['type'] == 'Baseline':
+                file_name = self.convertNameToFileName(object)
+                file_path = object['file_path']
+                object.pop('file_path')
+                object.pop('deprecated')
+                YmlWriter.writeYmlFile(os.path.join(security_content_folder, 'baselines', file_name))
+                os.remove(file_path) 
+
+
+    def convertNameToFileName(self, obj: dict):
+        file_name = obj['name'] \
+            .replace(' ', '_') \
+            .replace('-','_') \
+            .replace('.','_') \
+            .replace('/','_') \
+            .lower()
+        file_name = file_name + '.yml'
+        return file_name

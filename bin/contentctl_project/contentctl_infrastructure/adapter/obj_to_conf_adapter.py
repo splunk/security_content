@@ -93,5 +93,9 @@ class ObjToConfAdapter(Adapter):
             macros)
 
 
-    def writeObjects(self, objects: list) -> None:
+    def writeObjectsInPlace(self, objects: list) -> None:
+        pass
+
+
+    def writeObjects(self, objects: list, security_content_folder: str) -> None:
         pass

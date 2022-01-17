@@ -3,6 +3,7 @@ import argparse
 import os
 
 from contentctl_core.application.use_cases.content_changer import ContentChanger, ContentChangerInputDto
+from contentctl_core.application.use_cases.content_organizer import ContentOrganizer, ContentOrganizerInputDto
 from contentctl_core.application.factory.object_factory import ObjectFactoryInputDto
 from contentctl_infrastructure.builder.security_content_object_builder import SecurityContentObjectBuilder
 from contentctl_infrastructure.builder.security_content_director import SecurityContentDirector
@@ -69,12 +70,27 @@ def content_changer(args) -> None:
     content_changer.execute(input_dto)
 
 
+def content_organizer(args) -> None:
+    factory_input_dto = ObjectFactoryInputDto(
+        os.path.abspath(args.path),
+        SecurityContentObjectBuilder(),
+        SecurityContentDirector()
+    )
+
+    input_dto = ContentOrganizerInputDto(
+        ObjToYmlAdapter(),
+        factory_input_dto,
+        os.path.abspath(args.security_content_path)
+    )
+
+    content_organizer = ContentOrganizer()
+    content_organizer.execute(input_dto)
+
+
 def main(args):
     # grab arguments
     parser = argparse.ArgumentParser(
         description="Use `contentctl.py action -h` to get help with any Splunk Security Content action")
-    parser.add_argument("-p", "--path", required=False, default=".",
-                        help="path to the Splunk Security Content. Defaults to `.`")
     parser.set_defaults(func=lambda _: parser.print_help())
 
     actions_parser = parser.add_subparsers(title="Splunk Security Content actions", dest="action")
@@ -82,6 +98,7 @@ def main(args):
     #validate_parser = actions_parser.add_parser("validate", help="Validates written content")
     #generate_parser = actions_parser.add_parser("generate", help="Generates a deployment package for different platforms (splunk_app)")
     content_changer_parser = actions_parser.add_parser("content_changer", help="Change Security Content based on defined rules")
+    content_organizer_parser = actions_parser.add_parser("content_organizer", help="Organize Security Content")
 
     # # new arguments
     # new_parser.add_argument("-t", "--type", required=False, type=str, default="detection",
@@ -102,10 +119,17 @@ def main(args):
     # generate_parser.set_defaults(func=generate)
     
     content_changer_parser.add_argument("-p", "--path", required=True, 
-                                        help="path to the Splunk Security Content")
+                                        help="path to the Splunk Security Content folder")
     content_changer_parser.add_argument("-cf", "--change_function", required=True, type=str,
                                       help="Define a change funtion defined in bin/contentctl_core/contentctl/application/use_cases/content_changer.py")
     content_changer_parser.set_defaults(func=content_changer)
+
+    content_organizer_parser.add_argument("-p", "--path", required=True, 
+                                        help="path to the Splunk Security Content folder")
+    content_organizer_parser.add_argument("-scp", "--security_content_path", required=True, 
+                                        help="path to the Splunk Security Content")
+    content_organizer_parser.set_defaults(func=content_organizer)
+
 
     # # parse them
     args = parser.parse_args()
