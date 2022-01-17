@@ -27,7 +27,7 @@ class ObjToYmlAdapter(Adapter):
     def writeMacros(self, macros: list, output_folder: str) -> None:
         pass
 
-    def writeObjects(self, objects: list) -> None:
+    def writeObjectsInPlace(self, objects: list) -> None:
         for object in objects:
             file_path = object['file_path']
             object.pop('file_path')
