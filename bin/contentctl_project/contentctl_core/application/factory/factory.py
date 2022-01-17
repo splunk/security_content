@@ -85,7 +85,7 @@ class Factory():
                     self.output_dto.playbooks.append(self.input_dto.basic_builder.getObject())                    
                
                elif type == SecurityContentType.baselines:
-                    self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file)
+                    self.input_dto.director.constructBaseline(self.input_dto.baseline_builder, file, self.output_dto.deployments)
                     self.output_dto.baselines.append(self.input_dto.baseline_builder.getObject())
                
                elif type == SecurityContentType.investigations:

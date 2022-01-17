@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  asset_type: Endpoint
   confidence: 50
   context:
   - Source:Endpoint
@@ -38,9 +39,7 @@ tags:
   - Stage:Lateral Movement
   impact: 90
   kill_chain_phases:
-  - Privilege Escalation
-  - Lateral Movement
-  - Persistence
+  - Exploitation
   message: A windows scheduled task with a suspicious task name was created on $dest$
   mitre_attack_id:
   - T1053

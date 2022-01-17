@@ -15,8 +15,12 @@ how_to_implement: You must be ingesting your Windows Update Logs
 known_false_positives: none
 references: []
 tags:
+  analytic_story:
+  - Monitor for Updates
   deployments:
   - Daily Cache Updates
+  detections:
+  - No Windows Updates in a time frame
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -16,8 +16,14 @@ how_to_implement: To successfully implement this search, you must be ingesting n
 known_false_positives: none
 references: []
 tags:
+  analytic_story:
+  - Prohibited Traffic Allowed or Protocol Mismatch
+  - Ransomware
+  - Command and Control
   deployments:
   - Daily Cache Updates
+  detections:
+  - Prohibited Network Traffic Allowed
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

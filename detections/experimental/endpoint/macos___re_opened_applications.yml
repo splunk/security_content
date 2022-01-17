@@ -28,6 +28,8 @@ known_false_positives: At this stage, there are no known false positives. During
   to an allow list.
 references: []
 tags:
+  analytic_story:
+  - ColdRoot MacOS RAT
   asset_type: Endpoint
   cis20:
   - CIS 8

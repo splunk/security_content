@@ -87,11 +87,12 @@ class SecurityContentDetectionBuilder(DetectionBuilder):
 
     def addNesFields(self) -> None:
         nes_fields_matches = []
-        for nes_field in self.security_content_obj.deployment.notable.nes_fields:
-            if (self.security_content_obj.search.find(nes_field + ' ') != -1):
-                nes_fields_matches.append(nes_field)
+        if self.security_content_obj.deployment.notable:
+            for nes_field in self.security_content_obj.deployment.notable.nes_fields:
+                if (self.security_content_obj.search.find(nes_field + ' ') != -1):
+                    nes_fields_matches.append(nes_field)
         
-        self.security_content_obj.deployment.notable.nes_fields = nes_fields_matches
+            self.security_content_obj.deployment.notable.nes_fields = nes_fields_matches
 
 
     def addMappings(self) -> None:

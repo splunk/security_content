@@ -1,5 +1,5 @@
 name: Detect Outbound SMB Traffic
-id: 7f5fb3e1-4209-414-90db-0ec21b936378
+id: 1bed7774-304a-4e8f-9d72-d80e45ff492b
 version: 3
 date: '2020-07-21'
 author: Bhavin Patel, Stuart Hopkins from Splunk

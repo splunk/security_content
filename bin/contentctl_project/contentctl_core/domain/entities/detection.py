@@ -68,7 +68,7 @@ class Detection(BaseModel, SecurityContentObject):
 
     @validator('type')
     def type_valid(cls, v, values):
-        if v not in [el.name for el in AnalyticsType]:
+        if v.lower() not in [el.name.lower() for el in AnalyticsType]:
             raise ValueError('not valid analytics type: ' + values["name"])
         return v
 
@@ -87,17 +87,17 @@ class Detection(BaseModel, SecurityContentObject):
             raise ValueError('encoding error in ' + field.name + ': ' + values["name"])
         return v
 
-    @validator('references')
-    def references_check(cls, v, values):
-        for reference in v:
-            try:
-                get = requests.get(reference)
-                if not get.status_code == 200:
-                    raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
-            except requests.exceptions.RequestException as e:
-                raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+    # @validator('references')
+    # def references_check(cls, v, values):
+    #     for reference in v:
+    #         try:
+    #             get = requests.get(reference)
+    #             if not get.status_code == 200:
+    #                 raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
+    #         except requests.exceptions.RequestException as e:
+    #             raise ValueError('Reference ' + reference + ' is not reachable: ' + values["name"])
 
-        return v
+    #     return v
 
     @validator('search')
     def search_validate(cls, v, values):

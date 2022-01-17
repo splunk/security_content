@@ -58,7 +58,7 @@ tags:
   - All_Changes.user
   risk_object: user
   risk_object_type: user
-  risk_score: 40
+  risk_score: 25
   security_domain: Cloud
   confidence: 50
   impact: 50

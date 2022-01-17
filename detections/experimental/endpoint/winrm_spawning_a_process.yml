@@ -30,13 +30,13 @@ references:
 tags:
   analytic_story:
   - Unusual Processes
+  asset_type: Endpoint
   cve:
   - CVE-2021-31166
   dataset: []
   kill_chain_phases:
   - Exploitation
-  - Privilege Escalation
-  - Denial of Service
+  - Actions on Objectives
   mitre_attack_id:
   - T1190
   product:
