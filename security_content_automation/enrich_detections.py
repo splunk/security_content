@@ -38,6 +38,7 @@ def map_required_fields(cim_summary, datamodel, required_fields):
     add_addon = True
     flag = 0
     for item in required_fields:
+        # Only required field with valid format will be mapped
         if re.match("^[A-Za-z0-9_.]*$", item):
             if item == "_time" or item == "_times":
                 continue
@@ -139,7 +140,7 @@ def main():
 
             for file in files:
                 filepath = subdir + os.sep + file
-                supported_ta_list = []
+                recommended_ta_list = []
                 tas_with_data_list = []
                 detection_obj = load_file(filepath)
                 source_types = []
@@ -176,7 +177,7 @@ def main():
                         cim_version = ta_cim_map["cim_version"]
 
                         if result:
-                            supported_ta_list.append(
+                            recommended_ta_list.append(
                                 ta_cim_map.get("ta_name").get("name")
                             )
                             ta_sourcetype = ta_cim_map["sourcetypes"]
@@ -192,19 +193,19 @@ def main():
                                     )
                             detection_ta_mapping[detection_file_name] = {}
 
-                    if supported_ta_list:
-                        keyname = "supported_tas"
+                    if recommended_ta_list:
+                        keyname = "tas_with_cim_mapping"
                         enrich_detection_file(filepath, cim_version, "cim_version")
-                        enrich_detection_file(filepath, supported_ta_list, keyname)
+                        enrich_detection_file(filepath, recommended_ta_list, keyname)
                         detection_ta_mapping[detection_file_name][
                             "cim_version"
                         ] = cim_version
                         detection_ta_mapping[detection_file_name][
                             keyname
-                        ] = supported_ta_list
+                        ] = recommended_ta_list
 
                     if tas_with_data_list:
-                        keyname = "tas_with_data"
+                        keyname = "supported_tas"
                         enrich_detection_file(filepath, tas_with_data_list, keyname)
                         detection_ta_mapping[detection_file_name][
                             keyname
@@ -226,19 +227,18 @@ def main():
         ["security_content_automation/detection_ta_mapping.yml"]
     )
     security_content_repo_obj.index.commit(
-        "Updated detection files with supported TA list."
+        "Updated detection files with recommended TA list."
     )
 
     epoch_time = str(int(time.time()))
     branch_name = "security_content_automation_" + epoch_time
     security_content_repo_obj.git.checkout("-b", branch_name)
-
     security_content_repo_obj.git.push("--set-upstream", "origin", branch_name)
     repo = g.get_repo("splunk/security_content")
 
     pr = repo.create_pull(
         title="Enrich Detection PR " + branch_name,
-        body="Enriched the detections with supported TAs",
+        body="Enriched the detections with recommended TAs",
         head=branch_name,
         base="develop",
     )

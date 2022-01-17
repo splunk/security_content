@@ -89,8 +89,8 @@ tags:
   - All_Changes.command
   risk_score: 42
   security_domain: threat
-  cim_version: 4.20.2
-  supported_tas:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
   - Splunk_TA_citrix-netscaler
   - Splunk_TA_rsa-securid
   - Splunk_TA_aws-kinesis-firehose
@@ -100,5 +100,5 @@ tags:
   - Splunk_TA_cyberark
   - Splunk_TA_box
   - Splunk_TA_salesforce
-  tas_with_data:
+  supported_tas:
   - Splunk_TA_aws-kinesis-firehose

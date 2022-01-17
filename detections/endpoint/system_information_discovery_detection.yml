@@ -66,8 +66,8 @@ tags:
   - Processes.dest
   risk_score: 15
   security_domain: endpoint
-  cim_version: 4.20.2
-  supported_tas:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
   - Splunk_TA_nix
   - Splunk_TA_bit9-carbonblack
   - Splunk_TA_windows

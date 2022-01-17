@@ -58,8 +58,9 @@ tags:
   - _time
   risk_score: 5
   security_domain: endpoint
-  cim_version: 4.20.2
-  supported_tas:
+  cim_version: 5.0.0
+  tas_with_cim_mapping:
+  - Splunk_TA_microsoft-cloudservices
   - Splunk_TA_cisco-ucs
   - Splunk_TA_citrix-netscaler
   - Splunk_TA_nix
@@ -100,6 +101,7 @@ tags:
   - Splunk_TA_ibm-was
   - Splunk_TA_microsoft-hyperv
   - Splunk_TA_windows
+  - Splunk_TA_stream_wire_data
   - Splunk_TA_mcafee-wg
   - Splunk_TA_isc-dhcp
   - Splunk_TA_websense-dlp
@@ -115,5 +117,5 @@ tags:
   - Splunk_TA_cyberark_epm
   - Splunk_TA_linux
   - Splunk_TA_oracle
-  tas_with_data:
+  supported_tas:
   - Splunk_TA_windows
