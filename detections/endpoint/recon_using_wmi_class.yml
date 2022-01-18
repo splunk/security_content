@@ -33,9 +33,8 @@ tags:
   automated_detection_testing: passed
   confidence: 80
   context:
-  - source:endpoint
-  - stage:Reconnaissance
-  - stage:Reconnaissance
+  - Source:Endpoint
+  - Stage:Reconnaissance
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell.log
   impact: 75

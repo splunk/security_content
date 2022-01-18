@@ -28,9 +28,8 @@ tags:
   - CIS 8
   confidence: 20
   context:
-  - source:endpoint
-  - stage:Impact
-  - stage:Impact
+  - Source:Endpoint
+  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/sam_sam_note/windows-sysmon.log
   impact: 60

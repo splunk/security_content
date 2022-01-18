@@ -35,9 +35,8 @@ tags:
   automated_detection_testing: passed
   confidence: 100
   context:
-  - source:endpoint
-  - stage:Defense Evasion
-  - stage:Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_searchprotocolhost.log
   impact: 70

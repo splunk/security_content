@@ -35,8 +35,8 @@ tags:
   automated_detection_testing: passed
   confidence: 50
   context:
-  - source:endpoint
-  - stage:Reconnaissance
+  - Source:Endpoint
+  - Stage:Reconnaissance
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log
   impact: 50

@@ -41,7 +41,6 @@ tags:
   - Source:Endpoint
   - Stage:Defense Evasion
   - Stage:Execution
-  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/windows-sysmon.log
   impact: 70

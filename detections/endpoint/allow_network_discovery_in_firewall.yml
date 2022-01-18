@@ -32,13 +32,22 @@ tags:
   - Ransomware
   - Revil Ransomware
   automated_detection_testing: passed
+  context:
+  - Source:Endpoint
+  - Stage:Discovery
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
   kill_chain_phases:
   - Exploitation
+  message: ''
   mitre_attack_id:
   - T1562.007
   - T1562
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

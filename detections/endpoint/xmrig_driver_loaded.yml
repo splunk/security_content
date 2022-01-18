@@ -25,9 +25,8 @@ tags:
   automated_detection_testing: passed
   confidence: 100
   context:
-  - source:endpoint
-  - stage:Privilege Escalation
-  - stage:Privilege Escalation
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
   impact: 80

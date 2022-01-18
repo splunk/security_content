@@ -37,7 +37,7 @@ tags:
   - CIS 16
   confidence: 20
   context:
-  - Source:AD
+  - Source:Ad
   - Source:Endpoint
   - Stage:Credential Access
   impact: 70

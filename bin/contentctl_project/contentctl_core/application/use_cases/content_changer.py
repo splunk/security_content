@@ -137,4 +137,4 @@ class ContentChanger:
                     context_second = context_splitted[1].title()
                     new_context.append(context_first + ':' + context_second)
 
-                obj['tags']['context'] = new_context
+                obj['tags']['context'] = list(dict.fromkeys(new_context))

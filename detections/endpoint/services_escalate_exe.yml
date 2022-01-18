@@ -38,9 +38,8 @@ tags:
   automated_detection_testing: passed
   confidence: 95
   context:
-  - source:endpoint
-  - stage:Privilege Escalation
-  - stage:Privilege Escalation
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
   impact: 80

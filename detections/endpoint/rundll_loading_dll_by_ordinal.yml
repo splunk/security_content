@@ -33,9 +33,8 @@ tags:
   - CIS 8
   confidence: 100
   context:
-  - source:endpoint
-  - stage:Defense Evasion
-  - stage:Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
   impact: 70

@@ -35,7 +35,7 @@ tags:
   confidence: 50
   context:
   - Source:Endpoint
-  - stage:Privilege Escalation
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/vilsel/sysmon.log
   impact: 50

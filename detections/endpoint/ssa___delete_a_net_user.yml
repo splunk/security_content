@@ -42,7 +42,7 @@ tags:
   confidence: 70
   context:
   - Source:Endpoint
-  - stage:Defense Evasion
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/net_user_del.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1531/atomic_red_team/security.log

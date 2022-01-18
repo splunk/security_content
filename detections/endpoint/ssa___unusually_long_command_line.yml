@@ -40,9 +40,8 @@ tags:
   - CIS 8
   confidence: 40
   context:
-  - source:endpoint
-  - stage:Defense Evasion
-  - stage:Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   impact: 30
   kill_chain_phases:
   - Actions on Objectives

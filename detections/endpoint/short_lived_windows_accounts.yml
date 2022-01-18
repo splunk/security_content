@@ -30,9 +30,8 @@ tags:
   - CIS 16
   confidence: 90
   context:
-  - source:endpoint
-  - stage:Persistence
-  - stage:Persistence
+  - Source:Endpoint
+  - Stage:Persistence
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log

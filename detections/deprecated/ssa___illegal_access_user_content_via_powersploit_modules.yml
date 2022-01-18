@@ -37,7 +37,7 @@ tags:
   - CIS 20
   confidence: 100
   context:
-  - Source:AD
+  - Source:Ad
   - Source:Endpoint
   - Stage:Exfiltration
   - Stage:Command And Control

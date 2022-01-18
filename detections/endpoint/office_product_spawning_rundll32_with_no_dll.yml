@@ -40,9 +40,8 @@ tags:
   automated_detection_testing: passed
   confidence: 90
   context:
-  - source:endpoint
-  - stage:recon
-  - stage:recon
+  - Source:Endpoint
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_icedid.log
   impact: 70

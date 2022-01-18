@@ -27,9 +27,8 @@ tags:
   - CIS 8
   confidence: 100
   context:
-  - source:endpoint
-  - stage:Impact
-  - stage:Impact
+  - Source:Endpoint
+  - Stage:Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ryuk/windows-sysmon.log
   impact: 70

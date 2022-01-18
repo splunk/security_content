@@ -31,9 +31,8 @@ tags:
   automated_detection_testing: passed
   confidence: 90
   context:
-  - source:endpoint
-  - stage:Execution
-  - stage:Execution
+  - Source:Endpoint
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
   impact: 60

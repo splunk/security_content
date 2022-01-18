@@ -40,7 +40,7 @@ tags:
   confidence: 80
   context:
   - Source:Endpoint
-  - Stage:recon
+  - Stage:Recon
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
   impact: 80

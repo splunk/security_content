@@ -40,7 +40,7 @@ tags:
   confidence: 50
   context:
   - Source:Endpoint
-  - stage:Defense Evasion
+  - Stage:Defense Evasion
   dataset: []
   impact: 30
   kill_chain_phases:

@@ -39,9 +39,8 @@ tags:
   - CIS 13
   confidence: 90
   context:
-  - source:endpoint
-  - stage:Defense Evasion
-  - stage:Defense Evasion
+  - Source:Endpoint
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/ssa_wevtutil/disable_evt.log
   impact: 70

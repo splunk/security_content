@@ -39,7 +39,7 @@ tags:
   confidence: 100
   context:
   - Source:Endpoint
-  - Stage:Command and Control
+  - Stage:Command And Control
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon.log
   impact: 90

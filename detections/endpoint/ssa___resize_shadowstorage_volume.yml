@@ -42,7 +42,7 @@ tags:
   confidence: 80
   context:
   - Source:Endpoint
-  - stage:Defense Evasion
+  - Stage:Defense Evasion
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/ssa_data1/windows-security.log
   impact: 80

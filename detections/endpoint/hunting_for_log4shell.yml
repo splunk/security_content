@@ -77,7 +77,7 @@ tags:
   automated_detection_testing: passed
   confidence: 50
   context:
-  - Source:network
+  - Source:Network
   cve:
   - CVE-2021-44228
   dataset:
