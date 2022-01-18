@@ -3,6 +3,7 @@ import logging
 import os
 import fileinput
 import re
+import io
 
 from .data_manipulation import DataManipulation
 
@@ -14,12 +15,11 @@ LOGGER = logging.getLogger(__name__)
 # Macros
 PULSAR_SOURCE_CONNECTION_ID_PLAYGROUND = f"29fb61f1-9342-48f5-9793-1afa008c377b"
 PULSAR_SOURCE_TOPIC_PLAYGROUND = f"persistent://ssa/egress/decorated-events-research2"
-PULSAR_SOURCE_CONNECTION_ID_STAGING = f"fd92bf9f-5d40-4c2e-bb75-bf0c3fc13980"
+PULSAR_SOURCE_CONNECTION_ID_STAGING = f"d156ed3a-1254-469a-bffc-9dd6eda97ac6"
 PULSAR_SOURCE_TOPIC_STAGING = f"persistent://ssa/egress/decorated-events-research"
 
-READ_SSA_ENRICHED_EVENTS = f"| from read_ssa_enriched_events()"
 READ_SSA_ENRICHED_EVENTS_EXPANDED = (
-    f"| from pulsar(\"__PULSAR_SOURCE_CONNECTION_ID__\", \"__PULSAR_SOURCE_TOPIC__\")"
+    f"pulsar(\"__PULSAR_SOURCE_CONNECTION_ID__\", \"__PULSAR_SOURCE_TOPIC__\")"
     f"| eval input_event=deserialize_json_object(value)"
     f"| select input_event"
     f"| eval _datamodels=ucast(map_get(input_event, \"_datamodels\"), \"collection<string>\", [])"
@@ -29,7 +29,6 @@ READ_SSA_ENRICHED_EVENTS_EXPANDED = (
 # not used in the moment
 # PULSAR_SINK_CONNECTION_ID = f"29fb61f1-9342-48f5-9793-1afa008c377b"
 # PULSAR_SINK_TOPIC = f"persistent://ssa/ingress/detection-events-research2"
-WRITE_SSA_DETECTED_EVENTS = f"| into write_ssa_detected_events();"
 
 # ## dummy values ##
 # DETECTION_TYPE = f"anomaly"
@@ -80,18 +79,14 @@ def check_source_sink(spl):
     return match_sink
 
 
-def manipulate_spl(env, spl, results_index):
+def manipulate_spl(env, spl, test_id):
     # Obtain the SSA source
     pulsar_source_connection_id, pulsar_source_topic = return_macros(env)
     source = READ_SSA_ENRICHED_EVENTS_EXPANDED\
         .replace("__PULSAR_SOURCE_CONNECTION_ID__", pulsar_source_connection_id)\
         .replace("__PULSAR_SOURCE_TOPIC__", pulsar_source_topic)
     # Obtain the test sink
-    sink = ";"
-    if results_index is not None:
-        module = results_index["module"]
-        index = results_index["name"]
-        sink = f"| into index(\"{module}\", \"{index}\");"
+    sink = f" eval test_id=\"{test_id}\" | into index(\"mc\", \"detection_testing\")"
     # Replace spl template with its `source` and `sink`
     spl = replace_ssa_macros(source, sink, spl)
     LOGGER.info(f"spl: {spl}")
@@ -105,33 +100,40 @@ def read_spl(file_path, file_name):
 
 
 def replace_ssa_macros(source, sink, spl):
-    spl = spl.replace(READ_SSA_ENRICHED_EVENTS, source)
-    spl = spl.replace(WRITE_SSA_DETECTED_EVENTS, sink)
+    spl = re.sub(r'read_ssa_enriched_events\(\s*\)', source, spl, flags=re.IGNORECASE)
+    spl = re.sub(r'into write_ssa_detected_events()\(\s*\)', sink, spl, flags=re.IGNORECASE)
     return spl
 
 
-def read_data(file_name):
-    file_path = os.path.join(os.path.dirname(__file__), 'data', file_name)
-    data_manipulation = DataManipulation()
-    modified_file = data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
+def read_data(file_path, sourcetype):
     data = []
-    event = ""
-    date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
-    count = len(open(modified_file).readlines())
-    i = 0
-    tmp_counter = 0
-    for line in fileinput.input(files=modified_file):
-        i = i + 1
-        if event != "" and re.match(date_rex, line):
-            data.append(event)
-            tmp_counter = 0
-            event = line
-        else:
-            tmp_counter = tmp_counter + 1
-            event = event + line
+    if sourcetype == "WinEventLog:Security" or sourcetype == "WinEventLog":
+        data_manipulation = DataManipulation()
+        modified_file = data_manipulation.manipulate_timestamp(file_path, 'xmlwineventlog', 'WinEventLog:Security')
+        date_rex = r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2} [AP]M'
+        count = len(open(modified_file).readlines())
 
-        if i == count and tmp_counter > 10:
-            data.append(event)
+        i = 0
+        file = fileinput.input(files=modified_file)
+        event = file[0]
+        start_position = 0
+
+        for i in range(1, count):
+            line = file[i]
+            i = i + 1
+            if re.match(date_rex, line):
+                data.append(event)
+                start_position = i
+                event = line
+            else:
+                event = event + line
+
+
+        data.append(event)
+        fileinput.close()
+    elif sourcetype == "xmlwineventlog":
+        for line in fileinput.input(files=file_path):
+            data.append(line)
 
     return data
 

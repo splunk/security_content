@@ -1,0 +1,1239 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Risk Notable",
+    "coa": {
+        "data": {
+            "description": "Find available response tagged playbooks and present them to the analyst. Based on analyst selection, launch next their chosen playbook.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_5_to_port_6",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_5_to_port_8",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_9",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_9_to_port_10",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_9_to_port_11",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 2
+                        }
+                    ],
+                    "id": "port_9_to_port_12",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_16_to_port_1",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_10_to_port_18",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_18_to_port_13",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_13_to_port_15",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_15_to_port_19",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_19_to_port_16",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                }
+            ],
+            "hash": "2ac0c00e1352f71bbe99663651766152891e8399",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 280,
+                    "y": -2.913225216616411e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 19.99999999999997,
+                    "y": 2240
+                },
+                "10": {
+                    "customCode": "def select_response_plan(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):\n    phantom.debug(\"select_response_plan() called\")\n\n    # set user and message variables for phantom.prompt call\n    user = json.loads(phantom.get_run_data(key='get_effective_user:username'))\n    message = \"\"\"Splunk SOAR has loaded all available response plans\\n - Only Playbooks with tags \"response_option\" are shown.\"\"\"\n    \n    # Playbooks list\n    playbook_list = phantom.collect2(container=container, datapath=[\"list_response_playbooks:custom_function_result.data.*.full_name\"], action_results=results)\n    playbook_list = [item[0] for item in playbook_list]\n    playbook_list.append(\"Do Nothing\")\n    \n    #responses:\n    response_types = [\n        {\n            \"prompt\": \"Response Plan\",\n            \"options\": {\n                \"type\": \"list\",\n                \"choices\": playbook_list\n            },\n        }\n    ]\n\n    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name=\"select_response_plan\", response_types=response_types, callback=user_response_decision)\n\n    return",
+                    "data": {
+                        "advanced": {
+                            "customName": "select response plan",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "approver": "admin",
+                        "functionId": 1,
+                        "functionName": "select_response_plan",
+                        "id": "10",
+                        "message": "Test",
+                        "parameters": [],
+                        "responseTime": 30,
+                        "responses": [
+                            {
+                                "responsePrompt": "1",
+                                "responseType": "message"
+                            }
+                        ],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "prompt",
+                    "userCode": null,
+                    "x": 80,
+                    "y": 1420
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "workbook task update",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "workbook_task_update",
+                            "repoName": "community"
+                        },
+                        "functionId": 5,
+                        "functionName": "workbook_task_update",
+                        "id": "11",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "workbook_task_update": {
+                                "description": "Update a workbook task by task name",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Name of a workbook task (Required)",
+                                        "inputType": "item",
+                                        "label": "task_name",
+                                        "name": "task_name",
+                                        "placeholder": "my_task",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Note title goes here (Optional)",
+                                        "inputType": "item",
+                                        "label": "note_title",
+                                        "name": "note_title",
+                                        "placeholder": "My Title",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Body of note goes here (Optional)",
+                                        "inputType": "item",
+                                        "label": "note_content",
+                                        "name": "note_content",
+                                        "placeholder": "My notes",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "One of: incomplete, in_progress, complete (Optional)",
+                                        "inputType": "item",
+                                        "label": "status",
+                                        "name": "status",
+                                        "placeholder": "in_progress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Assigns task to provided owner. Accepts keyword 'current\" to assign task to currently running playbook user. (Optional)",
+                                        "inputType": "item",
+                                        "label": "owner",
+                                        "name": "owner",
+                                        "placeholder": "username",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "ID of Phantom Container (Required)",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "workbook_task_update",
+                                "name": "workbook_task_update"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "workbook_task_update": {
+                                "container": "container:id",
+                                "note_content": "No response playbooks found for criteria in playbook_list utility block.",
+                                "note_title": "[Auto-Generated] Verdict Error",
+                                "owner": null,
+                                "status": null,
+                                "task_name": "Render Verdict"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "utility",
+                    "x": 260,
+                    "y": 1474
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "add error note",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 6,
+                        "functionName": "add_error_note",
+                        "id": "12",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "add_note": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "description": "",
+                                        "label": "title",
+                                        "name": "title",
+                                        "placeholder": "Enter a note title",
+                                        "renderType": "input",
+                                        "required": false
+                                    },
+                                    {
+                                        "description": "",
+                                        "label": "content",
+                                        "name": "content",
+                                        "placeholder": "Enter the note content",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "choices": [
+                                            "markdown",
+                                            "html"
+                                        ],
+                                        "default": "markdown",
+                                        "description": "",
+                                        "label": "note format",
+                                        "name": "note_format",
+                                        "placeholder": "Enter the note content",
+                                        "renderType": "dropdown",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "default": "general",
+                                        "hidden": true,
+                                        "name": "note_type",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "author",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "event_id",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "task_id",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "add note",
+                                "name": "add_note"
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "add_note": {
+                                "_internal": [
+                                    "container",
+                                    "note_type",
+                                    "author",
+                                    "event_id",
+                                    "task_id",
+                                    "trace"
+                                ],
+                                "content": "No response playbooks found for criteria in playbook_list utility block.",
+                                "note_format": "markdown",
+                                "note_type": "general",
+                                "title": "[Auto-Generated] Verdict Error"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "utility",
+                    "x": 600,
+                    "y": 1480
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "decide and launch playbook",
+                            "customNameId": 0,
+                            "description": "Process user responses and determine which playbook should be launched.",
+                            "join": []
+                        },
+                        "functionId": 2,
+                        "functionName": "decide_and_launch_playbook",
+                        "id": "13",
+                        "inputParameters": [
+                            "select_response_plan:action_result.summary.responses.0"
+                        ],
+                        "outputVariables": [],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "code",
+                    "userCode": "\n    # Lunch the playbook that the analyst chose.\n    playbook_run_id = phantom.playbook(playbook=select_response_plan_summary_responses_0[0], container=container)\n\n",
+                    "x": -1.4210854715202004e-14,
+                    "y": 1720
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "workbook_list:custom_function_result.data.*.name",
+                                        "value": "Risk Investigation"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "update workbook",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 5,
+                        "functionName": "decision_5",
+                        "id": "15",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "decision",
+                    "x": 80,
+                    "y": 1840
+                },
+                "16": {
+                    "data": {
+                        "advanced": {
+                            "customName": "task close",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "workbook_task_update",
+                            "repoName": "community"
+                        },
+                        "functionId": 7,
+                        "functionName": "task_close",
+                        "id": "16",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "workbook_task_update": {
+                                "description": "Update a workbook task by task name",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Name of a workbook task (Required)",
+                                        "inputType": "item",
+                                        "label": "task_name",
+                                        "name": "task_name",
+                                        "placeholder": "my_task",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Note title goes here (Optional)",
+                                        "inputType": "item",
+                                        "label": "note_title",
+                                        "name": "note_title",
+                                        "placeholder": "My Title",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Body of note goes here (Optional)",
+                                        "inputType": "item",
+                                        "label": "note_content",
+                                        "name": "note_content",
+                                        "placeholder": "My notes",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "One of: incomplete, in_progress, complete (Optional)",
+                                        "inputType": "item",
+                                        "label": "status",
+                                        "name": "status",
+                                        "placeholder": "in_progress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Assigns task to provided owner. Accepts keyword 'current\" to assign task to currently running playbook user. (Optional)",
+                                        "inputType": "item",
+                                        "label": "owner",
+                                        "name": "owner",
+                                        "placeholder": "username",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "ID of Phantom Container (Required)",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "workbook_task_update",
+                                "name": "workbook_task_update"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "workbook_task_update": {
+                                "container": "container:id",
+                                "note_content": "format_task_close:formatted_data",
+                                "note_title": "[Auto-Generated] Response Verdict Summary",
+                                "owner": null,
+                                "status": "complete",
+                                "task_name": "Render Verdict"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "utility",
+                    "x": -1.4210854715202004e-14,
+                    "y": 2140
+                },
+                "18": {
+                    "data": {
+                        "advanced": {
+                            "customName": "user response decision",
+                            "customNameId": 0,
+                            "description": "Determine if the user opted to launch a playbook.",
+                            "join": [],
+                            "note": "Determine if the user opted to launch a playbook."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "select_response_plan:action_result.summary.responses.0",
+                                        "value": "Do Nothing"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "user launched playbook",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 6,
+                        "functionName": "user_response_decision",
+                        "id": "18",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "decision",
+                    "x": 80,
+                    "y": 1560
+                },
+                "19": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format task close",
+                            "customNameId": 0,
+                            "description": "Format a note with the response plan that the user chose.",
+                            "join": [],
+                            "note": "Format a note with the response plan that the user chose."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_task_close",
+                        "id": "19",
+                        "parameters": [
+                            "select_response_plan:action_result.summary.responses.0"
+                        ],
+                        "template": "Launched '{0}' based on user selection.\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "format",
+                    "x": -1.4210854715202004e-14,
+                    "y": 2000
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get effective user",
+                            "customNameId": 0,
+                            "description": "Get the user that launched this playbook.",
+                            "join": [],
+                            "note": "Get the user that launched this playbook."
+                        },
+                        "functionId": 1,
+                        "functionName": "get_effective_user",
+                        "id": "2",
+                        "inputParameters": [],
+                        "outputVariables": [
+                            "username",
+                            "user_type"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "code",
+                    "userCode": "\n    effective_user_id = phantom.get_effective_user()\n    url = phantom.build_phantom_rest_url('ph_user', effective_user_id)\n    response_json = phantom.requests.get(url, verify=False).json()\n    get_effective_user__username = response_json['username']\n    get_effective_user__user_type = response_json['type']\n\n",
+                    "x": 260,
+                    "y": 148
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "user decision",
+                            "customNameId": 0,
+                            "description": "Based on the user that launched this playbook, decide to go to the next block or end playbook.",
+                            "join": [],
+                            "note": "Based on the user that launched this playbook, decide to go to the next block or end playbook."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "get_effective_user:custom_function:user_type",
+                                        "value": "automation"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "normal user",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "automation user",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "user_decision",
+                        "id": "3",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "decision",
+                    "x": 340,
+                    "y": 326
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "workbook list",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "workbook_list",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "workbook_list",
+                        "id": "4",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "workbook_list": {
+                                "description": "Return a list of all the workbooks on this Phantom instance. This might be useful to display possible options for workbooks to add to this event.",
+                                "fields": [],
+                                "label": "workbook_list",
+                                "name": "workbook_list"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "workbook_list": {}
+                        }
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "utility",
+                    "x": 260,
+                    "y": 506
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "workbook_list:custom_function_result.data.*.name",
+                                        "value": "Risk Investigation"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "workbook exists",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "workbook does not exist",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "decision_2",
+                        "id": "5",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "decision",
+                    "x": 340,
+                    "y": 654
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "workbook add",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "workbook_add",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "workbook_add",
+                        "id": "6",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "workbook_add": {
+                                "description": "Add a workbook to a container. Provide a container id and a workbook name or id",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "A phantom container id",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "A workbook name or id",
+                                        "inputType": "item",
+                                        "label": "workbook",
+                                        "name": "workbook",
+                                        "placeholder": "my_workbook",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Defaults to True. Check to see if workbook already exists in container before adding.",
+                                        "inputType": "item",
+                                        "label": "check_for_existing_workbook",
+                                        "name": "check_for_existing_workbook",
+                                        "placeholder": "True or False",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Defaults to True. Sets the added workbook to the current phase.",
+                                        "inputType": "item",
+                                        "label": "start_workbook",
+                                        "name": "start_workbook",
+                                        "placeholder": "True or False",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "workbook_add",
+                                "name": "workbook_add"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "workbook_add": {
+                                "check_for_existing_workbook": "true",
+                                "container": "container:id",
+                                "start_workbook": "true",
+                                "workbook": "Risk Investigation"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "utility",
+                    "x": 170,
+                    "y": 834
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "workbook start",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "workbook_task_update",
+                            "repoName": "community"
+                        },
+                        "functionId": 3,
+                        "functionName": "workbook_start",
+                        "id": "7",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "workbook_task_update": {
+                                "description": "Update a workbook task by task name",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Name of a workbook task (Required)",
+                                        "inputType": "item",
+                                        "label": "task_name",
+                                        "name": "task_name",
+                                        "placeholder": "my_task",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Note title goes here (Optional)",
+                                        "inputType": "item",
+                                        "label": "note_title",
+                                        "name": "note_title",
+                                        "placeholder": "My Title",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Body of note goes here (Optional)",
+                                        "inputType": "item",
+                                        "label": "note_content",
+                                        "name": "note_content",
+                                        "placeholder": "My notes",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "One of: incomplete, in_progress, complete (Optional)",
+                                        "inputType": "item",
+                                        "label": "status",
+                                        "name": "status",
+                                        "placeholder": "in_progress",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "Assigns task to provided owner. Accepts keyword 'current\" to assign task to currently running playbook user. (Optional)",
+                                        "inputType": "item",
+                                        "label": "owner",
+                                        "name": "owner",
+                                        "placeholder": "username",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "phantom container id"
+                                        ],
+                                        "description": "ID of Phantom Container (Required)",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "workbook_task_update",
+                                "name": "workbook_task_update"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "workbook_task_update": {
+                                "container": "container:id",
+                                "note_content": null,
+                                "note_title": null,
+                                "owner": null,
+                                "status": "in_progress",
+                                "task_name": "Render Verdict"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "utility",
+                    "x": 170,
+                    "y": 982
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "list response playbooks",
+                            "customNameId": 0,
+                            "join": [],
+                            "notRequiredJoins": [
+                                "workbook_list",
+                                "workbook_start"
+                            ]
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "playbooks_list",
+                            "repoName": "community"
+                        },
+                        "functionId": 4,
+                        "functionName": "list_response_playbooks",
+                        "id": "8",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "playbooks_list": {
+                                "description": "List all playbooks matching the provided name, category, and tags. If no filters are provided, list all playbooks.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks with the provided name.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "Playbook Name",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only returns playbooks that match the provided category.",
+                                        "inputType": "item",
+                                        "label": "category",
+                                        "name": "category",
+                                        "placeholder": "Playbook Category",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that contain ALL the provided tags. Multiple tags must be a comma-separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that exist in this repo.",
+                                        "inputType": "item",
+                                        "label": "repo",
+                                        "name": "repo",
+                                        "placeholder": "local",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that match the provided type. Accepts 'automation', 'input' or 'data.'",
+                                        "inputType": "item",
+                                        "label": "playbook_type",
+                                        "name": "playbook_type",
+                                        "placeholder": "automation",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "playbooks_list",
+                                "name": "playbooks_list"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "playbooks_list": {
+                                "category": null,
+                                "name": null,
+                                "playbook_type": "",
+                                "repo": "",
+                                "tags": "response_option"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "utility",
+                    "x": 260,
+                    "y": 1140
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "playbook decision",
+                            "customNameId": 0,
+                            "description": "Determine if any response playbooks were found.",
+                            "join": [],
+                            "note": "Determine if any response playbooks were found."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "list_response_playbooks:custom_function_result.data.*.full_name",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "playbooks exist",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "workbook_list:custom_function_result.data.*.name",
+                                        "value": "Risk Investigation"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "no playbook update workbook",
+                                "display": "Else If",
+                                "logic": "and",
+                                "type": "elif"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 2,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 2,
+                                "customName": "no playbook leave note",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "playbook_decision",
+                        "id": "9",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "decision",
+                    "x": 340,
+                    "y": 1278
+                }
+            },
+            "notes": "For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack"
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-12-07T15:44:11.968072+00:00",
+    "draft_mode": false,
+    "labels": [
+        "risk_notable"
+    ],
+    "tags": []
+}

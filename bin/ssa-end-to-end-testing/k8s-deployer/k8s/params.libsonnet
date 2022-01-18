@@ -6,7 +6,7 @@ local env = std.extVar('qbec.io/env');
 local paramsMap = {
   _: import './environments/base.libsonnet',
   app_play1: import './environments/smoke-test-playground.libsonnet',
-  app_staging1: import './environments/smoke-test-staging.libsonnet',
+  app_gstaging1: import './environments/smoke-test-gstaging.libsonnet',
 };
 
 if std.objectHas(paramsMap, env) then paramsMap[env] else error 'environment ' + env + ' not defined in ' + std.thisFile

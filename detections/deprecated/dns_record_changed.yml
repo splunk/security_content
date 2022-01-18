@@ -3,7 +3,7 @@ id: 44d3a43e-dcd5-49f7-8356-5209bb369065
 version: 3
 date: '2020-07-21'
 author: Jose Hernandez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: The search takes the DNS records and their answers results of the discovered_dns_records

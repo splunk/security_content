@@ -1,0 +1,1054 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Threat Response",
+    "coa": {
+        "data": {
+            "description": "Published in response to CVE-2021-44228, this playbook accepts a list of hosts and filenames to remediate on the endpoint. If filenames are provided, the endpoints will be searched and then the user can approve deletion. Then the user is prompted to quarantine the endpoint.",
+            "edges": [
+                {
+                    "id": "port_4_to_port_9",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_9_to_port_10",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_10_to_port_12",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_12_to_port_13",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_13_to_port_14",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_0_to_port_15",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_15_to_port_4",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_17_to_port_20",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "id": "port_20_to_port_23",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "23",
+                    "targetPort": "23_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_23_to_port_24",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "24",
+                    "targetPort": "24_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_23_to_port_25",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "25",
+                    "targetPort": "25_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 2
+                        }
+                    ],
+                    "id": "port_23_to_port_26",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "26",
+                    "targetPort": "26_in"
+                },
+                {
+                    "id": "port_27_to_port_1",
+                    "sourceNode": "27",
+                    "sourcePort": "27_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_14_to_port_28",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "28",
+                    "targetPort": "28_in"
+                },
+                {
+                    "id": "port_28_to_port_17",
+                    "sourceNode": "28",
+                    "sourcePort": "28_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_13_to_port_28",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "28",
+                    "targetPort": "28_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_9_to_port_28",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "28",
+                    "targetPort": "28_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_15_to_port_28",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "28",
+                    "targetPort": "28_in"
+                },
+                {
+                    "id": "port_25_to_port_32",
+                    "sourceNode": "25",
+                    "sourcePort": "25_out",
+                    "targetNode": "32",
+                    "targetPort": "32_in"
+                },
+                {
+                    "id": "port_32_to_port_27",
+                    "sourceNode": "32",
+                    "sourcePort": "32_out",
+                    "targetNode": "27",
+                    "targetPort": "27_in"
+                },
+                {
+                    "id": "port_26_to_port_32",
+                    "sourceNode": "26",
+                    "sourcePort": "26_out",
+                    "targetNode": "32",
+                    "targetPort": "32_in"
+                },
+                {
+                    "id": "port_24_to_port_32",
+                    "sourceNode": "24",
+                    "sourcePort": "24_out",
+                    "targetNode": "32",
+                    "targetPort": "32_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 3
+                        }
+                    ],
+                    "id": "port_23_to_port_32",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "32",
+                    "targetPort": "32_in"
+                }
+            ],
+            "hash": "a88fc0fd29ee20bd765f76240ad874b0b64198bf",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 530,
+                    "y": -3.836930773104541e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 530,
+                    "y": 2707
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "generate deletion commands",
+                            "customNameId": 0,
+                            "description": "Generate a prompt along with one deletion command per host.",
+                            "join": [],
+                            "note": "Generate a prompt along with one deletion command per host."
+                        },
+                        "functionId": 3,
+                        "functionName": "generate_deletion_commands",
+                        "id": "10",
+                        "inputParameters": [
+                            "locate_files:action_result.parameter.ip_hostname",
+                            "locate_files:action_result.data.*.std_out"
+                        ],
+                        "outputVariables": [
+                            "prompt_content",
+                            "deletion_command",
+                            "host"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "code",
+                    "userCode": "    \n    generate_deletion_commands__prompt_content = \"\"\n    generate_deletion_commands__host = []\n    generate_deletion_commands__deletion_command = []\n    \n    # Retrieve previously saved key\n    host_dictionary = json.loads(phantom.get_run_data(key=\"host_dictionary\"))\n    \n    # Iterate through the paired host and locate files action result\n    for hostname, action_result in zip(locate_files_parameter_ip_hostname, locate_files_result_item_1):\n        \n        json_action_result = json.loads(action_result)\n        \n        if isinstance(json_action_result, bool):\n            json_action_result = [json_action_result]\n            \n        # Ensure at least one file was found for that host\n        if any(json_action_result):\n        \n            # Attach this host to list of deletion hosts\n            generate_deletion_commands__host.append(hostname)\n            \n            # Begin building deletion powershell script and prompt message\n            deletion_string = \"$ProgressPreference = 'SilentlyContinue'; Remove-Item \"\n            generate_deletion_commands__prompt_content += f\"### {hostname}\\n\\n\"\n            for filepath, result in zip(host_dictionary[hostname], json_action_result):\n                if result == True:\n                    generate_deletion_commands__prompt_content += f\"- {filepath}\\n\"\n                    deletion_string += f\"{filepath},\"\n                    \n            # Remove trailing comma and attach one deletion command\n            deletion_string = deletion_string.rstrip(',')\n            deletion_string += ' | Write-Output \"Files Deleted\"'\n            generate_deletion_commands__deletion_command.append(deletion_string)\n\n",
+                    "x": 330,
+                    "y": 686
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "customName": "deletion confirmation",
+                            "customNameId": 0,
+                            "description": "Prompt the user to confirm deletion",
+                            "join": [],
+                            "note": "Prompt the user to confirm deletion"
+                        },
+                        "approver": "Incident Commander",
+                        "functionId": 3,
+                        "functionName": "deletion_confirmation",
+                        "id": "12",
+                        "message": "SOAR found results for the following files. Please review the returned list and confirm if they should be deleted.\n\n&nbsp;\n{0}",
+                        "parameters": [
+                            "generate_deletion_commands:custom_function:prompt_content"
+                        ],
+                        "responseTime": 30,
+                        "responses": [
+                            {
+                                "responseOptions": [],
+                                "responsePrompt": "Type 'confirm' to delete",
+                                "responseType": "message"
+                            }
+                        ],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "prompt",
+                    "x": 410,
+                    "y": 880
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "deletion decision",
+                            "customNameId": 0,
+                            "description": "Determine if user wants to delete files",
+                            "join": [],
+                            "note": "Determine if user wants to delete files"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "deletion_confirmation:action_result.summary.responses.0",
+                                        "value": "confirm"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "delete",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "do not delete",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "deletion_decision",
+                        "id": "13",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "decision",
+                    "x": 410,
+                    "y": 1060
+                },
+                "14": {
+                    "data": {
+                        "action": "run script",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "delete files",
+                            "customNameId": 0,
+                            "description": "Iterate through host and deletion command. Contains custom code.",
+                            "join": [],
+                            "note": "Iterate through host and deletion command. Contains custom code."
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "delete_files",
+                        "id": "14",
+                        "parameters": {
+                            "ip_hostname": "generate_deletion_commands:custom_function:host",
+                            "script_str": "generate_deletion_commands:custom_function:deletion_command"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "action",
+                    "userCode": "\n    parameters = []\n    for del_cmd, host in zip(generate_deletion_commands__deletion_command, generate_deletion_commands__host):\n        parameters.append({\n            \"script_str\": del_cmd,\n            \"ip_hostname\": host,\n        })\n        \n",
+                    "x": 230,
+                    "y": 1240
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filepath decision",
+                            "customNameId": 0,
+                            "description": "Determine if filepath is present in playbook inputs",
+                            "join": [],
+                            "note": "Determine if filepath is present in playbook inputs"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:filepath",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "filepath exists",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "filepath does not exist",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "filepath_decision",
+                        "id": "15",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "decision",
+                    "x": 590,
+                    "y": 148
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format host list prompt",
+                            "customNameId": 0,
+                            "description": "Format a list of the hosts. This will feed both env var prompt and shut down prompts.",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "delete_files",
+                                "deletion_confirmation",
+                                "locate_files"
+                            ],
+                            "note": "Format a list of the hosts. This will feed both env var prompt and shut down prompts."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_host_list_prompt",
+                        "id": "17",
+                        "parameters": [
+                            "dedup_hostnames:custom_function_result.data.*.item"
+                        ],
+                        "template": "%%\n- {0}\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "format",
+                    "x": 510,
+                    "y": 1583
+                },
+                "20": {
+                    "data": {
+                        "advanced": {
+                            "customName": "quarantine prompt",
+                            "customNameId": 0,
+                            "description": "Offer the user options to quarantine the affected endpoints",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "set_env_var",
+                                "env_variable_prompt"
+                            ],
+                            "note": "Offer the user options to quarantine the affected endpoints"
+                        },
+                        "approver": "Incident Commander",
+                        "functionId": 2,
+                        "functionName": "quarantine_prompt",
+                        "id": "20",
+                        "message": "Choose an action you would like to take on the following hosts and then type confirm. The same selected action will be performed on every host.\n\n&nbsp;\n### Available Actions:\n- Restrict Outbound Traffic\n(Sets a firewall policy to prevent all outbound traffic. This may disrupt domain authentication for all but cached credentials.)\n- Shutdown Host (This is a forced shutdown)\n\n&nbsp;\n### Target Hosts\n{0}",
+                        "parameters": [
+                            "format_host_list_prompt:formatted_data"
+                        ],
+                        "responseTime": 30,
+                        "responses": [
+                            {
+                                "responseOptions": [
+                                    "Restrict Outbound Traffic",
+                                    "Shutdown",
+                                    "Restrict Outbound Traffic and Shutdown",
+                                    "Do Nothing"
+                                ],
+                                "responsePrompt": "Available Actions",
+                                "responseType": "customList"
+                            },
+                            {
+                                "responsePrompt": "Type \"confirm\"",
+                                "responseType": "message"
+                            }
+                        ],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "prompt",
+                    "x": 590,
+                    "y": 1768
+                },
+                "23": {
+                    "data": {
+                        "advanced": {
+                            "customName": "quarantine decision",
+                            "customNameId": 0,
+                            "description": "Determine which action the user selected",
+                            "join": [],
+                            "note": "Determine which action the user selected"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "quarantine_prompt:action_result.summary.responses.0",
+                                        "value": "Restrict Outbound Traffic"
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "quarantine_prompt:action_result.summary.responses.1",
+                                        "value": "confirm"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "restrict outbound traffic",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "quarantine_prompt:action_result.summary.responses.0",
+                                        "value": "Shutdown"
+                                    },
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "quarantine_prompt:action_result.summary.responses.1",
+                                        "value": "confirm"
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "shutdown",
+                                "display": "Else If",
+                                "logic": "and",
+                                "type": "elif"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 2,
+                                        "op": "==",
+                                        "param": "quarantine_prompt:action_result.summary.responses.0",
+                                        "value": "Restrict Outbound Traffic and Shutdown"
+                                    },
+                                    {
+                                        "conditionIndex": 2,
+                                        "op": "==",
+                                        "param": "quarantine_prompt:action_result.summary.responses.1",
+                                        "value": "confirm"
+                                    }
+                                ],
+                                "conditionIndex": 2,
+                                "customName": "restrict outbound and shutdown",
+                                "display": "Else If",
+                                "logic": "and",
+                                "type": "elif"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 3,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 3,
+                                "customName": "do nothing",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 6,
+                        "functionName": "quarantine_decision",
+                        "id": "23",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "23",
+                    "type": "decision",
+                    "x": 590,
+                    "y": 1948
+                },
+                "24": {
+                    "data": {
+                        "action": "run script",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "block outbound traffic",
+                            "customNameId": 0,
+                            "description": "Add firewall rule blocking outbound traffic",
+                            "join": [],
+                            "note": "Add firewall rule blocking outbound traffic"
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 4,
+                        "functionName": "block_outbound_traffic",
+                        "id": "24",
+                        "parameters": {
+                            "ip_hostname": "dedup_hostnames:custom_function_result.data.*.item",
+                            "script_str": "$ProgressPreference = 'SilentlyContinue'; New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "24",
+                    "type": "action",
+                    "x": 680,
+                    "y": 2128
+                },
+                "25": {
+                    "data": {
+                        "action": "run script",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "shutdown",
+                            "customNameId": 0,
+                            "description": "Shutdown machine",
+                            "join": [],
+                            "note": "Shutdown machine"
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 5,
+                        "functionName": "shutdown",
+                        "id": "25",
+                        "parameters": {
+                            "ip_hostname": "dedup_hostnames:custom_function_result.data.*.item",
+                            "script_str": "$ProgressPreference = 'SilentlyContinue'; shutdown /f"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "25",
+                    "type": "action",
+                    "x": 0,
+                    "y": 2128
+                },
+                "26": {
+                    "data": {
+                        "action": "run script",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "block and shutdown",
+                            "customNameId": 0,
+                            "description": "Add firewall rule and then shutdown machine",
+                            "join": []
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 6,
+                        "functionName": "block_and_shutdown",
+                        "id": "26",
+                        "parameters": {
+                            "ip_hostname": "dedup_hostnames:custom_function_result.data.*.item",
+                            "script_str": "$ProgressPreference = 'SilentlyContinue'; New-NetFirewallRule -DisplayName Splunk_SOAR_Quarantine -Direction Outbound -Enabled True -LocalPort Any -RemoteAddress Any -Action Block; shutdown /f"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "26",
+                    "type": "action",
+                    "x": 340,
+                    "y": 2150.5
+                },
+                "27": {
+                    "data": {
+                        "advanced": {
+                            "customName": "summary note",
+                            "customNameId": 0,
+                            "description": "Leave a summary note",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "block_and_shutdown",
+                                "quarantine_prompt",
+                                "block_outbound_traffic",
+                                "shutdown"
+                            ],
+                            "note": "Leave a summary note"
+                        },
+                        "functionId": 1,
+                        "functionName": "summary_note",
+                        "id": "27",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "add_note": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "description": "",
+                                        "label": "title",
+                                        "name": "title",
+                                        "placeholder": "Enter a note title",
+                                        "renderType": "input",
+                                        "required": false
+                                    },
+                                    {
+                                        "description": "",
+                                        "label": "content",
+                                        "name": "content",
+                                        "placeholder": "Enter the note content",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "choices": [
+                                            "markdown",
+                                            "html"
+                                        ],
+                                        "default": "markdown",
+                                        "description": "",
+                                        "label": "note format",
+                                        "name": "note_format",
+                                        "placeholder": "Enter the note content",
+                                        "renderType": "dropdown",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "default": "general",
+                                        "hidden": true,
+                                        "name": "note_type",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "author",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "event_id",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "task_id",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "add note",
+                                "name": "add_note"
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "add_note": {
+                                "_internal": [
+                                    "container",
+                                    "note_type",
+                                    "author",
+                                    "event_id",
+                                    "task_id",
+                                    "trace"
+                                ],
+                                "content": "format_custom_note:custom_function:output",
+                                "note_format": "markdown",
+                                "note_type": "general",
+                                "title": "WinRm Log4j Response"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "27",
+                    "type": "utility",
+                    "userCode": "\n\n",
+                    "x": 510,
+                    "y": 2514
+                },
+                "28": {
+                    "data": {
+                        "advanced": {
+                            "customName": "dedup hostnames",
+                            "customNameId": 0,
+                            "join": [],
+                            "notRequiredJoins": [
+                                "delete_files",
+                                "deletion_confirmation",
+                                "locate_files"
+                            ]
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "list_deduplicate",
+                            "repoName": "community"
+                        },
+                        "functionId": 2,
+                        "functionName": "dedup_hostnames",
+                        "id": "28",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "list_deduplicate": {
+                                "description": "Remove non-unique items from a list.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "A list of items to deduplicate",
+                                        "inputType": "list",
+                                        "label": "input_list",
+                                        "name": "input_list",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "list_deduplicate",
+                                "name": "list_deduplicate"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "list_deduplicate": {
+                                "input_list": "playbook_input:ip_or_hostname"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "28",
+                    "type": "utility",
+                    "x": 510,
+                    "y": 1418
+                },
+                "32": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format custom note",
+                            "customNameId": 0,
+                            "description": "Format a dynamic summary note from playbook.get_summary()",
+                            "join": [],
+                            "notRequiredJoins": [
+                                "quarantine_prompt",
+                                "block_outbound_traffic",
+                                "shutdown",
+                                "block_and_shutdown"
+                            ],
+                            "note": "Format a dynamic summary note from playbook.get_summary()"
+                        },
+                        "functionId": 1,
+                        "functionName": "format_custom_note",
+                        "id": "32",
+                        "inputParameters": [],
+                        "outputVariables": [
+                            "output"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "32",
+                    "type": "code",
+                    "userCode": "    format_custom_note__output = \"\"\n    playbook_summary = phantom.get_summary()\n    if 'result' in playbook_summary.keys() and playbook_summary['result']:\n        for result_item in playbook_summary['result']:\n            format_custom_note__output += f\"#### Action - {result_item['name']}: {result_item['message']}\\n\"\n            # Generate app run summary for each action\n            if 'app_runs' in result_item.keys() and result_item['app_runs']:\n                for app_run_item in result_item['app_runs']:\n                    format_custom_note__output += f\"- app_run_id: {app_run_item['app_run_id']}\\n\"\n                    for k,v in app_run_item['parameter'].items():\n                        if k != 'context':\n                            format_custom_note__output += f\"  - {k}: {v}\\n\"\n                    format_custom_note__output += f\"- summary: {app_run_item['summary']}\\n\"\n            format_custom_note__output += \"\\n\"\n\n",
+                    "x": 510,
+                    "y": 2321
+                },
+                "4": {
+                    "data": {
+                        "action": "run script",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "locate files",
+                            "customNameId": 0,
+                            "description": "Run a search to locate files. Contains custom code.",
+                            "join": [],
+                            "note": "Run a search to locate files. Contains custom code."
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "locate_files",
+                        "id": "4",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname",
+                            "script_str": "playbook_input:filepath"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "action",
+                    "userCode": "\n    parameters = []\n    host_search = {}\n    \n    # Treat ip_or_hostname and filePath as a paired unit and iterate through them,\n    # then create a dictionary for each host with a list of its filepaths\n    for playbook_input_filepath_item, playbook_input_ip_or_hostname_item in zip(playbook_input_filepath, playbook_input_ip_or_hostname):\n        if playbook_input_ip_or_hostname_item[0] in host_search.keys():\n            host_search[playbook_input_ip_or_hostname_item[0]].append(playbook_input_filepath_item[0])\n        else:\n            host_search[playbook_input_ip_or_hostname_item[0]] = [playbook_input_filepath_item[0]]\n    \n    # Iterate through the host dictionary and generation one search string that checks all filepaths per host.\n    # This ensures that we are only connecting to each host once.\n    for k,v in host_search.items():\n        script_str = f\"$ProgressPreference = 'SilentlyContinue'; Test-Path {','.join(v)} | ConvertTo-Json\"\n        parameters.append({\n            \"ip_hostname\": k,\n            \"script_str\": script_str\n        })\n    \n    # Save the host_search dictionary into temporary data to access downstream.\n    # This makes it easier to compare the results of locate files with the filepaths and hosts\n    phantom.save_run_data(value=json.dumps(host_search), key=\"host_dictionary\")\n    \n",
+                    "x": 420,
+                    "y": 328
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "file search decision",
+                            "customNameId": 0,
+                            "description": "Determine if at least one file was found",
+                            "join": [],
+                            "note": "Determine if at least one file was found"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "in",
+                                        "param": "true",
+                                        "value": "locate_files:action_result.data.*.std_out"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "file exists",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "no files found",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "file_search_decision",
+                        "id": "9",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "decision",
+                    "x": 500,
+                    "y": 506
+                }
+            },
+            "notes": "This playbook uses the following Apps:\n - Windows Remote Management (run_script) [asset name = winrm] - Used to query for files, delete files, block network access, and shutdown host.\n\nDeployment Notes:\n- Playbook should receive a list of IPs and/or Hostnames. An optional list of file paths should be provided. \n- If multiple file paths are provided per host, there must be multiples of the hostname to ensure both inputs are of equal length.\n- Ensure Splunk SOAR has administrator access to the target windows hosts in order to perform all of the actions\n- Search and delete functionality, along with quarantine functionality can be adapted to similar actions from EDR vendors"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "ip",
+                    "host name"
+                ],
+                "description": "IP address or hostname of the internal host to investigate",
+                "name": "ip_or_hostname"
+            },
+            {
+                "contains": [
+                    "file path"
+                ],
+                "description": "File path to delete",
+                "name": "filePath"
+            }
+        ],
+        "output_spec": null,
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-12-15T20:17:50.689218+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "internal_host",
+        "windows",
+        "log4j",
+        "respond"
+    ]
+}

@@ -3,7 +3,7 @@ id: if1fea6da-3c86-4c1d-b255-fc3b2781a491
 version: 1
 date: '2018-12-06'
 author: Jose Hernandez, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: This search looks for suspicious Java classes that are often used to
   exploit remote command execution in common Java frameworks, such as Apache Struts.

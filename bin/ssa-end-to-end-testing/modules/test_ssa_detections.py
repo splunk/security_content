@@ -1,11 +1,14 @@
 import logging
 import os
+from re import S
 import time
 import sys
+import uuid
 
 from http import HTTPStatus
 from modules.streams_service_api_helper import DSPApi
 from modules.utils import check_source_sink, manipulate_spl, read_spl, read_data
+from ssa_test import assert_results
 
 # Logger
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
@@ -16,20 +19,19 @@ SLEEP_TIME_CREATE_INDEX = 10
 SLEEP_TIME_ACTIVATE_PIPELINE = 10
 SLEEP_TIME_SEND_DATA = 30
 WAIT_CYCLE = 20
-MAX_EXECUTION_TIME_LIMIT = 300  # per detection test
+MAX_EXECUTION_TIME_LIMIT = 600  # per detection test
 
-TEST_DATASET = 'windows-security_small.txt'
+TEST_DATASET = 'windows-security_debug.txt'
 
 
 class SSADetectionTesting:
 
-    def __init__(self, env, tenant, header_token):
+    def __init__(self, env, tenant, token):
         self.execution_passed = True
         self.max_execution_time = MAX_EXECUTION_TIME_LIMIT
         self.env = env
         self.tenant = tenant
-        self.header_token = f"Bearer {header_token}"
-        self.api = DSPApi(env, tenant, self.header_token)
+        self.api = DSPApi(env, tenant, token)
         self.test_results = {}
 
     def test_dsp_pipeline(self):
@@ -46,7 +48,8 @@ class SSADetectionTesting:
         test_results = []
         for i in range(0, len(test_spls)):
             self.max_execution_time = MAX_EXECUTION_TIME_LIMIT
-            test_result = self.ssa_detection_test(read_spl(file_path_spl, test_spls[i]), file_path_data, test_names[i])
+            test_id = str(uuid.uuid4())
+            test_result = self.ssa_detection_test(read_spl(file_path_spl, test_spls[i]), file_path_data, test_names[i], test_id, "WinEventLog")
             test_results.append(test_result.copy())
 
         passed = True
@@ -64,10 +67,12 @@ class SSADetectionTesting:
     def test_ssa_detections(self, test_obj):
         LOGGER.info('Test SSA Detection: ' + test_obj["detection_obj"]["name"])
         self.max_execution_time = MAX_EXECUTION_TIME_LIMIT
-        file_path_attack_data = os.path.join(os.path.dirname(__file__), "../", test_obj["attack_data_file_path"])
-
+        file_path_attack_data = test_obj["attack_data_file_path"]
+        test_id = str(uuid.uuid4())
         test_results = self.ssa_detection_test(test_obj["detection_obj"]["search"], file_path_attack_data,
-                                               "SSA Smoke Test " + test_obj["test_obj"]["name"])
+                                               "SSA Smoke Test " + test_obj["test_obj"]["name"], test_id,
+                                               test_obj['test_obj']['tests'][0]['attack_data'][0]['source'],
+                                               test_obj['test_obj']['tests'][0]['pass_condition'])
 
         return test_results
 
@@ -85,30 +90,55 @@ class SSADetectionTesting:
         return self.update_execution_time(time_in_s)
 
     def ssa_detection_test_init(self):
+        self.cleanup_old_pipelines()
         self.test_results["result"] = True
         self.test_results["msg"] = ""
-        self.results_index = self.api.create_temp_index("mc")
+        #self.results_index = self.api.create_temp_index("mc")
         self.created_pipelines = []
         self.activated_pipelines = []
 
-    def ssa_detection_test_main(self, spl, source, test_name):
+    def cleanup_old_pipelines(self):
+        pipelines = self.api.get_pipelines()
+        yesterday = (time.time() - 24*3600) * 1000  # milliseconds
+        for pipeline in pipelines:
+            if pipeline['name'].startswith("ssa_smoke_test_pipeline_helper") and pipeline['createDate'] < yesterday:
+                if pipeline['status'] == 'ACTIVATED':
+                    # deactivate pipeline
+                    resp, _ = self.api.deactivate_pipeline(pipeline['id'])
+                    if resp.status_code != HTTPStatus.OK:
+                        LOGGER.error("Error deactivating old pipeline %s: %s", pipeline['name'], resp.text)
+
+                # delete pipeline
+                resp = self.api.delete_pipeline(pipeline['id'])
+                if resp.status_code != HTTPStatus.NO_CONTENT:
+                    LOGGER.error("Error deleting old pipeline %s: %s", pipeline['name'], resp.text)
+                else:
+                    LOGGER.warning("Found and deleted an old pipeline: %s", pipeline['name'])
+
+    def ssa_detection_test_main(self, spl, source, test_name, pass_condition, test_id, sourcetype):
         self.execution_passed = True
 
         self.wait_time(SLEEP_TIME_CREATE_INDEX)
 
         check_ssa_spl = check_source_sink(spl)
-        spl = manipulate_spl(self.api.env, spl, self.results_index)
+        spl = manipulate_spl(self.api.env, spl, test_id)
         assert spl is not None, "fail to manipulate spl file"
 
-        pipeline_id = self.api.create_pipeline_from_spl(spl)
+        upl = self.api.compile_spl(spl)
+        assert upl is not None, "failed to compile spl"
+
+        validated_upl = self.api.validate_upl(upl)
+        assert validated_upl is not None, "failed to validate upl"
+
+        pipeline_id = self.api.create_pipeline(validated_upl)
         assert pipeline_id is not None, "failed to create a pipeline"
 
         _pipeline_status = self.api.pipeline_status(pipeline_id)
         assert _pipeline_status == "CREATED", f"Current status of pipeline {pipeline_id} should be CREATED"
         self.created_pipelines.append(pipeline_id)
 
-        response_body = self.api.activate_pipeline(pipeline_id)
-        assert response_body.get("activated") == pipeline_id, f"pipeline {pipeline_id} should be successfully activate."
+        pipeline_activated = self.api.activate_pipeline(pipeline_id)
+        assert pipeline_activated, f"pipeline {pipeline_id} should be activated."
         self.activated_pipelines.append(pipeline_id)
 
         self.wait_time(SLEEP_TIME_ACTIVATE_PIPELINE)
@@ -119,13 +149,13 @@ class SSADetectionTesting:
             self.test_results["msg"] = msg
             return self.test_results
 
-        data = read_data(source)
+        data = read_data(source, sourcetype)
         LOGGER.info("Sending (%d) events" % (len(data)))
 
         assert len(data) > 0, "No events to send, skip to next test."
 
-        for d in data:
-            response_body = self.api.ingest_data(d)
+        data_uploaded = self.api.ingest_data(data, sourcetype)
+        assert data_uploaded, "Failed to upload test data"
 
         self.wait_time(SLEEP_TIME_SEND_DATA)
 
@@ -134,8 +164,9 @@ class SSADetectionTesting:
 
         while not (search_results or max_execution_time_reached):
             max_execution_time_reached = self.wait_time(WAIT_CYCLE)
-            query = f"from indexes('{self.results_index['name']}') | search source!=\"Search Catalog\" "
-            sid = self.api.submit_search_job(self.results_index['module'], query)
+            query = f"from indexes('detection_testing') | search test_id=\"{test_id}\" "
+            LOGGER.info(f"Executing search query: {query}")
+            sid = self.api.submit_search_job('mc', query)
             assert sid is not None, f"Failed to create a Search Job"
 
             job_finished = False
@@ -150,7 +181,12 @@ class SSADetectionTesting:
                 LOGGER.info(
                     f"Search didn't return any results. Retrying in {WAIT_CYCLE}s, max execution time left {self.max_execution_time}s")
 
-        assert len(results) > 0, "Search job didn't return any results"
+        if not results:
+            LOGGER.warning("Search job didn't return any results")
+
+        LOGGER.info('Received %s result(s)', len(results))
+        test_passed = assert_results(pass_condition, results)
+        assert test_passed, f"Pass condition {pass_condition} not satisfied"
 
         msg = f"Detection test successful for {test_name}"
         LOGGER.info(msg)
@@ -167,21 +203,21 @@ class SSADetectionTesting:
         """
         deactivate_pipeline = lambda p: self.api.deactivate_pipeline(p)[0].status_code == HTTPStatus.OK
         delete_pipeline = lambda p: self.api.delete_pipeline(p).status_code == HTTPStatus.NO_CONTENT
-        delete_index = lambda p: self.api.delete_temp_index(p["id"]) == HTTPStatus.NO_CONTENT
+        #delete_index = lambda p: self.api.delete_temp_index(p["id"]) == HTTPStatus.NO_CONTENT
         self.activated_pipelines = [p for p in self.activated_pipelines if not deactivate_pipeline(p)]
         self.created_pipelines = [p for p in self.created_pipelines if not delete_pipeline(p)]
-        if len(self.activated_pipelines) > 0 or len(self.created_pipelines) > 0 or not delete_index(self.results_index):
-            LOGGER.warning("Not all SCS resources fred up")
+        if len(self.activated_pipelines) > 0 or len(self.created_pipelines) > 0:
+            LOGGER.warning("Not all SCS resources freed up")
             LOGGER.info(f"Created Pipelines: {','.join(self.created_pipelines)}")
             LOGGER.info(f"Active Pipelines: {','.join(self.activated_pipelines)}")
             LOGGER.info(f"Result Indexes: {self.results_index}")
         else:
             LOGGER.info("Testing successfully cleaned up")
 
-    def ssa_detection_test(self, spl, source, test_name):
+    def ssa_detection_test(self, spl, source, test_name, test_id, sourcetype, pass_condition='@count_gt(0)'):
         self.ssa_detection_test_init()
         try:
-            test_result = self.ssa_detection_test_main(spl, source, test_name)
+            test_result = self.ssa_detection_test_main(spl, source, test_name, pass_condition, test_id, sourcetype)
             self.ssa_detection_test_teardown()
             return test_result
         except AssertionError as e:
@@ -192,8 +228,7 @@ class SSADetectionTesting:
                     "msg": f"Detection test failure for {test_name}"}
         except Exception as e:
             self.ssa_detection_test_teardown()
-            LOGGER.error(e)
-            LOGGER.error(f"Detection test failure for {test_name} (perhaps SCS problems)")
+            LOGGER.exception(f"Detection test failure for {test_name} (perhaps SCS problems)")
             return {"result": False,
                     "msg": f"Detection test failure for {test_name} (perhaps SCS problems)"}
 

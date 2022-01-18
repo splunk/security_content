@@ -3,7 +3,6 @@ id: 36dbb206-d073-11ea-87d0-0242ac130003
 version: 1
 date: '2020-07-28'
 author: Shannon Davis, Splunk
-type: batch
 description: Uncover activity consistent with CVE-2020-1350, or SIGRed. Discovered
   by Checkpoint researchers, this vulnerability affects Windows 2003 to 2019, and
   is triggered by a malicious DNS response (only affects DNS over TCP). An attacker

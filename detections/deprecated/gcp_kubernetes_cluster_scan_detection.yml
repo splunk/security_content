@@ -3,7 +3,7 @@ id: db5957ec-0144-4c56-b512-9dccbe7a2d26
 version: 1
 date: '2020-04-15'
 author: Rod Soto, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search provides information of unauthenticated requests via user
   agent, and authentication data against Kubernetes cluster

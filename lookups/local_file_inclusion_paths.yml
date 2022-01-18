@@ -1,0 +1,7 @@
+description: A list of interesting files in a local file inclusion attack
+filename: local_file_inclusion_paths.csv
+name: local_file_inclusion_paths
+default_match: 'false'
+match_type: WILDCARD(local_file_inclusion_paths)
+min_matches: 1
+case_sensitive_match: 'false'

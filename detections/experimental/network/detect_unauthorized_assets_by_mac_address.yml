@@ -3,7 +3,7 @@ id: dcfd6b40-42f9-469d-a433-2e53f7489ff4
 version: 1
 date: '2017-09-13'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Sessions
 description: By populating the organization's assets within the assets_by_str.csv,

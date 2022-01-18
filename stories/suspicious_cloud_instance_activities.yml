@@ -3,7 +3,6 @@ id: 8168ca88-392e-42f4-85a2-767579c660ce
 version: 1
 date: '2020-08-25'
 author: David Dorsey, Splunk
-type: batch
 description: Monitor your cloud infrastructure provisioning activities for behaviors
   originating from unfamiliar or unusual locations. These behaviors may indicate that
   malicious activities are occurring somewhere within your cloud environment.

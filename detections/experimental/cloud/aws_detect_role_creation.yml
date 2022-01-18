@@ -3,7 +3,7 @@ id: 5f04081e-ddee-4353-afe4-504f288de9ad
 version: 1
 date: '2020-07-27'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides detection of role creation by IAM users. Role creation
   is an event by itself if user is creating a new role with trust policies different

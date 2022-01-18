@@ -3,7 +3,7 @@ id: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
 version: 4
 date: '2020-12-07'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for flags passed to schtasks.exe on the command-line
@@ -14,9 +14,11 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   *" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `schtasks_used_for_forcing_a_reboot_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting logs
-  with both the process name and command-line from your endpoints. If you are using
-  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
 known_false_positives: Administrators may create jobs on systems forcing reboots to
   perform updates, maintenance, etc.
 references: []
@@ -28,14 +30,33 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 3
+  confidence: 80
+  context:
+  - source:endpoint
+  - stage: Execution
+  - Persistence
+  - Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/schtask_shutdown/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: A schedule task process $process_name$ with force reboot commandline $process$
+    in host $dest$
   mitre_attack_id:
   - T1053.005
+  - T1053
   nist:
   - PR.IP
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -47,4 +68,5 @@ tags:
   - Processes.parent_process_name
   - Processes.dest
   - Processes.user
+  risk_score: 56
   security_domain: endpoint

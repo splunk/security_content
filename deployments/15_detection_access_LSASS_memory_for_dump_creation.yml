@@ -5,14 +5,16 @@ author: Patrick Bareiss
 description: Example for a deployment for a specific Detection
 scheduling:
   cron_schedule: 0 * * * *
-  earliest_time: -30m@m
-  latest_time: now
+  earliest_time: -70m@m
+  latest_time: -10m@m
   schedule_window: auto
 alert_action:
   notable:
     rule_description: '%description%'
-    rule_title: '%name% Notable'
+    rule_title: '%name%'
     nes_fields:
+    - user
     - dest
+    - src
 tags:
   detection_name: Access LSASS Memory for Dump Creation

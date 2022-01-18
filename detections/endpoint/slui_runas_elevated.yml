@@ -3,7 +3,7 @@ id: 8d124810-b3e4-11eb-96c7-acde48001122
 version: 1
 date: '2021-05-13'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies the Microsoft Software Licensing User
@@ -34,12 +34,29 @@ tags:
   - DarkSide Ransomware
   - Windows Defense Evasion Tactics
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - source:endpoint
+  - stage: Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Exploitation
+  message: A slui process $process_name$ with elevated commandline $process$ in host
+    $dest$
   mitre_attack_id:
   - T1548.002
+  - T1548
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -53,4 +70,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
+  risk_score: 63
   security_domain: endpoint

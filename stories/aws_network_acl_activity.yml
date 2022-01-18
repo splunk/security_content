@@ -3,7 +3,6 @@ id: 2e8948a5-5239-406b-b56b-6c50ff268af4
 version: 2
 date: '2018-05-21'
 author: Bhavin Patel, Splunk
-type: batch
 description: Monitor your AWS network infrastructure for bad configurations and malicious
   activity. Investigative searches help you probe deeper, when the facts warrant it.
 narrative: AWS CloudTrail is an AWS service that helps you enable governance, compliance,

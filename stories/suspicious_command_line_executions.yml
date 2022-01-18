@@ -3,7 +3,6 @@ id: f4368ddf-d59f-4192-84f6-778ac5a3ffc7
 version: 2
 date: '2020-02-03'
 author: Bhavin Patel, Splunk
-type: batch
 description: Leveraging the Windows command-line interface (CLI) is one of the most
   common attack techniques--one that is also detailed in the MITRE ATT&CK framework.
   Use this Analytic Story to help you identify unusual or suspicious use of the CLI

@@ -3,7 +3,7 @@ id: bc760ca6-8336-11eb-bcbb-acde48001122
 version: 1
 date: '2021-03-12'
 author: Teoderick Contreras
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytics identifies the resizing of shadowstorage by ransomware
@@ -30,16 +30,35 @@ known_false_positives: network admin can resize the shadowstorage for valid purp
 references:
 - https://www.fireeye.com/blog/threat-research/2020/10/fin11-email-campaigns-precursor-for-ransomware-data-theft.html
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1490/T1490.md
+- https://redcanary.com/blog/blackbyte-ransomware/
+- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/vssadmin-resize-shadowstorage
 tags:
   analytic_story:
   - Clop Ransomware
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - source:endpoint
+  - stage: Impact
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  impact: 80
   kill_chain_phases:
   - Exploitation
+  message: A process $parent_process_name$ attempt to resize shadow copy with commandline
+    $process$ in host $dest$
   mitre_attack_id:
   - T1490
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -52,4 +71,5 @@ tags:
   - Processes.parent_process
   - Processes.dest
   - Processes.user
+  risk_score: 72
   security_domain: endpoint

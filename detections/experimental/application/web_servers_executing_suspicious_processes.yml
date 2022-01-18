@@ -3,7 +3,7 @@ id: ec3b7601-689a-4463-94e0-c9f45638efb9
 version: 1
 date: '2019-04-01'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for suspicious processes on all systems labeled as

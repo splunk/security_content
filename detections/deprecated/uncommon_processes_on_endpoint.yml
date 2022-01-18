@@ -3,7 +3,7 @@ id: 29ccce64-a10c-4389-a45f-337cb29ba1f7
 version: 4
 date: '2020-07-22'
 author: David Dorsey, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Endpoint
 description: This search looks for applications on the endpoint that you have marked

@@ -3,7 +3,7 @@ id: f0f70b40-f7ad-489d-9905-23d149da8099
 version: 1
 date: '2020-02-20'
 author: Rod Soto, Rico Valdez, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This searches show information on uploaded containers including source
   user, image id, source IP user type, http user agent, region, first time, last time
@@ -14,7 +14,7 @@ search: '| tstats count min(_time) as firstTime max(_time) as lastTime FROM data
   Compute.region Compute.msg Compute.user_type | `drop_dm_object_name("Compute")`
   | `new_container_uploaded_to_aws_ecr_filter` '
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. You must also install Cloud Infrastructure data model. Please also customize
   the `container_implant_aws_detection_filter` macro to filter out the false positives.
 known_false_positives: Uploading container is a normal behavior from developers or

@@ -1,0 +1,12 @@
+name: Allow Inbound Traffic In Firewall Rule Unit Test
+tests:
+- name: Allow Inbound Traffic In Firewall Rule
+  file: endpoint/allow_inbound_traffic_in_firewall_rule.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-powershell.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/casper/datasets1/windows-powershell.log
+    source: WinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: WinEventLog

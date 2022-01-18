@@ -299,7 +299,7 @@ class DomainFuzz(object):
         if self.tld != 'com' and '.' not in self.tld:
             self.domains.append({'fuzzer': 'Various', 'domain-name': self.domain + '-' + self.tld + '.com'})
 
-        self.__filter_domains()
+        #self.__filter_domains()
 
 
 @Configuration(distributed=True)

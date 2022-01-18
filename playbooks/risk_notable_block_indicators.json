@@ -1,0 +1,590 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Risk Notable",
+    "coa": {
+        "data": {
+            "description": "This playbook handles locating indicators marked for blocking and determining if any blocking playbooks exist. If there is a match to the appropriate tags in the playbook, a filter block routes the name of the playbook to launch to a code block.",
+            "edges": [
+                {
+                    "id": "port_7_to_port_25",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "25",
+                    "targetPort": "25_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_25_to_port_24",
+                    "sourceNode": "25",
+                    "sourcePort": "25_out",
+                    "targetNode": "24",
+                    "targetPort": "24_in"
+                },
+                {
+                    "id": "port_44_to_port_33",
+                    "sourceNode": "44",
+                    "sourcePort": "44_out",
+                    "targetNode": "33",
+                    "targetPort": "33_in"
+                },
+                {
+                    "id": "port_33_to_port_48",
+                    "sourceNode": "33",
+                    "sourcePort": "33_out",
+                    "targetNode": "48",
+                    "targetPort": "48_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_48_to_port_36",
+                    "sourceNode": "48",
+                    "sourcePort": "48_out",
+                    "targetNode": "36",
+                    "targetPort": "36_in"
+                },
+                {
+                    "id": "port_2_to_port_7",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_24_to_port_44",
+                    "sourceNode": "24",
+                    "sourcePort": "24_out",
+                    "targetNode": "44",
+                    "targetPort": "44_in"
+                },
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_36_to_port_1",
+                    "sourceNode": "36",
+                    "sourcePort": "36_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "globalCustomCode": "",
+            "hash": "e34318e53c4cc459bd1e9663738432d939533b7c",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 520,
+                    "y": -80.00000000000038
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    decide_and_launch_playbooks__names = phantom.get_run_data(key=\"decide_and_launch_playbooks:names\")\n    if not decide_and_launch_playbooks__names:\n        raise RuntimeError(\"Unable to launch block playbooks due to missing indicators or missing playbooks\")\n    elif not json.loads(decide_and_launch_playbooks__names):\n        raise RuntimeError(\"Unable to launch block playbooks due to no matching indicators for playbook inputs\")\n    \n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 520,
+                    "y": 1000
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get marked indicators",
+                            "customNameId": 0,
+                            "join": [],
+                            "notRequiredJoins": [
+                                "list_available_workbooks",
+                                "add_workbook"
+                            ]
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_get_by_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 1,
+                        "functionName": "get_marked_indicators",
+                        "id": "2",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_get_by_tag": {
+                                "description": "Get indicator(s) by tags.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags. Tags will be OR'd together: e.g. tag1 OR tag2 OR tag3. Tags do not support whitespace and whitespace will be automatically removed.",
+                                        "inputType": "item",
+                                        "label": "tags_or",
+                                        "name": "tags_or",
+                                        "placeholder": "tag1,tag2,...tagK",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags. Tags will be AND'd together: e.g. tag1 AND tag2 AND tag3. Tags do not support whitespace and whitespace will be automatically removed.",
+                                        "inputType": "item",
+                                        "label": "tags_and",
+                                        "name": "tags_and",
+                                        "placeholder": "tag1,tag2,...tagK",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Defaults to last_30_days\noptions:\ntoday\nyesterday\nthis_week\nthis_month\nlast_7_days\nlast_30_days\nlast_week\nlast_month",
+                                        "inputType": "item",
+                                        "label": "indicator_timerange",
+                                        "name": "indicator_timerange",
+                                        "placeholder": "last_30_days",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to ensure the fetched indicator exists in the supplied container.",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags to filter out. If the indicator's tags contain any of the values in this list, they will be omitted from the output.",
+                                        "inputType": "item",
+                                        "label": "tags_exclude",
+                                        "name": "tags_exclude",
+                                        "placeholder": "tag1, tag2",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_get_by_tag",
+                                "name": "indicator_get_by_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_get_by_tag": {
+                                "container": "container:id",
+                                "indicator_timerange": null,
+                                "tags_and": null,
+                                "tags_exclude": "blocked, safe",
+                                "tags_or": "marked_for_block"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "utility",
+                    "x": 500,
+                    "y": 39.99999999999997
+                },
+                "24": {
+                    "data": {
+                        "advanced": {
+                            "customName": "decide and launch playbooks",
+                            "customNameId": 0,
+                            "description": "This block matches indicators with the available playbooks designed to act upon them. It then dedupes the playbook list, so each child playbook is only launched once. After that, it is up to the child playbook to fetch the indicators it knows how to block.",
+                            "join": [],
+                            "note": "This block determines if any indicators were marked for blocking and if any playbooks exist to act upon those indicators. It then dedupes the playbook list so each child playbook is only launched once. It is up to the child playbook to fetch the indicators it knows how to block."
+                        },
+                        "functionId": 5,
+                        "functionName": "decide_and_launch_playbooks",
+                        "id": "24",
+                        "inputParameters": [
+                            "get_marked_indicators:custom_function_result.data.*.indicator_value",
+                            "get_marked_indicators:custom_function_result.data.*.indicator_cef_type",
+                            "list_block_playbooks:custom_function_result.data.*.full_name",
+                            "list_block_playbooks:custom_function_result.data.*.input_spec"
+                        ],
+                        "outputVariables": [
+                            "names"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "24",
+                    "type": "code",
+                    "userCode": "    \n    indicator_value_list = get_marked_indicators_data___indicator_value\n    indicator_cef_type_list = get_marked_indicators_data___indicator_cef_type\n\n    playbook_name = list_block_playbooks_data___full_name\n    playbook_spec = list_block_playbooks_data___input_spec\n\t\n    decide_and_launch_playbooks__names = []\n    playbook_launch_list = {}\n    \n    for pb_name, spec_item in zip(playbook_name, playbook_spec):\n        pb_inputs = {}\n        for cef_value, cef_type in zip(indicator_value_list, indicator_cef_type_list):\n            for type_item in cef_type:\n                # check if any of the investigate type playbooks have inputs that accept this data type\n                for spec in spec_item:\n                    for contains_type in spec['contains']:\n                        if type_item and type_item in contains_type:\n                            phantom.debug(f\"Match found for '{cef_value}' of type '{type_item}' for playbook '{pb_name}' at input '{spec['name']}'\")\n                            if not pb_inputs:\n                                pb_inputs[spec['name']] = [cef_value]\n                            else:\n                                if cef_value not in pb_inputs[spec['name']]:\n                                    pb_inputs[spec['name']].append(cef_value)\n\n        if pb_inputs:\n            playbook_launch_list[pb_name] = pb_inputs\n    \n    if playbook_launch_list:\n        for k,v in playbook_launch_list.items():\n            name = 'playbook_{}'.format(pb_name.split('/')[1].replace(' ','_').lower())\n            decide_and_launch_playbooks__names.append(name)\n            phantom.playbook(playbook=k, container=container, inputs=v, name=name, callback=playbook_wait)\n        \n    else:\n        raise RuntimeError(\"Unable to find match between indicator types and playbook input types\")\n        \n",
+                    "x": 500,
+                    "y": 379.99999999999994
+                },
+                "25": {
+                    "data": {
+                        "advanced": {
+                            "customName": "indicator and playbook decision",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "list_block_playbooks:custom_function_result.data.*.full_name",
+                                        "value": ""
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "get_marked_indicators:custom_function_result.data.*.indicator_value",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "criteria met",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "indicator_and_playbook_decision",
+                        "id": "25",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "25",
+                    "type": "decision",
+                    "x": 580,
+                    "y": 240
+                },
+                "33": {
+                    "data": {
+                        "advanced": {
+                            "customName": "get indicators status",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "indicator_get_by_tag",
+                            "repoName": "community"
+                        },
+                        "functionId": 4,
+                        "functionName": "get_indicators_status",
+                        "id": "33",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "indicator_get_by_tag": {
+                                "description": "Get indicator(s) by tags.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags. Tags will be OR'd together: e.g. tag1 OR tag2 OR tag3. Tags do not support whitespace and whitespace will be automatically removed.",
+                                        "inputType": "item",
+                                        "label": "tags_or",
+                                        "name": "tags_or",
+                                        "placeholder": "tag1,tag2,...tagK",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags. Tags will be AND'd together: e.g. tag1 AND tag2 AND tag3. Tags do not support whitespace and whitespace will be automatically removed.",
+                                        "inputType": "item",
+                                        "label": "tags_and",
+                                        "name": "tags_and",
+                                        "placeholder": "tag1,tag2,...tagK",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Defaults to last_30_days\noptions:\ntoday\nyesterday\nthis_week\nthis_month\nlast_7_days\nlast_30_days\nlast_week\nlast_month",
+                                        "inputType": "item",
+                                        "label": "indicator_timerange",
+                                        "name": "indicator_timerange",
+                                        "placeholder": "last_30_days",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Optional parameter to ensure the fetched indicator exists in the supplied container.",
+                                        "inputType": "item",
+                                        "label": "container",
+                                        "name": "container",
+                                        "placeholder": "container:id",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Comma separated list of tags to filter out. If the indicator's tags contain any of the values in this list, they will be omitted from the output.",
+                                        "inputType": "item",
+                                        "label": "tags_exclude",
+                                        "name": "tags_exclude",
+                                        "placeholder": "tag1, tag2",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "indicator_get_by_tag",
+                                "name": "indicator_get_by_tag"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "indicator_get_by_tag": {
+                                "container": "container:id",
+                                "indicator_timerange": null,
+                                "tags_and": null,
+                                "tags_exclude": "",
+                                "tags_or": "marked_for_block, blocked"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "33",
+                    "type": "utility",
+                    "x": 500,
+                    "y": 620
+                },
+                "36": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format note",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "format_note",
+                        "id": "36",
+                        "parameters": [
+                            "get_indicators_status:custom_function_result.data.*.indicator_value",
+                            "get_indicators_status:custom_function_result.data.*.indicator_cef_type",
+                            "get_indicators_status:custom_function_result.data.*.indicator_tags"
+                        ],
+                        "template": "The following indicators were marked for block. Their current status is shown in the table below. Any indicators that are still listed as \"marked_for_block,\" may require manual remediation.\n\n| Value | Type | Current Tags |\n| --- | --- | --- |\n%%\n| `{0}` | `{1}` | `{2}` |\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "36",
+                    "type": "format",
+                    "x": 500,
+                    "y": 880
+                },
+                "44": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "playbook wait",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 2,
+                        "functionName": "playbook_wait",
+                        "id": "44",
+                        "inputParameters": [
+                            "decide_and_launch_playbooks:custom_function:names"
+                        ],
+                        "outputVariables": [],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "44",
+                    "type": "code",
+                    "userCode": "\t\n    if phantom.completed(playbook_names=decide_and_launch_playbooks__names):\n        # call connected block \"indicators_not_blocked\"\n        get_indicators_status(container=container)\n        \n\t# return early to avoid calling connected block too soon\n    return\n\n\t   \t\n",
+                    "x": 500,
+                    "y": 520
+                },
+                "48": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "get_indicators_status:custom_function_result.data.*.indicator_value",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "indicator exists",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "decision_3",
+                        "id": "48",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "48",
+                    "type": "decision",
+                    "x": 580,
+                    "y": 720
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "list block playbooks",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "playbooks_list",
+                            "repoName": "community"
+                        },
+                        "functionId": 5,
+                        "functionName": "list_block_playbooks",
+                        "id": "7",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "playbooks_list": {
+                                "description": "List all playbooks matching the provided name, category, and tags. If no filters are provided, list all playbooks.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks with the provided name.",
+                                        "inputType": "item",
+                                        "label": "name",
+                                        "name": "name",
+                                        "placeholder": "Playbook Name",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only returns playbooks that match the provided category.",
+                                        "inputType": "item",
+                                        "label": "category",
+                                        "name": "category",
+                                        "placeholder": "Playbook Category",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that contain ALL the provided tags. Multiple tags must be a comma-separated list.",
+                                        "inputType": "item",
+                                        "label": "tags",
+                                        "name": "tags",
+                                        "placeholder": "tag1,tag2,tag3",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that exist in this repo.",
+                                        "inputType": "item",
+                                        "label": "repo",
+                                        "name": "repo",
+                                        "placeholder": "local",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [],
+                                        "description": "Only return playbooks that match the provided type. Accepts 'automation', 'input' or 'data.'",
+                                        "inputType": "item",
+                                        "label": "playbook_type",
+                                        "name": "playbook_type",
+                                        "placeholder": "automation",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "playbooks_list",
+                                "name": "playbooks_list"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "playbooks_list": {
+                                "category": null,
+                                "name": null,
+                                "playbook_type": "input",
+                                "repo": "local",
+                                "tags": "block, risk_notable"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "utility",
+                    "x": 500,
+                    "y": 139.99999999999997
+                }
+            },
+            "notes": "For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack"
+        },
+        "input_spec": null,
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "[Auto-Generated] Block Indicator Summary"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "note_title"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_note:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "",
+                "metadata": {},
+                "name": "note_content"
+            }
+        ],
+        "playbook_type": "automation",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-11-29T16:21:32.423857+00:00",
+    "draft_mode": false,
+    "labels": [
+        "risk_notable"
+    ],
+    "tags": []
+}

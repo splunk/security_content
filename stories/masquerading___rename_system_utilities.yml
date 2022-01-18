@@ -3,7 +3,6 @@ id: f0258af4-a6ae-11eb-b3c2-acde48001122
 version: 1
 date: '2021-04-26'
 author: Michael Haag, Splunk
-type: batch
 description: Adversaries may rename legitimate system utilities to try to evade security mechanisms concerning the usage of those utilities.
 narrative: 'Security monitoring and control mechanisms may be in place for system utilities adversaries are capable of abusing. 
   It may be possible to bypass those security mechanisms by renaming the utility prior to utilization (ex: rename rundll32.exe). 

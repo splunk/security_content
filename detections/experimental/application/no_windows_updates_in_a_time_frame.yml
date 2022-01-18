@@ -3,7 +3,7 @@ id: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
 version: 1
 date: '2017-09-15'
 author: Bhavin Patel, Splunk
-type: batch
+type: Hunting
 datamodel:
 - Updates
 description: This search looks for Windows endpoints that have not generated an event

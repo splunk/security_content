@@ -3,7 +3,7 @@ id: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
 version: 2
 date: '2018-01-05'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Email
 description: This search looks for emails claiming to be sent from a domain similar

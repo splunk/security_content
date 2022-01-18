@@ -3,7 +3,6 @@ id: 6dbd810e-f66d-414b-8dfc-e46de55cbfe2
 version: 3
 date: '2017-11-02'
 author: Rico Valdez, Splunk
-type: batch
 description: Windows services are often used by attackers for persistence and the
   ability to load drivers or otherwise interact with the Windows kernel. This Analytic
   Story helps you monitor your environment for indications that Windows services are

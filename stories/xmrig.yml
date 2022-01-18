@@ -3,7 +3,6 @@ id: 06723e6a-6bd8-4817-ace2-5fb8a7b06628
 version: 1
 date: '2021-05-07'
 author: Teoderick Contreras, Rod Soto Splunk
-type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the xmrig monero, including looking for file writes associated
   with its payload, process command-line, defense evasion (killing services, deleting users, modifying files or folder permission, killing other malware or other coin miner)

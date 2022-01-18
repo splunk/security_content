@@ -3,7 +3,6 @@ id: 91c676cf-0b23-438d-abee-f6335e1fce33
 version: 1
 date: '2017-09-14'
 author: Bhavin Patel, Splunk
-type: batch
 description: Fortify your data-protection arsenal--while continuing to ensure data
   confidentiality and integrity--with searches that monitor for and help you investigate
   possible signs of data exfiltration.

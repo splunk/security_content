@@ -3,7 +3,7 @@ id: 104658f4-afdc-499e-9719-17243rr826f1
 version: 1
 date: '2017-09-12'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Authentication
 description: The search queries the authentication logs for assets that are categorized

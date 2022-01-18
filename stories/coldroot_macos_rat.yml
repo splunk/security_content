@@ -3,7 +3,6 @@ id: bd91a2bc-d20b-4f44-a982-1bea98e86390
 version: 1
 date: '2019-01-09'
 author: Jose Hernandez, Splunk
-type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that relate to the ColdRoot Remote Access Trojan that affects MacOS. An example
   of some of these activities are changing sensative binaries in the MacOS sub-system,

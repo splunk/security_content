@@ -1,0 +1,12 @@
+name: UAC Bypass MMC Load Unsigned Dll Unit Test
+tests:
+- name: UAC Bypass MMC Load Unsigned Dll
+  file: endpoint/uac_bypass_mmc_load_unsigned_dll.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon2.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/uac_bypass/windows-sysmon2.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

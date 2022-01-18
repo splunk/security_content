@@ -3,7 +3,7 @@ id: 12d6d713-3cb4-4ffc-a064-1dca3d1cca01
 version: 1
 date: '2020-07-27'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides detection of accounts creating permanent keys. Permanent
   keys are not created by default and they are only needed for programmatic calls.

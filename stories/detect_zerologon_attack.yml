@@ -3,7 +3,6 @@ id: 5d14a962-569e-4578-939f-f386feb63ce4
 version: 1
 date: '2020-09-18'
 author: Rod Soto, Jose Hernandez, Stan Miskowicz, David Dorsey, Shannon Davis Splunk
-type: batch
 description: Uncover activity related to the execution of Zerologon CVE-2020-11472,
   a technique wherein attackers target a Microsoft Windows Domain Controller to reset
   its computer account password. The result from this attack is attackers can now

@@ -3,7 +3,7 @@ id: f7eda4bc-871c-11eb-b110-acde48001122
 version: 1
 date: '2021-03-17'
 author: Teoderick Contreras
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This detection is to identify a suspicious process that tries to delete
@@ -28,13 +28,30 @@ references:
 tags:
   analytic_story:
   - Clop Ransomware
+  - Remcos
   automated_detection_testing: passed
+  confidence: 100
+  context:
+  - source:endpoint
+  - stage: Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  impact: 60
   kill_chain_phases:
   - Exploitation
+  message: A process $Image$ tries to delete its process path in commandline $cmdline$
+    as part of defense evasion in host $Computer$
   mitre_attack_id:
-  - T1003.002
+  - T1070
+  observable:
+  - name: Computer
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: user
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -50,4 +67,5 @@ tags:
   - ProcessID
   - result
   - _time
+  risk_score: 60
   security_domain: endpoint

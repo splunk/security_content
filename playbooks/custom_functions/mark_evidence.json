@@ -1,0 +1,46 @@
+{
+    "create_time": "2021-04-27T14:52:21.197821+00:00",
+    "custom_function_id": "4fd5ececa630e09aa1451c8eab283ee4ceae1211",
+    "description": "Mark an object as Evidence in a container",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [
+                "phantom container id"
+            ],
+            "description": "Container ID or Container Object",
+            "input_type": "item",
+            "name": "container",
+            "placeholder": "container:id"
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "The object to mark as evidence. This could be a vault_id, artifact_id, note_id, container_id, or action_run_id. If the previous playbook block is an action then \"keyword_argument:results\" can be used for the action_run_id with the content_type \"action_run_id\". Vault_id can be an ID or a vault hash.",
+            "input_type": "item",
+            "name": "input_object",
+            "placeholder": "artifact id, note id, vault_id, etc."
+        },
+        {
+            "contains_type": [
+                "*"
+            ],
+            "description": "The content type of the object to add as evidence which must be one of the following:\n            \n            vault_id\n            artifact_id\n            container_id\n            note_id\n            action_run_id",
+            "input_type": "item",
+            "name": "content_type",
+            "placeholder": "See help text for supported types"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [
+                "*"
+            ],
+            "data_path": "*.id",
+            "description": "ID of the evidence item"
+        }
+    ],
+    "platform_version": "4.10.2.47587",
+    "python_version": "3"
+}

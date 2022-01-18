@@ -3,7 +3,6 @@ id: bb9f5ed2-916e-4364-bb6d-97c370efcf52
 version: 2
 date: '2020-01-22'
 author: David Dorsey, Splunk
-type: batch
 description: Detect activities and various techniques associated with the Orangeworm
   Attack Group, a group that frequently targets the healthcare industry.
 narrative: 'In May of 2018, the attack group Orangeworm was implicated for installing

@@ -3,7 +3,7 @@ id: 909f8fd8-7ac8-11eb-a1f3-acde48001122
 version: 1
 date: '2021-03-01'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'Fodhelper.exe has a known UAC bypass as it attempts to look for specific
@@ -37,15 +37,39 @@ references:
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
+  - IcedID
   automated_detection_testing: passed
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Privilege Escalation
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+  impact: 90
   kill_chain_phases:
   - Exploitation
   - Privilege Escalation
+  message: Suspcious registy keys added by process fodhelper.exe (process_id- $process_id),
+    with a parent_process of $parent_process_name$ that has been executed on $dest$
+    by $user$.
   mitre_attack_id:
   - T1112
   - T1548.002
+  - T1548
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: parent_process_name
+    type: Process Name
+    role:
+    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -60,4 +84,5 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
+  risk_score: 81
   security_domain: endpoint

@@ -3,7 +3,7 @@ id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
 version: 1
 date: '2018-10-23'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for the creation of WMI temporary event subscriptions.
 search: '`wmi` EventCode=5860 Temporary | rex field=Message "NotificationQuery =\s+(?<query>[^;|^$]+)"

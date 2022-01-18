@@ -20,6 +20,7 @@ from logging import getLogger
 import os
 import sys
 import traceback
+from splunklib import six
 
 if sys.platform == 'win32':
     from signal import signal, CTRL_BREAK_EVENT, SIGBREAK, SIGINT, SIGTERM
@@ -36,11 +37,11 @@ class ExternalSearchCommand(object):
     """
     def __init__(self, path, argv=None, environ=None):
 
-        if not isinstance(path, (bytes, unicode)):
+        if not isinstance(path, (bytes, six.text_type)):
             raise ValueError('Expected a string value for path, not {}'.format(repr(path)))
 
         self._logger = getLogger(self.__class__.__name__)
-        self._path = unicode(path)
+        self._path = six.text_type(path)
         self._argv = None
         self._environ = None
 
@@ -89,7 +90,7 @@ class ExternalSearchCommand(object):
             self._execute(self._path, self._argv, self._environ)
         except:
             error_type, error, tb = sys.exc_info()
-            message = 'Command execution failed: ' + unicode(error)
+            message = 'Command execution failed: ' + six.text_type(error)
             self._logger.error(message + '\nTraceback:\n' + ''.join(traceback.format_tb(tb)))
             sys.exit(1)
 
@@ -104,13 +105,13 @@ class ExternalSearchCommand(object):
 
             :param argv: Argument list.
             :type argv: list or tuple
-            The arguments to the child process should start with the name of the command being run, but this is not
-            enforced. A value of :const:`None` specifies that the base name of path name :param:`path` should be used.
+                The arguments to the child process should start with the name of the command being run, but this is not
+                enforced. A value of :const:`None` specifies that the base name of path name :param:`path` should be used.
 
             :param environ: A mapping which is used to define the environment variables for the new process.
             :type environ: dict or None.
-            This mapping is used instead of the current process’s environment. A value of :const:`None` specifies that
-            the :data:`os.environ` mapping should be used.
+                This mapping is used instead of the current process’s environment. A value of :const:`None` specifies that
+                the :data:`os.environ` mapping should be used.
 
             :return: None
 

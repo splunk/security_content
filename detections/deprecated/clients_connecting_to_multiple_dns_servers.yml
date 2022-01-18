@@ -3,7 +3,7 @@ id: 74ec6f18-604b-4202-a567-86b2066be3ce
 version: 3
 date: '2020-07-21'
 author: David Dorsey, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: This search allows you to identify the endpoints that have connected

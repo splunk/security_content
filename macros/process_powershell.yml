@@ -1,0 +1,3 @@
+definition: (Processes.process_name=pwsh.exe OR Processes.process_name=sqlps.exe OR Processes.process_name=sqltoolsps.exe OR Processes.process_name=powershell.exe OR Processes.process_name=powershell_ise.exe OR Processes.original_file_name=pwsh.dll OR Processes.original_file_name=PowerShell.EXE OR Processes.original_file_name=powershell_ise.EXE)
+description: Matches the process with its original file name, data for this macro came from https://strontic.github.io/
+name: process_powershell

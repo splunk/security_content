@@ -3,7 +3,7 @@ id: ce5a0962-849f-4720-a678-753fe6674479
 version: 2
 date: '2020-07-21'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Traffic
 description: This search looks for network traffic defined by port and transport layer

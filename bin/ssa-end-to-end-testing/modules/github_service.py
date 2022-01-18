@@ -16,8 +16,14 @@ class GithubService:
 
     def __init__(self, security_content_branch):
         self.security_content_branch = security_content_branch
-        self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
-        self.security_content_repo_obj.git.checkout(security_content_branch)
+        if os.path.exists('security_content'):
+            LOGGER.warning(f"Found Existing Security Content Project")
+            self.created_repo = False
+        else:
+            self.security_content_repo_obj = self.clone_project(SECURITY_CONTENT_URL, f"security_content", f"develop")
+            self.security_content_repo_obj.git.checkout(security_content_branch)
+            self.created_repo = True
+
 
     def clone_project(self, url, project, branch):
         LOGGER.info(f"Clone Security Content Project")
@@ -29,6 +35,7 @@ class GithubService:
         branch2 = 'develop'
         g = git.Git('security_content')
         changed_ssa_test_files = []
+        ci_changes = False
 
         if branch1 != 'develop':
             differ = g.diff('--name-only', branch1, branch2)
@@ -43,11 +50,16 @@ class GithubService:
 
                 # changed detections
                 if file_path.startswith('detections'):
-                    if os.path.basename(file_path).startswith('ssa'):
-                        file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
-                        file_path_new = file_path_base + '.yml'
-                        if file_path_new not in changed_ssa_test_files:
-                            changed_ssa_test_files.append(file_path_new)
+                    if not 'deprecated' in file_path:
+                        if os.path.basename(file_path).startswith('ssa'):
+                            file_path_base = os.path.splitext(file_path)[0].replace('detections', 'tests') + '.test'
+                            file_path_new = file_path_base + '.yml'
+                            if file_path_new not in changed_ssa_test_files:
+                                changed_ssa_test_files.append(file_path_new)
+
+                # changed CI code
+                if file_path == '.gitlab-ci.yml' or file_path.startswith('bin/ssa-end-to-end-testing'):
+                    ci_changes = True
 
         # all SSA test files for nightly build
         else:
@@ -58,7 +70,10 @@ class GithubService:
                 if os.path.basename(file_path).startswith('ssa'):
                     changed_ssa_test_files.append(file_path)
 
-        return changed_ssa_test_files
+                # changed CI code
+                if file_path == '.gitlab-ci.yml' or file_path.startswith('bin/ssa-end-to-end-testing'):
+                    ci_changes = True
 
+        return changed_ssa_test_files, ci_changes
 
 

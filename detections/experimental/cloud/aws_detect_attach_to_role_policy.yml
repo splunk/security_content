@@ -3,7 +3,7 @@ id: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
 version: 1
 date: '2020-07-27'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides detection of an user attaching itself to a different
   role trust policy. This can be used for lateral movement and escalation of privileges.

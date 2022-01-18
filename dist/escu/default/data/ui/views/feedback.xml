@@ -1,4 +1,4 @@
-<form  isVisible="true">
+<form  isVisible="true" version="1.1">
   <label>Feedback Center</label>
   <description>Welcome to Splunk Enterprise Security Content Updates Feedback Center.</description>
   <row>

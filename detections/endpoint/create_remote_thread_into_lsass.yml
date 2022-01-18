@@ -3,7 +3,7 @@ id: 67d4dbef-9564-4699-8da8-03a151529edc
 version: 1
 date: '2019-12-06'
 author: Patrick Bareiss, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: Detect remote thread creation into LSASS consistent with credential dumping.
 search: '`sysmon` EventID=8 TargetImage=*lsass.exe | stats count min(_time) as firstTime
@@ -28,14 +28,31 @@ tags:
   cis20:
   - CIS 8
   - CIS 16
+  confidence: 90
+  context:
+  - Source:Endpoint
+  - Stage:Credential Access
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  impact: 90
   kill_chain_phases:
   - Actions on Objectives
+  message: A process has created a remote thread into $TargetImage$ on $dest$. This
+    behavior is indicative of credential dumping and should be investigated.
   mitre_attack_id:
   - T1003.001
+  - T1003
   nist:
   - DE.CM
+  observable:
+  - name: TargetImage
+    type: Other
+    role:
+    - Other
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -48,4 +65,6 @@ tags:
   - EventCode
   - TargetImage
   - TargetProcessId
+  - dest
+  risk_score: 81
   security_domain: endpoint

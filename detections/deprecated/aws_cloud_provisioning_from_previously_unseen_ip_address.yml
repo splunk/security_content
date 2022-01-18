@@ -3,7 +3,7 @@ id: 42e15012-ac14-4801-94f4-f1acbe64880b
 version: 1
 date: '2018-03-16'
 author: David Dorsey, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: 'This search looks for AWS provisioning activities from previously unseen
   IP addresses. Provisioning activities are defined broadly as any event that begins
@@ -20,7 +20,7 @@ search: '`cloudtrail` (eventName=Run* OR eventName=Create*) [search `cloudtrail`
   | spath output=user userIdentity.arn | rename sourceIPAddress as src_ip | table
   _time, user, src_ip, eventName, errorCode | `aws_cloud_provisioning_from_previously_unseen_ip_address_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudTrail
+  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
   inputs. This search works best when you run the "Previously Seen AWS Provisioning
   Activity Sources" support search once to create a history of previously seen locations
   that have provisioned AWS resources.

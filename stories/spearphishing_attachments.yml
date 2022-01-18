@@ -3,7 +3,6 @@ id: 57226b40-94f3-4ce5-b101-a75f67759c27
 version: 1
 date: '2019-04-29'
 author: Splunk Research Team, Splunk
-type: batch
 description: Detect signs of malicious payloads that may indicate that your environment
   has been breached via a phishing attack.
 narrative: 'Despite its simplicity, phishing remains the most pervasive and dangerous

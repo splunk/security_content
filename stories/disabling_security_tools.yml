@@ -3,7 +3,6 @@ id: fcc27099-46a0-46b0-a271-5c7dab56b6f1
 version: 2
 date: '2020-02-04'
 author: Rico Valdez, Splunk
-type: batch
 description: Looks for activities and techniques associated with the disabling of
   security tools on a Windows system, such as suspicious `reg.exe` processes, processes
   launching netsh, and many others.

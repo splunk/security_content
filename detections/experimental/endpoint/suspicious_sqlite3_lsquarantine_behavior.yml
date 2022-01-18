@@ -3,7 +3,7 @@ id: e1997b2e-655f-4561-82fd-aeba8e1c1a86
 version: 1
 date: '2021-02-22'
 author: Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: The following analytic identifies the use of a SQLite3 querying the MacOS

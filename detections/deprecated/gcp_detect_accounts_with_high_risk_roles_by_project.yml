@@ -3,7 +3,7 @@ id: 27af8c15-38b0-4408-b339-920170724adb
 version: 1
 date: '2020-10-09'
 author: Rod Soto, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search provides detection of accounts with high risk roles by projects.
   Compromised accounts with high risk roles can move laterally or even scalate privileges

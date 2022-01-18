@@ -3,7 +3,7 @@ id: a34aae96-ccf8-4aaa-952c-3ea21444444f
 version: 1
 date: '2017-09-12'
 author: David Dorsey, Splunk
-type: batch
+type: Hunting
 datamodel: []
 description: This search gives you the hosts where a backup was attempted and then
   failed.

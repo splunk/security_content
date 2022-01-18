@@ -1,0 +1,383 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Threat Response",
+    "coa": {
+        "data": {
+            "description": "Published in response to CVE-2021-44228, \n this playbook investigates an internal unix host using SSH. This pushes a bash script to the endpoint and runs it, collecting information specific to the December 2021 log4j vulnerability disclosure. This includes the java version installed on the host, any running java processes, and the results of a scan for the affected JndiLookup.class file or log4j .jar files.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_5",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_7",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_6",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_6_to_port_8",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_1",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "836df07909a97930becce0ff97153dcc05232fc6",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 19.999999999999986,
+                    "y": -1.5987211554602254e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 19.999999999999986,
+                    "y": 756
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "add embedded bash script to vault",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "passthrough",
+                            "repoName": "community"
+                        },
+                        "functionId": 3,
+                        "functionName": "add_embedded_bash_script_to_vault",
+                        "id": "5",
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "passthrough": {
+                                "description": "Return the inputs as outputs. This is useful for publishing pieces of data for other blocks in the playbook to use.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_1",
+                                        "name": "input_1",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_2",
+                                        "name": "input_2",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_3",
+                                        "name": "input_3",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_4",
+                                        "name": "input_4",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_5",
+                                        "name": "input_5",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_6",
+                                        "name": "input_6",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_7",
+                                        "name": "input_7",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_8",
+                                        "name": "input_8",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_9",
+                                        "name": "input_9",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "",
+                                        "inputType": "list",
+                                        "label": "input_10",
+                                        "name": "input_10",
+                                        "placeholder": "",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "passthrough",
+                                "name": "passthrough"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "passthrough": {
+                                "input_1": null,
+                                "input_10": null,
+                                "input_2": null,
+                                "input_3": null,
+                                "input_4": null,
+                                "input_5": null,
+                                "input_6": null,
+                                "input_7": null,
+                                "input_8": null,
+                                "input_9": null
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "utility",
+                    "userCode": "\n    bash_script = r\"\"\"\n#!/bin/bash\n  \n# This script is part of the Splunk SOAR playbook called internal_host_ssh_log4j_investigate. It shows\n# the installed java version, lists any running java processes, performs a search for the JndiLookup.class\n# file in any .jar files found on disk, and searches any .war files for a log4j jar. The output is a human-readable\n# log and a set of .csv files to be copied back to SOAR\n\necho \"##############################################################\"\necho \"splunk_soar_internal_host_ssh_log4j_investigate.sh\"\necho \"##############################################################\"\necho \"\"\n\necho \"java environment configuration\" > /tmp/java_environment.csv\necho \"[+] Checking Java version:\"\necho \"$(java -version)\"\necho \"java version:\" >> /tmp/java_environment.csv\njava -version 2>> /tmp/java_environment.csv\n\necho \"\"\necho \"[+] Checking running Java processes with ps:\"\necho \"$(ps aux | grep java)\"\necho \"ps java processes:\" >> /tmp/java_environment.csv\necho \"$(ps aux | grep java)\" >> /tmp/java_environment.csv\n\necho \"\"\necho \"[+] Checking running Java processes with jps:\"\necho \"$(jps -v)\"\necho \"jps java processes:\" >> /tmp/java_environment.csv\necho \"$(jps -v)\" >> /tmp/java_environment.csv\n\necho \"[+] Search .jar files for JndiLookup.class files ...\"\necho \"jar_files\" > /tmp/jars_with_jndi.csv\nfind / 2>/dev/null -name '*.jar' -type f -print0 | xargs -0 grep JndiLookup.class | awk '{print $3}' | while read -r file\ndo\n    if [ -f \"$file\" ]; then\n        echo \"JndiLookup.class found in .jar file: $file\"\n        echo \"$file\" >> /tmp/jars_with_jndi.csv\n    fi\ndone\n\necho \"\"\necho \"[+] Search .war files for log4j .jar files ...\"\necho \"war_file,jar_size,jar_time_modified,jar_file\" > /tmp/wars_with_jars.csv\nfind / 2>/dev/null -name '*.war' -type f -print0 | xargs -0 grep log4j | awk '{print $3}' | while read -r war_file\ndo\n    if [ -f \"$war_file\" ]; then\n        unzip -l \"$war_file\" | grep log4j | awk '{print $1\",\" $2\" \"$3\",\"$4}' | while read -r jar_file\n        do\n            echo \".war file $war_file was found containing the file $jar_file\"\n            echo \"$war_file,$jar_file\" >> /tmp/wars_with_jars.csv\n        done\n    fi\ndone\n\necho \"[+] Zip up the outputs ...\"\nzip -j /tmp/$1_ssh_log4j_output.zip /tmp/java_environment.csv /tmp/jars_with_jndi.csv /tmp/wars_with_jars.csv\necho \"wrote zip file to /tmp/$1_ssh_log4j_output.zip; next we will copy it back to SOAR\"\n\"\"\"\n    \n    file_name = 'splunk_soar_internal_host_ssh_log4j_investigate.sh'\n    file_path = '/opt/phantom/vault/tmp/{}'.format(file_name)\n    with open(file_path, 'w') as bash_script_file:\n        bash_script_file.write(bash_script)\n        \n    success, message, vault_id = phantom.vault_add(file_location=file_path, file_name=file_name)\n    parameters = [{'input_1': vault_id}]\n\n",
+                    "x": -1.4210854715202004e-14,
+                    "y": 147.99999999999991
+                },
+                "6": {
+                    "data": {
+                        "action": "execute program",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run bash script",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_bash_script",
+                        "id": "6",
+                        "parameters": {
+                            "command": "bash /tmp/splunk_soar_internal_host_ssh_log4j_investigate.sh",
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [
+                            "ip_hostname"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "action",
+                    "userCode": "\n    # append the ip_hostname as an argument so it can be used in the output zip file name\n    for parameter in parameters:\n        parameter['command'] = parameter['command'] + ' ' + parameter['ip_hostname']\n\n",
+                    "x": 0,
+                    "y": 460
+                },
+                "7": {
+                    "data": {
+                        "action": "put file",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "upload bash script",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "upload_bash_script",
+                        "id": "7",
+                        "parameters": {
+                            "file_destination": "/tmp/",
+                            "ip_hostname": "playbook_input:ip_or_hostname",
+                            "vault_id": "add_embedded_bash_script_to_vault:custom_function_result.data.*.item"
+                        },
+                        "requiredParameters": [
+                            "vault_id",
+                            "ip_hostname",
+                            "file_destination"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "action",
+                    "x": 0,
+                    "y": 312
+                },
+                "8": {
+                    "data": {
+                        "action": "get file",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get output zip file",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "SSH",
+                        "connectorConfigs": [
+                            "ssh"
+                        ],
+                        "connectorId": "d37aa7fe-c973-44ee-a164-2ca5bf321b1f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_output_zip_file",
+                        "id": "8",
+                        "parameters": {
+                            "file_path": "playbook_input:ip_or_hostname",
+                            "ip_hostname": "playbook_input:ip_or_hostname"
+                        },
+                        "requiredParameters": [
+                            "file_path",
+                            "ip_hostname"
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "userCode": "\n    for parameter in parameters:\n        parameter['file_path'] = '/tmp/' + parameter['file_path'] + '_ssh_log4j_output.zip'\n\n",
+                    "x": 0,
+                    "y": 608
+                }
+            },
+            "notes": "This playbook uses the following Apps:\n - SSH (execute program,  get file, put file) [asset name = ssh] - investigate behavior on the host\nDeployment Notes:\n - The ssh asset may require sudo access depending on permissions on the file system\n - The command line argument to the script is the ip_or_hostname, which will be used to name the zip file as output\n - To add a new data collection, pipe the output to a file and include it in the zip command"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name",
+                    "ip"
+                ],
+                "description": "IP address or hostname of the internal host to investigate",
+                "name": "ip_or_hostname"
+            }
+        ],
+        "output_spec": null,
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-12-15T21:17:41.411838+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "internal_host",
+        "unix",
+        "log4j",
+        "investigate"
+    ]
+}

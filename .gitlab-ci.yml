@@ -1,7 +1,7 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
   K8S_PLAYGROUND_ROLE: k8s:v1/app-play1/namespace/threat-research/role/deployer
-  K8S_STAGING_ROLE: k8s:v1/app-stage1/namespace/tr-st-deploy/role/deployer
+  K8S_GSTAGING_ROLE: k8s:v1/kube-wicket-iad10/namespace/tr-st-deploy/role/deployer
   DOCKER_ROLE: docker:v1/registry/prefix/threat-research
   K8_DEPLOYER_CONTAINER: docker.repo.splunkdev.net/threat-research/k8-deployer
   SMOKETEST_RUNNER: docker.repo.splunkdev.net/threat-research/smoketest-runner
@@ -11,6 +11,7 @@ stages:
   - publish_smoketest_runner
   - publish_deployer
   - smoketest_staging
+  - publish_build_to_pre_qa
 
 
 publish_deployer:
@@ -48,14 +49,35 @@ smoketest_staging:
     - publish_deployer
   image: ${K8_DEPLOYER_CONTAINER}:${CI_COMMIT_SHORT_SHA}
   script:
-    - eval $(go-go vault -a ${K8S_STAGING_ROLE})
+    - eval $(go-go vault -a ${K8S_GSTAGING_ROLE})
     - eval $(go-go vault -a ${DOCKER_ROLE})
     - cd /deployer/k8s
     - ./deployer.sh
     - ./check_deploy_status.sh
   variables:
-    SCSENV: app_staging1
+    SCSENV: app_gstaging1
     SMOKETEST_RUNNER_IMAGE: ${SMOKETEST_RUNNER}:${CI_COMMIT_SHORT_SHA}
   only:
     - /^ssa.*$/
     - develop
+
+publish_build_to_pre_qa:
+  stage: publish_build_to_pre_qa
+  artifacts:
+    when: always
+    paths:
+      - artifacts/*
+  image: python:3.8-alpine
+  before_script:
+    - apk add --update --no-cache make curl bash git
+    - curl -L https://github.com/screwdriver-cd/gitversion/releases/download/v1.1.1/gitversion_linux_amd64 -o /usr/local/bin/gitversion && chmod +x /usr/local/bin/gitversion
+    - eval $(ssh-agent -s)
+  script:
+    - mkdir -p artifacts
+    - pip install requests
+    - python security_content_automation/publish_build_to_pre_qa/publish_build_to_pre_qa.py --version $CI_COMMIT_REF_NAME --builds DA-ESS_AmazonWebServices_Content DA-ESS-ContentUpdate
+  after_script:
+    - cp publish_build_to_pre_qa.log artifacts/publish_build_to_pre_qa.log
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^v[0-9]+\.[0-9]+\.[0-9]$/'
+      when: always

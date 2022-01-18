@@ -3,7 +3,6 @@ id: 1ed5ce7d-5469-4232-92af-89d1a3595b39
 version: 1
 date: '2020-09-04'
 author: David Dorsey, Splunk
-type: batch
 description: Detect and investigate suspicious activities by users and roles in your
   cloud environments.
 narrative: 'It seems obvious that it is critical to monitor and control the users

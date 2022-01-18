@@ -3,7 +3,7 @@ id: a34aae96-ccf8-4aef-952c-3ea21444444d
 version: 6
 date: '2020-12-08'
 author: David Dorsey, Michael Haag, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: 'This search looks for system processes that typically execute from `C:\Windows\System32\`
@@ -41,15 +41,32 @@ tags:
   automated_detection_testing: passed
   cis20:
   - CIS 8
+  confidence: 70
+  context:
+  - Source:Endpoint
+  - Stage:Initial Access
+  - Stage:Execution
   dataset:
   - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
+  impact: 70
   kill_chain_phases:
   - Actions on Objectives
+  message: System process running from unexpected location on $dest$
   mitre_attack_id:
+  - T1036
   - T1036.003
   nist:
   - PR.PT
   - DE.CM
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  - name: Processes.process_name
+    type: Process
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -63,4 +80,5 @@ tags:
   - Processes.process_id
   - Processes.parent_process_name
   - Processes.process_hash
+  risk_score: 49
   security_domain: endpoint

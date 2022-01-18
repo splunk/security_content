@@ -3,7 +3,6 @@ id: c4b89506-fbcf-4cb7-bfd6-527e54789604
 version: 1
 date: '2018-12-13'
 author: Rico Valdez, Splunk
-type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the SamSam ransomware, including looking for file writes associated
   with SamSam, RDP brute force attacks, the presence of files with SamSam ransomware

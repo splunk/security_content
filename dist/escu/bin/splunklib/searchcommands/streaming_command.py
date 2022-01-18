@@ -16,7 +16,8 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from itertools import ifilter, imap
+from splunklib import six
+from splunklib.six.moves import map as imap, filter as ifilter
 
 from .decorators import ConfigurationSetting
 from .search_command import SearchCommand
@@ -172,17 +173,23 @@ class StreamingCommand(SearchCommand):
                 raise AttributeError('No StreamingCommand.stream override')
             return
 
+        # TODO: Stop looking like a dictionary because we don't obey the semantics
+        # N.B.: Does not use Python 2 dict copy semantics
         def iteritems(self):
             iteritems = SearchCommand.ConfigurationSettings.iteritems(self)
             version = self.command.protocol_version
             if version == 1:
                 if self.required_fields is None:
-                    iteritems = ifilter(lambda (name, value): name != 'clear_required_fields', iteritems)
+                    iteritems = ifilter(lambda name_value: name_value[0] != 'clear_required_fields', iteritems)
             else:
-                iteritems = ifilter(lambda (name, value): name != 'distributed', iteritems)
-                if self.distributed:
+                iteritems = ifilter(lambda name_value2: name_value2[0] != 'distributed', iteritems)
+                if not self.distributed:
                     iteritems = imap(
-                        lambda (name, value): (name, 'stateful') if name == 'type' else (name, value), iteritems)
+                        lambda name_value1: (name_value1[0], 'stateful') if name_value1[0] == 'type' else (name_value1[0], name_value1[1]), iteritems)
             return iteritems
+
+        # N.B.: Does not use Python 3 dict view semantics
+        if not six.PY2:
+            items = iteritems
 
         # endregion

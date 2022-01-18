@@ -3,7 +3,7 @@ id: ab0353e6-a956-420b-b724-a8b4846d5d5a
 version: 3
 date: '2020-11-19'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel:
 - Endpoint
 description: This search looks for processes launched from files with at least five

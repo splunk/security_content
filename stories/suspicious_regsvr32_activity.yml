@@ -3,7 +3,6 @@ id: b8bee41e-624f-11eb-ae93-0242ac130002
 version: 1
 date: '2021-01-29'
 author: Michael Haag, Splunk
-type: batch
 description: Monitor and detect techniques used by attackers who leverage the regsvr32.exe
   process to execute malicious code.
 narrative: One common adversary tactic is to bypass application control solutions

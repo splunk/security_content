@@ -1,0 +1,12 @@
+name: UAC Bypass With Colorui COM Object Unit Test
+tests:
+- name: UAC Bypass With Colorui COM Object
+  file: endpoint/uac_bypass_with_colorui_com_object.yml
+  pass_condition: '| stats count | where count > 0'
+  earliest_time: '-24h'
+  latest_time: 'now'
+  attack_data:
+  - file_name: windows-sysmon.log
+    data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/uac_colorui/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -3,7 +3,6 @@ id: 3b96d13c-fdc7-45dd-b3ad-c132b31cdd2a
 version: 1
 date: '2019-10-02'
 author: David Dorsey, Splunk
-type: batch
 description: Monitor your cloud compute instances for activities related to cryptojacking/cryptomining.
   New instances that originate from previously unseen regions, users who launch abnormally
   high numbers of instances, or compute instances started by previously unseen users

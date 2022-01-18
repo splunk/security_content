@@ -3,7 +3,7 @@ id: 24dd17b1-e2fb-4c31-878c-d4f226595bfa
 version: 2
 date: '2020-07-21'
 author: Bhavin Patel, Splunk
-type: batch
+type: TTP
 datamodel:
 - Network_Resolution
 description: This search looks for DNS requests for phishing domains that are leveraging

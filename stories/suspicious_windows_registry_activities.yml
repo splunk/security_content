@@ -3,7 +3,6 @@ id: 2b1800dd-92f9-47dd-a981-fdf1351e5d55
 version: 1
 date: '2018-05-31'
 author: Bhavin Patel, Splunk
-type: batch
 description: Monitor and detect registry changes initiated from remote locations,
   which can be a sign that an attacker has infiltrated your system.
 narrative: "Attackers are developing increasingly sophisticated techniques for hijacking\

@@ -3,7 +3,6 @@ id: 66b0fe0c-1351-11eb-adc1-0242ac120002
 version: 1
 date: '2020-10-21'
 author: Shannon Davis, Splunk
-type: batch
 description: The stealing of data by an adversary.
 narrative: Exfiltration comes in many flavors.  Adversaries can collect data over
   encrypted or non-encrypted channels.  They can utilise Command and Control channels

@@ -3,7 +3,6 @@ id: 30874d4f-20a1-488f-85ec-5d52ef74e3f9
 version: 2
 date: '2018-05-31'
 author: Bhavin Patel, Splunk
-type: batch
 description: Monitor for activities and techniques associated with maintaining persistence
   on a Windows system--a sign that an adversary may have compromised your environment.
 narrative: Maintaining persistence is one of the first steps taken by attackers after

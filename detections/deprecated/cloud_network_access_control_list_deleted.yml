@@ -3,7 +3,7 @@ id: 021abc51-1862-41dd-ad43-43c739c0a983
 version: 1
 date: '2020-09-08'
 author: Peter Gael, Splunk
-type: batch
+type: Anomaly
 datamodel: []
 description: Enforcing network-access controls is one of the defensive mechanisms
   used by cloud administrators to restrict access to a cloud instance. After the attacker

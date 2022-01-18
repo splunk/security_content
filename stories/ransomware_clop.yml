@@ -3,7 +3,6 @@ id: 5a6f6849-1a26-4fae-aa05-fa730556eeb6
 version: 1
 date: '2021-03-17'
 author: Rod Soto, Teoderick Contreras, Splunk
-type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the Clop ransomware, including looking for file writes associated
   with Clope, encrypting network shares, deleting and resizing shadow volume storage, registry key modification,

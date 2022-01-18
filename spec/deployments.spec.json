@@ -137,6 +137,112 @@
             "rule_description"
           ],
           "type": "object"
+        },
+        "slack": {
+          "$id": "#/properties/alert_action/properties/slack",
+          "additionalProperties": true,
+          "default": {},
+          "description": "By enabling it, a slack message is sent",
+          "examples": [
+            {
+              "channel": "slack_channel",
+              "message": "Alert x triggered"
+            }
+          ],
+          "properties": {
+            "channel": {
+              "$id": "#/properties/alert_action/properties/slack/properties/channel",
+              "default": "",
+              "description": "Slack channel",
+              "examples": [
+                "slack_channel"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "$id": "#/properties/alert_action/properties/slack/properties/message",
+              "default": "",
+              "description": "message",
+              "examples": [
+                "Alert x triggered"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "channel",
+            "message"
+          ],
+          "type": "object"
+        },
+        "phantom": {
+          "$id": "#/properties/alert_action/properties/phantom",
+          "additionalProperties": true,
+          "default": {},
+          "description": "By enabling it, the event is sent to phantom",
+          "examples": [
+            {
+              "phantom_server": "phantom",
+              "label": "events",
+              "sensitivity": "amber",
+              "severity": "medium",
+              "cam_workers": "local"
+            }
+          ],
+          "properties": {
+            "phantom_server": {
+              "$id": "#/properties/alert_action/properties/phantom/properties/phantom_server",
+              "default": "",
+              "description": "Phantom server",
+              "examples": [
+                "phantom"
+              ],
+              "type": "string"
+            },
+            "label": {
+              "$id": "#/properties/alert_action/properties/phantom/properties/label",
+              "default": "",
+              "description": "label",
+              "examples": [
+                "events"
+              ],
+              "type": "string"
+            },
+            "sensitivity": {
+              "$id": "#/properties/alert_action/properties/phantom/properties/sensitivity",
+              "default": "",
+              "description": "sensitivity",
+              "examples": [
+                "amber"
+              ],
+              "type": "string"
+            },
+            "severity": {
+              "$id": "#/properties/alert_action/properties/phantom/properties/severity",
+              "default": "",
+              "description": "severity",
+              "examples": [
+                "medium"
+              ],
+              "type": "string"
+            },
+            "cam_workers": {
+              "$id": "#/properties/alert_action/properties/phantom/properties/cam_workers",
+              "default": "",
+              "description": "adaptive response worker set",
+              "examples": [
+                "local"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "phantom_server",
+            "label",
+            "sensitivity",
+            "severity"
+          ],
+          "type": "object"
         }
       },
       "type": "object"

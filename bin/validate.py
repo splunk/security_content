@@ -17,12 +17,24 @@ from pathlib import Path
 from os import path, walk
 
 
-def validate_schema(REPO_PATH, type, objects, verbose):
+def validate_schema(REPO_PATH, detection_type, objects, verbose):
+    #Default regex does NOT match ssa___*.yml files: "^(?!ssa___).*\.yml$"
+    #The following search will match ssa___*.yml files: "^ssa___.*\.yml$"
+    if detection_type.startswith("ba_"):
+        filename_regex = "^ssa___.*\.yml$"
+    else:
+        filename_regex = "^(?!ssa___).*\.yml$"
+        
+    
 
     error = False
     errors = []
 
-    schema_file = path.join(path.expanduser(REPO_PATH), 'spec/' + type + '.spec.json')
+    schema_file = path.join(path.expanduser(REPO_PATH), 'spec/' + detection_type + '.spec.json')
+    #remove the prefix if the detection type starts with ba_ so we can
+    #get the files from the proper folders and proceed correctly
+    if detection_type.startswith("ba_"):
+        detection_type = detection_type[3:]
 
     try:
         schema = json.loads(open(schema_file, 'rb').read())
@@ -30,11 +42,10 @@ def validate_schema(REPO_PATH, type, objects, verbose):
         print("ERROR: reading schema file {0}".format(schema_file))
 
     manifest_files = []
-    for root, dirs, files in walk(REPO_PATH + "/" + type):
+    for root, dirs, files in walk(REPO_PATH + "/" + detection_type):
         for file in files:
-            if file.endswith(".yml"):
+            if re.search(filename_regex, path.basename(file)) is not None:
                 manifest_files.append((path.join(root, file)))
-
     for manifest_file in manifest_files:
         if verbose:
             print("processing manifest {0}".format(manifest_file))
@@ -54,13 +65,13 @@ def validate_schema(REPO_PATH, type, objects, verbose):
             errors.append("ERROR: {0} at:\n\t{1}".format(json.dumps(schema_error.message), manifest_file))
             error = True
 
-        if type in objects:
-            objects[type].append(object)
+        if detection_type in objects:
+            objects[detection_type].append(object)
         else:
             arr = []
             arr.append(object)
-            objects[type] = arr
-
+            objects[detection_type] = arr
+    print("***END OF VALIDATE SCHEMA ***")
     return objects, error, errors
 
 
@@ -73,18 +84,15 @@ def validate_objects(REPO_PATH, objects, verbose):
     for lookup in objects['lookups']:
         errors = errors + validate_lookups_content(REPO_PATH, "lookups/%s", lookup)
 
-    objects_array = objects['stories'] + objects['detections'] + objects['baselines'] + objects['response_tasks'] + objects['responses']
+    objects_array = objects['stories'] + objects['detections'] 
     for object in objects_array:
         validation_errors, uuids = validate_standard_fields(object, uuids)
         errors = errors + validation_errors
 
     for object in objects['detections']:
-        if object['type'] == 'batch':
+        if not 'Splunk Behavioral Analytics' in object['tags']['product']:
             errors = errors + validate_detection_search(object, objects['macros'])
             errors = errors + validate_fields(object)
-
-    for object in objects['baselines']:
-        errors = errors + validate_baseline_search(object, objects['macros'])
 
     for object in objects['tests']:
         errors = errors + validate_tests(REPO_PATH, object)
@@ -94,6 +102,9 @@ def validate_objects(REPO_PATH, objects, verbose):
 
 def validate_fields(object):
     errors = []
+
+    if object['type'] not in ['TTP', 'Anomaly', 'Hunting', 'Baseline', 'Investigation', 'Correlation']:
+        errors.append('ERROR: invalid type [TTP, Anomaly, Hunting, Baseline, Investigation, Correlation] for object: %s' % object['name'])
 
     if 'tags' in object:
 
@@ -122,8 +133,9 @@ def validate_standard_fields(object, uuids):
     else:
         uuids.append(object['id'])
 
-    if (object['type']) == 'batch' and len(object['name']) > 75:
-        errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
+    if 'products' in object['tags']: 
+        if (not 'Splunk Behavioral Analytics' in object['tags']['products']) and len(object['name']) > 75:
+            errors.append('ERROR: Search name is longer than 75 characters: %s' % (object['name']))
 
     # if object['name'].endswith(" "):
     #     errors.append(
@@ -160,61 +172,40 @@ def validate_standard_fields(object, uuids):
         if 'product' not in object['tags']:
             errors.append("ERROR: a `product` tag is required for object: %s" % object['name'])
 
-        # check risk score values
         for k,v in object['tags'].items():
 
+            if k == 'impact':
+                if not isinstance(v, int):
+                    errors.append("ERROR: impact not integer value for object: %s" % v)
+                    
+            if k == 'confidence':
+                if not isinstance(v, int):
+                    errors.append("ERROR: confidence not integer value for object: %s" % v)
             if k == 'risk_score':
                 if not isinstance(v, int):
                     errors.append("ERROR: risk_score not integer value for object: %s" % v)
-            risk_object_type = ["user","system", "other"]
 
-            if k == 'risk_object_type':
-                if v not in risk_object_type:
-                    errors.append("ERROR: risk_object_type can only contain user, system, other: %s" % v)
-
-            if k == 'risk_object':
-                try:
-                    v.encode('ascii')
-                except UnicodeEncodeError:
-                    errors.append("ERROR: risk_object not ascii for object: %s" % v)
-
+        if 'impact' in object['tags'] and 'confidence' in object['tags']:
+            calculated_risk_score = int(((object['tags']['impact'])*(object['tags']['confidence']))/100)
+            if calculated_risk_score != object['tags']['risk_score']:
+                errors.append("ERROR: risk_score not calulated correctly and it should be set to %s for " % calculated_risk_score + object['name'])
     return errors, uuids
 
 
 def validate_detection_search(object, macros):
     errors = []
 
-    if not '_filter' in object['search']:
-        errors.append("ERROR: Missing filter for detection: " + object['name'])
+    if not (object['type'] == "Baseline" or object['type'] == "Investigation"):
+        if not '_filter' in object['search']:
+            errors.append("ERROR: Missing filter for detection: " + object['name'])
+    elif object['type'] == "Baseline":
+        if not 'deployments' in object['tags']:
+            errors.append("ERROR: Baseline need a corresponsing deployments: " + object['name'])
 
     filter_macro = re.search("([a-z0-9_]*_filter)", object['search'])
 
     if filter_macro and filter_macro.group(1) != (object['name'].replace(' ', '_').replace('-', '_').replace('.', '_').replace('/', '_').lower() + '_filter') and "input_filter" not in filter_macro.group(1):
         errors.append("ERROR: filter for detection: " + object['name'] + " needs to use the name of the detection in lowercase and the special characters needs to be converted into _ .")
-
-    if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
-        if not 'index=_internal' in object['search']:
-            errors.append("ERROR: Use source macro instead of eventtype, sourcetype, source or index in detection: " + object['name'])
-
-    macros_found = re.findall('\`([^\s]+)`',object['search'])
-    macros_filtered = []
-    for macro in macros_found:
-        if not '_filter' in macro and not 'security_content_ctime' in macro and not 'drop_dm_object_name' in macro and not 'cim_' in macro and not 'get_' in macro:
-            macros_filtered.append(macro)
-
-    for macro in macros_filtered:
-        found_macro = False
-        for macro_obj in macros:
-            if macro_obj['name'] == macro:
-                found_macro = True
-
-        if not found_macro:
-            errors.append("ERROR: macro definition for " + macro + " can't be found for detection " + object['name'])
-
-    return errors
-
-def validate_baseline_search(object, macros):
-    errors = []
 
     if any(x in object['search'] for x in ['eventtype=', 'sourcetype=', ' source=', 'index=']):
         if not 'index=_internal' in object['search']:
@@ -264,7 +255,8 @@ def validate_tests(REPO_PATH, object):
 
 def main(REPO_PATH, verbose):
 
-    validation_objects = ['macros','lookups','stories','detections','baselines','response_tasks','responses','deployments', 'tests']
+    validation_objects = ['macros','lookups','stories','detections', 'ba_detections','deployments', 'tests']
+    
 
     objects = {}
     schema_error = False
@@ -292,8 +284,7 @@ def main(REPO_PATH, verbose):
 if __name__ == "__main__":
     # grab arguments
     parser = argparse.ArgumentParser(description="validates security content manifest files", epilog="""
-        Validates security manifest for correctness, adhering to spec and other common items.
-        VALIDATE DOES NOT PROCESS RESPONSES SPEC for the moment.""")
+        Validates security manifest for correctness, adhering to spec and other common items.""")
     parser.add_argument("-p", "--path", required=True, help="path to security-security content repo")
     parser.add_argument("-v", "--verbose", required=False, action='store_true', help="prints verbose output")
     # parse them

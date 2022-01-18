@@ -1,7 +1,7 @@
 name: Dump lsass via procdump rename Unit Test
 tests:
 - name: Dump lsass via procdump rename
-  file: endpoint/dump_lsass_via_procdump_rename.yml
+  file: deprecated/dump_lsass_via_procdump_rename.yml
   pass_condition: '| stats count | where count > 0'
   earliest_time: '-24h'
   latest_time: 'now'

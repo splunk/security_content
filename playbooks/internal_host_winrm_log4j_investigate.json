@@ -1,0 +1,316 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Threat Response",
+    "coa": {
+        "data": {
+            "description": "Published in response to CVE-2021-44228, this playbook scans the endpoint for the presence of \"jndilookup.class\" in all .jar, .jsp, and .jspx files. The presence of that string could indicate a log4j vulnerability.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_5_to_port_6",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_6_to_port_1",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_3_to_port_7",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_7_to_port_5",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                }
+            ],
+            "hash": "dc9b961c3c246a0016bdc7d5b58d593b06e97eac",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "x": 19.999999999999986,
+                    "y": -1.5987211554602254e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
+                    "x": 19.999999999999986,
+                    "y": 832
+                },
+                "3": {
+                    "data": {
+                        "action": "run script",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run traversal script",
+                            "customNameId": 0,
+                            "description": "Run a script to locate all drives and traverse them for the presence of the jndilookup.class",
+                            "join": [],
+                            "note": "Run a script to locate all drives and traverse them for the presence of the jndilookup.class"
+                        },
+                        "connector": "Windows Remote Management",
+                        "connectorConfigs": [
+                            "winrm"
+                        ],
+                        "connectorId": "a0222b95-b006-4c9e-9578-1428defcec0f",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_traversal_script",
+                        "id": "3",
+                        "parameters": {
+                            "ip_hostname": "playbook_input:ip_or_hostname",
+                            "script_str": "$ProgressPreference = 'SilentlyContinue'; Get-PSDrive -PSProvider FileSystem | foreach {(gci ($_.Root) -rec -force -include ('*.jsp', '*.jspx', '*.jar') -ea 0 | foreach {select-string \"JndiLookup.class\" $_} | Select-Object -Property LineNumber, Path )} | ConvertTo-Json"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "x": 0,
+                    "y": 148
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "custom format",
+                            "customNameId": 0,
+                            "description": "Parse out the JSON returned by the traversal script",
+                            "join": [],
+                            "note": "Parse out the JSON returned by the traversal script"
+                        },
+                        "functionId": 1,
+                        "functionName": "custom_format",
+                        "id": "5",
+                        "inputParameters": [
+                            "run_traversal_script:action_result.data.*.std_out",
+                            "playbook_input:ip_or_hostname"
+                        ],
+                        "outputVariables": [
+                            "note_content"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "    custom_format__note_content = \"\"\n    for script_result_item, ip_hostname in zip(run_traversal_script_result_item_0, playbook_input_ip_or_hostname_values):\n        try:\n            custom_format__note_content += f\"### Device - {ip_hostname}\\n\"\n            custom_format__note_content += \" | Path | LineNumber |\\n\"\n            custom_format__note_content += \"| --- | --- |\\n\"\n            result_to_json = json.loads(script_result_item)\n            for json_result in result_to_json:\n                custom_format__note_content += f\"| {json_result['Path']} | {json_result['LineNumber']} |\\n\"\n            custom_format__note_content += \"\\n&nbsp;\"\n        except:\n            phantom.error(\"Unable to parse JSON\")\n",
+                    "x": 0,
+                    "y": 506
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 2,
+                        "functionName": "add_note_2",
+                        "id": "6",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "add_note": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "description": "",
+                                        "label": "title",
+                                        "name": "title",
+                                        "placeholder": "Enter a note title",
+                                        "renderType": "input",
+                                        "required": false
+                                    },
+                                    {
+                                        "description": "",
+                                        "label": "content",
+                                        "name": "content",
+                                        "placeholder": "Enter the note content",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    },
+                                    {
+                                        "choices": [
+                                            "markdown",
+                                            "html"
+                                        ],
+                                        "default": "markdown",
+                                        "description": "",
+                                        "label": "note format",
+                                        "name": "note_format",
+                                        "placeholder": "Enter the note content",
+                                        "renderType": "dropdown",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    },
+                                    {
+                                        "default": "general",
+                                        "hidden": true,
+                                        "name": "note_type",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "author",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "event_id",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "task_id",
+                                        "required": false
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "trace",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "add note",
+                                "name": "add_note"
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "add_note": {
+                                "_internal": [
+                                    "container",
+                                    "note_type",
+                                    "author",
+                                    "event_id",
+                                    "task_id",
+                                    "trace"
+                                ],
+                                "content": "custom_format:custom_function:note_content",
+                                "note_format": "markdown",
+                                "note_type": "general",
+                                "title": "Evidence of jndilookup.class for CVE-2021-44228"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "utility",
+                    "x": 0,
+                    "y": 684
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "results decision",
+                            "customNameId": 0,
+                            "description": "Only proceed if stdout has results",
+                            "join": [],
+                            "note": "Only proceed if stdout has results"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "run_traversal_script:action_result.data.*.std_out",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "results exist",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "results_decision",
+                        "id": "7",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "decision",
+                    "x": 80,
+                    "y": 326
+                }
+            },
+            "notes": "This playbook uses the following Apps:\n - Windows Remote Management (run_script) [asset name = winrm] - Used to traverse files on a windows host for the presence of a specific string\n\nDeployment Notes:\n- Playbook should receive a list of IPs and/or Hostnames\n- Ensure Splunk SOAR has administrator access to the target windows hosts in order to have access to all files\n- The traversal string can be adapted to query EDR vendors\n- Based on https://twitter.com/CyberRaiju/status/1469505677580124160"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name",
+                    "ip"
+                ],
+                "description": "IP address or hostname of the internal host to investigate",
+                "name": "ip_or_hostname"
+            }
+        ],
+        "output_spec": null,
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.4",
+        "version": "5.1.0.70187"
+    },
+    "create_time": "2021-12-15T15:17:57.452281+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "windows",
+        "internal_host",
+        "log4j",
+        "investigate"
+    ]
+}

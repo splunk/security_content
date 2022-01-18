@@ -3,7 +3,7 @@ id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
 version: 1
 date: '2018-10-23'
 author: Rico Valdez, Splunk
-type: batch
+type: TTP
 datamodel: []
 description: This search looks for the creation of WMI permanent event subscriptions.
 search: '`wmi` EventCode=5861 Binding | rex field=Message "Consumer =\s+(?<consumer>[^;|^$]+)"
